@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plotly Overview</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+    <h1>Plotly Overview</h1>
+
+    <p>Plotly is a data visualization library that allows users to create interactive and visually appealing plots in Python, R, and Julia. It supports a variety of chart types, including line charts, scatter plots, bar charts, pie charts, and more. Plotly can be used in a range of applications, from simple data exploration to building complex dashboards and interactive web-based visualizations.</p>
+
+    <h2>1. Installation:</h2>
+    <p>You can install Plotly using pip:</p>
+    <pre><code>pip install plotly</code></pre>
+
+    <h2>2. Basic Example:</h2>
+    <p>Here's a simple example of creating a line chart using Plotly in Python:</p>
+    <pre><code>
+        import plotly.graph_objects as go
+
+        # Create data
+        x = [1, 2, 3, 4, 5]
+        y = [10, 11, 12, 13, 14]
+
+        # Create a trace (line chart)
+        trace = go.Scatter(x=x, y=y, mode='lines', name='Line Chart')
+
+        # Create layout
+        layout = go.Layout(title='My First Plotly Chart', xaxis=dict(title='X-axis'), yaxis=dict(title='Y-axis'))
+
+        # Create figure and add trace(s)
+        fig = go.Figure(data=[trace], layout=layout)
+
+        # Show the plot
+        fig.show()
+    </code></pre>
+
+    <h2>3. Interactive Features:</h2>
+    <p>One of the strengths of Plotly is its interactivity. You can zoom, pan, and hover over data points to get more information. Additionally, Plotly allows you to create animated visualizations.</p>
+
+    <h2>4. Dash:</h2>
+    <p>Plotly also provides a web application framework called Dash, which allows you to build interactive web applications for data visualization. Dash uses Plotly for creating charts and provides a way to create interactive dashboards with Python.</p>
+    <p>Here's a simple example of a Dash app:</p>
+    <pre><code>
+        import dash
+        import dash_core_components as dcc
+        import dash_html_components as html
+
+        app = dash.Dash(__name__)
+
+        app.layout = html.Div(children=[
+            html.H1(children='Hello Dash'),
+
+            html.Div(children='''
+                Dash: A web application framework for Python.
+            '''),
+
+            dcc.Graph(
+                id='example-graph',
+                figure={
+                    'data': [
+                        {'x': [1, 2, 3, 4, 5], 'y': [10, 11, 12, 13, 14], 'type': 'line', 'name': 'Line Chart'},
+                    ],
+                    'layout': {
+                        'title': 'Dash Data Visualization'
+                    }
+                }
+            )
+        ])
+
+        if __name__ == '__main__':
+            app.run_server(debug=True)
+    </code></pre>
+
+    <p>Plotly is a versatile library that is widely used for creating interactive and visually appealing data visualizations in various domains, including data analysis, machine learning, and business intelligence.</p>
+
+</body>
+</html>

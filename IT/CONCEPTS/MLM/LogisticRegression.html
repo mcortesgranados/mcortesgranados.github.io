@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logistic Regression Example</title>
+    <!-- Include necessary CSS or styling if needed -->
+    <link href="../estilos.css" rel="stylesheet" type="text/css">
+</head>
+<body class="texto8_1">
+
+<h1>Logistic Regression Example</h1>
+
+<p>This is a simple example of Logistic Regression using Python and scikit-learn.</p>
+
+<h2>Logistic Regression Overview</h2>
+
+<p>Logistic Regression is a statistical method used for binary classification tasks. Despite its name, it is commonly used for classification rather than regression. Logistic Regression models the probability that an instance belongs to a particular class, and it uses the logistic (sigmoid) function to squash the output into the range [0, 1]. If the probability is greater than a chosen threshold (usually 0.5), the instance is classified as belonging to the positive class; otherwise, it is classified as belonging to the negative class.</p>
+
+<p>Key concepts of Logistic Regression:</p>
+
+<ul>
+    <li><b>Logistic (Sigmoid) Function:</b> The function used to model the probability of an instance belonging to the positive class.</li>
+    <li><b>Decision Boundary:</b> The boundary that separates the regions predicted as positive and negative classes.</li>
+    <li><b>Binary Classification:</b> The task of classifying instances into two classes (positive and negative).</li>
+    <li><b>Log-Likelihood:</b> The objective function optimized during training to maximize the likelihood of the observed data under the model.</li>
+    <li><b>Regularization:</b> Techniques like L1 or L2 regularization to prevent overfitting.</li>
+</ul>
+
+<p>Logistic Regression is a fundamental and widely used algorithm in machine learning due to its simplicity and interpretability.</p>
+
+<p>Python Source Code:</p>
+
+<pre><code># Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+# Generate synthetic data for binary classification
+np.random.seed(42)
+X_positive = 2 * np.random.rand(100, 1)
+y_positive = (4 + 3 * X_positive + np.random.randn(100, 1)) > 6
+
+X_negative = 2 * np.random.rand(100, 1)
+y_negative = (1 + 2 * X_negative + np.random.randn(100, 1)) > 4
+
+X = np.concatenate([X_positive, X_negative])
+y = np.concatenate([np.ones((100, 1)), np.zeros((100, 1))])
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train the Logistic Regression model
+model = LogisticRegression()
+model.fit(X_train, y_train.ravel())
+
+# Make predictions on the test set
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred)
+
+print(f'Accuracy: {accuracy}')
+print(f'Confusion Matrix:\n{conf_matrix}')
+
+# Plot the results
+plt.scatter(X_test[y_test.squeeze() == 1], y_test[y_test.squeeze() == 1], color='blue', label='Actual Positive')
+plt.scatter(X_test[y_test.squeeze() == 0], y_test[y_test.squeeze() == 0], color='red', label='Actual Negative')
+plt.scatter(X_test[y_pred == 1], y_pred[y_pred == 1], marker='x', color='cyan', label='Predicted Positive')
+plt.scatter(X_test[y_pred == 0], y_pred[y_pred == 0], marker='x', color='orange', label='Predicted Negative')
+plt.title('Logistic Regression Example')
+plt.xlabel('X')
+plt.ylabel('Class (0 or 1)')
+plt.legend()
+plt.show()
+</code></pre>
+
+<p>Explanation:</p>
+
+<ul>
+    <li><b>Import Libraries:</b> Import necessary Python libraries, including NumPy for numerical operations, Matplotlib for plotting, and scikit-learn for machine learning.</li>
+    <li><b>Generate Synthetic Data:</b> Create synthetic binary classification data with two classes.</li>
+    <li><b>Split Data:</b> Split the data into training and testing sets using the <code>train_test_split</code> function.</li>
+    <li><b>Train Model:</b> Create and train a Logistic Regression model using scikit-learn's <code>LogisticRegression</code>.</li>
+    <li><b>Make Predictions:</b> Use the trained Logistic Regression model to make predictions on the test set.</li>
+    <li><b>Evaluate Model:</b> Calculate accuracy and confusion matrix to evaluate the performance of the model.</li>
+    <li><b>Plot Results:</b> Plot the actual vs. predicted values for visualization.</li>
+</ul>
+
+<!-- Include necessary JavaScript libraries if needed -->
+
+</body>
+</html>

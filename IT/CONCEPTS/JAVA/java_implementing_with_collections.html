@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Java Collection Implementation Using HashMap</title>
+</head>
+<body>
+    <h1>Implementing Collection and HashSet Using HashMap in Java</h1>
+
+    <h2>1. Implementing a Collection with HashMap in Java</h2>
+    <p>Here's how to create a generic collection class backed by a HashMap:</p>
+
+    <pre>
+        <code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class MyCollection&lt;T&gt; {
+    private Map&lt;T, Boolean&gt; map = new HashMap&lt;&gt;();
+
+    // Add an element to the collection
+    public void add(T element) {
+        map.put(element, true);
+    }
+
+    // Check if the collection contains an element
+    public boolean contains(T element) {
+        return map.containsKey(element);
+    }
+
+    // Remove an element from the collection
+    public void remove(T element) {
+        map.remove(element);
+    }
+
+    // Get the size of the collection
+    public int size() {
+        return map.size();
+    }
+
+    // Clear the collection
+    public void clear() {
+        map.clear();
+    }
+
+    // Check if the collection is empty
+    public boolean isEmpty() {
+        return map.isEmpty();
+    }
+}
+        </code>
+    </pre>
+
+    <h2>2. Implementing a HashSet Using a HashMap in Java</h2>
+    <p>Since a HashSet is simply a collection of unique elements, we can implement it using a HashMap, where we only care about the keys and not the values. Here’s how to do it:</p>
+
+    <pre>
+        <code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class MyHashSet&lt;T&gt; {
+    private Map&lt;T, Boolean&gt; map = new HashMap&lt;&gt;();
+
+    // Add an element to the set
+    public void add(T element) {
+        map.put(element, true); // Value can be anything, only key is used
+    }
+
+    // Check if the set contains an element
+    public boolean contains(T element) {
+        return map.containsKey(element);
+    }
+
+    // Remove an element from the set
+    public void remove(T element) {
+        map.remove(element);
+    }
+
+    // Get the size of the set
+    public int size() {
+        return map.size();
+    }
+
+    // Clear the set
+    public void clear() {
+        map.clear();
+    }
+
+    // Check if the set is empty
+    public boolean isEmpty() {
+        return map.isEmpty();
+    }
+}
+        </code>
+    </pre>
+    
+    
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Java Collection and HashMap Practice Questions</title>
+</head>
+<body>
+    <h1>Java Collection and HashMap Practice Questions</h1>
+
+    <h2>1. How do you create an empty HashMap in Java?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();
+    }
+}
+    </code></pre>
+
+    <h2>2. How can you initialize a HashMap with values in Java?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;() {{
+            put("Apple", 1);
+            put("Banana", 2);
+            put("Orange", 3);
+        }};
+    }
+}
+    </code></pre>
+
+    <h2>3. How do you create an empty HashSet in Java?</h2>
+    <pre><code>
+import java.util.HashSet;
+import java.util.Set;
+
+public class Example {
+    public static void main(String[] args) {
+        Set&lt;String&gt; set = new HashSet&lt;&gt;();
+    }
+}
+    </code></pre>
+
+    <h2>4. How do you add elements to a HashMap in Java?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Apple", 1);
+        map.put("Banana", 2);
+    }
+}
+    </code></pre>
+
+    <h2>5. How can you check if a HashMap contains a specific key?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Apple", 1);
+
+        boolean hasKey = map.containsKey("Apple");
+    }
+}
+    </code></pre>
+
+    <h2>6. How do you remove an element from a HashMap by key?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Apple", 1);
+        map.remove("Apple");
+    }
+}
+    </code></pre>
+
+    <h2>7. How can you iterate over a HashMap and print all key-value pairs?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Apple", 1);
+        map.put("Banana", 2);
+
+        for (Map.Entry&lt;String, Integer&gt; entry : map.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+}
+    </code></pre>
+
+    <h2>8. How do you check if a HashSet contains a specific element?</h2>
+    <pre><code>
+import java.util.HashSet;
+import java.util.Set;
+
+public class Example {
+    public static void main(String[] args) {
+        Set&lt;String&gt; set = new HashSet&lt;&gt;();
+        set.add("Apple");
+
+        boolean containsApple = set.contains("Apple");
+    }
+}
+    </code></pre>
+
+    <h2>9. How do you find the size of a HashMap?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Apple", 1);
+
+        int size = map.size();
+    }
+}
+    </code></pre>
+
+    <h2>10. How do you clear all elements in a HashSet?</h2>
+    <pre><code>
+import java.util.HashSet;
+import java.util.Set;
+
+public class Example {
+    public static void main(String[] args) {
+        Set&lt;String&gt; set = new HashSet&lt;&gt;();
+        set.add("Apple");
+        set.clear();
+    }
+}
+    </code></pre>
+
+    <h2>11. How do you get all keys from a HashMap?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Apple", 1);
+        
+        Set&lt;String&gt; keys = map.keySet();
+    }
+}
+    </code></pre>
+
+    <h2>12. How can you check if a HashMap is empty?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        
+        boolean isEmpty = map.isEmpty();
+    }
+}
+    </code></pre>
+
+    <h2>13. How can you retrieve a value from a HashMap given a key?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Apple", 1);
+        
+        Integer value = map.get("Apple");
+    }
+}
+    </code></pre>
+
+    <h2>14. How do you add all elements of one HashMap to another?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map1 = new HashMap&lt;&gt;();
+        map1.put("Apple", 1);
+        
+        Map&lt;String, Integer&gt; map2 = new HashMap&lt;&gt;();
+        map2.putAll(map1);
+    }
+}
+    </code></pre>
+
+    <h2>15. How do you remove a specific value from a HashMap?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Apple", 1);
+        
+        map.remove("Apple", 1);
+    }
+}
+    </code></pre>
+
+    <h2>16. How do you compare two HashMaps for equality?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map1 = new HashMap&lt;&gt;();
+        map1.put("Apple", 1);
+        
+        Map&lt;String, Integer&gt; map2 = new HashMap&lt;&gt;();
+        map2.put("Apple", 1);
+        
+        boolean areEqual = map1.equals(map2);
+    }
+}
+    </code></pre>
+
+    <h2>17. How do you remove all mappings from a HashMap?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Apple", 1);
+        map.clear();
+    }
+}
+    </code></pre>
+
+    <h2>18. How can you convert a HashMap to a List of its values?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Apple", 1);
+
+        List&lt;Integer&gt; values = new ArrayList&lt;&gt;(map.values());
+    }
+}
+    </code></pre>
+
+    <h2>19. How do you merge two HashMaps in Java 8?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map1 = new HashMap&lt;&gt;();
+        map1.put("Apple", 1);
+        
+        Map&lt;String, Integer&gt; map2 = new HashMap&lt;&gt;();
+        map2.put("Apple", 2);
+        
+        map1.merge("Apple", map2.get("Apple"), Integer::sum);
+    }
+}
+    </code></pre>
+
+    <h2>20. How do you convert a HashMap to a Set of its keys?</h2>
+    <pre><code>
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+public class Example {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Apple", 1);
+        
+        Set&lt;String&gt; keys = map.keySet();
+    }
+}
+    </code></pre>
+
+</body>
+</html>
+
+</body>
+</html>

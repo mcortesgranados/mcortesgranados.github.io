@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pandas Overview and Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #000; /* Set text color to black */
+        }
+
+        h1, h2 {
+            color: #000; /* Set heading color to black */
+        }
+
+        p {
+            color: #000; /* Set paragraph text color to black */
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow: auto;
+            margin-bottom: 20px;
+        }
+
+        code {
+            font-family: Monaco, monospace;
+            font-size: 14px;
+            color: #000; /* Set code text color to black */
+        }
+    </style>
+</head>
+<body>
+
+<h1>Pandas Overview and Example: Data Analysis in Python</h1>
+
+<h2>Pandas Overview:</h2>
+
+<p>Pandas is an open-source data manipulation and analysis library for Python. It provides easy-to-use data structures like Series and DataFrame, designed for efficient and intuitive handling of structured data. Pandas is widely used in data science, statistics, finance, and other domains for tasks such as data cleaning, exploration, and analysis.</p>
+
+<h3>Key Features and Components of Pandas:</h3>
+
+<ol>
+    <li><strong>Series:</strong> A one-dimensional labeled array, similar to a column in a spreadsheet. It can hold any data type.</li>
+    <li><strong>DataFrame:</strong> A two-dimensional labeled data structure with columns that can be of different types. It is analogous to a spreadsheet or SQL table.</li>
+    <li><strong>Data Indexing and Selection:</strong> Pandas provides powerful methods for indexing, selecting, and filtering data, making it easy to work with specific subsets of data.</li>
+    <li><strong>Data Cleaning:</strong> Pandas offers functions for handling missing data, transforming data types, and removing duplicates, simplifying the data cleaning process.</li>
+    <li><strong>Data Aggregation and Grouping:</strong> Pandas supports groupby operations for aggregating and transforming data based on criteria, allowing for insightful data analysis.</li>
+    <li><strong>Time Series and Date Functionality:</strong> Pandas has robust support for time series data, including date range generation, shifting, and frequency conversion.</li>
+    <li><strong>Input/Output:</strong> Pandas supports reading and writing data in various formats, including CSV, Excel, SQL databases, and more.</li>
+    <li><strong>Plotting:</strong> Pandas integrates with Matplotlib for easy data visualization, allowing users to create plots directly from DataFrame data.</li>
+</ol>
+
+<h2>Example Code:</h2>
+
+<pre>
+<code>
+import pandas as pd
+
+# Create a DataFrame from a dictionary
+data = {'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+        'Age': [25, 30, 35, 40],
+        'City': ['New York', 'San Francisco', 'Los Angeles', 'Chicago']}
+
+df = pd.DataFrame(data)
+
+# Display the DataFrame
+print("Original DataFrame:")
+print(df)
+
+# Select and display specific columns
+selected_columns = df[['Name', 'Age']]
+print("\nSelected Columns:")
+print(selected_columns)
+
+# Filter data based on a condition
+filtered_data = df[df['Age'] > 30]
+print("\nFiltered Data (Age > 30):")
+print(filtered_data)
+
+# Perform basic statistical operations
+statistics = df.describe()
+print("\nBasic Statistics:")
+print(statistics)
+</code>
+</pre>
+
+<p>This example demonstrates using Pandas for data analysis:</p>
+
+<ol>
+    <li>Create a DataFrame from a dictionary.</li>
+    <li>Select specific columns from the DataFrame.</li>
+    <li>Filter data based on a condition (age greater than 30).</li>
+    <li>Perform basic statistical operations on the DataFrame.</li>
+</ol>
+
+<p>Feel free to run this code in a Python environment with Pandas installed to see the power and flexibility Pandas offers for data manipulation and analysis!</p>
+
+<p>To install Pandas, you can use the following command:</p>
+
+<pre>
+<code>
+pip install pandas
+</code>
+</pre>
+
+</body>
+</html>

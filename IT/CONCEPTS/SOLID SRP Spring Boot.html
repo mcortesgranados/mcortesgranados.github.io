@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLID SRP Example with Spring Boot</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #555;
+        }
+        code {
+            display: block;
+            white-space: pre-wrap;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Problem Statement:</h1>
+
+<p>You are tasked with designing a user management system in a Spring Boot application. The system should adhere to the Single Responsibility Principle (SRP) from the SOLID principles. SRP states that a class should have only one reason to change, meaning that it should have only one responsibility.</p>
+
+<h1>Solution:</h1>
+
+<ol>
+    <li>
+        <h2>Create a User Entity:</h2>
+
+        <code>
+            <!-- User.java (User entity class) -->
+            <pre><code>public class User {
+    private String username;
+    private String password;
+
+    // Constructors, getters, and setters
+}</code></pre>
+        </code>
+    </li>
+
+    <li>
+        <h2>Create a UserRepository:</h2>
+
+        <code>
+            <!-- UserRepository.java (Interface for user repository) -->
+            <pre><code>import java.util.Optional;
+
+public interface UserRepository {
+    Optional<User> findByUsername(String username);
+    void save(User user);
+    // Additional methods for user management
+}</code></pre>
+
+            <!-- UserRepositoryImpl.java (Implementation of UserRepository) -->
+            <pre><code>import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+@Repository
+public class UserRepositoryImpl implements UserRepository {
+    private final Map<String, User> users = new HashMap<>();
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return Optional.ofNullable(users.get(username));
+    }
+
+    @Override
+    public void save(User user) {
+        users.put(user.getUsername(), user);
+    }
+}</code></pre>
+        </code>
+    </li>
+
+    <li>
+        <h2>Create a UserService:</h2>
+
+        <code>
+            <!-- UserService.java (Interface for user service) -->
+            <pre><code>import java.util.Optional;
+
+public interface UserService {
+    Optional<User> findUserByUsername(String username);
+    void registerUser(User user);
+    // Additional methods for user service
+}</code></pre>
+
+            <!-- UserServiceImpl.java (Implementation of UserService) -->
+            <pre><code>import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public void registerUser(User user) {
+        userRepository.save(user);
+    }
+}</code></pre>
+        </code>
+    </li>
+
+    <li>
+        <h2>Example Usage:</h2>
+
+        <code>
+            <!-- MainController.java (Controller for handling user-related requests) -->
+            <pre><code>import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/users")
+public class MainController {
+    private final UserService userService;
+
+    @Autowired
+    public MainController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/{username}")
+    public String getUser(@PathVariable String username) {
+        Optional<User> user = userService.findUserByUsername(username);
+        return user.map(value -> "User found: " + value.getUsername()).orElse("User not found");
+    }
+
+    @PostMapping("/register")
+    public String registerUser(@RequestBody User user) {
+        userService.registerUser(user);
+        return "User registered successfully";
+    }
+}</code></pre>
+        </code>
+    </li>
+</ol>
+
+</body>
+</html>

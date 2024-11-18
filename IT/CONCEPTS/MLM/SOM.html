@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOM Example</title>
+    <!-- Include necessary CSS or styling if needed -->
+</head>
+<body>
+
+<h1>SOM Example</h1>
+
+<p>This is a simple example of Self-Organizing Maps (SOM) using Python and the MiniSom library.</p>
+
+<h2>SOM Overview</h2>
+
+<p>Self-Organizing Maps (SOMs), also known as Kohonen maps, are neural network structures used for clustering and visualization of high-dimensional data. SOMs organize input data into a lower-dimensional grid of neurons, preserving the topological relationships between data points. They are particularly useful for exploring the structure of complex datasets and identifying patterns.</p>
+
+<p>Key concepts of SOM:</p>
+
+<ul>
+    <li><b>Neurons:</b> Units in the SOM grid that represent cluster prototypes.</li>
+    <li><b>Weights:</b> Each neuron has associated weights that are updated during training.</li>
+    <li><b>Topological Mapping:</b> SOMs preserve the topological relationships of input data in the output grid.</li>
+    <li><b>Training:</b> The process of updating neuron weights to better represent input data.</li>
+</ul>
+
+<p>SOMs have applications in data visualization, pattern recognition, and clustering.</p>
+
+<p>Python Source Code:</p>
+
+<pre><code># Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+from minisom import MiniSom
+from sklearn import datasets
+
+# Load the Iris dataset
+iris = datasets.load_iris()
+data = iris.data
+target = iris.target
+
+# Normalize the data
+data = (data - np.min(data, axis=0)) / (np.max(data, axis=0) - np.min(data, axis=0))
+
+# Set SOM parameters
+grid_size = (10, 10)
+input_size = data.shape[1]
+sigma = 1.0
+learning_rate = 0.5
+
+# Create and train the SOM
+som = MiniSom(grid_size[0], grid_size[1], input_size, sigma=sigma, learning_rate=learning_rate)
+som.random_weights_init(data)
+som.train_random(data, 1000, verbose=True)
+
+# Assign each data point to a cluster
+cluster_labels = np.array([som.winner(x) for x in data])
+
+# Plot the SOM clusters
+plt.figure(figsize=(10, 8))
+for i, (x, t) in enumerate(zip(data, target)):
+    plt.text(cluster_labels[i][0], cluster_labels[i][1], str(t),
+             color=plt.cm.rainbow(t / 3.), fontdict={'weight': 'bold', 'size': 9})
+plt.scatter(cluster_labels[:, 0] + np.random.rand(len(data)) * 0.6 - 0.3,
+            cluster_labels[:, 1] + np.random.rand(len(data)) * 0.6 - 0.3,
+            c=target, cmap=plt.cm.rainbow, edgecolors='grey', s=50)
+plt.title('SOM Clustering of Iris Dataset')
+plt.show()
+</code></pre>
+
+<p>Explanation:</p>
+
+<ul>
+    <li><b>Import Libraries:</b> Import necessary Python libraries, including NumPy for numerical operations, Matplotlib for plotting, MiniSom for the SOM implementation, and scikit-learn for the Iris dataset.</li>
+    <li><b>Load and Normalize Data:</b> Load the Iris dataset and normalize the data to a range between 0 and 1.</li>
+    <li><b>Set SOM Parameters:</b> Define parameters such as the grid size, input size, sigma (neighborhood radius), and learning rate for the SOM.</li>
+    <li><b>Create and Train SOM:</b> Create a MiniSom instance, initialize weights, and train the SOM using random data.</li>
+    <li><b>Assign Data Points to Clusters:</b> Determine the cluster assignment for each data point based on the winning neuron.</li>
+    <li><b>Plot SOM Clusters:</b> Visualize the SOM clusters and the distribution of Iris dataset points in the SOM grid.</li>
+</ul>
+
+<!-- Include necessary JavaScript libraries if needed -->
+
+</body>
+</html>

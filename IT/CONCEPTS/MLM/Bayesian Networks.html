@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayesian Networks Example</title>
+    <!-- Include necessary CSS or styling if needed -->
+</head>
+<body>
+
+<h1>Bayesian Networks Example</h1>
+
+<p>This is a simple example of Bayesian Networks using Python and the pgmpy library.</p>
+
+<h2>Bayesian Networks Overview</h2>
+
+<p>Bayesian Networks are graphical models that represent the probabilistic dependencies among a set of random variables. The structure of the network is defined by a directed acyclic graph (DAG), where nodes represent variables and edges represent probabilistic dependencies. Each node in the network is associated with a conditional probability distribution that models the probability of the variable given its parents in the graph.</p>
+
+<p>Key concepts of Bayesian Networks:</p>
+
+<ul>
+    <li><b>Directed Acyclic Graph (DAG):</b> The graphical structure of the Bayesian Network with nodes and directed edges.</li>
+    <li><b>Nodes and Variables:</b> Each node in the graph represents a random variable, and the variables may have probabilistic dependencies.</li>
+    <li><b>Conditional Probability Distributions:</b> Each node is associated with a conditional probability distribution that models the variable given its parents in the graph.</li>
+    <li><b>Bayesian Inference:</b> The process of updating beliefs about the variables in the network based on observed evidence.</li>
+</ul>
+
+<p>Bayesian Networks are widely used in various domains, including healthcare, finance, and artificial intelligence, for modeling and reasoning under uncertainty.</p>
+
+<p>Python Source Code:</p>
+
+<pre><code># Import necessary libraries
+from pgmpy.models import BayesianModel
+from pgmpy.estimators import ParameterEstimator
+from pgmpy.inference import VariableElimination
+import networkx as nx
+import matplotlib.pyplot as plt
+
+# Define the structure of the Bayesian Network
+model_structure = [('D', 'G'), ('I', 'G'), ('G', 'L'), ('I', 'S')]
+
+# Create a Bayesian Model
+bayesian_model = BayesianModel(model_structure)
+
+# Visualize the Bayesian Network
+pos = nx.spring_layout(bayesian_model)
+nx.draw(bayesian_model, pos, with_labels=True, font_weight='bold', node_size=700, node_color='skyblue', font_size=10, font_color='black', arrowsize=20)
+plt.title('Bayesian Network Structure')
+plt.show()
+
+# Generate synthetic data based on the model
+data = bayesian_model.sample(n=1000, random_state=42)
+
+# Print a few rows of the generated data
+print("Generated Data:")
+print(data.head())
+
+# Estimate the parameters of the model from the data
+param_estimator = ParameterEstimator(bayesian_model, data)
+cpd_estimate = param_estimator.estimate_cpd()
+
+# Print the estimated Conditional Probability Distributions (CPDs)
+print("\nEstimated CPDs:")
+for cpd in cpd_estimate:
+    print(cpd)
+
+# Perform Bayesian Inference
+inference = VariableElimination(bayesian_model)
+inferred_distribution = inference.query(variables=['G'], evidence={'I': 1, 'D': 0})
+
+# Print the inferred distribution of 'G' given evidence
+print("\nInferred Distribution of 'G' given evidence:")
+print(inferred_distribution)
+
+</code></pre>
+
+<p>Explanation:</p>
+
+<ul>
+    <li><b>Import Libraries:</b> Import necessary Python libraries, including pgmpy for Bayesian Networks, NetworkX for graph visualization, and Matplotlib for plotting.</li>
+    <li><b>Define Model Structure:</b> Specify the structure of the Bayesian Network by defining directed edges between nodes (variables).</li>
+    <li><b>Create Bayesian Model:</b> Create a BayesianModel object based on the specified structure.</li>
+    <li><b>Visualize the Network:</b> Use NetworkX to visualize the structure of the Bayesian Network.</li>
+    <li><b>Generate Synthetic Data:</b> Sample synthetic data from the Bayesian Model to demonstrate parameter estimation.</li>
+    <li><b>Estimate Parameters:</b> Use the sampled data to estimate the Conditional Probability Distributions (CPDs) of the variables in the network.</li>
+    <li><b>Perform Bayesian Inference:</b> Use VariableElimination to perform Bayesian inference on the network and query the distribution of a variable given evidence.</li>
+    <li><b>Print Results:</b> Print the generated data, estimated CPDs, and the inferred distribution based on evidence.</li>
+</ul>
+
+<!-- Include necessary JavaScript libraries if needed -->
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apache Kafka Overview</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+        h1, h2, p, pre, code {
+            margin-bottom: 15px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 5px;
+            border: 1px solid #ddd;
+            display: block;
+            white-space: pre-wrap;
+        }
+    </style>
+    <link href="../estilos.css" rel="stylesheet" type="text/css">
+</head>
+<body class="texto8_1">
+
+    <h1>Apache Kafka Overview</h1>
+    <p><a href="KAFKA/kafka_python.html" target="_blank">PYTHON</a> </p>
+<h2>Key Features of Apache Kafka:</h2>
+    <ol>
+        <li><strong>Distributed and Scalable:</strong> Kafka is designed to be distributed across multiple nodes, providing scalability to handle large volumes of data and high throughput.</li>
+        <li><strong>Fault Tolerance:</strong> Kafka is fault-tolerant, meaning it can continue to operate in the presence of node failures without losing data. It achieves fault tolerance through data replication across multiple brokers.</li>
+        <li><strong>Durability:</strong> Kafka provides persistent storage of messages, ensuring that data is not lost even if a consumer is not able to process it immediately.</li>
+        <li><strong>High Throughput:</strong> Kafka is capable of handling a high volume of data streams and can process thousands of messages per second.</li>
+        <li><strong>Partitioning:</strong> Kafka topics are divided into partitions, allowing for parallel processing and scalability. Each partition is an ordered, immutable sequence of messages.</li>
+        <li><strong>Retention:</strong> Kafka allows you to configure the retention period for messages, determining how long messages are stored in a topic.</li>
+        <li><strong>Exactly-Once Semantics:</strong> Kafka supports exactly-once message delivery semantics, ensuring that messages are neither lost nor duplicated during processing.</li>
+        <li><strong>Connectivity:</strong> Kafka has a variety of connectors (source and sink) for integrating with various data sources and sinks, making it versatile in connecting with other systems.</li>
+    </ol>
+
+    <h2>Example Kafka Configuration:</h2>
+    <pre>
+        <code>
+# server.properties
+
+# Kafka Broker ID
+broker.id=1
+
+# Port the broker listens on
+listeners=PLAINTEXT://localhost:9092
+
+# Log storage directory
+log.dirs=/tmp/kafka-logs
+
+# Number of partitions for new topics
+num.partitions=3
+
+# Replication factor for topics
+default.replication.factor=2
+
+# ZooKeeper connection string
+zookeeper.connect=localhost:2181
+        </code>
+    </pre>
+
+    <h2>Basic Kafka Usage:</h2>
+    <p><strong>1. Starting Kafka Server:</strong></p>
+    <pre>
+        <code>
+bin/kafka-server-start.sh config/server.properties
+        </code>
+    </pre>
+
+    <p><strong>2. Creating a Topic:</strong></p>
+    <pre>
+        <code>
+bin/kafka-topics.sh --create --topic myTopic --bootstrap-server localhost:9092 --partitions 3 --replication-factor 2
+        </code>
+    </pre>
+
+    <p><strong>3. Producing Messages:</strong></p>
+    <pre>
+        <code>
+bin/kafka-console-producer.sh --topic myTopic --bootstrap-server localhost:9092
+        </code>
+    </pre>
+
+    <p><strong>4. Consuming Messages:</strong></p>
+    <pre>
+        <code>
+bin/kafka-console-consumer.sh --topic myTopic --bootstrap-server localhost:9092 --from-beginning
+        </code>
+    </pre>
+
+</body>
+</html>

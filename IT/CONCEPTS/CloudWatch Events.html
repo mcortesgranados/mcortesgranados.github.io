@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CloudWatch Events
+
+</title>
+<link href="ESTILOS.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p class="texto13">Amazon CloudWatch Events Overview and Configuration Guide</p>
+<p><a href="CloudWatch_references_jpg.html" target="_blank" class="signo_grande">Amazon CloudWatch Events</a> is a service provided by Amazon Web Services (AWS) that enables you to respond to events in your AWS environment. It helps you automate workflows and respond to system events that could impact the availability or performance of your resources. CloudWatch Events allows you to set up rules to match events and take actions in response to those events.</p>
+<p>Key features of CloudWatch Events include:</p>
+<ol>
+  <li>
+    <p><strong>Event Sources:</strong> CloudWatch Events supports a variety of event sources, including AWS services, custom applications, and CloudWatch Logs. AWS services can generate events for various activities, such as changes to resources, scheduled events, or custom events.</p>
+  </li>
+  <li>
+    <p><strong>Event Rules:</strong> You can create rules that match incoming events and define actions to take when a rule is triggered. Rules can be based on events from specific sources, using pattern matching, or with scheduled expressions.</p>
+  </li>
+  <li>
+    <p><strong>Targets:</strong> When a rule is triggered, CloudWatch Events can send the event to one or more targets. Targets can be other AWS services or custom endpoints. Common targets include AWS Lambda functions, Amazon SNS topics, Amazon EC2 instances, and more.</p>
+  </li>
+  <li>
+    <p><strong>Scheduled Events:</strong> CloudWatch Events allows you to schedule events to occur at specified times using cron or rate expressions. This is useful for automating tasks or triggering workflows on a regular basis.</p>
+  </li>
+  <li>
+    <p><strong>Event Bus:</strong> Events are sent to an event bus, which acts as a communication channel for the events within your AWS environment. You can use the default event bus or create custom event buses for specific purposes.</p>
+  </li>
+  <li>
+    <p><strong>Event History:</strong> CloudWatch Events provides an event history that allows you to view, search, and filter events that have occurred in your AWS environment.</p>
+  </li>
+</ol>
+<p>Here's a simple example of using CloudWatch Events:</p>
+<ol>
+  <li>
+    <p><strong>Create an Event Rule:</strong> Define a rule that matches events based on specific criteria, such as an AWS service generating an event or a scheduled expression.</p>
+  </li>
+  <li>
+    <p><strong>Define a Target:</strong> Specify the action to take when the rule is triggered. This could be invoking an AWS Lambda function, sending a message to an SNS topic, or other supported targets.</p>
+  </li>
+  <li>
+    <p><strong>Enable the Rule:</strong> Once the rule is configured, enable it to start listening for events and triggering the defined action when a match occurs.</p>
+  </li>
+  <li>
+    <p><strong>Monitor Events:</strong> Use CloudWatch Events console or API to monitor events, view event history, and troubleshoot any issues.</p>
+  </li>
+</ol>
+<p>CloudWatch Events is commonly used for tasks like automatically scaling resources, responding to changes in AWS infrastructure, triggering workflows, and implementing custom automation in your AWS environment.</p>
+<p>&nbsp;</p>
+<h1>&nbsp;</h1>
+<p><strong>Amazon CloudWatch Events</strong> enables you to respond to state changes in your AWS resources. It provides a way to automate workflows and trigger actions based on events that occur in your environment. Here's an overview of CloudWatch Events features and a guide on how to configure it:</p>
+<h2>Features of Amazon CloudWatch Events:</h2>
+<h3>1. <strong>Event Sources:</strong></h3>
+<ul>
+  <li>CloudWatch Events supports a variety of event sources, including AWS services, custom applications, and CloudFormation stacks.</li>
+</ul>
+<h3>2. <strong>Rules:</strong></h3>
+<ul>
+  <li>You can create rules to define which events to capture and how to process them.</li>
+  <li>Rules are defined using an event pattern or a schedule.</li>
+</ul>
+<h3>3. <strong>Event Patterns:</strong></h3>
+<ul>
+  <li>Event patterns allow you to filter events based on criteria such as resource type, resource ID, and event type.</li>
+</ul>
+<h3>4. <strong>Targets:</strong></h3>
+<ul>
+  <li>Targets are the actions to be taken when an event rule is triggered.</li>
+  <li>Supported targets include Lambda functions, SNS topics, SQS queues, and more.</li>
+</ul>
+<h3>5. <strong>Scheduled Events:</strong></h3>
+<ul>
+  <li>CloudWatch Events supports scheduled events, allowing you to trigger actions at specified times or intervals.</li>
+</ul>
+<h3>6. <strong>Event Bus:</strong></h3>
+<ul>
+  <li>Events are sent to an event bus, providing a central location for managing and processing events.</li>
+</ul>
+<h3>7. <strong>Cross-Account Events:</strong></h3>
+<ul>
+  <li>Supports cross-account event delivery, allowing you to send events to an event bus in a different AWS account.</li>
+</ul>
+<h2>How to Configure Amazon CloudWatch Events:</h2>
+<h3>Step 1: Open the AWS Management Console</h3>
+<p>Navigate to the <a target="_new">AWS Management Console</a>.</p>
+<h3>Step 2: Open the CloudWatch Console</h3>
+<p>In the AWS Management Console, navigate to the <strong>CloudWatch</strong> service.</p>
+<h3>Step 3: Create a Rule</h3>
+<ol>
+  <li>In the CloudWatch console, go to <strong>Events</strong> and click on <strong>Rules</strong> in the left navigation pane.</li>
+  <li>Click on <strong>Create rule</strong>.</li>
+</ol>
+<h3>Step 4: Define Rule Details</h3>
+<ol>
+  <li>
+    <p>Choose an <strong>Event Source</strong>:</p>
+    <ul>
+      <li>Select the service or custom event source that will generate events.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Define the <strong>Event Type</strong>:</p>
+    <ul>
+      <li>Choose between an event pattern or a schedule.</li>
+      <li>If using an event pattern, define the pattern based on resource type, ID, etc.</li>
+      <li>If using a schedule, set up the cron expression or rate.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Step 5: Configure Targets</h3>
+<ol>
+  <li>Choose one or more <strong>Targets</strong> for the rule:
+      <ul>
+        <li>Lambda function, SNS topic, SQS queue, etc.</li>
+        <li>Define target-specific settings.</li>
+      </ul>
+  </li>
+</ol>
+<h3>Step 6: Configure Additional Settings (Optional)</h3>
+<ol>
+  <li>Set up any additional settings, such as enabling or disabling the rule, specifying input transformer settings, etc.</li>
+</ol>
+<h3>Step 7: Review and Create</h3>
+<ol>
+  <li>Review the rule configuration.</li>
+  <li>Click on <strong>Create rule</strong> to activate the rule.</li>
+</ol>
+<h3>Step 8: Monitor and Troubleshoot</h3>
+<ol>
+  <li>Monitor the rule in the CloudWatch console.</li>
+  <li>Review CloudWatch Metrics and Logs for insights into rule execution.</li>
+</ol>
+<h3>Step 9: Update or Delete Rule (Optional)</h3>
+<ol>
+  <li>To update a rule, go to the CloudWatch Events console, select the rule, and choose <strong>Edit rule</strong>.</li>
+  <li>To delete a rule, select the rule in the console, and choose <strong>Delete rule</strong>.</li>
+</ol>
+<p>Congratulations! You have successfully configured Amazon CloudWatch Events to respond to state changes in your AWS resources. Explore additional features and integrations based on your specific use case, and continue to leverage the power of event-driven automation in your environment.</p>
+<p>&nbsp;</p>
+</body>
+</html>

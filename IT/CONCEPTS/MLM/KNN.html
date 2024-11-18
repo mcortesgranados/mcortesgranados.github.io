@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>k-Nearest Neighbors (KNN) Example</title>
+    <!-- Include necessary CSS or styling if needed -->
+    <link href="../estilos.css" rel="stylesheet" type="text/css">
+</head>
+<body class="texto8_1">
+
+<h1>k-Nearest Neighbors (KNN) Example</h1>
+
+<p>This is a simple example of k-Nearest Neighbors (KNN) using Python and scikit-learn.</p>
+
+<h2>k-Nearest Neighbors Overview</h2>
+
+<p>k-Nearest Neighbors (KNN) is a simple and intuitive machine learning algorithm used for both classification and regression tasks. In KNN, a data point is classified or predicted based on the majority class or average of its k-nearest neighbors in the feature space. The choice of the value of k determines the number of neighbors considered during the prediction.</p>
+
+<p>Key concepts of k-Nearest Neighbors:</p>
+
+<ul>
+    <li><b>Distance Metric:</b> The measure used to calculate the distance between data points (e.g., Euclidean distance).</li>
+    <li><b>Decision Rule:</b> Majority voting for classification or averaging for regression based on the labels or values of the k-nearest neighbors.</li>
+    <li><b>Hyperparameter k:</b> The number of neighbors to consider during prediction.</li>
+</ul>
+
+<p>KNN is a non-parametric algorithm, meaning it does not make strong assumptions about the underlying data distribution. It is sensitive to the choice of the distance metric and the value of k. KNN is suitable for small to medium-sized datasets and can be computationally expensive for large datasets.</p>
+
+<p>Python Source Code:</p>
+
+<pre><code># Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.metrics import mean_squared_error
+
+# Generate synthetic data
+np.random.seed(42)
+X = 2 * np.random.rand(100, 1)
+y = 4 + 3 * X + np.random.randn(100, 1)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train the k-Nearest Neighbors (KNN) model
+model = KNeighborsRegressor(n_neighbors=5)
+model.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+mse = mean_squared_error(y_test, y_pred)
+print(f'Mean Squared Error: {mse}')
+
+# Plot the results
+plt.scatter(X_test, y_test, color='black')
+plt.scatter(X_test, y_pred, color='red', marker='x')
+plt.title('k-Nearest Neighbors (KNN) Example')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.show()
+</code></pre>
+
+<p>Explanation:</p>
+
+<ul>
+    <li><b>Import Libraries:</b> Import necessary Python libraries, including NumPy for numerical operations, Matplotlib for plotting, and scikit-learn for machine learning.</li>
+    <li><b>Generate Synthetic Data:</b> Create synthetic data with a linear relationship and some random noise (similar to the Linear Regression example).</li>
+    <li><b>Split Data:</b> Split the data into training and testing sets using the <code>train_test_split</code> function.</li>
+    <li><b>Train Model:</b> Create and train a k-Nearest Neighbors (KNN) model using scikit-learn's <code>KNeighborsRegressor</code>.</li>
+    <li><b>Make Predictions:</b> Use the trained KNN model to make predictions on the test set.</li>
+    <li><b>Evaluate Model:</b> Calculate Mean Squared Error to evaluate the performance of the model.</li>
+    <li><b>Plot Results:</b> Plot the actual vs. predicted values for visualization.</li>
+</ul>
+
+<!-- Include necessary JavaScript libraries if needed -->
+
+</body>
+</html>

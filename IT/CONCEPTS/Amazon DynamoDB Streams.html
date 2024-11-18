@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Amazon DynamoDB Streams</title>
+<link href="estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<h1><a href="DynamoDB Streams_references_jpg.html" target="_blank">Amazon DynamoDB Streams Overview and Configuration Guide</a></h1>
+<p><strong>Amazon DynamoDB Streams</strong> enables you to capture changes to items stored in a DynamoDB table. It provides a time-ordered sequence of item-level modifications in a DynamoDB table and allows you to build event-driven architectures. Below is an overview of DynamoDB Streams features and a guide on how to configure it:</p>
+<h2>Features of Amazon DynamoDB Streams:</h2>
+<h3>1. <strong>Item-Level Changes:</strong></h3>
+<ul>
+  <li>DynamoDB Streams captures changes at the item level, including inserts, updates, and deletes.</li>
+</ul>
+<h3>2. <strong>Time-Ordered Sequence:</strong></h3>
+<ul>
+  <li>Maintains a time-ordered sequence of events, allowing you to track changes to items over time.</li>
+</ul>
+<h3>3. <strong>Integration with AWS Lambda:</strong></h3>
+<ul>
+  <li>Easily integrates with AWS Lambda to process and react to changes in real-time.</li>
+</ul>
+<h3>4. <strong>Cross-Region Replication:</strong></h3>
+<ul>
+  <li>Supports cross-region replication of DynamoDB tables by replicating the stream to another region.</li>
+</ul>
+<h3>5. <strong>Event Source for AWS Lambda:</strong></h3>
+<ul>
+  <li>DynamoDB Streams can be configured as an event source for AWS Lambda functions, allowing you to trigger Lambda functions based on changes.</li>
+</ul>
+<h3>6. <strong>Batch Processing:</strong></h3>
+<ul>
+  <li>Allows for batch processing of changes, enabling more efficient handling of multiple events at once.</li>
+</ul>
+<h3>7. <strong>Integration with Other AWS Services:</strong></h3>
+<ul>
+  <li>DynamoDB Streams can be integrated with other AWS services for various use cases, such as data replication and analytics.</li>
+</ul>
+<h2>How to Configure Amazon DynamoDB Streams:</h2>
+<h3>Step 1: Open the AWS Management Console</h3>
+<p>Navigate to the <a target="_new">AWS Management Console</a>.</p>
+<h3>Step 2: Open the DynamoDB Console</h3>
+<p>In the AWS Management Console, navigate to the <strong>DynamoDB</strong> service.</p>
+<h3>Step 3: Create or Select a DynamoDB Table</h3>
+<ol>
+  <li>
+    <p><strong>Create a New Table:</strong></p>
+    <ul>
+      <li>Click on <strong>Create Table</strong>.</li>
+      <li>Define the table name, primary key, and other settings.</li>
+      <li>Enable <strong>DynamoDB Streams</strong> during table creation.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Use an Existing Table:</strong></p>
+    <ul>
+      <li>Select the existing table for which you want to enable DynamoDB Streams.</li>
+      <li>Go to the <strong>Overview</strong> tab for the selected table.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Step 4: Enable DynamoDB Streams</h3>
+<ol>
+  <li>In the table details or creation wizard, navigate to the <strong>Manage Stream</strong> section.</li>
+  <li>Choose the stream view type:
+      <ul>
+        <li><strong>New and Old Images</strong>: Captures both the &quot;before&quot; and &quot;after&quot; images of an item.</li>
+        <li><strong>New Image</strong>: Captures only the &quot;after&quot; image of an item.</li>
+      </ul>
+  </li>
+</ol>
+<h3>Step 5: Choose Stream Settings</h3>
+<ol>
+  <li>Select the desired stream settings:
+      <ul>
+        <li><strong>Enable View Type</strong>: Choose whether to enable new and old images or only new images.</li>
+        <li><strong>Stream ARN</strong>: DynamoDB will generate an Amazon Resource Name (ARN) for your stream.</li>
+      </ul>
+  </li>
+</ol>
+<h3>Step 6: Configure AWS Lambda Integration (Optional)</h3>
+<ol>
+  <li>If you want to process stream events with AWS Lambda, create or select a Lambda function.</li>
+  <li>Add the DynamoDB stream as an event source for the Lambda function.</li>
+</ol>
+<h3>Step 7: Monitor and Process Stream Events</h3>
+<ol>
+  <li>Monitor the DynamoDB stream in the DynamoDB console.</li>
+  <li>If integrated with Lambda, monitor Lambda function execution for stream events.</li>
+</ol>
+<h3>Step 8: Update or Delete Stream (Optional)</h3>
+<ol>
+  <li>To update stream settings, navigate to the DynamoDB table details and modify the stream configuration.</li>
+  <li>To delete a stream, navigate to the DynamoDB table details, disable the stream, and choose the delete option.</li>
+</ol>
+<p>Congratulations! You have successfully configured Amazon DynamoDB Streams to capture and process changes to items in your DynamoDB table. Adjust configurations based on your specific use case and requirements, and explore integrations with other AWS services for a more comprehensive event-driven architecture.</p>
+</body>
+</html>

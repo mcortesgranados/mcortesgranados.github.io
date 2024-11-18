@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>unittest.mock Overview and Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #000; /* Set text color to black */
+        }
+
+        h1, h2 {
+            color: #000; /* Set heading color to black */
+        }
+
+        p {
+            color: #000; /* Set paragraph text color to black */
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow: auto;
+            margin-bottom: 20px;
+        }
+
+        code {
+            font-family: Monaco, monospace;
+            font-size: 14px;
+            color: #000; /* Set code text color to black */
+        }
+    </style>
+</head>
+<body>
+
+<h1>unittest.mock Overview and Example</h1>
+
+<h2>Overview:</h2>
+
+<p>The <code>unittest.mock</code> module is part of the <code>unittest</code> standard library in Python. It provides the <code>Mock</code> class, which can be used to create mock objects. Mock objects can be configured to simulate the behavior of real objects and record how they are used during the test.</p>
+
+<h2>Example:</h2>
+
+<p>Let's say you have a simple module <code>calculator.py</code> with a function <code>add</code> that adds two numbers:</p>
+
+<pre><code># calculator.py
+def add(x, y):
+    return x + y
+</code></pre>
+
+<p>Now, you want to test a function that uses this <code>add</code> function, but you don't want to rely on the actual implementation of <code>add</code> during the test. Instead, you want to use a mock version of <code>add</code>. Here's an example test using <code>unittest.mock</code>:</p>
+
+<pre><code>import unittest
+from unittest.mock import Mock
+from calculator import add  # Assuming you have a calculator module
+
+def my_function_to_test(x, y):
+    # Some code that uses the add function
+    result = add(x, y)
+    return result * 2
+
+class TestMyFunction(unittest.TestCase):
+
+    def test_my_function_to_test(self):
+        # Create a mock for the add function
+        mock_add = Mock()
+
+        # Configure the mock to return a specific value when called
+        mock_add.return_value = 5
+
+        # Replace the real 'add' function with the mock
+        with unittest.mock.patch('calculator.add', mock_add):
+            # Call the function under test
+            result = my_function_to_test(2, 3)
+
+            # Make assertions about how the mock was used
+            mock_add.assert_called_once_with(2, 3)
+
+            # Make assertions about the result
+            self.assertEqual(result, 10)
+
+if __name__ == '__main__':
+    unittest.main()
+</code></pre>
+
+<p>In this example:</p>
+
+<ul>
+    <li>The <code>Mock</code> class is used to create a mock object (<code>mock_add</code>).</li>
+    <li>The <code>unittest.mock.patch</code> function is used to temporarily replace the real <code>add</code> function with the mock during the test.</li>
+    <li>The test function (<code>test_my_function_to_test</code>) calls the function under test (<code>my_function_to_test</code>) and makes assertions about how the mock was used and the result of the function.</li>
+</ul>
+
+<p>This is a simple example, and <code>unittest.mock</code> provides many other features for more advanced use cases, such as side effects, return values, and more.</p>
+
+</body>
+</html>

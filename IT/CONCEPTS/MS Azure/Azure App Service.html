@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure App Service</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .heading-primary {
+            color: #3366cc; /* Dark blue */
+        }
+
+        .heading-secondary {
+            color: #009933; /* Green */
+        }
+
+        .strong-text {
+            color: #cc3366; /* Dark pink */
+        }
+
+        .code-block {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            overflow: auto;
+        }
+
+        .code-text {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 class="heading-primary">Azure App Service</h1>
+
+    <h2 class="heading-secondary">App Service Overview:</h2>
+
+    <p><strong class="strong-text">Azure App Service</strong> is a fully managed platform for building, deploying, and scaling
+        web apps. It supports multiple programming languages, provides automatic scaling, and integrates with other Azure
+        services.</p>
+
+    <h2 class="heading-secondary">Key Features:</h2>
+
+    <ul>
+        <li><strong class="strong-text">Web Apps:</strong> Host and scale web applications in the programming language of
+            your choice.</li>
+        <li><strong class="strong-text">Mobile Apps:</strong> Build and host mobile backends with support for authentication,
+            offline sync, and push notifications.</li>
+        <li><strong class="strong-text">API Apps:</strong> Create, host, and consume APIs with ease.</li>
+        <li><strong class="strong-text">Integration:</strong> Easily integrate with Azure DevOps, Azure Monitor, and other Azure
+            services.</li>
+    </ul>
+
+    <h2 class="heading-secondary">App Service Configuration Examples:</h2>
+
+    <p><strong class="strong-text">1. Creating a Web App in the Azure Portal:</strong></p>
+
+    <ol>
+        <li>Go to the Azure Portal.</li>
+        <li>Click on "Create a resource" &gt; "Web + Mobile" &gt; "Web App."</li>
+        <li>Configure settings like subscription, resource group, app name, runtime stack, and region.</li>
+        <li>Set up additional configuration options like deployment slots, authentication, and monitoring.</li>
+        <li>Review and create the Web App.</li>
+    </ol>
+
+    <p><strong class="strong-text">2. Deploying a Web App from GitHub:</strong></p>
+
+    <ol>
+        <li>Link your Web App to a GitHub repository.</li>
+        <li>Configure deployment options, such as branch and manual/auto deployment.</li>
+        <li>Changes in the GitHub repository trigger automatic deployments to the Web App.</li>
+    </ol>
+
+    <p><strong class="strong-text">3. Configuring Authentication and Authorization:</strong></p>
+
+    <p>Enable authentication with Azure Active Directory or other identity providers. Configure authorization rules for
+        different parts of your application.</p>
+
+    <p><strong class="strong-text">4. Scaling App Service Plan:</strong></p>
+
+    <pre class="code-block">
+        <code class="code-text">
+az appservice plan update --name MyPlan --resource-group MyResourceGroup --number-of-workers 3
+        </code>
+    </pre>
+
+    <p><strong class="strong-text">5. Setting Environment Variables:</strong></p>
+
+    <pre class="code-block">
+        <code class="code-text">
+az webapp config appsettings set --name MyWebApp --resource-group MyResourceGroup --settings MySetting=Value
+        </code>
+    </pre>
+
+</body>
+
+</html>

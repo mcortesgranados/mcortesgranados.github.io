@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entity Framework Overview and Interview Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Entity Framework Overview</h1>
+
+    <p>Entity Framework (EF) is an Object-Relational Mapping (ORM) framework developed by Microsoft. It enables developers to work with databases using .NET objects, providing a higher-level abstraction for database interactions. Here's a closer look at the architecture of Entity Framework:</p>
+
+    <h2>Architecture Overview</h2>
+
+    <p><strong>1. Entity Data Model (EDM):</strong> Entity Framework uses the Entity Data Model to define the structure of the data in the application. EDM is a conceptual model that maps to the underlying database schema. It includes entities (representing tables) and relationships between entities.</p>
+
+    <p><strong>2. DbContext:</strong> DbContext is a core component of Entity Framework that represents the session with the database. It is responsible for tracking changes to entities, managing connections, and translating between .NET objects and database records. Developers interact with the DbContext to perform database operations.</p>
+
+    <p><strong>3. DbSet:</strong> DbSet is a property on the DbContext that represents a collection of entities of a specific type. It provides methods for querying, adding, updating, and deleting entities in the underlying database table.</p>
+
+    <p><strong>4. Code-First and Database-First Approaches:</strong> Entity Framework supports both Code-First and Database-First approaches. In Code-First, developers define the entity classes in code, and the database is generated based on these classes. In Database-First, the database schema is defined first, and entity classes are generated from the database.</p>
+
+    <p><strong>5. LINQ to Entities:</strong> Entity Framework uses LINQ (Language Integrated Query) to query data from the database. LINQ to Entities allows developers to write queries in a type-safe and strongly-typed manner, directly against the entity classes defined in the application.</p>
+
+    <p><strong>6. Migrations:</strong> Migrations in Entity Framework enable developers to evolve the database schema over time. With migrations, changes to the database, such as adding or modifying tables, can be scripted and applied in a controlled manner, ensuring the integrity of the data.</p>
+
+    <p><strong>7. Database Providers:</strong> Entity Framework supports multiple database providers, allowing developers to interact with various database systems, including SQL Server, MySQL, PostgreSQL, and SQLite. Each provider implements the necessary components to communicate with its respective database engine.</p>
+
+    <h2>Technical Interview Questions</h2>
+
+    <ol>
+        <li>
+            <strong>What is Entity Framework?</strong>
+            <p>Entity Framework is an Object-Relational Mapping (ORM) framework developed by Microsoft, providing a higher-level abstraction for database interactions in .NET applications.</p>
+        </li>
+        <li>
+            <strong>Explain the role of DbContext in Entity Framework.</strong>
+            <p>DbContext represents the session with the database in Entity Framework. It tracks changes to entities, manages connections, and translates between .NET objects and database records.</p>
+        </li>
+        <li>
+            <strong>What is the Entity Data Model (EDM) in Entity Framework?</strong>
+            <p>Entity Data Model (EDM) is a conceptual model in Entity Framework that maps to the underlying database schema. It includes entities representing tables and relationships between entities.</p>
+        </li>
+        <li>
+            <strong>What is DbSet in Entity Framework?</strong>
+            <p>DbSet is a property on the DbContext that represents a collection of entities of a specific type. It provides methods for querying, adding, updating, and deleting entities in the underlying database table.</p>
+        </li>
+        <li>
+            <strong>Explain the Code-First approach in Entity Framework.</strong>
+            <p>Code-First is an approach in Entity Framework where developers define the entity classes in code, and the database is generated based on these classes. It allows for greater control over the database schema.</p>
+        </li>
+        <li>
+            <strong>What is LINQ to Entities in Entity Framework?</strong>
+            <p>LINQ to Entities is a feature in Entity Framework that allows developers to write queries in a type-safe and strongly-typed manner. It enables querying data directly against the entity classes defined in the application.</p>
+        </li>
+        <li>
+            <strong>Explain the Database-First approach in Entity Framework.</strong>
+            <p>Database-First is an approach in Entity Framework where the database schema is defined first, and entity classes are generated from the database. It is suitable for projects where the database already exists.</p>
+        </li>
+        <li>
+            <strong>What are Entity Framework Migrations?</strong>
+            <p>Entity Framework Migrations allow developers to evolve the database schema over time. Changes to the database, such as adding or modifying tables, can be scripted and applied in a controlled manner using migrations.</p>
+        </li>
+        <li>
+            <strong>How does Entity Framework support multiple database providers?</strong>
+            <p>Entity Framework supports multiple database providers, allowing developers to interact with various database systems. Each provider implements the necessary components to communicate with its respective database engine.</p>
+        </li>
+        <li>
+            <strong>What is Lazy Loading in Entity Framework?</strong>
+            <p>Lazy Loading is a feature in Entity Framework that loads related entities from the database only when they are accessed. It helps improve performance by fetching related data on-demand rather than loading it all at once.</p>
+        </li>
+        <li>
+            <strong>Explain the purpose of the Fluent API in Entity Framework.</strong>
+            <p>The Fluent API in Entity Framework is an alternative to Data Annotations for configuring the database schema. It provides a programmatic way to configure entity properties, relationships, and other aspects of the model.</p>
+        </li>
+        <li>
+            <strong>What are Complex Types in Entity Framework?</strong>
+            <p>Complex Types in Entity Framework represent non-scalar properties of an entity. They do not have a key and cannot exist independently. Complex Types are used to group related properties within an entity.</p>
+        </li>
+        <li>
+            <strong>Explain the role of DbSet.Find method in Entity Framework.</strong>
+            <p>The DbSet.Find method in Entity Framework is used to retrieve an entity from the database by its primary key. It provides a convenient way to fetch an entity without explicitly writing a query.</p>
+        </li>
+        <li>
+            <strong>How does Entity Framework handle transactions?</strong>
+            <p>Entity Framework allows developers to work with transactions using the DbContext.Database.BeginTransaction method. Transactions ensure that a series of operations either complete successfully or leave the database in a consistent state.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of the AsNoTracking method in Entity Framework?</strong>
+            <p>The AsNoTracking method in Entity Framework is used to disable the change tracking mechanism for a query result. This can improve performance when entities are read-only and don't need to be updated in the database.</p>
+        </li>
+        <li>
+            <strong>Explain the role of the Include method in Entity Framework.</strong>
+            <p>The Include method in Entity Framework is used to specify related entities to be included in the query result. It helps in eagerly loading related data, avoiding additional database queries for each relationship when accessed.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of the Entity State in Entity Framework?</strong>
+            <p>The Entity State in Entity Framework represents the state of an entity in relation to the database. It can be Unchanged, Added, Modified, or Deleted. EntityState is crucial for tracking changes and managing updates to the database.</p>
+        </li>
+        <li>
+            <strong>Explain the concept of Change Tracking in Entity Framework.</strong>
+            <p>Change Tracking in Entity Framework is the mechanism that monitors changes made to entities. It allows the framework to automatically detect modifications and update the corresponding records in the database during SaveChanges.</p>
+        </li>
+        <li>
+            <strong>What are Shadow Properties in Entity Framework?</strong>
+            <p>Shadow Properties in Entity Framework are properties that are not defined in the entity class but exist in the database. They can be used to store additional information without altering the entity class.</p>
+        </li>
+        <li>
+            <strong>How does Entity Framework handle database migrations in a team environment?</strong>
+            <p>Entity Framework provides tools for managing database migrations in a team environment. Developers can use the Package Manager Console commands or the .NET CLI to generate and apply migrations, ensuring consistency across the team.</p>
+        </li>
+        <li>
+            <strong>Explain the purpose of the Database-First Approach in Entity Framework.</strong>
+            <p>The Database-First Approach in Entity Framework involves generating entity classes from an existing database schema. It is useful when working with legacy databases or when the database design is the starting point for the application.</p>
+        </li>
+        <li>
+            <strong>What is the difference between Eager Loading and Lazy Loading in Entity Framework?</strong>
+            <p>Eager Loading loads related entities from the database along with the main entity, reducing the need for additional queries. Lazy Loading, on the other hand, defers the loading of related entities until they are explicitly accessed, helping to optimize performance by loading data on-demand.</p>
+        </li>
+        <li>
+            <strong>How does Entity Framework handle concurrency control?</strong>
+            <p>Entity Framework supports concurrency control through optimistic concurrency. It uses a timestamp or row version column to detect changes made by other users. When updating an entity, Entity Framework checks if the stored timestamp matches the one provided by the application, preventing unintentional overwrites.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of the OnModelCreating method in Entity Framework?</strong>
+            <p>The OnModelCreating method in Entity Framework is part of the DbContext class and is used to configure the model using the Fluent API. It allows developers to specify entity properties, relationships, and other aspects of the database schema.</p>
+        </li>
+        <li>
+            <strong>Explain the concept of Database Seeding in Entity Framework.</strong>
+            <p>Database Seeding in Entity Framework involves populating the database with initial data during application startup. It is useful for providing sample data or default values and is often done using the DbContext.Database.EnsureCreated or migrations with the Seed method.</p>
+        </li>
+    </ol>
+
+</body>
+</html>
