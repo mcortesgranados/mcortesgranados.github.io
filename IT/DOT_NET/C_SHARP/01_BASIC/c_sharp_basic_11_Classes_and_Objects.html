@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Classes and Objects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Classes and Objects</h1>
+    <p>In C#, a class is a blueprint for creating objects. It defines properties, methods, and other members that the objects created from the class can use. An object is an instance of a class.</p>
+    
+    <h2>1. Defining a Class</h2>
+    <p>A class is defined using the <code>class</code> keyword followed by the class name. It can include fields (variables), properties, methods, and constructors.</p>
+    <pre><code>
+    // Defining a class
+    public class Person
+    {
+        // Fields
+        public string Name;
+        public int Age;
+
+        // Constructor
+        public Person(string name, int age)
+        {
+            Name = name;
+            Age = age;
+        }
+
+        // Method
+        public void Introduce()
+        {
+            Console.WriteLine($"Hello, my name is {Name} and I am {Age} years old.");
+        }
+    }
+    </code></pre>
+    
+    <h2>2. Creating and Using Objects</h2>
+    <p>To create an object, use the <code>new</code> keyword followed by the class constructor. Once an object is created, you can access its members using the dot notation.</p>
+    <pre><code>
+    class Program
+    {
+        static void Main()
+        {
+            // Creating an object of the Person class
+            Person person = new Person("Alice", 30);
+            
+            // Calling the method of the Person class
+            person.Introduce();
+
+            // Accessing fields
+            Console.WriteLine($"Name: {person.Name}");
+            Console.WriteLine($"Age: {person.Age}");
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Properties</h2>
+    <p>Properties provide a way to read, write, or compute the values of private fields. They are defined using <code>get</code> and <code>set</code> accessors.</p>
+    <pre><code>
+    public class Person
+    {
+        private string name;
+        private int age;
+
+        // Property
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public int Age
+        {
+            get { return age; }
+            set
+            {
+                if (value > 0)
+                    age = value;
+                else
+                    Console.WriteLine("Age must be positive.");
+            }
+        }
+
+        // Constructor
+        public Person(string name, int age)
+        {
+            Name = name;
+            Age = age;
+        }
+
+        // Method
+        public void Introduce()
+        {
+            Console.WriteLine($"Hello, my name is {Name} and I am {Age} years old.");
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Inheritance</h2>
+    <p>Inheritance allows a class to inherit members from another class. The base class is the class being inherited from, and the derived class is the class that inherits.</p>
+    <pre><code>
+    // Base class
+    public class Animal
+    {
+        public void Eat()
+        {
+            Console.WriteLine("Eating...");
+        }
+    }
+
+    // Derived class
+    public class Dog : Animal
+    {
+        public void Bark()
+        {
+            Console.WriteLine("Woof!");
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            // Creating an object of the Dog class
+            Dog dog = new Dog();
+            
+            // Calling methods from both the base and derived classes
+            dog.Eat();
+            dog.Bark();
+        }
+    }
+    </code></pre>
+    
+    <h2>5. Example Program</h2>
+    <p>Here’s a complete C# program demonstrating classes, objects, properties, and inheritance:</p>
+    <pre><code>
+    using System;
+
+    public class Person
+    {
+        private string name;
+        private int age;
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public int Age
+        {
+            get { return age; }
+            set
+            {
+                if (value > 0)
+                    age = value;
+                else
+                    Console.WriteLine("Age must be positive.");
+            }
+        }
+
+        public Person(string name, int age)
+        {
+            Name = name;
+            Age = age;
+        }
+
+        public void Introduce()
+        {
+            Console.WriteLine($"Hello, my name is {Name} and I am {Age} years old.");
+        }
+    }
+
+    public class Animal
+    {
+        public void Eat()
+        {
+            Console.WriteLine("Eating...");
+        }
+    }
+
+    public class Dog : Animal
+    {
+        public void Bark()
+        {
+            Console.WriteLine("Woof!");
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            // Creating a Person object
+            Person person = new Person("Bob", 25);
+            person.Introduce();
+
+            // Creating a Dog object
+            Dog dog = new Dog();
+            dog.Eat();
+            dog.Bark();
+        }
+    }
+    </code></pre>
+    
+    <h2>Explanation</h2>
+    <p>In the example program:</p>
+    <ul>
+        <li>The <code>Person</code> class demonstrates fields, properties, and methods.</li>
+        <li>The <code>Animal</code> and <code>Dog</code> classes show inheritance, where <code>Dog</code> inherits from <code>Animal</code>.</li>
+        <li>The <code>Main</code> method creates objects of the <code>Person</code> and <code>Dog</code> classes and calls their methods to illustrate their functionality.</li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced TypeScript Questions - Part 12</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Advanced TypeScript Questions - Part 12</h1>
+
+    <div class="question">
+        <h2>1. How can `TypeScript` handle `Mapped Types` with conditional logic?</h2>
+        <div class="answer">
+            <p>Mapped types in TypeScript can be combined with conditional types to create complex types based on certain conditions.</p>
+            <pre><code>
+type MappedType<T> = {
+    [K in keyof T]: T[K] extends string ? `String_${K}` : T[K];
+};
+
+interface Example {
+    name: string;
+    age: number;
+}
+
+type Result = MappedType<Example>; 
+// Result: { name: `String_name`; age: number; }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. What are `TypeScript’s `keyof` and `in` operators and how are they used in type manipulations?</h2>
+        <div class="answer">
+            <p>The `keyof` operator returns a union of all property names of a type, and the `in` operator is used within mapped types to iterate over keys.</p>
+            <pre><code>
+interface Person {
+    name: string;
+    age: number;
+}
+
+type PersonKeys = keyof Person; // 'name' | 'age'
+
+type ReadOnlyPerson = {
+    readonly [K in keyof Person]: Person[K];
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How can `TypeScript` be used to define `Type Guards` that narrow down types based on runtime checks?</h2>
+        <div class="answer">
+            <p>Type guards are functions that perform runtime checks and narrow down types within conditional blocks.</p>
+            <pre><code>
+function isNumber(value: any): value is number {
+    return typeof value === 'number';
+}
+
+function process(value: number | string) {
+    if (isNumber(value)) {
+        console.log(value.toFixed(2));
+    } else {
+        console.log(value.toUpperCase());
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. What are `TypeScript’s `Extract` and `Exclude` utility types and how are they different?</h2>
+        <div class="answer">
+            <p>`Extract` and `Exclude` are utility types that help in filtering union types. `Extract` picks types from a union that are assignable to another type, while `Exclude` removes types from a union that are assignable to another type.</p>
+            <pre><code>
+type Union = string | number | boolean;
+
+type Extracted = Extract<Union, string | number>; // string | number
+type Excluded = Exclude<Union, boolean>; // string | number
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How does `TypeScript` support `Literal Types` and what are their use cases?</h2>
+        <div class="answer">
+            <p>Literal types represent specific values rather than general types. They are useful for creating exact values and preventing invalid values.</p>
+            <pre><code>
+type Status = 'pending' | 'completed' | 'failed';
+
+function setStatus(status: Status) {
+    console.log(`Status set to ${status}`);
+}
+
+setStatus('completed'); // Valid
+setStatus('unknown');   // Error: Argument of type '"unknown"' is not assignable to parameter of type 'Status'.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. What is the `TypeScript` `Exclude` utility type and how is it used?</h2>
+        <div class="answer">
+            <p>The `Exclude` utility type removes types from a union that are assignable to another type. It is useful for excluding certain types from a union.</p>
+            <pre><code>
+type A = string | number | boolean;
+type B = Exclude<A, boolean>; // string | number
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How does `TypeScript` use `Template Literal Types` for creating dynamic string patterns?</h2>
+        <div class="answer">
+            <p>Template literal types allow you to create types based on string templates with placeholders. They are useful for defining patterns and dynamic string types.</p>
+            <pre><code>
+type Greeting = `Hello, ${string}`;
+
+const greet: Greeting = 'Hello, World'; // Valid
+const invalidGreet: Greeting = 'Hi, World'; // Error: Type '"Hi, World"' is not assignable to type 'Greeting'.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How can `TypeScript` handle `Intersection Types` and what are their benefits?</h2>
+        <div class="answer">
+            <p>Intersection types combine multiple types into one. A value of this type will have all properties from each combined type. They are useful for combining and extending types.</p>
+            <pre><code>
+interface A {
+    a: number;
+}
+
+interface B {
+    b: string;
+}
+
+type C = A & B;
+
+const example: C = {
+    a: 1,
+    b: 'text'
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. What is the `TypeScript` `Partial` utility type and how can it be used to make all properties of a type optional?</h2>
+        <div class="answer">
+            <p>The `Partial` utility type makes all properties of a given type optional. It is useful for creating types where properties are not required.</p>
+            <pre><code>
+interface Person {
+    name: string;
+    age: number;
+}
+
+type PartialPerson = Partial<Person>;
+
+const person: PartialPerson = {
+    name: 'Alice'
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How can `TypeScript`'s `Readonly` utility type enforce immutability for objects?</h2>
+        <div class="answer">
+            <p>The `Readonly` utility type makes all properties of an object read-only, ensuring that they cannot be modified after initialization.</p>
+            <pre><code>
+interface Person {
+    name: string;
+    age: number;
+}
+
+type ReadonlyPerson = Readonly<Person>;
+
+const person: ReadonlyPerson = {
+    name: 'John',
+    age: 30
+};
+
+// person.age = 31; // Error: Cannot assign to 'age' because it is a read-only property
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How does `TypeScript` handle `Function Overloads` and what are their use cases?</h2>
+        <div class="answer">
+            <p>Function overloads allow you to define multiple signatures for a function, enabling it to handle different types and numbers of arguments.</p>
+            <pre><code>
+function combine(a: string, b: string): string;
+function combine(a: number, b: number): number;
+function combine(a: any, b: any): any {
+    return a + b;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. What are `TypeScript` `Union Types` and how do they enable flexible type definitions?</h2>
+        <div class="answer">
+            <p>Union types allow a value to be one of several types, providing flexibility in function arguments and variable assignments.</p>
+            <pre><code>
+function format(value: string | number): string {
+    return typeof value === 'number' ? value.toFixed(2) : value.toUpperCase();
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How can `TypeScript` be used to define `Tuple Types` with fixed sizes and mixed types?</h2>
+        <div class="answer">
+            <p>Tuple types can represent arrays with a fixed number of elements, each with a different type. They are useful for representing structured data.</p>
+            <pre><code>
+type Pair<T, U> = [T, U];
+
+const pair: Pair<number, string> = [1, 'text'];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. What is the `TypeScript` `ReadonlyArray` type and how does it differ from a regular array?</h2>
+        <div class="answer">
+            <p>The `ReadonlyArray` type represents an array where all elements are read-only and cannot be modified. It provides immutability for array data.</p>
+            <pre><code>
+const numbers: ReadonlyArray<number> = [1, 2, 3];
+
+// numbers.push(4); // Error: Property 'push' does not exist on type 'ReadonlyArray<number>'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How can `TypeScript` be used to create `Complex Object Types` with nested structures and optional properties?</h2>
+        <div class="answer">
+            <p>TypeScript allows for creating complex object types with nested structures and optional properties, making it possible to define detailed data models.</p>
+            <pre><code>
+interface Address {
+    street: string;
+    city: string;
+}
+
+interface Person {
+    name: string;
+    address?: Address; // Optional property
+}
+
+const person: Person = {
+    name: 'Alice',
+    address: {
+        street: '123 Main St',
+        city: 'Wonderland'
+    }
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How does `TypeScript` support `Function Overloading` and how can it be used in practice?</h2>
+        <div class="answer">
+            <p>Function overloading allows you to define multiple signatures for a function, enabling it to handle different argument types and return types based on the specific signature used.</p>
+            <pre><code>
+function getInfo(id: number): string;
+function getInfo(name: string): string;
+function getInfo(param: number | string): string {
+    if (typeof param === 'number') {
+        return `ID: ${param}`;
+    } else {
+        return `Name: ${param}`;
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. What is the `TypeScript` `Extract` utility type and how can it be used to obtain a subset of a union type?</h2>
+        <div class="answer">
+            <p>The `Extract` utility type extracts a subset of a union type that matches a given type. It is useful for narrowing down union types.</p>
+            <pre><code>
+type Union = string | number | boolean;
+type StringOnly = Extract<Union, string>; // string
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How can `TypeScript`'s `Conditional Types` be used for creating type transformations based on conditions?</h2>
+        <div class="answer">
+            <p>Conditional types allow you to create types that vary based on a condition. They enable powerful type transformations and type inference.</p>
+            <pre><code>
+type Check<T> = T extends string ? 'String' : 'Not String';
+
+type Test1 = Check<string>; // 'String'
+type Test2 = Check<number>; // 'Not String'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How does `TypeScript` support `Type Guards` and what are their benefits?</h2>
+        <div class="answer">
+            <p>Type guards are techniques for narrowing down types based on conditions. They help to ensure type safety and enable better handling of different types.</p>
+            <pre><code>
+function isString(value: any): value is string {
+    return typeof value === 'string';
+}
+
+function process(value: string | number) {
+    if (isString(value)) {
+        console.log(value.toUpperCase());
+    } else {
+        console.log(value.toFixed(2));
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How can `TypeScript` handle `Template Literal Types` for creating types based on string patterns?</h2>
+        <div class="answer">
+            <p>Template literal types allow you to create types based on string templates, which can include placeholders and concatenation. They are useful for creating types based on dynamic string patterns.</p>
+            <pre><code>
+type Greeting = `Hello, ${string}`;
+
+const greet: Greeting = 'Hello, Alice'; // Valid
+const invalidGreet: Greeting = 'Hi, Alice'; // Error: Type '"Hi, Alice"' is not assignable to type 'Greeting'.
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

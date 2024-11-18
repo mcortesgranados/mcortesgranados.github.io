@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Method Overloading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Method Overloading</h1>
+    <p>Method overloading in C# allows you to define multiple methods with the same name but different parameter lists. This feature enables you to perform similar operations with different types or numbers of arguments using the same method name.</p>
+
+    <h2>1. Basics of Method Overloading</h2>
+    <p>To overload a method, you need to define multiple methods with the same name but different parameters. The method signature, which includes the method name and the parameter list, must be unique for each overloaded method.</p>
+
+    <h2>2. Example of Method Overloading</h2>
+    <p>Here's an example demonstrating method overloading with a method that calculates the area of different shapes:</p>
+    <pre><code>
+public class Calculator
+{
+    // Method to calculate the area of a rectangle
+    public int Area(int length, int width)
+    {
+        return length * width;
+    }
+
+    // Method to calculate the area of a square
+    public int Area(int side)
+    {
+        return side * side;
+    }
+
+    // Method to calculate the area of a circle
+    public double Area(double radius)
+    {
+        return Math.PI * radius * radius;
+    }
+}
+    </code></pre>
+
+    <h2>3. Using Overloaded Methods</h2>
+    <p>You can call overloaded methods based on the number and type of arguments passed. Here's how to use the <code>Area</code> methods defined above:</p>
+    <pre><code>
+public class Program
+{
+    public static void Main()
+    {
+        Calculator calc = new Calculator();
+
+        int rectangleArea = calc.Area(5, 10);
+        Console.WriteLine("Area of rectangle: " + rectangleArea);
+
+        int squareArea = calc.Area(4);
+        Console.WriteLine("Area of square: " + squareArea);
+
+        double circleArea = calc.Area(7.5);
+        Console.WriteLine("Area of circle: " + circleArea);
+    }
+}
+    </code></pre>
+
+    <h2>4. Key Points</h2>
+    <ul>
+        <li>Method overloading allows multiple methods with the same name but different parameter lists.</li>
+        <li>Each overloaded method must have a unique method signature (name and parameter list).</li>
+        <li>Overloaded methods can be differentiated by the number or type of parameters.</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Method overloading in C# enhances code readability and usability by allowing multiple methods to perform similar operations with different arguments. This feature helps in reducing code duplication and making your code more intuitive.</p>
+</body>
+</html>

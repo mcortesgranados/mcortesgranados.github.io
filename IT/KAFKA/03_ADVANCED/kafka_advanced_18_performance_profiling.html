@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Advanced: Performance Profiling</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        pre {
+            background: #eee;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            background: #f9f9f9;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .example-code {
+            background: #282c34;
+            color: #61dafb;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Kafka Advanced: Performance Profiling</h1>
+    </header>
+
+    <div class="container">
+        <section class="section">
+            <h2>Introduction to Performance Profiling in Kafka</h2>
+            <p>
+                Performance profiling in Apache Kafka involves analyzing the performance of Kafka brokers, producers, and consumers to identify bottlenecks and optimize throughput, latency, and resource usage. Effective profiling helps ensure that Kafka clusters operate efficiently and meet the performance requirements of applications.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>Key Performance Metrics</h2>
+            <p>
+                To profile Kafka performance effectively, you need to monitor several key metrics:
+            </p>
+            <ul>
+                <li><strong>Throughput:</strong> The rate at which messages are produced and consumed. Measured in bytes or messages per second.</li>
+                <li><strong>Latency:</strong> The time it takes for a message to travel from producer to consumer. Includes end-to-end latency and per-request latency.</li>
+                <li><strong>Resource Utilization:</strong> The amount of CPU, memory, and disk I/O used by Kafka brokers and clients.</li>
+                <li><strong>Disk Usage:</strong> The amount of disk space used by Kafka logs and the rate of log segment creation and deletion.</li>
+                <li><strong>Replication Lag:</strong> The delay between the leader and follower replicas for a partition.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Profiling Tools and Techniques</h2>
+            <h3>1. Kafka Metrics</h3>
+            <p>
+                Kafka exposes a wide range of metrics through JMX (Java Management Extensions). These metrics can be monitored using tools like JConsole, Prometheus, and Grafana.
+            </p>
+            <pre><code>
+# Example JMX metrics for Kafka
+kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec
+kafka.server:type=BrokerTopicMetrics,name=BytesInPerSec
+kafka.server:type=BrokerTopicMetrics,name=BytesOutPerSec
+            </code></pre>
+
+            <h3>2. JMX Monitoring with Prometheus</h3>
+            <p>
+                Prometheus can be used to scrape Kafka JMX metrics and visualize them in Grafana. You need to configure JMX exporter in Kafka and set up Prometheus scraping.
+            </p>
+            <pre><code>
+# JMX Exporter configuration
+---
+startDelaySeconds: 0
+hostPort: 0.0.0.0:9404
+jmxUrl: service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi
+rules:
+  - pattern: 'kafka.server<type=(.+), name=(.+)PerSec>'
+    name: kafka_$1_$2
+            </code></pre>
+
+            <h3>3. Kafka Tools</h3>
+            <p>
+                Kafka includes several built-in tools for performance analysis:
+            </p>
+            <ul>
+                <li><strong>kafka-run-class.sh:</strong> Use this script to run Kafka commands, such as producing and consuming messages.</li>
+                <li><strong>kafka-topics.sh:</strong> Provides information about topic configurations and partition states.</li>
+                <li><strong>kafka-consumer-groups.sh:</strong> Displays consumer group offsets and lag.</li>
+            </ul>
+
+            <h4>Example: Check Consumer Group Lag</h4>
+            <pre><code>
+# Check lag for a consumer group
+kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-consumer-group
+            </code></pre>
+
+            <h3>4. Profiling with Java Flight Recorder</h3>
+            <p>
+                Java Flight Recorder (JFR) is a profiling tool that can be used to analyze JVM performance, including Kafka brokers.
+            </p>
+            <pre><code>
+# Start JFR recording
+java -XX:StartFlightRecording=filename=myrecording.jfr -jar kafka_2.13-3.1.0.jar
+            </code></pre>
+
+            <h3>5. Custom Profiling Scripts</h3>
+            <p>
+                You can write custom scripts to collect and analyze performance metrics using Kafka’s APIs and monitoring tools.
+            </p>
+            <pre><code>
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.AdminClientConfig;
+import org.apache.kafka.clients.admin.ListTopicsResult;
+import java.util.Properties;
+
+public class KafkaMetricsCollector {
+    public static void main(String[] args) {
+        Properties properties = new Properties();
+        properties.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+
+        try (AdminClient adminClient = AdminClient.create(properties)) {
+            ListTopicsResult topics = adminClient.listTopics();
+            topics.listings().get().forEach(topic -> System.out.println("Topic: " + topic.name()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+            </code></pre>
+        </section>
+
+        <section class="section">
+            <h2>Performance Optimization Tips</h2>
+            <h3>1. Tuning Kafka Broker Configuration</h3>
+            <p>
+                Adjust Kafka broker settings to optimize performance:
+            </p>
+            <ul>
+                <li><strong>Replication Factor:</strong> Increase the replication factor to improve data durability and availability.</li>
+                <li><strong>Partition Count:</strong> Use more partitions to parallelize data processing and improve throughput.</li>
+                <li><strong>Log Segment Size:</strong> Configure log segment size based on your workload to balance disk I/O and performance.</li>
+                <li><strong>Memory Settings:</strong> Adjust heap size and other memory settings based on broker workload.</li>
+            </ul>
+
+            <h3>2. Optimizing Producer and Consumer Configuration</h3>
+            <p>
+                Tune producer and consumer settings to enhance performance:
+            </p>
+            <ul>
+                <li><strong>Producer Configuration:</strong> Adjust batch size, compression type, and acks settings to optimize throughput.</li>
+                <li><strong>Consumer Configuration:</strong> Tune fetch size, max.poll.records, and session timeout settings to improve consumption rates.</li>
+            </ul>
+
+            <h3>3. Resource Management</h3>
+            <p>
+                Ensure that Kafka brokers have adequate resources:
+            </p>
+            <ul>
+                <li><strong>Disk I/O:</strong> Use fast disks (e.g., SSDs) to handle high write and read throughput.</li>
+                <li><strong>Network Bandwidth:</strong> Provide sufficient network bandwidth to handle data transfer between brokers and clients.</li>
+                <li><strong>CPU and Memory:</strong> Allocate sufficient CPU and memory resources to handle Kafka's processing load.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Example Use Cases</h2>
+            <ul>
+                <li><strong>High-Throughput Data Ingestion:</strong> Optimizing Kafka brokers and producers to handle large volumes of incoming data efficiently.</li>
+                <li><strong>Low-Latency Messaging:</strong> Configuring Kafka and consumers to achieve minimal message delivery latency for real-time applications.</li>
+                <li><strong>Scaling Kafka Clusters:</strong> Profiling performance to determine the need for scaling Kafka clusters and optimizing resource allocation.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Conclusion</h2>
+            <p>
+                Performance profiling is crucial for ensuring that Apache Kafka operates efficiently and meets the needs of your applications. By monitoring key metrics, using profiling tools, and applying optimization techniques, you can enhance Kafka's performance and achieve better throughput, lower latency, and efficient resource utilization.
+            </p>
+        </section>
+    </div>
+</body>
+</html>

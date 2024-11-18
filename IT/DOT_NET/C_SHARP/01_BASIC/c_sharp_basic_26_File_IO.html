@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# File I/O</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# File I/O</h1>
+    <p>File I/O (Input/Output) in C# allows you to read from and write to files. C# provides several classes in the <code>System.IO</code> namespace to handle file operations.</p>
+    
+    <h2>1. Writing to a File</h2>
+    <p>You can write text to a file using the <code>StreamWriter</code> class. Here’s how to create and write to a file:</p>
+    <pre><code>
+    using System;
+    using System.IO;
+
+    class Program
+    {
+        static void Main()
+        {
+            // Define the file path
+            string filePath = "example.txt";
+
+            // Create and write to the file
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                writer.WriteLine("Hello, File!");
+                writer.WriteLine("This is a sample file.");
+            }
+
+            Console.WriteLine("File written successfully.");
+        }
+    }
+    </code></pre>
+    
+    <h2>2. Reading from a File</h2>
+    <p>To read text from a file, you can use the <code>StreamReader</code> class:</p>
+    <pre><code>
+    using System;
+    using System.IO;
+
+    class Program
+    {
+        static void Main()
+        {
+            // Define the file path
+            string filePath = "example.txt";
+
+            // Read from the file
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                string content = reader.ReadToEnd();
+                Console.WriteLine("File content:");
+                Console.WriteLine(content);
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Checking File Existence</h2>
+    <p>Before performing file operations, it is good practice to check if the file exists using <code>File.Exists()</code>:</p>
+    <pre><code>
+    using System;
+    using System.IO;
+
+    class Program
+    {
+        static void Main()
+        {
+            string filePath = "example.txt";
+
+            if (File.Exists(filePath))
+            {
+                Console.WriteLine("File exists.");
+            }
+            else
+            {
+                Console.WriteLine("File does not exist.");
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Appending to a File</h2>
+    <p>If you want to add data to an existing file without overwriting its content, you can use the <code>StreamWriter</code> with the append parameter set to <code>true</code>:</p>
+    <pre><code>
+    using System;
+    using System.IO;
+
+    class Program
+    {
+        static void Main()
+        {
+            string filePath = "example.txt";
+
+            // Append to the file
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                writer.WriteLine("Appending new line to the file.");
+            }
+
+            Console.WriteLine("File appended successfully.");
+        }
+    }
+    </code></pre>
+    
+    <h2>5. Key Points</h2>
+    <ul>
+        <li><strong>StreamWriter</strong> is used for writing text to files.</li>
+        <li><strong>StreamReader</strong> is used for reading text from files.</li>
+        <li><strong>File.Exists()</strong> checks if a file exists before performing operations.</li>
+        <li><strong>Appending</strong> data to a file can be done by passing <code>true</code> to the <code>StreamWriter</code> constructor.</li>
+    </ul>
+</body>
+</html>

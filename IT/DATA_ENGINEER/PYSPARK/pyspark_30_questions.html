@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PySpark Intermediate to Advanced Questions and Answers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h2 {
+            color: #0056b3;
+        }
+        pre {
+            background-color: #f7f7f7;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: auto;
+        }
+        code {
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+    <h1>PySpark Intermediate to Advanced Questions and Answers</h1>
+
+    <h2>1. How do you create a PySpark DataFrame from a Python dictionary?</h2>
+    <p>
+        You can create a DataFrame using <code>createDataFrame()</code> method from a list of dictionaries.
+    </p>
+    <pre><code>from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("Example").getOrCreate()
+
+data = [{"name": "Alice", "age": 29}, {"name": "Bob", "age": 30}]
+df = spark.createDataFrame(data)
+
+df.show()</code></pre>
+
+    <h2>2. How can you add a new column to a PySpark DataFrame based on conditions?</h2>
+    <p>Using the <code>withColumn()</code> method and <code>when</code> function from <code>pyspark.sql.functions</code>.</p>
+    <pre><code>from pyspark.sql.functions import when
+
+df = df.withColumn("age_category", when(df.age > 30, "Senior").otherwise("Junior"))
+df.show()</code></pre>
+
+    <h2>3. How do you remove duplicates from a PySpark DataFrame?</h2>
+    <p>Use the <code>dropDuplicates()</code> method.</p>
+    <pre><code>df.dropDuplicates().show()</code></pre>
+
+    <h2>4. How can you join two DataFrames in PySpark?</h2>
+    <p>Use the <code>join()</code> method to perform joins between DataFrames.</p>
+    <pre><code>df1 = spark.createDataFrame([("Alice", 29), ("Bob", 30)], ["name", "age"])
+df2 = spark.createDataFrame([("Alice", "NY"), ("Bob", "LA")], ["name", "city"])
+
+joined_df = df1.join(df2, on="name", how="inner")
+joined_df.show()</code></pre>
+
+    <h2>5. How do you filter rows in a PySpark DataFrame?</h2>
+    <p>Use the <code>filter()</code> method.</p>
+    <pre><code>df.filter(df.age > 30).show()</code></pre>
+
+    <h2>6. How can you calculate the average value of a column in PySpark?</h2>
+    <p>Use the <code>agg()</code> and <code>avg()</code> functions.</p>
+    <pre><code>from pyspark.sql.functions import avg
+
+df.agg(avg("age")).show()</code></pre>
+
+    <h2>7. How do you convert a PySpark DataFrame to a Pandas DataFrame?</h2>
+    <p>Use the <code>toPandas()</code> method.</p>
+    <pre><code>pandas_df = df.toPandas()</code></pre>
+
+    <h2>8. How do you cache a DataFrame in PySpark?</h2>
+    <p>Use the <code>cache()</code> method.</p>
+    <pre><code>df.cache()</code></pre>
+
+    <h2>9. How do you repartition a PySpark DataFrame?</h2>
+    <p>Use the <code>repartition()</code> method.</p>
+    <pre><code>df = df.repartition(5)</code></pre>
+
+    <h2>10. How do you group data in PySpark?</h2>
+    <p>Use the <code>groupBy()</code> method followed by aggregation functions.</p>
+    <pre><code>df.groupBy("age").count().show()</code></pre>
+
+    <h2>11. How do you sort a PySpark DataFrame?</h2>
+    <p>Use the <code>orderBy()</code> method.</p>
+    <pre><code>df.orderBy(df.age.desc()).show()</code></pre>
+
+    <h2>12. How do you drop a column in PySpark?</h2>
+    <p>Use the <code>drop()</code> method.</p>
+    <pre><code>df = df.drop("age")</code></pre>
+
+    <h2>13. How can you read a CSV file in PySpark?</h2>
+    <p>Use the <code>read.csv()</code> method.</p>
+    <pre><code>df = spark.read.csv("file.csv", header=True, inferSchema=True)</code></pre>
+
+    <h2>14. How do you write a DataFrame to a Parquet file?</h2>
+    <p>Use the <code>write.parquet()</code> method.</p>
+    <pre><code>df.write.parquet("output.parquet")</code></pre>
+
+    <h2>15. How do you use window functions in PySpark?</h2>
+    <p>Use <code>Window</code> from <code>pyspark.sql.window</code> for windowed operations.</p>
+    <pre><code>from pyspark.sql.window import Window
+from pyspark.sql.functions import row_number
+
+windowSpec = Window.partitionBy("age").orderBy("name")
+df = df.withColumn("row_num", row_number().over(windowSpec))
+df.show()</code></pre>
+
+    <h2>16. How do you handle missing data in PySpark?</h2>
+    <p>Use the <code>dropna()</code> or <code>fillna()</code> methods.</p>
+    <pre><code>df.dropna().show()
+df.fillna({"age": 0}).show()</code></pre>
+
+    <h2>17. How do you union two DataFrames in PySpark?</h2>
+    <p>Use the <code>union()</code> method.</p>
+    <pre><code>df1.union(df2).show()</code></pre>
+
+    <h2>18. How do you pivot a DataFrame in PySpark?</h2>
+    <p>Use the <code>pivot()</code> method.</p>
+    <pre><code>df.groupBy("name").pivot("age").count().show()</code></pre>
+
+    <h2>19. How do you run SQL queries on a PySpark DataFrame?</h2>
+    <p>First, register the DataFrame as a table, then use the <code>sql()</code> method.</p>
+    <pre><code>df.createOrReplaceTempView("people")
+spark.sql("SELECT * FROM people WHERE age > 30").show()</code></pre>
+
+    <h2>20. How do you broadcast a variable in PySpark?</h2>
+    <p>Use <code>SparkContext.broadcast()</code> to broadcast variables to executors.</p>
+    <pre><code>broadcastVar = spark.sparkContext.broadcast([1, 2, 3])
+broadcastVar.value</code></pre>
+
+    <h2>21. How do you convert RDD to DataFrame in PySpark?</h2>
+    <p>Use <code>createDataFrame()</code> method.</p>
+    <pre><code>rdd = spark.sparkContext.parallelize([(1, "Alice"), (2, "Bob")])
+df = spark.createDataFrame(rdd, ["id", "name"])
+df.show()</code></pre>
+
+    <h2>22. How do you calculate the correlation between two columns in PySpark?</h2>
+    <p>Use the <code>corr()</code> method.</p>
+    <pre><code>df.stat.corr("age", "salary")</code></pre>
+
+    <h2>23. How do you change the data type of a column in PySpark?</h2>
+    <p>Use the <code>cast()</code> method.</p>
+    <pre><code>df = df.withColumn("age", df["age"].cast("integer"))</code></pre>
+
+    <h2>24. How do you split a column into multiple columns in PySpark?</h2>
+    <p>Use the <code>split()</code> function.</p>
+    <pre><code>from pyspark.sql.functions import split
+
+df = df.withColumn("name_split", split(df["name"], " "))
+df.show()</code></pre>
+
+    <h2>25. How do you apply user-defined functions (UDFs) in PySpark?</h2>
+    <p>Use <code>pyspark.sql.functions.udf</code> to define UDFs.</p>
+    <pre><code>from pyspark.sql.functions import udf
+from pyspark.sql.types import IntegerType
+
+def square(x):
+    return x * x
+
+square_udf = udf(square, IntegerType())
+df = df.withColumn("age_squared", square_udf(df["age"]))
+df.show()</code></pre>
+
+    <h2>26. How can you calculate the running total in PySpark?</h2>
+    <p>Use <code>Window</code> function with <code>rowsBetween()</code>.</p>
+    <pre><code>from pyspark.sql.window import Window
+from pyspark.sql.functions import sum
+
+windowSpec = Window.orderBy("age").rowsBetween(Window.unboundedPreceding, Window.currentRow)
+df = df.withColumn("running_total", sum("age").over(windowSpec))
+df.show()</code></pre>
+
+    <h2>27. How do you collect DataFrame rows into a Python list?</h2>
+    <p>Use the <code>collect()</code> method.</p>
+    <pre><code>rows = df.collect()</code></pre>
+
+    <h2>28. How do you broadcast a DataFrame in PySpark?</h2>
+    <p>Use <code>broadcast()</code> from <code>pyspark.sql.functions</code>.</p>
+    <pre><code>from pyspark.sql.functions import broadcast
+
+broadcasted_df = broadcast(df)</code></pre>
+
+    <h2>29. How do you find the top N records in a PySpark DataFrame?</h2>
+    <p>Use the <code>limit()</code> method.</p>
+    <pre><code>df.orderBy(df.age.desc()).limit(5).show()</code></pre>
+
+    <h2>30. How do you perform a left anti join in PySpark?</h2>
+    <p>Use the <code>join()</code> method with <code>how="left_anti"</code>.</p>
+    <pre><code>df1.join(df2, on="name", how="left_anti").show()</code></pre>
+
+</body>
+</html>

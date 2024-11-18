@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Intermediate Level Questions Part 17</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .question { margin: 20px 0; }
+        .answer { margin-left: 20px; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Angular Intermediate Level Questions - Part 17</h1>
+
+    <div id="questions">
+
+        <div class="question">
+            <h2>1. How do you use Angular's `ngSwitch` directive to conditionally display content?</h2>
+            <div class="answer">
+                <p>`ngSwitch` allows you to conditionally display content based on an expression.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-switch',
+    template: `
+        <div [ngSwitch]="color">
+            <p *ngSwitchCase="'red'">Red</p>
+            <p *ngSwitchCase="'green'">Green</p>
+            <p *ngSwitchDefault>Default</p>
+        </div>
+    `
+})
+export class SwitchComponent {
+    color = 'green';
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>2. How do you use Angular's `ngIf` with `then` to handle conditional templates?</h2>
+            <div class="answer">
+                <p>`ngIf` with `then` allows you to specify a template to display when the condition is true.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-if-then',
+    template: `
+        <ng-container *ngIf="isVisible; then thenBlock; else elseBlock"></ng-container>
+        <ng-template #thenBlock>
+            <p>Visible</p>
+        </ng-template>
+        <ng-template #elseBlock>
+            <p>Not Visible</p>
+        </ng-template>
+    `
+})
+export class IfThenComponent {
+    isVisible = true;
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>3. How do you use Angular's `ngFor` to iterate over objects?</h2>
+            <div class="answer">
+                <p>`ngFor` can be used to iterate over objects and access their properties.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-for-object',
+    template: `
+        <ul>
+            <li *ngFor="let key of objectKeys(myObject)">
+                {{ key }}: {{ myObject[key] }}
+            </li>
+        </ul>
+    `
+})
+export class ForObjectComponent {
+    myObject = { name: 'Alice', age: 30, city: 'New York' };
+
+    objectKeys(obj: any) {
+        return Object.keys(obj);
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>4. How do you use Angular's `@Injectable` decorator to create a service with a custom provider?</h2>
+            <div class="answer">
+                <p>`@Injectable` can be used with custom providers to configure service injection.</p>
+                <pre><code>
+import { Injectable, InjectionToken } from '@angular/core';
+
+export const API_URL = new InjectionToken<string>('apiUrl');
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ApiService {
+    constructor(@Inject(API_URL) private apiUrl: string) {}
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>5. How do you use Angular's `@ViewChild` with static options to access child components?</h2>
+            <div class="answer">
+                <p>`@ViewChild` with `static: true` allows access to child components before the view initialization.</p>
+                <pre><code>
+import { Component, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+
+@Component({
+    selector: 'app-static-view-child',
+    template: `
+        <div #content>Static View Child Content</div>
+    `
+})
+export class StaticViewChildComponent implements AfterViewInit {
+    @ViewChild('content', { static: true }) content!: ElementRef;
+
+    ngAfterViewInit() {
+        console.log(this.content.nativeElement.textContent);
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>6. How do you use Angular's `@Output` with `EventEmitter` to emit custom events?</h2>
+            <div class="answer">
+                <p>`@Output` with `EventEmitter` allows you to emit custom events from a child component.</p>
+                <pre><code>
+import { Component, Output, EventEmitter } from '@angular/core';
+
+@Component({
+    selector: 'app-output',
+    template: `
+        <button (click)="notifyParent()">Notify Parent</button>
+    `
+})
+export class OutputComponent {
+    @Output() notify = new EventEmitter<string>();
+
+    notifyParent() {
+        this.notify.emit('Hello from child!');
+    }
+}
+
+@Component({
+    selector: 'app-parent',
+    template: `
+        <app-output (notify)="handleNotification($event)"></app-output>
+        <p>{{ message }}</p>
+    `
+})
+export class ParentComponent {
+    message = '';
+
+    handleNotification(msg: string) {
+        this.message = msg;
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>7. How do you use Angular's `NgModule` with lazy loading to load modules on demand?</h2>
+            <div class="answer">
+                <p>Lazy loading is implemented using the `loadChildren` property in the route configuration.</p>
+                <pre><code>
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+    { path: 'lazy', loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule) }
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule {}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>8. How do you use Angular's `NgZone` to manage change detection manually?</h2>
+            <div class="answer">
+                <p>`NgZone` allows you to manage Angular's change detection manually.</p>
+                <pre><code>
+import { Component, NgZone } from '@angular/core';
+
+@Component({
+    selector: 'app-zone',
+    template: `<p>Zone Component</p>`
+})
+export class ZoneComponent {
+    constructor(private ngZone: NgZone) {}
+
+    runOutsideAngular() {
+        this.ngZone.runOutsideAngular(() => {
+            // Code running outside Angular's zone
+            console.log('Running outside Angular zone');
+            setTimeout(() => {
+                this.ngZone.run(() => {
+                    console.log('Running inside Angular zone');
+                });
+            }, 1000);
+        });
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>9. How do you use Angular's `ChangeDetectorRef` to trigger change detection?</h2>
+            <div class="answer">
+                <p>`ChangeDetectorRef` is used to manually trigger change detection.</p>
+                <pre><code>
+import { Component, ChangeDetectorRef } from '@angular/core';
+
+@Component({
+    selector: 'app-change-detector',
+    template: `<p>Change Detector Component</p>`
+})
+export class ChangeDetectorComponent {
+    constructor(private cdr: ChangeDetectorRef) {}
+
+    triggerChangeDetection() {
+        this.cdr.detectChanges();
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>10. How do you use Angular's `@HostBinding` to bind properties to the host element?</h2>
+            <div class="answer">
+                <p>`@HostBinding` allows you to bind properties to the host element of a directive or component.</p>
+                <pre><code>
+import { Directive, HostBinding } from '@angular/core';
+
+@Directive({
+    selector: '[appHostBinding]'
+})
+export class HostBindingDirective {
+    @HostBinding('class.active') isActive = true;
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>11. How do you use Angular's `@HostListener` to listen to events on the host element?</h2>
+            <div class="answer">
+                <p>`@HostListener` is used to listen to events on the host element.</p>
+                <pre><code>
+import { Directive, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appHostListener]'
+})
+export class HostListenerDirective {
+    @HostListener('click', ['$event'])
+    onClick(event: Event) {
+        console.log('Host element clicked', event);
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>12. How do you use Angular's `@Input` and `@Output` decorators together to pass data between components?</h2>
+            <div class="answer">
+                <p>`@Input` is used to pass data to a child component, while `@Output` is used to emit events from the child component.</p>
+                <pre><code>
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+    selector: 'app-child',
+    template: `
+        <p>{{ data }}</p>
+        <button (click)="notifyParent()">Notify Parent</button>
+    `
+})
+export class ChildComponent {
+    @Input() data!: string;
+    @Output() notify = new EventEmitter<void>();
+
+    notifyParent() {
+        this.notify.emit();
+    }
+}
+
+@Component({
+    selector: 'app-parent',
+    template: `
+        <app-child [data]="parentData" (notify)="handleNotification()"></app-child>
+        <p>{{ message }}</p>
+    `
+})
+export class ParentComponent {
+    parentData = 'Data from parent';
+    message = '';
+
+    handleNotification() {
+        this.message = 'Child component notified!';
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>13. How do you use Angular's `Router` to handle route parameters?</h2>
+            <div class="answer">
+                <p>The `Router` allows you to handle route parameters using route configuration and activated route service.</p>
+                <pre><code>
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+    selector: 'app-route-param',
+    template: `<p>Route Param: {{ id }}</p>`
+})
+export class RouteParamComponent implements OnInit {
+    id!: string;
+
+    constructor(private route: ActivatedRoute) {}
+
+    ngOnInit() {
+        this.route.paramMap.subscribe(params => {
+            this.id = params.get('id') || '';
+        });
+    }
+}
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { RouteParamComponent } from './route-param.component';
+
+const routes: Routes = [
+    { path: 'param/:id', component: RouteParamComponent }
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule {}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>14. How do you use Angular's `Router` to define route guards?</h2>
+            <div class="answer">
+                <p>Route guards are used to control access to routes based on conditions.</p>
+                <pre><code>
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+    constructor(private router: Router) {}
+
+    canActivate(): boolean {
+        const isLoggedIn = false; // Replace with real authentication check
+        if (!isLoggedIn) {
+            this.router.navigate(['/login']);
+            return false;
+        }
+        return true;
+    }
+}
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth.guard';
+import { HomeComponent } from './home.component';
+import { LoginComponent } from './login.component';
+
+const routes: Routes = [
+    { path: '', component: HomeComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'protected', component: ProtectedComponent, canActivate: [AuthGuard] }
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule {}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>15. How do you use Angular's `NgModule` to define module dependencies?</h2>
+            <div class="answer">
+                <p>Module dependencies are defined using the `imports` array in the `@NgModule` decorator.</p>
+                <pre><code>
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+@NgModule({
+    imports: [CommonModule, FormsModule],
+    declarations: [SomeComponent],
+    exports: [SomeComponent]
+})
+export class SomeModule {}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>16. How do you use Angular's `@Component` decorator to configure component metadata?</h2>
+            <div class="answer">
+                <p>The `@Component` decorator is used to configure metadata such as selector, template, and styles.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    template: `<p>Example Component</p>`,
+    styles: [`p { color: blue; }`]
+})
+export class ExampleComponent {}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>17. How do you use Angular's `@NgModule` to create a feature module?</h2>
+            <div class="answer">
+                <p>A feature module is created using `@NgModule` to group related components, directives, and services.</p>
+                <pre><code>
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FeatureComponent } from './feature.component';
+
+@NgModule({
+    imports: [CommonModule],
+    declarations: [FeatureComponent],
+    exports: [FeatureComponent]
+})
+export class FeatureModule {}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>18. How do you use Angular's `@Inject` to inject dependencies into a service?</h2>
+            <div class="answer">
+                <p>`@Inject` is used to specify a custom provider for dependency injection.</p>
+                <pre><code>
+import { Injectable, Inject } from '@angular/core';
+
+export const API_URL = new InjectionToken<string>('apiUrl');
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ApiService {
+    constructor(@Inject(API_URL) private apiUrl: string) {}
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>19. How do you use Angular's `@NgModule` to define module imports and providers?</h2>
+            <div class="answer">
+                <p>Module imports and providers are defined using the `imports` and `providers` arrays in `@NgModule`.</p>
+                <pre><code>
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SomeService } from './some.service';
+
+@NgModule({
+    imports: [CommonModule],
+    providers: [SomeService]
+})
+export class SharedModule {}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>20. How do you use Angular's `@Component` to define component templates and styles?</h2>
+            <div class="answer">
+                <p>The `@Component` decorator defines component templates and styles using `template` and `styles` properties.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    template: `<div>Hello World</div>`,
+    styles: [`div { color: red; }`]
+})
+export class ExampleComponent {}
+                </code></pre>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

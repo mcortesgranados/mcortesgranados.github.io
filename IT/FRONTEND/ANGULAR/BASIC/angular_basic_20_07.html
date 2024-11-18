@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Angular Questions - Part 7</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Basic Angular Questions - Part 7</h1>
+
+    <div class="question">
+        <h2>1. What is Angular's `ngModel` directive used for?</h2>
+        <div class="answer">
+            <p>The `ngModel` directive is used for two-way data binding between form input fields and component properties.</p>
+            <pre><code>
+<input [(ngModel)]="name" />
+<p>Hello {{ name }}</p>
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How do you define a custom Angular pipe?</h2>
+        <div class="answer">
+            <p>A custom pipe is defined by using the `@Pipe` decorator and implementing the `PipeTransform` interface.</p>
+            <pre><code>
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'reverse'
+})
+export class ReversePipe implements PipeTransform {
+    transform(value: string): string {
+        return value.split('').reverse().join('');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. What is Angular's `ngFor` directive used for?</h2>
+        <div class="answer">
+            <p>The `ngFor` directive is used to repeat a template for each item in a list or array.</p>
+            <pre><code>
+<ul>
+    <li *ngFor="let item of items">{{ item }}</li>
+</ul>
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you use Angular's `ngClass` directive?</h2>
+        <div class="answer">
+            <p>The `ngClass` directive is used to dynamically add or remove CSS classes based on the expression.</p>
+            <pre><code>
+<div [ngClass]="{ 'highlight': isHighlighted, 'bold': isBold }">
+    Styled text
+</div>
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. What is the purpose of Angular's `@Output` decorator?</h2>
+        <div class="answer">
+            <p>The `@Output` decorator is used to define an event that a child component can emit to its parent component.</p>
+            <pre><code>
+import { Component, EventEmitter, Output } from '@angular/core';
+
+@Component({
+    selector: 'app-child',
+    template: `<button (click)="sendMessage()">Send</button>`
+})
+export class ChildComponent {
+    @Output() message = new EventEmitter<string>();
+
+    sendMessage() {
+        this.message.emit('Hello from child');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you bind an Angular component property to an HTML element attribute?</h2>
+        <div class="answer">
+            <p>You can bind a component property to an HTML element attribute using property binding syntax with square brackets.</p>
+            <pre><code>
+<img [src]="imageUrl" />
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. What is Angular's `ngIf` directive used for?</h2>
+        <div class="answer">
+            <p>The `ngIf` directive is used to conditionally include or exclude elements from the DOM based on a boolean expression.</p>
+            <pre><code>
+<div *ngIf="isVisible">Content is visible</div>
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you use Angular's `@ViewChild` decorator to access a child component?</h2>
+        <div class="answer">
+            <p>The `@ViewChild` decorator is used to access a child component or element within the component's template.</p>
+            <pre><code>
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+    selector: 'app-parent',
+    template: `<app-child></app-child>`
+})
+export class ParentComponent implements AfterViewInit {
+    @ViewChild(ChildComponent) child: ChildComponent;
+
+    ngAfterViewInit() {
+        console.log(this.child);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. What is Angular's `@Injectable` decorator used for?</h2>
+        <div class="answer">
+            <p>The `@Injectable` decorator is used to mark a class as available for dependency injection.</p>
+            <pre><code>
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class MyService {
+    getValue() {
+        return 'Service value';
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you create a reactive form in Angular?</h2>
+        <div class="answer">
+            <p>Reactive forms are created using the `FormBuilder` service to construct the form model and its controls.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+    selector: 'app-reactive-form',
+    template: `
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <input formControlName="name" />
+        <button type="submit">Submit</button>
+    </form>
+    `
+})
+export class ReactiveFormComponent {
+    form: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            name: ['', Validators.required]
+        });
+    }
+
+    onSubmit() {
+        console.log(this.form.value);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. What is the role of the `app.module.ts` file in an Angular application?</h2>
+        <div class="answer">
+            <p>The `app.module.ts` file defines the root module of the application, including the components, directives, pipes, and services that are used throughout the app.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+
+@NgModule({
+    declarations: [AppComponent],
+    imports: [BrowserModule],
+    providers: [],
+    bootstrap: [AppComponent]
+})
+export class AppModule {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you handle events in Angular?</h2>
+        <div class="answer">
+            <p>Events are handled using Angular's event binding syntax, with parentheses around the event name.</p>
+            <pre><code>
+<button (click)="handleClick()">Click me</button>
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use Angular's `ngSwitch` directive?</h2>
+        <div class="answer">
+            <p>The `ngSwitch` directive is used to conditionally display elements based on the value of an expression.</p>
+            <pre><code>
+<div [ngSwitch]="value">
+    <p *ngSwitchCase="'case1'">Case 1</p>
+    <p *ngSwitchCase="'case2'">Case 2</p>
+    <p *ngSwitchDefault>Default case</p>
+</div>
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you define Angular routes with child routes?</h2>
+        <div class="answer">
+            <p>Child routes are defined within the `children` property of a route configuration object.</p>
+            <pre><code>
+const routes: Routes = [
+    { path: 'parent', component: ParentComponent, children: [
+        { path: 'child', component: ChildComponent }
+    ]}
+];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. What is Angular's `@OnChanges` lifecycle hook used for?</h2>
+        <div class="answer">
+            <p>The `@OnChanges` lifecycle hook is used to respond to changes in input properties of the component.</p>
+            <pre><code>
+import { Component, OnChanges, SimpleChanges, Input } from '@angular/core';
+
+@Component({
+    selector: 'app-changes',
+    template: '<p>{{ data }}</p>'
+})
+export class ChangesComponent implements OnChanges {
+    @Input() data: string;
+
+    ngOnChanges(changes: SimpleChanges) {
+        console.log('Changes:', changes);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you create a custom Angular directive?</h2>
+        <div class="answer">
+            <p>A custom directive is created using the `@Directive` decorator and can be applied to elements or components.</p>
+            <pre><code>
+import { Directive, ElementRef, Renderer2 } from '@angular/core';
+
+@Directive({
+    selector: '[appHighlight]'
+})
+export class HighlightDirective {
+    constructor(private el: ElementRef, private renderer: Renderer2) {
+        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'yellow');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. What is Angular's `@Inject` decorator used for?</h2>
+        <div class="answer">
+            <p>The `@Inject` decorator is used to specify a provider for dependency injection when the provider cannot be inferred automatically.</p>
+            <pre><code>
+import { Injectable, Inject } from '@angular/core';
+import { SOME_TOKEN } from './some-token';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class MyService {
+    constructor(@Inject(SOME_TOKEN) private someValue: string) {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use Angular's `ngFor` directive with index?</h2>
+        <div class="answer">
+            <p>The `ngFor` directive can also provide the index of the current item in the iteration.</p>
+            <pre><code>
+<ul>
+    <li *ngFor="let item of items; let i = index">{{ i + 1 }}: {{ item }}</li>
+</ul>
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. What is Angular's `@HostBinding` decorator used for?</h2>
+        <div class="answer">
+            <p>The `@HostBinding` decorator is used to bind a property of the directive or component to a property of the host element.</p>
+            <pre><code>
+import { Directive, HostBinding } from '@angular/core';
+
+@Directive({
+    selector: '[appColor]'
+})
+export class ColorDirective {
+    @HostBinding('style.color') color = 'blue';
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `@ViewChildren` decorator?</h2>
+        <div class="answer">
+            <p>The `@ViewChildren` decorator is used to query multiple child elements or components in the template.</p>
+            <pre><code>
+import { Component, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+    selector: 'app-parent',
+    template: `<app-child></app-child><app-child></app-child>`
+})
+export class ParentComponent implements AfterViewInit {
+    @ViewChildren(ChildComponent) children: QueryList<ChildComponent>;
+
+    ngAfterViewInit() {
+        this.children.forEach(child => console.log(child));
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

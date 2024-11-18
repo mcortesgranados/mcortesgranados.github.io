@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseño de Servicios API REST</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+            color: #d63384;
+        }
+        .question {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Diseño de Servicios API REST</h1>
+
+    <div class="question">
+        <h2>1. ¿Qué es una API REST?</h2>
+        <p>Una API REST (Representational State Transfer) es un estilo arquitectónico que utiliza HTTP para interactuar con recursos en la web. Las APIs REST emplean métodos HTTP estándar como GET, POST, PUT y DELETE para realizar operaciones sobre los recursos.</p>
+    </div>
+
+    <div class="question">
+        <h2>2. ¿Cuáles son los principios fundamentales de REST?</h2>
+        <p>Los principios fundamentales de REST incluyen: el uso de métodos HTTP para operaciones CRUD, la identificación de recursos mediante URLs, la representación de recursos en formatos como JSON o XML, y el uso de hipermedios para la navegación.</p>
+    </div>
+
+    <div class="question">
+        <h2>3. ¿Qué es una URL RESTful?</h2>
+        <p>Una URL RESTful es una dirección que identifica un recurso de manera única en la web. Debe ser descriptiva y estructurada jerárquicamente para reflejar la relación entre recursos. Por ejemplo, <code>/usuarios/{id}</code> identifica un usuario específico.</p>
+    </div>
+
+    <div class="question">
+        <h2>4. ¿Cómo se utilizan los métodos HTTP en REST?</h2>
+        <p>En REST, los métodos HTTP se utilizan para definir las operaciones sobre los recursos: <code>GET</code> para recuperar recursos, <code>POST</code> para crear nuevos recursos, <code>PUT</code> para actualizar recursos existentes y <code>DELETE</code> para eliminar recursos.</p>
+    </div>
+
+    <div class="question">
+        <h2>5. ¿Qué es el principio de "stateless" en REST?</h2>
+        <p>El principio de "stateless" significa que cada solicitud al servidor debe contener toda la información necesaria para procesarla. El servidor no debe mantener estado entre solicitudes, lo que facilita la escalabilidad y la simplicidad.</p>
+    </div>
+
+    <div class="question">
+        <h2>6. ¿Qué es el "versionado" en una API REST y por qué es importante?</h2>
+        <p>El "versionado" permite realizar cambios en una API sin romper la compatibilidad con clientes existentes. Es importante para mantener la estabilidad mientras se introducen nuevas características o se realizan modificaciones. Se puede implementar en la URL, en los encabezados o en los parámetros de consulta.</p>
+    </div>
+
+    <div class="question">
+        <h2>7. ¿Cómo se implementa la paginación en una API REST?</h2>
+        <p>La paginación en una API REST se implementa mediante parámetros de consulta que especifican el número de página y el tamaño de la página, como <code>?page=2&size=10</code>. Esto permite manejar grandes conjuntos de datos sin cargar todos los resultados de una sola vez.</p>
+    </div>
+
+    <div class="question">
+        <h2>8. ¿Qué son los códigos de estado HTTP y cómo se utilizan en REST?</h2>
+        <p>Los códigos de estado HTTP son respuestas estándar que indican el resultado de una solicitud. En REST, se utilizan para informar sobre el éxito o el fracaso de las operaciones: <code>200 OK</code> para éxito, <code>404 Not Found</code> para recurso no encontrado, y <code>500 Internal Server Error</code> para errores del servidor.</p>
+    </div>
+
+    <div class="question">
+        <h2>9. ¿Qué es un "endpoint" en una API REST?</h2>
+        <p>Un "endpoint" es una URL específica a la que se envían las solicitudes para acceder a un recurso o realizar una operación. Cada endpoint representa una acción o un recurso particular en la API.</p>
+    </div>
+
+    <div class="question">
+        <h2>10. ¿Cómo se asegura la seguridad en una API REST?</h2>
+        <p>La seguridad en una API REST se asegura mediante técnicas como la autenticación (por ejemplo, mediante tokens JWT o OAuth), autorización (control de acceso basado en roles), y cifrado (HTTPS para proteger los datos en tránsito).</p>
+    </div>
+
+    <div class="question">
+        <h2>11. ¿Qué es el "cacheo" en una API REST y cómo se implementa?</h2>
+        <p>El "cacheo" mejora el rendimiento almacenando respuestas de solicitudes para evitar procesarlas nuevamente. Se puede implementar mediante encabezados HTTP como <code>Cache-Control</code> y <code>ETag</code>, que permiten controlar y validar el almacenamiento en caché.</p>
+    </div>
+
+    <div class="question">
+        <h2>12. ¿Qué es el principio de "HATEOAS" en REST?</h2>
+        <p>El principio de "HATEOAS" (Hypermedia as the Engine of Application State) implica que las respuestas de la API deben incluir enlaces a recursos relacionados. Esto permite a los clientes navegar por la API de manera dinámica siguiendo los enlaces proporcionados.</p>
+    </div>
+
+    <div class="question">
+        <h2>13. ¿Cómo se maneja la validación de datos en una API REST?</h2>
+        <p>La validación de datos en una API REST se realiza mediante la comprobación de los datos de entrada para asegurar que cumplan con los requisitos esperados. Esto se puede hacer a nivel de servidor, utilizando esquemas de validación o bibliotecas especializadas.</p>
+    </div>
+
+    <div class="question">
+        <h2>14. ¿Qué son los "modelos de datos" en el diseño de APIs REST?</h2>
+        <p>Los "modelos de datos" representan la estructura de los recursos que la API maneja. Definen cómo se organizan los datos y cómo se relacionan entre sí, facilitando el mapeo entre los datos de la base de datos y las respuestas de la API.</p>
+    </div>
+
+    <div class="question">
+        <h2>15. ¿Cómo se realiza el manejo de errores en una API REST?</h2>
+        <p>El manejo de errores en una API REST se realiza mediante la devolución de códigos de estado HTTP apropiados y mensajes de error descriptivos en el cuerpo de la respuesta. Esto ayuda a los clientes a entender y manejar los errores de manera adecuada.</p>
+    </div>
+
+    <div class="question">
+        <h2>16. ¿Qué es el "principio de separación de recursos" en REST?</h2>
+        <p>El principio de separación de recursos implica que cada recurso en la API debe tener una URL única y bien definida. Los recursos deben ser accesibles a través de sus URLs y deben representarse de manera independiente de la implementación.</p>
+    </div>
+
+    <div class="question">
+        <h2>17. ¿Cómo se implementa la autenticación en una API REST?</h2>
+        <p>La autenticación en una API REST se implementa mediante métodos como la autenticación básica (username y password), autenticación basada en tokens (JWT, OAuth), o mediante el uso de certificados SSL/TLS para validar la identidad del cliente.</p>
+    </div>
+
+    <div class="question">
+        <h2>18. ¿Qué es el "principio de diseño en capas" en una API REST?</h2>
+        <p>El "principio de diseño en capas" sugiere que la arquitectura de la API se divida en capas separadas, como la capa de presentación, la capa de servicio y la capa de persistencia. Cada capa tiene responsabilidades específicas y se comunica con las demás a través de interfaces bien definidas.</p>
+    </div>
+
+    <div class="question">
+        <h2>19. ¿Cómo se maneja el versionado en una API REST?</h2>
+        <p>El versionado se maneja mediante la inclusión de un número de versión en la URL de la API (por ejemplo, <code>/api/v1/usuarios</code>), en los encabezados de la solicitud o en los parámetros de consulta. Esto permite realizar cambios en la API sin afectar a los clientes existentes.</p>
+    </div>
+
+    <div class="question">
+        <h2>20. ¿Qué es el "principio de representación de recursos" en REST?</h2>
+        <p>El "principio de representación de recursos" indica que los recursos deben representarse en formatos estandarizados, como JSON o XML. Esto asegura que los datos sean comprensibles y procesables por diferentes clientes y sistemas.</p>
+    </div>
+
+    <div class="question">
+        <h2>21. ¿Cómo se implementa el "enrutamiento" en una API REST?</h2>
+        <p>El "enrutamiento" se implementa mediante la definición de rutas en la API que mapean las solicitudes HTTP a los métodos correspondientes en el código del servidor. Las rutas se configuran para manejar diferentes operaciones sobre los recursos.</p>
+    </div>
+
+    <div class="question">
+        <h2>22. ¿Qué son los "enlaces de hipermedia" y cómo se utilizan en REST?</h2>
+        <p>Los "enlaces de hipermedia" son URLs incluidas en las respuestas de la API que permiten a los clientes descubrir y navegar a otros recursos relacionados. Facilitan la interacción dinámica con la API y la navegación entre recursos.</p>
+    </div>
+
+    <div class="question">
+        <h2>23. ¿Cómo se realiza la "normalización de datos" en una API REST?</h2>
+        <p>La "normalización de datos" en una API REST implica organizar y estructurar los datos de manera eficiente para evitar redundancias y asegurar la integridad. Se logra mediante el diseño de modelos de datos y esquemas que representan adecuadamente la estructura de los datos.</p>
+    </div>
+
+    <div class="question">
+        <h2>24. ¿Qué es la "documentación" en una API REST y por qué es importante?</h2>
+        <p>La "documentación" es la información que describe cómo usar la API, incluyendo los endpoints disponibles, los parámetros, los formatos de datos y los códigos de estado. Es importante porque facilita a los desarrolladores el uso y la integración de la API.</p>
+    </div>
+
+    <div class="question">
+        <h2>25. ¿Cómo se implementa la "paginación" en una API REST para manejar grandes volúmenes de datos?</h2>
+        <p>La "paginación" se implementa utilizando parámetros de consulta como <code>?page=2&size=10</code>, que especifican el número de página y el tamaño de la página. Esto permite dividir los resultados en páginas más pequeñas y manejables.</p>
+    </div>
+
+    <div class="question">
+        <h2>26. ¿Qué es el "principio de idempotencia" en REST?</h2>
+        <p>El "principio de idempotencia" establece que una solicitud repetida con el mismo efecto debe producir el mismo resultado, sin alterar el estado del recurso más allá de la primera solicitud. Esto se aplica especialmente a los métodos PUT y DELETE.</p>
+    </div>
+
+    <div class="question">
+        <h2>27. ¿Cómo se maneja la "concurrencia" en una API REST?</h2>
+        <p>La "concurrencia" se maneja mediante el uso de mecanismos como bloqueos optimistas y pesimistas para asegurar que las operaciones simultáneas sobre los mismos recursos no causen conflictos o inconsistencias.</p>
+    </div>
+
+    <div class="question">
+        <h2>28. ¿Qué es el "principio de desacoplamiento" en el diseño de APIs REST?</h2>
+        <p>El "principio de desacoplamiento" sugiere que los componentes de la API deben estar lo más independientes posible. Esto permite modificar o reemplazar partes de la API sin afectar otras, facilitando el mantenimiento y la escalabilidad.</p>
+    </div>
+
+    <div class="question">
+        <h2>29. ¿Cómo se utiliza la "validación de esquema" en una API REST?</h2>
+        <p>La "validación de esquema" implica verificar que los datos enviados y recibidos por la API cumplen con un esquema definido (por ejemplo, un esquema JSON). Esto asegura que los datos sean válidos y consistentes antes de procesarlos.</p>
+    </div>
+
+    <div class="question">
+        <h2>30. ¿Qué es el "principio de simplicidad" en el diseño de APIs REST?</h2>
+        <p>El "principio de simplicidad" implica que la API debe ser fácil de entender y utilizar. Esto se logra mediante un diseño claro, una documentación completa y la implementación de interfaces intuitivas y coherentes.</p>
+    </div>
+
+</body>
+</html>

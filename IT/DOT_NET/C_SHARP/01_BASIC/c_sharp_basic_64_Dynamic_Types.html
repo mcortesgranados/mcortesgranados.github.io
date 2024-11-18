@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Dynamic Types</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Dynamic Types</h1>
+    <p>Dynamic types in C# provide a way to work with objects without specifying their types at compile time. The <code>dynamic</code> type bypasses compile-time type checking, allowing for more flexible and dynamic code.</p>
+    
+    <h2>1. What is the Dynamic Type?</h2>
+    <p>The <code>dynamic</code> type was introduced in C# 4.0 to simplify scenarios where the type of an object cannot be determined at compile time. When you use a <code>dynamic</code> type, type checking is deferred until runtime.</p>
+    
+    <h2>2. Declaring and Using Dynamic Types</h2>
+    <p>You can declare a <code>dynamic</code> variable and assign any type of value to it. The actual type of the object is determined at runtime.</p>
+    <pre><code>
+dynamic variable = 10;
+Console.WriteLine(variable); // Output: 10
+
+variable = "Hello, World!";
+Console.WriteLine(variable); // Output: Hello, World!
+    </code></pre>
+    <p>In this example, the <code>variable</code> is first assigned an <code>int</code> and later a <code>string</code>. The type of <code>variable</code> changes dynamically at runtime.</p>
+    
+    <h2>3. Dynamic Method Invocation</h2>
+    <p>Dynamic types also allow for dynamic method invocation. This can be useful when interacting with COM objects or working with data from sources like JSON, where types are not known at compile time.</p>
+    <pre><code>
+dynamic obj = new ExpandoObject();
+obj.Name = "John";
+obj.Age = 30;
+
+Console.WriteLine(obj.Name); // Output: John
+Console.WriteLine(obj.Age);  // Output: 30
+    </code></pre>
+    <p>In this example, an instance of <code>ExpandoObject</code> (a class that supports dynamic properties) is used to define properties dynamically.</p>
+    
+    <h2>4. Handling Runtime Errors</h2>
+    <p>Since the <code>dynamic</code> type bypasses compile-time type checking, errors related to invalid method calls or property accesses will only be discovered at runtime.</p>
+    <pre><code>
+dynamic obj = "Hello";
+try
+{
+    Console.WriteLine(obj.Length); // Valid, as obj is a string
+    Console.WriteLine(obj.NonExistentMethod()); // Runtime error, as the method does not exist
+}
+catch (RuntimeBinderException ex)
+{
+    Console.WriteLine("Runtime error: " + ex.Message);
+}
+    </code></pre>
+    <p>In this example, attempting to call a non-existent method on a <code>dynamic</code> object results in a <code>RuntimeBinderException</code> that must be handled at runtime.</p>
+    
+    <h2>5. Key Points</h2>
+    <ul>
+        <li><strong>Definition:</strong> The <code>dynamic</code> type allows for operations that are resolved at runtime rather than compile time.</li>
+        <li><strong>Usage:</strong> Useful for scenarios where types are not known in advance or when working with COM objects and data sources.</li>
+        <li><strong>Runtime Errors:</strong> Be cautious of runtime errors, as they will only be discovered when the code is executed.</li>
+    </ul>
+</body>
+</html>

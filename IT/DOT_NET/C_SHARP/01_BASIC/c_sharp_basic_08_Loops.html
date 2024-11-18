@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Loops</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Loops</h1>
+    <p>Loops in C# are used to execute a block of code repeatedly based on a specified condition. They are essential for tasks that require repetition, such as iterating over collections or performing operations multiple times.</p>
+    
+    <h2>1. The `for` Loop</h2>
+    <p>The `for` loop is used when the number of iterations is known beforehand. It consists of three parts: initialization, condition, and iteration.</p>
+    <pre><code>
+    for (int i = 0; i &lt; 5; i++)
+    {
+        Console.WriteLine(i);
+    }
+    </code></pre>
+    <p>This loop initializes <code>i</code> to 0, continues as long as <code>i &lt; 5</code>, and increments <code>i</code> by 1 in each iteration. The output will be:</p>
+    <pre><code>
+    0
+    1
+    2
+    3
+    4
+    </code></pre>
+    
+    <h2>2. The `while` Loop</h2>
+    <p>The `while` loop is used when the number of iterations is not known beforehand, and the loop continues as long as the condition is true.</p>
+    <pre><code>
+    int i = 0;
+
+    while (i &lt; 5)
+    {
+        Console.WriteLine(i);
+        i++;
+    }
+    </code></pre>
+    <p>This loop will output the same values as the `for` loop. It initializes <code>i</code> to 0, checks if <code>i &lt; 5</code>, and increments <code>i</code> inside the loop. The output will be:</p>
+    <pre><code>
+    0
+    1
+    2
+    3
+    4
+    </code></pre>
+    
+    <h2>3. The `do-while` Loop</h2>
+    <p>The `do-while` loop is similar to the `while` loop, but it guarantees that the block of code will be executed at least once before checking the condition.</p>
+    <pre><code>
+    int i = 0;
+
+    do
+    {
+        Console.WriteLine(i);
+        i++;
+    }
+    while (i &lt; 5);
+    </code></pre>
+    <p>This loop will also output the same values. The difference is that the loop body is executed before the condition is checked. The output will be:</p>
+    <pre><code>
+    0
+    1
+    2
+    3
+    4
+    </code></pre>
+    
+    <h2>4. Example Program</h2>
+    <p>Here’s a complete C# program that demonstrates the use of different types of loops:</p>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            // for loop
+            Console.WriteLine("For Loop:");
+            for (int i = 0; i &lt; 3; i++)
+            {
+                Console.WriteLine(i);
+            }
+
+            // while loop
+            Console.WriteLine("While Loop:");
+            int j = 0;
+            while (j &lt; 3)
+            {
+                Console.WriteLine(j);
+                j++;
+            }
+
+            // do-while loop
+            Console.WriteLine("Do-While Loop:");
+            int k = 0;
+            do
+            {
+                Console.WriteLine(k);
+                k++;
+            }
+            while (k &lt; 3);
+        }
+    }
+    </code></pre>
+    
+    <h2>Explanation</h2>
+    <p>In the example program:</p>
+    <ul>
+        <li>The `for` loop iterates three times, printing values from 0 to 2.</li>
+        <li>The `while` loop performs the same iterations as the `for` loop, but with the loop control variables managed separately.</li>
+        <li>The `do-while` loop guarantees that the loop body executes at least once before checking the condition.</li>
+    </ul>
+</body>
+</html>

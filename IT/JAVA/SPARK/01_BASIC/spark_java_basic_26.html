@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accumulators in Spark</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Accumulators in Spark</h1>
+    <p>Accumulators in Spark are variables that are used to aggregate information across tasks. They are primarily used for counters and sums, and they help in debugging and monitoring the execution of your Spark applications.</p>
+
+    <h2>What are Accumulators?</h2>
+    <p>Accumulators are variables that can be added to through an associative and commutative operation and can be efficiently supported in parallel. They are used to perform aggregate operations like counting or summing across different tasks in a distributed manner.</p>
+
+    <h2>When to Use Accumulators</h2>
+    <ul>
+        <li>When you need to keep track of values across multiple tasks.</li>
+        <li>For aggregating counters or sums during the execution of your Spark jobs.</li>
+        <li>For debugging and understanding the behavior of Spark jobs.</li>
+    </ul>
+
+    <h2>Example: Using Accumulators</h2>
+    <pre><code>
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.function.Function;
+
+public class AccumulatorsExample {
+    public static void main(String[] args) {
+        // Step 1: Create a SparkConf object and set the application name
+        SparkConf conf = new SparkConf().setAppName("Accumulators Example").setMaster("local[*]");
+        
+        // Step 2: Create a JavaSparkContext object
+        JavaSparkContext sc = new JavaSparkContext(conf);
+        
+        // Step 3: Create an accumulator
+        final org.apache.spark.api.java.JavaSparkContext scJava = sc;
+        final org.apache.spark.AccumulatorV2&lt;Integer, Integer&gt; accumulator = scJava.sc().longAccumulator("My Accumulator");
+        
+        // Step 4: Create an RDD
+        JavaRDD&lt;Integer&gt; rdd = sc.parallelize(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        
+        // Step 5: Use the accumulator in a transformation
+        rdd.foreach(x -> {
+            accumulator.add(x);
+            return null;
+        });
+        
+        // Step 6: Get the accumulator value
+        long accumulatorValue = accumulator.value();
+        System.out.println("Accumulator value: " + accumulatorValue);
+        
+        // Step 7: Stop the Spark context
+        sc.stop();
+    }
+}
+    </code></pre>
+
+    <h2>Understanding the Example</h2>
+    <ul>
+        <li><strong>Accumulator Creation:</strong> An accumulator is created to keep track of the sum of integers in the RDD.</li>
+        <li><strong>Usage in Transformation:</strong> The accumulator is used within the `foreach` transformation to aggregate the values from the RDD.</li>
+        <li><strong>Value Retrieval:</strong> The accumulated value is retrieved and printed out.</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Accumulators are useful for tracking metrics and aggregating data in a distributed Spark job. They provide a simple and efficient way to aggregate counters and sums across tasks, and they are particularly helpful for debugging and monitoring purposes.</p>
+</body>
+</html>

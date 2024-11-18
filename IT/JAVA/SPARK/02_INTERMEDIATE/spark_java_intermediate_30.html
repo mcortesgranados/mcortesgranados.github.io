@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrating Spark with HDFS, Cassandra, and S3</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Integrating Spark with HDFS, Cassandra, and S3</h1>
+    <p>Apache Spark can integrate with various storage systems to efficiently process large datasets. This guide covers how to integrate Spark with HDFS (Hadoop Distributed File System), Cassandra, and Amazon S3, including practical examples for each system.</p>
+
+    <h2>1. Integrating Spark with HDFS</h2>
+    <p>HDFS is a distributed file system designed to store and manage large data sets across clusters. Spark can read from and write to HDFS, making it a common choice for big data processing.</p>
+
+    <h3>1.1. Reading from HDFS</h3>
+    <pre><code>
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession
+spark = SparkSession.builder.appName("HDFS Example").getOrCreate()
+
+# Read data from HDFS
+df = spark.read.csv("hdfs://namenode:9000/path/to/data.csv", header=True, inferSchema=True)
+
+# Show data
+df.show()
+
+# Stop SparkSession
+spark.stop()
+    </code></pre>
+
+    <h3>1.2. Writing to HDFS</h3>
+    <pre><code>
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession
+spark = SparkSession.builder.appName("HDFS Example").getOrCreate()
+
+# Create a DataFrame
+data = [("Alice", 34), ("Bob", 45)]
+columns = ["Name", "Age"]
+df = spark.createDataFrame(data, columns)
+
+# Write DataFrame to HDFS
+df.write.csv("hdfs://namenode:9000/path/to/output.csv")
+
+# Stop SparkSession
+spark.stop()
+    </code></pre>
+
+    <h2>2. Integrating Spark with Cassandra</h2>
+    <p>Cassandra is a distributed NoSQL database designed for high availability and scalability. Spark can interact with Cassandra using the Spark-Cassandra connector, allowing for efficient data processing.</p>
+
+    <h3>2.1. Reading from Cassandra</h3>
+    <pre><code>
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession with Cassandra connector
+spark = SparkSession.builder \
+    .appName("Cassandra Example") \
+    .config("spark.cassandra.connection.host", "cassandra-host") \
+    .getOrCreate()
+
+# Read data from Cassandra
+df = spark.read \
+    .format("org.apache.spark.sql.cassandra") \
+    .options(table="table_name", keyspace="keyspace_name") \
+    .load()
+
+# Show data
+df.show()
+
+# Stop SparkSession
+spark.stop()
+    </code></pre>
+
+    <h3>2.2. Writing to Cassandra</h3>
+    <pre><code>
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession with Cassandra connector
+spark = SparkSession.builder \
+    .appName("Cassandra Example") \
+    .config("spark.cassandra.connection.host", "cassandra-host") \
+    .getOrCreate()
+
+# Create a DataFrame
+data = [("Alice", 34), ("Bob", 45)]
+columns = ["Name", "Age"]
+df = spark.createDataFrame(data, columns)
+
+# Write DataFrame to Cassandra
+df.write \
+    .format("org.apache.spark.sql.cassandra") \
+    .options(table="table_name", keyspace="keyspace_name") \
+    .save()
+
+# Stop SparkSession
+spark.stop()
+    </code></pre>
+
+    <h2>3. Integrating Spark with S3</h2>
+    <p>Amazon S3 (Simple Storage Service) is a scalable object storage service. Spark can read from and write to S3 using the Hadoop AWS library.</p>
+
+    <h3>3.1. Reading from S3</h3>
+    <pre><code>
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession with S3 configuration
+spark = SparkSession.builder \
+    .appName("S3 Example") \
+    .config("spark.hadoop.fs.s3a.access.key", "your-access-key") \
+    .config("spark.hadoop.fs.s3a.secret.key", "your-secret-key") \
+    .config("spark.hadoop.fs.s3a.endpoint", "s3.amazonaws.com") \
+    .getOrCreate()
+
+# Read data from S3
+df = spark.read.csv("s3a://bucket/path/to/data.csv", header=True, inferSchema=True)
+
+# Show data
+df.show()
+
+# Stop SparkSession
+spark.stop()
+    </code></pre>
+
+    <h3>3.2. Writing to S3</h3>
+    <pre><code>
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession with S3 configuration
+spark = SparkSession.builder \
+    .appName("S3 Example") \
+    .config("spark.hadoop.fs.s3a.access.key", "your-access-key") \
+    .config("spark.hadoop.fs.s3a.secret.key", "your-secret-key") \
+    .config("spark.hadoop.fs.s3a.endpoint", "s3.amazonaws.com") \
+    .getOrCreate()
+
+# Create a DataFrame
+data = [("Alice", 34), ("Bob", 45)]
+columns = ["Name", "Age"]
+df = spark.createDataFrame(data, columns)
+
+# Write DataFrame to S3
+df.write.csv("s3a://bucket/path/to/output.csv")
+
+# Stop SparkSession
+spark.stop()
+    </code></pre>
+
+    <h2>4. Conclusion</h2>
+    <p>Integrating Spark with HDFS, Cassandra, and S3 provides flexibility and scalability for data processing tasks. By leveraging these storage systems, you can efficiently handle large datasets and perform complex analytics. Each integration method is tailored to specific use cases, so choosing the right one depends on your data storage and processing needs.</p>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Apache Kafka</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Introduction to Apache Kafka</h1>
+    <p>Apache Kafka is a distributed streaming platform that is widely used for building real-time data pipelines and streaming applications. It is designed to handle high throughput, fault tolerance, and scalability.</p>
+
+    <h2>What is Apache Kafka?</h2>
+    <p>Apache Kafka is an open-source stream processing platform developed by LinkedIn and donated to the Apache Software Foundation. It is used to build real-time data pipelines and streaming applications that can process data in real-time.</p>
+
+    <h2>Key Concepts in Kafka</h2>
+    <ul>
+        <li><strong>Producer:</strong> A producer is an application that sends records to a Kafka topic.</li>
+        <li><strong>Consumer:</strong> A consumer is an application that reads records from a Kafka topic.</li>
+        <li><strong>Broker:</strong> A Kafka broker is a server that stores and serves data. A Kafka cluster is composed of multiple brokers.</li>
+        <li><strong>Topic:</strong> A topic is a category or feed name to which records are published. Topics are split into partitions to allow for scalability and parallel processing.</li>
+        <li><strong>Partition:</strong> A partition is a log that stores records. Each partition is an ordered, immutable sequence of records.</li>
+        <li><strong>Offset:</strong> An offset is a unique identifier for each record in a partition, which denotes the position of the record in the partition.</li>
+        <li><strong>Consumer Group:</strong> A consumer group is a group of consumers that work together to consume records from a topic. Each record is processed by only one consumer within the group.</li>
+    </ul>
+
+    <h2>Example: Producing and Consuming Messages with Kafka in Java</h2>
+    <p>Below is a basic example of how to produce and consume messages using Kafka in Java. This example assumes you have Kafka running on localhost and default port 9092.</p>
+
+    <h3>Producer Example</h3>
+    <pre><code>
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.serialization.StringSerializer;
+
+import java.util.Properties;
+
+public class KafkaProducerExample {
+    public static void main(String[] args) {
+        // Set up the Kafka producer configuration
+        Properties props = new Properties();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+        // Create the Kafka producer
+        KafkaProducer&lt;String, String&gt; producer = new KafkaProducer&lt;&gt;(props);
+
+        // Create and send a message
+        ProducerRecord&lt;String, String&gt; record = new ProducerRecord&lt;&gt;("my_topic", "key", "value");
+        producer.send(record);
+
+        // Close the producer
+        producer.close();
+    }
+}
+    </code></pre>
+
+    <h3>Consumer Example</h3>
+    <pre><code>
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.StringDeserializer;
+
+import java.util.Collections;
+import java.util.Properties;
+
+public class KafkaConsumerExample {
+    public static void main(String[] args) {
+        // Set up the Kafka consumer configuration
+        Properties props = new Properties();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "my_group");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+
+        // Create the Kafka consumer
+        KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;&gt;(props);
+
+        // Subscribe to the topic
+        consumer.subscribe(Collections.singletonList("my_topic"));
+
+        // Poll for new messages
+        while (true) {
+            for (ConsumerRecord&lt;String, String&gt; record : consumer.poll(1000)) {
+                System.out.printf("Received record: key=%s, value=%s%n", record.key(), record.value());
+            }
+        }
+    }
+}
+    </code></pre>
+
+    <h2>Conclusion</h2>
+    <p>Apache Kafka is a powerful tool for handling real-time data streams. Its architecture allows for high scalability and fault tolerance, making it suitable for various use cases including real-time analytics and event-driven architectures. Understanding the core concepts and how to interact with Kafka through producers and consumers is essential for leveraging its capabilities effectively.</p>
+</body>
+</html>

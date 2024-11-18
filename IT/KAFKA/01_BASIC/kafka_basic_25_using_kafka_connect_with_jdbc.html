@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka: Using Kafka Connect with JDBC</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka: Using Kafka Connect with JDBC</h1>
+    <p>Kafka Connect with JDBC (Java Database Connectivity) allows you to integrate Kafka with relational databases by reading from and writing to databases using JDBC drivers. This is particularly useful for loading data from databases into Kafka topics or persisting Kafka messages to relational databases.</p>
+
+    <h2>1. Overview of Kafka Connect JDBC</h2>
+    <p>The Kafka Connect JDBC connector provides a way to connect Kafka with databases. It supports:</p>
+    <ul>
+        <li><strong>Source Connectors:</strong> Read data from databases and write it to Kafka topics.</li>
+        <li><strong>Sink Connectors:</strong> Read data from Kafka topics and write it to databases.</li>
+    </ul>
+    <p>The connector supports various databases, such as MySQL, PostgreSQL, Oracle, and SQL Server, through JDBC drivers.</p>
+
+    <h2>2. Setting Up Kafka Connect JDBC</h2>
+    <p>To use Kafka Connect with JDBC, follow these steps:</p>
+
+    <h3>2.1. Download and Install the JDBC Connector</h3>
+    <p>Download the Kafka Connect JDBC connector from the Confluent Hub or the Apache Kafka website. Place the JAR files in the <code>plugins</code> directory of your Kafka Connect installation.</p>
+
+    <h3>2.2. Configure the JDBC Source Connector</h3>
+    <p>Create a JSON configuration file for the JDBC source connector. Here’s an example configuration to read data from a MySQL database:</p>
+
+    <pre><code>
+{
+  "name": "jdbc-source-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+    "tasks.max": "1",
+    "connection.url": "jdbc:mysql://localhost:3306/mydatabase",
+    "connection.user": "myuser",
+    "connection.password": "mypassword",
+    "table.whitelist": "mytable",
+    "mode": "incrementing",
+    "incrementing.column.name": "id",
+    "topic.prefix": "jdbc-",
+    "poll.interval.ms": "10000"
+  }
+}
+    </code></pre>
+
+    <p>This configuration connects to a MySQL database, reads data from the <code>mytable</code> table, and writes it to a Kafka topic prefixed with <code>jdbc-</code>.</p>
+
+    <h3>2.3. Configure the JDBC Sink Connector</h3>
+    <p>Create a JSON configuration file for the JDBC sink connector. Here’s an example configuration to write data to a PostgreSQL database:</p>
+
+    <pre><code>
+{
+  "name": "jdbc-sink-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+    "connection.url": "jdbc:postgresql://localhost:5432/mydatabase",
+    "connection.user": "myuser",
+    "connection.password": "mypassword",
+    "topics": "jdbc-mytable",
+    "auto.create": "true",
+    "pk.mode": "record_value",
+    "pk.fields": "id",
+    "insert.mode": "upsert"
+  }
+}
+    </code></pre>
+
+    <p>This configuration reads from the Kafka topic <code>jdbc-mytable</code> and writes the data to a PostgreSQL table. It will create the table if it doesn’t exist and perform upserts based on the <code>id</code> field.</p>
+
+    <h3>2.4. Start Kafka Connect with JDBC Connectors</h3>
+    <p>Start Kafka Connect with the JDBC connectors by using the following command in distributed mode:</p>
+
+    <pre><code>
+bin/connect-distributed.sh config/connect-distributed.properties
+    </code></pre>
+
+    <p>Or in standalone mode:</p>
+
+    <pre><code>
+bin/connect-standalone.sh config/connect-standalone.properties config/jdbc-source-connector.properties
+bin/connect-standalone.sh config/connect-standalone.properties config/jdbc-sink-connector.properties
+    </code></pre>
+
+    <h2>3. Monitoring and Managing JDBC Connectors</h2>
+    <p>Kafka Connect provides REST APIs to monitor and manage JDBC connectors. Use the following commands:</p>
+
+    <h3>3.1. List Connectors</h3>
+    <p>List all connectors:</p>
+
+    <pre><code>
+curl -X GET http://localhost:8083/connectors
+    </code></pre>
+
+    <h3>3.2. View Connector Status</h3>
+    <p>Check the status of a specific connector:</p>
+
+    <pre><code>
+curl -X GET http://localhost:8083/connectors/jdbc-source-connector/status
+    </code></pre>
+
+    <h3>3.3. Pause and Resume Connectors</h3>
+    <p>Pause a connector:</p>
+
+    <pre><code>
+curl -X PUT http://localhost:8083/connectors/jdbc-source-connector/pause
+    </code></pre>
+
+    <p>Resume a connector:</p>
+
+    <pre><code>
+curl -X PUT http://localhost:8083/connectors/jdbc-source-connector/resume
+    </code></pre>
+
+    <h3>3.4. Restart Connectors</h3>
+    <p>Restart a connector:</p>
+
+    <pre><code>
+curl -X POST http://localhost:8083/connectors/jdbc-source-connector/restart
+    </code></pre>
+
+    <h2>4. Conclusion</h2>
+    <p>Kafka Connect with JDBC provides a powerful way to integrate Kafka with relational databases. By configuring source and sink connectors, you can efficiently move data between Kafka topics and your database, facilitating real-time data processing and analysis.</p>
+</body>
+</html>

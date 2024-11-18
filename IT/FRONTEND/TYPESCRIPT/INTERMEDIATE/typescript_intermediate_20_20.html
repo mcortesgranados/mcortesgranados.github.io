@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Intermediate Level Questions and Answers - Part 21</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Intermediate Level Questions and Answers - Part 20</h1>
+
+    <h2>1. How do you use TypeScript to define a type that represents a method with default parameters?</h2>
+    <p>Define default values in the method parameters within the type.</p>
+    <pre><code>type Greeter = {
+    greet: (name?: string) => void;
+};
+
+const greeter: Greeter = {
+    greet: (name = "World") => console.log(`Hello, ${name}!`)
+};
+
+greeter.greet(); // Hello, World!
+greeter.greet("Alice"); // Hello, Alice!</code></pre>
+
+    <h2>2. How do you use TypeScript to define a type that represents a method with a rest parameter?</h2>
+    <p>Use rest parameters in the method type definition.</p>
+    <pre><code>type SumFunction = {
+    sum: (...numbers: number[]) => number;
+};
+
+const sumFunc: SumFunction = {
+    sum: (...numbers) => numbers.reduce((a, b) => a + b, 0)
+};
+
+console.log(sumFunc.sum(1, 2, 3, 4)); // 10</code></pre>
+
+    <h2>3. How do you use TypeScript to define a type that represents an object with a property that is a union of literal types?</h2>
+    <p>Use union types to define the property.</p>
+    <pre><code>type Status = "pending" | "completed" | "failed";
+
+type Task = {
+    status: Status;
+};
+
+const task1: Task = { status: "pending" };
+const task2: Task = { status: "completed" };
+
+console.log(task1.status); // pending
+console.log(task2.status); // completed</code></pre>
+
+    <h2>4. How do you use TypeScript to define a type that represents a function that can accept a variable number of parameters of different types?</h2>
+    <p>Use a tuple in combination with rest parameters for multiple types.</p>
+    <pre><code>type MultiTypeFunction = (...args: [string, number][]) => void;
+
+const logValues: MultiTypeFunction = (...args) => {
+    args.forEach(([str, num]) => console.log(`String: ${str}, Number: ${num}`));
+};
+
+logValues(["Hello", 1], ["World", 2]); 
+// String: Hello, Number: 1
+// String: World, Number: 2</code></pre>
+
+    <h2>5. How do you use TypeScript to define a type that represents a method with an optional callback?</h2>
+    <p>Include an optional callback parameter in the method type.</p>
+    <pre><code>type Processor = {
+    process: (input: string, callback?: (result: string) => void) => void;
+};
+
+const processor: Processor = {
+    process: (input, callback) => {
+        const result = `Processed ${input}`;
+        if (callback) {
+            callback(result);
+        } else {
+            console.log(result);
+        }
+    }
+};
+
+processor.process("data", result => console.log(result)); // Processed data
+processor.process("data"); // Processed data</code></pre>
+
+    <h2>6. How do you use TypeScript to define a type that represents an object with methods that accept a generic type and return a promise?</h2>
+    <p>Use generics with promises in method definitions.</p>
+    <pre><code>type AsyncService<T> = {
+    fetch: (param: T) => Promise<T>;
+};
+
+const stringService: AsyncService<string> = {
+    fetch: async (param) => param
+};
+
+const numberService: AsyncService<number> = {
+    fetch: async (param) => param
+};
+
+stringService.fetch("Hello").then(console.log); // Hello
+numberService.fetch(123).then(console.log); // 123</code></pre>
+
+    <h2>7. How do you use TypeScript to define a type that represents an object with a method that performs type narrowing?</h2>
+    <p>Use type assertions or type guards in the method.</p>
+    <pre><code>type GuardService = {
+    assertString: (input: unknown) => asserts input is string;
+};
+
+const guardService: GuardService = {
+    assertString: (input): asserts input is string => {
+        if (typeof input !== 'string') {
+            throw new Error("Input is not a string");
+        }
+    }
+};
+
+const value: unknown = "Hello";
+guardService.assertString(value);
+console.log(value.toUpperCase()); // HELLO</code></pre>
+
+    <h2>8. How do you use TypeScript to define a type that represents a method with a generic return type based on input?</h2>
+    <p>Define a method with a return type that depends on a generic parameter.</p>
+    <pre><code>type Transformer<T> = {
+    transform: (input: T) => T;
+};
+
+const stringTransformer: Transformer<string> = {
+    transform: (input) => input.toUpperCase()
+};
+
+const numberTransformer: Transformer<number> = {
+    transform: (input) => input * 2
+};
+
+console.log(stringTransformer.transform("hello")); // HELLO
+console.log(numberTransformer.transform(5)); // 10</code></pre>
+
+    <h2>9. How do you use TypeScript to define a type that represents an object with methods that interact with an external API?</h2>
+    <p>Define method types that use async/await for API interaction.</p>
+    <pre><code>type ApiClient = {
+    fetchData: (endpoint: string) => Promise<any>;
+};
+
+const apiClient: ApiClient = {
+    fetchData: async (endpoint) => {
+        const response = await fetch(endpoint);
+        return response.json();
+    }
+};
+
+apiClient.fetchData("https://api.example.com/data").then(data => console.log(data));</code></pre>
+
+    <h2>10. How do you use TypeScript to define a type that represents a class with a static and an instance method?</h2>
+    <p>Define a class type with both static and instance methods.</p>
+    <pre><code>type MyClassType = {
+    new(): { instanceMethod: () => void };
+    staticMethod: () => void;
+};
+
+class MyClass {
+    static staticMethod() {
+        console.log("Static method");
+    }
+
+    instanceMethod() {
+        console.log("Instance method");
+    }
+}
+
+const myClass: MyClassType = MyClass;
+myClass.staticMethod(); // Static method
+const instance = new myClass();
+instance.instanceMethod(); // Instance method</code></pre>
+
+    <h2>11. How do you use TypeScript to define a type that represents an object with multiple methods with different return types?</h2>
+    <p>Specify different return types for each method.</p>
+    <pre><code>type MultiMethodObject = {
+    getString: () => string;
+    getNumber: () => number;
+};
+
+const obj: MultiMethodObject = {
+    getString: () => "Hello",
+    getNumber: () => 123
+};
+
+console.log(obj.getString()); // Hello
+console.log(obj.getNumber()); // 123</code></pre>
+
+    <h2>12. How do you use TypeScript to define a type that represents a method that accepts a type parameter and returns a specific type?</h2>
+    <p>Use generics to specify the return type based on the input type.</p>
+    <pre><code>type Mapper<T> = {
+    map: (input: T) => T;
+};
+
+const stringMapper: Mapper<string> = {
+    map: (input) => input.toUpperCase()
+};
+
+const numberMapper: Mapper<number> = {
+    map: (input) => input + 1
+};
+
+console.log(stringMapper.map("hello")); // HELLO
+console.log(numberMapper.map(1)); // 2</code></pre>
+
+    <h2>13. How do you use TypeScript to define a type for an object with methods that return a promise of a union type?</h2>
+    <p>Use union types with promises in method definitions.</p>
+    <pre><code>type ResultFetcher = {
+    fetchResult: () => Promise<string | number>;
+};
+
+const fetcher: ResultFetcher = {
+    fetchResult: async () => Math.random() > 0.5 ? "Success" : 404
+};
+
+fetcher.fetchResult().then(result => console.log(result)); // Success or 404</code></pre>
+
+    <h2>14. How do you use TypeScript to define a

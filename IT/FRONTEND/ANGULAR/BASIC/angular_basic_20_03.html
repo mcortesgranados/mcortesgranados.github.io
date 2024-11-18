@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Angular Questions - Part 3</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Basic Angular Questions - Part 3</h1>
+
+    <div class="question">
+        <h2>1. What is the purpose of Angular's `ngOnInit` lifecycle hook?</h2>
+        <div class="answer">
+            <p>The `ngOnInit` lifecycle hook is called after the component's data-bound properties have been initialized. It is commonly used for initialization logic.</p>
+            <pre><code>
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    template: '<p>Example component</p>'
+})
+export class ExampleComponent implements OnInit {
+    ngOnInit() {
+        console.log('Component initialized');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How do you define an Angular service?</h2>
+        <div class="answer">
+            <p>An Angular service is defined using the `@Injectable` decorator. It is a class that can be injected into other components or services.</p>
+            <pre><code>
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DataService {
+    getData() {
+        return ['data1', 'data2'];
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. What is the purpose of Angular's `@Directive` decorator?</h2>
+        <div class="answer">
+            <p>The `@Directive` decorator is used to create custom directives in Angular. Directives can change the appearance or behavior of elements in the DOM.</p>
+            <pre><code>
+import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appHighlight]'
+})
+export class HighlightDirective {
+    constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+    @HostListener('mouseenter') onMouseEnter() {
+        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'yellow');
+    }
+
+    @HostListener('mouseleave') onMouseLeave() {
+        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'transparent');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you create an Angular module?</h2>
+        <div class="answer">
+            <p>An Angular module is created using the `@NgModule` decorator. It defines a module that groups components, directives, pipes, and services.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+
+@NgModule({
+    declarations: [AppComponent],
+    imports: [BrowserModule],
+    providers: [],
+    bootstrap: [AppComponent]
+})
+export class AppModule {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. What is Angular's `ngIf` directive?</h2>
+        <div class="answer">
+            <p>`ngIf` is a structural directive that conditionally includes or removes an element from the DOM based on the truthiness of an expression.</p>
+            <pre><code>
+<div *ngIf="isVisible">This is visible</div>
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you use Angular's `ngFor` directive?</h2>
+        <div class="answer">
+            <p>`ngFor` is a structural directive used to repeat a block of HTML for each item in a list.</p>
+            <pre><code>
+<ul>
+    <li *ngFor="let item of items">{{ item }}</li>
+</ul>
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. What is Angular's `@Component` decorator?</h2>
+        <div class="answer">
+            <p>The `@Component` decorator is used to define a component in Angular. It specifies the selector, template, and styles for the component.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    template: '<p>Example component</p>',
+    styles: ['p { color: blue; }']
+})
+export class ExampleComponent {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you implement Angular's dependency injection?</h2>
+        <div class="answer">
+            <p>Dependency injection in Angular is implemented by providing services in the component's or module's `providers` array and injecting them into the constructor of the class.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { DataService } from './data.service';
+
+@Component({
+    selector: 'app-example',
+    template: '<p>Example component</p>'
+})
+export class ExampleComponent {
+    constructor(private dataService: DataService) {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. What is Angular's `@Pipe` decorator used for?</h2>
+        <div class="answer">
+            <p>The `@Pipe` decorator is used to define custom pipes in Angular, which transform data in templates.</p>
+            <pre><code>
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'customPipe'
+})
+export class CustomPipe implements PipeTransform {
+    transform(value: string): string {
+        return value.toUpperCase();
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use Angular's `ngOnChanges` lifecycle hook?</h2>
+        <div class="answer">
+            <p>The `ngOnChanges` lifecycle hook is called when an input property of the component changes. It is used to perform actions based on the input property changes.</p>
+            <pre><code>
+import { Component, OnChanges, SimpleChanges, Input } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    template: '<p>Example component</p>'
+})
+export class ExampleComponent implements OnChanges {
+    @Input() data: string;
+
+    ngOnChanges(changes: SimpleChanges) {
+        console.log('Changes detected:', changes);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. What is Angular's `ngModel` directive?</h2>
+        <div class="answer">
+            <p>`ngModel` is a directive used for two-way data binding between the form controls and component properties.</p>
+            <pre><code>
+<input [(ngModel)]="name" />
+<p>Hello {{ name }}</p>
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you create a reactive form in Angular?</h2>
+        <div class="answer">
+            <p>Reactive forms are created using `FormGroup` and `FormControl` classes from `@angular/forms`.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+@Component({
+    selector: 'app-form',
+    template: `
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <input formControlName="name" />
+        <button type="submit">Submit</button>
+    </form>
+    `
+})
+export class FormComponent {
+    form: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            name: ['']
+        });
+    }
+
+    onSubmit() {
+        console.log(this.form.value);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. What is Angular's `@HostListener` decorator used for?</h2>
+        <div class="answer">
+            <p>The `@HostListener` decorator is used to listen to events on the host element of the directive or component.</p>
+            <pre><code>
+import { Directive, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appEvent]'
+})
+export class EventDirective {
+    @HostListener('click', ['$event']) onClick(event: Event) {
+        console.log('Element clicked:', event);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use Angular's `@Input` decorator?</h2>
+        <div class="answer">
+            <p>The `@Input` decorator is used to pass data from a parent component to a child component.</p>
+            <pre><code>
+import { Component, Input } from '@angular/core';
+
+@Component({
+    selector: 'app-child',
+    template: '<p>{{ data }}</p>'
+})
+export class ChildComponent {
+    @Input() data: string;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. What is Angular's `@Output` decorator used for?</h2>
+        <div class="answer">
+            <p>The `@Output` decorator is used to emit events from a child component to a parent component.</p>
+            <pre><code>
+import { Component, EventEmitter, Output } from '@angular/core';
+
+@Component({
+    selector: 'app-child',
+    template: '<button (click)="sendData()">Send Data</button>'
+})
+export class ChildComponent {
+    @Output() dataSent = new EventEmitter<string>();
+
+    sendData() {
+        this.dataSent.emit('Some data');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you handle HTTP requests in Angular?</h2>
+        <div class="answer">
+            <p>HTTP requests in Angular are handled using the `HttpClient` service from `@angular/common/http`.</p>
+            <pre><code>
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-http',
+    template: '<p>HTTP request component</p>'
+})
+export class HttpComponent {
+    constructor(private http: HttpClient) {}
+
+    getData() {
+        this.http.get('https://api.example.com/data').subscribe(response => {
+            console.log(response);
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. What is Angular's `RouterModule` used for?</h2>
+        <div class="answer">
+            <p>The `RouterModule` is used to configure routes in an Angular application, allowing navigation between different views or components.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home.component';
+import { AboutComponent } from './about.component';
+
+const routes: Routes = [
+    { path: 'home', component: HomeComponent },
+    { path: 'about', component: AboutComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' }
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use Angular's `@Injectable` decorator in a service?</h2>
+        <div class="answer">
+            <p>The `@Injectable` decorator is used to define a service that can be injected into other components or services.</p>
+            <pre><code>
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class UserService {
+    getUser() {
+        return { name: 'John Doe' };
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. What is Angular's `@NgModule` metadata `imports` property used for?</h2>
+        <div class="answer">
+            <p>The `imports` property in `@NgModule` is used to import other Angular modules into the current module, making their components, directives, and pipes available for use.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+@NgModule({
+    imports: [CommonModule, FormsModule],
+    declarations: [MyComponent]
+})
+export class MyModule {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `@HostBinding` decorator?</h2>
+        <div class="answer">
+            <p>The `@HostBinding` decorator is used to bind a property or attribute of the host element to a property of the directive or component.</p>
+            <pre><code>
+import { Directive, HostBinding } from '@angular/core';
+
+@Directive({
+    selector: '[appColor]'
+})
+export class ColorDirective {
+    @HostBinding('style.color') color: string = 'blue';
+}
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

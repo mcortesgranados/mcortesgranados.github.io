@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas sobre Utilización de DML desde el Código</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+            color: #d63384;
+        }
+        .question {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preguntas sobre Utilización de DML desde el Código</h1>
+
+    <div class="question">
+        <h2>1. ¿Qué es DML y cómo se utiliza en el código?</h2>
+        <p>DML (Data Manipulation Language) incluye comandos como INSERT, UPDATE, DELETE y SELECT para manipular datos en una base de datos. Se utiliza en el código para gestionar datos a través de consultas SQL.</p>
+    </div>
+
+    <div class="question">
+        <h2>2. ¿Cómo se realiza una operación INSERT usando JDBC en Java?</h2>
+        <pre><code>
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/db", "user", "password");
+String sql = "INSERT INTO table (column1, column2) VALUES (?, ?)";
+PreparedStatement pstmt = conn.prepareStatement(sql);
+pstmt.setString(1, "value1");
+pstmt.setString(2, "value2");
+pstmt.executeUpdate();
+pstmt.close();
+conn.close();
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>3. ¿Cómo se actualizan registros en una base de datos usando Python con SQLAlchemy?</h2>
+        <pre><code>
+from sqlalchemy import create_engine, Table, MetaData, update
+
+engine = create_engine('mysql+pymysql://user:password@localhost/db')
+metadata = MetaData(bind=engine)
+table = Table('table', metadata, autoload_with=engine)
+
+stmt = update(table).where(table.c.column1 == 'old_value').values(column1='new_value')
+with engine.connect() as conn:
+    conn.execute(stmt)
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>4. ¿Cómo se realiza una operación DELETE usando JDBC en Java?</h2>
+        <pre><code>
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/db", "user", "password");
+String sql = "DELETE FROM table WHERE column1 = ?";
+PreparedStatement pstmt = conn.prepareStatement(sql);
+pstmt.setString(1, "value_to_delete");
+pstmt.executeUpdate();
+pstmt.close();
+conn.close();
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>5. ¿Cómo se ejecuta una consulta SELECT con SQLAlchemy en Python?</h2>
+        <pre><code>
+from sqlalchemy import create_engine, Table, MetaData, select
+
+engine = create_engine('mysql+pymysql://user:password@localhost/db')
+metadata = MetaData(bind=engine)
+table = Table('table', metadata, autoload_with=engine)
+
+stmt = select(table).where(table.c.column1 == 'value')
+with engine.connect() as conn:
+    result = conn.execute(stmt)
+    for row in result:
+        print(row)
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>6. ¿Cómo manejar transacciones en JDBC con Java?</h2>
+        <pre><code>
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/db", "user", "password");
+conn.setAutoCommit(false);
+
+try {
+    String sql = "UPDATE table SET column1 = ? WHERE column2 = ?";
+    PreparedStatement pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, "new_value");
+    pstmt.setString(2, "condition_value");
+    pstmt.executeUpdate();
+
+    conn.commit();
+} catch (Exception e) {
+    conn.rollback();
+} finally {
+    conn.setAutoCommit(true);
+    conn.close();
+}
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>7. ¿Cómo se utiliza el contexto de sesión para manejar operaciones DML en SQLAlchemy?</h2>
+        <pre><code>
+from sqlalchemy import create_engine, Table, MetaData, insert
+
+engine = create_engine('mysql+pymysql://user:password@localhost/db')
+metadata = MetaData(bind=engine)
+table = Table('table', metadata, autoload_with=engine)
+
+with engine.begin() as conn:
+    stmt = insert(table).values(column1='value1', column2='value2')
+    conn.execute(stmt)
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>8. ¿Cómo prevenir ataques de inyección SQL en JDBC?</h2>
+        <p>Utilizar <code>PreparedStatement</code> en lugar de concatenar consultas SQL directamente para evitar inyección SQL.</p>
+    </div>
+
+    <div class="question">
+        <h2>9. ¿Cómo se utiliza el patrón DAO para manejar DML en Java?</h2>
+        <p>El patrón DAO (Data Access Object) proporciona una interfaz para realizar operaciones DML y abstraer la lógica de acceso a datos del código de negocio.</p>
+    </div>
+
+    <div class="question">
+        <h2>10. ¿Cómo realizar operaciones DML en un entorno asíncrono con Python?</h2>
+        <p>Utilizar librerías como <code>asyncpg</code> para realizar operaciones DML de manera asíncrona en Python.</p>
+    </div>
+
+    <div class="question">
+        <h2>11. ¿Cómo se utilizan transacciones en SQLAlchemy para operaciones DML?</h2>
+        <pre><code>
+from sqlalchemy import create_engine, Table, MetaData, insert
+from sqlalchemy.orm import sessionmaker
+
+engine = create_engine('mysql+pymysql://user:password@localhost/db')
+Session = sessionmaker(bind=engine)
+session = Session()
+
+try:
+    table = Table('table', MetaData(bind=engine), autoload_with=engine)
+    stmt = insert(table).values(column1='value1', column2='value2')
+    session.execute(stmt)
+    session.commit()
+except:
+    session.rollback()
+finally:
+    session.close()
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>12. ¿Cómo manejar errores en operaciones DML usando Java y JDBC?</h2>
+        <p>Utilizar bloques <code>try-catch</code> para manejar excepciones y asegurar el cierre de conexiones en bloques <code>finally</code>.</p>
+    </div>
+
+    <div class="question">
+        <h2>13. ¿Cómo optimizar operaciones DML para mejorar el rendimiento?</h2>
+        <p>Optimizar las consultas, usar índices adecuados y minimizar el tamaño de las transacciones para mejorar el rendimiento de las operaciones DML.</p>
+    </div>
+
+    <div class="question">
+        <h2>14. ¿Qué es el "Batch Processing" en JDBC y cómo se utiliza?</h2>
+        <p>El procesamiento por lotes agrupa múltiples operaciones DML en una sola transacción para mejorar el rendimiento.</p>
+        <pre><code>
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/db", "user", "password");
+conn.setAutoCommit(false);
+String sql = "INSERT INTO table (column1, column2) VALUES (?, ?)";
+PreparedStatement pstmt = conn.prepareStatement(sql);
+for (int i = 0; i < 100; i++) {
+    pstmt.setString(1, "value1");
+    pstmt.setString(2, "value2");
+    pstmt.addBatch();
+}
+pstmt.executeBatch();
+conn.commit();
+pstmt.close();
+conn.close();
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>15. ¿Cómo realizar operaciones DML en un contexto multi-hilo en Java?</h2>
+        <p>Utilizar conexiones de base de datos separadas por hilo y asegurarse de que las operaciones DML sean thread-safe.</p>
+    </div>
+
+    <div class="question">
+        <h2>16. ¿Cómo utilizar SQLAlchemy para realizar actualizaciones masivas en Python?</h2>
+        <pre><code>
+from sqlalchemy import create_engine, Table, MetaData, update
+
+engine = create_engine('mysql+pymysql://user:password@localhost/db')
+metadata = MetaData(bind=engine)
+table = Table('table', metadata, autoload_with=engine)
+
+stmt = update(table).where(table.c.column1 == 'old_value').values(column1='new_value')
+with engine.connect() as conn:
+    conn.execute(stmt)
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>17. ¿Cómo realizar operaciones DML en una base de datos NoSQL desde el código?</h2>
+        <p>Utilizar las API específicas de la base de datos NoSQL, como MongoDB's PyMongo o Cassandra's DataStax, para realizar operaciones DML.</p>
+    </div>
+
+    <div class="question">
+        <h2>18. ¿Cómo utilizar transacciones en un entorno multi-thread en SQLAlchemy?</h2>
+        <p>Utilizar una sesión por hilo para asegurar que las transacciones sean aisladas y seguras en un entorno multi-thread.</p>
+    </div>
+
+    <div class="question">
+        <h2>19. ¿Cómo utilizar Prepared Statements en Python con psycopg2 para prevenir inyección SQL?</h2>
+        <pre><code>
+import psycopg2
+
+conn = psycopg2.connect("dbname=test user=postgres password=secret")
+cur = conn.cursor()
+cur.execute("INSERT INTO table (column1, column2) VALUES (%s, %s)", ("value1", "value2"))
+conn.commit()
+cur.close()
+conn.close()
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>20. ¿Cómo manejar operaciones DML en un entorno distribuido?</h2>
+        <p>Utilizar técnicas de replicación de datos y coordinación de transacciones distribuidas para manejar operaciones DML en sistemas distribuidos.</p>
+    </div>
+
+    <div class="question">
+        <h2>21. ¿Cómo utilizar el patrón Repository para manejar DML en Java?</h2>
+        <p>El patrón Repository proporciona una capa de abstracción para el acceso a datos, manejando operaciones DML y encapsulando la lógica de acceso a datos.</p>
+    </div>
+
+    <div class="question">
+        <h2>22. ¿Cómo implementar transacciones en una base de datos NoSQL desde el código?</h2>
+        <p>Algunas bases de datos NoSQL ofrecen soporte limitado para transacciones. Utilizar operaciones de escritura atómicas o diseñar el sistema para manejar la consistencia eventual.</p>
+    </div>
+
+    <div class="question">
+        <h2>23. ¿Cómo utilizar la librería Hibernate para manejar operaciones DML en Java?</h2>
+        <pre><code>
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+Session session = HibernateUtil.getSessionFactory().openSession();
+Transaction tx = session.beginTransaction();
+
+MyEntity entity = new MyEntity();
+entity.setColumn1("value1");
+session.save(entity);
+
+tx.commit();
+session.close();
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>24. ¿Cómo utilizar el patrón DAO para operaciones DML en un entorno multi-hilo?</h2>
+        <p>Utilizar sincronización adecuada y asegurar que cada hilo tenga su propia conexión para evitar problemas de concurrencia en operaciones DML.</p>
+    </div>
+
+    <div class="question">
+        <h2>25. ¿Cómo manejar grandes volúmenes de datos en operaciones DML?</h2>
+        <p>Utilizar técnicas de procesamiento por lotes y dividir operaciones grandes en transacciones más pequeñas para mejorar el rendimiento.</p>
+    </div>
+
+    <div class="question">
+        <h2>26. ¿Cómo utilizar la librería psycopg2 para manejar transacciones en PostgreSQL desde Python?</h2>
+        <pre><code>
+import psycopg2
+
+conn = psycopg2.connect("dbname=test user=postgres password=secret")
+cur = conn.cursor()
+try:
+    cur.execute("UPDATE table SET column1 = %s WHERE column2 = %s", ("new_value", "condition_value"))
+    conn.commit()
+except:
+    conn.rollback()
+finally:
+    cur.close()
+    conn.close()
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>27. ¿Cómo manejar operaciones DML en una base de datos en la nube?</h2>
+        <p>Utilizar las API específicas del proveedor de la nube y técnicas de manejo de datos en la nube, como la replicación y la escalabilidad automática.</p>
+    </div>
+
+    <div class="question">
+        <h2>28. ¿Cómo utilizar el patrón Unit of Work para operaciones DML en Java?</h2>
+        <p>El patrón Unit of Work mantiene un registro de las operaciones pendientes y asegura que todas las modificaciones se realicen en una transacción coherente.</p>
+    </div>
+
+    <div class="question">
+        <h2>29. ¿Cómo utilizar transacciones en el entorno web con JDBC?</h2>
+        <p>Configurar el manejo de transacciones a nivel de aplicación y asegurarse de que las conexiones a la base de datos estén correctamente gestionadas.</p>
+    </div>
+
+    <div class="question">
+        <h2>30. ¿Cómo utilizar el módulo sqlite3 en Python para manejar DML?</h2>
+        <pre><code>
+import sqlite3
+
+conn = sqlite3.connect('example.db')
+cur = conn.cursor()
+cur.execute("INSERT INTO table (column1, column2) VALUES (?, ?)", ("value1", "value2"))
+conn.commit()
+cur.close()
+conn.close()
+        </code></pre>
+    </div>
+
+</body>
+</html>

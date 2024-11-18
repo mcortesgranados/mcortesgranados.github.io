@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# DateTime</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# DateTime</h1>
+    <p>The <code>DateTime</code> structure in C# represents date and time. It provides various methods and properties to work with dates and times.</p>
+    
+    <h2>1. Getting the Current Date and Time</h2>
+    <p>You can get the current date and time using the <code>DateTime.Now</code> property:</p>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            // Get the current date and time
+            DateTime now = DateTime.Now;
+
+            Console.WriteLine("Current Date and Time: " + now);
+        }
+    }
+    </code></pre>
+    
+    <h2>2. Formatting Dates</h2>
+    <p>To format dates, you can use the <code>ToString()</code> method with format specifiers:</p>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            DateTime now = DateTime.Now;
+
+            // Format date in various ways
+            Console.WriteLine("Short Date: " + now.ToString("d"));
+            Console.WriteLine("Long Date: " + now.ToString("D"));
+            Console.WriteLine("Short Time: " + now.ToString("t"));
+            Console.WriteLine("Long Time: " + now.ToString("T"));
+            Console.WriteLine("Custom Format: " + now.ToString("yyyy-MM-dd HH:mm:ss"));
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Date Arithmetic</h2>
+    <p>You can perform arithmetic operations on dates, such as adding or subtracting time:</p>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            DateTime now = DateTime.Now;
+
+            // Add 10 days
+            DateTime futureDate = now.AddDays(10);
+            Console.WriteLine("Date in 10 days: " + futureDate);
+
+            // Subtract 5 hours
+            DateTime pastDate = now.AddHours(-5);
+            Console.WriteLine("Date 5 hours ago: " + pastDate);
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Parsing Dates</h2>
+    <p>To convert a string to a <code>DateTime</code> object, use the <code>DateTime.Parse()</code> or <code>DateTime.TryParse()</code> methods:</p>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            string dateString = "2024-08-28";
+
+            // Parse the date
+            DateTime parsedDate = DateTime.Parse(dateString);
+            Console.WriteLine("Parsed Date: " + parsedDate);
+
+            // Try parsing with validation
+            if (DateTime.TryParse(dateString, out DateTime validDate))
+            {
+                Console.WriteLine("Valid Date: " + validDate);
+            }
+            else
+            {
+                Console.WriteLine("Invalid Date");
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>5. Key Points</h2>
+    <ul>
+        <li><strong>DateTime.Now</strong> provides the current date and time.</li>
+        <li><strong>ToString()</strong> allows formatting dates and times using format specifiers.</li>
+        <li><strong>AddDays()</strong>, <strong>AddHours()</strong>, and similar methods can be used for date arithmetic.</li>
+        <li><strong>DateTime.Parse()</strong> and <strong>DateTime.TryParse()</strong> are used to convert strings to <code>DateTime</code> objects.</li>
+    </ul>
+</body>
+</html>

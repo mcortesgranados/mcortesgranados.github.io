@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Advanced Level Questions - Part 16</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .answer {
+            background-color: #f9f9f9;
+            border-left: 5px solid #4CAF50;
+            padding: 10px;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Angular Advanced Level Questions - Part 20</h1>
+
+    <div class="question">
+        <h2>1. How do you use Angular's `@NgModule` to configure feature modules with lazy loading and preloading strategies?</h2>
+        <div class="answer">
+            <p>Configure feature modules with lazy loading and preloading strategies:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { MainComponent } from './main.component';
+
+const routes: Routes = [
+  { path: '', component: MainComponent },
+  { path: 'feature', loadChildren: () => import('./feature/feature.module').then(m => m.FeatureModule) }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How do you use Angular's `@NgModule` to configure dependency injection for a multi-provider scenario?</h2>
+        <div class="answer">
+            <p>Configure dependency injection for a multi-provider scenario:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { SomeService } from './some.service';
+import { AnotherService } from './another.service';
+
+@NgModule({
+  providers: [
+    { provide: SomeService, useClass: AnotherService, multi: true }
+  ]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you implement Angular's `@Component` to support dynamic content projection with multiple slots?</h2>
+        <div class="answer">
+            <p>Implement dynamic content projection with multiple slots:</p>
+            <pre><code>import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-multi-slot',
+  template: `
+    &lt;ng-content select="[header]"&gt;&lt;/ng-content&gt;
+    &lt;div class="body"&gt;&lt;ng-content&gt;&lt;/ng-content&gt;&lt;/div&gt;
+    &lt;ng-content select="[footer]"&gt;&lt;/ng-content&gt;
+  `,
+  styles: [`
+    .body { padding: 10px; }
+  `]
+})
+export class MultiSlotComponent { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you use Angular's `@Component` to manage and bind data to a table with sorting and filtering functionality?</h2>
+        <div class="answer">
+            <p>Manage and bind data to a table with sorting and filtering:</p>
+            <pre><code>import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
+
+@Component({
+  selector: 'app-table',
+  template: `
+    &lt;input [formControl]="filterControl" placeholder="Filter"&gt;
+    &lt;table&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Name&lt;/th&gt;
+          &lt;th&gt;Age&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr *ngFor="let item of filteredItems"&gt;
+          &lt;td&gt;{{ item.name }}&lt;/td&gt;
+          &lt;td&gt;{{ item.age }}&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  `
+})
+export class TableComponent {
+  filterControl = new FormControl('');
+  items = [{ name: 'Alice', age: 30 }, { name: 'Bob', age: 25 }];
+  filteredItems = this.items;
+
+  constructor() {
+    this.filterControl.valueChanges.subscribe(filterText => {
+      this.filteredItems = this.items.filter(item => item.name.includes(filterText));
+    });
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you use Angular's `@Component` to create a component that handles file uploads?</h2>
+        <div class="answer">
+            <p>Create a component that handles file uploads:</p>
+            <pre><code>import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-file-upload',
+  template: `
+    &lt;input type="file" (change)="onFileChange($event)" /&gt;
+  `
+})
+export class FileUploadComponent {
+  onFileChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      console.log('Selected file:', file);
+    }
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you use Angular's `@Component` to manage state with a Redux-like pattern?</h2>
+        <div class="answer">
+            <p>Manage state with a Redux-like pattern:</p>
+            <pre><code>import { Component } from '@angular/core';
+import { Store, Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { Increment } from './counter.actions';
+import { CounterState } from './counter.state';
+
+@Component({
+  selector: 'app-counter',
+  template: `
+    &lt;button (click)="increment()"&gt;Increment&lt;/button&gt;
+    &lt;p&gt;Count: {{ count$ | async }}&lt;/p&gt;
+  `
+})
+export class CounterComponent {
+  @Select(CounterState.getCount) count$: Observable<number>;
+
+  constructor(private store: Store) {}
+
+  increment() {
+    this.store.dispatch(new Increment());
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use Angular's `@NgModule` to configure multiple routers for different feature modules?</h2>
+        <div class="answer">
+            <p>Configure multiple routers for different feature modules:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { Feature1Component } from './feature1.component';
+import { Feature2Component } from './feature2.component';
+
+const feature1Routes: Routes = [
+  { path: 'feature1', component: Feature1Component }
+];
+
+const feature2Routes: Routes = [
+  { path: 'feature2', component: Feature2Component }
+];
+
+@NgModule({
+  imports: [
+    RouterModule.forChild(feature1Routes),
+    RouterModule.forChild(feature2Routes)
+  ],
+  exports: [RouterModule]
+})
+export class FeatureRoutingModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you use Angular's `@Component` to create a custom directive for toggling visibility?</h2>
+        <div class="answer">
+            <p>Create a custom directive for toggling visibility:</p>
+            <pre><code>import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+
+@Directive({
+  selector: '[appToggleVisibility]'
+})
+export class ToggleVisibilityDirective {
+  @Input() set appToggleVisibility(visible: boolean) {
+    this.renderer.setStyle(this.el.nativeElement, 'display', visible ? 'block' : 'none');
+  }
+
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you use Angular's `@Component` to integrate with external libraries or APIs?</h2>
+        <div class="answer">
+            <p>Integrate with external libraries or APIs:</p>
+            <pre><code>import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-external-api',
+  template: `
+    &lt;div *ngIf="data"&gt;
+      &lt;p&gt;Data from API: {{ data | json }}&lt;/p&gt;
+    &lt;/div&gt;
+  `
+})
+export class ExternalApiComponent implements OnInit {
+  data: any;
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.http.get('https://api.example.com/data')
+      .subscribe(response => this.data = response);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use Angular's `@Component` to manage form validation with reactive forms?</h2>
+        <div class="answer">
+            <p>Manage form validation with reactive forms:</p>
+            <pre><code>import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-reactive-form',
+  template: `
+    &lt;form [formGroup]="form" (ngSubmit)="onSubmit()"&gt;
+      &lt;input formControlName="name" placeholder="Name" /&gt;
+      &lt;div *ngIf="form.get('name').invalid && form.get('name').touched"&gt;
+        Name is required
+      &lt;/div&gt;
+      &lt;button type="submit" [disabled]="form.invalid"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  `
+})
+export class ReactiveFormComponent {
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      name: ['', Validators.required]
+    });
+  }
+
+  onSubmit() {
+    console.log(this.form.value);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you use Angular's `@Component` to create a custom pipe for transforming data?</h2>
+        <div class="answer">
+            <p>Create a custom pipe for transforming data:</p>
+            <pre><code>import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'reverse'
+})
+export class ReversePipe implements PipeTransform {
+  transform(value: string): string {
+    return value.split('').reverse().join('');
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you use Angular's `@NgModule` to configure routes with child routes and route guards?</h2>
+        <div class="answer">
+            <p>Configure routes with child routes and route guards:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { ParentComponent } from './parent.component';
+import { ChildComponent } from './child.component';
+import { AuthGuard } from './auth.guard';
+
+const routes: Routes = [
+  {
+    path: 'parent',
+    component: ParentComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'child', component: ChildComponent }
+    ]
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use Angular's `@Component` to implement advanced animations with `@angular/animations`?</h2>
+        <div class="answer">
+            <p>Implement advanced animations with `@angular/animations`:</p>
+            <pre><code>import { Component } from '@angular/core';
+import { trigger, transition, style, animate } from '@angular/animations';
+
+@Component({
+  selector: 'app-animate',
+  template: `
+    &lt;div [@fadeInOut]="state"&gt;Content&lt;/div&gt;
+    &lt;button (click)="toggle()"&gt;Toggle&lt;/button&gt;
+  `,
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('500ms', style({ opacity: 0 }))
+      ])
+    ])
+  ]
+})
+export class AnimateComponent {
+  state = 'visible';
+
+  toggle() {
+    this.state = this.state === 'visible' ? 'hidden' : 'visible';
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use Angular's `@NgModule` to configure dynamic module loading and module federation?</h2>
+        <div class="answer">
+            <p>Configure dynamic module loading and module federation:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { MainComponent } from './main.component';
+
+const routes: Routes = [
+  { path: '', component: MainComponent },
+  { path: 'dynamic', loadChildren: () => import('./dynamic/dynamic.module').then(m => m.DynamicModule) }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you use Angular's `@Component` to handle internationalization (i18n) for multilingual applications?</h2>
+        <div class="answer">
+            <p>Handle internationalization (i18n) for multilingual applications:</p>
+            <pre><code>import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+
+@Component({
+  selector: 'app-i18n',
+  template: `
+    &lt;div&gt;
+      &lt;p&gt;{{ 'WELCOME_MESSAGE' | translate }}&lt;/p&gt;
+      &lt;button (click)="switchLanguage('en')"&gt;English&lt;/button&gt;
+      &lt;button (click)="switchLanguage('es')"&gt;Español&lt;/button&gt;
+    &lt;/div&gt;
+  `
+})
+export class I18nComponent {
+  constructor(private translate: TranslateService) {
+    translate.setDefaultLang('en');
+  }
+
+  switchLanguage(lang: string) {
+    this.translate.use(lang);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you use Angular's `@Component` to implement a custom form control with `ControlValueAccessor`?</h2>
+        <div class="answer">
+            <p>Implement a custom form control with `ControlValueAccessor`:</p>
+            <pre><code>import { Component, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+@Component({
+  selector: 'app-custom-input',
+  template: `
+    &lt;input [value]="value" (input)="onChange($event.target.value)" /&gt;
+  `,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CustomInputComponent),
+      multi: true
+    }
+  ]
+})
+export class CustomInputComponent implements ControlValueAccessor {
+  value: any;
+  onChange = (value: any) => {};
+  onTouched = () => {};
+
+  writeValue(value: any): void {
+    this.value = value;
+  }
+
+  registerOnChange(fn: (value: any) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use Angular's `@NgModule` to integrate with third-party libraries and configure their modules?</h2>
+        <div class="answer">
+            <p>Integrate with third-party libraries and configure their modules:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { SomeThirdPartyModule } from 'some-third-party-library';
+
+@NgModule({
+  imports: [
+    BrowserModule,
+    SomeThirdPartyModule.forRoot()
+  ],
+  declarations: [AppComponent],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use Angular's `@Component` to implement a component with custom input decorators and property bindings?</h2>
+        <div class="answer">
+            <p>Implement a component with custom input decorators and property bindings:</p>
+            <pre><code>import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-custom-input',
+  template: `
+    &lt;div&gt;
+      &lt;p&gt;Input value: {{ value }}&lt;/p&gt;
+      &lt;button (click)="notify.emit(value)"&gt;Notify&lt;/button&gt;
+    &lt;/div&gt;
+  `
+})
+export class CustomInputComponent {
+  @Input() value: string;
+  @Output() notify = new EventEmitter<string>();
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you use Angular's `@Component` to create a component that interacts with a WebSocket service?</h2>
+        <div class="answer">
+            <p>Create a component that interacts with a WebSocket service:</p>
+            <pre><code>import { Component, OnInit, OnDestroy } from '@angular/core';
+import { WebSocketService } from './web-socket.service';
+import { Subscription } from 'rxjs';
+
+@Component({
+  selector: 'app-web-socket',
+  template: `
+    &lt;div&gt;
+      &lt;p&gt;WebSocket Data: {{ data }}&lt;/p&gt;
+    &lt;/div&gt;
+  `
+})
+export class WebSocketComponent implements OnInit, OnDestroy {
+  data: string;
+  private subscription: Subscription;
+
+  constructor(private webSocketService: WebSocketService) {}
+
+  ngOnInit() {
+    this.subscription = this.webSocketService.getData().subscribe(data => {
+      this.data = data;
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `@Component` to handle dynamic component loading and rendering?</h2>
+        <div class="answer">
+            <p>Handle dynamic component loading and rendering:</p>
+            <pre><code>import { Component, ViewContainerRef, ComponentFactoryResolver, OnInit } from '@angular/core';
+import { DynamicComponent } from './dynamic.component';
+
+@Component({
+  selector: 'app-dynamic-loader',
+  template: `
+    &lt;ng-template #dynamicContainer&gt;&lt;/ng-template&gt;
+    &lt;button (click)="loadComponent()"&gt;Load Dynamic Component&lt;/button&gt;
+  `
+})
+export class DynamicLoaderComponent implements OnInit {
+  @ViewChild('dynamicContainer', { read: ViewContainerRef }) container: ViewContainerRef;
+
+  constructor(private resolver: ComponentFactoryResolver) {}
+
+  ngOnInit() {}
+
+  loadComponent() {
+    const factory = this.resolver.resolveComponentFactory(DynamicComponent);
+    this.container.clear();
+    this.container.createComponent(factory);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Forms Q&A - Part 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        h2 {
+            color: #007BFF;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-left: 4px solid #007BFF;
+            overflow-x: auto;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .question strong {
+            color: #333;
+        }
+        .answer {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Oracle Forms Q&A - Part 2</h1>
+
+    <div class="question">
+        <strong>1. What is a parameter form in Oracle Forms?</strong>
+        <div class="answer">
+            <p>A parameter form is used to collect input parameters from the user before running a report or other operation. It typically includes fields for the user to enter values.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>2. How can you use a parameter form to filter data in a report?</strong>
+        <div class="answer">
+            <p>When a parameter form is submitted, the values entered by the user can be passed to a query or a report to filter the data accordingly.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>3. What is the difference between <code>WHEN-NEW-RECORD-INSTANCE</code> and <code>WHEN-NEW-FORM-INSTANCE</code> triggers?</strong>
+        <div class="answer">
+            <p><code>WHEN-NEW-RECORD-INSTANCE</code> is triggered when a new record is displayed or created, while <code>WHEN-NEW-FORM-INSTANCE</code> is triggered when the form is first loaded.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>4. How can you create a custom menu in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can create a custom menu using the Menu Editor in Oracle Forms Builder. Define menu items and associate them with triggers or procedures.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>5. What is a visual attribute in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Visual attributes are properties such as color, font, and style that define the appearance of items in Oracle Forms.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>6. How do you change the appearance of a field in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can change the appearance by modifying its visual attributes through the property palette or by creating and applying a custom visual attribute.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>7. How can you handle multi-record blocks in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Multi-record blocks can be handled by using <code>LOV</code>s or programmatically looping through records using PL/SQL to perform operations on each record.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>8. What is a key trigger in Oracle Forms?</strong>
+        <div class="answer">
+            <p>A key trigger is associated with a specific keyboard action, such as pressing a key or key combination. It allows you to define custom behavior for keyboard inputs.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>9. How do you use the <code>SET_ITEM_PROPERTY</code> built-in procedure?</strong>
+        <div class="answer">
+            <p>The <code>SET_ITEM_PROPERTY</code> procedure is used to change properties of form items dynamically at runtime.</p>
+            <pre><code>
+SET_ITEM_PROPERTY('item_name', VISUAL_ATTRIBUTE, 'new_attribute');
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>10. What are Oracle Forms libraries and how are they used?</strong>
+        <div class="answer">
+            <p>Libraries in Oracle Forms are PL/SQL code modules that can be shared across multiple forms. They are used to store reusable procedures and functions.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>11. How do you debug a form in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can debug a form by using the built-in debugger in Oracle Forms Builder, setting breakpoints, and examining variable values during execution.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>12. What is the purpose of the <code>WHEN-MOUSE-CLICK</code> trigger?</strong>
+        <div class="answer">
+            <p>The <code>WHEN-MOUSE-CLICK</code> trigger is used to handle mouse click events on items or canvases, allowing you to execute custom code in response to user clicks.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>13. How can you enable or disable a field dynamically?</strong>
+        <div class="answer">
+            <p>You can enable or disable a field using the <code>SET_ITEM_PROPERTY</code> procedure to change its <code>ENABLED</code> property.</p>
+            <pre><code>
+SET_ITEM_PROPERTY('item_name', ENABLED, PROPERTY_TRUE);
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>14. What is the <code>WHEN-CHECK-BOX-CHANGED</code> trigger used for?</strong>
+        <div class="answer">
+            <p>The <code>WHEN-CHECK-BOX-CHANGED</code> trigger is used to handle changes in the state of a checkbox, allowing you to execute code when the checkbox is checked or unchecked.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>15. How do you perform a database operation using Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can perform database operations such as queries, inserts, updates, and deletes using built-in PL/SQL procedures like <code>EXECUTE_QUERY</code>, <code>INSERT_RECORD</code>, and <code>DELETE_RECORD</code>.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>16. What is the purpose of the <code>QUERY_DATA</code> built-in procedure?</strong>
+        <div class="answer">
+            <p>The <code>QUERY_DATA</code> procedure is used to execute a query and populate a data block with the results.</p>
+            <pre><code>
+QUERY_DATA;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>17. How do you create a tab canvas in Oracle Forms?</strong>
+        <div class="answer">
+            <p>A tab canvas is created by using the Canvas Editor to define tab pages and then adding items to these pages. You set up navigation between the tabs using triggers.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>18. What is the purpose of the <code>POST</code> built-in procedure?</strong>
+        <div class="answer">
+            <p>The <code>POST</code> procedure is used to write changes made to the current form's data block to the database without committing them.</p>
+            <pre><code>
+POST;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>19. How do you create a report in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Reports can be created using Oracle Reports Builder, and then integrated into Oracle Forms using <code>RUN_REPORT_OBJECT</code> to generate and display the report.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>20. What are the types of canvases available in Oracle Forms?</strong>
+        <div class="answer">
+            <p>The main types of canvases are Content Canvases, Stack Canvases, and Tab Canvases. Each serves different purposes for layout and item organization.</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

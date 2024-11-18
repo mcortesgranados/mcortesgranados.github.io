@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas sobre Despliegues e Implementaciones en la Nube</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preguntas sobre Despliegues e Implementaciones en la Nube</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1. ¿Cómo se realiza un despliegue en AWS usando la consola?</td>
+                <td>Accede a la consola de AWS, selecciona el servicio deseado (por ejemplo, Elastic Beanstalk), y sigue el asistente para subir y desplegar tu aplicación.</td>
+            </tr>
+            <tr>
+                <td>2. ¿Cómo se despliega una aplicación en AWS con la CLI de AWS en Python?</td>
+                <td>
+                    <pre><code>import boto3
+
+client = boto3.client('elasticbeanstalk')
+
+response = client.create_application_version(
+    ApplicationName='my-app',
+    VersionLabel='v1',
+    Description='My first application version',
+    SourceBundle={
+        'S3Bucket': 'my-bucket',
+        'S3Key': 'app.zip'
+    }
+)</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>3. ¿Cómo se hace un despliegue en Azure usando la línea de comandos en C#?</td>
+                <td>
+                    <pre><code>using System.Diagnostics;
+
+Process.Start("cmd.exe", "/c az webapp deployment source config-zip --resource-group myResourceGroup --name myApp --src app.zip");</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>4. ¿Cómo despliego una aplicación en Google Cloud con el SDK en Java?</td>
+                <td>
+                    <pre><code>import com.google.cloud.tools.appengine.AppEngineException;
+import com.google.cloud.tools.appengine.AppEngineHelper;
+
+public class DeployApp {
+    public static void main(String[] args) throws AppEngineException {
+        AppEngineHelper.deploy("my-app.yaml");
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>5. ¿Cómo se realiza un despliegue usando la API de AWS en TypeScript?</td>
+                <td>
+                    <pre><code>import { ElasticBeanstalk } from 'aws-sdk';
+
+const eb = new ElasticBeanstalk();
+
+eb.createApplicationVersion({
+    ApplicationName: 'my-app',
+    VersionLabel: 'v1',
+    SourceBundle: {
+        S3Bucket: 'my-bucket',
+        S3Key: 'app.zip'
+    }
+}).promise();</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>6. ¿Cómo se actualiza una aplicación en Azure usando la consola?</td>
+                <td>Accede a la consola de Azure, navega al recurso de tu aplicación, selecciona "Despliegue" y sube la nueva versión de tu aplicación.</td>
+            </tr>
+            <tr>
+                <td>7. ¿Cómo se hace un despliegue en Google Cloud con la CLI en Python?</td>
+                <td>
+                    <pre><code>import subprocess
+
+subprocess.run(["gcloud", "app", "deploy", "app.yaml"])</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>8. ¿Cómo se realiza un despliegue usando AWS CloudFormation en C#?</td>
+                <td>
+                    <pre><code>using Amazon.CloudFormation;
+using Amazon.CloudFormation.Model;
+
+public class DeployStack {
+    public static void Main(string[] args) {
+        var client = new AmazonCloudFormationClient();
+        var request = new CreateStackRequest {
+            StackName = "my-stack",
+            TemplateBody = "template-body"
+        };
+        client.CreateStackAsync(request);
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>9. ¿Cómo se usa el SDK de Google Cloud en TypeScript para despliegues?</td>
+                <td>
+                    <pre><code>import { exec } from 'child_process';
+
+exec('gcloud app deploy app.yaml', (error, stdout, stderr) => {
+    if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.error(`stderr: ${stderr}`);
+});</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>10. ¿Cómo se despliega una aplicación en AWS Lambda usando la consola?</td>
+                <td>Accede a la consola de AWS Lambda, selecciona la función que deseas actualizar, y usa la opción para subir un archivo .zip o cambiar el código fuente.</td>
+            </tr>
+            <tr>
+                <td>11. ¿Cómo se despliega una aplicación en Azure App Service usando la CLI en Python?</td>
+                <td>
+                    <pre><code>import subprocess
+
+subprocess.run(["az", "webapp", "deployment", "source", "config-zip", "--resource-group", "myResourceGroup", "--name", "myApp", "--src", "app.zip"])</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>12. ¿Cómo se realiza un despliegue en AWS S3 usando la línea de comandos en Java?</td>
+                <td>
+                    <pre><code>import java.io.File;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+
+public class UploadToS3 {
+    public static void main(String[] args) {
+        AmazonS3 s3Client = AmazonS3ClientBuilder.standard().build();
+        s3Client.putObject(new PutObjectRequest("my-bucket", "file.txt", new File("file.txt")));
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>13. ¿Cómo se actualiza una aplicación en Google Cloud Run usando la CLI en C#?</td>
+                <td>
+                    <pre><code>using System.Diagnostics;
+
+Process.Start("cmd.exe", "/c gcloud run deploy my-service --image gcr.io/my-project/my-image");</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>14. ¿Cómo se despliega una aplicación en AWS Elastic Beanstalk usando la CLI en Python?</td>
+                <td>
+                    <pre><code>import subprocess
+
+subprocess.run(["eb", "deploy"])</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>15. ¿Cómo se realiza un despliegue en Azure con Azure DevOps en TypeScript?</td>
+                <td>
+                    <pre><code>import * as azure from 'azure-pipelines-task-lib';
+
+azure.exec('az', ['webapp', 'deployment', 'source', 'config-zip', '--resource-group', 'myResourceGroup', '--name', 'myApp', '--src', 'app.zip']);</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>16. ¿Cómo se despliega una aplicación en Google App Engine usando la consola?</td>
+                <td>Accede a la consola de Google Cloud, navega a App Engine, y utiliza la opción para desplegar una nueva versión de la aplicación.</td>
+            </tr>
+            <tr>
+                <td>17. ¿Cómo se realiza un despliegue en AWS EC2 usando la CLI en C#?</td>
+                <td>
+                    <pre><code>using System.Diagnostics;
+
+Process.Start("cmd.exe", "/c aws ec2 create-image --instance-id i-1234567890abcdef0 --name \"My server\" --no-reboot");</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>18. ¿Cómo se despliega una aplicación en Azure Kubernetes Service con la CLI en Python?</td>
+                <td>
+                    <pre><code>import subprocess
+
+subprocess.run(["az", "aks", "get-credentials", "--resource-group", "myResourceGroup", "--name", "myAKSCluster"])
+subprocess.run(["kubectl", "apply", "-f", "deployment.yaml"])</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>19. ¿Cómo se actualiza una función en AWS Lambda usando el SDK en Java?</td>
+                <td>
+                    <pre><code>import com.amazonaws.services.lambda.AWSLambda;
+import com.amazonaws.services.lambda.AWSLambdaClientBuilder;
+import com.amazonaws.services.lambda.model.UpdateFunctionCodeRequest;
+
+public class UpdateLambda {
+    public static void main(String[] args) {
+        AWSLambda lambdaClient = AWSLambdaClientBuilder.standard().build();
+        UpdateFunctionCodeRequest request = new UpdateFunctionCodeRequest()
+                .withFunctionName("my-function")
+                .withS3Bucket("my-bucket")
+                .withS3Key("code.zip");
+        lambdaClient.updateFunctionCode(request);
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>20. ¿Cómo se realiza un despliegue en Google Cloud SQL usando la CLI en TypeScript?</td>
+                <td>
+                    <pre><code>import { exec } from 'child_process';
+
+exec('gcloud sql import sql my-instance gs://my-bucket/my-database.sql', (error, stdout, stderr) => {
+    if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.error(`stderr: ${stderr}`);
+});</code></pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

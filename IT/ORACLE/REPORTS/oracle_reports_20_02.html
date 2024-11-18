@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Reports FAQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background: #f4f4f4;
+            border-left: 4px solid #ccc;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Oracle Reports FAQ</h1>
+
+    <h2>1. How can you set up a custom layout for a report in Oracle Reports?</h2>
+    <p>You can set up a custom layout by using the 'Layout Editor' in Oracle Reports Builder. Drag and drop elements to create a custom arrangement.</p>
+
+    <h2>2. What is a data model in Oracle Reports?</h2>
+    <p>A data model defines the structure and source of data used in a report. It includes queries, parameters, and data groups.</p>
+
+    <h2>3. How can you use Oracle Reports to perform complex calculations?</h2>
+    <p>Use PL/SQL formulas and functions within the report to perform complex calculations. For example:</p>
+    <pre>
+    -- PL/SQL Calculation Example
+    DECLARE
+        v_bonus NUMBER;
+    BEGIN
+        v_bonus := :salary * 0.10;
+        :calculated_bonus := v_bonus;
+    END;
+    </pre>
+
+    <h2>4. How do you create a report with multiple layouts?</h2>
+    <p>To create a report with multiple layouts, use multiple 'Layout Models' in Oracle Reports Builder and switch between them based on conditions.</p>
+
+    <h2>5. How can you include images in your Oracle Reports?</h2>
+    <p>Include images by using the 'Image' tool in the 'Layout Editor'. You can set the image source to a URL or file path.</p>
+
+    <h2>6. How do you define a drill-down report in Oracle Reports?</h2>
+    <p>Define a drill-down report by setting up a 'Drill-Through' link from one report to another, allowing users to click on a report element to view detailed information.</p>
+
+    <h2>7. What is a 'Parameter Form' in Oracle Reports?</h2>
+    <p>A 'Parameter Form' is a user interface that allows users to input values for report parameters before generating the report.</p>
+
+    <h2>8. How can you use conditional formatting in Oracle Reports?</h2>
+    <p>Apply conditional formatting by setting up 'Format Triggers' or using 'Conditional Formatting' options in the 'Property Inspector'.</p>
+
+    <h2>9. How do you generate an Excel report from Oracle Reports?</h2>
+    <p>To generate an Excel report, set the 'Output Format' to 'Excel' in the 'Report Properties' section of Oracle Reports Builder.</p>
+
+    <h2>10. What is a 'Master-Detail' report?</h2>
+    <p>A 'Master-Detail' report is a report that displays a main set of data (master) along with related data (details) in a hierarchical format.</p>
+
+    <h2>11. How can you implement security in Oracle Reports?</h2>
+    <p>Implement security by using Oracle Reports Server’s security settings to control access to reports and data based on user roles and privileges.</p>
+
+    <h2>12. What are 'Report Triggers' and how are they used?</h2>
+    <p>'Report Triggers' are PL/SQL blocks executed at specific points during the report's lifecycle, such as before the report runs or after it completes.</p>
+
+    <h2>13. How do you include sub-reports in Oracle Reports?</h2>
+    <p>Include sub-reports by adding a 'Sub-Report' element in the layout and linking it to a separate report definition.</p>
+
+    <h2>14. How can you customize the appearance of headers and footers in Oracle Reports?</h2>
+    <p>Customize headers and footers by editing the 'Header' and 'Footer' sections in the 'Layout Editor'. You can add text, images, and dynamic data.</p>
+
+    <h2>15. What is a 'Break Group' and how is it used?</h2>
+    <p>A 'Break Group' is used to group data based on specific criteria and manage the display of grouped data in the report layout.</p>
+
+    <h2>16. How can you handle large datasets in Oracle Reports?</h2>
+    <p>Handle large datasets by using efficient SQL queries, indexing, and pagination features to manage data loading and display.</p>
+
+    <h2>17. How do you apply a 'Page Break' in Oracle Reports?</h2>
+    <p>Apply a 'Page Break' by inserting a 'Page Break' element in the 'Layout Editor' to start a new page at a specific point in the report.</p>
+
+    <h2>18. How can you use Oracle Reports with Oracle BI Publisher?</h2>
+    <p>Integrate Oracle Reports with Oracle BI Publisher by exporting reports to formats compatible with BI Publisher and using BI Publisher for additional formatting and delivery options.</p>
+
+    <h2>19. How do you troubleshoot performance issues in Oracle Reports?</h2>
+    <p>Troubleshoot performance issues by analyzing SQL queries, optimizing data access, and using Oracle Reports’ performance monitoring tools.</p>
+
+    <h2>20. What are 'Report Layouts' and how can they be managed?</h2>
+    <p>'Report Layouts' define the visual arrangement of report data. Manage them using the 'Layout Editor' to create, edit, and format different layouts for your reports.</p>
+</body>
+</html>

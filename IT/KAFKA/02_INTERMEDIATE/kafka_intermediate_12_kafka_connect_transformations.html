@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Intermediate: Kafka Connect Transformations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Kafka Intermediate: Kafka Connect Transformations</h1>
+
+    <p>Kafka Connect provides a simple and flexible way to move data between Kafka and other systems. One powerful feature in Kafka Connect is the ability to apply transformations to the data as it flows through the connectors.</p>
+
+    <p>This guide will explore how transformations work in Kafka Connect and provide examples of common transformations that can be applied to source and sink connectors.</p>
+
+    <h2>1. What Are Kafka Connect Transformations?</h2>
+    <p>Kafka Connect transformations allow you to modify records before they are sent from a source system to Kafka, or from Kafka to a sink system. They act as a lightweight stream processing layer within the connector pipeline.</p>
+
+    <p>Transformations can be used for a variety of purposes, such as:</p>
+    <ul>
+        <li>Changing the structure of records (e.g., renaming fields, adding or removing fields).</li>
+        <li>Filtering records based on certain conditions.</li>
+        <li>Masking sensitive data.</li>
+        <li>Reformatting timestamps or other fields.</li>
+    </ul>
+
+    <h2>2. How Kafka Connect Transformations Work</h2>
+    <p>Transformations are defined in the connector configuration using the <code>transforms</code> property. You can chain multiple transformations together to create a pipeline of data manipulation steps.</p>
+
+    <p>Each transformation requires a name and a class that implements the transformation logic. Some transformations also have additional configuration options.</p>
+
+    <h2>3. Example: Insert Field Transformation</h2>
+    <p>The <code>InsertField</code> transformation allows you to add a static field to every record. For example, you can add a field that indicates the source of the data.</p>
+
+    <pre>
+<code>
+{
+  "name": "jdbc-source-connector",
+  "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+  "tasks.max": "1",
+  "connection.url": "jdbc:mysql://localhost:3306/mydb",
+  "connection.user": "dbuser",
+  "connection.password": "dbpassword",
+  "table.whitelist": "my_table",
+  "mode": "incrementing",
+  "incrementing.column.name": "id",
+  "topic.prefix": "jdbc-",
+  "poll.interval.ms": "10000",
+  "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "transforms": "InsertSource",
+  "transforms.InsertSource.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+  "transforms.InsertSource.static.field": "source",
+  "transforms.InsertSource.static.value": "mysql"
+}
+</code>
+    </pre>
+
+    <p>In this example, every record that flows through the connector will have a new field called <code>source</code> with the value <code>mysql</code>.</p>
+
+    <h2>4. Example: Mask Field Transformation</h2>
+    <p>The <code>MaskField</code> transformation allows you to mask sensitive information in records, such as credit card numbers or passwords.</p>
+
+    <pre>
+<code>
+{
+  "name": "jdbc-source-connector",
+  "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+  "tasks.max": "1",
+  "connection.url": "jdbc:mysql://localhost:3306/mydb",
+  "connection.user": "dbuser",
+  "connection.password": "dbpassword",
+  "table.whitelist": "my_table",
+  "mode": "incrementing",
+  "incrementing.column.name": "id",
+  "topic.prefix": "jdbc-",
+  "poll.interval.ms": "10000",
+  "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "transforms": "MaskSensitive",
+  "transforms.MaskSensitive.type": "org.apache.kafka.connect.transforms.MaskField$Value",
+  "transforms.MaskSensitive.fields": "credit_card_number"
+}
+</code>
+    </pre>
+
+    <p>This example masks the <code>credit_card_number</code> field in all records, ensuring that sensitive data is not exposed when written to Kafka.</p>
+
+    <h2>5. Example: Filter Transformation</h2>
+    <p>The <code>Filter</code> transformation can be used to filter records based on certain conditions, ensuring that only specific records pass through the connector.</p>
+
+    <pre>
+<code>
+{
+  "name": "jdbc-source-connector",
+  "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+  "tasks.max": "1",
+  "connection.url": "jdbc:mysql://localhost:3306/mydb",
+  "connection.user": "dbuser",
+  "connection.password": "dbpassword",
+  "table.whitelist": "my_table",
+  "mode": "incrementing",
+  "incrementing.column.name": "id",
+  "topic.prefix": "jdbc-",
+  "poll.interval.ms": "10000",
+  "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "transforms": "FilterRecords",
+  "transforms.FilterRecords.type": "org.apache.kafka.connect.transforms.Filter$Value",
+  "transforms.FilterRecords.predicate": "isActive",
+  "transforms.FilterRecords.negate": "false"
+}
+</code>
+    </pre>
+
+    <p>Here, only records where the <code>isActive</code> field is true will pass through the connector.</p>
+
+    <h2>6. Chaining Multiple Transformations</h2>
+    <p>Multiple transformations can be applied to a single connector by chaining them together using the <code>transforms</code> property. Each transformation is applied in the order it is defined.</p>
+
+    <pre>
+<code>
+{
+  "name": "jdbc-source-connector",
+  "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+  "tasks.max": "1",
+  "connection.url": "jdbc:mysql://localhost:3306/mydb",
+  "connection.user": "dbuser",
+  "connection.password": "dbpassword",
+  "table.whitelist": "my_table",
+  "mode": "incrementing",
+  "incrementing.column.name": "id",
+  "topic.prefix": "jdbc-",
+  "poll.interval.ms": "10000",
+  "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "transforms": "InsertSource, MaskSensitive",
+  "transforms.InsertSource.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+  "transforms.InsertSource.static.field": "source",
+  "transforms.InsertSource.static.value": "mysql",
+  "transforms.MaskSensitive.type": "org.apache.kafka.connect.transforms.MaskField$Value",
+  "transforms.MaskSensitive.fields": "credit_card_number"
+}
+</code>
+    </pre>
+
+    <p>In this example, the <code>InsertSource</code> and <code>MaskSensitive</code> transformations are applied in sequence. First, the source field is added, and then the credit card number is masked.</p>
+
+    <h2>7. Conclusion</h2>
+    <p>Kafka Connect transformations provide a powerful way to manipulate data as it flows between Kafka and external systems. Whether you need to filter records, mask sensitive data, or reformat fields, transformations can help you customize the data pipeline to fit your needs.</p>
+
+</body>
+</html>

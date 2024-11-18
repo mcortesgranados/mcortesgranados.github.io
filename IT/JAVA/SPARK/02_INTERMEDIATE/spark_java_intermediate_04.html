@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fault Tolerance in Spark</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fault Tolerance in Spark</h1>
+
+    <p>Fault tolerance is a crucial feature of Apache Spark that ensures the reliability and resilience of distributed data processing. This document explains the fault tolerance mechanism in Spark and provides a Java code example to illustrate its behavior.</p>
+
+    <h2>What is Fault Tolerance?</h2>
+    <p>Fault tolerance refers to the ability of a system to continue operating correctly even when some components fail. In the context of Apache Spark, fault tolerance is achieved through RDD lineage information and data replication.</p>
+
+    <h2>Fault Tolerance Mechanisms in Spark</h2>
+    <p>Spark employs several techniques to ensure fault tolerance:</p>
+    <ul>
+        <li><strong>RDD Lineage:</strong> Spark keeps track of the lineage of RDDs, which is the sequence of operations used to build an RDD. If a partition of an RDD is lost due to a failure, Spark can recompute the lost data using the lineage information.</li>
+        <li><strong>Data Replication:</strong> Although Spark primarily relies on lineage information, it also supports data replication in some storage systems like HDFS. Replication helps to ensure that data is not lost in case of failures.</li>
+    </ul>
+
+    <h2>Example Code in Java</h2>
+    <p>The following Java code demonstrates how Spark's fault tolerance mechanism works through RDD lineage:</p>
+
+    <pre><code class="language-java">
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+
+public class FaultToleranceExample {
+    public static void main(String[] args) {
+        // Create a SparkConf object and set the application name and master
+        SparkConf conf = new SparkConf().setAppName("Fault Tolerance Example").setMaster("local");
+        
+        // Create a JavaSparkContext with the configuration
+        JavaSparkContext sc = new JavaSparkContext(conf);
+
+        // Create an RDD by parallelizing a collection
+        JavaRDD<Integer> numbers = sc.parallelize(java.util.Arrays.asList(1, 2, 3, 4, 5));
+
+        // Apply transformations
+        JavaRDD<Integer> squaredNumbers = numbers.map(number -> number * number);
+        JavaRDD<Integer> filteredNumbers = squaredNumbers.filter(number -> number % 2 == 0);
+
+        // Action: Collect triggers the computation
+        System.out.println("Filtered Squared Numbers:");
+        filteredNumbers.collect().forEach(System.out::println);
+
+        // Simulate a failure by stopping the SparkContext
+        sc.close();
+        // In a real scenario, you would restart the application to demonstrate fault tolerance
+
+        System.out.println("SparkContext stopped. Simulating a failure...");
+    }
+}
+    </code></pre>
+
+    <p>In this example:</p>
+    <ul>
+        <li><strong>RDD Lineage:</strong> We create an RDD <code>numbers</code> and apply transformations <code>map()</code> and <code>filter()</code>. Spark maintains the lineage of these operations.</li>
+        <li><strong>Action:</strong> The <code>collect()</code> action triggers the computation. If a partition of the RDD is lost, Spark can recompute it using the lineage information.</li>
+        <li><strong>Failure Simulation:</strong> We stop the SparkContext to simulate a failure. In practice, Spark will use the lineage information to recover lost partitions and continue processing.</li>
+    </ul>
+
+    <p>Spark's fault tolerance ensures that even if some nodes fail or data is lost, the system can recover and continue processing by recomputing the lost data from the lineage information.</p>
+
+</body>
+</html>

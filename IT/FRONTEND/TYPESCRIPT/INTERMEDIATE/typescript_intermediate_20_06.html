@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Intermediate Level Questions and Answers - Part 6</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Intermediate Level Questions and Answers - Part 6</h1>
+
+    <h2>1. How do you use <code>type</code> to define a type with optional properties?</h2>
+    <p>Using the <code>?</code> modifier makes a property optional in a type definition.</p>
+    <pre><code>interface User {
+    name: string;
+    age?: number;
+}
+
+const user1: User = { name: "Alice" };
+const user2: User = { name: "Bob", age: 25 };
+
+console.log(user1, user2); // { name: 'Alice' } { name: 'Bob', age: 25 }</code></pre>
+
+    <h2>2. How do you use <code>type</code> to create a type alias for an object with fixed keys?</h2>
+    <p>Type aliases can be used to create an object type with fixed keys.</p>
+    <pre><code>type Point = {
+    x: number;
+    y: number;
+};
+
+const point: Point = { x: 10, y: 20 };
+
+console.log(point); // { x: 10, y: 20 }</code></pre>
+
+    <h2>3. How do you use <code>keyof</code> to get the type of a key from an object?</h2>
+    <p>The <code>keyof</code> operator gets the type of keys from an object.</p>
+    <pre><code>interface Person {
+    name: string;
+    age: number;
+}
+
+type PersonKeys = keyof Person; // "name" | "age"
+
+const key: PersonKeys = "name";
+console.log(key); // name</code></pre>
+
+    <h2>4. How do you use <code>typeof</code> with arrays to infer types?</h2>
+    <p>The <code>typeof</code> operator can be used to infer types from arrays.</p>
+    <pre><code>const numbers = [1, 2, 3] as const;
+
+type NumberArray = typeof numbers; // readonly [1, 2, 3]
+
+const numArray: NumberArray = [1, 2, 3];
+console.log(numArray); // [1, 2, 3]</code></pre>
+
+    <h2>5. How do you use <code>this</code> to refer to the current instance in a method?</h2>
+    <p>In TypeScript, <code>this</code> refers to the current instance of the class.</p>
+    <pre><code>class Counter {
+    private count: number = 0;
+
+    increment() {
+        this.count++;
+    }
+
+    getCount(): number {
+        return this.count;
+    }
+}
+
+const counter = new Counter();
+counter.increment();
+console.log(counter.getCount()); // 1</code></pre>
+
+    <h2>6. How do you use <code>extends</code> in a generic type to constrain type parameters?</h2>
+    <p>Using <code>extends</code> in a generic type constrains the type parameter to a specific type or set of types.</p>
+    <pre><code>function log<T extends string | number>(value: T): void {
+    console.log(value);
+}
+
+log("Hello"); // Hello
+log(123); // 123
+// log(true); // Error: Argument of type 'boolean' is not assignable to parameter of type 'string | number'</code></pre>
+
+    <h2>7. How do you use <code>readonly</code> to make an array immutable?</h2>
+    <p>The <code>readonly</code> modifier makes an array immutable, meaning its elements cannot be changed.</p>
+    <pre><code>const numbers: readonly number[] = [1, 2, 3];
+
+numbers[0] = 10; // Error: Index signature in type 'readonly number[]' only permits reading property '0'
+console.log(numbers); // [1, 2, 3]</code></pre>
+
+    <h2>8. How do you use <code>Record</code> to map properties to specific types?</h2>
+    <p>The <code>Record</code> utility type maps keys of one type to values of another type.</p>
+    <pre><code>type UserRoles = "admin" | "user" | "guest";
+type UserPermissions = Record<UserRoles, boolean>;
+
+const permissions: UserPermissions = {
+    admin: true,
+    user: false,
+    guest: true
+};
+
+console.log(permissions); // { admin: true, user: false, guest: true }</code></pre>
+
+    <h2>9. How do you use <code>Promise</code> with generics to define a promise with a specific return type?</h2>
+    <p>Generics in <code>Promise</code> allow you to define the type of value the promise will resolve to.</p>
+    <pre><code>function fetchData(): Promise<string> {
+    return new Promise((resolve) => {
+        resolve("Data loaded");
+    });
+}
+
+fetchData().then((data) => {
+    console.log(data); // Data loaded
+});</code></pre>
+
+    <h2>10. How do you use <code>constructor signatures</code> in TypeScript classes?</h2>
+    <p>Constructor signatures define the types of parameters that a class constructor accepts.</p>
+    <pre><code>class Person {
+    constructor(public name: string, public age: number) {}
+}
+
+const person = new Person("Alice", 30);
+console.log(person.name, person.age); // Alice 30</code></pre>
+
+    <h2>11. How do you use <code>overloaded methods</code> in TypeScript?</h2>
+    <p>Overloaded methods allow you to define multiple signatures for a method in a class.</p>
+    <pre><code>class MathUtils {
+    add(a: number, b: number): number;
+    add(a: string, b: string): string;
+    add(a: any, b: any): any {
+        return a + b;
+    }
+}
+
+const utils = new MathUtils();
+console.log(utils.add(1, 2)); // 3
+console.log(utils.add("Hello", " World")); // Hello World</code></pre>
+
+    <h2>12. How do you use <code>type guards</code> to narrow down types?</h2>
+    <p>Type guards help TypeScript narrow down the type of a variable based on runtime checks.</p>
+    <pre><code>function isString(value: any): value is string {
+    return typeof value === "string";
+}
+
+function print(value: string | number) {
+    if (isString(value)) {
+        console.log("String:", value);
+    } else {
+        console.log("Number:", value);
+    }
+}
+
+print("Hello"); // String: Hello
+print(123); // Number: 123</code></pre>
+
+    <h2>13. How do you use <code>type aliases</code> to simplify complex types?</h2>
+    <p>Type aliases provide a way to give a name to complex types for easier reuse.</p>
+    <pre><code>type Coordinates = {
+    x: number;
+    y: number;
+};
+
+const point: Coordinates = {
+    x: 10,
+    y: 20
+};
+
+console.log(point); // { x: 10, y: 20 }</code></pre>
+
+    <h2>14. How do you use <code>function types</code> to define a type for a function?</h2>
+    <p>Function types define the signature of a function, including its parameters and return type.</p>
+    <pre><code>type GreetFunction = (name: string) => string;
+
+const greet: GreetFunction = (name) => `Hello, ${name}`;
+
+console.log(greet("Alice")); // Hello, Alice</code></pre>
+
+    <h2>15. How do you use <code>default parameters</code> in functions?</h2>
+    <p>Default parameters allow you to provide default values for function parameters.</p>
+    <pre><code>function greet(name: string = "Guest"): string {
+    return `Hello, ${name}`;
+}
+
+console.log(greet()); // Hello, Guest
+console.log(greet("Alice")); // Hello, Alice</code></pre>
+
+    <h2>16. How do you use <code>tuple destructuring</code> to extract values from a tuple?</h2>
+    <p>Tuple destructuring allows you to extract values from a tuple into separate variables.</p>
+    <pre><code>const tuple: [number, string] = [1, "hello"];
+const [num, str] = tuple;
+
+console.log(num); // 1
+console.log(str); // hello</code></pre>
+
+    <h2>17. How do you use <code>type assertions</code> to override TypeScript's type inference?</h2>
+    <p>Type assertions allow you to specify the type of a variable when TypeScript's inference is not accurate.</p>
+    <pre><code>const value: any = "Hello, world!";
+const length: number = (value as string).length;
+
+console.log(length); // 13</code></pre>
+
+    <h2>18. How do you use <code>spread operator</code> with objects to copy or merge them?</h2>
+    <p>The spread operator can be used to copy or merge objects.</p>
+    <pre><code>const person = { name: "Alice", age: 30 };
+const updatedPerson = { ...person, age: 31 };
+
+console.log(updatedPerson); // { name: 'Alice', age: 31 }</code></pre>
+
+    <h2>19. How do you use <code>keyof</code> with indexed access types to get a property type?</h2>
+    <p>Indexed access types use <code>keyof</code> to get the type of a property from an object type.</p>
+    <pre><code>interface Person {
+    name: string;
+    age: number;
+}
+
+type NameType = Person["name"]; // string
+
+const name: NameType = "Alice";
+console.log(name); // Alice</code></pre>
+
+    <h2>20. How do you use <code>never</code> to represent a value that never occurs?</h2>
+    <p>The <code>never</code> type represents values that never occur, often used in unreachable code paths.</p>
+    <pre><code>function throwError(message: string): never {
+    throw new Error(message);
+}
+
+throwError("Something went wrong!"); // Throws an error</code></pre>
+
+</body>
+</html>

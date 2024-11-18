@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Application Express (APEX) Questions - Part 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #3498db;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Oracle Application Express (APEX) Questions and Answers - Part 2</h1>
+
+    <h2>21. How do you create a tabular form in APEX?</h2>
+    <p>To create a tabular form:</p>
+    <ol>
+        <li>In the App Builder, select your application.</li>
+        <li>Click on "Create" and choose "Form" &gt; "Tabular Form".</li>
+        <li>Specify the source table and configure the form's columns and attributes.</li>
+    </ol>
+
+    <h2>22. What is an APEX RESTful Web Service?</h2>
+    <p>An APEX RESTful Web Service is a service you can create to expose your data or business logic as RESTful web services that can be consumed by other applications or clients.</p>
+
+    <h2>23. How do you use APEX_ITEM to create form elements?</h2>
+    <p>You can use APEX_ITEM to generate form elements dynamically in PL/SQL code. For example:</p>
+    <pre><code>
+    DECLARE
+        l_item VARCHAR2(4000);
+    BEGIN
+        l_item := APEX_ITEM.TEXT(1, 'Default Value');
+        -- Use l_item to render the form element in your report or process
+    END;
+    </code></pre>
+
+    <h2>24. How do you create a chart in APEX?</h2>
+    <p>To create a chart:</p>
+    <ol>
+        <li>In the Page Designer, click on "Create" and select "Chart".</li>
+        <li>Choose the chart type and configure its data source, layout, and attributes.</li>
+    </ol>
+
+    <h2>25. What is a “Static Application File” in APEX?</h2>
+    <p>A Static Application File is a file (e.g., image, JavaScript, CSS) that is uploaded to APEX and can be referenced in your application.</p>
+
+    <h2>26. How do you use LOVs (List of Values) in APEX?</h2>
+    <p>To use LOVs:</p>
+    <ol>
+        <li>Go to "Shared Components" and select "List of Values".</li>
+        <li>Create a new LOV or edit an existing one, specifying the SQL query to retrieve the list values.</li>
+        <li>Associate the LOV with a page item or a report column.</li>
+    </ol>
+
+    <h2>27. How can you handle file uploads in APEX?</h2>
+    <p>To handle file uploads:</p>
+    <ol>
+        <li>Use a "File Browse" item on your page.</li>
+        <li>Configure the item to store the uploaded file in a table or as a BLOB in your database.</li>
+    </ol>
+
+    <h2>28. How do you create a custom theme in APEX?</h2>
+    <p>To create a custom theme:</p>
+    <ol>
+        <li>Go to "Shared Components" and select "Themes".</li>
+        <li>Create a new theme and configure the colors, fonts, and styles as needed.</li>
+        <li>Apply the custom theme to your application.</li>
+    </ol>
+
+    <h2>29. What are “Page Processes” and “Page Computations”?</h2>
+    <p>Page Processes are server-side actions executed during page processing (e.g., submitting data). Page Computations are used to compute values on a page (e.g., default values) before rendering.</p>
+
+    <h2>30. How can you use JavaScript APIs in APEX?</h2>
+    <p>APEX provides several JavaScript APIs for interacting with page elements and APEX components. For example, to interact with an item:</p>
+    <pre><code>
+    apex.item("P1_ITEM").setValue("New Value");
+    </code></pre>
+
+    <h2>31. How do you handle session state in APEX?</h2>
+    <p>APEX automatically manages session state for page items. You can use PL/SQL code to set or get item values directly, or configure items to preserve state between requests.</p>
+
+    <h2>32. How do you create a calendar in APEX?</h2>
+    <p>To create a calendar:</p>
+    <ol>
+        <li>In the Page Designer, click "Create" and select "Calendar".</li>
+        <li>Configure the calendar's data source, layout, and attributes.</li>
+    </ol>
+
+    <h2>33. What are APEX Collections used for?</h2>
+    <p>APEX Collections are used for storing temporary data within a session. They are useful for managing data that needs to persist across different pages or processes.</p>
+
+    <h2>34. How do you manage page branching in APEX?</h2>
+    <p>To manage page branching:</p>
+    <ol>
+        <li>In the Page Designer, click on "Branches".</li>
+        <li>Create or edit branches to specify the conditions and target pages for navigation.</li>
+    </ol>
+
+    <h2>35. How can you integrate APEX with Oracle BI Publisher?</h2>
+    <p>To integrate with Oracle BI Publisher:</p>
+    <ol>
+        <li>Create a BI Publisher report and define the data model.</li>
+        <li>Use BI Publisher web services or APIs to embed the report in your APEX application.</li>
+    </ol>
+
+    <h2>36. What is the use of APEX_UTIL package?</h2>
+    <p>The APEX_UTIL package provides utility functions for various tasks such as generating URLs, handling session state, and managing application items.</p>
+
+    <h2>37. How do you handle authentication using LDAP in APEX?</h2>
+    <p>To handle LDAP authentication:</p>
+    <ol>
+        <li>Go to "Shared Components" &gt; "Authentication Schemes".</li>
+        <li>Create or edit an LDAP Authentication Scheme and configure the LDAP server settings.</li>
+    </ol>
+
+    <h2>38. How can you customize APEX page templates?</h2>
+    <p>To customize page templates:</p>
+    <ol>
+        <li>Go to "Shared Components" &gt; "Themes" &gt; "Templates".</li>
+        <li>Edit existing templates or create new ones to modify the layout and styling of your pages.</li>
+    </ol>
+
+    <h2>39. How do you handle data validation in APEX?</h2>
+    <p>Data validation can be handled through:</p>
+    <ol>
+        <li>Item-level validations to check data before submission.</li>
+        <li>Application-level validations for more complex rules.</li>
+    </ol>
+
+    <h2>40. How can you use APEX to create a RESTful web service?</h2>
+    <p>To create a RESTful web service:</p>
+    <ol>
+        <li>Go to "SQL Workshop" and select "RESTful Services".</li>
+        <li>Define your RESTful endpoints and configure the parameters and responses.</li>
+    </ol>
+
+</body>
+</html>

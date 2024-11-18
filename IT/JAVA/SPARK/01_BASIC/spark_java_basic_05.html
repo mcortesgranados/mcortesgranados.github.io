@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spark Architecture Overview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spark Architecture Overview</h1>
+
+    <p>Apache Spark's architecture is designed to be fast and scalable, enabling efficient distributed data processing. The architecture consists of several key components: the Driver, Executors, and Cluster Manager. Here's a brief overview of each component:</p>
+
+    <h2>1. Driver</h2>
+    <p>The <strong>Driver</strong> is the central coordinator of a Spark application. It is responsible for:</p>
+    <ul>
+        <li><strong>Transformations and Actions:</strong> The Driver translates user commands into jobs and tasks, scheduling them for execution.</li>
+        <li><strong>Job Scheduling:</strong> The Driver schedules tasks to be executed by Executors and handles job coordination.</li>
+        <li><strong>Task Monitoring:</strong> It monitors the status of tasks and handles failures or retries if needed.</li>
+    </ul>
+
+    <h2>2. Executors</h2>
+    <p><strong>Executors</strong> are the distributed agents that perform the actual data processing. They are responsible for:</p>
+    <ul>
+        <li><strong>Task Execution:</strong> Executors execute the tasks assigned by the Driver. They perform computations on data partitions.</li>
+        <li><strong>Data Storage:</strong> Executors store intermediate data during computations, allowing for efficient data processing.</li>
+        <li><strong>Reporting Results:</strong> They send results back to the Driver once the tasks are completed.</li>
+    </ul>
+
+    <h2>3. Cluster Manager</h2>
+    <p>The <strong>Cluster Manager</strong> is responsible for resource allocation and management. It coordinates the resources across the cluster and can be one of the following:</p>
+    <ul>
+        <li><strong>Standalone Cluster Manager:</strong> A simple, built-in cluster manager provided by Spark for small to medium-sized clusters.</li>
+        <li><strong>Apache Mesos:</strong> A general-purpose cluster manager that can manage resources for various frameworks, including Spark.</li>
+        <li><strong>YARN:</strong> The Hadoop YARN resource manager can also manage Spark applications in a Hadoop ecosystem.</li>
+        <li><strong>Kubernetes:</strong> A popular container orche

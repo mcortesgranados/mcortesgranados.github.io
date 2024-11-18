@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka: Handling Producer and Consumer Errors</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka: Handling Producer and Consumer Errors</h1>
+    <p>Handling errors effectively is crucial in Kafka to ensure reliable data processing and delivery. This guide covers common errors that can occur with Kafka producers and consumers and provides strategies for handling them.</p>
+
+    <h2>1. Common Producer Errors</h2>
+    <p>Kafka producers can encounter various errors during message production. Here are some common errors and how to handle them:</p>
+    
+    <h3>1.1. Serialization Errors</h3>
+    <p>Serialization errors occur when the producer fails to serialize data into the specified format (e.g., Avro, JSON).</p>
+    <ul>
+        <li><strong>Handling:</strong> Ensure that the data being produced matches the expected schema and that the appropriate serializer is configured.</li>
+    </ul>
+
+    <h3>1.2. Network Errors</h3>
+    <p>Network errors can arise due to connectivity issues between the producer and Kafka brokers.</p>
+    <ul>
+        <li><strong>Handling:</strong> Implement retry logic and configure the producer with proper `retries` and `acks` settings to handle transient network issues.</li>
+    </ul>
+
+    <h3>1.3. Leader Not Available</h3>
+    <p>This error occurs when the leader broker for a partition is not available to handle the request.</p>
+    <ul>
+        <li><strong>Handling:</strong> Set the `retries` configuration to retry the request until the leader becomes available. Also, check the broker logs for potential issues.</li>
+    </ul>
+
+    <h3>1.4. Record Too Large</h3>
+    <p>Producers can encounter errors if the size of the record exceeds the maximum allowable size.</p>
+    <ul>
+        <li><strong>Handling:</strong> Increase the `max.request.size` and `message.max.bytes` configurations if necessary, and ensure that the record size does not exceed broker limits.</li>
+    </ul>
+
+    <h2>2. Common Consumer Errors</h2>
+    <p>Kafka consumers also face various errors during message consumption. Here are some common errors and strategies to handle them:</p>
+    
+    <h3>2.1. Deserialization Errors</h3>
+    <p>Deserialization errors occur when the consumer fails to deserialize data from the specified format.</p>
+    <ul>
+        <li><strong>Handling:</strong> Ensure that the consumer's deserializer matches the data format and handle exceptions during deserialization.</li>
+    </ul>
+
+    <h3>2.2. Offset Out of Range</h3>
+    <p>This error occurs when a consumer attempts to read an offset that is no longer available in the Kafka topic.</p>
+    <ul>
+        <li><strong>Handling:</strong> Configure the consumer with proper `auto.offset.reset` settings to handle situations where offsets are out of range (e.g., `latest` or `earliest`).</li>
+    </ul>
+
+    <h3>2.3. Consumer Group Coordinator Not Available</h3>
+    <p>This error happens when the consumer group coordinator is not available to manage the group state.</p>
+    <ul>
+        <li><strong>Handling:</strong> Ensure that Kafka brokers and Zookeeper are running and reachable. Implement retry logic for transient issues.</li>
+    </ul>
+
+    <h3>2.4. Rebalance Errors</h3>
+    <p>Rebalance errors occur when there are issues during the rebalance process of the consumer group.</p>
+    <ul>
+        <li><strong>Handling:</strong> Implement proper error handling in the `onPartitionsRevoked` and `onPartitionsAssigned` methods of the `ConsumerRebalanceListener` interface.</li>
+    </ul>
+
+    <h2>3. Example: Producer Error Handling in Java</h2>
+    <p>Here's an example of handling producer errors in Java:</p>
+    <pre><code>
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.common.errors.SerializationException;
+
+import java.util.Properties;
+import java.util.concurrent.Future;
+
+public class ErrorHandlingProducer {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+
+        KafkaProducer<String, String> producer = new KafkaProducer<>(props);
+
+        try {
+            ProducerRecord<String, String> record = new ProducerRecord<>("my-topic", "key", "value");
+            Future<RecordMetadata> future = producer.send(record);
+            RecordMetadata metadata = future.get();
+            System.out.println("Sent message to topic " + metadata.topic());
+        } catch (SerializationException e) {
+            System.err.println("Serialization error: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error sending message: " + e.getMessage());
+        } finally {
+            producer.close();
+        }
+    }
+}
+    </code></pre>
+
+    <h2>4. Conclusion</h2>
+    <p>Handling errors in Kafka producers and consumers is crucial for ensuring reliable and robust data processing. By understanding common errors and implementing proper error handling strategies, you can improve the stability and performance of your Kafka applications.</p>
+</body>
+</html>

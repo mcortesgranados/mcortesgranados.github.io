@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka: Creating and Configuring Topics</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka: Creating and Configuring Topics</h1>
+    <p>In Kafka, topics are the basic unit for organizing data. Producers write data to topics, and consumers read from topics. Topics are divided into partitions, and each partition can be replicated for fault tolerance. Here, we’ll go through the process of creating and configuring topics in Kafka.</p>
+
+    <h2>1. Creating a Kafka Topic</h2>
+    <p>You can create a Kafka topic using the <code>kafka-topics.sh</code> command. The command allows you to specify the topic name, number of partitions, and replication factor. Here’s an example:</p>
+    <pre><code>
+# Syntax for creating a topic
+kafka-topics.sh --create --topic my_topic \
+    --partitions 3 --replication-factor 2 \
+    --bootstrap-server localhost:9092
+    </code></pre>
+    <p>Explanation of parameters:</p>
+    <ul>
+        <li><strong>--topic:</strong> The name of the topic you want to create (e.g., <code>my_topic</code>).</li>
+        <li><strong>--partitions:</strong> Number of partitions for the topic (e.g., <code>3</code> partitions).</li>
+        <li><strong>--replication-factor:</strong> The number of replicas for each partition (e.g., <code>2</code> replicas).</li>
+        <li><strong>--bootstrap-server:</strong> The Kafka broker to connect to (e.g., <code>localhost:9092</code>).</li>
+    </ul>
+
+    <h2>2. Listing Kafka Topics</h2>
+    <p>After creating a topic, you can list all available topics in the Kafka cluster using the following command:</p>
+    <pre><code>
+# List all topics in the cluster
+kafka-topics.sh --list --bootstrap-server localhost:9092
+    </code></pre>
+
+    <h2>3. Describing a Kafka Topic</h2>
+    <p>To get more details about a specific topic, including partition count, replication factor, and the leaders of each partition, use the <code>--describe</code> option:</p>
+    <pre><code>
+# Describe a specific topic
+kafka-topics.sh --describe --topic my_topic \
+    --bootstrap-server localhost:9092
+    </code></pre>
+    <p>Output example:</p>
+    <pre><code>
+Topic: my_topic  PartitionCount: 3  ReplicationFactor: 2  Configs: 
+    Partition: 0  Leader: 1  Replicas: 1,2  Isr: 1,2
+    Partition: 1  Leader: 2  Replicas: 2,3  Isr: 2,3
+    Partition: 2  Leader: 3  Replicas: 3,1  Isr: 3,1
+    </code></pre>
+
+    <h2>4. Configuring Topic Parameters</h2>
+    <p>Kafka topics can have additional configurations, such as retention period, cleanup policy, and min/ max in-sync replicas. You can set or update these configurations using the <code>kafka-configs.sh</code> command. Below are common configurations:</p>
+
+    <h3>Example: Retention Period</h3>
+    <p>To configure the retention period for a topic (how long Kafka keeps data before it’s deleted), use the following command:</p>
+    <pre><code>
+# Set retention period to 7 days (in milliseconds)
+kafka-configs.sh --alter --entity-type topics --entity-name my_topic \
+    --add-config retention.ms=604800000 \
+    --bootstrap-server localhost:9092
+    </code></pre>
+
+    <h3>Example: Cleanup Policy</h3>
+    <p>You can set the cleanup policy to either <code>delete</code> (delete old data) or <code>compact</code> (log compaction). Here’s how to set log compaction:</p>
+    <pre><code>
+# Set log compaction for the topic
+kafka-configs.sh --alter --entity-type topics --entity-name my_topic \
+    --add-config cleanup.policy=compact \
+    --bootstrap-server localhost:9092
+    </code></pre>
+
+    <h2>5. Deleting a Kafka Topic</h2>
+    <p>If you no longer need a topic, you can delete it using the <code>kafka-topics.sh</code> command:</p>
+    <pre><code>
+# Delete a Kafka topic
+kafka-topics.sh --delete --topic my_topic \
+    --bootstrap-server localhost:9092
+    </code></pre>
+    <p>Note that topic deletion must be enabled in Kafka’s configuration file by setting <code>delete.topic.enable=true</code> in <code>server.properties</code>.</p>
+
+    <h2>6. Topic Configuration Best Practices</h2>
+    <ul>
+        <li><strong>Partition Count:</strong> Choose an appropriate number of partitions based on your workload to ensure parallelism. Too few partitions can create bottlenecks, while too many can lead to overhead.</li>
+        <li><strong>Replication Factor:</strong> Use a replication factor of at least 2 or 3 for high availability. A replication factor of 1 provides no fault tolerance.</li>
+        <li><strong>Retention Settings:</strong> Set a retention period based on the use case (e.g., shorter for temporary data, longer for logs).</li>
+        <li><strong>Cleanup Policy:</strong> Use log compaction for topics storing the latest version of data (e.g., state changes), and use delete policies for transient data.</li>
+    </ul>
+
+    <h2>7. Conclusion</h2>
+    <p>Understanding how to create and configure Kafka topics is essential for optimizing Kafka's performance and managing data retention. By using the right partition and replication settings, you can ensure scalability and fault tolerance in your Kafka environment.</p>
+</body>
+</html>

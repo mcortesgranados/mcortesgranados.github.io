@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Structs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Structs</h1>
+    <p>Structs in C# are value types that provide a lightweight alternative to classes for small, simple objects. They are ideal for representing small data structures that have value semantics rather than reference semantics.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>Structs are used to:</p>
+    <ul>
+        <li><strong>Encapsulate Small Data:</strong> Represent small, related data items together.</li>
+        <li><strong>Improve Performance:</strong> Avoid the overhead of heap allocation and garbage collection.</li>
+        <li><strong>Use Value Semantics:</strong> Provide value-based equality and copying.</li>
+    </ul>
+    
+    <h2>2. Defining a Struct</h2>
+    <p>To define a struct, use the <code>struct</code> keyword. Here’s an example of a simple struct definition:</p>
+    <pre><code>
+using System;
+
+public struct Point
+{
+    public int X { get; set; }
+    public int Y { get; set; }
+
+    // Constructor
+    public Point(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+
+    // Method
+    public void Display()
+    {
+        Console.WriteLine($"Point: ({X}, {Y})");
+    }
+}
+    </code></pre>
+    
+    <h2>3. Creating and Using Structs</h2>
+    <p>To use a struct, create an instance and access its members. Here’s an example:</p>
+    <pre><code>
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Create an instance of the struct
+        Point point = new Point(10, 20);
+
+        // Access and use the struct's members
+        point.Display();
+
+        // Modify the struct's properties
+        point.X = 30;
+        point.Y = 40;
+        point.Display();
+    }
+}
+    </code></pre>
+    
+    <h2>4. Key Points</h2>
+    <ul>
+        <li><strong>Value Type:</strong> Structs are value types and are stored on the stack.</li>
+        <li><strong>No Inheritance:</strong> Structs do not support inheritance, but they can implement interfaces.</li>
+        <li><strong>Default Constructor:</strong> Structs do not have a parameterless default constructor; you must initialize all fields.</li>
+        <li><strong>Immutability:</strong> Structs are often used to represent immutable data (e.g., Point, Color).</li>
+        <li><strong>Performance:</strong> Structs can be more efficient than classes for small, frequently created objects due to their stack allocation.</li>
+    </ul>
+</body>
+</html>

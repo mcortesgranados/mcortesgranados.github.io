@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Intermediate Level Questions and Answers - Part 11</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Intermediate Level Questions and Answers - Part 11</h1>
+
+    <h2>1. How do you use <code>keyof</code> with a type alias to create a type of property names?</h2>
+    <p>The <code>keyof</code> operator creates a union of property names for a given type.</p>
+    <pre><code>type Person = {
+    name: string;
+    age: number;
+};
+
+type PersonKeys = keyof Person; // "name" | "age"
+
+const key: PersonKeys = "name";
+console.log(key); // name</code></pre>
+
+    <h2>2. How do you use <code>type</code> with <code>infer</code> to create a type within a conditional type?</h2>
+    <p>The <code>infer</code> keyword is used to create a type within a conditional type.</p>
+    <pre><code>type ReturnTypeOf<T> = T extends (...args: any[]) => infer R ? R : never;
+
+const exampleFunction = (x: number): string => x.toString();
+
+type ExampleReturnType = ReturnTypeOf<typeof exampleFunction>; // string
+
+console.log(typeof exampleFunction()); // string</code></pre>
+
+    <h2>3. How do you use <code>extract</code> to create a type that excludes certain values?</h2>
+    <p>The <code>Extract</code> utility type creates a type by extracting types that are present in another type.</p>
+    <pre><code>type A = "a" | "b" | "c";
+type B = "b" | "c";
+
+type Extracted = Extract<A, B>; // "b" | "c"
+
+const value: Extracted = "b";
+console.log(value); // b</code></pre>
+
+    <h2>4. How do you use <code>Exclude</code> to create a type that removes certain values?</h2>
+    <p>The <code>Exclude</code> utility type removes specified types from another type.</p>
+    <pre><code>type A = "a" | "b" | "c";
+type B = "b" | "c";
+
+type Excluded = Exclude<A, B>; // "a"
+
+const value: Excluded = "a";
+console.log(value); // a</code></pre>
+
+    <h2>5. How do you use <code>NonNullable</code> to create a type excluding <code>null</code> and <code>undefined</code>?</h2>
+    <p>The <code>NonNullable</code> utility type excludes <code>null</code> and <code>undefined</code> from a type.</p>
+    <pre><code>type NullableString = string | null | undefined;
+
+type NonNullableString = NonNullable<NullableString>; // string
+
+const value: NonNullableString = "Hello";
+console.log(value); // Hello</code></pre>
+
+    <h2>6. How do you use <code>ReturnType</code> to get the return type of a function?</h2>
+    <p>The <code>ReturnType</code> utility type extracts the return type of a function type.</p>
+    <pre><code>function getString(): string {
+    return "Hello";
+}
+
+type ResultType = ReturnType<typeof getString>; // string
+
+const result: ResultType = "World";
+console.log(result); // World</code></pre>
+
+    <h2>7. How do you use <code>InstanceType</code> to get the instance type of a class constructor?</h2>
+    <p>The <code>InstanceType</code> utility type extracts the instance type of a class constructor.</p>
+    <pre><code>class Car {
+    constructor(public make: string, public model: string) {}
+}
+
+type CarInstance = InstanceType<typeof Car>; // Car
+
+const car: CarInstance = new Car("Toyota", "Camry");
+console.log(car); // Car { make: 'Toyota', model: 'Camry' }</code></pre>
+
+    <h2>8. How do you use <code>Parameters</code> to get the parameters of a function type?</h2>
+    <p>The <code>Parameters</code> utility type extracts the parameter types of a function.</p>
+    <pre><code>function add(a: number, b: number): number {
+    return a + b;
+}
+
+type AddParams = Parameters<typeof add>; // [number, number]
+
+const params: AddParams = [1, 2];
+console.log(add(...params)); // 3</code></pre>
+
+    <h2>9. How do you use <code>Readonly</code> to make all properties of a type read-only?</h2>
+    <p>The <code>Readonly</code> utility type makes all properties of a type read-only.</p>
+    <pre><code>interface Person {
+    name: string;
+    age: number;
+}
+
+type ReadOnlyPerson = Readonly<Person>;
+
+const person: ReadOnlyPerson = { name: "Alice", age: 30 };
+
+// person.age = 31; // Error: Cannot assign to 'age' because it is a read-only property
+
+console.log(person); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>10. How do you use <code>Record</code> to create a type with specified property keys?</h2>
+    <p>The <code>Record</code> utility type creates an object type with specified keys and values.</p>
+    <pre><code>type Status = "pending" | "completed";
+type StatusRecord = Record<Status, string>;
+
+const statusRecord: StatusRecord = {
+    pending: "Task is pending",
+    completed: "Task is completed"
+};
+
+console.log(statusRecord); // { pending: 'Task is pending', completed: 'Task is completed' }</code></pre>
+
+    <h2>11. How do you use <code>Promise</code> with <code>await</code> to handle asynchronous operations?</h2>
+    <p>The <code>Promise</code> object represents the result of an asynchronous operation, and <code>await</code> can be used to handle its result.</p>
+    <pre><code>const fetchData = async (): Promise<string> => {
+    return "Data fetched";
+};
+
+const getData = async () => {
+    const data = await fetchData();
+    console.log(data); // Data fetched
+};
+
+getData();</code></pre>
+
+    <h2>12. How do you use <code>as</code> for type assertions in TypeScript?</h2>
+    <p>The <code>as</code> keyword is used to assert the type of a variable.</p>
+    <pre><code>const value: any = "Hello, world!";
+const length: number = (value as string).length;
+
+console.log(length); // 13</code></pre>
+
+    <h2>13. How do you use <code>type</code> to define a union of multiple types?</h2>
+    <p>Union types allow you to define a variable that can be one of several types.</p>
+    <pre><code>type Result = string | number;
+
+const result: Result = "Success";
+console.log(result); // Success
+
+const anotherResult: Result = 42;
+console.log(anotherResult); // 42</code></pre>
+
+    <h2>14. How do you use <code>interface</code> to extend multiple interfaces?</h2>
+    <p>Interfaces can extend multiple other interfaces to combine their properties.</p>
+    <pre><code>interface Person {
+    name: string;
+}
+
+interface Address {
+    city: string;
+}
+
+interface Contact extends Person, Address {
+    email: string;
+}
+
+const contact: Contact = {
+    name: "Alice",
+    city: "Wonderland",
+    email: "alice@example.com"
+};
+
+console.log(contact); // { name: 'Alice', city: 'Wonderland', email: 'alice@example.com' }</code></pre>
+
+    <h2>15. How do you use <code>typeof</code> to get the type of an object property?</h2>
+    <p>The <code>typeof</code> operator can be used to get the type of an object's property.</p>
+    <pre><code>const person = {
+    name: "Alice",
+    age: 30
+};
+
+type PersonNameType = typeof person.name; // string
+
+const name: PersonNameType = "Bob";
+console.log(name); // Bob</code></pre>
+
+    <h2>16. How do you use <code>Array.prototype.map</code> with TypeScript for type-safe mapping?</h2>
+    <p>The <code>map</code> method can be used to transform arrays while maintaining type safety.</p>
+    <pre><code>const numbers: number[] = [1, 2, 3];
+const strings: string[] = numbers.map(num => num.toString());
+
+console.log(strings); // ["1", "2", "3"]</code></pre>
+
+    <h2>17. How do you use <code>type</code> with <code>Record</code> to create a map-like type?</h2>
+    <p>The <code>Record</code> utility type is used to create a map-like type with specific key-value pairs.</p>
+    <pre><code>type NumberMap = Record<string, number>;
+
+const map: NumberMap = {
+    "one": 1,
+    "two": 2
+};
+
+console.log(map); // { one: 1, two: 2 }</code></pre>
+
+    <h2>18. How do you use <code>Tuple</code> to define an array with specific length and types?</h2>
+    <p>A tuple is a fixed-length array where each element can have a different type.</p>
+    <pre><code>type PersonTuple = [string, number];
+
+const person: PersonTuple = ["Alice", 30];
+
+console.log(person); // ["Alice", 30]</code></pre>
+
+    <h2>19. How do you use <code>interface</code> to define a class structure?</h2>
+    <p>Interfaces can define the shape of a class, including its properties and methods.</p>
+    <pre><code>interface Greeter {
+    greet(): void;
+}
+
+class FriendlyGreeter implements Greeter {
+    greet() {
+        console.log("Hello, world!");
+    }
+}
+
+const greeter = new FriendlyGreeter();
+greeter.greet(); // Hello, world!</code></pre>
+
+    <h2>20. How do you use <code>const assertions</code> to create readonly tuples and objects?</h2>
+    <p>Const assertions ensure that tuples and objects are treated as immutable.</p>
+    <pre><code>const numbers = [1, 2, 3] as const;
+const person = { name: "Alice", age: 30 } as const;
+
+type NumbersType = typeof numbers; // readonly [1, 2, 3]
+type PersonType = typeof person; // { readonly name: "Alice"; readonly age: 30 }
+
+console.log(numbers); // [1, 2, 3]
+console.log(person); // { name: 'Alice', age: 30 }</code></pre>
+
+</body>
+</html>

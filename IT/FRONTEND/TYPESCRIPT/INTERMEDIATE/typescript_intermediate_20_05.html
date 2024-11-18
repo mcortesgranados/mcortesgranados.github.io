@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Intermediate Level Questions and Answers - Part 5</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Intermediate Level Questions and Answers - Part 5</h1>
+
+    <h2>1. How do you use <code>type assertions</code> with HTML elements?</h2>
+    <p>Type assertions help TypeScript understand the specific type of an HTML element.</p>
+    <pre><code>const button = document.querySelector("button") as HTMLButtonElement;
+
+button.addEventListener("click", () => {
+    console.log("Button clicked");
+});</code></pre>
+
+    <h2>2. How do you use <code>Partial</code> to make all properties of a type optional?</h2>
+    <p>The <code>Partial</code> utility type makes all properties in a type optional.</p>
+    <pre><code>interface User {
+    name: string;
+    age: number;
+}
+
+type PartialUser = Partial<User>;
+
+const user: PartialUser = {
+    name: "Alice"
+};
+
+console.log(user); // { name: 'Alice' }</code></pre>
+
+    <h2>3. How do you use <code>Parameters</code> to get the parameter types of a function?</h2>
+    <p>The <code>Parameters</code> utility type extracts the parameter types of a function type.</p>
+    <pre><code>function greet(name: string, age: number): void {}
+
+type GreetParams = Parameters<typeof greet>; // [string, number]
+
+const params: GreetParams = ["Alice", 30];
+console.log(params); // ["Alice", 30]</code></pre>
+
+    <h2>4. How do you use <code>ReturnType</code> to extract the return type of a function?</h2>
+    <p>The <code>ReturnType</code> utility type extracts the return type of a function.</p>
+    <pre><code>function getUser() {
+    return { name: "Alice", age: 30 };
+}
+
+type UserReturnType = ReturnType<typeof getUser>; // { name: string; age: number }
+
+const user: UserReturnType = {
+    name: "Alice",
+    age: 30
+};
+
+console.log(user); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>5. How do you use <code>Awaited</code> to get the resolved type of a Promise?</h2>
+    <p>The <code>Awaited</code> utility type extracts the resolved type of a Promise.</p>
+    <pre><code>type MyPromise = Promise<string>;
+type ResolvedType = Awaited<MyPromise>; // string
+
+const resolvedValue: ResolvedType = "Hello";
+console.log(resolvedValue); // Hello</code></pre>
+
+    <h2>6. How do you use <code>Tuple</code> to define a fixed-size array with specific types?</h2>
+    <p>Tuples allow you to define arrays with a fixed number of elements and specific types.</p>
+    <pre><code>type Point = [number, number];
+
+const point: Point = [10, 20];
+
+console.log(point); // [10, 20]</code></pre>
+
+    <h2>7. How do you use <code>type inference</code> with function return types?</h2>
+    <p>TypeScript can infer the return type of a function based on the return statement.</p>
+    <pre><code>function multiply(x: number, y: number) {
+    return x * y;
+}
+
+const result: ReturnType<typeof multiply> = multiply(2, 3);
+
+console.log(result); // 6</code></pre>
+
+    <h2>8. How do you use <code>keyof</code> to create a type representing the keys of an object?</h2>
+    <p>The <code>keyof</code> operator creates a type that represents the keys of an object type.</p>
+    <pre><code>interface Person {
+    name: string;
+    age: number;
+}
+
+type PersonKeys = keyof Person; // "name" | "age"
+
+const key: PersonKeys = "name";
+console.log(key); // name</code></pre>
+
+    <h2>9. How do you use <code>Mapped Types</code> to transform object properties?</h2>
+    <p>Mapped types allow you to create new types by applying transformations to properties of an existing type.</p>
+    <pre><code>type Readonly<T> = {
+    readonly [K in keyof T]: T[K];
+};
+
+interface User {
+    name: string;
+    age: number;
+}
+
+type ReadonlyUser = Readonly<User>;
+
+const user: ReadonlyUser = {
+    name: "Alice",
+    age: 30
+};
+
+// user.age = 31; // Error: Cannot assign to 'age' because it is a read-only property
+
+console.log(user); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>10. How do you use <code>Extract</code> to filter out specific types from a union?</h2>
+    <p>The <code>Extract</code> utility type filters out types that are present in both union types.</p>
+    <pre><code>type A = "a" | "b" | "c";
+type B = "b" | "c" | "d";
+
+type Common = Extract<A, B>; // "b" | "c"
+
+const commonValue: Common = "b";
+console.log(commonValue); // b</code></pre>
+
+    <h2>11. How do you use <code>Exclude</code> to remove types from a union type?</h2>
+    <p>The <code>Exclude</code> utility type removes types from a union type.</p>
+    <pre><code>type A = "a" | "b" | "c";
+type B = "b" | "c" | "d";
+
+type Excluded = Exclude<A, B>; // "a"
+
+const excludedValue: Excluded = "a";
+console.log(excludedValue); // a</code></pre>
+
+    <h2>12. How do you use <code>Omit</code> to create a type by omitting specific properties?</h2>
+    <p>The <code>Omit</code> utility type creates a new type by omitting certain properties from an existing type.</p>
+    <pre><code>interface User {
+    name: string;
+    age: number;
+    email: string;
+}
+
+type UserWithoutEmail = Omit<User, "email">;
+
+const user: UserWithoutEmail = {
+    name: "Alice",
+    age: 30
+};
+
+console.log(user); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>13. How do you use <code>Pick</code> to select specific properties from a type?</h2>
+    <p>The <code>Pick</code> utility type creates a new type by picking specific properties from an existing type.</p>
+    <pre><code>interface User {
+    name: string;
+    age: number;
+    email: string;
+}
+
+type UserNameAndEmail = Pick<User, "name" | "email">;
+
+const user: UserNameAndEmail = {
+    name: "Alice",
+    email: "alice@example.com"
+};
+
+console.log(user); // { name: 'Alice', email: 'alice@example.com' }</code></pre>
+
+    <h2>14. How do you use <code>Readonly</code> to create an immutable type?</h2>
+    <p>The <code>Readonly</code> utility type makes all properties of an object type immutable.</p>
+    <pre><code>interface User {
+    name: string;
+    age: number;
+}
+
+type ReadonlyUser = Readonly<User>;
+
+const user: ReadonlyUser = {
+    name: "Alice",
+    age: 30
+};
+
+// user.age = 31; // Error: Cannot assign to 'age' because it is a read-only property
+
+console.log(user); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>15. How do you use <code>as const</code> to create a read-only tuple or object?</h2>
+    <p>The <code>as const</code> assertion creates a read-only tuple or object literal.</p>
+    <pre><code>const colors = ["red", "green", "blue"] as const;
+
+type Colors = typeof colors[number]; // "red" | "green" | "blue"
+
+const color: Colors = "red";
+console.log(color); // red</code></pre>
+
+    <h2>16. How do you use <code>const assertions</code> to infer literal types?</h2>
+    <p>Const assertions ensure that literals are treated as their specific literal types rather than general types.</p>
+    <pre><code>const greeting = "Hello" as const;
+
+type Greeting = typeof greeting; // "Hello"
+
+const greet: Greeting = "Hello";
+console.log(greet); // Hello</code></pre>
+
+    <h2>17. How do you use <code>Function Overloads</code> to define multiple function signatures?</h2>
+    <p>Function overloads allow a function to have multiple signatures.</p>
+    <pre><code>function greet(name: string): string;
+function greet(name: string, age: number): string;
+function greet(name: string, age?: number): string {
+    return age ? \`Hello, \${name}. You are \${age} years old.\` : \`Hello, \${name}.\`;
+}
+
+console.log(greet("Alice")); // Hello, Alice.
+console.log(greet("Alice", 30)); // Hello, Alice. You are 30 years old.</code></pre>
+
+    <h2>18. How do you use <code>Union Types</code> to handle multiple types for a variable?</h2>
+    <p>Union types allow a variable to hold one of several types.</p>
+    <pre><code>type StringOrNumber = string | number;
+
+function format(value: StringOrNumber): string {
+    return typeof value === "string" ? value.toUpperCase() : value.toString();
+}
+
+console.log(format("hello")); // HELLO
+console.log(format(123)); // 123</code></pre>
+
+    <h2>19. How do you use <code>Intersection Types</code> to combine multiple types?</h2>
+    <p>Intersection types combine multiple types into one.</p>
+    <pre><code>interface Name {
+    name: string;
+}
+
+interface Age {
+    age: number;
+}
+
+type Person = Name & Age;
+
+const person: Person = {
+    name: "Alice",
+    age: 30
+};
+
+console.log(person); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>20. How do you use <code>Record</code> to create a type with specific properties?</h2>
+    <p>The <code>Record</code> utility type creates a type with specified properties.</p>
+    <pre><code>type Role = "admin" | "user" | "guest";
+type Permissions = Record<Role, boolean>;
+
+const permissions: Permissions = {
+    admin: true,
+    user: false,
+    guest: true
+};
+
+console.log(permissions); // { admin: true, user: false, guest: true }</code></pre>
+
+</body>
+</html>

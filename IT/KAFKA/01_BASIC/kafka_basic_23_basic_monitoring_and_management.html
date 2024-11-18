@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka: Basic Monitoring and Management</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka: Basic Monitoring and Management</h1>
+    <p>Monitoring and managing a Kafka cluster is crucial for ensuring performance, reliability, and scalability. Apache Kafka provides various tools and metrics to monitor its components, such as brokers, producers, consumers, and topics. Understanding Kafka's metrics and using proper monitoring tools can help you detect potential issues and optimize performance.</p>
+
+    <h2>1. Introduction to Kafka Monitoring</h2>
+    <p>Kafka exposes a wide range of metrics via JMX (Java Management Extensions), which can be used to track the health and performance of the Kafka cluster. These metrics cover various aspects such as broker load, message throughput, partition replication, consumer lag, and much more.</p>
+    
+    <h3>Common Tools for Monitoring Kafka</h3>
+    <ul>
+        <li><strong>Kafka Manager</strong>: A tool for managing and monitoring Kafka clusters, created by Yahoo.</li>
+        <li><strong>Prometheus</strong>: An open-source monitoring and alerting toolkit that can scrape JMX metrics from Kafka brokers.</li>
+        <li><strong>Grafana</strong>: A visualization tool that can display Kafka metrics in a dashboard format, often used with Prometheus.</li>
+        <li><strong>Confluent Control Center</strong>: A management and monitoring tool that provides a graphical interface for Kafka, focusing on both metrics and management.</li>
+        <li><strong>JMX Exporter</strong>: Exposes Kafka JMX metrics for monitoring through Prometheus.</li>
+    </ul>
+
+    <h2>2. Important Kafka Metrics to Monitor</h2>
+    <p>There are several key metrics in Kafka that should be monitored regularly to ensure the health and performance of the cluster.</p>
+
+    <h3>2.1 Broker Metrics</h3>
+    <ul>
+        <li><strong>Messages In Per Second</strong>: The number of messages produced to the broker per second.</li>
+        <li><strong>Bytes In/Out Per Second</strong>: The amount of data being written to and read from the broker per second.</li>
+        <li><strong>Request Latency</strong>: Measures the time taken by the broker to process produce, fetch, and other types of requests.</li>
+        <li><strong>Under-Replicated Partitions</strong>: Partitions that are missing sufficient replicas, indicating potential replication lag or failures.</li>
+        <li><strong>Disk Utilization</strong>: Measures how much disk space is being consumed by Kafka logs.</li>
+        <li><strong>Leader Elections</strong>: Tracks how often leader elections are happening, which could indicate instability.</li>
+    </ul>
+
+    <h3>2.2 Topic and Partition Metrics</h3>
+    <ul>
+        <li><strong>Partition Count</strong>: Number of partitions for a topic, ensuring proper load balancing.</li>
+        <li><strong>Replication Factor</strong>: Ensures each topic has the desired replication factor for fault tolerance.</li>
+        <li><strong>Consumer Lag</strong>: The difference between the last committed offset and the current offset, indicating how far behind the consumers are.</li>
+        <li><strong>Log Retention and Size</strong>: Tracks how much space logs are consuming and ensures logs are being purged correctly based on retention policies.</li>
+    </ul>
+
+    <h3>2.3 Producer and Consumer Metrics</h3>
+    <ul>
+        <li><strong>Producer Request Rate</strong>: How many produce requests the producer is sending per second.</li>
+        <li><strong>Consumer Fetch Rate</strong>: Measures how often consumers fetch data from the broker.</li>
+        <li><strong>Consumer Group Lag</strong>: Indicates how far behind a consumer group is from the latest message in the partition.</li>
+        <li><strong>Producer/Consumer Errors</strong>: Tracks any failures or retries in sending or consuming messages.</li>
+    </ul>
+
+    <h2>3. Configuring Kafka for Monitoring</h2>
+    <p>Kafka can be configured to expose metrics via JMX, which allows integration with various monitoring tools. Below is an example of enabling JMX metrics in a Kafka broker:</p>
+
+    <pre><code># In the Kafka broker configuration (server.properties), add the following:
+JMX_PORT=9999
+KAFKA_OPTS="-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+    </code></pre>
+
+    <p>This configuration enables JMX on port <code>9999</code> and disables authentication and SSL for simplicity.</p>
+
+    <h3>Example: Monitoring with Prometheus and Grafana</h3>
+    <ol>
+        <li>Install and configure the <strong>JMX Exporter</strong> on each Kafka broker to scrape JMX metrics and expose them to Prometheus.</li>
+        <li>Configure <strong>Prometheus</strong> to scrape the metrics from the JMX Exporter running on each Kafka broker.</li>
+        <li>Use <strong>Grafana</strong> to visualize the metrics collected by Prometheus, creating dashboards for Kafka performance and health monitoring.</li>
+    </ol>
+
+    <h2>4. Managing Kafka Clusters</h2>
+    <p>In addition to monitoring, managing a Kafka cluster involves tasks like scaling brokers, reassigning partitions, adjusting configurations, and ensuring high availability. These tasks can be handled through CLI commands or management tools like Kafka Manager or Confluent Control Center.</p>
+
+    <h3>4.1 Kafka Manager (by Yahoo)</h3>
+    <p><strong>Kafka Manager</strong> is a popular tool for managing Kafka clusters, providing a user-friendly interface for tasks like:</p>
+    <ul>
+        <li>Viewing the status of brokers, topics, and partitions.</li>
+        <li>Reassigning partitions across brokers to balance the load.</li>
+        <li>Monitoring replication status and under-replicated partitions.</li>
+        <li>Managing consumer groups and viewing consumer lag.</li>
+    </ul>
+
+    <h3>4.2 Scaling Kafka Brokers</h3>
+    <p>To scale a Kafka cluster, you can add new brokers and rebalance partitions. Kafka automatically redistributes leader and follower roles across brokers. However, reassigning partitions across brokers manually ensures an even load distribution.</p>
+
+    <pre><code># Example: Reassigning partitions to distribute load across brokers
+kafka-reassign-partitions.sh --bootstrap-server localhost:9092 --reassignment-json-file reassignment.json --execute
+    </code></pre>
+
+    <p>Where <code>reassignment.json</code> contains the partition reassignment details.</p>
+
+    <h2>5. Kafka Alerts</h2>
+    <p>Effective monitoring includes setting up alerts for critical issues in the Kafka cluster. Alerts can be configured based on key metrics such as:</p>
+    <ul>
+        <li><strong>High Consumer Lag</strong>: Alert when consumer groups fall too far behind the latest messages.</li>
+        <li><strong>Under-Replicated Partitions</strong>: Alert when partitions do not have enough replicas in sync.</li>
+        <li><strong>High Disk Utilization</strong>: Alert when the disk space on a broker exceeds a certain threshold.</li>
+        <li><strong>Leader Election Rate</strong>: Alert when there are frequent leader elections, which may indicate instability.</li>
+    </ul>
+
+    <h2>6. Conclusion</h2>
+    <p>Monitoring and managing a Kafka cluster is essential to ensure high availability, performance, and fault tolerance. By utilizing Kafka’s built-in metrics, integrating with monitoring tools like Prometheus and Grafana, and using management tools such as Kafka Manager, you can effectively manage a Kafka cluster and quickly detect and resolve issues.</p>
+</body>
+</html>

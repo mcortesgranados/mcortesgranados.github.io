@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced TypeScript Questions - Part 19</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Advanced TypeScript Questions - Part 19</h1>
+
+    <div class="question">
+        <h2>1. How can `TypeScript` use `Generic Constraints` to enforce type constraints on generics?</h2>
+        <div class="answer">
+            <p>Generic constraints allow you to restrict the types that can be used with generics by enforcing certain conditions.</p>
+            <pre><code>
+function logLength<T extends { length: number }>(item: T): void {
+    console.log(item.length);
+}
+
+logLength([1, 2, 3]); // 3
+logLength('Hello'); // 5
+// logLength(123); // Error: Argument of type 'number' is not assignable to parameter of type '{ length: number }'.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How can `TypeScript` use `Type Assertions` to override the type of a value?</h2>
+        <div class="answer">
+            <p>Type assertions allow you to explicitly specify the type of a value, overriding TypeScript's inferred type.</p>
+            <pre><code>
+const value: any = 'Hello, TypeScript!';
+const length: number = (value as string).length;
+
+console.log(length); // 18
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How can `TypeScript` use `Intersection Types` to combine multiple types into one?</h2>
+        <div class="answer">
+            <p>Intersection types allow you to combine multiple types into one, where the resulting type has all the properties of the combined types.</p>
+            <pre><code>
+interface A {
+    a: string;
+}
+
+interface B {
+    b: number;
+}
+
+type AB = A & B;
+
+const example: AB = {
+    a: 'Hello',
+    b: 123
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How can `TypeScript` use `Discriminated Unions` to handle types with a common property?</h2>
+        <div class="answer">
+            <p>Discriminated unions use a common property to determine which type is present in a union, allowing for type-safe type checking.</p>
+            <pre><code>
+interface Cat {
+    type: 'cat';
+    meow: () => void;
+}
+
+interface Dog {
+    type: 'dog';
+    bark: () => void;
+}
+
+type Animal = Cat | Dog;
+
+function handleAnimal(animal: Animal) {
+    if (animal.type === 'cat') {
+        animal.meow();
+    } else {
+        animal.bark();
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How can `TypeScript` use `Mapped Types` to create types with modified property names?</h2>
+        <div class="answer">
+            <p>Mapped types allow you to create new types by applying transformations to the properties of an existing type, including renaming properties.</p>
+            <pre><code>
+type Person = {
+    name: string;
+    age: number;
+};
+
+type RenamedPerson = {
+    [K in keyof Person as `user_${K}`]: Person[K];
+};
+
+const person: RenamedPerson = {
+    user_name: 'Alice',
+    user_age: 30
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How can `TypeScript` use `Index Signatures` to define types for objects with unknown property names?</h2>
+        <div class="answer">
+            <p>Index signatures allow you to define types for objects where property names are not known in advance but their value types are known.</p>
+            <pre><code>
+interface Dictionary {
+    [key: string]: number;
+}
+
+const scores: Dictionary = {
+    math: 90,
+    science: 85
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How can `TypeScript` use `Type Inference` to automatically determine the type of a variable?</h2>
+        <div class="answer">
+            <p>TypeScript uses type inference to automatically determine the type of a variable based on its initial value or assignment.</p>
+            <pre><code>
+let message = 'Hello, TypeScript!'; // inferred as string
+let count = 42; // inferred as number
+
+console.log(typeof message); // string
+console.log(typeof count); // number
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How can `TypeScript` handle `Type Guards` with `typeof` and `instanceof`?</h2>
+        <div class="answer">
+            <p>Type guards using `typeof` and `instanceof` help in narrowing down the type of a value based on its runtime type or instance.</p>
+            <pre><code>
+function isNumber(value: any): value is number {
+    return typeof value === 'number';
+}
+
+function isDate(value: any): value is Date {
+    return value instanceof Date;
+}
+
+const value: any = 123;
+
+if (isNumber(value)) {
+    console.log(value.toFixed()); // OK
+}
+
+const now: any = new Date();
+
+if (isDate(now)) {
+    console.log(now.getFullYear()); // OK
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How can `TypeScript` use `Tuples` with `Rest Elements` to define flexible-length arrays?</h2>
+        <div class="answer">
+            <p>Tuples with rest elements allow you to define arrays where the first part has a fixed length and the rest can be of any length.</p>
+            <pre><code>
+type TupleWithRest = [number, string, ...boolean[]];
+
+const example: TupleWithRest = [1, 'hello', true, false, true];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How can `TypeScript` use `Class Decorators` with parameters?</h2>
+        <div class="answer">
+            <p>Class decorators with parameters can modify class behavior and accept arguments to customize the decoration.</p>
+            <pre><code>
+function LogClass(message: string) {
+    return function (target: Function) {
+        console.log(`${message} - ${target.name}`);
+    };
+}
+
+@LogClass('Class Decorated')
+class MyClass {}
+
+const instance = new MyClass();
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How can `TypeScript` use `Function Overloading` with different return types?</h2>
+        <div class="answer">
+            <p>Function overloading allows you to define multiple signatures for a function with different return types based on the input parameters.</p>
+            <pre><code>
+function calculate(value: number): number;
+function calculate(value: string): string;
+function calculate(value: any): any {
+    if (typeof value === 'number') {
+        return value * 2;
+    }
+    return value.toUpperCase();
+}
+
+console.log(calculate(10)); // 20
+console.log(calculate('hello')); // 'HELLO'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How can `TypeScript` use `Keyof` with `Union Types` to create types from union values?</h2>
+        <div class="answer">
+            <p>The `keyof` operator can be used with union types to create new types based on the keys of the union's constituent types.</p>
+            <pre><code>
+type Roles = 'admin' | 'user';
+
+type RoleMap = {
+    [K in Roles]: K;
+};
+
+const roles: RoleMap = {
+    admin: 'admin',
+    user: 'user'
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How can `TypeScript` handle `Generic Classes` with type parameters?</h2>
+        <div class="answer">
+            <p>Generic classes use type parameters to work with multiple types in a flexible manner, allowing for type-safe operations.</p>
+            <pre><code>
+class Box<T> {
+    private value: T;
+
+    constructor(value: T) {
+        this.value = value;
+    }
+
+    getValue(): T {
+        return this.value;
+    }
+}
+
+const numberBox = new Box(123);
+const stringBox = new Box('Hello');
+
+console.log(numberBox.getValue()); // 123
+console.log(stringBox.getValue()); // 'Hello'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How can `TypeScript` use `Type Assertions` to work with external libraries?</h2>
+        <div class="answer">
+            <p>Type assertions help you to tell TypeScript about the types of values when working with external libraries where types might not be well-defined.</p>
+            <pre><code>
+declare const externalLibrary: any;
+
+const result = (externalLibrary.someMethod() as string).toUpperCase();
+console.log(result);
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How can `TypeScript` use `Conditional Types` with `infer` to extract types?</h2>
+        <div class="answer">
+            <p>Conditional types with `infer` allow you to infer types within a conditional type and use them in the result type.</p>
+            <pre><code>
+type ExtractType<T> = T extends Promise<infer U> ? U : T;
+
+type ResolvedType = ExtractType<Promise<number>>; // number
+type DirectType = ExtractType<number>; // number
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How can `TypeScript` use `Utility Types` like `Partial`, `Required`, and `Readonly`?</h2>
+        <div class="answer">
+            <p>Utility types provide transformations on existing types, such as making properties optional, required, or readonly.</p>
+            <pre><code>
+interface User {
+    name: string;
+    age: number;
+}
+
+type PartialUser = Partial<User>;
+type RequiredUser = Required<User>;
+type ReadonlyUser = Readonly<User>;
+
+const partialUser: PartialUser = { name: 'Alice' };
+const requiredUser: RequiredUser = { name: 'Bob', age: 30 };
+const readonlyUser: ReadonlyUser = { name: 'Carol', age: 25 };
+// readonlyUser.age = 26; // Error: Cannot assign to 'age' because it is a read-only property.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How can `TypeScript` handle `Index Access Types` to get types of object properties?</h2>
+        <div class="answer">
+            <p>Index access types allow you to access the type of a specific property in an object type.</p>
+            <pre><code>
+interface Person {
+    name: string;
+    age: number;
+}
+
+type NameType = Person['name']; // string
+type AgeType = Person['age']; // number
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How can `TypeScript` use `Type Guards` with `in` operator for type checking?</h2>
+        <div class="answer">
+            <p>The `in` operator can be used in type guards to check for the presence of a property in an object, allowing for type refinement.</p>
+            <pre><code>
+interface Cat {
+    type: 'cat';
+    meow: () => void;
+}
+
+interface Dog {
+    type: 'dog';
+    bark: () => void;
+}
+
+function handleAnimal(animal: Cat | Dog) {
+    if ('meow' in animal) {
+        animal.meow();
+    } else {
+        animal.bark();
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How can `TypeScript` use `Template Literal Types` for creating dynamic string types?</h2>
+        <div class="answer">
+            <p>Template literal types allow you to create dynamic string types by combining string literals and template expressions.</p>
+            <pre><code>
+type Greeting = `Hello, ${string}!`;
+
+const greeting: Greeting = 'Hello, TypeScript!'; // OK
+// const invalidGreeting: Greeting = 'Hi, TypeScript!'; // Error
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How can `TypeScript` use `Type Parameters` with `Default Values` in generic types?</h2>
+        <div class="answer">
+            <p>Type parameters with default values allow you to specify a fallback type if no type is provided for a generic type parameter.</p>
+            <pre><code>
+type Wrapper<T = string> = {
+    value: T;
+};
+
+const stringWrapper: Wrapper = { value: 'Hello' };
+const numberWrapper: Wrapper<number> = { value: 123 };
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

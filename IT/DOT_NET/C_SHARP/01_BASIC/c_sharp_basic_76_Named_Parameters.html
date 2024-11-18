@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Named Parameters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Named Parameters</h1>
+    <p>Named parameters in C# allow you to specify the name of the parameters when calling a method, rather than relying on the order of arguments. This can make method calls more readable and flexible, especially when dealing with methods with many parameters or default values.</p>
+
+    <h2>1. Basics of Named Parameters</h2>
+    <p>With named parameters, you can pass arguments to a method by specifying the parameter names, which allows you to skip parameters or change their order.</p>
+
+    <h2>2. Example of Named Parameters</h2>
+    <p>Here’s an example showing how to use named parameters in a method call:</p>
+    <pre><code>
+public class Example
+{
+    // Method with multiple parameters
+    public void DisplayInfo(string name, int age, string city = "Unknown", string country = "Unknown")
+    {
+        Console.WriteLine($"Name: {name}");
+        Console.WriteLine($"Age: {age}");
+        Console.WriteLine($"City: {city}");
+        Console.WriteLine($"Country: {country}");
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Example example = new Example();
+
+        // Using named parameters to specify values
+        example.DisplayInfo(name: "Alice", age: 30, city: "New York");
+
+        // Using named parameters to change the order and skip some parameters
+        example.DisplayInfo(age: 25, name: "Bob", country: "USA");
+    }
+}
+    </code></pre>
+    <p>Output:</p>
+    <pre><code>
+Name: Alice
+Age: 30
+City: New York
+Country: Unknown
+
+Name: Bob
+Age: 25
+City: Unknown
+Country: USA
+    </code></pre>
+
+    <h2>3. Key Points</h2>
+    <ul>
+        <li><strong>Parameter Names:</strong> Named parameters are specified by their names in the method call, not by their position.</li>
+        <li><strong>Flexibility:</strong> Allows changing the order of parameters and skipping optional ones with default values.</li>
+        <li><strong>Readability:</strong> Improves the readability of method calls, especially when dealing with methods that have many parameters.</li>
+    </ul>
+
+    <h2>4. Conclusion</h2>
+    <p>Named parameters in C# enhance method call clarity and flexibility by allowing you to specify parameter names directly. This feature helps in creating more maintainable and readable code, especially in complex methods.</p>
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas sobre la Pirámide de Pruebas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .consecutive {
+            text-align: center;
+            font-weight: bold;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        code {
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preguntas sobre la Pirámide de Pruebas</h1>
+    <table>
+        <thead>
+            <tr>
+                <th class="consecutive">No.</th>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="consecutive">1</td>
+                <td>¿Qué es la pirámide de pruebas?</td>
+                <td>Es una estrategia que sugiere tener más pruebas unitarias que pruebas de integración y menos pruebas end-to-end.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">2</td>
+                <td>¿Cuál es el objetivo principal de la pirámide de pruebas?</td>
+                <td>Reducir el costo y el tiempo de ejecución de pruebas al tener una estructura de pruebas balanceada.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">3</td>
+                <td>¿Qué tipo de pruebas se encuentran en la base de la pirámide de pruebas?</td>
+                <td>Pruebas unitarias.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">4</td>
+                <td>¿Qué tipo de pruebas se encuentran en el medio de la pirámide de pruebas?</td>
+                <td>Pruebas de integración.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">5</td>
+                <td>¿Qué tipo de pruebas se encuentran en la cima de la pirámide de pruebas?</td>
+                <td>Pruebas end-to-end.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">6</td>
+                <td>¿Por qué es importante tener más pruebas unitarias?</td>
+                <td>Porque son rápidas de ejecutar y cubren gran parte del código base.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">7</td>
+                <td>¿Cómo se pueden organizar las pruebas unitarias en Java?</td>
+                <td>Usando JUnit. Ejemplo:
+                    <pre><code>
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class MathUtilsTest {
+    @Test
+    public void testAdd() {
+        assertEquals(5, MathUtils.add(2, 3));
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">8</td>
+                <td>¿Cómo se pueden organizar las pruebas unitarias en Python?</td>
+                <td>Usando unittest. Ejemplo:
+                    <pre><code>
+import unittest
+
+def add(x, y):
+    return x + y
+
+class TestMathUtils(unittest.TestCase):
+    def test_add(self):
+        self.assertEqual(add(2, 3), 5)
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">9</td>
+                <td>¿Cómo se pueden organizar las pruebas unitarias en C#?</td>
+                <td>Usando NUnit. Ejemplo:
+                    <pre><code>
+using NUnit.Framework;
+
+public class MathUtilsTests {
+    [Test]
+    public void TestAdd() {
+        Assert.AreEqual(5, MathUtils.Add(2, 3));
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">10</td>
+                <td>¿Cómo se pueden organizar las pruebas unitarias en TypeScript?</td>
+                <td>Usando Jest. Ejemplo:
+                    <pre><code>
+import { add } from './mathUtils';
+
+test('adds 2 + 3 to equal 5', () => {
+  expect(add(2, 3)).toBe(5);
+});
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">11</td>
+                <td>¿Cuál es la función principal de las pruebas de integración?</td>
+                <td>Verificar la interacción entre diferentes módulos o servicios.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">12</td>
+                <td>¿Qué herramienta se puede usar para pruebas de integración en Java?</td>
+                <td>JUnit con @SpringBootTest. Ejemplo:
+                    <pre><code>
+import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
+
+@SpringBootTest
+public class IntegrationTest {
+    @Test
+    public void testIntegration() {
+        // Test de integración
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">13</td>
+                <td>¿Qué herramienta se puede usar para pruebas de integración en Python?</td>
+                <td>pytest con fixtures. Ejemplo:
+                    <pre><code>
+import pytest
+
+@pytest.fixture
+def setup_database():
+    # Configuración de la base de datos
+    yield db
+    # Limpieza de la base de datos
+
+def test_database_query(setup_database):
+    result = setup_database.query('SELECT * FROM table')
+    assert result == expected
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">14</td>
+                <td>¿Qué herramienta se puede usar para pruebas de integración en C#?</td>
+                <td>SpecFlow para pruebas BDD. Ejemplo:
+                    <pre><code>
+[Binding]
+public class IntegrationSteps {
+    [Given(@"I have an API client")]
+    public void GivenIHaveAnAPIClient() {
+        // Configuración del cliente
+    }
+
+    [When(@"I send a request")]
+    public void WhenISendARequest() {
+        // Envío de la solicitud
+    }
+
+    [Then(@"I should receive a response")]
+    public void ThenIShouldReceiveAResponse() {
+        // Verificación de la respuesta
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">15</td>
+                <td>¿Qué herramienta se puede usar para pruebas de integración en TypeScript?</td>
+                <td>Supertest con Jest. Ejemplo:
+                    <pre><code>
+import request from 'supertest';
+import app from './app';
+
+describe('GET /api/resource', () => {
+  it('should return a response', async () => {
+    const response = await request(app).get('/api/resource');
+    expect(response.status).toBe(200);
+  });
+});
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">16</td>
+                <td>¿Qué importancia tienen las pruebas end-to-end en la pirámide de pruebas?</td>
+                <td>Verifican el sistema en su totalidad, asegurando que los componentes funcionen correctamente en un entorno simulado.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">17</td>
+                <td>¿Cuál es una herramienta común para pruebas end-to-end en Java?</td>
+                <td>Selenium. Ejemplo:
+                    <pre><code>
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.junit.jupiter.api.Test;
+
+public class EndToEndTest {
+    @Test
+    public void testWebsite() {
+        WebDriver driver = new ChromeDriver();
+        driver.get("http://example.com");
+        // Verificaciones
+        driver.quit();
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">18</td>
+                <td>¿Cuál es una herramienta común para pruebas end-to-end en Python?</td>
+                <td>Selenium con pytest. Ejemplo:
+                    <pre><code>
+from selenium import webdriver
+import pytest
+
+@pytest.fixture
+def driver():
+    driver = webdriver.Chrome()
+    yield driver
+    driver.quit()
+
+def test_website(driver):
+    driver.get('http://example.com')
+    assert "Example Domain" in driver.title
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">19</td>
+                <td>¿Cuál es una herramienta común para pruebas end-to-end en C#?</td>
+                <td>SpecFlow con Selenium. Ejemplo:
+                    <pre><code>
+[Binding]
+public class EndToEndSteps {
+    private IWebDriver _driver;
+
+    [Given(@"I navigate to the website")]
+    public void GivenINavigateToTheWebsite() {
+        _driver = new ChromeDriver();
+        _driver.Navigate().GoToUrl("http://example.com");
+    }
+
+    [Then(@"I should see the title")]
+    public void ThenIShouldSeeTheTitle() {
+        Assert.AreEqual("Example Domain", _driver.Title);
+        _driver.Quit();
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">20</td>
+                <td>¿Cuál es una herramienta común para pruebas end-to-end en TypeScript?</td>
+                <td>Cypress. Ejemplo:
+                    <pre><code>
+describe('Website Tests', () => {
+  it('should load the website', () => {
+    cy.visit('http://example.com');
+    cy.title().should('include', 'Example Domain');
+  });
+});
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">21</td>
+                <td>¿Cómo se puede asegurar que las pruebas unitarias sean rápidas?</td>
+                <td>Diseñando pruebas que no dependan de recursos externos y que se ejecuten en el contexto de una sola unidad de código.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">22</td>
+                <td>¿Cómo se pueden manejar las dependencias en pruebas unitarias en Java?</td>
+                <td>Usando mocks y stubs. Ejemplo con Mockito:
+                    <pre><code>
+import static org.mockito.Mockito.*;
+
+public class ServiceTest {
+    @Test
+    public void testService() {
+        Dependency mockDependency = mock(Dependency.class);
+        when(mockDependency.getValue()).thenReturn(42);
+        Service service = new Service(mockDependency);
+        assertEquals(42, service.getValue());
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">23</td>
+                <td>¿Cómo se pueden manejar las dependencias en pruebas unitarias en Python?</td>
+                <td>Usando el módulo unittest.mock. Ejemplo:
+                    <pre><code>
+from unittest.mock import Mock
+
+def test_service():
+    mock_dependency = Mock()
+    mock_dependency.get_value.return_value = 42
+    service = Service(mock_dependency)
+    assert service.get_value() == 42
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">24</td>
+                <td>¿Cómo se pueden manejar las dependencias en pruebas unitarias en C#?</td>
+                <td>Usando Moq. Ejemplo:
+                    <pre><code>
+using Moq;
+
+public class ServiceTests {
+    [Test]
+    public void TestService() {
+        var mockDependency = new Mock<IDependency>();
+        mockDependency.Setup(d => d.GetValue()).Returns(42);
+        var service = new Service(mockDependency.Object);
+        Assert.AreEqual(42, service.GetValue());
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">25</td>
+                <td>¿Cómo se pueden manejar las dependencias en pruebas unitarias en TypeScript?</td>
+                <td>Usando Jest mocks. Ejemplo:
+                    <pre><code>
+import { Service } from './service';
+import { Dependency } from './dependency';
+
+jest.mock('./dependency');
+
+test('should return mocked value', () => {
+  const mockDependency = new Dependency() as jest.Mocked<Dependency>;
+  mockDependency.getValue.mockReturnValue(42);
+  const service = new Service(mockDependency);
+  expect(service.getValue()).toBe(42);
+});
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">26</td>
+                <td>¿Cómo se puede lograr una cobertura completa de código?</td>
+                <td>Escribiendo pruebas para cada camino posible del código, incluidas condiciones, ciclos y excepciones.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">27</td>
+                <td>¿Qué es una prueba de integración en el contexto de la pirámide de pruebas?</td>
+                <td>Es una prueba que verifica la interacción entre múltiples componentes o servicios para asegurar que funcionen juntos correctamente.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">28</td>
+                <td>¿Qué es una prueba end-to-end y qué ventajas ofrece?</td>
+                <td>Es una prueba que valida el flujo completo de la aplicación desde el inicio hasta el fin, asegurando que todos los componentes funcionen juntos. Ofrece una visión integral del sistema.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">29</td>
+                <td>¿Cómo puede la pirámide de pruebas ayudar en la entrega continua?</td>
+                <td>Permite una integración más fluida y rápida al tener una alta cantidad de pruebas unitarias rápidas y confiables, mientras que las pruebas más lentas se ejecutan con menos frecuencia.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">30</td>
+                <td>¿Qué es una prueba de regresión y cómo se relaciona con la pirámide de pruebas?</td>
+                <td>Es una prueba que asegura que los cambios recientes no han afectado negativamente el funcionamiento existente. Se puede realizar en diferentes niveles de la pirámide de pruebas, principalmente en pruebas de integración y end-to-end.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">31</td>
+                <td>¿Cuál es una estrategia para reducir el tiempo de ejecución de pruebas end-to-end?</td>
+                <td>Reducir el número de pruebas end-to-end y enfocarse en los casos más críticos, mientras se utilizan pruebas unitarias e integración para cubrir otros aspectos.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">32</td>
+                <td>¿Cómo se debe abordar la escritura de pruebas en una arquitectura de microservicios?</td>
+                <td>Escribir pruebas unitarias para cada microservicio, pruebas de integración para las interacciones entre ellos, y pruebas end-to-end para verificar el sistema completo.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">33</td>
+                <td>¿Qué es la prueba de "smoke" y cuándo se debe usar?</td>
+                <td>Es una prueba rápida para verificar que el sistema básico funciona correctamente. Se usa al realizar despliegues o cambios importantes.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">34</td>
+                <td>¿Cómo puede la automatización de pruebas mejorar la eficiencia del equipo de desarrollo?</td>
+                <td>Permite ejecutar pruebas de manera rápida y repetitiva, detectando errores tempranamente y reduciendo el tiempo necesario para las pruebas manuales.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">35</td>
+                <td>¿Qué es el "Test-Driven Development" (TDD) y cómo se relaciona con la pirámide de pruebas?</td>
+                <td>Es una técnica de desarrollo en la que las pruebas se escriben antes del código. Asegura una base sólida de pruebas unitarias y fomenta una alta cobertura de pruebas.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">36</td>
+                <td>¿Cómo se pueden gestionar las pruebas de rendimiento dentro de la pirámide de pruebas?</td>
+                <td>Realizando pruebas de rendimiento como pruebas de carga y estrés en niveles específicos, como pruebas de integración o end-to-end, según el impacto en el sistema.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">37</td>
+                <td>¿Qué es el "Behavior-Driven Development" (BDD) y cómo encaja en la pirámide de pruebas?</td>
+                <td>Es una metodología que fomenta la colaboración entre desarrolladores y stakeholders usando lenguaje natural para definir el comportamiento esperado. Se usa principalmente para pruebas de integración y end-to-end.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">38</td>
+                <td>¿Cómo se puede garantizar que las pruebas sean independientes entre sí?</td>
+                <td>Diseñando pruebas que no dependan del estado compartido y asegurando que cada prueba se pueda ejecutar de manera aislada.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">39</td>
+                <td>¿Qué es el "Continuous Testing" y cómo se aplica en la pirámide de pruebas?</td>
+                <td>Es la práctica de ejecutar pruebas continuamente a lo largo del ciclo de desarrollo para detectar defectos tempranamente. Se aplica en la pirámide de pruebas mediante la automatización y la integración continua.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">40</td>
+                <td>¿Qué papel juegan las pruebas unitarias en la pirámide de pruebas?</td>
+                <td>Son la base de la pirámide de pruebas, proporcionando una rápida retroalimentación sobre el funcionamiento de las unidades individuales de código.</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

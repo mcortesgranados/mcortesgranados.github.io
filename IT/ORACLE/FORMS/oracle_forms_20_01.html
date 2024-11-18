@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Forms Q&A</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        h2 {
+            color: #007BFF;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-left: 4px solid #007BFF;
+            overflow-x: auto;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .question strong {
+            color: #333;
+        }
+        .answer {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Oracle Forms Q&A</h1>
+
+    <div class="question">
+        <strong>1. What is Oracle Forms?</strong>
+        <div class="answer">
+            <p>Oracle Forms is a software product used to create data entry forms that interact with Oracle databases. It helps in building applications that are scalable and database-driven.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>2. How do you create a new form in Oracle Forms?</strong>
+        <div class="answer">
+            <p>To create a new form, open Oracle Forms Builder, go to "File" &rarr; "New" &rarr; "Form". You can then create data blocks and layouts for the form.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>3. What is a block in Oracle Forms?</strong>
+        <div class="answer">
+            <p>A block is a logical grouping of items based on a database table or a view. Blocks are the building units of Oracle Forms.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>4. How do you create a block in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can create a block by using the Data Block Wizard in Oracle Forms Builder. You can define the block based on a table or manually create one.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>5. What are triggers in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Triggers are blocks of PL/SQL code that are executed automatically when a specified event occurs, such as pressing a button or committing data.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>6. How can you create a button in Oracle Forms?</strong>
+        <div class="answer">
+            <p>To create a button, go to the Layout Editor, click the button tool, and place it on the canvas. Assign it a name and define triggers for its behavior.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>7. How do you validate user input in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can validate user input using triggers like <code>WHEN-VALIDATE-ITEM</code>. This trigger checks data before it is saved to the database.</p>
+            <pre><code>
+WHEN-VALIDATE-ITEM IS
+BEGIN
+    IF :item_name IS NULL THEN
+        MESSAGE('Item cannot be null');
+        RAISE FORM_TRIGGER_FAILURE;
+    END IF;
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>8. How do you display a message in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can display messages using the <code>MESSAGE</code> built-in procedure.</p>
+            <pre><code>
+MESSAGE('This is a message');
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>9. How can you commit data in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can commit data using the <code>COMMIT_FORM</code> procedure.</p>
+            <pre><code>
+COMMIT_FORM;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>10. What is a canvas in Oracle Forms?</strong>
+        <div class="answer">
+            <p>A canvas is the area on which you place graphical objects like buttons, text fields, and other controls. It represents the user interface of the form.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>11. What is a LOV (List of Values) in Oracle Forms?</strong>
+        <div class="answer">
+            <p>A LOV is a list of values that the user can select from. It is typically based on a query that retrieves data from a database table.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>12. How do you create a LOV in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can create a LOV using the LOV Wizard in Oracle Forms Builder. Specify the data source (a query) and associate the LOV with a text item.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>13. What is a record group in Oracle Forms?</strong>
+        <div class="answer">
+            <p>A record group is a collection of records (rows of data) that can be used by LOVs or other UI components. It can be based on a query or created manually.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>14. How do you create a record group in Oracle Forms?</strong>
+        <div class="answer">
+            <p>To create a record group, use the Record Group Wizard and define it with a query that retrieves the desired records.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>15. What is the difference between POST and COMMIT in Oracle Forms?</strong>
+        <div class="answer">
+            <p><code>POST</code> writes changes to the database but does not commit them, while <code>COMMIT</code> saves the changes permanently in the database.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>16. How do you create a trigger in Oracle Forms?</strong>
+        <div class="answer">
+            <p>In Forms Builder, right-click on the item, block, or form where you want to add the trigger, select "Create Trigger", and then write the PL/SQL code.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>17. How do you navigate between blocks in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can navigate between blocks using the <code>GO_BLOCK</code> built-in procedure.</p>
+            <pre><code>
+GO_BLOCK('block_name');
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>18. How can you call another form from Oracle Forms?</strong>
+        <div class="answer">
+            <p>Use the <code>CALL_FORM</code> procedure to open another form.</p>
+            <pre><code>
+CALL_FORM('form_name');
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>19. How do you handle exceptions in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can handle exceptions using the <code>EXCEPTION</code> section in PL/SQL blocks.</p>
+            <pre><code>
+BEGIN
+    -- Your logic here
+EXCEPTION
+    WHEN OTHERS THEN
+        MESSAGE('An error occurred');
+        RAISE FORM_TRIGGER_FAILURE;
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>20. How do you close a form in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can close a form using the <code>EXIT_FORM</code> procedure.</p>
+            <pre><code>
+EXIT_FORM;
+            </code></pre>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Intermediate Level Questions and Answers - Part 16</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Intermediate Level Questions and Answers - Part 15</h1>
+
+    <h2>1. How do you use <code>Omit</code> to exclude properties from a type?</h2>
+    <p>The <code>Omit</code> utility type creates a new type by excluding specified properties from another type.</p>
+    <pre><code>interface Person {
+    name: string;
+    age: number;
+    address: string;
+}
+
+type PersonWithoutAddress = Omit;
+
+const person: PersonWithoutAddress = {
+    name: "Alice",
+    age: 30
+};
+
+console.log(person); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>2. How do you use <code>Pick</code> to create a type with a subset of properties?</h2>
+    <p>The <code>Pick</code> utility type creates a new type by picking specific properties from another type.</p>
+    <pre><code>interface Person {
+    name: string;
+    age: number;
+    address: string;
+}
+
+type PersonNameAndAge = Pick;
+
+const person: PersonNameAndAge = {
+    name: "Alice",
+    age: 30
+};
+
+console.log(person); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>3. How do you use <code>Readonly</code> to make properties immutable?</h2>
+    <p>The <code>Readonly</code> utility type makes all properties of a type read-only.</p>
+    <pre><code>interface Person {
+    name: string;
+    age: number;
+}
+
+type ReadOnlyPerson = Readonly<Person>;
+
+const person: ReadOnlyPerson = {
+    name: "Alice",
+    age: 30
+};
+
+// person.name = "Bob"; // Error: Cannot assign to 'name' because it is a read-only property
+
+console.log(person); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>4. How do you use <code>Conditional Types</code> to create a type based on a condition?</h2>
+    <p>Conditional types allow you to create a type based on a condition.</p>
+    <pre><code>type TrueType = true extends true ? "Yes" : "No"; // "Yes"
+type FalseType = false extends true ? "Yes" : "No"; // "No"
+
+console.log(TrueType); // Yes
+console.log(FalseType); // No</code></pre>
+
+    <h2>5. How do you use <code>Tuple</code> to define a type with a fixed number of elements?</h2>
+    <p>Tuples define a type with a fixed number of elements, each of a specific type.</p>
+    <pre><code>type PersonTuple = [string, number];
+
+const person: PersonTuple = ["Alice", 30];
+
+console.log(person); // ["Alice", 30]</code></pre>
+
+    <h2>6. How do you use <code>extends</code> in a generic type to constrain the type parameter?</h2>
+    <p>Using <code>extends</code> in a generic type allows you to constrain the type parameter to a specific type or subset.</p>
+    <pre><code>function identity<T extends string | number>(value: T): T {
+    return value;
+}
+
+const stringValue = identity("Hello");
+const numberValue = identity(42);
+
+console.log(stringValue); // Hello
+console.log(numberValue); // 42</code></pre>
+
+    <h2>7. How do you use <code>type</code> to define a type with a method that returns a specific value?</h2>
+    <p>Type aliases can define types with methods that return specific values.</p>
+    <pre><code>type Greeter = {
+    greet: () => string;
+};
+
+const greeter: Greeter = {
+    greet: () => "Hello, TypeScript!"
+};
+
+console.log(greeter.greet()); // Hello, TypeScript!</code></pre>
+
+    <h2>8. How do you use <code>infer</code> to extract a type from a Promise?</h2>
+    <p>The <code>infer</code> keyword can extract the type of the resolved value from a Promise.</p>
+    <pre><code>type ResolveType<T> = T extends Promise<infer U> ? U : never;
+
+const promise: Promise<number> = Promise.resolve(42);
+
+type NumberType = ResolveType<typeof promise>; // number
+
+console.log(NumberType); // number</code></pre>
+
+    <h2>9. How do you use <code>type</code> to define a type for a function that accepts multiple types of arguments?</h2>
+    <p>Type aliases can define functions that accept arguments of multiple types.</p>
+    <pre><code>type MultiArgFunction = (a: string | number, b: boolean) => void;
+
+const func: MultiArgFunction = (a, b) => {
+    console.log(a, b);
+};
+
+func("Hello", true); // Hello true
+func(123, false); // 123 false</code></pre>
+
+    <h2>10. How do you use <code>keyof</code> to create a type that represents keys of an object with nested properties?</h2>
+    <p>The <code>keyof</code> operator can be used with nested properties by accessing the type of the nested object.</p>
+    <pre><code>interface Person {
+    name: string;
+    address: {
+        street: string;
+        city: string;
+    };
+}
+
+type AddressKeys = keyof Person['address']; // "street" | "city"
+
+const key: AddressKeys = "city";
+console.log(key); // city</code></pre>
+
+    <h2>11. How do you use <code>type</code> to create a type that is the intersection of multiple types?</h2>
+    <p>Intersection types combine multiple types into one.</p>
+    <pre><code>type Person = { name: string };
+type Contact = { email: string };
+
+type PersonContact = Person & Contact;
+
+const personContact: PersonContact = {
+    name: "Alice",
+    email: "alice@example.com"
+};
+
+console.log(personContact); // { name: 'Alice', email: 'alice@example.com' }</code></pre>
+
+    <h2>12. How do you use <code>type</code> to define a type that represents a function with default parameters?</h2>
+    <p>Function types can include default parameters using type aliases.</p>
+    <pre><code>type SumFunction = (a: number, b?: number) => number;
+
+const sum: SumFunction = (a, b = 0) => a + b;
+
+console.log(sum(5)); // 5
+console.log(sum(5, 10)); // 15</code></pre>
+
+    <h2>13. How do you use <code>type</code> to define a type that represents an object with optional properties?</h2>
+    <p>Optional properties can be defined using the <code>?</code> modifier in a type alias.</p>
+    <pre><code>type Person = {
+    name: string;
+    age?: number;
+};
+
+const person1: Person = { name: "Alice" };
+const person2: Person = { name: "Bob", age: 30 };
+
+console.log(person1); // { name: 'Alice' }
+console.log(person2); // { name: 'Bob', age: 30 }</code></pre>
+
+    <h2>14. How do you use <code>typeof</code> to create a type that is the same as a variable?</h2>
+    <p>The <code>typeof</code> operator can be used to create a type from an existing variable.</p>
+    <pre><code>const value = "Hello, TypeScript!";
+
+type ValueType = typeof value; // string
+
+const greeting: ValueType = "Hello, World!";
+
+console.log(greeting); // Hello, World!</code></pre>
+
+    <h2>15. How do you use <code>type</code> to define a type for a function with a specific return type?</h2>
+    <p>Function types can specify the return type using type aliases.</p>
+    <pre><code>type AddFunction = (a: number, b: number) => number;
+
+const add: AddFunction = (a, b) => a + b;
+
+console.log(add(2, 3)); // 5</code></pre>
+
+    <h2>16. How do you use <code>type</code> to define a type that represents a union of multiple types?</h2>
+    <p>Union types combine multiple types into one.</p>
+    <pre><code>type StringOrNumber = string | number;
+
+const value1: StringOrNumber = "Hello";
+const value2: StringOrNumber = 42;
+
+console.log(value1); // Hello
+console.log(value2); // 42</code></pre>
+
+    <h2>17. How do you use <code>type</code> to define a type that represents an object with dynamic property names and specific value types?</h2>
+    <p>Type aliases can define objects with dynamic property names and specific value types.</p>
+    <pre><code>type NumericDictionary = {
+    [key: string]: number;
+};
+
+const numbers: NumericDictionary = {
+    a: 1,
+    b: 2
+};
+
+console.log(numbers); // { a: 1, b: 2 }</code></pre>
+
+    <h2>18. How do you use <code>type</code> to define a type that represents an object with both required and optional properties?</h2>
+    <p>Type aliases can include both required and optional properties.</p>
+    <pre><code>type Person = {
+    name: string;
+    age?: number;
+};
+
+const person1: Person = { name: "Alice" };
+const person2: Person = { name: "Bob", age: 30 };
+
+console.log(person1); // { name: 'Alice' }
+console.log(person2); // { name: 'Bob', age: 30 }</code></pre>
+
+    <h2>19. How do you use <code>type</code> to define a type that represents a function with a variable number of arguments?</h2>
+    <p>Function types can include a variable number of arguments using rest parameters.</p>
+    <pre><code>type SumFunction = (...args: number[]) => number;
+
+const sum: SumFunction = (...args) => args.reduce((acc, num) => acc + num, 0);
+
+console.log(sum(1, 2, 3, 4)); // 10</code></pre>
+
+    <h2>20. How do you use <code>type</code> to define a type that represents an object with specific key-value pairs?</h2>
+    <p>Type aliases can define objects with specific key-value pairs.</p>
+    <pre><code>type KeyValuePairs = {
+    key1: string;
+    key2: number;
+};
+
+const pairs: KeyValuePairs = {
+    key1: "value1",
+    key2: 100
+};
+
+console.log(pairs); // { key1: 'value1', key2: 100 }</code></pre>
+
+</body>
+</html>

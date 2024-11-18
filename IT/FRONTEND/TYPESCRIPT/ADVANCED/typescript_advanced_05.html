@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced TypeScript Questions - Part 5</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Advanced TypeScript Questions - Part 5</h1>
+
+    <div class="question">
+        <h2>1. How do you use `this` parameter in TypeScript methods?</h2>
+        <div class="answer">
+            <p>The `this` parameter specifies that a method can only be called on instances of a specific type.</p>
+            <pre><code>
+class MyClass {
+    value: number;
+
+    constructor(value: number) {
+        this.value = value;
+    }
+
+    add(this: MyClass, x: number): number {
+        return this.value + x;
+    }
+}
+
+const obj = new MyClass(10);
+console.log(obj.add(5)); // 15
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How can you use `infer` keyword in TypeScript to extract types within conditional types?</h2>
+        <div class="answer">
+            <p>The `infer` keyword allows you to create a type variable within a conditional type to infer types from other types.</p>
+            <pre><code>
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+
+type Func = (a: number) => string;
+type Result = ReturnType<Func>; // string
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. What is the purpose of `keyof typeof` in TypeScript?</h2>
+        <div class="answer">
+            <p>The `keyof typeof` combination is used to get the type of the keys of an object or enum.</p>
+            <pre><code>
+const Colors = {
+    Red: 'red',
+    Green: 'green',
+    Blue: 'blue'
+} as const;
+
+type ColorKeys = keyof typeof Colors; // 'Red' | 'Green' | 'Blue'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How can you use `Conditional Types` with `infer` to create a type that extracts the return type of a function?</h2>
+        <div class="answer">
+            <p>Conditional types with `infer` can be used to capture the return type of a function type.</p>
+            <pre><code>
+type FunctionReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+
+type ExampleFunc = (x: number) => boolean;
+type ExampleReturnType = FunctionReturnType<ExampleFunc>; // boolean
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you create a `readonly` tuple type in TypeScript?</h2>
+        <div class="answer">
+            <p>You can create a `readonly` tuple type by using the `readonly` modifier in front of the tuple type.</p>
+            <pre><code>
+type ReadonlyTuple = readonly [number, string];
+
+const tuple: ReadonlyTuple = [1, 'hello'];
+// tuple[0] = 2; // Error: Index signature in type 'readonly [number, string]' only permits reading property
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. What is the purpose of the `Exclude` utility type and how is it used?</h2>
+        <div class="answer">
+            <p>The `Exclude` utility type constructs a type by excluding from a union type all types that are assignable to another type.</p>
+            <pre><code>
+type A = 'a' | 'b' | 'c';
+type B = Exclude<A, 'b'>; // 'a' | 'c'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use `Extract` utility type to obtain a subset of a union type?</h2>
+        <div class="answer">
+            <p>The `Extract` utility type constructs a type by extracting from one type all properties that are assignable to another type.</p>
+            <pre><code>
+type A = 'a' | 'b' | 'c';
+type B = Extract<A, 'b' | 'c'>; // 'b' | 'c'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. What is the `NonNullable` utility type and how can it be used?</h2>
+        <div class="answer">
+            <p>The `NonNullable` utility type removes `null` and `undefined` from a union type.</p>
+            <pre><code>
+type MaybeString = string | null | undefined;
+type NotNullString = NonNullable<MaybeString>; // string
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How can you use `Partial` to make all properties in an object type optional?</h2>
+        <div class="answer">
+            <p>The `Partial` utility type creates a type where all properties of a given type are optional.</p>
+            <pre><code>
+interface User {
+    name: string;
+    age: number;
+}
+
+type PartialUser = Partial<User>;
+// { name?: string; age?: number; }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use `Readonly` to make all properties of an object type read-only?</h2>
+        <div class="answer">
+            <p>The `Readonly` utility type constructs a type with all properties set to readonly.</p>
+            <pre><code>
+interface User {
+    name: string;
+    age: number;
+}
+
+type ReadonlyUser = Readonly<User>;
+// { readonly name: string; readonly age: number; }
+
+const user: ReadonlyUser = { name: 'Alice', age: 30 };
+// user.age = 31; // Error: Cannot assign to 'age' because it is a read-only property.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How can you use `Record` to create an object type with specific keys and values?</h2>
+        <div class="answer">
+            <p>The `Record` utility type constructs an object type with a set of properties having a specific value type.</p>
+            <pre><code>
+type Role = 'admin' | 'user';
+type Permissions = Record<Role, boolean>;
+// { admin: boolean; user: boolean; }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you use `Tuple` types to represent an array with a fixed number of elements?</h2>
+        <div class="answer">
+            <p>Tuple types represent arrays with a fixed number of elements, where each element can have a different type.</p>
+            <pre><code>
+type StringNumberTuple = [string, number];
+
+const example: StringNumberTuple = ['hello', 42];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. What is `Type Guards` in TypeScript and how can you use it with custom types?</h2>
+        <div class="answer">
+            <p>Type guards are used to narrow down the type of a variable within a conditional block. You can create custom type guards using functions.</p>
+            <pre><code>
+interface Dog {
+    bark: () => void;
+}
+
+interface Cat {
+    meow: () => void;
+}
+
+function isDog(animal: Dog | Cat): animal is Dog {
+    return (animal as Dog).bark !== undefined;
+}
+
+const animal: Dog | Cat = getAnimal();
+
+if (isDog(animal)) {
+    animal.bark(); // TypeScript knows 'animal' is of type 'Dog'
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How can you use `type assertion` to tell TypeScript the type of a variable?</h2>
+        <div class="answer">
+            <p>Type assertion allows you to specify the type of a variable when TypeScript cannot infer it correctly.</p>
+            <pre><code>
+const someValue: any = 'hello';
+const stringValue: string = someValue as string;
+// or
+const stringValue2: string = <string>someValue;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. What are `Template Literal Types` and how can they be used in TypeScript?</h2>
+        <div class="answer">
+            <p>Template literal types allow you to create types that are based on string template literals.</p>
+            <pre><code>
+type Greeting = `Hello, ${string}!`;
+
+const hello: Greeting = 'Hello, World!'; // valid
+const hi: Greeting = 'Hi, World!'; // Error: Type '"Hi, World!"' is not assignable to type 'Greeting'.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How can you use `Indexed Access Types` to access the type of a specific property in an object type?</h2>
+        <div class="answer">
+            <p>Indexed access types allow you to get the type of a specific property of an object type using `T[K]` where `T` is the object type and `K` is the key.</p>
+            <pre><code>
+interface Person {
+    name: string;
+    age: number;
+}
+
+type PersonNameType = Person['name']; // string
+type PersonAgeType = Person['age']; // number
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use `Union` types to represent values that can be one of several types?</h2>
+        <div class="answer">
+            <p>Union types allow you to define a type that can be one of several types using the `|` operator.</p>
+            <pre><code>
+type StringOrNumber = string | number;
+
+const value1: StringOrNumber = 'hello';
+const value2: StringOrNumber = 42;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. What is `Intersection Types` and how do you use them in TypeScript?</h2>
+        <div class="answer">
+            <p>Intersection types allow you to combine multiple types into one, using the `&` operator.</p>
+            <pre><code>
+interface A {
+    a: number;
+}
+
+interface B {
+    b: string;
+}
+
+type C = A & B;
+
+const obj: C = { a: 1, b: 'test' };
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How can you use `Mapped Types` to create new types by transforming properties of an existing type?</h2>
+        <div class="answer">
+            <p>Mapped types allow you to create new types by applying transformations to each property of an existing type.</p>
+            <pre><code>
+type ReadOnly<T> = {
+    readonly [K in keyof T]: T[K];
+}
+
+interface Person {
+    name: string;
+    age: number;
+}
+
+type ReadOnlyPerson = ReadOnly<Person>;
+// { readonly name: string; readonly age: number; }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use `Optional Chaining` in TypeScript to handle null or undefined values safely?</h2>
+        <div class="answer">
+            <p>Optional chaining allows you to safely access deeply nested properties of an object without having to check for null or undefined at each level.</p>
+            <pre><code>
+interface User {
+    profile?: {
+        name?: string;
+    }
+}
+
+const user: User = {};
+
+const name = user.profile?.name; // undefined, without throwing an error
+            </code></pre>
+        </div>
+    </div>
+</body>
+</html>

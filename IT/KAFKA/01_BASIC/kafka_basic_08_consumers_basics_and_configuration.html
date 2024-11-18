@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumers Basics and Configuration in Kafka</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Consumers Basics and Configuration in Kafka</h1>
+    <p>This guide covers the basics of Kafka consumers and their configuration. Consumers are responsible for reading records from Kafka topics. Understanding how to configure consumers is essential for processing and managing data retrieved from Kafka.</p>
+
+    <h2>1. What is a Kafka Consumer?</h2>
+    <p>A Kafka consumer is an application or component that reads records from Kafka topics. Consumers play a crucial role in processing the data produced by Kafka producers. They subscribe to topics and pull data from the Kafka cluster.</p>
+
+    <ul>
+        <li><strong>Subscription:</strong> Consumers subscribe to one or more Kafka topics to receive records.</li>
+        <li><strong>Offset Management:</strong> Consumers keep track of the offset, which is the position of the last record read. Kafka maintains this offset to ensure records are not processed more than once.</li>
+        <li><strong>Message Processing:</strong> Consumers process the records they receive. This processing can include transformations, aggregations, or other business logic.</li>
+    </ul>
+
+    <h2>2. Basic Configuration Options</h2>
+    <p>Kafka consumers can be configured using various properties to control their behavior. Key configuration options include:</p>
+
+    <ul>
+        <li><strong>bootstrap.servers:</strong> A list of Kafka brokers to connect to, in the format `host1:port1,host2:port2`.</li>
+        <li><strong>key.deserializer:</strong> The class used to deserialize the key of the record. For example, `org.apache.kafka.common.serialization.StringDeserializer` for string keys.</li>
+        <li><strong>value.deserializer:</strong> The class used to deserialize the value of the record. For example, `org.apache.kafka.common.serialization.StringDeserializer` for string values.</li>
+        <li><strong>group.id:</strong> The ID of the consumer group this consumer belongs to. Kafka uses this ID to manage offsets and ensure records are distributed across consumers in the group.</li>
+        <li><strong>auto.offset.reset:</strong> What to do when there is no initial offset or the current offset is out of range. Options include `earliest`, `latest`, and `none`.</li>
+        <li><strong>enable.auto.commit:</strong> Whether to enable automatic offset committing. If set to `true`, the consumer will periodically commit the offsets of the records it has processed.</li>
+    </ul>
+
+    <h2>3. Example: Basic Kafka Consumer Configuration</h2>
+    <p>Below is a Java example demonstrating how to configure and use a Kafka consumer to read messages from a Kafka topic.</p>
+
+    <pre><code>
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.common.serialization.StringDeserializer;
+
+import java.util.Collections;
+import java.util.Properties;
+
+public class KafkaConsumerExample {
+    public static void main(String[] args) {
+        // Consumer configuration
+        Properties props = new Properties();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "my-consumer-group");
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
+        
+        // Create KafkaConsumer
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+        
+        // Subscribe to topic
+        consumer.subscribe(Collections.singletonList("my-topic"));
+        
+        // Poll for new records
+        while (true) {
+            ConsumerRecords<String, String> records = consumer.poll(1000);
+            
+            records.forEach(record -> {
+                System.out.printf("Consumed record with key %s and value %s from topic %s%n",
+                                  record.key(), record.value(), record.topic());
+            });
+        }
+        
+        // Close the consumer (not reached in this example)
+        // consumer.close();
+    }
+}
+    </code></pre>
+
+    <h2>4. Kafka Consumer Configuration Diagram</h2>
+    <p>The following diagram illustrates the key components involved in Kafka consumer configuration, including the Kafka broker connection, deserialization, and offset management.</p>
+
+    <div class="diagram">
+        <img src="kafka-consumer-configuration-diagram.png" alt="Kafka Consumer Configuration Diagram">
+        <p><em>Diagram: Kafka Consumer Configuration Components</em></p>
+    </div>
+
+    <h2>5. Conclusion</h2>
+    <p>Kafka consumers are essential for reading and processing data from Kafka topics. Properly configuring consumers is important for efficient data consumption and processing. By understanding and applying the various configuration options, you can optimize your Kafka consumers to meet the needs of your application.</p>
+</body>
+</html>

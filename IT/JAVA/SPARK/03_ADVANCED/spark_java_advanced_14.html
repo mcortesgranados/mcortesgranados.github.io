@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watermarking and Late Data Handling in Structured Streaming</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Watermarking and Late Data Handling in Structured Streaming</h1>
+
+    <p>
+        In Spark Structured Streaming, watermarking and late data handling are crucial for managing event time and dealing with data that arrives after the expected time. Watermarking allows you to specify how long to wait for late data before considering the data as outdated and processing it. This helps ensure that your streaming queries remain accurate and efficient.
+    </p>
+
+    <h2>Watermarking</h2>
+    <ul>
+        <li><strong>Definition:</strong> Watermarking is a mechanism to handle late data by specifying how long to wait for late events before discarding them. It provides a way to handle event time-based aggregations and computations while managing the trade-off between data freshness and completeness.</li>
+        <li><strong>Configuration:</strong> Watermarking is configured using the <code>withWatermark</code> method on a streaming DataFrame. You specify the column that represents event time and the maximum delay you are willing to tolerate.</li>
+        <li><strong>Example:</strong> If you set a watermark of 10 minutes, Spark will wait for up to 10 minutes of late data before processing and finalizing the results for each window of data.</li>
+    </ul>
+
+    <h2>Handling Late Data</h2>
+    <ul>
+        <li><strong>Late Data:</strong> Data that arrives after the watermark threshold is considered late. Spark can still process this late data, but it will not be included in the results of the aggregations completed before the watermark threshold.</li>
+        <li><strong>Output Modes:</strong> When dealing with late data, it's essential to choose the appropriate output mode (e.g., <code>append</code>, <code>complete</code>, or <code>update</code>) to ensure accurate results.</li>
+        <li><strong>State Management:</strong> Spark maintains state for aggregations, allowing it to handle late data by updating the state and results accordingly. This ensures that aggregations are accurate even with late arriving data.</li>
+    </ul>
+
+    <h2>Example Source Code</h2>
+    <p>
+        Below is an example of how to use watermarking and handle late data in Structured Streaming with Java. This example demonstrates reading data from a source, applying a watermark, and performing an aggregation.
+    </p>
+
+    <pre><code class="language-java">
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.functions;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructType;
+
+public class WatermarkingExample {
+    public static void main(String[] args) {
+        // Create a SparkSession
+        SparkSession spark = SparkSession.builder()
+            .appName("Watermarking Example")
+            .master("local[*]")
+            .getOrCreate();
+
+        // Define schema for input data
+        StructType schema = new StructType()
+            .add("timestamp", DataTypes.TimestampType)
+            .add("value", DataTypes.IntegerType);
+
+        // Create a DataFrame from a file source with event time
+        Dataset<Row> df = spark.readStream()
+            .schema(schema)
+            .json("path/to/input/directory");
+
+        // Apply watermarking and aggregation
+        Dataset<Row> result = df
+            .withWatermark("timestamp", "10 minutes") // Watermark to handle late data
+            .groupBy(functions.window(df.col("timestamp"), "1 hour")) // Define time window
+            .agg(functions.sum("value").alias("total_value")); // Aggregation function
+
+        // Output the results to the console
+        result.writeStream()
+            .outputMode("update")
+            .format("console")
+            .start()
+            .awaitTermination();
+
+        // Stop the SparkSession
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <p>
+        In this example:
+    </p>
+    <ul>
+        <li>A <strong>SparkSession</strong> is created to start the Spark application.</li>
+        <li>A DataFrame is created from a file source, with a schema including a timestamp and value.</li>
+        <li>The <code>withWatermark</code> method is used to set a watermark of 10 minutes on the timestamp column.</li>
+        <li>Data is aggregated over a 1-hour window, summing up the values.</li>
+        <li>The results are output to the console using the <code>update</code> output mode to reflect ongoing changes.</li>
+    </ul>
+
+    <p>
+        Watermarking and handling late data are essential techniques for managing streaming data and ensuring accurate analytics in Spark Structured Streaming. By properly configuring watermarks and understanding how to handle late data, you can build robust and efficient stream processing applications.
+    </p>
+</body>
+</html>

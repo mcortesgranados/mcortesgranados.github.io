@@ -1,0 +1,107 @@
+!DOCTYPE html
+html lang=en
+head
+    meta charset=UTF-8
+    meta name=viewport content=width=device-width, initial-scale=1.0
+    titleC# Async and Awaittitle
+    style
+        body {
+            font-family Arial, sans-serif;
+            line-height 1.6;
+            margin 20px;
+            background-color #f4f4f4;
+        }
+        h1 {
+            color #333;
+        }
+        h2 {
+            color #555;
+        }
+        p {
+            margin 10px 0;
+        }
+        pre {
+            background-color #eee;
+            border-radius 4px;
+            padding 10px;
+            font-family Consolas, monospace;
+            overflow-x auto;
+        }
+        code {
+            font-family Consolas, monospace;
+        }
+    style
+head
+body
+    h1C# Async and Awaith1
+    pThe codeasynccode and codeawaitcode keywords in C# are used to simplify asynchronous programming. They allow you to write code that performs asynchronous operations in a more readable and maintainable way.p
+    
+    h21. Purposeh2
+    pAsynchronous programming helps improve the responsiveness of applications by allowing tasks to run concurrently. This is particularly useful for IO-bound operations, such as reading files, making network requests, or querying databases, without blocking the main thread.p
+    
+    h22. Basics of Async and Awaith2
+    pTo use codeasynccode and codeawaitcodep
+    ul
+        liMark a method with the codeasynccode keyword. This tells the compiler that the method will contain codeawaitcode expressions and can be awaited.li
+        liUse the codeawaitcode keyword to call asynchronous methods. The codeawaitcode operator pauses the execution of the method until the awaited task is complete.li
+        liAsynchronous methods should return codeTaskcode or codeTask&lt;T&gt;code, where codeTcode is the type of the result.li
+    ul
+    
+    h23. Example 1 Basic Usageh2
+    precode
+    using System;
+    using System.Threading.Tasks;
+
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            Console.WriteLine(Starting...);
+            await DoWorkAsync();
+            Console.WriteLine(Work completed.);
+        }
+
+        static async Task DoWorkAsync()
+        {
+            await Task.Delay(2000);  Simulates a delay of 2 seconds
+            Console.WriteLine(Work done!);
+        }
+    }
+    codepre
+    pIn this example, codeDoWorkAsynccode is an asynchronous method that uses codeawaitcode to pause execution for 2 seconds before printing Work done!. The codeMaincode method awaits the completion of codeDoWorkAsynccode before printing Work completed.p
+    
+    h24. Example 2 Asynchronous File Readingh2
+    precode
+    using System;
+    using System.IO;
+    using System.Threading.Tasks;
+
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            string filePath = example.txt;
+            string content = await ReadFileAsync(filePath);
+            Console.WriteLine(File Content);
+            Console.WriteLine(content);
+        }
+
+        static async Taskstring ReadFileAsync(string path)
+        {
+            using (StreamReader reader = new StreamReader(path))
+            {
+                return await reader.ReadToEndAsync();
+            }
+        }
+    }
+    codepre
+    pThis example demonstrates how to read a file asynchronously using codeStreamReader.ReadToEndAsynccode. The codeMaincode method awaits the completion of codeReadFileAsynccode to print the file content.p
+    
+    h25. Key Pointsh2
+    ul
+        listrongAsync methodsstrong should return codeTaskcode or codeTask&lt;T&gt;code and use the codeasynccode keyword.li
+        listrongAwaitstrong is used to pause the execution of an async method until the awaited task is complete.li
+        listrongAsync programmingstrong helps keep applications responsive by performing long-running operations asynchronously.li
+    ul
+body
+html

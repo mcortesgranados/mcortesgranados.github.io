@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Advanced Level Questions - Part 17</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .answer {
+            margin-left: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Angular Advanced Level Questions - Part 17</h1>
+
+    <div class="question">
+        <h2>1. How do you use Angular's `@Pipe` to create a custom pipe for formatting dates?</h2>
+        <div class="answer">
+            <p>Create a custom date pipe:</p>
+            <pre><code>import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'customDate'
+})
+export class CustomDatePipe implements PipeTransform {
+  transform(value: Date, format: string = 'MM/dd/yyyy'): string {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    };
+    return new Intl.DateTimeFormat('en-US', options).format(value);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How do you use Angular's `@Injectable` to provide a service at a module level?</h2>
+        <div class="answer">
+            <p>Provide a service at the module level:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { MyService } from './my.service';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [MyService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you use Angular's `HttpClient` to perform HTTP requests with headers?</h2>
+        <div class="answer">
+            <p>Perform HTTP requests with headers:</p>
+            <pre><code>import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiService {
+  constructor(private http: HttpClient) {}
+
+  getData() {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer your-token'
+    });
+    return this.http.get('/api/data', { headers });
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you use Angular's `Router` to handle route guards for authentication?</h2>
+        <div class="answer">
+            <p>Handle route guards for authentication:</p>
+            <pre><code>import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+  constructor(private router: Router) {}
+
+  canActivate(): boolean {
+    const isAuthenticated = false; // Replace with real authentication check
+    if (!isAuthenticated) {
+      this.router.navigate(['/login']);
+      return false;
+    }
+    return true;
+  }
+}
+
+const routes: Routes = [
+  { path: 'protected', component: ProtectedComponent, canActivate: [AuthGuard] }
+];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you use Angular's `@NgModule` to configure and provide global configurations?</h2>
+        <div class="answer">
+            <p>Configure and provide global configurations:</p>
+            <pre><code>import { NgModule, InjectionToken } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+
+export const API_CONFIG = new InjectionToken<string>('API_CONFIG');
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [
+    { provide: API_CONFIG, useValue: 'https://api.example.com' }
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you use Angular's `@NgModule` to define feature modules?</h2>
+        <div class="answer">
+            <p>Define feature modules:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FeatureComponent } from './feature.component';
+
+@NgModule({
+  declarations: [FeatureComponent],
+  imports: [CommonModule],
+  exports: [FeatureComponent]
+})
+export class FeatureModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use Angular's `@NgModule` to import and configure third-party modules?</h2>
+        <div class="answer">
+            <p>Import and configure third-party modules:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { AppComponent } from './app.component';
+import { ThirdPartyModule } from 'third-party-library';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    ThirdPartyModule.forRoot({ apiKey: 'your-api-key' })
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you use Angular's `@Component` to configure and manage component metadata?</h2>
+        <div class="answer">
+            <p>Configure and manage component metadata:</p>
+            <pre><code>import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-example',
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.css'],
+  animations: [ /* animations here */ ]
+})
+export class ExampleComponent { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you use Angular's `@NgModule` to define and use custom directives?</h2>
+        <div class="answer">
+            <p>Define and use custom directives:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HighlightDirective } from './highlight.directive';
+
+@NgModule({
+  declarations: [HighlightDirective],
+  imports: [CommonModule],
+  exports: [HighlightDirective]
+})
+export class SharedModule { }
+
+import { Directive, ElementRef, Renderer2 } from '@angular/core';
+
+@Directive({
+  selector: '[appHighlight]'
+})
+export class HighlightDirective {
+  constructor(private el: ElementRef, private renderer: Renderer2) {
+    this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'yellow');
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use Angular's `@NgModule` to configure and provide global services?</h2>
+        <div class="answer">
+            <p>Configure and provide global services:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { GlobalService } from './global.service';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [GlobalService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you use Angular's `@Component` to create and manage reusable components?</h2>
+        <div class="answer">
+            <p>Create and manage reusable components:</p>
+            <pre><code>import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-reusable',
+  template: '&lt;p&gt;Hello, {{ name }}!&lt;/p&gt;',
+  styleUrls: ['./reusable.component.css']
+})
+export class ReusableComponent {
+  @Input() name!: string;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you use Angular's `@Directive` to create custom behavior for DOM elements?</h2>
+        <div class="answer">
+            <p>Create custom behavior for DOM elements:</p>
+            <pre><code>import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
+
+@Directive({
+  selector: '[appHover]'
+})
+export class HoverDirective {
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+  @HostListener('mouseenter') onMouseEnter() {
+    this.renderer.setStyle(this.el.nativeElement, 'color', 'blue');
+  }
+
+  @HostListener('mouseleave') onMouseLeave() {
+    this.renderer.setStyle(this.el.nativeElement, 'color', 'black');
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use Angular's `@NgModule` to configure and provide routing modules?</h2>
+        <div class="answer">
+            <p>Configure and provide routing modules:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home.component';
+import { AboutComponent } from './about.component';
+
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'about', component: AboutComponent }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use Angular's `@Component` to manage component lifecycle hooks?</h2>
+        <div class="answer">
+            <p>Manage component lifecycle hooks:</p>
+            <pre><code>import { Component, OnInit, OnDestroy } from '@angular/core';
+
+@Component({
+  selector: 'app-lifecycle',
+  template: '&lt;p&gt;Lifecycle Component&lt;/p&gt;'
+})
+export class LifecycleComponent implements OnInit, OnDestroy {
+  ngOnInit() {
+    console.log('Component initialized');
+  }
+
+  ngOnDestroy() {
+    console.log('Component destroyed');
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you use Angular's `@NgModule` to declare and use shared services?</h2>
+        <div class="answer">
+            <p>Declare and use shared services:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedService } from './shared.service';
+
+@NgModule({
+  declarations: [],
+  imports: [CommonModule],
+  providers: [SharedService],
+  exports: []
+})
+export class SharedModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you use Angular's `@Injectable` to create and use services with different scopes?</h2>
+        <div class="answer">
+            <p>Create and use services with different scopes:</p>
+            <pre><code>import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root' // Singleton service
+})
+export class SingletonService { }
+
+@Injectable({
+  providedIn: 'any' // Service available in any injector
+})
+export class ScopedService { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use Angular's `@NgModule` to configure and provide asynchronous modules?</h2>
+        <div class="answer">
+            <p>Configure and provide asynchronous modules:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MyAsyncModule } from './my-async.module';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    MyAsyncModule
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+@NgModule({
+  imports: [
+    HttpClientModule
+  ]
+})
+export class MyAsyncModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use Angular's `@NgModule` to provide global error handling?</h2>
+        <div class="answer">
+            <p>Provide global error handling:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { ErrorHandler } from '@angular/core';
+import { GlobalErrorHandler } from './global-error-handler';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [{ provide: ErrorHandler, useClass: GlobalErrorHandler }],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you use Angular's `@NgModule` to configure and provide authentication services?</h2>
+        <div class="answer">
+            <p>Configure and provide authentication services:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { AuthService } from './auth.service';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [AuthService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `@NgModule` to manage internationalization (i18n)?</h2>
+        <div class="answer">
+            <p>Manage internationalization (i18n):</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs);
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [{ provide: LOCALE_ID, useValue: 'es' }],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

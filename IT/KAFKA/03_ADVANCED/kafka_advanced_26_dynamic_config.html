@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Advanced: Dynamic Configuration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #007acc;
+        }
+        code {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        .note {
+            background: #e7f4e4;
+            border-left: 5px solid #4caf50;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .warning {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka Advanced: Dynamic Configuration</h1>
+    <p>Dynamic configuration in Kafka allows you to modify broker, topic, and client settings without restarting Kafka services. This feature is crucial for managing and tuning Kafka clusters in real-time.</p>
+
+    <h2>1. Dynamic Configuration Overview</h2>
+    <p>Kafka supports dynamic configuration changes through the following mechanisms:</p>
+    <ul>
+        <li><strong>Broker Configuration:</strong> Modify settings related to Kafka brokers, such as log retention and replication factors.</li>
+        <li><strong>Topic Configuration:</strong> Adjust topic-level settings like retention policies and partition counts.</li>
+        <li><strong>Client Configuration:</strong> Update producer and consumer settings dynamically.</li>
+    </ul>
+
+    <h2>2. Configuring Dynamic Settings</h2>
+    <p>Dynamic configuration changes are applied using Kafka's command-line tools or via the Admin API. Below are examples for each type of configuration.</p>
+
+    <h3>2.1 Broker Configuration</h3>
+    <p>To update broker configurations dynamically, use the following command:</p>
+    <pre><code>
+kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type brokers --entity-name 0 --add-config max.message.bytes=2000000
+    </code></pre>
+    <p>This command updates the <code>max.message.bytes</code> configuration for broker ID 0 to allow larger messages.</p>
+
+    <h3>2.2 Topic Configuration</h3>
+    <p>To change topic configurations dynamically, use the following command:</p>
+    <pre><code>
+kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type topics --entity-name my-topic --add-config retention.ms=86400000
+    </code></pre>
+    <p>This command sets the <code>retention.ms</code> for the topic <code>my-topic</code> to 1 day.</p>
+
+    <h3>2.3 Client Configuration</h3>
+    <p>To update client configurations, modify the properties files or the configuration parameters in your producer or consumer code. For example, changing the <code>acks</code> setting for a producer:</p>
+    <pre><code>
+Properties props = new Properties();
+props.put("bootstrap.servers", "localhost:9092");
+props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+props.put("acks", "all"); // Set to "all" for stronger durability guarantees
+    </code></pre>
+
+    <h2>3. Admin API for Dynamic Configuration</h2>
+    <p>The Admin API provides programmatic access to manage Kafka configurations. Here’s an example using the AdminClient in Java:</p>
+    <pre><code>
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.AdminClientConfig;
+import org.apache.kafka.clients.admin.AlterConfigOp;
+import org.apache.kafka.clients.admin.Config;
+import org.apache.kafka.clients.admin.ConfigEntry;
+import org.apache.kafka.common.config.TopicConfig;
+
+import java.util.Collections;
+import java.util.Properties;
+
+public class KafkaAdminClientExample {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+
+        try (AdminClient adminClient = AdminClient.create(props)) {
+            // Alter topic configuration
+            ConfigEntry retentionEntry = new ConfigEntry(TopicConfig.RETENTION_MS_CONFIG, "86400000");
+            AlterConfigOp op = new AlterConfigOp(retentionEntry, AlterConfigOp.OpType.SET);
+            Config config = new Config(Collections.singletonList(retentionEntry));
+
+            adminClient.incrementalAlterConfigs(Collections.singletonMap(new org.apache.kafka.common.Configurable.ConfigResource(
+                    org.apache.kafka.common.Configurable.ConfigResource.Type.TOPIC, "my-topic"), 
+                    Collections.singletonList(op))).all().get();
+            System.out.println("Configuration updated successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+    </code></pre>
+
+    <h2>4. Considerations and Best Practices</h2>
+    <ul>
+        <li><strong>Monitor Config Changes:</strong> Always monitor the effects of configuration changes to ensure they have the desired impact.</li>
+        <li><strong>Test Changes in Staging:</strong> Test dynamic configuration changes in a staging environment before applying them to production.</li>
+        <li><strong>Documentation:</strong> Document configuration changes and their rationale to maintain clarity and support future troubleshooting.</li>
+        <li><strong>Consistency:</strong> Ensure consistent configuration across brokers and clients to avoid unexpected behavior.</li>
+    </ul>
+
+    <h2>5. Conclusion</h2>
+    <p>Dynamic configuration is a powerful feature of Kafka that allows for flexible and real-time management of your Kafka cluster and clients. By leveraging Kafka's dynamic configuration capabilities, you can optimize performance, ensure better resource utilization, and respond quickly to changing requirements.</p>
+</body>
+</html>

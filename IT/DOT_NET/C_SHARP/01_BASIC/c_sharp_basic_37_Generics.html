@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Generics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Generics</h1>
+    <p>Generics in C# are a feature that allows you to define classes, methods, and interfaces with a placeholder for the data type. This allows for code reusability and type safety without compromising performance. Generics enable you to create data structures and methods that can work with any data type while maintaining type safety.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>Generics are used to:</p>
+    <ul>
+        <li><strong>Improve Code Reusability:</strong> Write code that can handle different data types using the same logic.</li>
+        <li><strong>Enhance Type Safety:</strong> Ensure that only specific types of data are used, avoiding runtime errors.</li>
+        <li><strong>Reduce Code Duplication:</strong> Avoid writing multiple versions of the same code for different data types.</li>
+        <li><strong>Optimize Performance:</strong> Eliminate the need for type casting and boxing/unboxing, which can impact performance.</li>
+    </ul>
+    
+    <h2>2. Generic Classes</h2>
+    <p>Generic classes allow you to define a class with a placeholder for the type it will operate on.</p>
+    <pre><code>
+    public class GenericList&lt;T&gt;
+    {
+        private List&lt;T&gt; _list = new List&lt;T&gt;();
+
+        public void Add(T item)
+        {
+            _list.Add(item);
+        }
+
+        public T Get(int index)
+        {
+            return _list[index];
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            GenericList&lt;int&gt; intList = new GenericList&lt;int&gt;();
+            intList.Add(1);
+            intList.Add(2);
+
+            Console.WriteLine(intList.Get(0)); // Output: 1
+
+            GenericList&lt;string&gt; stringList = new GenericList&lt;string&gt;();
+            stringList.Add("Hello");
+            stringList.Add("World");
+
+            Console.WriteLine(stringList.Get(1)); // Output: World
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Generic Methods</h2>
+    <p>Generic methods allow you to define a method with a placeholder for the type. This makes the method reusable with different types.</p>
+    <pre><code>
+    public class Utility
+    {
+        public static void Print&lt;T&gt;(T value)
+        {
+            Console.WriteLine(value);
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            Utility.Print(123);        // Output: 123
+            Utility.Print("Hello");    // Output: Hello
+            Utility.Print(3.14);       // Output: 3.14
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Generic Interfaces</h2>
+    <p>Generic interfaces allow you to define an interface with a placeholder for the type.</p>
+    <pre><code>
+    public interface IComparable&lt;T&gt;
+    {
+        bool Compare(T other);
+    }
+
+    public class Person : IComparable&lt;Person&gt;
+    {
+        public string Name { get; set; }
+
+        public bool Compare(Person other)
+        {
+            return this.Name == other.Name;
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            Person person1 = new Person { Name = "Alice" };
+            Person person2 = new Person { Name = "Alice" };
+
+            Console.WriteLine(person1.Compare(person2)); // Output: True
+        }
+    }
+    </code></pre>
+    
+    <h2>5. Constraints on Generics</h2>
+    <p>You can apply constraints to generic types to restrict the types that can be used. Common constraints include:</p>
+    <ul>
+        <li><code>where T : struct</code> - The type must be a value type.</li>
+        <li><code>where T : class</code> - The type must be a reference type.</li>
+        <li><code>where T : new()</code> - The type must have a parameterless constructor.</li>
+        <li><code>where T : baseClass</code> - The type must be derived from a specific base class.</li>
+        <li><code>where T : IInterface</code> - The type must implement a specific interface.</li>
+    </ul>
+    <pre><code>
+    public class Repository&lt;T&gt; where T : class, new()
+    {
+        public T Create()
+        {
+            return new T();
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            Repository&lt;Person&gt; personRepo = new Repository&lt;Person&gt;();
+            Person person = personRepo.Create();
+            Console.WriteLine(person != null ? "Person created successfully." : "Failed to create person.");
+        }
+    }
+    </code></pre>
+    
+    <h2>6. Key Points</h2>
+    <ul>
+        <li><strong>Generics</strong> enhance code reusability and type safety.</li>
+        <li><strong>Generic classes, methods, and interfaces</strong> allow you to write flexible and reusable code.</li>
+        <li><strong>Constraints</strong> can be applied to generics to enforce type restrictions.</li>
+    </ul>
+</body>
+</html>

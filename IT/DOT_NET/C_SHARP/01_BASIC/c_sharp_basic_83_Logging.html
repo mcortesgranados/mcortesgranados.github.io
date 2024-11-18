@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Logging</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Logging</h1>
+    <p>Logging is a crucial aspect of software development that helps in monitoring applications, debugging issues, and maintaining overall system health. In C#, you can use various logging frameworks to record log messages at different levels of severity.</p>
+
+    <h2>1. Using <code>System.Diagnostics</code> for Basic Logging</h2>
+    <p>The <code>System.Diagnostics</code> namespace provides basic logging capabilities using the <code>Trace</code> and <code>Debug</code> classes.</p>
+    <pre><code>
+using System;
+using System.Diagnostics;
+
+public class Program
+{
+    public static void Main()
+    {
+        // Basic logging
+        Trace.WriteLine("This is a trace message.");
+        Debug.WriteLine("This is a debug message.");
+
+        // Using Trace for more detailed logging
+        Trace.TraceInformation("Informational message.");
+        Trace.TraceWarning("Warning message.");
+        Trace.TraceError("Error message.");
+    }
+}
+    </code></pre>
+
+    <h2>2. Using NLog for Advanced Logging</h2>
+    <p>NLog is a popular logging framework that provides advanced features such as logging to files, databases, and other targets. It also supports various log levels and configuration options.</p>
+    <p>To use NLog, you need to install the NLog NuGet package and configure it in your application.</p>
+    <pre><code>
+using NLog;
+
+public class Program
+{
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+    public static void Main()
+    {
+        // Log messages with NLog
+        Logger.Info("This is an informational message.");
+        Logger.Warn("This is a warning message.");
+        Logger.Error("This is an error message.");
+    }
+}
+    </code></pre>
+
+    <h2>3. Configuring NLog</h2>
+    <p>To configure NLog, you can use an XML configuration file (<code>nlog.config</code>) to specify how and where log messages should be output. Here is a basic example:</p>
+   

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Intermediate: Kafka Streams DSL vs Processor API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Kafka Intermediate: Kafka Streams DSL vs Processor API</h1>
+
+    <p>Kafka Streams provides two main APIs for building stream processing applications:</p>
+    <ul>
+        <li><strong>Kafka Streams DSL (Domain-Specific Language)</strong></li>
+        <li><strong>Kafka Streams Processor API</strong></li>
+    </ul>
+    <p>Each API has its own use cases, benefits, and flexibility. Let’s explore the differences and when to use each approach.</p>
+
+    <h2>1. Kafka Streams DSL (Domain-Specific Language)</h2>
+    <p>The Kafka Streams DSL is a high-level abstraction that simplifies stream processing with fluent, functional operations. It allows you to perform common tasks such as filtering, mapping, and aggregations with a simple and declarative API.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+        <li>Simple and easy to use for common use cases</li>
+        <li>Functional-style transformations</li>
+        <li>Built-in operations like <code>map</code>, <code>filter</code>, <code>groupByKey</code>, <code>aggregate</code>, etc.</li>
+        <li>Ideal for stateless and stateful transformations</li>
+    </ul>
+
+    <h3>Java Code Example (DSL):</h3>
+    <pre>
+<code>
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.kstream.KStream;
+
+import java.util.Properties;
+
+public class StreamDSLExample {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "streams-dsl-example");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+
+        StreamsBuilder builder = new StreamsBuilder();
+        KStream<String, String> stream = builder.stream("input-topic");
+
+        stream.filter((key, value) -> value.contains("important"))
+              .mapValues(value -> value.toUpperCase())
+              .to("output-topic");
+
+        KafkaStreams streams = new KafkaStreams(builder.build(), props);
+        streams.start();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+    }
+}
+</code>
+    </pre>
+
+    <h2>2. Kafka Streams Processor API</h2>
+    <p>The Processor API is a lower-level API that provides more flexibility and control over the processing logic. You can implement custom processors, define complex topologies, and manually handle state management.</p>
+
+    <h3>Key Features:</h3>
+    <ul>
+        <li>Allows for custom, fine-grained stream processing logic</li>
+        <li>Provides more control over state stores and data flow</li>
+        <li>Useful for complex topologies and use cases where built-in DSL operations are insufficient</li>
+        <li>Supports integration with the DSL, allowing both APIs to be used together in a single application</li>
+    </ul>
+
+    <h3>Java Code Example (Processor API):</h3>
+    <pre>
+<code>
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.Topology;
+import org.apache.kafka.streams.processor.AbstractProcessor;
+import org.apache.kafka.streams.processor.ProcessorContext;
+import org.apache.kafka.streams.processor.TopologyBuilder;
+
+import java.util.Properties;
+
+public class ProcessorAPIExample {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "streams-processor-example");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+
+        Topology topology = new Topology();
+        topology.addSource("Source", "input-topic")
+                .addProcessor("Process", MyProcessor::new, "Source")
+                .addSink("Sink", "output-topic", "Process");
+
+        KafkaStreams streams = new KafkaStreams(topology, props);
+        streams.start();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+    }
+
+    static class MyProcessor extends AbstractProcessor<String, String> {
+        @Override
+        public void init(ProcessorContext context) {
+            super.init(context);
+        }
+
+        @Override
+        public void process(String key, String value) {
+            if (value.contains("important")) {
+                context().forward(key, value.toUpperCase());
+            }
+        }
+
+        @Override
+        public void close() {
+            // Close resources if needed
+        }
+    }
+}
+</code>
+    </pre>
+
+    <h2>3. When to Use DSL vs Processor API</h2>
+    <ul>
+        <li><strong>Use DSL:</strong> If your use case can be handled by the high-level operations provided by the DSL. It's simpler, more intuitive, and easier to maintain for common transformations and aggregations.</li>
+        <li><strong>Use Processor API:</strong> If you need fine-grained control over data processing or if your use case involves complex topologies, custom state management, or integration with external systems.</li>
+        <li><strong>Hybrid Approach:</strong> You can also combine the DSL and Processor API to leverage the best of both worlds. Use DSL for straightforward operations and integrate the Processor API where custom logic is required.</li>
+    </ul>
+
+    <h2>4. Conclusion</h2>
+    <p>The Kafka Streams DSL simplifies stream processing for most use cases, while the Processor API gives you more control when needed. By understanding the strengths of both APIs, you can choose the right tool for your stream processing requirements.</p>
+
+</body>
+</html>

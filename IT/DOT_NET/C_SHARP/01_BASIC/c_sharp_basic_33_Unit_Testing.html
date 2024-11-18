@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Unit Testing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Unit Testing</h1>
+    <p>Unit testing in C# involves testing individual units or components of a program to ensure they work correctly. A unit is the smallest testable part of an application, such as a method or class. Unit testing helps catch bugs early in the development process and ensures that the code behaves as expected.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>The main goals of unit testing are to:
+        <ul>
+            <li>Verify that each unit of code performs as intended.</li>
+            <li>Detect and fix bugs early in the development cycle.</li>
+            <li>Facilitate code refactoring by providing a safety net of tests.</li>
+            <li>Improve code design by ensuring units are well-defined and independent.</li>
+        </ul>
+    </p>
+    
+    <h2>2. Unit Testing Frameworks</h2>
+    <p>In C#, common unit testing frameworks include:</p>
+    <ul>
+        <li><strong>NUnit</strong>: A widely used testing framework for .NET applications.</li>
+        <li><strong>MsTest</strong>: The testing framework provided by Microsoft and integrated with Visual Studio.</li>
+        <li><strong>xUnit</strong>: A popular, open-source testing framework known for its flexibility and extensibility.</li>
+    </ul>
+    
+    <h2>3. Example 1: Using NUnit</h2>
+    <p>Here's how you can write and run a basic unit test using NUnit:</p>
+    <pre><code>
+    using NUnit.Framework;
+
+    namespace MyTests
+    {
+        public class MathTests
+        {
+            [Test]
+            public void Add_TwoNumbers_ReturnsSum()
+            {
+                // Arrange
+                int a = 5;
+                int b = 10;
+                int expected = 15;
+
+                // Act
+                int result = Add(a, b);
+
+                // Assert
+                Assert.AreEqual(expected, result);
+            }
+
+            private int Add(int x, int y)
+            {
+                return x + y;
+            }
+        }
+    }
+    </code></pre>
+    <p>This example demonstrates a simple unit test using NUnit. The <code>Add_TwoNumbers_ReturnsSum</code> method tests the <code>Add</code> method to ensure it correctly sums two numbers.</p>
+    
+    <h2>4. Example 2: Using MsTest</h2>
+    <p>Here's an example of writing a unit test using MsTest:</p>
+    <pre><code>
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    namespace MyTests
+    {
+        [TestClass]
+        public class MathTests
+        {
+            [TestMethod]
+            public void Add_TwoNumbers_ReturnsSum()
+            {
+                // Arrange
+                int a = 5;
+                int b = 10;
+                int expected = 15;
+
+                // Act
+                int result = Add(a, b);
+
+                // Assert
+                Assert.AreEqual(expected, result);
+            }
+
+            private int Add(int x, int y)
+            {
+                return x + y;
+            }
+        }
+    }
+    </code></pre>
+    <p>This example demonstrates a similar unit test using MsTest. The <code>[TestClass]</code> attribute marks the class as a test class, and the <code>[TestMethod]</code> attribute marks the method as a test method.</p>
+    
+    <h2>5. Example 3: Using xUnit</h2>
+    <p>Here's how to write a unit test using xUnit:</p>
+    <pre><code>
+    using Xunit;
+
+    namespace MyTests
+    {
+        public class MathTests
+        {
+            [Fact]
+            public void Add_TwoNumbers_ReturnsSum()
+            {
+                // Arrange
+                int a = 5;
+                int b = 10;
+                int expected = 15;
+
+                // Act
+                int result = Add(a, b);
+
+                // Assert
+                Assert.Equal(expected, result);
+            }
+
+            private int Add(int x, int y)
+            {
+                return x + y;
+            }
+        }
+    }
+    </code></pre>
+    <p>This example shows how to write a unit test using xUnit. The <code>[Fact]</code> attribute is used to mark a test method, and the <code>Assert.Equal</code> method is used to verify that the result matches the expected value.</p>
+    
+    <h2>6. Key Points</h2>
+    <ul>
+        <li><strong>Unit testing</strong> verifies that individual components of a program work correctly in isolation.</li>
+        <li><strong>Testing frameworks</strong> like NUnit, MsTest, and xUnit provide tools and attributes for writing and running tests.</li>
+        <li><strong>Arrange, Act, Assert</strong> is a common pattern for structuring unit tests, where you arrange the test data, act by calling the method under test, and assert that the result is as expected.</li>
+        <li><strong>Test coverage</strong> and <strong>test isolation</strong> are important aspects of effective unit testing.</li>
+    </ul>
+</body>
+</html>

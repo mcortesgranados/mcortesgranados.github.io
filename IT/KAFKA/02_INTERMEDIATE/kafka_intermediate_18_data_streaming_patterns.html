@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Intermediate: Data Streaming Patterns</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0 15px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        ul {
+            margin-bottom: 10px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Kafka Intermediate: Data Streaming Patterns</h1>
+
+    <p>Data streaming patterns in Apache Kafka involve various techniques for efficiently processing and managing real-time data streams. This guide explores common data streaming patterns used with Kafka to address different streaming needs.</p>
+
+    <h2>1. Basic Streaming Patterns</h2>
+    <p>Several basic streaming patterns are frequently used in Kafka for handling data streams. These patterns help in designing and implementing efficient streaming solutions.</p>
+    
+    <ul>
+        <li><strong>Fan-out Pattern:</strong> This pattern involves broadcasting a message to multiple consumers. It is useful when the same data needs to be processed by multiple applications or services.</li>
+        <li><strong>Point-to-Point Pattern:</strong> In this pattern, each message is processed by a single consumer. This is suitable for scenarios where each message should be handled by only one service or application.</li>
+        <li><strong>Request-Reply Pattern:</strong> This pattern involves sending a request message to a service and receiving a reply message. It is useful for request-response interactions where the consumer needs to respond to the producer.</li>
+    </ul>
+
+    <h2>2. Windowing Patterns</h2>
+    <p>Windowing patterns allow processing of data within specific time intervals or based on event counts. These patterns help in aggregating and analyzing data over defined periods.</p>
+    
+    <ul>
+        <li><strong>Sliding Window:</strong> This pattern continuously slides a window of fixed size over the data stream. It is used for real-time analytics where recent data needs to be aggregated. Example in Kafka Streams:</li>
+        <pre><code>Stream<String, Long> stream = builder.stream("input-topic");
+stream
+    .windowedBy(TimeWindows.of(Duration.ofMinutes(5)).advanceBy(Duration.ofMinutes(1)))
+    .count(Materialized.as("counts-store"))
+    .toStream()
+    .to("output-topic");
+        </code></pre>
+
+        <li><strong>Tumbling Window:</strong> This pattern divides the data stream into non-overlapping, contiguous windows. It is suitable for processing data in distinct time chunks. Example in Kafka Streams:</li>
+        <pre><code>Stream<String, Long> stream = builder.stream("input-topic");
+stream
+    .windowedBy(TimeWindows.of(Duration.ofMinutes(10)))
+    .count(Materialized.as("counts-store"))
+    .toStream()
+    .to("output-topic");
+        </code></pre>
+
+        <li><strong>Session Window:</strong> This pattern groups events that are close to each other in time into sessions. It is useful for analyzing user sessions or activities. Example in Kafka Streams:</li>
+        <pre><code>Stream<String, Long> stream = builder.stream("input-topic");
+stream
+    .windowedBy(SessionWindows.with(Duration.ofMinutes(30)))
+    .count(Materialized.as("counts-store"))
+    .toStream()
+    .to("output-topic");
+        </code></pre>
+    </ul>
+
+    <h2>3. Aggregation Patterns</h2>
+    <p>Aggregation patterns help in summarizing and computing metrics from data streams. These patterns are essential for generating insights from continuous data streams.</p>
+    
+    <ul>
+        <li><strong>Count Aggregation:</strong> This pattern counts the number of occurrences of events or messages. It is used for metrics such as the total number of messages in a time period.</li>
+        <li><strong>Sum Aggregation:</strong> This pattern computes the sum of numerical values from the data stream. It is useful for aggregating metrics like total sales or total usage.</li>
+        <li><strong>Average Aggregation:</strong> This pattern calculates the average of numerical values. It is used for metrics such as average response time or average transaction amount.</li>
+        <li><strong>Min/Max Aggregation:</strong> These patterns find the minimum or maximum value in the data stream. They are used for metrics like the highest or lowest temperature recorded.</li>
+    </ul>
+
+    <h2>4. Stateful Processing Patterns</h2>
+    <p>Stateful processing patterns involve maintaining state information across multiple events or messages. These patterns are essential for scenarios where context or history needs to be preserved.</p>
+    
+    <ul>
+        <li><strong>State Store:</strong> This pattern involves using state stores to maintain and manage state information. Kafka Streams provides built-in support for state stores to track and manage state. Example in Kafka Streams:</li>
+        <pre><code>StreamsBuilder builder = new StreamsBuilder();
+KTable<String, Long> counts = builder.table("input-topic", Materialized.as("counts-store"));
+        </code></pre>
+
+        <li><strong>Join Patterns:</strong> This pattern involves joining multiple streams or tables to combine data from different sources. Example in Kafka Streams:</li>
+        <pre><code>KTable<String, Long> table1 = builder.table("input-topic-1");
+KTable<String, Long> table2 = builder.table("input-topic-2");
+KTable<String, Long> joinedTable = table1.join(table2, (v1, v2) -> v1 + v2);
+        </code></pre>
+    </ul>
+
+    <h2>5. Error Handling and Recovery</h2>
+    <p>Handling errors and recovering from failures is crucial in streaming applications to ensure data integrity and continuity.</p>
+    
+    <ul>
+        <li><strong>Error Handling:</strong> Implement error handling mechanisms to manage failures in processing or communication. Use retries, dead-letter queues, and logging for effective error management.</li>
+        <li><strong>Recovery:</strong> Design your streaming application to recover from failures by implementing checkpointing, storing offsets, and maintaining state consistency.</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Data streaming patterns are essential for designing efficient and reliable streaming applications with Kafka. By understanding and implementing these patterns, you can build robust streaming solutions that handle data efficiently, manage state, and recover from errors effectively.</p>
+
+</body>
+</html>

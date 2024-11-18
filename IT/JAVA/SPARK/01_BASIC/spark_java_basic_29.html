@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Unit Testing with Spark in Java</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Basic Unit Testing with Spark in Java</h1>
+    <p>Unit testing in Spark ensures that your Spark jobs and transformations are functioning as expected. Testing is crucial for verifying that your code works correctly and for maintaining code quality. In Java, you can use testing frameworks like JUnit and Spark's own testing utilities to write and execute unit tests for Spark applications.</p>
+
+    <h2>Setting Up the Testing Environment</h2>
+    <p>To get started with unit testing in Spark using Java, you need to include the necessary dependencies in your project. Here’s an example of how to add these dependencies using Maven:</p>
+    <pre><code>
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;
+    &lt;artifactId&gt;spark-core_2.12&lt;/artifactId&gt;
+    &lt;version&gt;3.4.1&lt;/version&gt;
+    &lt;scope&gt;provided&lt;/scope&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;
+    &lt;artifactId&gt;spark-mllib_2.12&lt;/artifactId&gt;
+    &lt;version&gt;3.4.1&lt;/version&gt;
+    &lt;scope&gt;provided&lt;/scope&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;junit&lt;/groupId&gt;
+    &lt;artifactId&gt;junit&lt;/artifactId&gt;
+    &lt;version&gt;4.13.2&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;
+    &lt;artifactId&gt;spark-testing-base_2.12&lt;/artifactId&gt;
+    &lt;version&gt;3.4.1&lt;/version&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+    </code></pre>
+
+    <h2>Example: Basic Unit Test for Spark Application</h2>
+    <p>Here’s a simple example demonstrating how to write a unit test for a Spark application using JUnit and Spark's testing utilities:</p>
+    <pre><code>
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
+import org.apache.spark.testing.JavaRDDSuite;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+
+public class SparkUnitTestExample {
+
+    private JavaSparkContext sc;
+
+    @Before
+    public void setUp() {
+        SparkConf conf = new SparkConf().setAppName("Spark Unit Test 

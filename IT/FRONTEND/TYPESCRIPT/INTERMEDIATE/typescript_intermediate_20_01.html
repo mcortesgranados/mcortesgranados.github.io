@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Intermediate Level Questions and Answers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Intermediate Level Questions and Answers</h1>
+
+    <h2>1. How do you use the <code>readonly</code> modifier in TypeScript classes?</h2>
+    <p>The <code>readonly</code> modifier ensures that a property cannot be reassigned after initialization.</p>
+    <pre><code>class Point {
+    readonly x: number;
+    readonly y: number;
+
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+const p = new Point(10, 20);
+// p.x = 5; // Error: Cannot assign to 'x' because it is a read-only property</code></pre>
+
+    <h2>2. How do you implement an interface with optional properties?</h2>
+    <p>You can mark properties in an interface as optional using the <code>?</code> symbol.</p>
+    <pre><code>interface User {
+    id: number;
+    name?: string;
+}
+
+let user1: User = { id: 1 };
+let user2: User = { id: 2, name: "Alice" };
+
+console.log(user1); // { id: 1 }
+console.log(user2); // { id: 2, name: "Alice" }</code></pre>
+
+    <h2>3. How do you handle null and undefined in TypeScript with strict null checks?</h2>
+    <p>When strict null checks are enabled, you need to explicitly handle <code>null</code> and <code>undefined</code> values.</p>
+    <pre><code>function greet(name: string | null | undefined) {
+    if (name) {
+        console.log(`Hello, ${name}`);
+    } else {
+        console.log("Hello, Guest");
+    }
+}
+
+greet("Alice"); // Hello, Alice
+greet(null);    // Hello, Guest
+greet(undefined); // Hello, Guest</code></pre>
+
+    <h2>4. What is the use of <code>keyof</code> in TypeScript?</h2>
+    <p>The <code>keyof</code> operator allows you to create a type that represents the keys of an object.</p>
+    <pre><code>interface Person {
+    name: string;
+    age: number;
+}
+
+type PersonKeys = keyof Person;  // 'name' | 'age'
+
+let key: PersonKeys = "name";    // Valid
+// key = "address";              // Error: Type '"address"' is not assignable to type 'keyof Person'</code></pre>
+
+    <h2>5. How do you use <code>Mapped Types</code> in TypeScript?</h2>
+    <p>Mapped types allow you to create new types based on existing types by transforming their properties.</p>
+    <pre><code>interface Person {
+    name: string;
+    age: number;
+}
+
+type ReadOnlyPerson = {
+    readonly [P in keyof Person]: Person[P];
+};
+
+let person: ReadOnlyPerson = { name: "Alice", age: 25 };
+// person.name = "Bob";  // Error: Cannot assign to 'name' because it is a read-only property</code></pre>
+
+    <h2>6. What is the <code>Record</code> utility type?</h2>
+    <p>The <code>Record</code> utility type creates an object type with specified keys and values of a specific type.</p>
+    <pre><code>type Roles = "admin" | "user" | "guest";
+type Permissions = Record&lt;Roles, boolean&gt;;
+
+const permissions: Permissions = {
+    admin: true,
+    user: false,
+    guest: false
+};
+
+console.log(permissions); // { admin: true, user: false, guest: false }</code></pre>
+
+    <h2>7. How do you use <code>Intersection Types</code> in TypeScript?</h2>
+    <p>Intersection types combine multiple types into one. An object must satisfy all combined types.</p>
+    <pre><code>interface Person {
+    name: string;
+}
+
+interface Employee {
+    employeeId: number;
+}
+
+type Worker = Person & Employee;
+
+let worker: Worker = { name: "Alice", employeeId: 123 };
+console.log(worker); // { name: "Alice", employeeId: 123 }</code></pre>
+
+    <h2>8. How do you create a generic interface in TypeScript?</h2>
+    <p>Generics in interfaces allow you to specify the type of properties later when the interface is used.</p>
+    <pre><code>interface Box&lt;T&gt; {
+    value: T;
+}
+
+let numberBox: Box&lt;number&gt; = { value: 123 };
+let stringBox: Box&lt;string&gt; = { value: "Hello" };
+
+console.log(numberBox.value); // 123
+console.log(stringBox.value); // Hello</code></pre>
+
+    <h2>9. How do you use the <code>Pick</code> utility type?</h2>
+    <p>The <code>Pick</code> utility type creates a new type by selecting specific properties from an existing type.</p>
+    <pre><code>interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+
+type UserInfo = Pick&lt;User, "id" | "name"&gt;;
+
+let user: UserInfo = { id: 1, name: "Alice" };
+console.log(user); // { id: 1, name: "Alice" }</code></pre>
+
+    <h2>10. How do you define an interface for a class in TypeScript?</h2>
+    <p>You can use an interface to define the structure that a class should follow, including its methods and properties.</p>
+    <pre><code>interface Animal {
+    name: string;
+    makeSound(): void;
+}
+
+class Dog implements Animal {
+    name: string;
+    
+    constructor(name: string) {
+        this.name = name;
+    }
+
+    makeSound(): void {
+        console.log("Bark!");
+    }
+}
+
+const myDog = new Dog("Buddy");
+myDog.makeSound(); // Bark!</code></pre>
+
+    <h2>11. How do you implement multiple interfaces in a TypeScript class?</h2>
+    <p>A TypeScript class can implement multiple interfaces by separating them with a comma.</p>
+    <pre><code>interface Printer {
+    print(): void;
+}
+
+interface Scanner {
+    scan(): void;
+}
+
+class AllInOnePrinter implements Printer, Scanner {
+    print(): void {
+        console.log("Printing...");
+    }
+    
+    scan(): void {
+        console.log("Scanning...");
+    }
+}
+
+const device = new AllInOnePrinter();
+device.print(); // Printing...
+device.scan();  // Scanning...</code></pre>
+
+    <h2>12. How do you use <code>Partial</code> in TypeScript?</h2>
+    <p>The <code>Partial</code> utility type makes all properties in a type optional.</p>
+    <pre><code>interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+
+let updateUser: Partial&lt;User&gt; = { name: "Bob" };
+console.log(updateUser); // { name: "Bob" }</code></pre>
+
+    <h2>13. What is the purpose of <code>unknown</code> type?</h2>
+    <p>The <code>unknown</code> type is a safer alternative to <code>any</code>, as it forces you to do type checks before using the value.</p>
+    <pre><code>let value: unknown = "Hello";
+
+if (typeof value === "string") {
+    console.log(value.toUpperCase()); // HELLO
+}
+// console.log(value.toUpperCase()); // Error: Object is of type 'unknown'</code></pre>
+
+    <h2>14. How do you use <code>Exhaustive Checks</code> with <code>never</code> type?</h2>
+    <p>Exhaustive checks ensure that all possible cases are handled in a switch statement or type union.</p>
+    <pre><code>type Shape = "circle" | "square";
+
+function getArea(shape: Shape): number {
+    switch (shape) {
+        case "circle":
+            return Math.PI;
+        case "square":
+            return 4;
+        default:
+            const exhaustiveCheck: never = shape;
+            throw new Error("Unhandled shape: " + exhaustiveCheck);
+    }
+}</code></pre>
+
+    <h2>15. What is <code>Type Inference</code> in TypeScript?</h2>
+    <p>TypeScript can automatically infer types based on assigned values or function return values, reducing the need for explicit type annotations.</p>
+    <pre><code>let message = "Hello, TypeScript"; // Inferred as string
+let numberArray = [1, 2, 3]; // Inferred as number[]
+
+function add(a: number, b: number) {
+    return a + b; // Inferred as number
+}</code></pre>
+
+    <h2>16. How do you create a function that returns different types based on a condition?</h2>
+    <p>You can use conditional types and generics to return different types based on input conditions.</p>
+    <pre><code>function getType&lt;T&gt;(value: T): T extends string ? string : number {
+    if (typeof value === "string") {
+        return value.length as any;
+    } else {
+        return 42 as any;
+    }
+}
+
+console.log(getType("test")); // 4
+console.log(getType(100)); // 42</code></pre>
+
+    <h2>17. How do you enforce immutability in TypeScript?</h2>
+    <p>You can use <code>readonly</code> to prevent reassignment of properties, making them immutable.</p>
+    <pre><code>interface User {
+    readonly id: number;
+    name: string;
+}
+
+const user: User = { id: 1, name: "Alice" };
+// user.id = 2; // Error: Cannot assign to 'id' because it is a read-only property</code></pre>
+
+    <h2>18. How do you define tuple types in TypeScript?</h2>
+    <p>Tuple types allow you to define arrays with fixed types and lengths for each position.</p>
+    <pre><code>let person: [string, number] = ["Alice", 30];
+console.log(person[0]); // Alice
+console.log(person[1]); // 30</code></pre>
+
+    <h2>19. How do you use <code>Namespace</code> in TypeScript?</h2>
+    <p>A namespace is a way to logically group related code. It helps organize and encapsulate code.</p>
+    <pre><code>namespace Utilities {
+    export function logMessage(message: string) {
+        console.log(message);
+    }
+}
+
+Utilities.logMessage("Hello, World!"); // Hello, World!</code></pre>
+
+    <h2>20. How do you define and use <code>Type Guards</code> in TypeScript?</h2>
+    <p>Type guards allow you to check the type of a variable at runtime and ensure the correct handling of values.</p>
+    <pre><code>function isNumber(value: unknown): value is number {
+    return typeof value === "number";
+}
+
+let value: unknown = 42;
+
+if (isNumber(value)) {
+    console.log(value.toFixed(2)); // 42.00
+}</code></pre>
+
+</body>
+</html>

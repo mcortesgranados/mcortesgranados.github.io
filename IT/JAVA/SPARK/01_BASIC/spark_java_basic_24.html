@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joins and Aggregations in Spark SQL</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Joins and Aggregations in Spark SQL</h1>
+    <p>In Spark SQL, joins and aggregations are fundamental operations for combining and summarizing data from multiple sources. These operations allow you to perform complex data analysis tasks efficiently.</p>
+
+    <h2>Joins in Spark SQL</h2>
+    <p>Joins are used to combine rows from two or more DataFrames based on a related column between them. Spark SQL supports various types of joins, including inner join, outer join, left join, and right join.</p>
+
+    <h3>Example: Joins</h3>
+    <pre><code>
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.functions;
+
+public class JoinsExample {
+    public static void main(String[] args) {
+        // Create SparkSession
+        SparkSession spark = SparkSession.builder()
+            .appName("Joins Example")
+            .master("local[*]")
+            .getOrCreate();
+
+        // Create DataFrames
+        Dataset&lt;Row&gt; df1 = spark.read().json("data/people.json");
+        Dataset&lt;Row&gt; df2 = spark.read().json("data/contacts.json");
+
+        // Perform an inner join
+        Dataset&lt;Row&gt; joinedDF = df1.join(df2, df1.col("id").equalTo(df2.col("person_id")));
+
+        // Show the result
+        joinedDF.show();
+
+        // Stop the SparkSession
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <h2>Aggregations in Spark SQL</h2>
+    <p>Aggregations are used to perform calculations on groups of rows and return a single value per group. Common aggregation functions include count, sum, average, min, and max.</p>
+
+    <h3>Example: Aggregations</h3>
+    <pre><code>
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.functions;
+
+public class AggregationsExample {
+    public static void main(String[] args) {
+        // Create SparkSession
+        SparkSession spark = SparkSession.builder()
+            .appName("Aggregations Example")
+            .master("local[*]")
+            .getOrCreate();
+
+        // Create DataFrame
+        Dataset&lt;Row&gt; df = spark.read().json("data/sales.json");
+
+        // Perform aggregations
+        Dataset&lt;Row&gt; aggregatedDF = df.groupBy("category")
+            .agg(
+                functions.sum("amount").alias("total_amount"),
+                functions.avg("amount").alias("average_amount"),
+                functions.max("amount").alias("max_amount"),
+                functions.min("amount").alias("min_amount")
+            );
+
+        // Show the result
+        aggregatedDF.show();
+
+        // Stop the SparkSession
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <h2>Understanding the Examples</h2>
+    <ul>
+        <li><strong>Joins Example:</strong> This example demonstrates how to perform an inner join between two DataFrames on a related column.</li>
+        <li><strong>Aggregations Example:</strong> This example shows how to perform various aggregations such as sum, average, max, and min on a DataFrame grouped by a specific column.</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Joins and aggregations are essential operations in Spark SQL for combining and summarizing data. By understanding and utilizing these operations, you can effectively analyze and process large datasets in Spark.</p>
+</body>
+</html>

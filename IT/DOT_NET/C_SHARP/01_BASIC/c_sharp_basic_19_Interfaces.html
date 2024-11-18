@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Interfaces</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Interfaces</h1>
+    <p>In C#, an interface is a contract that defines a set of methods and properties that a class must implement. Interfaces are used to provide a common functionality across different classes, allowing for a more flexible and extensible design.</p>
+    
+    <h2>1. Defining an Interface</h2>
+    <p>Interfaces are defined using the <code>interface</code> keyword. They can contain method signatures, properties, events, and indexers, but cannot contain any implementation.</p>
+    <pre><code>
+    public interface IShape
+    {
+        double CalculateArea();
+        double CalculatePerimeter();
+    }
+    </code></pre>
+    
+    <h2>2. Implementing an Interface</h2>
+    <p>Classes or structs that implement an interface must provide implementations for all the members of the interface. The class or struct uses the <code>implements</code> keyword to declare that it is implementing an interface.</p>
+    <pre><code>
+    public class Rectangle : IShape
+    {
+        public double Width { get; set; }
+        public double Height { get; set; }
+
+        public double CalculateArea()
+        {
+            return Width * Height;
+        }
+
+        public double CalculatePerimeter()
+        {
+            return 2 * (Width + Height);
+        }
+    }
+
+    public class Circle : IShape
+    {
+        public double Radius { get; set; }
+
+        public double CalculateArea()
+        {
+            return Math.PI * Radius * Radius;
+        }
+
+        public double CalculatePerimeter()
+        {
+            return 2 * Math.PI * Radius;
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Using Interfaces</h2>
+    <p>Once an interface is implemented, you can use it to reference objects of different classes through the interface type. This allows for polymorphism and flexibility in your code.</p>
+    <pre><code>
+    class Program
+    {
+        static void Main()
+        {
+            IShape rectangle = new Rectangle { Width = 5, Height = 10 };
+            IShape circle = new Circle { Radius = 7 };
+
+            Console.WriteLine($"Rectangle Area: {rectangle.CalculateArea()}");
+            Console.WriteLine($"Rectangle Perimeter: {rectangle.CalculatePerimeter()}");
+            Console.WriteLine($"Circle Area: {circle.CalculateArea()}");
+            Console.WriteLine($"Circle Perimeter: {circle.CalculatePerimeter()}");
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Key Points</h2>
+    <ul>
+        <li><strong>Interfaces</strong> define a contract for what a class can do, without specifying how it does it.</li>
+        <li>Classes and structs that implement an interface must provide concrete implementations for all of its members.</li>
+        <li>Interfaces support polymorphism, allowing objects of different classes to be treated through a common interface.</li>
+        <li>Interfaces can be implemented by multiple classes, and a class can implement multiple interfaces.</li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Conditional Statements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Conditional Statements</h1>
+    <p>Conditional statements in C# are used to perform different actions based on different conditions. They allow the program to execute certain blocks of code based on logical evaluations.</p>
+    
+    <h2>1. The `if` Statement</h2>
+    <p>The `if` statement evaluates a condition and executes a block of code if the condition is true:</p>
+    <pre><code>
+    int number = 10;
+
+    if (number > 0)
+    {
+        Console.WriteLine("The number is positive.");
+    }
+    </code></pre>
+    
+    <h2>2. The `else` Statement</h2>
+    <p>The `else` statement can follow an `if` statement and executes a block of code if the condition in the `if` statement is false:</p>
+    <pre><code>
+    int number = -5;
+
+    if (number > 0)
+    {
+        Console.WriteLine("The number is positive.");
+    }
+    else
+    {
+        Console.WriteLine("The number is not positive.");
+    }
+    </code></pre>
+    
+    <h2>3. The `else if` Statement</h2>
+    <p>The `else if` statement allows for multiple conditions to be checked in sequence:</p>
+    <pre><code>
+    int number = 0;
+
+    if (number > 0)
+    {
+        Console.WriteLine("The number is positive.");
+    }
+    else if (number < 0)
+    {
+        Console.WriteLine("The number is negative.");
+    }
+    else
+    {
+        Console.WriteLine("The number is zero.");
+    }
+    </code></pre>
+    
+    <h2>4. The `switch` Statement</h2>
+    <p>The `switch` statement allows for a variable to be tested against a series of values. It provides a cleaner alternative to multiple `if-else` statements:</p>
+    <pre><code>
+    int day = 3;
+
+    switch (day)
+    {
+        case 1:
+            Console.WriteLine("Monday");
+            break;
+        case 2:
+            Console.WriteLine("Tuesday");
+            break;
+        case 3:
+            Console.WriteLine("Wednesday");
+            break;
+        case 4:
+            Console.WriteLine("Thursday");
+            break;
+        case 5:
+            Console.WriteLine("Friday");
+            break;
+        case 6:
+            Console.WriteLine("Saturday");
+            break;
+        case 7:
+            Console.WriteLine("Sunday");
+            break;
+        default:
+            Console.WriteLine("Invalid day");
+            break;
+    }
+    </code></pre>
+    
+    <h2>5. Example Program</h2>
+    <p>Here's a complete C# program that demonstrates the use of conditional statements:</p>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            int age = 25;
+
+            // Using if-else statements
+            if (age < 18)
+            {
+                Console.WriteLine("You are a minor.");
+            }
+            else if (age >= 18 && age < 65)
+            {
+                Console.WriteLine("You are an adult.");
+            }
+            else
+            {
+                Console.WriteLine("You are a senior.");
+            }
+
+            // Using switch statement
+            int month = 4;
+            switch (month)
+            {
+                case 1:
+                    Console.WriteLine("January");
+                    break;
+                case 2:
+                    Console.WriteLine("February");
+                    break;
+                case 3:
+                    Console.WriteLine("March");
+                    break;
+                case 4:
+                    Console.WriteLine("April");
+                    break;
+                case 5:
+                    Console.WriteLine("May");
+                    break;
+                case 6:
+                    Console.WriteLine("June");
+                    break;
+                case 7:
+                    Console.WriteLine("July");
+                    break;
+                case 8:
+                    Console.WriteLine("August");
+                    break;
+                case 9:
+                    Console.WriteLine("September");
+                    break;
+                case 10:
+                    Console.WriteLine("October");
+                    break;
+                case 11:
+                    Console.WriteLine("November");
+                    break;
+                case 12:
+                    Console.WriteLine("December");
+                    break;
+                default:
+                    Console.WriteLine("Invalid month");
+                    break;
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>Explanation</h2>
+    <p>In the example program:</p>
+    <ul>
+        <li>The `if-else` statements check the age and classify it into minor, adult, or senior categories.</li>
+        <li>The `switch` statement is used to determine the name of the month based on its numerical value.</li>
+        <li>The `break` statement in the `switch` block terminates the case and prevents the execution from falling through to the next case.</li>
+    </ul>
+</body>
+</html>

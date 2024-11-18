@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Stateful Operations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .code {
+            background-color: #f4f4f4;
+            border-left: 3px solid #333;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka Stateful Operations</h1>
+    <p>Stateful operations in Kafka involve maintaining and using state while processing streams of data. Unlike stateless operations that treat each event independently, stateful operations require tracking information across events to compute meaningful results, such as counting occurrences, calculating running totals, or aggregating data over time.</p>
+
+    <h2>1. Understanding Stateful Operations in Kafka Streams</h2>
+    <p>Kafka Streams, a client library for building stream processing applications, supports both stateless and stateful operations. Stateful operations need to maintain some form of state while processing data, which can be stored in local storage (rocksDB) or Kafka topics for fault tolerance.</p>
+
+    <p>Some common stateful operations include:</p>
+    <ul>
+        <li><strong>Windowed Aggregations:</strong> Grouping and aggregating events over specific time windows (e.g., tumbling, sliding windows).</li>
+        <li><strong>Joins:</strong> Combining streams of data, such as stream-stream joins and stream-table joins, which involve storing state to match events from different streams.</li>
+        <li><strong>Stateful Transformations:</strong> Maintaining state for custom transformations, like tracking the running total of events or counts over time.</li>
+    </ul>
+
+    <h2>2. Example of Stateful Operation: Windowed Aggregation</h2>
+    <p>In Kafka Streams, a windowed aggregation collects and aggregates records within a defined time window. This is commonly used in real-time analytics to calculate metrics over time, such as counting events every 10 seconds.</p>
+
+    <h3>Code Example: Windowed Aggregation</h3>
+    <div class="code">
+        import org.apache.kafka.common.serialization.Serdes;<br>
+        import org.apache.kafka.streams.KafkaStreams;<br>
+        import org.apache.kafka.streams.StreamsBuilder;<br>
+        import org.apache.kafka.streams.kstream.KGroupedStream;<br>
+        import org.apache.kafka.streams.kstream.KStream;<br>
+        import org.apache.kafka.streams.kstream.Materialized;<br>
+        import org.apache.kafka.streams.kstream.TimeWindows;<br>
+        import org.apache.kafka.streams.kstream.Windowed;<br>
+        import org.apache.kafka.streams.state.KeyValueStore;<br>
+        <br>
+        import java.time.Duration;<br>
+        <br>
+        public class KafkaWindowedAggregation {<br>
+            public static void main(String[] args) {<br>
+                StreamsBuilder builder = new StreamsBuilder();<br>
+                KStream<String, String> stream = builder.stream("input-topic");<br>
+                <br>
+                KGroupedStream<String, String> groupedStream = stream.groupByKey();<br>
+                <br>
+                // Perform a windowed aggregation<br>
+                groupedStream.windowedBy(TimeWindows.of(Duration.ofSeconds(10)))<br>
+                        .count(Materialized.<String, Long, KeyValueStore<org.apache.kafka.common.utils.Bytes, byte[]>>as("windowed-counts"))<br>
+                        .toStream()<br>
+                        .foreach((Windowed<String> window, Long count) -><br>
+                                System.out.printf("Key: %s, Window Start: %d, Count: %d%n",<br>
+                                        window.key(), window.window().start(), count));<br>
+            }<br>
+        }<br>
+    </div>
+
+    <h3>Explanation</h3>
+    <ul>
+        <li><strong>Windowing:</strong> In this example, we are grouping records by their key and performing an aggregation over a 10-second window.</li>
+        <li><strong>Stateful Storage:</strong> Kafka Streams stores the state (the count for each key within a window) locally, using RocksDB, and replicates it to a Kafka changelog topic for fault tolerance.</li>
+        <li><strong>Materialized View:</strong> The state of the windowed counts is materialized to a key-value store called "windowed-counts", which can be queried later.</li>
+    </ul>
+
+    <h2>3. Joins in Kafka Streams</h2>
+    <p>Joins are another form of stateful operation in Kafka Streams. They allow you to merge two streams of data based on common keys, such as matching purchase orders with customer data.</p>
+
+    <h3>Example: Stream-Stream Join</h3>
+    <div class="code">
+        KStream<String, String> purchasesStream = builder.stream("purchases-topic");<br>
+        KStream<String, String> customersStream = builder.stream("customers-topic");<br>
+        <br>
+        KStream<String, String> joinedStream = purchasesStream.join(customersStream,<br>
+                (purchase, customer) -> "Purchase=" + purchase + ", Customer=" + customer,<br>
+                JoinWindows.of(Duration.ofMinutes(5)));<br>
+        <br>
+        joinedStream.to("output-topic");
+    </div>
+
+    <h3>Explanation</h3>
+    <ul>
+        <li><strong>Stream-Stream Join:</strong> This example joins two streams, <code>purchases-topic</code> and <code>customers-topic</code>, within a 5-minute window. It produces a joined record if a matching key is found in both streams within that time window.</li>
+        <li><strong>State Tracking:</strong> Kafka Streams keeps track of the unjoined records for the specified duration to allow late-arriving records to be joined.</li>
+    </ul>
+
+    <h2>4. Stateful Transformations</h2>
+    <p>Kafka Streams also allows for custom stateful transformations. You can track and manipulate state within a processor. A common use case is tracking running totals, where each incoming event updates the stored state.</p>
+
+    <h3>Example: Tracking Running Total</h3>
+    <div class="code">
+        stream.groupByKey()<br>
+            .aggregate(<br>
+                () -> 0L,<br>
+                (key, value, aggregate) -> aggregate + Long.parseLong(value),<br>
+                Materialized.<String, Long, KeyValueStore<org.apache.kafka.common.utils.Bytes, byte[]>>as("running-total-store"))<br>
+            .toStream()<br>
+            .foreach((key, total) -> System.out.printf("Key: %s, Total: %d%n", key, total));
+    </div>
+
+    <h3>Explanation</h3>
+    <ul>
+        <li><strong>Aggregate:</strong> This stateful operation tracks the running total for each key by adding each incoming value to the current total.</li>
+        <li><strong>Materialized State:</strong> The state is stored in a local key-value store and replicated to Kafka to ensure fault tolerance.</li>
+    </ul>
+
+    <h2>5. Fault Tolerance and State Management</h2>
+    <p>Stateful operations in Kafka Streams are fault-tolerant. Kafka Streams stores state locally on disk using RocksDB and replicates it to a Kafka topic (changelog topic). In case of failures, the state can be restored from this changelog topic to ensure consistency.</p>
+
+    <h3>Benefits of Fault-Tolerant Stateful Operations</h3>
+    <ul>
+        <li><strong>Resilience:</strong> The local state store can be recovered from Kafka changelog topics after failure, allowing processing to resume without data loss.</li>
+        <li><strong>Scalability:</strong> Stateful operations scale horizontally across multiple instances, and the state is distributed among different partitions of the Kafka topic.</li>
+        <li><strong>Exactly-once Semantics:</strong> Kafka Streams provides exactly-once processing guarantees, ensuring state consistency even in the event of failures or retries.</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Stateful operations in Kafka Streams, such as windowed aggregations, joins, and custom stateful transformations, allow for powerful real-time stream processing while maintaining state. Kafka's built-in fault tolerance ensures that state is resilient and recoverable, making Kafka Streams a robust choice for stateful stream processing applications.</p>
+</body>
+</html>

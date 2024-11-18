@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Indexers Usage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Indexers Usage</h1>
+    <p>Indexers in C# allow objects to be indexed in a similar way to arrays. They provide a way to access elements of an object using an index, making the object act like an array or a list.</p>
+
+    <h2>1. Basics of Indexers</h2>
+    <p>An indexer is defined with the <code>this</code> keyword and provides access to the elements of an object using an index. Unlike properties, indexers can take parameters.</p>
+
+    <h2>2. Example of Indexer Usage</h2>
+    <p>Here's an example of defining and using an indexer in a custom class:</p>
+    <pre><code>
+public class StringCollection
+{
+    private string[] items = new string[10];
+
+    // Indexer definition
+    public string this[int index]
+    {
+        get
+        {
+            if (index >= 0 && index < items.Length)
+                return items[index];
+            else
+                throw new IndexOutOfRangeException("Index out of range");
+        }
+        set
+        {
+            if (index >= 0 && index < items.Length)
+                items[index] = value;
+            else
+                throw new IndexOutOfRangeException("Index out of range");
+        }
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        StringCollection collection = new StringCollection();
+
+        // Using the indexer to set values
+        collection[0] = "Hello";
+        collection[1] = "World";
+
+        // Using the indexer to get values
+        Console.WriteLine(collection[0]);  // Output: Hello
+        Console.WriteLine(collection[1]);  // Output: World
+    }
+}
+    </code></pre>
+
+    <h2>3. Key Points</h2>
+    <ul>
+        <li><strong>Indexer Definition:</strong> Use the <code>this</code> keyword followed by square brackets to define an indexer.</li>
+        <li><strong>Accessing Elements:</strong> You can access elements using the defined indexer syntax, similar to array indexing.</li>
+        <li><strong>Exception Handling:</strong> Handle exceptions for invalid index access to ensure robustness.</li>
+    </ul>
+
+    <h2>4. Conclusion</h2>
+    <p>Indexers in C# provide a flexible way to access and manipulate data within an object using an index. They enhance the usability of custom classes by allowing them to be accessed similarly to arrays or collections.</p>
+</body>
+</html>

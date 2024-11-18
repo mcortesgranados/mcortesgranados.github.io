@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handling Streaming Data with DStreams</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Handling Streaming Data with DStreams</h1>
+    <p>DStreams (Discretized Streams) are the primary abstraction for handling streaming data in Spark Streaming. They allow you to process real-time data by dividing it into small batches and applying transformations and actions similar to those in batch processing.</p>
+
+    <h2>1. Introduction to DStreams</h2>
+    <p>A DStream is a continuous stream of data, divided into small batches called RDDs (Resilient Distributed Datasets). Each batch is processed using Spark’s RDD operations, and the results are available in real-time.</p>
+
+    <h2>2. Example: Basic Operations with DStreams</h2>
+    <p>The following example demonstrates how to perform basic operations on DStreams, including reading data from a socket, transforming the data, and outputting the results to the console.</p>
+
+    <h3>Example: Basic DStream Operations</h3>
+    <pre><code>
+import org.apache.spark.SparkConf;
+import org.apache.spark.streaming.api.java.JavaDStream;
+import org.apache.spark.streaming.api.java.JavaStreamingContext;
+import org.apache.spark.streaming.Durations;
+
+public class DStreamExample {
+    public static void main(String[] args) throws InterruptedException {
+        // Step 1: Create a SparkConf object and set the application name
+        SparkConf conf = new SparkConf().setAppName("DStream Example").setMaster("local[*]");
+        
+        // Step 2: Create a JavaStreamingContext object with a batch interval of 10 seconds
+        JavaStreamingContext jsc = new JavaStreamingContext(conf, Durations.seconds(10));
+        
+        // Step 3: Create a DStream that connects to a socket stream on port 9999
+        JavaDStream&lt;String&gt; lines = jsc.socketTextStream("localhost", 9999);
+        
+        // Step 4: Perform transformations on the DStream
+        JavaDStream&lt;String&gt; words = lines.flatMap(line -> Arrays.asList(line.split(" ")).iterator());
+        JavaDStream&lt;Tuple2&lt;String, Integer&gt;&gt; wordCounts = words.mapToPair(word -> new Tuple2<>(word, 1))
+            .reduceByKey((a, b) -> a + b);
+        
+        // Step 5: Output the results to the console
+        wordCounts.print();
+        
+        // Step 6: Start the computation and await termination
+        jsc.start();
+        jsc.awaitTermination();
+    }
+}
+    </code></pre>
+
+    <h2>3. Explanation of the Example</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Step</th>
+                <th>Description</th>
+                <th>Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Create a SparkConf object</td>
+                <td><code>SparkConf conf = new SparkConf().setAppName("DStream Example").setMaster("local[*]");</code></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Create a JavaStreamingContext object</td>
+                <td><code>JavaStreamingContext jsc = new JavaStreamingContext(conf, Durations.seconds(10));</code></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Create a DStream from a socket</td>
+                <td><code>JavaDStream&lt;String&gt; lines = jsc.socketTextStream("localhost", 9999);</code></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Perform transformations on the DStream</td>
+                <td><code>JavaDStream&lt;String&gt; words = lines.flatMap(line -> Arrays.asList(line.split(" ")).iterator());</code></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Output the results to the console</td>
+                <td><code>wordCounts.print();</code></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Start the computation and await termination</td>
+                <td><code>jsc.start();</code><br/><code>jsc.awaitTermination();</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4. Conclusion</h2>
+    <p>Handling streaming data with DStreams allows you to process real-time data streams efficiently. By understanding the basics of DStreams and performing fundamental operations, you can build robust streaming applications capable of handling and analyzing live data.</p>
+</body>
+</html>

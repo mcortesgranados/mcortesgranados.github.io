@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Operators</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Operators</h1>
+    <p>Operators in C# are special symbols or keywords that perform operations on operands. They are used to manipulate data and variables in various ways.</p>
+    
+    <h2>1. Arithmetic Operators</h2>
+    <p>Arithmetic operators are used to perform basic mathematical operations:</p>
+    <ul>
+        <li><code>+</code>: Addition (e.g., <code>5 + 3</code> results in <code>8</code>)</li>
+        <li><code>-</code>: Subtraction (e.g., <code>5 - 3</code> results in <code>2</code>)</li>
+        <li><code>*</code>: Multiplication (e.g., <code>5 * 3</code> results in <code>15</code>)</li>
+        <li><code>/</code>: Division (e.g., <code>6 / 3</code> results in <code>2</code>)</li>
+        <li><code>%</code>: Modulus (e.g., <code>5 % 3</code> results in <code>2</code>)</li>
+    </ul>
+    
+    <h2>2. Relational Operators</h2>
+    <p>Relational operators are used to compare two values:</p>
+    <ul>
+        <li><code>==</code>: Equal to (e.g., <code>5 == 3</code> results in <code>false</code>)</li>
+        <li><code>!=</code>: Not equal to (e.g., <code>5 != 3</code> results in <code>true</code>)</li>
+        <li><code>&gt;</code>: Greater than (e.g., <code>5 &gt; 3</code> results in <code>true</code>)</li>
+        <li><code>&lt;</code>: Less than (e.g., <code>5 &lt; 3</code> results in <code>false</code>)</li>
+        <li><code>&gt;=</code>: Greater than or equal to (e.g., <code>5 &gt;= 5</code> results in <code>true</code>)</li>
+        <li><code>&lt;=</code>: Less than or equal to (e.g., <code>5 &lt;= 5</code> results in <code>true</code>)</li>
+    </ul>
+    
+    <h2>3. Logical Operators</h2>
+    <p>Logical operators are used to perform logical operations:</p>
+    <ul>
+        <li><code>&&</code>: Logical AND (e.g., <code>true &amp;&amp; false</code> results in <code>false</code>)</li>
+        <li><code>||</code>: Logical OR (e.g., <code>true || false</code> results in <code>true</code>)</li>
+        <li><code>!</code>: Logical NOT (e.g., <code>!true</code> results in <code>false</code>)</li>
+    </ul>
+    
+    <h2>4. Assignment Operators</h2>
+    <p>Assignment operators are used to assign values to variables:</p>
+    <ul>
+        <li><code>=</code>: Assignment (e.g., <code>x = 5</code>)</li>
+        <li><code>+=</code>: Add and assign (e.g., <code>x += 3</code> is equivalent to <code>x = x + 3</code>)</li>
+        <li><code>-=</code>: Subtract and assign (e.g., <code>x -= 2</code> is equivalent to <code>x = x - 2</code>)</li>
+        <li><code>*=</code>: Multiply and assign (e.g., <code>x *= 4</code> is equivalent to <code>x = x * 4</code>)</li>
+        <li><code>/=</code>: Divide and assign (e.g., <code>x /= 2</code> is equivalent to <code>x = x / 2</code>)</li>
+        <li><code>%=</code>: Modulus and assign (e.g., <code>x %= 3</code> is equivalent to <code>x = x % 3</code>)</li>
+    </ul>
+    
+    <h2>5. Example Program</h2>
+    <p>Here's a simple C# program that demonstrates the use of various operators:</p>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            int a = 10;
+            int b = 20;
+
+            // Arithmetic Operators
+            Console.WriteLine("Addition: " + (a + b));
+            Console.WriteLine("Subtraction: " + (a - b));
+            Console.WriteLine("Multiplication: " + (a * b));
+            Console.WriteLine("Division: " + (b / a));
+            Console.WriteLine("Modulus: " + (b % a));
+
+            // Relational Operators
+            Console.WriteLine("Equal to: " + (a == b));
+            Console.WriteLine("Not equal to: " + (a != b));
+            Console.WriteLine("Greater than: " + (a > b));
+            Console.WriteLine("Less than: " + (a < b));
+
+            // Logical Operators
+            bool x = true;
+            bool y = false;
+            Console.WriteLine("Logical AND: " + (x && y));
+            Console.WriteLine("Logical OR: " + (x || y));
+            Console.WriteLine("Logical NOT: " + (!x));
+
+            // Assignment Operators
+            a += 5;
+            Console.WriteLine("After += : " + a);
+            a -= 3;
+            Console.WriteLine("After -= : " + a);
+        }
+    }
+    </code></pre>
+    
+    <h2>Explanation</h2>
+    <p>In the example program:</p>
+    <ul>
+        <li>Arithmetic operations are performed using +, -, *, /, and % operators.</li>
+        <li>Relational operations compare values using ==, !=, &gt;, &lt;, &gt;=, and &lt;=.</li>
+        <li>Logical operations are performed using &&, ||, and !.</li>
+        <li>Assignment operations use =, +=, -=, *=, /=, and %= to modify the value of a variable.</li>
+    </ul>
+</body>
+</html>

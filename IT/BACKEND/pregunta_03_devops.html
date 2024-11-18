@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas y Respuestas sobre CI/CD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .question {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .answer {
+            margin-left: 20px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preguntas y Respuestas sobre CI/CD</h1>
+    
+    <div class="question">1. ¿Qué es un pipeline de integración continua?</div>
+    <div class="answer">Un pipeline de integración continua es un conjunto de procesos automatizados que permiten integrar y probar código continuamente. Permite detectar errores de integración rápidamente al construir y probar el código en un entorno controlado.</div>
+
+    <div class="question">2. ¿Qué es un pipeline de despliegue continuo?</div>
+    <div class="answer">Un pipeline de despliegue continuo automatiza el proceso de despliegue de aplicaciones en un entorno de producción o pre-producción. Permite desplegar cambios de código de manera automática y continua una vez que las pruebas han sido superadas.</div>
+
+    <div class="question">3. ¿Cómo se configura un pipeline de CI/CD en Jenkins?</div>
+    <div class="answer">
+        <p>Para configurar un pipeline en Jenkins, sigue estos pasos:</p>
+        <ol>
+            <li>Instala Jenkins y accede a la interfaz web.</li>
+            <li>Crea un nuevo proyecto de tipo "Pipeline".</li>
+            <li>En la configuración del proyecto, define el script del pipeline en la sección "Pipeline".</li>
+            <li>El script del pipeline puede ser en Groovy o Declarativo. Ejemplo básico en Declarativo:</li>
+        </ol>
+        <pre><code>pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'deploy.sh'
+            }
+        }
+    }
+}</code></pre>
+    </div>
+
+    <div class="question">4. ¿Qué herramientas se pueden utilizar para CI/CD?</div>
+    <div class="answer">Las herramientas populares para CI/CD incluyen Jenkins, GitLab CI, CircleCI, Travis CI, y GitHub Actions.</div>
+
+    <div class="question">5. ¿Cómo se implementa una prueba unitaria en un pipeline de CI/CD?</div>
+    <div class="answer">Las pruebas unitarias se implementan como parte del proceso de construcción en el pipeline. Ejemplo en Java usando Maven:</div>
+    <pre><code>mvn clean test</code></pre>
+    <div class="answer">Ejemplo en Python usando pytest:</div>
+    <pre><code>pytest</code></pre>
+    </div>
+
+    <div class="question">6. ¿Cómo se maneja el control de versiones en un pipeline de CI/CD?</div>
+    <div class="answer">El control de versiones se maneja a través de sistemas de control de versiones como Git. Los pipelines suelen estar configurados para trabajar con ramas específicas y disparar ejecuciones en base a commits y merges.</div>
+
+    <div class="question">7. ¿Qué es un artefacto en un pipeline de CI/CD?</div>
+    <div class="answer">Un artefacto es un archivo o conjunto de archivos generados como resultado del proceso de construcción. Ejemplos incluyen archivos JAR, WAR, o paquetes de instalación.</div>
+
+    <div class="question">8. ¿Cómo se realiza el despliegue automático en un entorno de producción?</div>
+    <div class="answer">El despliegue automático se realiza mediante scripts o herramientas de despliegue que se ejecutan como parte del pipeline. Estos scripts despliegan el artefacto en el entorno de producción de manera controlada.</div>
+
+    <div class="question">9. ¿Qué es una integración continua?</div>
+    <div class="answer">La integración continua es una práctica de desarrollo en la que los desarrolladores integran sus cambios en el repositorio compartido varias veces al día. Cada integración es verificada mediante una construcción automática y pruebas.</div>
+
+    <div class="question">10. ¿Qué es el despliegue continuo?</div>
+    <div class="answer">El despliegue continuo es una práctica en la que cada cambio que pasa las pruebas automatizadas se despliega automáticamente en un entorno de producción o pre-producción.</div>
+
+    <div class="question">11. ¿Qué es un entorno de staging en un pipeline de CI/CD?</div>
+    <div class="answer">Un entorno de staging es un entorno de pruebas que imita el entorno de producción. Se utiliza para realizar pruebas adicionales antes de desplegar los cambios en producción.</div>
+
+    <div class="question">12. ¿Cómo se gestionan las dependencias en un pipeline de CI/CD?</div>
+    <div class="answer">Las dependencias se gestionan mediante la configuración del sistema de construcción. Ejemplo en Maven:</div>
+    <pre><code>&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-core&lt;/artifactId&gt;
+        &lt;version&gt;5.3.8&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
+    <div class="answer">Ejemplo en Python usando pip:</div>
+    <pre><code>pip install -r requirements.txt</code></pre>
+    </div>
+
+    <div class="question">13. ¿Cómo se implementa la gestión de secretos en un pipeline de CI/CD?</div>
+    <div class="answer">La gestión de secretos se implementa utilizando servicios de gestión de secretos como AWS Secrets Manager, Azure Key Vault, o configurando variables de entorno seguras en el sistema de CI/CD.</div>
+
+    <div class="question">14. ¿Qué es un webhook y cómo se utiliza en CI/CD?</div>
+    <div class="answer">Un webhook es una llamada HTTP que se realiza cuando ocurre un evento específico. En CI/CD, se utiliza para desencadenar pipelines automáticamente cuando se realizan cambios en el repositorio.</div>
+
+    <div class="question">15. ¿Cómo se configuran notificaciones en un pipeline de CI/CD?</div>
+    <div class="answer">Las notificaciones se configuran mediante plugins o integraciones en la herramienta de CI/CD. Por ejemplo, Jenkins permite configurar notificaciones por correo electrónico, Slack, entre otros.</div>
+
+    <div class="question">16. ¿Qué es un build artifact y cómo se usa en un pipeline de CI/CD?</div>
+    <div class="answer">Un build artifact es el resultado de un proceso de construcción, como un archivo ejecutable o una biblioteca. Se utiliza en etapas posteriores del pipeline, como en el despliegue o en pruebas adicionales.</div>
+
+    <div class="question">17. ¿Cómo se manejan los errores en un pipeline de CI/CD?</div>
+    <div class="answer">Los errores se manejan mediante la configuración de pasos de recuperación o notificaciones para alertar al equipo de desarrollo. También se pueden configurar etapas de revisión para analizar y corregir errores.</div>
+
+    <div class="question">18. ¿Cómo se asegura la calidad del código en un pipeline de CI/CD?</div>
+    <div class="answer">La calidad del código se asegura mediante herramientas de análisis estático, pruebas unitarias, y revisiones de código automatizadas integradas en el pipeline.</div>
+
+    <div class="question">19. ¿Qué es la infraestructura como código (IaC) y cómo se integra en CI/CD?</div>
+    <div class="answer">La infraestructura como código es una práctica que permite gestionar y provisionar infraestructura mediante código. Se integra en CI/CD usando herramientas como Terraform o AWS CloudFormation.</div>
+
+    <div class="question">20. ¿Cómo se realiza el rollback en un pipeline de CD?</div>
+    <div class="answer">El rollback se realiza mediante scripts o herramientas de despliegue que permiten revertir a una versión anterior en caso de fallo en la implementación.</div>
+
+    <div class="question">21. ¿Qué es un pipeline de integración continua en GitLab CI?</div>
+    <div class="answer">En GitLab CI, un pipeline de integración continua es un conjunto de trabajos definidos en el archivo `.gitlab-ci.yml` que se ejecutan automáticamente para construir, probar y desplegar código.</div>
+
+    <div class="question">22. ¿Cómo se configura un pipeline en GitHub Actions?</div>
+    <div class="answer">En GitHub Actions, los pipelines se configuran mediante archivos YAML en el directorio `.github/workflows`. Ejemplo básico:</div>
+    <pre><code>name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+    - name: Build and test
+      run: mvn clean verify</code></pre>
+    </div>
+
+    <div class="question">23. ¿Qué son los contenedores Docker y cómo se usan en CI/CD?</div>
+    <div class="answer">Los contenedores Docker permiten empaquetar aplicaciones con sus dependencias en un entorno aislado. Se utilizan en CI/CD para asegurar que el entorno de construcción y despliegue sea consistente.</div>
+
+    <div class="question">24. ¿Cómo se implementa un pipeline de CI/CD en Azure DevOps?</div>
+    <div class="answer">En Azure DevOps, los pipelines se configuran usando YAML o mediante la interfaz gráfica. Ejemplo básico en YAML:</div>
+    <pre><code>trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseJavaVersion@1
+  inputs:
+    versionSpec: '11'
+- script: mvn clean install
+  displayName: 'Build with Maven'</code></pre>
+    </div>
+
+    <div class="question">25. ¿Cómo se realizan pruebas de integración en un pipeline de CI/CD?</div>
+    <div class="answer">Las pruebas de integración se realizan en etapas específicas del pipeline después de la construcción, asegurando que diferentes partes de la aplicación funcionen juntas correctamente.</div>
+
+    <div class="question">26. ¿Qué son las pruebas de aceptación y cómo se integran en CI/CD?</div>
+    <div class="answer">Las pruebas de aceptación validan que la aplicación cumple con los requisitos del cliente. Se integran en CI/CD mediante herramientas de automatización de pruebas que se ejecutan en el pipeline.</div>
+
+    <div class="question">27. ¿Cómo se manejan los datos de prueba en un pipeline de CI/CD?</div>
+    <div class="answer">Los datos de prueba se manejan mediante la creación de datos simulados o el uso de bases de datos de prueba que se configuran como parte del pipeline.</div>
+
+    <div class="question">28. ¿Qué es el aprovisionamiento de infraestructura y cómo se hace en un pipeline de CI/CD?</div>
+    <div class="answer">El aprovisionamiento de infraestructura se refiere a la creación y configuración de recursos de infraestructura necesarios para la aplicación. Se realiza mediante herramientas de IaC como Terraform o CloudFormation integradas en el pipeline.</div>
+
+    <div class="question">29. ¿Cómo se realiza el monitoreo y la observabilidad en un pipeline de CI/CD?</div>
+    <div class="answer">El monitoreo y la observabilidad se realizan mediante herramientas de monitoreo y logging que integran métricas y logs en el pipeline para detectar y responder a problemas en tiempo real.</div>
+
+    <div class="question">30. ¿Cómo se asegura la seguridad en un pipeline de CI/CD?</div>
+    <div class="answer">La seguridad en CI/CD se asegura mediante la integración de análisis de seguridad, gestión de secretos, y revisión de permisos para proteger el código y los artefactos durante el proceso de construcción y despliegue.</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Nullability Operator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Nullability Operator</h1>
+    <p>The nullability operator in C# is used to handle null values more gracefully and to check for null values in a safe way. C# provides several operators to work with nullable types and null values.</p>
+
+    <h2>1. Null-Conditional Operator (?.)</h2>
+    <p>The null-conditional operator (?.) is used to access members and elements only if the operand is not null. It helps avoid <code>NullReferenceException</code> when dealing with objects that might be null.</p>
+    <pre><code>
+public class Person
+{
+    public string Name { get; set; }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Person person = null;
+        // Using null-conditional operator
+        string name = person?.Name;
+        Console.WriteLine(name ?? "No name provided"); // Output: No name provided
+    }
+}
+    </code></pre>
+
+    <h2>2. Null-Coalescing Operator (??)</h2>
+    <p>The null-coalescing operator (??) is used to provide a default value when an expression evaluates to null. It is useful for setting default values for nullable types.</p>
+    <pre><code>
+public class Program
+{
+    public static void Main()
+    {
+        string name = null;
+        // Using null-coalescing operator
+        string result = name ?? "Default Name";
+        Console.WriteLine(result); // Output: Default Name
+    }
+}
+    </code></pre>
+
+    <h2>3. Null-Coalescing Assignment Operator (??=)</h2>
+    <p>The null-coalescing assignment operator (??=) is used to assign a value to a variable only if that variable is currently null.</p>
+    <pre><code>
+public class Program
+{
+    public static void Main()
+    {
+        string name = null;
+        // Using null-coalescing assignment operator
+        name ??= "Assigned Name";
+        Console.WriteLine(name); // Output: Assigned Name
+
+        // If name was already set, it would not be changed
+        name ??= "New Name";
+        Console.WriteLine(name); // Output: Assigned Name
+    }
+}
+    </code></pre>
+
+    <h2>4. Key Points</h2>
+    <ul>
+        <li><strong>Null-Conditional Operator (?.):</strong> Access members and elements safely without causing exceptions if the object is null.</li>
+        <li><strong>Null-Coalescing Operator (??):</strong> Provide default values for nullable expressions.</li>
+        <li><strong>Null-Coalescing Assignment Operator (??=):</strong> Assign a value only if the variable is null, avoiding unnecessary assignments.</li>
+    </ul>
+
+    <h2>5. Conclusion</h2>
+    <p>The nullability operators in C# make it easier to handle null values and avoid common pitfalls related to null references. They enhance code readability and robustness by providing convenient ways to manage nullable types and default values.</p>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Intermediate Level Questions Part 15</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .question { margin: 20px 0; }
+        .answer { margin-left: 20px; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Angular Intermediate Level Questions - Part 15</h1>
+
+    <div id="questions">
+
+        <div class="question">
+            <h2>1. How do you create an Angular pipe and use it?</h2>
+            <div class="answer">
+                <p>An Angular pipe is used to transform data in templates. You create a pipe by using the `@Pipe` decorator.</p>
+                <pre><code>
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'reverse'
+})
+export class ReversePipe implements PipeTransform {
+    transform(value: string): string {
+        return value.split('').reverse().join('');
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>2. How do you create a custom Angular validator?</h2>
+            <div class="answer">
+                <p>Custom validators can be created by implementing the `Validator` interface or by creating a function that returns a validator function.</p>
+                <pre><code>
+import { AbstractControl, ValidatorFn } from '@angular/forms';
+
+export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+        const forbidden = nameRe.test(control.value);
+        return forbidden ? { 'forbiddenName': { value: control.value } } : null;
+    };
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>3. How do you use Angular's `@HostBinding` and `@HostListener` decorators?</h2>
+            <div class="answer">
+                <p>`@HostBinding` binds a property of the host element, while `@HostListener` listens to events on the host element.</p>
+                <pre><code>
+import { Directive, HostBinding, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appHighlight]'
+})
+export class HighlightDirective {
+    @HostBinding('style.backgroundColor') backgroundColor = 'transparent';
+
+    @HostListener('mouseenter') onMouseEnter() {
+        this.backgroundColor = 'yellow';
+    }
+
+    @HostListener('mouseleave') onMouseLeave() {
+        this.backgroundColor = 'transparent';
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>4. How do you use Angular's `ChangeDetectorRef` to manually trigger change detection?</h2>
+            <div class="answer">
+                <p>`ChangeDetectorRef` is used to manually trigger change detection or detach the change detector.</p>
+                <pre><code>
+import { ChangeDetectorRef, Component } from '@angular/core';
+
+@Component({
+    selector: 'app-manual-change-detection',
+    template: `
+        <p>{{ data }}</p>
+        <button (click)="updateData()">Update Data</button>
+    `
+})
+export class ManualChangeDetectionComponent {
+    data = 'Initial Data';
+
+    constructor(private cdr: ChangeDetectorRef) {}
+
+    updateData() {
+        this.data = 'Updated Data';
+        this.cdr.detectChanges(); // Manually trigger change detection
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>5. How do you use Angular's `ngOnDestroy` lifecycle hook?</h2>
+            <div class="answer">
+                <p>The `ngOnDestroy` lifecycle hook is used to clean up resources before the component is destroyed.</p>
+                <pre><code>
+import { Component, OnDestroy } from '@angular/core';
+
+@Component({
+    selector: 'app-cleanup',
+    template: `<p>Cleanup Component</p>`
+})
+export class CleanupComponent implements OnDestroy {
+    ngOnDestroy() {
+        console.log('CleanupComponent destroyed');
+        // Perform cleanup here
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>6. How do you use Angular's `@ViewChild` to access child components or elements?</h2>
+            <div class="answer">
+                <p>`@ViewChild` allows you to access a child component or DOM element in the parent component class.</p>
+                <pre><code>
+import { Component, ViewChild, ElementRef } from '@angular/core';
+
+@Component({
+    selector: 'app-parent',
+    template: `<app-child #child></app-child>`
+})
+export class ParentComponent {
+    @ViewChild('child') childComponent!: ElementRef;
+
+    ngAfterViewInit() {
+        console.log(this.childComponent.nativeElement);
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>7. How do you use Angular's `@ContentChild` to access projected content?</h2>
+            <div class="answer">
+                <p>`@ContentChild` allows you to access projected content within a component.</p>
+                <pre><code>
+import { Component, ContentChild, AfterContentInit, ElementRef } from '@angular/core';
+
+@Component({
+    selector: 'app-content',
+    template: `<ng-content></ng-content>`
+})
+export class ContentComponent implements AfterContentInit {
+    @ContentChild('content') content!: ElementRef;
+
+    ngAfterContentInit() {
+        console.log(this.content.nativeElement.textContent);
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>8. How do you use Angular's `ngOnChanges` lifecycle hook?</h2>
+            <div class="answer">
+                <p>The `ngOnChanges` lifecycle hook is used to detect changes to input properties.</p>
+                <pre><code>
+import { Component, OnChanges, SimpleChanges, Input } from '@angular/core';
+
+@Component({
+    selector: 'app-changes',
+    template: `<p>Changes Component</p>`
+})
+export class ChangesComponent implements OnChanges {
+    @Input() data!: string;
+
+    ngOnChanges(changes: SimpleChanges) {
+        console.log('Changes detected:', changes);
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>9. How do you use Angular's `ngSwitch` to conditionally display content?</h2>
+            <div class="answer">
+                <p>The `ngSwitch` directive is used to conditionally display content based on a switch expression.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-switch',
+    template: `
+        <div [ngSwitch]="condition">
+            <p *ngSwitchCase="'A'">Case A</p>
+            <p *ngSwitchCase="'B'">Case B</p>
+            <p *ngSwitchDefault>Default Case</p>
+        </div>
+    `
+})
+export class SwitchComponent {
+    condition = 'A';
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>10. How do you use Angular's `ngClass` to apply multiple CSS classes dynamically?</h2>
+            <div class="answer">
+                <p>The `ngClass` directive allows you to apply multiple CSS classes dynamically based on component data.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-class',
+    template: `
+        <div [ngClass]="{ 'active': isActive, 'highlight': isHighlighted }">
+            Conditional Classes
+        </div>
+    `
+})
+export class ClassComponent {
+    isActive = true;
+    isHighlighted = false;
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>11. How do you use Angular's `ng-template` to create reusable templates?</h2>
+            <div class="answer">
+                <p>The `ng-template` directive allows you to define reusable templates.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-template',
+    template: `
+        <ng-template #myTemplate>
+            <p>This is a reusable template</p>
+        </ng-template>
+
+        <ng-container *ngTemplateOutlet="myTemplate"></ng-container>
+    `
+})
+export class TemplateComponent {}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>12. How do you use Angular's `ngFor` with `trackBy` to improve performance?</h2>
+            <div class="answer">
+                <p>The `trackBy` function helps Angular track items in a list for better performance.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-for',
+    template: `
+        <ul>
+            <li *ngFor="let item of items; trackBy: trackById">{{ item.name }}</li>
+        </ul>
+    `
+})
+export class ForComponent {
+    items = [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }];
+
+    trackById(index: number, item: any): number {
+        return item.id;
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>13. How do you use Angular's `ngModel` with two-way data binding?</h2>
+            <div class="answer">
+                <p>The `ngModel` directive provides two-way data binding for form elements.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-model',
+    template: `
+        <input [(ngModel)]="name" placeholder="Enter your name">
+        <p>Hello, {{ name }}!</p>
+    `
+})
+export class ModelComponent {
+    name = '';
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>14. How do you use Angular's `async` pipe in templates?</h2>
+            <div class="answer">
+                <p>The `async` pipe subscribes to an Observable or Promise and returns the latest value.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+import { Observable, of } from 'rxjs';
+
+@Component({
+    selector: 'app-async',
+    template: `
+        <div *ngIf="data$ | async as data">
+            {{ data }}
+        </div>
+    `
+})
+export class AsyncComponent {
+    data$: Observable<string> = of('Async Data');
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>15. How do you use Angular's `FormBuilder` to simplify form creation?</h2>
+            <div class="answer">
+                <p>The `FormBuilder` service simplifies form creation with reactive forms.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+@Component({
+    selector: 'app-form-builder',
+    template: `
+        <form [formGroup]="form">
+            <input formControlName="name" placeholder="Name">
+            <button (click)="submit()">Submit</button>
+        </form>
+    `
+})
+export class FormBuilderComponent {
+    form: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            name: ['']
+        });
+    }
+
+    submit() {
+        console.log(this.form.value);
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>16. How do you use Angular's `HttpInterceptor` to modify HTTP requests and responses?</h2>
+            <div class="answer">
+                <p>`HttpInterceptor` allows you to intercept and modify HTTP requests and responses.</p>
+                <pre><code>
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const clonedReq = req.clone({ headers: req.headers.set('Authorization', 'Bearer token') });
+        return next.handle(clonedReq);
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>17. How do you use Angular's `Router` to navigate programmatically?</h2>
+            <div class="answer">
+                <p>The `Router` service allows you to navigate programmatically within your application.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+    selector: 'app-navigate',
+    template: `<button (click)="goToHome()">Go to Home</button>`
+})
+export class NavigateComponent {
+    constructor(private router: Router) {}
+
+    goToHome() {
+        this.router.navigate(['/home']);
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>18. How do you use Angular's `ng-container` to group elements without affecting layout?</h2>
+            <div class="answer">
+                <p>`ng-container` is a logical container that doesn't affect the DOM layout.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-container',
+    template: `
+        <ng-container *ngIf="isVisible">
+            <p>Content is visible</p>
+        </ng-container>
+    `
+})
+export class ContainerComponent {
+    isVisible = true;
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>19. How do you use Angular's `RouterModule` to configure routing?</h2>
+            <div class="answer">
+                <p>The `RouterModule` is used to configure and manage routing in Angular applications.</p>
+                <pre><code>
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home.component';
+import { AboutComponent } from './about.component';
+
+const routes: Routes = [
+    { path: 'home', component: HomeComponent },
+    { path: 'about', component: AboutComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' }
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule {}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>20. How do you use Angular's `@Inject` to inject dependencies?</h2>
+            <div class="answer">
+                <p>The `@Inject` decorator is used to specify a dependency to be injected.</p>
+                <pre><code>
+import { Component, Inject } from '@angular/core';
+
+@Component({
+    selector: 'app-inject',
+    template: `<p>Inject Component</p>`
+})
+export class InjectComponent {
+    constructor(@Inject('API_URL') private apiUrl: string) {
+        console.log(apiUrl);
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

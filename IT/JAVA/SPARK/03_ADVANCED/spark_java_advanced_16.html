@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spark SQL Catalyst and Cost-Based Optimizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spark SQL Catalyst and Cost-Based Optimizer</h1>
+
+    <p>
+        Spark SQL's Catalyst Optimizer is a powerful query optimization framework that transforms logical query plans into optimized physical query plans. The Cost-Based Optimizer (CBO) is an extension of Catalyst that uses statistical information to make more informed optimization decisions. Both play crucial roles in improving the performance of SQL queries in Spark.
+    </p>
+
+    <h2>Catalyst Optimizer</h2>
+    <ul>
+        <li><strong>Introduction:</strong> Catalyst is the core query optimization engine in Spark SQL. It applies a series of rule-based transformations to optimize SQL queries.</li>
+        <li><strong>Logical Plan:</strong> Catalyst starts with the logical plan, which represents the query in an abstract form. It applies various rules to transform this plan into an optimized physical plan.</li>
+        <li><strong>Transformations:</strong> The optimizer applies several transformations, including constant folding, predicate pushdown, and join reordering, to improve query performance.</li>
+        <li><strong>Extensibility:</strong> Catalyst allows developers to define custom optimization rules, enabling the creation of specialized optimizations for specific use cases.</li>
+    </ul>
+
+    <h2>Cost-Based Optimizer (CBO)</h2>
+    <ul>
+        <li><strong>Introduction:</strong> The Cost-Based Optimizer (CBO) enhances Catalyst by incorporating cost estimates into the optimization process. It uses statistics about data distribution and cardinality to make more accurate decisions.</li>
+        <li><strong>Statistics:</strong> CBO relies on table and column statistics, such as data size and value distribution, to estimate the cost of different execution plans.</li>
+        <li><strong>Cost Estimation:</strong> The optimizer estimates the cost of executing different plans and chooses the plan with the lowest estimated cost, leading to better performance.</li>
+        <li><strong>Configuration:</strong> To enable CBO, statistics must be collected using Spark SQL commands, such as <code>ANALYZE TABLE</code>. Proper configuration of the Spark session and table properties is also required.</li>
+    </ul>
+
+    <h2>Example Source Code</h2>
+    <p>
+        Below is an example demonstrating how to use Catalyst Optimizer and Cost-Based Optimizer in Spark SQL with Java. This example shows how to collect statistics and execute a query that benefits from these optimizations.
+    </p>
+
+    <h3>Example Code</h3>
+    <pre><code class="language-java">
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+
+public class OptimizerExample {
+    public static void main(String[] args) {
+        // Create a SparkSession
+        SparkSession spark = SparkSession.builder()
+            .appName("Optimizer Example")
+            .master("local[*]")
+            .config("spark.sql.cbo.enabled", "true") // Enable Cost-Based Optimizer
+            .getOrCreate();
+
+        // Load a dataset into a DataFrame
+        Dataset<Row> df = spark.read().json("path/to/large_dataset.json");
+
+        // Register the DataFrame as a temporary view
+        df.createOrReplaceTempView("my_table");
+
+        // Collect statistics (Note: Actual implementation may vary depending on Spark version)
+        spark.sql("ANALYZE TABLE my_table COMPUTE STATISTICS FOR COLUMNS");
+
+        // Execute a query that benefits from the optimizer
+        Dataset<Row> result = spark.sql("SELECT id, COUNT(*) FROM my_table GROUP BY id");
+
+        // Show results
+        result.show();
+
+        // Stop the SparkSession
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <p>
+        In this example:
+    </p>
+    <ul>
+        <li>A <strong>SparkSession</strong> is created with CBO enabled through the configuration <code>spark.sql.cbo.enabled</code>.</li>
+        <li>A dataset is loaded into a DataFrame and registered as a temporary view.</li>
+        <li>Statistics are collected for the table using the <code>ANALYZE TABLE</code> command.</li>
+        <li>A SQL query is executed to benefit from the optimizations provided by Catalyst and CBO.</li>
+    </ul>
+
+    <p>
+        By leveraging Spark SQL's Catalyst Optimizer and Cost-Based Optimizer, you can significantly improve the performance of your SQL queries. Understanding these components and how to configure them can lead to more efficient and faster query execution in Spark.
+    </p>
+</body>
+</html>

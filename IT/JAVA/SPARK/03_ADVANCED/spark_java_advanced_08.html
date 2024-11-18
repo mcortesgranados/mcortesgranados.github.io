@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using Columnar Storage Formats in Spark</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Using Columnar Storage Formats in Spark</h1>
+
+    <p>
+        Columnar storage formats are highly efficient for big data processing in Apache Spark. They store data by columns rather than rows, which can significantly enhance performance for read-heavy operations. Two popular columnar storage formats in Spark are Parquet and ORC. Both formats offer advantages in terms of compression, speed, and compatibility with Spark's processing engine.
+    </p>
+
+    <h2>Benefits of Columnar Storage Formats</h2>
+    <ul>
+        <li><strong>Efficient Compression:</strong> Columnar formats often provide better compression than row-based formats, as similar data is stored together.</li>
+        <li><strong>Faster Query Performance:</strong> Querying specific columns can be faster because the system only reads the required columns rather than entire rows.</li>
+        <li><strong>Optimized for Analytics:</strong> Columnar storage is optimized for analytical queries that involve aggregations and filters over large datasets.</li>
+        <li><strong>Support for Complex Data Types:</strong> Both Parquet and ORC support complex nested data structures, making them versatile for different use cases.</li>
+    </ul>
+
+    <h2>Example Source Code</h2>
+    <p>
+        Below are examples of how to read and write data using columnar storage formats Parquet and ORC in Spark with Java. These examples demonstrate basic operations like reading, transforming, and writing data using these formats.
+    </p>
+
+    <h3>Using Parquet Format</h3>
+    <pre><code class="language-java">
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+
+public class ParquetExample {
+    public static void main(String[] args) {
+        // Create a SparkSession
+        SparkSession spark = SparkSession.builder()
+            .appName("Parquet Example")
+            .master("local[*]")
+            .getOrCreate();
+
+        // Read data from a Parquet file
+        Dataset<Row> parquetData = spark.read().parquet("path/to/input/parquet");
+
+        // Perform some transformations (e.g., filtering)
+        Dataset<Row> filteredData = parquetData.filter(parquetData.col("age").gt(30));
+
+        // Write data to a Parquet file
+        filteredData.write().parquet("path/to/output/parquet");
+
+        // Stop the SparkSession
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <h3>Using ORC Format</h3>
+    <pre><code class="language-java">
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+
+public class ORCExample {
+    public static void main(String[] args) {
+        // Create a SparkSession
+        SparkSession spark = SparkSession.builder()
+            .appName("ORC Example")
+            .master("local[*]")
+            .getOrCreate();
+
+        // Read data from an ORC file
+        Dataset<Row> orcData = spark.read().format("orc").load("path/to/input/orc");
+
+        // Perform some transformations (e.g., aggregation)
+        Dataset<Row> aggregatedData = orcData.groupBy("department").count();
+
+        // Write data to an ORC file
+        aggregatedData.write().format("orc").save("path/to/output/orc");
+
+        // Stop the SparkSession
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <p>
+        In these examples:
+    </p>
+    <ul>
+        <li>A <strong>SparkSession</strong> is created to initialize the Spark application.</li>
+        <li>For Parquet, data is read from a Parquet file, filtered, and then written back to another Parquet file.</li>
+        <li>For ORC, data is read from an ORC file, aggregated, and then written to another ORC file.</li>
+        <li>These operations demonstrate how to work with columnar formats for efficient data processing in Spark.</li>
+    </ul>
+
+    <p>
+        Using columnar storage formats like Parquet and ORC in Spark allows for efficient data handling and improved performance in big data processing tasks. These formats are well-suited for analytical workloads due to their compression capabilities and optimization for column-based queries.
+    </p>
+</body>
+</html>

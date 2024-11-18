@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Regular Expressions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Regular Expressions</h1>
+    <p>Regular expressions (regex) are used for pattern matching and manipulation of text. In C#, the <code>System.Text.RegularExpressions</code> namespace provides classes for working with regular expressions.</p>
+    
+    <h2>1. Basic Concepts</h2>
+    <p>Regular expressions use special characters to define patterns. Some common special characters include:</p>
+    <ul>
+        <li><code>.</code> - Matches any single character except newline.</li>
+        <li><code>*</code> - Matches zero or more occurrences of the previous character.</li>
+        <li><code>+</code> - Matches one or more occurrences of the previous character.</li>
+        <li><code>?</code> - Matches zero or one occurrence of the previous character.</li>
+        <li><code>[abc]</code> - Matches any one of the characters inside the brackets.</li>
+        <li><code>[^abc]</code> - Matches any character not inside the brackets.</li>
+        <li><code>\d</code> - Matches any digit (0-9).</li>
+        <li><code>\D</code> - Matches any non-digit character.</li>
+        <li><code>\w</code> - Matches any word character (alphanumeric + underscore).</li>
+        <li><code>\W</code> - Matches any non-word character.</li>
+        <li><code>\s</code> - Matches any whitespace character (spaces, tabs, line breaks).</li>
+        <li><code>\S</code> - Matches any non-whitespace character.</li>
+    </ul>
+    
+    <h2>2. Using Regular Expressions in C#</h2>
+    <p>The <code>Regex</code> class in the <code>System.Text.RegularExpressions</code> namespace is used to work with regular expressions. Here are some common methods:</p>
+    <ul>
+        <li><code>Regex.IsMatch()</code> - Determines if a string matches a regular expression pattern.</li>
+        <li><code>Regex.Match()</code> - Searches for the first occurrence of a pattern in a string.</li>
+        <li><code>Regex.Matches()</code> - Searches for all occurrences of a pattern in a string.</li>
+        <li><code>Regex.Replace()</code> - Replaces occurrences of a pattern with a specified replacement string.</li>
+    </ul>
+    
+    <h2>3. Examples</h2>
+    
+    <h3>Example 1: Checking if a String Matches a Pattern</h3>
+    <pre><code>
+    using System;
+    using System.Text.RegularExpressions;
+
+    class Program
+    {
+        static void Main()
+        {
+            string pattern = @"^\d{3}-\d{2}-\d{4}$"; // Pattern for a social security number
+            string input = "123-45-6789";
+
+            bool isMatch = Regex.IsMatch(input, pattern);
+            Console.WriteLine("Is Match: " + isMatch);
+        }
+    }
+    </code></pre>
+    
+    <h3>Example 2: Finding Matches in a String</h3>
+    <pre><code>
+    using System;
+    using System.Text.RegularExpressions;
+
+    class Program
+    {
+        static void Main()
+        {
+            string pattern = @"\d+"; // Pattern to find all numbers
+            string input = "There are 3 apples and 4 oranges.";
+
+            MatchCollection matches = Regex.Matches(input, pattern);
+            foreach (Match match in matches)
+            {
+                Console.WriteLine("Found: " + match.Value);
+            }
+        }
+    }
+    </code></pre>
+    
+    <h3>Example 3: Replacing Text</h3>
+    <pre><code>
+    using System;
+    using System.Text.RegularExpressions;
+
+    class Program
+    {
+        static void Main()
+        {
+            string pattern = @"\d+"; // Pattern to find all numbers
+            string input = "There are 3 apples and 4 oranges.";
+            string replacement = "#";
+
+            string result = Regex.Replace(input, pattern, replacement);
+            Console.WriteLine("Result: " + result);
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Key Points</h2>
+    <ul>
+        <li><strong>Regular expressions</strong> are patterns used to match and manipulate text.</li>
+        <li><strong>Regex class</strong> in <code>System.Text.RegularExpressions</code> provides methods for working with regex in C#.</li>
+        <li><strong>Common methods</strong> include <code>IsMatch()</code>, <code>Match()</code>, <code>Matches()</code>, and <code>Replace()</code>.</li>
+    </ul>
+</body>
+</html>

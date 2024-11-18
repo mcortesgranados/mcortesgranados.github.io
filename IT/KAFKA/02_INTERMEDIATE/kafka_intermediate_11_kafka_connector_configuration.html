@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Intermediate: Kafka Connector Configuration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Kafka Intermediate: Kafka Connector Configuration</h1>
+
+    <p>Kafka Connect is a framework for integrating Kafka with other systems in a scalable and reliable way. It supports both source connectors (reading data from external systems into Kafka) and sink connectors (writing data from Kafka to external systems).</p>
+
+    <p>In this guide, we will discuss how to configure Kafka connectors, including key properties and example configurations for both source and sink connectors.</p>
+
+    <h2>1. Connector Types</h2>
+    <ul>
+        <li><strong>Source Connector:</strong> Reads data from an external system and writes it into Kafka topics.</li>
+        <li><strong>Sink Connector:</strong> Reads data from Kafka topics and writes it to an external system.</li>
+    </ul>
+
+    <h2>2. General Configuration Properties</h2>
+    <p>Each connector requires a set of common configuration properties:</p>
+    <ul>
+        <li><strong>name:</strong> The name of the connector.</li>
+        <li><strong>connector.class:</strong> The class that implements the connector logic.</li>
+        <li><strong>tasks.max:</strong> The maximum number of tasks that the connector will use for parallelism.</li>
+        <li><strong>topics:</strong> A comma-separated list of topics (used mainly by sink connectors).</li>
+        <li><strong>key.converter / value.converter:</strong> The converter to use for key and value serialization (e.g., JSON, Avro).</li>
+        <li><strong>bootstrap.servers:</strong> Kafka broker addresses.</li>
+    </ul>
+
+    <h2>3. Example Source Connector Configuration</h2>
+    <p>Below is an example configuration for a Kafka source connector that reads data from a JDBC database:</p>
+
+    <pre>
+<code>
+{
+  "name": "jdbc-source-connector",
+  "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+  "tasks.max": "1",
+  "connection.url": "jdbc:mysql://localhost:3306/mydb",
+  "connection.user": "dbuser",
+  "connection.password": "dbpassword",
+  "table.whitelist": "my_table",
+  "mode": "incrementing",
+  "incrementing.column.name": "id",
+  "topic.prefix": "jdbc-",
+  "poll.interval.ms": "10000",
+  "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter"
+}
+</code>
+    </pre>
+
+    <p>This configuration defines a source connector that reads data from a MySQL database table <code>my_table</code>, using the <code>id</code> column to track new records and write them to a Kafka topic prefixed with <code>jdbc-</code>.</p>
+
+    <h2>4. Example Sink Connector Configuration</h2>
+    <p>Below is an example configuration for a Kafka sink connector that writes data from a Kafka topic to an HDFS system:</p>
+
+    <pre>
+<code>
+{
+  "name": "hdfs-sink-connector",
+  "connector.class": "io.confluent.connect.hdfs.HdfsSinkConnector",
+  "tasks.max": "2",
+  "topics": "my_kafka_topic",
+  "hdfs.url": "hdfs://namenode:9000",
+  "flush.size": "1000",
+  "rotate.interval.ms": "600000",
+  "topics.dir": "/kafka/topics",
+  "logs.dir": "/kafka/logs",
+  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "key.converter.schemas.enable": "false",
+  "value.converter.schemas.enable": "false"
+}
+</code>
+    </pre>
+
+    <p>This configuration defines a sink connector that reads messages from the Kafka topic <code>my_kafka_topic</code> and writes them to an HDFS directory. It flushes data to HDFS after every 1,000 messages or after a 10-minute interval.</p>
+
+    <h2>5. Key Properties</h2>
+    <ul>
+        <li><strong>tasks.max:</strong> Controls the number of parallel tasks the connector can use. More tasks allow for greater throughput, but also require more resources.</li>
+        <li><strong>poll.interval.ms:</strong> For source connectors, this determines how often the connector polls the external system for new data.</li>
+        <li><strong>flush.size / rotate.interval.ms:</strong> For sink connectors, these properties control how often data is written to the external system (e.g., flush after a certain number of records or a time interval).</li>
+        <li><strong>converter:</strong> Determines how the data is serialized and deserialized. You can use JSON, Avro, or custom converters based on your needs.</li>
+    </ul>
+
+    <h2>6. Running the Connector</h2>
+    <p>Once the connector configuration is created, it can be submitted to the Kafka Connect cluster either through the REST API or using the Kafka Connect CLI tool:</p>
+    <pre>
+<code>
+# Using REST API
+curl -X POST -H "Content-Type: application/json" --data @source-connector.json http://localhost:8083/connectors
+
+# Using Kafka Connect CLI
+bin/connect-standalone.sh config/connect-standalone.properties config/source-connector.properties
+</code>
+    </pre>
+
+    <h2>7. Conclusion</h2>
+    <p>Kafka Connect simplifies integrating Kafka with various external systems by providing connectors for both source and sink operations. By properly configuring connectors, you can stream data efficiently between Kafka and other systems such as databases, file systems, or messaging services.</p>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Reports FAQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background: #f4f4f4;
+            border-left: 4px solid #ccc;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Oracle Reports FAQ</h1>
+
+    <h2>1. How do you use 'Report Bursting' to split a report into multiple outputs?</h2>
+    <p>'Report Bursting' involves dividing a single report into multiple outputs based on certain criteria, such as region or department, and distributing them accordingly.</p>
+    <pre>
+    -- Example of configuring report bursting in Oracle Reports Server
+    SET_REPORT_PROPERTY('report_name', BURSTING_CRITERIA, 'department_id');
+    </pre>
+
+    <h2>2. What are 'Report Sections' and how do you manage them?</h2>
+    <p>'Report Sections' allow you to divide a report into different parts, such as headers, body, and footers. Manage them by defining section layouts and content in the report editor.</p>
+
+    <h2>3. How do you implement 'Data Validation' in Oracle Reports?</h2>
+    <p>Implement 'Data Validation' by using PL/SQL code or report triggers to check and enforce data quality rules during report generation.</p>
+    <pre>
+    -- Example of data validation trigger
+    IF :salary < 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Salary cannot be negative');
+    END IF;
+    </pre>
+
+    <h2>4. How do you use 'Date Parameters' to filter report data?</h2>
+    <p>Use 'Date Parameters' by defining them in the report's parameter section and incorporating them into SQL queries to filter data based on date ranges.</p>
+    <pre>
+    -- Example of date parameter in SQL query
+    SELECT *
+    FROM sales
+    WHERE sale_date BETWEEN :start_date AND :end_date;
+    </pre>
+
+    <h2>5. What is a 'Report Layout Design' and how do you create it?</h2>
+    <p>'Report Layout Design' defines how the report will appear when printed or viewed. Create it by arranging report items, applying styles, and setting page layouts.</p>
+
+    <h2>6. How can you create a 'Report Template' for consistent reporting?</h2>
+    <p>Create a 'Report Template' by designing a standard report layout with reusable components, which can be applied to multiple reports for consistency.</p>
+
+    <h2>7. What is 'Data Grouping' and how does it affect report output?</h2>
+    <p>'Data Grouping' organizes data into categories based on specified fields, affecting how the data is aggregated and displayed in the report.</p>
+
+    <h2>8. How do you implement 'Cross-Tab Reports' to display data in a matrix format?</h2>
+    <p>'Cross-Tab Reports' present data in a matrix format with both row and column groupings. Define the rows, columns, and data in the report's layout editor.</p>
+
+    <h2>9. How can you use 'Custom PL/SQL Libraries' in Oracle Reports?</h2>
+    <p>Use 'Custom PL/SQL Libraries' to define reusable PL/SQL code that can be called from within reports for common tasks or functions.</p>
+    <pre>
+    -- Example of calling a PL/SQL library function
+    :discount := my_package.calculate_discount(:total_amount);
+    </pre>
+
+    <h2>10. What are 'Oracle Reports Services' and how do you configure them?</h2>
+    <p>'Oracle Reports Services' are components of Oracle Reports Server that manage report execution and distribution. Configure them by setting up server parameters and connections.</p>
+
+    <h2>11. How do you use 'Subreports' to include additional data in a report?</h2>
+    <p>Use 'Subreports' by embedding them into a main report to include supplementary data or detailed information related to the main report's data.</p>
+
+    <h2>12. How can you apply 'Conditional Page Breaks' in Oracle Reports?</h2>
+    <p>Apply 'Conditional Page Breaks' by using PL/SQL code to determine when to insert a page break based on data co

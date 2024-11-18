@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Reports FAQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background: #f4f4f4;
+            border-left: 4px solid #ccc;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Oracle Reports FAQ</h1>
+
+    <h2>1. What are 'Conditional Formatting' rules in Oracle Reports?</h2>
+    <p>'Conditional Formatting' rules allow you to change the appearance of report elements based on specific conditions or data values.</p>
+    <pre>
+    -- Example of conditional formatting in a report
+    IF :sales_amount &gt; 10000 THEN
+        SET_ITEM_PROPERTY('sales_amount', FONT_COLOR, 'RED');
+    ELSE
+        SET_ITEM_PROPERTY('sales_amount', FONT_COLOR, 'BLACK');
+    END IF;
+    </pre>
+
+    <h2>2. How do you use 'User Parameters' in Oracle Reports?</h2>
+    <p>'User Parameters' allow users to input values at runtime, which can then be used in queries or report logic to customize the report output.</p>
+    <pre>
+    -- Example of using a user parameter in a SQL Query
+    SELECT * FROM orders
+    WHERE order_date BETWEEN :start_date AND :end_date;
+    </pre>
+
+    <h2>3. What is a 'Sub-Report' and how is it used in Oracle Reports?</h2>
+    <p>A 'Sub-Report' is a report embedded within another report, used to display related data or detailed information within a main report.</p>
+
+    <h2>4. How can you optimize the performance of Oracle Reports?</h2>
+    <p>Optimize performance by using efficient SQL queries, minimizing data retrieval, reducing report complexity, and using indexes where applicable.</p>
+
+    <h2>5. How do you include 'Calculated Columns' in Oracle Reports?</h2>
+    <p>Include 'Calculated Columns' by defining formulas or expressions in the report’s data model to compute values based on other data fields.</p>
+    <pre>
+    -- Example of a calculated column
+    SELECT employee_id, salary, salary * 0.10 AS bonus
+    FROM employees;
+    </pre>
+
+    <h2>6. What is 'Report Trigger' and how do you use it?</h2>
+    <p>A 'Report Trigger' is a PL/SQL block that executes at specific points during the report generation process, such as before or after report data is processed.</p>
+
+    <h2>7. How do you handle 'Long Text Fields' in Oracle Reports?</h2>
+    <p>Handle 'Long Text Fields' by adjusting the layout to accommodate large text blocks and using text formatting options to ensure proper display.</p>
+
+    <h2>8. What is a 'Running Total' and how is it used in Oracle Reports?</h2>
+    <p>A 'Running Total' calculates cumulative values across a set of records, useful for summaries and totals within a report.</p>
+    <pre>
+    -- Example of running total calculation
+    SELECT department_id, employee_id, salary,
+           SUM(salary) OVER (PARTITION BY department_id) AS running_total
+    FROM employees;
+    </pre>
+
+    <h2>9. How can you handle 'Dynamic Data Sources' in Oracle Reports?</h2>
+    <p>Handle 'Dynamic Data Sources' by using parameters and bind variables to adjust the data source or query based on user input or conditions.</p>
+
+    <h2>10. How do you create 'Interactive Reports' in Oracle Reports?</h2>
+    <p>Create 'Interactive Reports' by configuring report parameters, adding interactive elements like filters and drill-downs, and ensuring the report layout supports dynamic interactio

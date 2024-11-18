@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas sobre Performance, Seguridad y Optimización de Bases de Datos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        code {
+            color: #c7254e;
+            background-color: #f9f2f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Preguntas sobre Performance, Seguridad y Optimización de Bases de Datos</h1>
+
+    <h2>1. Si consideramos la identificación de riesgos asociados a performance, seguridad y optimización de las bases de datos: usted:</h2>
+    <p><strong>Respuesta:</strong> Al identificar estos riesgos, me enfoco en aspectos como:</p>
+    <ul>
+        <li><strong>Performance:</strong> Identificación de consultas lentas, uso ineficiente de índices, y uso excesivo de operaciones JOIN.</li>
+        <li><strong>Seguridad:</strong> Verificación de inyecciones SQL, cifrado de datos sensibles, y roles de usuario adecuados.</li>
+        <li><strong>Optimización:</strong> Normalización adecuada, uso eficiente de índices, y caching para reducir la carga en la base de datos.</li>
+    </ul>
+
+    <pre><code>// Consultas optimizadas con índices
+String query = "SELECT * FROM customers WHERE email = ?";
+// Uso de parámetros para evitar SQL Injection
+PreparedStatement stmt = connection.prepareStatement(query);
+stmt.setString(1, email);  // Parámetro de búsqueda por email
+</code></pre>
+
+    <h2>2. ¿Cómo evitarías inyecciones SQL en una aplicación Java?</h2>
+    <p><strong>Respuesta:</strong> Para evitar inyecciones SQL, siempre uso <code>PreparedStatements</code> en lugar de concatenar cadenas SQL.</p>
+    <pre><code>String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+PreparedStatement pstmt = connection.prepareStatement(query);
+pstmt.setString(1, username);
+pstmt.setString(2, password);
+ResultSet rs = pstmt.executeQuery();
+</code></pre>
+
+    <h2>3. ¿Cómo optimizarías una consulta SQL que involucra múltiples JOINs?</h2>
+    <p><strong>Respuesta:</strong> Para optimizar consultas con múltiples <strong>JOINs</strong>, revisaría:</p>
+    <ul>
+        <li>El uso de <strong>índices</strong> en las columnas que participan en las cláusulas <code>ON</code>.</li>
+        <li>El uso de <strong>explain plans</strong> para identificar cuellos de botella.</li>
+    </ul>
+
+    <pre><code>EXPLAIN ANALYZE
+SELECT orders.order_id, customers.name
+FROM orders
+JOIN customers ON orders.customer_id = customers.customer_id
+WHERE orders.status = 'completed';
+</code></pre>
+
+    <h2>4. ¿Qué medidas de seguridad implementarías para proteger una base de datos?</h2>
+    <p><strong>Respuesta:</strong> Implementaría:</p>
+    <ul>
+        <li><strong>Roles y privilegios</strong> adecuados.</li>
+        <li><strong>Cifrado</strong> de datos sensibles.</li>
+        <li><strong>Políticas de auditoría</strong> para rastrear actividades sospechosas.</li>
+    </ul>
+
+    <pre><code>CREATE ROLE read_only_user;
+GRANT SELECT ON customers TO read_only_user;
+</code></pre>
+
+    <h2>5. ¿Cómo identificarías consultas lentas en una base de datos?</h2>
+    <p><strong>Respuesta:</strong> Utilizaría herramientas como el <strong>Query Performance Analyzer</strong> o <strong>logs de consultas lentas</strong> en la base de datos.</p>
+
+    <h2>6. ¿Qué es una inyección SQL y cómo la previenes?</h2>
+    <p><strong>Respuesta:</strong> Una inyección SQL ocurre cuando un atacante manipula una consulta SQL para alterar su comportamiento. Se previene usando <code>PreparedStatements</code> y <strong>ORMs</strong> que gestionan consultas seguras.</p>
+
+    <h2>7. ¿Cómo mejorarías el rendimiento de una consulta que involucra grandes volúmenes de datos?</h2>
+    <p><strong>Respuesta:</strong> Usaría <strong>paginación</strong> para limitar los resultados devueltos y <strong>caching</strong> para evitar consultas repetidas.</p>
+    <pre><code>String query = "SELECT * FROM products LIMIT 100 OFFSET 200";
+</code></pre>
+
+    <h2>8. ¿Qué prácticas de cifrado de datos sensibles recomendarías?</h2>
+    <p><strong>Respuesta:</strong> Usaría algoritmos de cifrado robustos como <strong>AES</strong> y guardaría las contraseñas usando <strong>hashing</strong> con <strong>bcrypt</strong>.</p>
+
+    <h2>9. ¿Cómo manejarías la concurrencia en transacciones de bases de datos?</h2>
+    <p><strong>Respuesta:</strong> Implementaría un esquema de <strong>control de concurrencia</strong> basado en niveles de aislamiento de transacciones como <code>READ_COMMITTED</code> o <code>SERIALIZABLE</code>.</p>
+    <pre><code>connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+</code></pre>
+
+    <h2>10. ¿Qué técnicas de optimización aplicarías en índices de base de datos?</h2>
+    <p><strong>Respuesta:</strong> Evaluaría:</p>
+    <ul>
+        <li>Eliminar índices no utilizados.</li>
+        <li>Crear índices compuestos cuando una consulta frecuentemente usa varias columnas en los filtros <code>WHERE</code>.</li>
+    </ul>
+
+    <h2>11. ¿Qué son las consultas N+1 y cómo evitarías este problema en un ORM como Hibernate?</h2>
+    <p><strong>Respuesta:</strong> El problema N+1 ocurre cuando una consulta principal genera múltiples subconsultas. Lo evitaría usando <strong>fetch joins</strong> o <strong>batch fetching</strong> en Hibernate.</p>
+    <pre><code>@Query("SELECT c FROM Customer c JOIN FETCH c.orders")
+List&lt;Customer&gt; findCustomersWithOrders();
+</code></pre>
+
+    <h2>12. ¿Qué herramienta usarías para monitorear el rendimiento de la base de datos?</h2>
+    <p><strong>Respuesta:</strong> Usaría herramientas como <strong>pgAdmin</strong> para PostgreSQL, <strong>MySQL Workbench</strong>, o servicios en la nube como <strong>AWS RDS Performance Insights</strong>.</p>
+
+    <h2>13. ¿Cómo aplicarías el concepto de caching para mejorar el rendimiento de una aplicación?</h2>
+    <p><strong>Respuesta:</strong> Utilizaría <strong>Redis</strong> o <strong>Memcached</strong> para almacenar resultados de consultas frecuentes y reducir la carga en la base de datos.</p>
+
+    <h2>14. ¿Cómo manejarías un crecimiento exponencial de datos en una tabla?</h2>
+    <p><strong>Respuesta:</strong> Consideraría <strong>particionamiento de tablas</strong> para distribuir los datos en múltiples segmentos, facilitando consultas más rápidas.</p>
+
+    <h2>15. ¿Qué es el bloqueo de filas y cómo evitarías deadlocks en una base de datos?</h2>
+    <p><strong>Respuesta:</strong> El bloqueo de filas asegura que una fila no pueda ser modificada simultáneamente. Para evitar deadlocks, garantizo que las transacciones adquieran los bloqueos en el mismo orden.</p>
+
+    <h2>16. ¿Cómo realizarías una consulta eficiente sobre una tabla con millones de registros?</h2>
+    <p><strong>Respuesta:</strong> Utilizaría <strong>índices</strong>, <strong>paginación</strong> y <strong>particionamiento</strong> para mejorar la velocidad de la consulta.</p>
+
+    <h2>17. ¿Qué estrategias usarías para realizar un backup eficiente de la base de datos sin afectar la performance?</h2>
+    <p><strong>Respuesta:</strong> Usaría <strong>backups incrementales</strong> y realizaría el backup en horarios de baja actividad.</p>
+
+    <h2>18. ¿Cómo configurarías el nivel de aislamiento de transacciones en una aplicación Spring Boot?</h2>
+    <p><strong>Respuesta:</strong> Utilizaría la anotación <code>@Transactional</code> para definir el nivel de aislamiento en cada método.</p>
+    <pre><code>@Transactional(isolation = Isolation.READ_COMMITTED)
+public void updateOrder(Order order) {
+    // lógica del método
+}
+</code></pre>
+
+    <h2>19. ¿Cómo mejorarías el tiempo de respuesta de una API que consulta una base de datos?</h2>
+    <p><strong>Respuesta:</strong> Implementaría técnicas de <strong>caching</strong> para evitar consultas repetitivas y usaría <strong>paginación</strong> en las respuestas grandes.</p>
+
+    <h2>20. ¿Qué es un índice compuesto y cuándo lo usarías?</h2>
+    <p><strong>Respuesta:</strong> Un índice compuesto involucra más de una columna. Lo usaría cuando las consultas frecuentemente filtran por varias columnas.</p>
+
+    <h2>21. ¿Qué es el sharding y cómo ayuda en el escalamiento de bases de datos?</h2>
+    <p><strong>Respuesta:</strong> El <strong>sharding</strong> distribuye los datos en múltiples bases de datos o nodos para mejorar la escalabilidad horizontal.</p>
+
+    <h2>22. ¿Cómo manejarías la integridad referencial en una base de datos distribuida?</h2>
+    <p><strong>Respuesta:</strong> Implementaría <strong>compensating transactions</strong> o un sistema de <strong>sagas</strong> para asegurar que todas las operaciones mantengan la coherencia.</p>
+
+    <h2>23. ¿Cómo asegurarías el acceso a una base de datos en la nube?</h2>
+    <p><strong>Respuesta:</strong> Usaría <strong>VPNs</strong> y <strong>cifrado de conexiones</strong> (TLS) para proteger el acceso.</p>
+
+    <h2>24. ¿Qué es una consulta EXPLAIN y cómo la usarías?</h2>
+    <p><strong>Respuesta:</strong> El comando <code>EXPLAIN</code> muestra el plan de ejecución de una consulta. Lo usaría para identificar posibles optimizaciones en el uso de índices.</p>
+
+    <h2>25. ¿Qué es un hash index y cuándo lo usarías?</h2>
+    <p><strong>Respuesta:</strong> Un <strong>hash index</strong> es un índice basado en el valor hash de la clave. Lo usaría para búsquedas exactas de valores.</p>
+
+    <h2>26. ¿Cómo manejarías los errores de concurrencia en una aplicación de múltiples usuarios?</h2>
+    <p><strong>Respuesta:</strong> Implementaría un esquema de <strong>optimistic locking</strong> para detectar y manejar conflictos cuando varios usuarios intentan modificar el mismo dato simultáneamente.</p>
+
+    <h2>27. ¿Qué es la replicación en bases de datos y cómo contribuye a la alta disponibilidad?</h2>
+    <p><strong>Respuesta:</strong> La replicación crea copias de una base de datos en múltiples servidores para mejorar la disponibilidad y resiliencia ante fallos.</p>
+
+    <h2>28. ¿Cómo optimizarías una API REST que interactúa con una base de datos?</h2>
+    <p><strong>Respuesta:</strong> Usaría <strong>caching</strong>, limitaría los resultados devueltos con <strong>paginación</strong>, y revisaría el uso de índices en las consultas.</p>
+
+    <h2>29. ¿Cómo evitarías la sobresaturación de una base de datos en momentos de alta demanda?</h2>
+    <p><strong>Respuesta:</strong> Implementaría un <strong>caching</strong> eficiente, y usaría un sistema de <strong>colas</strong> para manejar solicitudes de manera asincrónica.</p>
+
+    <h2>30. ¿Qué técnicas usarías para hacer más eficientes las operaciones de escritura en una base de datos?</h2>
+    <p><strong>Respuesta:</strong> Implementaría <strong>batch processing</strong> para agrupar múltiples escrituras en una sola operación.</p>
+    <pre><code>INSERT INTO orders (order_id, customer_id) VALUES (?, ?), (?, ?);
+</code></pre>
+
+</body>
+</html>

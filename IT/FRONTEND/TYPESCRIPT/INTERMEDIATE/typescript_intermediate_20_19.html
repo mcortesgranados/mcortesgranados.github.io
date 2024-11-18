@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Intermediate Level Questions and Answers - Part 19</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Intermediate Level Questions and Answers - Part 19</h1>
+
+    <h2>1. How do you use <code>type</code> to define a type for a method that returns a tuple based on input?</h2>
+    <p>Define a method that returns a tuple with a generic return type.</p>
+    <pre><code>type TupleReturn<T> = (input: T) => [T, number];
+
+const tupleMethod: TupleReturn<string> = (input) => [input, input.length];
+
+console.log(tupleMethod("Hello")); // ["Hello", 5]</code></pre>
+
+    <h2>2. How do you use <code>type</code> to define a type that represents a class with a static method?</h2>
+    <p>Use the <code>static</code> keyword in class definitions for static methods.</p>
+    <pre><code>type StaticClass = {
+    new(): { greet: () => void };
+    staticMethod: () => void;
+};
+
+class MyClass {
+    static staticMethod() {
+        console.log("Static method called");
+    }
+    
+    greet() {
+        console.log("Hello");
+    }
+}
+
+const instance: StaticClass = MyClass;
+instance.staticMethod(); // Static method called</code></pre>
+
+    <h2>3. How do you use <code>type</code> to create a type that represents a method with a generic return type?</h2>
+    <p>Use generics in the method return type.</p>
+    <pre><code>type Processor<T> = {
+    process: (input: T) => T;
+};
+
+const stringProcessor: Processor<string> = {
+    process: (input) => input.toUpperCase()
+};
+
+const numberProcessor: Processor<number> = {
+    process: (input) => input + 1
+};
+
+console.log(stringProcessor.process("hello")); // HELLO
+console.log(numberProcessor.process(5)); // 6</code></pre>
+
+    <h2>4. How do you use <code>type</code> to define a type that represents a function with multiple generic parameters?</h2>
+    <p>Define a function type with multiple generics.</p>
+    <pre><code>type DualFunction<A, B> = (a: A, b: B) => [A, B];
+
+const dualFunc: DualFunction<string, number> = (a, b) => [a, b];
+
+console.log(dualFunc("TypeScript", 42)); // ["TypeScript", 42]</code></pre>
+
+    <h2>5. How do you use <code>type</code> to create a type for an object with optional and required properties?</h2>
+    <p>Specify required and optional properties in the type definition.</p>
+    <pre><code>type Person = {
+    name: string;
+    age?: number;
+};
+
+const person1: Person = { name: "Alice" };
+const person2: Person = { name: "Bob", age: 30 };
+
+console.log(person1); // { name: 'Alice' }
+console.log(person2); // { name: 'Bob', age: 30 }</code></pre>
+
+    <h2>6. How do you use <code>type</code> to define a type that represents a function with a variable number of arguments?</h2>
+    <p>Use rest parameters in the function type.</p>
+    <pre><code>type VariadicFunction = (...args: number[]) => number;
+
+const sum: VariadicFunction = (...args) => args.reduce((a, b) => a + b, 0);
+
+console.log(sum(1, 2, 3, 4)); // 10</code></pre>
+
+    <h2>7. How do you use <code>type</code> to define a type for an object that includes a method with a specific type of parameter?</h2>
+    <p>Specify the method's parameter type in the type definition.</p>
+    <pre><code>type Logger = {
+    log: (message: string) => void;
+};
+
+const logger: Logger = {
+    log: (message) => console.log(message)
+};
+
+logger.log("Hello, TypeScript!"); // Hello, TypeScript!</code></pre>
+
+    <h2>8. How do you use <code>type</code> to create a type that represents an object with methods returning different types based on input?</h2>
+    <p>Define methods with different return types using generics.</p>
+    <pre><code>type Converter<T, U> = {
+    convert: (input: T) => U;
+};
+
+const stringToNumber: Converter<string, number> = {
+    convert: (input) => input.length
+};
+
+const numberToString: Converter<number, string> = {
+    convert: (input) => `Number: ${input}`
+};
+
+console.log(stringToNumber.convert("Hello")); // 5
+console.log(numberToString.convert(42)); // Number: 42</code></pre>
+
+    <h2>9. How do you use <code>type</code> to define a type for an object with a method that accepts and returns a Promise?</h2>
+    <p>Specify the method to return a promise in the type definition.</p>
+    <pre><code>type AsyncService = {
+    fetchData: () => Promise<string>;
+};
+
+const service: AsyncService = {
+    fetchData: async () => "Data fetched"
+};
+
+service.fetchData().then(console.log); // Data fetched</code></pre>
+
+    <h2>10. How do you use <code>type</code> to define a type for an object with methods that accept and return different types of promises?</h2>
+    <p>Use generics to handle different promise types.</p>
+    <pre><code>type AsyncProcessor<T> = {
+    process: (input: T) => Promise<T>;
+};
+
+const stringProcessor: AsyncProcessor<string> = {
+    process: async (input) => `Processed ${input}`
+};
+
+const numberProcessor: AsyncProcessor<number> = {
+    process: async (input) => input * 2
+};
+
+stringProcessor.process("Hello").then(console.log); // Processed Hello
+numberProcessor.process(4).then(console.log); // 8</code></pre>
+
+    <h2>11. How do you use <code>type</code> to define a type that represents a method with multiple overloads?</h2>
+    <p>Define multiple signatures for the method in the type.</p>
+    <pre><code>type OverloadedFunction = {
+    (input: string): string;
+    (input: number): number;
+};
+
+const func: OverloadedFunction = (input: any) => typeof input === 'string' ? input.toUpperCase() : input * 2;
+
+console.log(func("hello")); // HELLO
+console.log(func(10)); // 20</code></pre>
+
+    <h2>12. How do you use <code>type</code> to create a type for an object with a method that takes a callback function as an argument?</h2>
+    <p>Specify a method type that includes a callback function argument.</p>
+    <pre><code>type CallbackFunction = (result: string) => void;
+
+type Task = {
+    execute: (callback: CallbackFunction) => void;
+};
+
+const task: Task = {
+    execute: (callback) => callback("Task complete")
+};
+
+task.execute(result => console.log(result)); // Task complete</code></pre>
+
+    <h2>13. How do you use <code>type</code> to define a type for an object with methods that return void?</h2>
+    <p>Specify <code>void</code> as the return type for methods.</p>
+    <pre><code>type Action = {
+    perform: () => void;
+    reset: () => void;
+};
+
+const action: Action = {
+    perform: () => console.log("Performing action"),
+    reset: () => console.log("Resetting action")
+};
+
+action.perform(); // Performing action
+action.reset(); // Resetting action</code></pre>
+
+    <h2>14. How do you use <code>type</code> to define a type for an object with a method that returns a Promise with a specific type?</h2>
+    <p>Specify the return type of the Promise.</p>
+    <pre><code>type Fetcher = {
+    fetch: () => Promise<number>;
+};
+
+const fetcher: Fetcher = {
+    fetch: async () => 42
+};
+
+fetcher.fetch().then(console.log); // 42</code></pre>
+
+    <h2>15. How do you use <code>type</code> to define a type for a class with a constructor that accepts parameters?</h2>
+    <p>Include constructor parameters in the type definition.</p>
+    <pre><code>type Constructible<T> = new (param: T) => { getValue: () => T };
+
+class MyClass {
+    constructor(private value: string) {}
+    
+    getValue() {
+        return this.value;
+    }
+}
+
+const instance: Constructible<string> = MyClass;
+const myInstance = new instance("Hello");
+console.log(myInstance.getValue()); // Hello</code></pre>
+
+    <h2>16. How do you use <code>type</code> to create a type for an object with a method that takes a generic parameter and returns a boolean?</h2>
+    <p>Use generics in method definitions for flexible parameter types.</p>
+    <pre><code>type Validator<T> = {
+    validate: (input: T) => boolean;
+};
+
+const stringValidator: Validator<string> = {
+    validate: (input) => input.length > 5
+};
+
+const numberValidator: Validator<number> = {
+    validate: (input) => input > 10
+};
+
+console.log(stringValidator.validate("TypeScript")); // true
+console.log(numberValidator.validate(5)); // false</code></pre>
+
+    <h2>17. How do you use <code>type</code> to define a type that represents an object with methods accepting and returning tuples?</h2>
+    <p>Define methods to handle tuples as parameters and return types.</p>
+    <pre><code>type TupleHandler = {
+    process: (input: [string, number]) => [number, string];
+};
+
+const handler: TupleHandler = {
+    process: ([str, num]) => [num, str]
+};
+
+console.log(handler.process(["Hello", 42])); // [42, "Hello"]</code></pre>
+
+    <h2>18. How do you use <code>type</code> to define a type for an object with a method that performs type assertions?</h2>
+    <p>Specify type assertions within the method.</p>
+    <pre><code>type Assertor = {
+    assertString: (input: any) => asserts input is string;
+};
+
+const assertor: Assertor = {
+    assertString: (input) => {
+        if (typeof input !== 'string') {
+            throw new Error("Not a string");
+        }
+    }
+};
+
+const value: any = "Hello";
+assertor.assertString(value);
+console.log(value.toUpperCase()); // HELLO</code></pre>
+
+    <h2>19. How do you use <code>type</code> to define a type for an object with a method that works with different types of arrays?</h2>
+    <p>Define methods to handle arrays of different types.</p>
+    <pre><code>type ArrayProcessor<T> = {
+    processArray: (arr: T[]) => T[];
+};
+
+const stringArrayProcessor: ArrayProcessor<string> = {
+    processArray: (arr) => arr.map(item => item.toUpperCase())
+};
+
+const numberArrayProcessor: ArrayProcessor<number> = {
+    processArray: (arr) => arr.map(item => item * 2)
+};
+
+console.log(stringArrayProcessor.processArray(["a", "b"])); // ["A", "B"]
+console.log(numberArrayProcessor.processArray([1, 2, 3])); // [2, 4, 6]</code></pre>
+
+    <h2>20. How do you use <code>type</code> to define a type that represents an object with methods that handle different promise states?</h2>
+    <p>Handle different states in method definitions using promises.</p>
+    <pre><code>type PromiseHandler = {
+    handleSuccess: (result: string) => void;
+    handleError: (error: Error) => void;
+};
+
+const handler: PromiseHandler = {
+    handleSuccess: (result) => console.log(`Success: ${result}`),
+    handleError: (error) => console.error(`Error: ${error.message}`)
+};
+
+const promise = new Promise<string>((resolve, reject) => {
+    Math.random() > 0.5 ? resolve("It worked!") : reject(new Error("It failed"));
+});
+
+promise
+    .then(result => handler.handleSuccess(result))
+    .catch(error => handler.handleError(error));</code></pre>
+
+</body>
+</html>

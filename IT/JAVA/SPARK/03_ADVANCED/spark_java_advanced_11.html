@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Allocation in Spark Cluster Mode</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resource Allocation in Spark Cluster Mode</h1>
+
+    <p>
+        Resource allocation in Spark cluster mode involves efficiently distributing computational resources (e.g., CPU, memory) across various nodes in the cluster. Proper resource allocation is crucial for optimizing performance and ensuring that Spark applications run efficiently in a distributed environment.
+    </p>
+
+    <h2>Key Concepts</h2>
+    <ul>
+        <li><strong>Cluster Manager:</strong> Spark supports different cluster managers such as YARN, Mesos, and Kubernetes. The cluster manager is responsible for allocating resources and scheduling tasks across the cluster.</li>
+        <li><strong>Executor Allocation:</strong> Executors are processes responsible for executing tasks. Resources like memory and CPU cores are allocated to each executor to manage task execution efficiently.</li>
+        <li><strong>Dynamic Allocation:</strong> Spark can dynamically adjust the number of executors based on workload. This feature helps in optimizing resource usage by adding or removing executors as needed.</li>
+        <li><strong>Resource Configuration:</strong> Spark provides various configuration options to control resource allocation, such as <code>spark.executor.memory</code>, <code>spark.executor.cores</code>, and <code>spark.driver.memory</code>.</li>
+    </ul>
+
+    <h2>Example Source Code</h2>
+    <p>
+        Below is an example of configuring resource allocation for a Spark application in Java. This example demonstrates setting up a SparkSession with specific resource configurations for cluster mode.
+    </p>
+
+    <pre><code class="language-java">
+import org.apache.spark.sql.SparkSession;
+
+public class ResourceAllocationExample {
+    public static void main(String[] args) {
+        // Create a SparkSession with custom resource allocation settings
+        SparkSession spark = SparkSession.builder()
+            .appName("Resource Allocation Example")
+            .master("spark://your-spark-cluster-url:7077") // Cluster manager URL
+            .config("spark.executor.memory", "4g") // Memory allocated to each executor
+            .config("spark.executor.cores", "2") // Number of cores per executor
+            .config("spark.driver.memory", "2g") // Memory allocated to the driver
+            .config("spark.dynamicAllocation.enabled", "true") // Enable dynamic allocation
+            .config("spark.dynamicAllocation.minExecutors", "2") // Minimum number of executors
+            .config("spark.dynamicAllocation.maxExecutors", "10") // Maximum number of executors
+            .getOrCreate();
+
+        // Perform some data operations (e.g., reading and processing data)
+        // Example code here...
+
+        // Stop the SparkSession
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <p>
+        In this example:
+    </p>
+    <ul>
+        <li>A <strong>SparkSession</strong> is created with configurations for resource allocation in cluster mode.</li>
+        <li><code>spark.executor.memory</code> specifies the amount of memory allocated to each executor.</li>
+        <li><code>spark.executor.cores</code> sets the number of cores per executor.</li>
+        <li><code>spark.driver.memory</code> defines the memory allocated to the driver process.</li>
+        <li><code>spark.dynamicAllocation.enabled</code> is set to <code>true</code> to enable dynamic allocation of executors based on workload.</li>
+        <li><code>spark.dynamicAllocation.minExecutors</code> and <code>spark.dynamicAllocation.maxExecutors</code> control the minimum and maximum number of executors, respectively.</li>
+    </ul>
+
+    <p>
+        Properly configuring resource allocation helps ensure that Spark applications perform efficiently and make optimal use of cluster resources. Adjusting parameters like executor memory, cores, and dynamic allocation settings allows you to fine-tune resource management based on the specific needs of your applications and cluster environment.
+    </p>
+</body>
+</html>

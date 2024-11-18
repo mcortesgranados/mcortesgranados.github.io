@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Basic Level Questions and Answers - Part 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Basic Level Questions and Answers - Part 2</h1>
+
+    <h2>1. What is a type alias in TypeScript?</h2>
+    <p>A type alias is used to create a new name for a type. It can be used to simplify complex types.</p>
+    <pre><code>type ID = number | string;
+
+let userId: ID = 123;
+userId = "abc";</code></pre>
+
+    <h2>2. How do you use TypeScript with arrays?</h2>
+    <p>Arrays in TypeScript can be typed to ensure that only elements of a specific type are allowed.</p>
+    <pre><code>let numbers: number[] = [1, 2, 3, 4];
+let names: Array<string> = ["Alice", "Bob", "Charlie"];</code></pre>
+
+    <h2>3. What is an enum in TypeScript?</h2>
+    <p>An enum is a way to give names to a set of numeric or string values, making code more readable.</p>
+    <pre><code>enum Direction {
+    Up,
+    Down,
+    Left,
+    Right
+}
+
+let move: Direction = Direction.Up;</code></pre>
+
+    <h2>4. How do you handle default parameters in TypeScript?</h2>
+    <p>Default parameters can be assigned a value if no argument is provided.</p>
+    <pre><code>function greet(name: string = "Guest"): string {
+    return `Hello, ${name}`;
+}
+
+console.log(greet()); // Hello, Guest
+console.log(greet("John")); // Hello, John</code></pre>
+
+    <h2>5. What is the <code>never</code> type in TypeScript?</h2>
+    <p>The <code>never</code> type represents values that never occur. It is often used for functions that never return.</p>
+    <pre><code>function throwError(message: string): never {
+    throw new Error(message);
+}</code></pre>
+
+    <h2>6. How do you use the <code>Readonly</code> utility type in TypeScript?</h2>
+    <p>The <code>Readonly</code> utility type creates a type where all properties are read-only.</p>
+    <pre><code>type User = {
+    name: string;
+    age: number;
+}
+
+const user: Readonly<User> = {
+    name: "Alice",
+    age: 25
+};
+
+// user.age = 26; // Error: Cannot assign to 'age' because it is a read-only property</code></pre>
+
+    <h2>7. How do you create a type with optional properties?</h2>
+    <p>Optional properties are denoted with a question mark <code>?</code> after the property name.</p>
+    <pre><code>interface Product {
+    name: string;
+    price?: number;
+}
+
+const product1: Product = { name: "Laptop" };
+const product2: Product = { name: "Phone", price: 699 }; </code></pre>
+
+    <h2>8. How do you use the <code>Partial</code> utility type in TypeScript?</h2>
+    <p>The <code>Partial</code> utility type makes all properties of a type optional.</p>
+    <pre><code>interface User {
+    name: string;
+    age: number;
+}
+
+const updateUser: Partial<User> = {
+    age: 30
+};</code></pre>
+
+    <h2>9. What are TypeScript decorators?</h2>
+    <p>Decorators are special functions that can be attached to classes, methods, properties, or parameters. They are used to add metadata or modify behavior.</p>
+    <pre><code>@decorator
+class MyClass {
+    @propertyDecorator
+    myProperty: string;
+}
+
+function decorator(target: Function) {
+    console.log("Decorator called");
+}
+
+function propertyDecorator(target: any, propertyKey: string) {
+    console.log(`Property decorator called for ${propertyKey}`);
+}</code></pre>
+
+    <h2>10. How do you handle asynchronous code in TypeScript?</h2>
+    <p>TypeScript supports async/await syntax for handling asynchronous operations.</p>
+    <pre><code>async function fetchData(url: string): Promise<string> {
+    const response = await fetch(url);
+    const data = await response.text();
+    return data;
+}
+
+fetchData("https://api.example.com/data")
+    .then(data => console.log(data))
+    .catch(error => console.error(error));</code></pre>
+
+</body>
+</html>

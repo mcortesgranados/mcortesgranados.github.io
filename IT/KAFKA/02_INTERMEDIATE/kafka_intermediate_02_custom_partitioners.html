@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Intermediate: Custom Partitions</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka Intermediate: Custom Partitions</h1>
+    <p>Custom partitioners in Apache Kafka allow you to define your own logic for distributing messages across partitions. This can be useful when you need to control the partitioning strategy based on custom criteria, such as message content or key.</p>
+
+    <h2>1. What is a Custom Partitioner?</h2>
+    <p>A custom partitioner is a user-defined class that implements Kafka's <code>Partitioner</code> interface. It allows you to specify how messages are distributed across partitions of a topic, beyond the default partitioning mechanism.</p>
+
+    <h2>2. How Does a Custom Partitioner Work?</h2>
+    <p>When producing messages, Kafka uses a partitioner to determine which partition a message should be sent to. The default partitioner uses the hash of the key to decide the partition. With a custom partitioner, you can override this logic to implement your own partitioning strategy.</p>
+
+    <h2>3. Implementing a Custom Partitioner</h2>
+    <p>To implement a custom partitioner, you need to create a class that implements the <code>org.apache.kafka.clients.producer.Partitioner</code> interface and override its <code>partition</code> method. Here’s a step-by-step guide:</p>
+
+    <h3>3.1. Implement the Partitioner Interface</h3>
+    <pre><code>
+import org.apache.kafka.clients.producer.Partitioner;
+import org.apache.kafka.common.Cluster;
+
+import java.util.Map;
+
+public class CustomPartitioner implements Partitioner {
+
+    @Override
+    public void configure(Map<String, ?> configs) {
+        // Implement configuration if needed
+    }
+
+    @Override
+    public int partition(String topic, Object key, byte[] keyBytes, Object value, byte[] valueBytes, Cluster cluster) {
+        // Custom partitioning logic
+        int numPartitions = cluster.partitionCountForTopic(topic);
+        if (key == null) {
+            return 0;
+        }
+        // Example: Use the hash of the key to determine the partition
+        return Math.abs(key.hashCode()) % numPartitions;
+    }
+
+    @Override
+    public void close() {
+        // Implement any cleanup if needed
+    }
+}
+    </code></pre>
+
+    <h3>3.2. Configuring the Producer to Use the Custom Partitioner</h3>
+    <p>Once you have implemented the custom partitioner, you need to configure your Kafka producer to use it. This is done by setting the <code>partitioner.class</code> property in the producer's configuration.</p>
+    <pre><code>
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+
+import java.util.Properties;
+
+public class CustomPartitionerProducer {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, "com.example.CustomPartitioner"); // Set custom partitioner class
+
+        KafkaProducer<String, String> producer = new KafkaProducer<>(props);
+
+        try {
+            ProducerRecord<String, String> record = new ProducerRecord<>("my-topic", "key1", "value1");
+            producer.send(record);
+        } finally {
+            producer.close();
+        }
+    }
+}
+    </code></pre>
+
+    <h2>4. Key Considerations</h2>
+    <ul>
+        <li><strong>Partition Count:</strong> Ensure that your custom partitioner logic is compatible with the number of partitions in the topic.</li>
+        <li><strong>Load Balancing:</strong> Custom partitioning should aim to distribute messages evenly across partitions to avoid bottlenecks.</li>
+        <li><strong>Testing:</strong> Thoroughly test your custom partitioner to ensure it behaves as expected in different scenarios.</li>
+    </ul>
+
+    <h2>5. Conclusion</h2>
+    <p>Custom partitioners provide flexibility in how messages are distributed across Kafka topic partitions. By implementing a custom partitioner, you can tailor the partitioning strategy to meet specific requirements, improving data distribution and processing efficiency.</p>
+</body>
+</html>

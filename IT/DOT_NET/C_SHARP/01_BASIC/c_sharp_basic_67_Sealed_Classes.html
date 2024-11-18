@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Sealed Classes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Sealed Classes</h1>
+    <p>A <code>sealed</code> class in C# is a class that cannot be inherited. This means that no other class can derive from a sealed class. Sealed classes are used to prevent further inheritance, which can be useful in various scenarios to ensure the integrity of the class's implementation or to prevent misuse.</p>
+
+    <h2>1. Declaring a Sealed Class</h2>
+    <p>To declare a class as sealed, use the <code>sealed</code> keyword before the <code>class</code> keyword. Here is an example:</p>
+    <pre><code>
+public sealed class FinalClass
+{
+    public void Display()
+    {
+        Console.WriteLine("This is a sealed class.");
+    }
+}
+    </code></pre>
+
+    <h2>2. Attempting to Inherit a Sealed Class</h2>
+    <p>Trying to inherit from a sealed class will result in a compile-time error. For example:</p>
+    <pre><code>
+public class DerivedClass : FinalClass
+{
+    // This will cause a compile-time error.
+}
+    </code></pre>
+    <p>The above code will not compile because <code>FinalClass</code> is sealed and cannot be inherited.</p>
+
+    <h2>3. Use Cases for Sealed Classes</h2>
+    <ul>
+        <li><strong>Performance Optimization:</strong> Sealing a class can potentially improve performance by allowing the runtime to make optimizations related to method calls and memory layout.</li>
+        <li><strong>Preventing Extension:</strong> To ensure that a class's behavior remains unchanged and to prevent other developers from extending or modifying its behavior.</li>
+        <li><strong>Security:</strong> To prevent creating subclasses that might introduce security vulnerabilities or inconsistencies.</li>
+    </ul>
+
+    <h2>4. Example Usage</h2>
+    <p>Here is an example of how a sealed class might be used:</p>
+    <pre><code>
+public sealed class Calculator
+{
+    public int Add(int a, int b)
+    {
+        return a + b;
+    }
+}
+
+// Usage
+public class Program
+{
+    public static void Main()
+    {
+        Calculator calc = new Calculator();
+        Console.WriteLine("Sum: " + calc.Add(5, 10));
+    }
+}
+    </code></pre>
+    <p>In this example, the <code>Calculator</code> class is sealed, so it cannot be subclassed. The main purpose of this class is to provide a simple addition operation, ensuring that the implementation remains as intended without any extension.</p>
+
+    <h2>5. Key Points</h2>
+    <ul>
+        <li>A sealed class cannot be inherited.</li>
+        <li>Use the <code>sealed</code> keyword to declare a sealed class.</li>
+        <li>Sealed classes are useful for performance optimization, security, and to prevent unwanted inheritance.</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Sealed classes provide a way to control inheritance and ensure that the class's implementation remains secure and unaltered. By understanding and utilizing sealed classes appropriately, you can create more robust and maintainable code.</p>
+</body>
+</html>

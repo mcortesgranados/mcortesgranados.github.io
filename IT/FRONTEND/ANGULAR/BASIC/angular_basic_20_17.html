@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Angular Questions - Part 17</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Basic Angular Questions - Part 17</h1>
+
+    <div class="question">
+        <h2>1. How do you create a component in Angular?</h2>
+        <div class="answer">
+            <p>Use the Angular CLI command `ng generate component <component-name>` to create a new component.</p>
+            <pre><code>
+ng generate component my-component
+
+// The command creates a folder with four files:
+// my-component.component.ts
+// my-component.component.html
+// my-component.component.css
+// my-component.component.spec.ts
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. What is Angular's `@Component` decorator used for?</h2>
+        <div class="answer">
+            <p>The `@Component` decorator is used to define a component, including its metadata like selector, template, and style URLs.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    templateUrl: './example.component.html',
+    styleUrls: ['./example.component.css']
+})
+export class ExampleComponent {
+    // Component logic
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How can you handle form submission in Angular?</h2>
+        <div class="answer">
+            <p>Handle form submission by using the `(ngSubmit)` event in the template and handling it in the component.</p>
+            <pre><code>
+<form (ngSubmit)="onSubmit()" #myForm="ngForm">
+    <input name="name" ngModel required />
+    <button type="submit">Submit</button>
+</form>
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent {
+    onSubmit() {
+        console.log('Form submitted');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you implement conditional rendering in Angular?</h2>
+        <div class="answer">
+            <p>Use Angular's `*ngIf` directive to conditionally render elements based on a condition.</p>
+            <pre><code>
+<div *ngIf="isVisible">
+    <p>This content is conditionally rendered</p>
+</div>
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent {
+    isVisible = true;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. What is Angular's `@NgModule` decorator and its purpose?</h2>
+        <div class="answer">
+            <p>The `@NgModule` decorator defines an Angular module, including declarations, imports, providers, and bootstrap components.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+
+@NgModule({
+    declarations: [AppComponent],
+    imports: [BrowserModule],
+    providers: [],
+    bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you bind data to an Angular component's view?</h2>
+        <div class="answer">
+            <p>Data binding is done using interpolation `{{}}`, property binding `[property]`, and event binding `(event)`.</p>
+            <pre><code>
+<!-- Interpolation -->
+<p>{{ message }}</p>
+
+<!-- Property Binding -->
+<img [src]="imageUrl" />
+
+<!-- Event Binding -->
+<button (click)="handleClick()">Click me</button>
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent {
+    message = 'Hello, Angular!';
+    imageUrl = 'https://example.com/image.jpg';
+
+    handleClick() {
+        console.log('Button clicked');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use Angular's `ngFor` directive to iterate over an array?</h2>
+        <div class="answer">
+            <p>The `ngFor` directive is used to repeat an element for each item in an array.</p>
+            <pre><code>
+<ul>
+    <li *ngFor="let item of items">{{ item }}</li>
+</ul>
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent {
+    items = ['Item 1', 'Item 2', 'Item 3'];
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. What is the purpose of Angular's `@Injectable` decorator?</h2>
+        <div class="answer">
+            <p>The `@Injectable` decorator marks a class as available for dependency injection.</p>
+            <pre><code>
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ExampleService {
+    getData() {
+        return 'Data from service';
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you use Angular's `ngModel` for two-way data binding?</h2>
+        <div class="answer">
+            <p>The `ngModel` directive enables two-way data binding by binding form input values to component properties.</p>
+            <pre><code>
+<input [(ngModel)]="inputValue" />
+<p>Input value: {{ inputValue }}</p>
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent {
+    inputValue = '';
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you define routes in Angular?</h2>
+        <div class="answer">
+            <p>Routes are defined using the `RouterModule` and specifying route configurations in a routing module.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+
+const routes: Routes = [
+    { path: 'home', component: HomeComponent },
+    { path: 'about', component: AboutComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' }
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you use Angular's `@HostListener` to listen to events on the host element?</h2>
+        <div class="answer">
+            <p>The `@HostListener` decorator allows you to listen to events on the host element of a directive or component.</p>
+            <pre><code>
+import { Directive, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appClickTracker]'
+})
+export class ClickTrackerDirective {
+    @HostListener('click', ['$event'])
+    onClick(event: Event) {
+        console.log('Element clicked', event);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. What is the `@Pipe` decorator used for in Angular?</h2>
+        <div class="answer">
+            <p>The `@Pipe` decorator defines a custom pipe for transforming data in templates.</p>
+            <pre><code>
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'reverse'
+})
+export class ReversePipe implements PipeTransform {
+    transform(value: string): string {
+        return value.split('').reverse().join('');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How can you inject a service into a component in Angular?</h2>
+        <div class="answer">
+            <p>Inject a service into a component by adding it to the component's constructor.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { ExampleService } from './example.service';
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent {
+    constructor(private exampleService: ExampleService) {
+        console.log(this.exampleService.getData());
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. What are Angular modules and how are they used?</h2>
+        <div class="answer">
+            <p>Angular modules are classes annotated with `@NgModule` that group related components, directives, pipes, and services. They are used to organize an application into cohesive blocks.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+
+@NgModule({
+    declarations: [AppComponent],
+    imports: [BrowserModule],
+    providers: [],
+    bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you use Angular's `ngClass` directive for conditional styling?</h2>
+        <div class="answer">
+            <p>The `ngClass` directive allows you to dynamically add or remove CSS classes based on conditions.</p>
+            <pre><code>
+<div [ngClass]="{'active': isActive, 'inactive': !isActive}">
+    Conditional styling
+</div>
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent {
+    isActive = true;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you handle user input in Angular forms?</h2>
+        <div class="answer">
+            <p>Handle user input using Angular's forms module, either with template-driven forms or reactive forms.</p>
+            <pre><code>
+<!-- Template-driven form -->
+<form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+    <input name="name" ngModel required />
+    <button type="submit">Submit</button>
+</form>
+
+<!-- Reactive form -->
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent {
+    form: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            name: ['']
+        });
+    }
+
+    onSubmit() {
+        console.log(this.form.value);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you create a pipe in Angular?</h2>
+        <div class="answer">
+            <p>Create a custom pipe by defining a class with the `@Pipe` decorator and implementing the `PipeTransform` interface.</p>
+            <pre><code>
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'uppercase'
+})
+export class UppercasePipe implements PipeTransform {
+    transform(value: string): string {
+        return value.toUpperCase();
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. What is the purpose of Angular's `ngOnInit` lifecycle hook?</h2>
+        <div class="answer">
+            <p>The `ngOnInit` lifecycle hook is used to initialize component properties and perform any necessary setup after the component's data-bound properties have been initialized.</p>
+            <pre><code>
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent implements OnInit {
+    ngOnInit() {
+        console.log('Component initialized');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you pass data from a parent component to a child component in Angular?</h2>
+        <div class="answer">
+            <p>Pass data to a child component using `@Input` properties.</p>
+            <pre><code>
+<!-- Parent component template -->
+<app-child [data]="parentData"></app-child>
+
+<!-- Child component -->
+import { Component, Input } from '@angular/core';
+
+@Component({
+    selector: 'app-child',
+    template: '...',
+})
+export class ChildComponent {
+    @Input() data: any;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `@Output` decorator to emit events from a child component?</h2>
+        <div class="answer">
+            <p>The `@Output` decorator is used to emit events from a child component to a parent component.</p>
+            <pre><code>
+import { Component, EventEmitter, Output } from '@angular/core';
+
+@Component({
+    selector: 'app-child',
+    template: '<button (click)="notify()">Notify</button>',
+})
+export class ChildComponent {
+    @Output() notifyEvent = new EventEmitter<void>();
+
+    notify() {
+        this.notifyEvent.emit();
+    }
+}
+
+// Parent component template
+<app-child (notifyEvent)="onNotify()"></app-child>
+
+@Component({
+    selector: 'app-parent',
+    template: '...',
+})
+export class ParentComponent {
+    onNotify() {
+        console.log('Notification received');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

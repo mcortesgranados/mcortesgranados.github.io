@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Exceptions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Exceptions</h1>
+    <p>Exceptions in C# are a way to handle runtime errors and exceptional conditions that occur during the execution of a program. By using exceptions, you can manage errors gracefully and ensure your program can recover or fail in a controlled manner.</p>
+    
+    <h2>1. Exception Handling Basics</h2>
+    <p>Exception handling in C# is done using the <code>try</code>, <code>catch</code>, <code>finally</code>, and <code>throw</code> keywords:</p>
+    <ul>
+        <li><strong><code>try</code></strong>: Defines a block of code that might throw an exception.</li>
+        <li><strong><code>catch</code></strong>: Catches and handles the exception thrown by the <code>try</code> block.</li>
+        <li><strong><code>finally</code></strong>: (Optional) Executes code after the <code>try</code> and <code>catch</code> blocks, regardless of whether an exception was thrown or not.</li>
+        <li><strong><code>throw</code></strong>: Used to explicitly throw an exception.</li>
+    </ul>
+    
+    <h2>2. Basic Exception Handling Example</h2>
+    <p>Here’s an example of basic exception handling in C#:</p>
+    <pre><code>
+    class Program
+    {
+        static void Main()
+        {
+            try
+            {
+                // Code that may throw an exception
+                int[] numbers = { 1, 2, 3 };
+                Console.WriteLine(numbers[5]); // This will throw an exception
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                // Handling the exception
+                Console.WriteLine("An error occurred: " + ex.Message);
+            }
+            finally
+            {
+                // This code always executes
+                Console.WriteLine("Execution completed.");
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Throwing Exceptions</h2>
+    <p>You can throw exceptions manually using the <code>throw</code> keyword. This is useful for validating conditions and ensuring your program behaves as expected.</p>
+    <pre><code>
+    class Program
+    {
+        static void ValidateAge(int age)
+        {
+            if (age < 0)
+            {
+                throw new ArgumentException("Age cannot be negative.");
+            }
+        }
+
+        static void Main()
+        {
+            try
+            {
+                ValidateAge(-1); // This will throw an exception
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine("Validation error: " + ex.Message);
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Custom Exceptions</h2>
+    <p>You can create your own custom exception classes by inheriting from the <code>Exception</code> class. This is useful for creating more meaningful and specific exceptions for your application.</p>
+    <pre><code>
+    public class CustomException : Exception
+    {
+        public CustomException(string message) : base(message) { }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            try
+            {
+                throw new CustomException("This is a custom exception.");
+            }
+            catch (CustomException ex)
+            {
+                Console.WriteLine("Custom exception caught: " + ex.Message);
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>5. Key Points</h2>
+    <ul>
+        <li><strong>Exceptions</strong> provide a way to handle errors and unusual conditions in a controlled manner.</li>
+        <li>Use <code>try</code>, <code>catch</code>, and <code>finally</code> blocks to manage exceptions and ensure clean-up operations are performed.</li>
+        <li>You can throw and catch exceptions to manage errors and validate conditions in your code.</li>
+        <li>Custom exceptions allow for more specific error handling and clearer error messages.</li>
+    </ul>
+</body>
+</html>

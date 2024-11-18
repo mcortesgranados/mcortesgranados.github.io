@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas sobre Pruebas Unitarias</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .consecutive {
+            text-align: center;
+            font-weight: bold;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        code {
+            display: block;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="consecutive">1</td>
+                <td>¿Qué es una prueba unitaria?</td>
+                <td>Una prueba que valida la funcionalidad de una unidad de código, como un método o una función, de manera aislada.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">2</td>
+                <td>¿Qué herramienta se usa comúnmente para pruebas unitarias en Java?</td>
+                <td>JUnit. Ejemplo:
+                    <pre><code>
+import org.junit.jupiter.api.Test;
+
+public class CalculatorTest {
+    @Test
+    public void testAdd() {
+        Calculator calc = new Calculator();
+        assertEquals(5, calc.add(2, 3));
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">3</td>
+                <td>¿Cómo se realiza una prueba unitaria en Python?</td>
+                <td>Se utiliza el módulo <code>unittest</code>. Ejemplo:
+                    <pre><code>
+import unittest
+
+class TestCalculator(unittest.TestCase):
+    def test_add(self):
+        calc = Calculator()
+        self.assertEqual(calc.add(2, 3), 5)
+
+if __name__ == '__main__':
+    unittest.main()
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">4</td>
+                <td>¿Qué framework se utiliza para pruebas unitarias en C#?</td>
+                <td>NUnit. Ejemplo:
+                    <pre><code>
+using NUnit.Framework;
+
+[TestFixture]
+public class CalculatorTests {
+    [Test]
+    public void TestAdd() {
+        Calculator calc = new Calculator();
+        Assert.AreEqual(5, calc.Add(2, 3));
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">5</td>
+                <td>¿Cómo se hacen pruebas unitarias en TypeScript?</td>
+                <td>Se usa Jest. Ejemplo:
+                    <pre><code>
+import { add } from './calculator';
+
+test('adds 1 + 2 to equal 3', () => {
+    expect(add(1, 2)).toBe(3);
+});
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">6</td>
+                <td>¿Qué es el "Test Driven Development" (TDD)?</td>
+                <td>Una metodología de desarrollo en la que se escriben primero las pruebas y luego el código para hacer que las pruebas pasen.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">7</td>
+                <td>¿Cómo se crea un "mock" en Python?</td>
+                <td>Usando <code>unittest.mock</code>. Ejemplo:
+                    <pre><code>
+from unittest.mock import MagicMock
+
+def test_function():
+    mock = MagicMock(return_value=5)
+    assert mock() == 5
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">8</td>
+                <td>¿Cómo se usa el atributo <code>[Test]</code> en NUnit?</td>
+                <td>Se usa para marcar un método como una prueba unitaria en C#. Ejemplo:
+                    <pre><code>
+using NUnit.Framework;
+
+[TestFixture]
+public class MyTests {
+    [Test]
+    public void MyTest() {
+        // test code
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">9</td>
+                <td>¿Qué es un "assert" en el contexto de pruebas unitarias?</td>
+                <td>Una afirmación que verifica si un resultado esperado coincide con un resultado real.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">10</td>
+                <td>¿Cómo se usa "assertEquals" en JUnit?</td>
+                <td>Para comparar valores esperados con valores reales en pruebas. Ejemplo:
+                    <pre><code>
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@Test
+public void testAdd() {
+    Calculator calc = new Calculator();
+    assertEquals(5, calc.add(2, 3));
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">11</td>
+                <td>¿Qué es la cobertura de código?</td>
+                <td>Una métrica que indica el porcentaje de código fuente que es ejecutado por las pruebas unitarias.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">12</td>
+                <td>¿Qué herramientas se usan para medir la cobertura de código en Java?</td>
+                <td>Jacoco y Cobertura. Ejemplo con Jacoco:
+                    <pre><code>
+# En el archivo pom.xml, añadir la dependencia de Jacoco:
+<plugin>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.8.7</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>prepare-agent</goal>
+                <goal>report</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">13</td>
+                <td>¿Cómo se puede realizar la integración de pruebas en un pipeline CI/CD?</td>
+                <td>Se añaden etapas en el pipeline para ejecutar las pruebas unitarias y generar reportes de resultados. Ejemplo en Jenkins:
+                    <pre><code>
+pipeline {
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">14</td>
+                <td>¿Qué es un "test case"?</td>
+                <td>Un conjunto de condiciones y datos de prueba diseñados para evaluar una parte específica del código.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">15</td>
+                <td>¿Qué es la técnica de "Boundary Value Analysis"?</td>
+                <td>Una técnica de prueba que se enfoca en las fronteras de los valores de entrada para encontrar errores.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">16</td>
+                <td>¿Cómo se usan los "stubs" en pruebas unitarias?</td>
+                <td>Son objetos simulados que devuelven respuestas predefinidas para las pruebas.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">17</td>
+                <td>¿Qué es el "Refactoring" en el contexto de pruebas?</td>
+                <td>El proceso de mejorar el código sin cambiar su comportamiento externo, basado en los resultados de las pruebas.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">18</td>
+                <td>¿Cómo se puede realizar la parametrización de pruebas en JUnit?</td>
+                <td>Utilizando la anotación <code>@ParameterizedTest</code>. Ejemplo:
+                    <pre><code>
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+public class ParameterizedTestExample {
+    @ParameterizedTest
+    @ValueSource(strings = {"racecar", "radar", "level"})
+    void testIsPalindrome(String word) {
+        assertTrue(isPalindrome(word));
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">19</td>
+                <td>¿Qué es un "test suite"?</td>
+                <td>Un conjunto de pruebas unitarias agrupadas que se ejecutan juntas para verificar el comportamiento de un módulo.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">20</td>
+                <td>¿Cómo se pueden manejar excepciones en pruebas unitarias en Python?</td>
+                <td>Usando el contexto <code>assertRaises</code>. Ejemplo:
+                    <pre><code>
+import unittest
+
+def divide(x, y):
+    if y == 0:
+        raise ValueError("Cannot divide by zero")
+    return x / y
+
+class TestDivide(unittest.TestCase):
+    def test_divide_by_zero(self):
+        with self.assertRaises(ValueError):
+            divide(1, 0)
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">21</td>
+                <td>¿Qué es un "test fixture"?</td>
+                <td>Un conjunto de datos y condiciones que se configuran antes de ejecutar las pruebas y se limpian después.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">22</td>
+                <td>¿Cómo se realiza la configuración de un "test fixture" en JUnit?</td>
+                <td>Utilizando los métodos <code>@BeforeEach</code> y <code>@AfterEach</code>. Ejemplo:
+                    <pre><code>
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+
+public class MyTest {
+    @BeforeEach
+    void setUp() {
+        // Código de configuración
+    }
+
+    @AfterEach
+    void tearDown() {
+        // Código de limpieza
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">23</td>
+                <td>¿Qué es un "integration test"?</td>
+                <td>Una prueba que verifica la interacción y integración entre diferentes módulos o servicios del sistema.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">24</td>
+                <td>¿Cómo se pueden hacer pruebas de rendimiento?</td>
+                <td>Usando herramientas como JMeter o LoadRunner para simular cargas y medir el rendimiento del sistema.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">25</td>
+                <td>¿Qué es una prueba de regresión?</td>
+                <td>Una prueba realizada para asegurar que los cambios en el código no han introducido nuevos errores.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">26</td>
+                <td>¿Qué es el "Code Coverage" y cómo se mide?</td>
+                <td>Es la proporción de código ejecutado durante las pruebas. Se mide usando herramientas como Jacoco o Istanbul.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">27</td>
+                <td>¿Cómo se pueden realizar pruebas unitarias en un entorno de integración continua?</td>
+                <td>Se configuran los scripts de prueba para ejecutarse automáticamente en el servidor de CI después de cada commit.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">28</td>
+                <td>¿Qué es el "Test Pyramid"?</td>
+                <td>Una estrategia de pruebas que sugiere tener más pruebas unitarias que pruebas de integración y menos pruebas end-to-end.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">29</td>
+                <td>¿Cómo se puede asegurar la calidad de las pruebas unitarias?</td>
+                <td>Implementando prácticas como la revisión de código, pruebas automatizadas y cobertura de código adecuada.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">30</td>
+                <td>¿Qué es el "Test Driven Development" (TDD) y cómo se implementa?</td>
+                <td>TDD es una metodología que consiste en escribir pruebas antes de escribir el código. Se implementa escribiendo una prueba que falla, luego escribiendo el código necesario para pasar la prueba y finalmente refactorizando.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">31</td>
+                <td>¿Qué es una prueba de caja negra?</td>
+                <td>Una prueba que evalúa la funcionalidad del software sin conocer su estructura interna.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">32</td>
+                <td>¿Qué es una prueba de caja blanca?</td>
+                <td>Una prueba que examina el funcionamiento interno del software, como el flujo de control y las estructuras de datos.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">33</td>
+                <td>¿Cómo se puede implementar el patrón "Arrange-Act-Assert" en pruebas unitarias?</td>
+                <td>Es un patrón para estructurar pruebas unitarias que implica organizar (Arrange) el escenario de prueba, actuar (Act) sobre el código y afirmar (Assert) los resultados.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">34</td>
+                <td>¿Cómo se usan los "fakes" en pruebas unitarias?</td>
+                <td>Son implementaciones de prueba que simulan el comportamiento de componentes reales sin tener efectos secundarios.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">35</td>
+                <td>¿Qué es el "Mock Object Pattern"?</td>
+                <td>Un patrón de diseño que usa objetos simulados para controlar y verificar la interacción con dependencias.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">36</td>
+                <td>¿Cómo se realiza la simulación de dependencias en Java?</td>
+                <td>Usando bibliotecas como Mockito. Ejemplo:
+                    <pre><code>
+import static org.mockito.Mockito.*;
+
+public class MyServiceTest {
+    @Test
+    public void testService() {
+        MyDependency mockDependency = mock(MyDependency.class);
+        when(mockDependency.someMethod()).thenReturn("Mocked Response");
+
+        MyService service = new MyService(mockDependency);
+        String result = service.useDependency();
+        assertEquals("Mocked Response", result);
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">37</td>
+                <td>¿Cómo se utilizan los "fixtures" en pruebas unitarias en Python?</td>
+                <td>Se pueden configurar usando métodos de configuración en el módulo <code>pytest</code>. Ejemplo:
+                    <pre><code>
+import pytest
+
+@pytest.fixture
+def sample_data():
+    return {"key": "value"}
+
+def test_sample_data(sample_data):
+    assert sample_data["key"] == "value"
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">38</td>
+                <td>¿Qué es el "Behavior-Driven Development" (BDD) y cómo se usa en TypeScript?</td>
+                <td>BDD es una metodología que utiliza lenguaje natural para definir el comportamiento esperado del software. Se usa con herramientas como Cucumber. Ejemplo:
+                    <pre><code>
+import { Given, When, Then } from 'cucumber';
+import { expect } from 'chai';
+
+Given('I have {int} cukes', function (cucumbers) {
+  this.cukes = cucumbers;
+});
+
+When('I add {int} cukes', function (cucumbers) {
+  this.cukes += cucumbers;
+});
+
+Then('I should have {int} cukes', function (cucumbers) {
+  expect(this.cukes).to.equal(cucumbers);
+});
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">39</td>
+                <td>¿Qué es una prueba de "Smoke Testing"?</td>
+                <td>Una prueba superficial que verifica que las funcionalidades básicas del software funcionan después de una implementación.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">40</td>
+                <td>¿Cómo se puede usar el comando <code>pytest</code> para ejecutar pruebas en paralelo en Python?</td>
+                <td>Usando el plugin <code>pytest-xdist</code>. Ejemplo:
+                    <pre><code>
+pip install pytest-xdist
+pytest -n 4
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">41</td>
+                <td>¿Qué es una prueba de "Integration Testing"?</td>
+                <td>Una prueba que evalúa cómo interactúan varios componentes del sistema en conjunto.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">42</td>
+                <td>¿Cómo se puede asegurar la idempotencia de las pruebas unitarias?</td>
+                <td>Diseñando pruebas que siempre produzcan el mismo resultado independientemente de la cantidad de veces que se ejecuten.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">43</td>
+                <td>¿Cómo se configuran las pruebas unitarias en un proyecto TypeScript con Jest?</td>
+                <td>Instalando <code>jest</code> y <code>@types/jest</code>, y configurando el archivo <code>jest.config.js</code>. Ejemplo:
+                    <pre><code>
+npm install --save-dev jest @types/jest
+{
+  "preset": "ts-jest",
+  "testEnvironment": "node"
+}
+                    </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td class="consecutive">44</td>
+                <td>¿Qué es el "Test Coverage" y por qué es importante?</td>
+                <td>El porcentaje del código que es ejecutado durante las pruebas. Es importante porque ayuda a identificar áreas no cubiertas por las pruebas.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">45</td>
+                <td>¿Cómo se realiza la prueba de "Mocking" en Java?</td>
+                <td>Utilizando frameworks como Mockito para crear objetos simulados y verificar interacciones. Ejemplo:
+                    <pre><code>
+import static org.mockito.Mockito.*;
+
+public class MyServiceTest {
+    @Test
+    public void testMocking() {
+        MyDependency mockDependency = mock(MyDependency.class);
+        verify(mockDependency).someMethod();
+    }
+}
+                    </code></pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

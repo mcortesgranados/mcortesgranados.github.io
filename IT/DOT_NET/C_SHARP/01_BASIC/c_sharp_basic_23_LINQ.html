@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# LINQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# LINQ</h1>
+    <p>LINQ (Language Integrated Query) is a powerful feature in C# that allows you to query collections of data in a declarative manner. LINQ integrates query capabilities directly into the C# language, making data manipulation more intuitive and concise.</p>
+    
+    <h2>1. Basic LINQ Query</h2>
+    <p>LINQ queries can be performed on arrays, collections, and databases. Here is a simple example of querying a list of integers using LINQ:</p>
+    <pre><code>
+    using System;
+    using System.Linq;
+    using System.Collections.Generic;
+
+    class Program
+    {
+        static void Main()
+        {
+            // Sample data
+            List<int> numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            // LINQ query to get even numbers
+            var evenNumbers = from number in numbers
+                              where number % 2 == 0
+                              select number;
+
+            // Output the results
+            foreach (var num in evenNumbers)
+            {
+                Console.WriteLine(num);
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>2. LINQ Method Syntax</h2>
+    <p>LINQ queries can also be written using method syntax. This is often used for its flexibility and ability to chain multiple operations.</p>
+    <pre><code>
+    using System;
+    using System.Linq;
+    using System.Collections.Generic;
+
+    class Program
+    {
+        static void Main()
+        {
+            // Sample data
+            List<int> numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            // LINQ query using method syntax to get even numbers
+            var evenNumbers = numbers.Where(number => number % 2 == 0);
+
+            // Output the results
+            foreach (var num in evenNumbers)
+            {
+                Console.WriteLine(num);
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>3. LINQ to Objects</h2>
+    <p>LINQ to Objects allows you to query in-memory collections such as arrays and lists. The examples above use LINQ to Objects.</p>
+    
+    <h2>4. LINQ to SQL</h2>
+    <p>LINQ to SQL allows you to query SQL databases using LINQ syntax. This requires setting up a data context and mapping your database tables to classes.</p>
+    <pre><code>
+    using System;
+    using System.Data.Linq;
+    using System.Linq;
+
+    public class Program
+    {
+        public class MyDataContext : DataContext
+        {
+            public Table&lt;Customer&gt; Customers;
+
+            public MyDataContext(string connection) : base(connection) { }
+        }
+
+        public class Customer
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+        }
+
+        static void Main()
+        {
+            string connectionString = "YourConnectionStringHere";
+            using (MyDataContext db = new MyDataContext(connectionString))
+            {
+                var customers = from c in db.Customers
+                                where c.Name.StartsWith("A")
+                                select c;
+
+                foreach (var customer in customers)
+                {
+                    Console.WriteLine(customer.Name);
+                }
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>5. Key Points</h2>
+    <ul>
+        <li><strong>LINQ</strong> enables querying of data in a concise and readable manner.</li>
+        <li>LINQ queries can be expressed in query syntax or method syntax.</li>
+        <li><strong>LINQ to Objects</strong> queries in-memory collections like arrays and lists.</li>
+        <li><strong>LINQ to SQL</strong> enables querying SQL databases with LINQ.</li>
+    </ul>
+</body>
+</html>

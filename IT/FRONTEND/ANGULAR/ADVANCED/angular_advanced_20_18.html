@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Advanced Level Questions - Part 18</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .answer {
+            margin-left: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Angular Advanced Level Questions - Part 18</h1>
+
+    <div class="question">
+        <h2>1. How do you use Angular's `@NgModule` to configure lazy loading of modules?</h2>
+        <div class="answer">
+            <p>Configure lazy loading of modules:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home.component';
+
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  {
+    path: 'feature',
+    loadChildren: () => import('./feature/feature.module').then(m => m.FeatureModule)
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How do you use Angular's `@NgModule` to define and use feature modules?</h2>
+        <div class="answer">
+            <p>Define and use feature modules:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FeatureComponent } from './feature.component';
+
+@NgModule({
+  declarations: [FeatureComponent],
+  imports: [CommonModule],
+  exports: [FeatureComponent]
+})
+export class FeatureModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you use Angular's `@Component` to handle complex data binding scenarios?</h2>
+        <div class="answer">
+            <p>Handle complex data binding scenarios:</p>
+            <pre><code>import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-complex-data',
+  template: `
+    &lt;input [(ngModel)]="data.inputValue" /&gt;
+    &lt;button (click)="sendData()"&gt;Send&lt;/button&gt;
+  `,
+  styleUrls: ['./complex-data.component.css']
+})
+export class ComplexDataComponent {
+  @Input() data: any;
+  @Output() dataChange = new EventEmitter<any>();
+
+  sendData() {
+    this.dataChange.emit(this.data);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you use Angular's `@Directive` to create a custom directive for form validation?</h2>
+        <div class="answer">
+            <p>Create a custom directive for form validation:</p>
+            <pre><code>import { Directive, Input } from '@angular/core';
+import { NG_VALIDATORS, Validator, AbstractControl, ValidationErrors } from '@angular/forms';
+
+@Directive({
+  selector: '[appCustomValidator]',
+  providers: [{ provide: NG_VALIDATORS, useExisting: CustomValidatorDirective, multi: true }]
+})
+export class CustomValidatorDirective implements Validator {
+  @Input('appCustomValidator') forbiddenName: string;
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    return control.value === this.forbiddenName ? { 'forbiddenName': true } : null;
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you use Angular's `@Component` to manage nested components?</h2>
+        <div class="answer">
+            <p>Manage nested components:</p>
+            <pre><code>import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    &lt;app-child [data]="parentData"&gt;&lt;/app-child&gt;
+  `
+})
+export class ParentComponent {
+  parentData = 'Data from parent';
+}
+
+@Component({
+  selector: 'app-child',
+  template: '&lt;p&gt;{{ data }}&lt;/p&gt;'
+})
+export class ChildComponent {
+  @Input() data: string;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you use Angular's `@NgModule` to provide global configuration settings?</h2>
+        <div class="answer">
+            <p>Provide global configuration settings:</p>
+            <pre><code>import { NgModule, InjectionToken } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+
+export const APP_CONFIG = new InjectionToken<string>('APP_CONFIG');
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [
+    { provide: APP_CONFIG, useValue: 'https://api.example.com' }
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use Angular's `@NgModule` to configure and use dependency injection in services?</h2>
+        <div class="answer">
+            <p>Configure and use dependency injection in services:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { DataService } from './data.service';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [DataService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you use Angular's `@Component` to manage reactive forms with validation?</h2>
+        <div class="answer">
+            <p>Manage reactive forms with validation:</p>
+            <pre><code>import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-reactive-form',
+  template: `
+    &lt;form [formGroup]="form" (ngSubmit)="onSubmit()"&gt;
+      &lt;input formControlName="name" /&gt;
+      &lt;div *ngIf="form.controls.name.invalid && form.controls.name.touched"&gt;
+        Name is required
+      &lt;/div&gt;
+      &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  `
+})
+export class ReactiveFormComponent {
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      name: ['', Validators.required]
+    });
+  }
+
+  onSubmit() {
+    console.log(this.form.value);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you use Angular's `@Component` to handle component lifecycle hooks for optimizing performance?</h2>
+        <div class="answer">
+            <p>Optimize performance using lifecycle hooks:</p>
+            <pre><code>import { Component, OnInit, OnDestroy } from '@angular/core';
+
+@Component({
+  selector: 'app-optimization',
+  template: '&lt;p&gt;Optimized Component&lt;/p&gt;'
+})
+export class OptimizationComponent implements OnInit, OnDestroy {
+  ngOnInit() {
+    console.log('Component initialized');
+    // Initialization code here
+  }
+
+  ngOnDestroy() {
+    console.log('Component destroyed');
+    // Cleanup code here
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use Angular's `@Directive` to create custom behavior for components?</h2>
+        <div class="answer">
+            <p>Create custom behavior for components:</p>
+            <pre><code>import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
+
+@Directive({
+  selector: '[appCustomBehavior]'
+})
+export class CustomBehaviorDirective {
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+  @HostListener('click') onClick() {
+    this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'blue');
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you use Angular's `@NgModule` to configure and use HTTP interceptors?</h2>
+        <div class="answer">
+            <p>Configure and use HTTP interceptors:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AppComponent } from './app.component';
+import { AuthInterceptor } from './auth.interceptor';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, HttpClientModule],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you use Angular's `@NgModule` to configure and use Angular Elements?</h2>
+        <div class="answer">
+            <p>Configure and use Angular Elements:</p>
+            <pre><code>import { NgModule, Injector } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { createCustomElement } from '@angular/elements';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  entryComponents: [AppComponent]
+})
+export class AppModule {
+  constructor(private injector: Injector) {
+    const el = createCustomElement(AppComponent, { injector });
+    customElements.define('my-element', el);
+  }
+
+  ngDoBootstrap() {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use Angular's `@NgModule` to configure and use module lazy loading with `RouterModule`?</h2>
+        <div class="answer">
+            <p>Configure and use module lazy loading with `RouterModule`:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home.component';
+
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  {
+    path: 'lazy',
+    loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule)
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use Angular's `@Component` to handle conditional rendering with `*ngIf`?</h2>
+        <div class="answer">
+            <p>Handle conditional rendering with `*ngIf`:</p>
+            <pre><code>import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-conditional',
+  template: `
+    &lt;div *ngIf="showContent"&gt;
+      Content is visible
+    &lt;/div&gt;
+    &lt;button (click)="toggleContent()"&gt;Toggle Content&lt;/button&gt;
+  `
+})
+export class ConditionalComponent {
+  showContent = true;
+
+  toggleContent() {
+    this.showContent = !this.showContent;
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you use Angular's `@Component` to handle dynamic component loading?</h2>
+        <div class="answer">
+            <p>Handle dynamic component loading:</p>
+            <pre><code>import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+import { DynamicComponent } from './dynamic.component';
+
+@Component({
+  selector: 'app-dynamic-loader',
+  template: `
+    &lt;ng-template #container&gt;&lt;/ng-template&gt;
+    &lt;button (click)="loadComponent()"&gt;Load Component&lt;/button&gt;
+  `
+})
+export class DynamicLoaderComponent {
+  @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
+
+  constructor(private resolver: ComponentFactoryResolver) {}
+
+  loadComponent() {
+    const factory = this.resolver.resolveComponentFactory(DynamicComponent);
+    this.container.createComponent(factory);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you use Angular's `@Component` to manage component interactions using `@Input` and `@Output`?</h2>
+        <div class="answer">
+            <p>Manage component interactions using `@Input` and `@Output`:</p>
+            <pre><code>import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    &lt;app-child [data]="parentData" (dataChange)="onDataChange($event)"&gt;&lt;/app-child&gt;
+  `
+})
+export class ParentComponent {
+  parentData = 'Data from parent';
+
+  onDataChange(data: string) {
+    console.log('Data from child:', data);
+  }
+}
+
+@Component({
+  selector: 'app-child',
+  template: `
+    &lt;input [(ngModel)]="data" /&gt;
+    &lt;button (click)="sendData()"&gt;Send&lt;/button&gt;
+  `
+})
+export class ChildComponent {
+  @Input() data: string;
+  @Output() dataChange = new EventEmitter<string>();
+
+  sendData() {
+    this.dataChange.emit(this.data);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use Angular's `@Component` to manage form controls with `FormArray`?</h2>
+        <div class="answer">
+            <p>Manage form controls with `FormArray`:</p>
+            <pre><code>import { Component } from '@angular/core';
+import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-form-array',
+  template: `
+    &lt;form [formGroup]="form"&gt;
+      &lt;div formArrayName="items"&gt;
+        &lt;div *ngFor="let item of items.controls; let i = index"&gt;
+          &lt;input [formControlName]="i" /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;button (click)="addItem()"&gt;Add Item&lt;/button&gt;
+    &lt;/form&gt;
+  `
+})
+export class FormArrayComponent {
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      items: this.fb.array([this.fb.control('')])
+    });
+  }
+
+  get items(): FormArray {
+    return this.form.get('items') as FormArray;
+  }
+
+  addItem() {
+    this.items.push(this.fb.control(''));
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use Angular's `@Component` to manage and handle HTTP requests with `HttpClient`?</h2>
+        <div class="answer">
+            <p>Manage and handle HTTP requests with `HttpClient`:</p>
+            <pre><code>import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-http',
+  template: `
+    &lt;button (click)="fetchData()"&gt;Fetch Data&lt;/button&gt;
+    &lt;p *ngIf="data"&gt;Data: {{ data | json }}&lt;/p&gt;
+  `
+})
+export class HttpComponent {
+  data: any;
+
+  constructor(private http: HttpClient) {}
+
+  fetchData() {
+    this.http.get('https://api.example.com/data').subscribe(response => {
+      this.data = response;
+    });
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you use Angular's `@NgModule` to provide custom providers for dependency injection?</h2>
+        <div class="answer">
+            <p>Provide custom providers for dependency injection:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { MyService } from './my.service';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [
+    { provide: MyService, useClass: MyService }
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `@Component` to create a reusable modal component?</h2>
+        <div class="answer">
+            <p>Create a reusable modal component:</p>
+            <pre><code>import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-modal',
+  template: `
+    &lt;div class="modal" *ngIf="isVisible"&gt;
+      &lt;div class="modal-content"&gt;
+        &lt;ng-content&gt;&lt;/ng-content&gt;
+        &lt;button (click)="close()"&gt;Close&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  `,
+  styles: [`
+    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; }
+    .modal-content { background: #fff; padding: 20px; border-radius: 5px; }
+  `]
+})
+export class ModalComponent {
+  isVisible = false;
+
+  open() {
+    this.isVisible = true;
+  }
+
+  close() {
+    this.isVisible = false;
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+</div>

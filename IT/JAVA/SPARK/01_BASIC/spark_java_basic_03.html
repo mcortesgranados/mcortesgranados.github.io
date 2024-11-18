@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apache Spark Ecosystem Overview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Apache Spark Ecosystem Overview</h1>
+
+    <p>The <strong>Apache Spark Ecosystem</strong> encompasses a suite of tools and libraries that extend Spark's core capabilities, enabling a wide range of data processing tasks. Spark is known for its speed and versatility, and its ecosystem adds additional functionality for specific use cases such as SQL queries, streaming data, machine learning, and graph processing.</p>
+
+    <h2>Key Components of the Apache Spark Ecosystem:</h2>
+    <ul>
+        <li><strong>Spark Core:</strong> The foundation of the Spark ecosystem, providing basic functionalities such as task scheduling, memory management, and fault tolerance.</li>
+        <li><strong>Spark SQL:</strong> A module for structured data processing. It allows users to execute SQL queries on Spark, providing a DataFrame API and integration with Hive.</li>
+        <li><strong>Spark Streaming:</strong> Enables scalable and fault-tolerant stream processing of live data. It supports real-time data processing and integration with various sources such as Kafka, Flume, and HDFS.</li>
+        <li><strong>MLlib:</strong> A library for machine learning that provides algorithms and utilities for classification, regression, clustering, and collaborative filtering.</li>
+        <li><strong>GraphX:</strong> A library for graph processing and analysis. It enables users to work with graph structures and perform computations on graphs.</li>
+        <li><strong>Structured Streaming:</strong> A high-level API for stream processing that provides a unified approach to handling batch and streaming data.</li>
+    </ul>
+
+    <h2>Example Code in Java:</h2>
+    <p>The following Java code demonstrates a simple Spark application that uses Spark SQL to perform a basic data query:</p>
+
+    <pre><code class="language-java">
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructType;
+
+public class SparkSQLExample {
+    public static void main(String[] args) {
+        // Create a SparkConf object and set the application name
+        SparkConf conf = new SparkConf().setAppName("Spark SQL Example").setMaster("local");
+
+        // Create a SparkSession
+        SparkSession spark = SparkSession.builder().config(conf).getOrCreate();
+
+        // Define a schema for the DataFrame
+        StructType schema = new StructType()
+            .add("id", DataTypes.IntegerType)
+            .add("name", DataTypes.StringType);
+
+        // Create a DataFrame from a list of rows
+        Dataset<Row> df = spark.createDataFrame(
+            java.util.Arrays.asList(
+                new org.apache.spark.sql.RowFactory.create(1, "Alice"),
+                new org.apache.spark.sql.RowFactory.create(2, "Bob")
+            ), schema);
+
+        // Register the DataFrame as a SQL temporary view
+        df.createOrReplaceTempView("people");
+
+        // Execute a SQL query and show the results
+        Dataset<Row> results = spark.sql("SELECT * FROM people");
+        results.show();
+
+        // Stop the SparkSession
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <p>This example sets up a Spark session, creates a DataFrame with a predefined schema, performs a SQL query on it, and displays the results.</p>
+</body>
+</html>

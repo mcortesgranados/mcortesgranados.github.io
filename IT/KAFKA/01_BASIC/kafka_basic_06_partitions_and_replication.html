@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partitions and Replication in Kafka</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Partitions and Replication in Kafka</h1>
+    <p>Partitions and replication are critical concepts in Apache Kafka that ensure scalability and fault tolerance. This guide covers the fundamentals of partitions and replication, along with examples and diagrams to illustrate their importance.</p>
+
+    <h2>1. Kafka Partitions</h2>
+    <p>A Kafka topic is divided into multiple partitions. Each partition is an ordered, immutable sequence of messages. Partitions allow Kafka to handle large volumes of data and provide parallelism in processing.</p>
+    
+    <ul>
+        <li><strong>Order and Immutability:</strong> Messages in a partition are strictly ordered and immutable. Each message is assigned a unique offset within the partition.</li>
+        <li><strong>Parallelism:</strong> Different partitions can be processed in parallel, allowing Kafka to scale horizontally by adding more partitions and brokers.</li>
+        <li><strong>Load Balancing:</strong> Kafka distributes partitions across brokers, balancing the load and providing fault tolerance.</li>
+    </ul>
+
+    <h2>2. Kafka Replication</h2>
+    <p>Replication in Kafka ensures data durability and fault tolerance. Each partition of a topic is replicated across multiple brokers. Replication involves the following components:</p>
+    
+    <ul>
+        <li><strong>Leader and Followers:</strong> Each partition has one leader and multiple followers. The leader handles all reads and writes, while followers replicate the data from the leader.</li>
+        <li><strong>Replication Factor:</strong> The replication factor defines how many copies of each partition exist. A higher replication factor increases fault tolerance.</li>
+        <li><strong>In-Sync Replicas (ISR):</strong> ISR consists of replicas that are fully synchronized with the leader. Only messages written to ISR replicas are considered committed.</li>
+    </ul>
+
+    <h2>3. Example: Kafka Topic Configuration</h2>
+    <p>Below is an example of how to configure a Kafka topic with partitions and replication settings using the `kafka-topics.sh` script.</p>
+
+    <pre><code>
+# Create a Kafka topic with 5 partitions and a replication factor of 3
+bin/kafka-topics.sh --create --topic my-topic --bootstrap-server localhost:9092 --partitions 5 --replication-factor 3
+    </code></pre>
+
+    <h2>4. Example: Java Code to Produce and Consume Messages</h2>
+    <p>Here is a Java example demonstrating how to produce and consume messages from a Kafka topic with multiple partitions and replication.</p>
+
+    <pre><code>
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
+
+import java.util.Properties;
+import java.util.Collections;
+
+public class KafkaExample {
+
+    public static void main(String[] args) {
+        // Producer Configuration
+        Properties producerProps = new Properties();
+        producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        producerProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        producerProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+        // Create Kafka Producer
+        KafkaProducer<String, String> producer = new KafkaProducer<>(producerProps);
+        ProducerRecord<String, String> record = new ProducerRecord<>("my-topic", "key", "value");
+
+        // Send message to topic
+        producer.send(record);
+        producer.close();
+
+        // Consumer Configuration
+        Properties consumerProps = new Properties();
+        consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "my-group");
+        consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        consumerProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        // Create Kafka Consumer
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProps);
+        consumer.subscribe(Collections.singletonList("my-topic"));
+
+        // Poll for messages
+        ConsumerRecords<String, String> records = consumer.poll(1000);
+        for (ConsumerRecord<String, String> consumerRecord : records) {
+            System.out.printf("Partition = %d, Offset = %d, Key = %s, Value = %s%n",
+                              consumerRecord.partition(), consumerRecord.offset(), consumerRecord.key(), consumerRecord.value());
+        }
+
+        consumer.close();
+    }
+}
+    </code></pre>
+
+    <h2>5. Kafka Partitions and Replication Diagram</h2>
+    <p>The following diagram illustrates how Kafka partitions and replicas are distributed across brokers, showing the leader-follower relationship and replication process.</p>
+
+    <div class="diagram">
+        <img src="kafka-partition-replication-diagram.png" alt="Kafka Partitions and Replication Diagram">
+        <p><em>Diagram: Kafka Partitions and Replication in the Kafka Architecture</em></p>
+    </div>
+
+    <h2>6. Conclusion</h2>
+    <p>Partitions and replication are crucial for achieving scalability and fault tolerance in Apache Kafka. By understanding how to configure and manage partitions and replication, you can ensure that your Kafka deployment is robust and can handle large volumes of data efficiently.</p>
+</body>
+</html>

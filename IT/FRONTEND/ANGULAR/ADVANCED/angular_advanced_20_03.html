@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Advanced Level Questions - Part 3</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .question {
+            margin-top: 20px;
+        }
+        .question h2 {
+            margin-bottom: 10px;
+        }
+        .answer {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Angular Advanced Level Questions - Part 3</h1>
+
+    <div class="question">
+        <h2>1. How do you implement Angular's Custom Pipes?</h2>
+        <div class="answer">
+            <p>Custom pipes are used to transform data in the template. Create a pipe by defining a class and using the <code>@Pipe</code> decorator:</p>
+            <pre><code>import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'customPipe'
+})
+export class CustomPipe implements PipeTransform {
+  transform(value: string, ...args: any[]): string {
+    return value.toUpperCase();
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How can you use Angular's `ChangeDetectorRef` to handle manual change detection?</h2>
+        <div class="answer">
+            <p><code>ChangeDetectorRef</code> can be used to manually control change detection, such as when you need to update the view outside of Angular's default change detection cycle:</p>
+            <pre><code>import { Component, ChangeDetectorRef } from '@angular/core';
+
+@Component({
+  selector: 'app-manual-change',
+  template: \`<p>{{ data }}</p>\`
+})
+export class ManualChangeComponent {
+  data = 'Initial data';
+
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  updateData() {
+    this.data = 'Updated data';
+    this.cdr.detectChanges();
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you create Angular's reactive forms with custom validators?</h2>
+        <div class="answer">
+            <p>Reactive forms allow for more complex validation logic. Here’s how to create a form with custom validators:</p>
+            <pre><code>import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-reactive-form',
+  template: \`
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input formControlName="username">
+      <div *ngIf="form.get('username').hasError('forbiddenName')">
+        Username is forbidden
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  \`
+})
+export class ReactiveFormComponent {
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      username: ['', [this.forbiddenNameValidator(/admin/)]]
+    });
+  }
+
+  forbiddenNameValidator(nameRe: RegExp) {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const forbidden = nameRe.test(control.value);
+      return forbidden ? { 'forbiddenName': { value: control.value } } : null;
+    };
+  }
+
+  onSubmit() {
+    console.log(this.form.value);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you implement Angular's Dynamic Component Loader?</h2>
+        <div class="answer">
+            <p>Use Angular's <code>ComponentFactoryResolver</code> to dynamically load components:</p>
+            <pre><code>import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+import { DynamicComponent } from './dynamic.component';
+
+@Component({
+  selector: 'app-dynamic-loader',
+  template: \`<ng-template #container></ng-template>\`
+})
+export class DynamicLoaderComponent {
+  @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
+
+  constructor(private resolver: ComponentFactoryResolver) {}
+
+  loadComponent() {
+    const factory = this.resolver.resolveComponentFactory(DynamicComponent);
+    this.container.clear();
+    this.container.createComponent(factory);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you handle Angular's module lazy loading?</h2>
+        <div class="answer">
+            <p>Lazy loading modules allows for more efficient loading of Angular applications. Define a lazy-loaded module in your routing configuration:</p>
+            <pre><code>const routes: Routes = [
+  {
+    path: 'lazy',
+    loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule)
+  }
+];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you use Angular's `NgRx` store for state management?</h2>
+        <div class="answer">
+            <p>NgRx provides a way to manage state in Angular applications using a store. Define actions, reducers, and effects:</p>
+            <pre><code>import { createAction, createReducer, on } from '@ngrx/store';
+
+// Actions
+export const loadItems = createAction('[Item] Load Items');
+export const loadItemsSuccess = createAction('[Item] Load Items Success', (items: any[]) => ({ items }));
+
+// Reducer
+export const initialState = [];
+const _itemsReducer = createReducer(
+  initialState,
+  on(loadItemsSuccess, (state, { items }) => [...items])
+);
+
+export function itemsReducer(state, action) {
+  return _itemsReducer(state, action);
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you create Angular's custom structural directives?</h2>
+        <div class="answer">
+            <p>Structural directives change the structure of the DOM. Create a custom structural directive like this:</p>
+            <pre><code>import { Directive, TemplateRef, ViewContainerRef, Input } from '@angular/core';
+
+@Directive({
+  selector: '[appUnless]'
+})
+export class UnlessDirective {
+  constructor(private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef) {}
+
+  @Input() set appUnless(condition: boolean) {
+    if (!condition) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+    } else {
+      this.viewContainer.clear();
+    }
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How can you use Angular's `HostListener` to listen to DOM events?</h2>
+        <div class="answer">
+            <p><code>HostListener</code> can be used to listen to events on the host element of a component:</p>
+            <pre><code>import { Component, HostListener } from '@angular/core';
+
+@Component({
+  selector: 'app-host-listener',
+  template: \`<p>Host Listener Example</p>\`
+})
+export class HostListenerComponent {
+  @HostListener('click', ['$event'])
+  onClick(event: Event) {
+    console.log('Host element clicked:', event);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you use Angular's `ng-content` for content projection?</h2>
+        <div class="answer">
+            <p><code>ng-content</code> allows you to project content into a component:</p>
+            <pre><code>import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-content',
+  template: \`<ng-content></ng-content>\`
+})
+export class ContentComponent {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How can you use Angular's `@ContentChild` and `@ContentChildren` decorators?</h2>
+        <div class="answer">
+            <p><code>@ContentChild</code> and <code>@ContentChildren</code> are used to access content projected into a component:</p>
+            <pre><code>import { Component, ContentChild, ContentChildren, QueryList } from '@angular/core';
+
+@Component({
+  selector: 'app-content-query',
+  template: \`<ng-content></ng-content>\`
+})
+export class ContentQueryComponent {
+  @ContentChild('contentRef') contentChild: ElementRef;
+  @ContentChildren('contentRef') contentChildren: QueryList<ElementRef>;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you create Angular's custom decorators?</h2>
+        <div class="answer">
+            <p>Custom decorators can be used to add metadata to classes or methods:</p>
+            <pre><code>import { createDecorator } from '@angular/core';
+
+export function CustomDecorator(message: string) {
+  return createDecorator((target: Function) => {
+    target.prototype.customMessage = message;
+  });
+}
+
+@CustomDecorator('Hello World')
+export class CustomClass {
+  customMessage: string;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How can you use Angular's Dependency Injection for service scoping?</h2>
+        <div class="answer">
+            <p>Dependency injection scopes can be controlled using the <code>providedIn</code> property:</p>
+            <pre><code>import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'  // Singleton scope
+})
+export class MyService {}
+
+@Injectable({
+  providedIn: 'any'   // Scoped to any module or component
+})
+export class ScopedService {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you manage Angular's HTTP interceptor for request/response handling?</h2>
+        <div class="answer">
+            <p>HTTP interceptors can be used to modify requests and responses globally:</p>
+            <pre><code>import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const authReq = req.clone({
+      headers: req.headers.set('Authorization', 'Bearer my-token')
+    });
+    return next.handle(authReq);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you handle Angular's Router Guards for route protection?</h2>
+        <div class="answer">
+            <p>Router guards can be used to protect routes based on conditions:</p>
+            <pre><code>import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+  constructor(private router: Router) {}
+
+  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
+    const isAuthenticated = false;  // Implement your authentication check here
+    if (!isAuthenticated) {
+      this.router.navigate(['/login']);
+      return false;
+    }
+    return true;
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you use Angular's `NgModule` to organize and manage your application?</h2>
+        <div class="answer">
+            <p><code>NgModule</code> helps in organizing an application into cohesive blocks of functionality:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { FeatureModule } from './feature/feature.module';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    FeatureModule
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you create Angular's custom validators for forms?</h2>
+        <div class="answer">
+            <p>Custom validators can be created and used in reactive forms:</p>
+            <pre><code>import { AbstractControl, ValidatorFn } from '@angular/forms';
+
+export function passwordMatchValidator(): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+    return password && confirmPassword && password.value !== confirmPassword.value
+      ? { 'mismatch': true }
+      : null;
+  };
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use Angular's `@ViewChild` and `@ViewChildren` decorators?</h2>
+        <div class="answer">
+            <p><code>@ViewChild</code> and <code>@ViewChildren</code> are used to query and access elements or directives in the component's view:</p>
+            <pre><code>import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+  selector: 'app-parent',
+  template: \`
+    <app-child #child></app-child>
+    <app-child *ngFor="let child of children" #children></app-child>
+  \`
+})
+export class ParentComponent {
+  @ViewChild('child') child: ChildComponent;
+  @ViewChildren('children') children: QueryList<ChildComponent>;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you handle Angular's lazy loading with route parameters?</h2>
+        <div class="answer">
+            <p>Lazy loading modules with route parameters involves passing parameters to the route and configuring the module accordingly:</p>
+            <pre><code>const routes: Routes = [
+  {
+    path: 'lazy/:id',
+    loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule)
+  }
+];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How can you use Angular's `Renderer2` for DOM manipulation?</h2>
+        <div class="answer">
+            <p><code>Renderer2</code> is used for safe and compatible DOM manipulation:</p>
+            <pre><code>import { Component, Renderer2, ElementRef } from '@angular/core';
+
+@Component({
+  selector: 'app-renderer',
+  template: \`<div #box>Content</div>\`
+})
+export class RendererComponent {
+  constructor(private renderer: Renderer2, private el: ElementRef) {}
+
+  changeColor() {
+    this.renderer.setStyle(this.el.nativeElement.querySelector('div'), 'color', 'red');
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you implement Angular's `ngOnInit` and `ngAfterViewInit` lifecycle hooks?</h2>
+        <div class="answer">
+            <p><code>ngOnInit</code> is called after the component is initialized, while <code>ngAfterViewInit</code> is called after the view has been fully initialized:</p>
+            <pre><code>import { Component, OnInit, AfterViewInit } from '@angular/core';
+
+@Component({
+  selector: 'app-lifecycle',
+  template: \`<p>Lifecycle Hooks Example</p>\`
+})
+export class LifecycleComponent implements OnInit, AfterViewInit {
+  ngOnInit() {
+    console.log('OnInit called');
+  }
+
+  ngAfterViewInit() {
+    console.log('AfterViewInit called');
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

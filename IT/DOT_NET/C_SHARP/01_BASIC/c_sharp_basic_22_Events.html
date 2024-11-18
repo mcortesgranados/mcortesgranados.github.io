@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Events</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Events</h1>
+    <p>Events in C# are a way to provide notifications or respond to changes or actions within an application. They are a key part of the observer pattern and allow objects to communicate with each other in a decoupled manner.</p>
+    
+    <h2>1. Defining an Event</h2>
+    <p>Events are defined using the <code>event</code> keyword. They are typically associated with delegates, which define the method signature for the event handlers.</p>
+    <pre><code>
+    public delegate void Notify(string message);
+
+    public class Publisher
+    {
+        // Define an event based on the delegate
+        public event Notify OnNotify;
+
+        public void TriggerEvent(string message)
+        {
+            // Check if there are any subscribers
+            if (OnNotify != null)
+            {
+                OnNotify(message);
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>2. Subscribing to an Event</h2>
+    <p>To handle an event, you create an event handler method that matches the delegate signature and subscribe to the event using the <code>+=</code> operator.</p>
+    <pre><code>
+    class Program
+    {
+        static void Main()
+        {
+            Publisher publisher = new Publisher();
+            
+            // Subscribe to the event
+            publisher.OnNotify += HandleNotification;
+
+            // Trigger the event
+            publisher.TriggerEvent("Event triggered!");
+        }
+
+        // Event handler method
+        static void HandleNotification(string message)
+        {
+            Console.WriteLine("Notification received: " + message);
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Unsubscribing from an Event</h2>
+    <p>You can unsubscribe from an event using the <code>-=</code> operator. This is useful for removing event handlers when they are no longer needed or to avoid memory leaks.</p>
+    <pre><code>
+    class Program
+    {
+        static void Main()
+        {
+            Publisher publisher = new Publisher();
+            
+            // Subscribe to the event
+            publisher.OnNotify += HandleNotification;
+            
+            // Trigger the event
+            publisher.TriggerEvent("First notification");
+
+            // Unsubscribe from the event
+            publisher.OnNotify -= HandleNotification;
+
+            // Trigger the event again (no handlers will be called)
+            publisher.TriggerEvent("Second notification");
+        }
+
+        static void HandleNotification(string message)
+        {
+            Console.WriteLine("Notification received: " + message);
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Key Points</h2>
+    <ul>
+        <li><strong>Events</strong> provide a way to signal or notify other objects about changes or actions.</li>
+        <li>Events are typically based on delegates, which define the method signatures for event handlers.</li>
+        <li>You can subscribe to events using the <code>+=</code> operator and unsubscribe using the <code>-=</code> operator.</li>
+        <li>Events help implement the observer pattern, allowing for a decoupled communication mechanism between objects.</li>
+    </ul>
+</body>
+</html>

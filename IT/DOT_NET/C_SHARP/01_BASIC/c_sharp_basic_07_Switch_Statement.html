@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Switch Statement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Switch Statement</h1>
+    <p>The `switch` statement in C# is used to execute one block of code among many possible blocks based on the value of an expression. It provides a cleaner and more readable way to handle multiple conditions compared to a series of `if-else` statements.</p>
+    
+    <h2>Syntax</h2>
+    <p>The basic syntax of the `switch` statement is:</p>
+    <pre><code>
+    switch (expression)
+    {
+        case value1:
+            // Code to execute when expression equals value1
+            break;
+        case value2:
+            // Code to execute when expression equals value2
+            break;
+        ...
+        default:
+            // Code to execute when no case matches
+            break;
+    }
+    </code></pre>
+    
+    <h2>Example 1: Basic Switch Statement</h2>
+    <p>Here is a simple example demonstrating how to use the `switch` statement to determine the day of the week based on an integer value:</p>
+    <pre><code>
+    int day = 3;
+
+    switch (day)
+    {
+        case 1:
+            Console.WriteLine("Monday");
+            break;
+        case 2:
+            Console.WriteLine("Tuesday");
+            break;
+        case 3:
+            Console.WriteLine("Wednesday");
+            break;
+        case 4:
+            Console.WriteLine("Thursday");
+            break;
+        case 5:
+            Console.WriteLine("Friday");
+            break;
+        case 6:
+            Console.WriteLine("Saturday");
+            break;
+        case 7:
+            Console.WriteLine("Sunday");
+            break;
+        default:
+            Console.WriteLine("Invalid day");
+            break;
+    }
+    </code></pre>
+    
+    <h2>Example 2: Switch with Multiple Cases</h2>
+    <p>In this example, multiple cases can share the same block of code:</p>
+    <pre><code>
+    char grade = 'B';
+
+    switch (grade)
+    {
+        case 'A':
+        case 'B':
+        case 'C':
+            Console.WriteLine("You passed.");
+            break;
+        case 'D':
+            Console.WriteLine("You barely passed.");
+            break;
+        case 'F':
+            Console.WriteLine("You failed.");
+            break;
+        default:
+            Console.WriteLine("Invalid grade.");
+            break;
+    }
+    </code></pre>
+    
+    <h2>Example 3: Switch with Expression</h2>
+    <p>Starting from C# 8.0, you can use expressions in switch cases:</p>
+    <pre><code>
+    int number = 2;
+
+    string result = number switch
+    {
+        1 => "One",
+        2 => "Two",
+        3 => "Three",
+        _ => "Other"
+    };
+
+    Console.WriteLine(result);
+    </code></pre>
+    
+    <h2>Explanation</h2>
+    <p>In the provided examples:</p>
+    <ul>
+        <li>The first example demonstrates a basic `switch` statement to output the day of the week based on a numeric value.</li>
+        <li>The second example shows how multiple cases can share the same code block to handle grades.</li>
+        <li>The third example uses the switch expression feature introduced in C# 8.0 to return a value based on the case.</li>
+        <li>The `default` case is executed if none of the specified cases match the value of the expression. It is optional but recommended for handling unexpected values.</li>
+    </ul>
+</body>
+</html>

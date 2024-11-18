@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Performance Tuning in Spark</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Advanced Performance Tuning in Spark</h1>
+
+    <p>
+        Performance tuning is essential for optimizing Spark applications and ensuring efficient resource usage. Two key areas of performance tuning in Spark are executor tuning and stage-level scheduling. Proper tuning in these areas can lead to significant improvements in job execution times and overall performance.
+    </p>
+
+    <h2>Executor Tuning</h2>
+    <p>
+        Executors are the worker nodes in a Spark cluster responsible for executing tasks and storing data. Tuning executor parameters is crucial for optimizing performance. Key parameters include:
+    </p>
+    <ul>
+        <li><strong>spark.executor.memory:</strong> Amount of memory allocated to each executor. Increasing this value can reduce garbage collection overhead but may require more resources.</li>
+        <li><strong>spark.executor.cores:</strong> Number of cores allocated to each executor. More cores allow for parallel task execution, improving throughput.</li>
+        <li><strong>spark.executor.instances:</strong> Number of executor instances. Increasing this number can improve parallelism but also increases resource consumption.</li>
+        <li><strong>spark.memory.fraction:</strong> Fraction of executor memory reserved for execution and storage. Adjusting this value can help balance memory usage between execution and storage.</li>
+    </ul>
+
+    <h2>Stage-Level Scheduling</h2>
+    <p>
+        Stage-level scheduling controls how Spark schedules tasks within each stage. Tuning stage-level scheduling can improve performance by optimizing task execution and reducing task stragglers. Key aspects to consider include:
+    </p>
+    <ul>
+        <li><strong>Task Scheduling:</strong> Spark uses task scheduling to distribute tasks across executors. Efficient task scheduling minimizes idle times and improves resource utilization.</li>
+        <li><strong>Speculative Execution:</strong> Spark can run multiple instances of the same task on different executors to handle stragglers. This can be enabled or disabled based on the application's needs using <code>spark.speculation</code>.</li>
+        <li><strong>Dynamic Allocation:</strong> Spark can dynamically adjust the number of executors based on workload. This helps to optimize resource usage and can be controlled using parameters like <code>spark.dynamicAllocation.enabled</code>.</li>
+    </ul>
+
+    <h2>Example Source Code</h2>
+    <p>
+        Below is an example of how to configure executor tuning parameters and stage-level scheduling settings in a Spark application using Java.
+    </p>
+
+    <pre><code class="language-java">
+import org.apache.spark.sql.SparkSession;
+
+public class PerformanceTuningExample {
+    public static void main(String[] args) {
+        // Create a SparkSession with custom configuration
+        SparkSession spark = SparkSession.builder()
+            .appName("Performance Tuning Example")
+            .master("local[*]")
+            .config("spark.executor.memory", "4g") // Configure executor memory
+            .config("spark.executor.cores", "2") // Configure number of cores per executor
+            .config("spark.executor.instances", "4") // Configure number of executor instances
+            .config("spark.memory.fraction", "0.6") // Configure memory fraction
+            .config("spark.speculation", "true") // Enable speculative execution
+            .config("spark.dynamicAllocation.enabled", "true") // Enable dynamic allocation
+            .getOrCreate();
+
+        // Perform some data operations (e.g., reading and processing data)
+        // Example code here...
+
+        // Stop the SparkSession
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <p>
+        In this example:
+    </p>
+    <ul>
+        <li>A <strong>SparkSession</strong> is created with various performance tuning configurations.</li>
+        <li>Executor memory, cores, and instances are configured to optimize performance based on the application’s needs.</li>
+        <li>Memory fraction is adjusted to balance execution and storage memory usage.</li>
+        <li>Speculative execution and dynamic allocation are enabled to handle task stragglers and optimize resource usage.</li>
+    </ul>
+
+    <p>
+        Tuning these parameters can help improve the performance and efficiency of Spark applications by optimizing resource usage and task scheduling. It is important to experiment with different configurations to find the best settings for your specific use case and workload.
+    </p>
+</body>
+</html>

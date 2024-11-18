@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SparkContext and SparkSession in Java</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>SparkContext and SparkSession in Java</h1>
+    <p>This guide explains the roles of SparkContext and SparkSession in Apache Spark and provides Java code examples to illustrate their use.</p>
+
+    <h2>What is SparkContext?</h2>
+    <p><strong>SparkContext</strong> is the entry point for Spark functionality. It is used to initialize the connection to a Spark cluster and to configure the application's runtime environment. It provides the APIs for interacting with Spark's core capabilities, such as creating RDDs and accessing Spark's distributed data storage.</p>
+
+    <h2>What is SparkSession?</h2>
+    <p><strong>SparkSession</strong> is introduced in Spark 2.0 as the new entry point for Spark applications. It combines the functionality of SparkContext with additional features for working with DataFrames and Spark SQL. It provides a unified interface for reading data, performing transformations, and executing SQL queries.</p>
+
+    <h2>Java Code Example</h2>
+    <pre><code>
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+
+public class SparkContextSparkSessionExample {
+    public static void main(String[] args) {
+        // Create SparkSession (which internally creates SparkContext)
+        SparkSession spark = SparkSession.builder()
+            .appName("SparkContext and SparkSession Example")
+            .master("local[*]")
+            .getOrCreate();
+
+        // Access SparkContext from SparkSession
+        org.apache.spark.SparkContext sc = spark.sparkContext();
+        System.out.println("SparkContext: " + sc);
+
+        // Example of using SparkSession to create a DataFrame
+        Dataset&lt;Row&gt; df = spark.read().json("data/sample.json");
+        df.show();
+
+        // Example of using SparkSession to execute SQL queries
+        df.createOrReplaceTempView("people");
+        Dataset&lt;Row&gt; sqlDF = spark.sql("SELECT name FROM people WHERE age BETWEEN 21 AND 30");
+        sqlDF.show();
+
+        // Example of using SparkContext to create an RDD
+        JavaRDD&lt;String&gt; rdd = sc.textFile("data/sample.txt");
+        System.out.println("Number of lines in the file: " + rdd.count());
+
+        // Stop the SparkSession (which also stops the SparkContext)
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <h2>Understanding the Example</h2>
+    <p>In this example, we demonstrate the following:</p>
+    <ul>
+        <li><strong>SparkSession Creation:</strong> The <code>SparkSession</code> object is created, which implicitly initializes the <code>SparkContext</code>.</li>
+        <li><strong>Accessing SparkContext:</strong> We retrieve the <code>SparkContext</code> from the <code>SparkSession</code> to interact with lower-level Spark APIs.</li>
+        <li><strong>Creating DataFrame:</strong> We use <code>SparkSession</code> to read data from a JSON file and create a DataFrame.</li>
+        <li><strong>Executing SQL Queries:</strong> We create a temporary view of the DataFrame and execute SQL queries on it using <code>SparkSession</code>.</li>
+        <li><strong>Creating RDD:</strong> We use <code>SparkContext</code> to create an RDD from a text file.</li>
+        <li><strong>Stopping SparkSession:</strong> We stop the <code>SparkSession</code>, which also stops the <code>SparkContext</code>.</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p><strong>SparkContext</strong> and <strong>SparkSession</strong> are fundamental components of Apache Spark. <code>SparkSession</code> provides a unified interface for both core Spark functionality and SQL/DataFrame operations, making it the preferred entry point for Spark applications in Spark 2.0 and later versions.</p>
+</body>
+</html>

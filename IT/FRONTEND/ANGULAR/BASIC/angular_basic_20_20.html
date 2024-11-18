@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Angular Questions - Part 20</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Basic Angular Questions - Part 20</h1>
+
+    <div class="question">
+        <h2>1. How do you use Angular's `@Injectable` decorator?</h2>
+        <div class="answer">
+            <p>The `@Injectable` decorator marks a class as available to be provided and injected as a dependency.</p>
+            <pre><code>
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root',
+})
+export class ExampleService {
+    constructor() { }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. What is Angular's `NgZone` and how do you use it?</h2>
+        <div class="answer">
+            <p>`NgZone` is used to execute code inside or outside Angular's zone to control change detection.</p>
+            <pre><code>
+import { NgZone } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent {
+    constructor(private ngZone: NgZone) { }
+
+    runOutsideAngular() {
+        this.ngZone.runOutsideAngular(() => {
+            // Code here will not trigger Angular's change detection
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you use Angular's `@HostListener` decorator?</h2>
+        <div class="answer">
+            <p>The `@HostListener` decorator allows you to listen to events on the host element of a directive or component.</p>
+            <pre><code>
+import { Directive, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appHover]'
+})
+export class HoverDirective {
+    @HostListener('mouseenter') onMouseEnter() {
+        console.log('Mouse entered');
+    }
+
+    @HostListener('mouseleave') onMouseLeave() {
+        console.log('Mouse left');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you use Angular's `@ViewEncapsulation`?</h2>
+        <div class="answer">
+            <p>`@ViewEncapsulation` controls how styles are applied to the component's view. It can be `Emulated`, `Native`, or `None`.</p>
+            <pre><code>
+import { Component, ViewEncapsulation } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    template: `<p>Styled text</p>`,
+    styles: [`p { color: green; }`],
+    encapsulation: ViewEncapsulation.Emulated
+})
+export class ExampleComponent { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. What is Angular's `Renderer2` and how is it used?</h2>
+        <div class="answer">
+            <p>`Renderer2` is a service for safely manipulating the DOM.</p>
+            <pre><code>
+import { Component, Renderer2, ElementRef, OnInit } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    template: `<div #myDiv></div>`,
+})
+export class ExampleComponent implements OnInit {
+    constructor(private renderer: Renderer2, private el: ElementRef) { }
+
+    ngOnInit() {
+        const div = this.el.nativeElement.querySelector('div');
+        this.renderer.setStyle(div, 'color', 'blue');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you use Angular's `HttpClient` for making HTTP requests?</h2>
+        <div class="answer">
+            <p>`HttpClient` is used to make HTTP requests and handle responses.</p>
+            <pre><code>
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent {
+    constructor(private http: HttpClient) { }
+
+    fetchData() {
+        this.http.get('https://api.example.com/data').subscribe(data => {
+            console.log(data);
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use Angular's `NgModule` for organizing code?</h2>
+        <div class="answer">
+            <p>`NgModule` is used to organize an Angular application into cohesive blocks of functionality.</p>
+            <pre><code>
+@NgModule({
+    declarations: [AppComponent],
+    imports: [BrowserModule, HttpClientModule],
+    providers: [],
+    bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you create a custom Angular directive?</h2>
+        <div class="answer">
+            <p>Create a custom directive to modify the behavior or appearance of elements.</p>
+            <pre><code>
+import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appHighlight]'
+})
+export class HighlightDirective {
+    constructor(private el: ElementRef, private renderer: Renderer2) { }
+
+    @HostListener('mouseenter') onMouseEnter() {
+        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'yellow');
+    }
+
+    @HostListener('mouseleave') onMouseLeave() {
+        this.renderer.removeStyle(this.el.nativeElement, 'backgroundColor');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. What are Angular's `ngOnInit` and `ngOnChanges` lifecycle hooks used for?</h2>
+        <div class="answer">
+            <p>`ngOnInit` is used for component initialization, while `ngOnChanges` is used to respond to changes in input properties.</p>
+            <pre><code>
+import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent implements OnInit, OnChanges {
+    @Input() data: string;
+
+    ngOnInit() {
+        console.log('Component initialized');
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        console.log('Input properties changed', changes);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use Angular's `FormBuilder` for creating reactive forms?</h2>
+        <div class="answer">
+            <p>`FormBuilder` simplifies the creation of reactive forms.</p>
+            <pre><code>
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent {
+    form: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            name: ['', Validators.required],
+            email: ['', [Validators.required, Validators.email]]
+        });
+    }
+
+    onSubmit() {
+        console.log(this.form.value);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you use Angular's `@Input` and `@Output` decorators?</h2>
+        <div class="answer">
+            <p>`@Input` allows a parent component to pass data to a child component, and `@Output` allows a child component to emit events to a parent component.</p>
+            <pre><code>
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+    selector: 'app-child',
+    template: `<button (click)="notify()">Notify</button>`,
+})
+export class ChildComponent {
+    @Input() childData: string;
+    @Output() notify: EventEmitter<string> = new EventEmitter<string>();
+
+    notifyParent() {
+        this.notify.emit('Data from child');
+    }
+}
+
+@Component({
+    selector: 'app-parent',
+    template: `<app-child [childData]="parentData" (notify)="handleNotify($event)"></app-child>`,
+})
+export class ParentComponent {
+    parentData = 'Data from parent';
+
+    handleNotify(data: string) {
+        console.log(data);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you handle navigation and routing in Angular?</h2>
+        <div class="answer">
+            <p>Use Angular's Router module to define routes and navigate between different views.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+    { path: 'home', component: HomeComponent },
+    { path: 'about', component: AboutComponent },
+    { path: '**', redirectTo: 'home' }
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use Angular's `@NgModule` to create a feature module?</h2>
+        <div class="answer">
+            <p>Create a feature module to encapsulate related components, directives, and services.</p>
+            <pre><code>
+@NgModule({
+    declarations: [FeatureComponent],
+    imports: [CommonModule, SharedModule],
+    exports: [FeatureComponent]
+})
+export class FeatureModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use Angular's `@ViewChild` and `@ContentChild` decorators?</h2>
+        <div class="answer">
+            <p>`@ViewChild` allows you to access a child component or directive, and `@ContentChild` allows you to access projected content.</p>
+            <pre><code>
+import { Component, ViewChild, ContentChild, ElementRef } from '@angular/core';
+
+@Component({
+    selector: 'app-example',
+    template: `<p #paragraph>Content</p><ng-content></ng-content>`,
+})
+export class ExampleComponent {
+    @ViewChild('paragraph') paragraph: ElementRef;
+    @ContentChild('content') content: ElementRef;
+
+    ngAfterViewInit() {
+        console.log(this.paragraph.nativeElement.textContent);
+    }
+
+    ngAfterContentInit() {
+        console.log(this.content.nativeElement.textContent);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you use Angular's `ngStyle` directive?</h2>
+        <div class="answer">
+            <p>`ngStyle` is used to dynamically set multiple inline styles for an element.</p>
+            <pre><code>
+@Component({
+    selector: 'app-example',
+    template: `<div [ngStyle]="{'color': color, 'font-size': fontSize}">Styled text</div>`,
+})
+export class ExampleComponent {
+    color = 'blue';
+    fontSize = '20px';
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you use Angular's `ngClass` directive?</h2>
+        <div class="answer">
+            <p>`ngClass` is used to dynamically add or remove CSS classes from an element based on conditions.</p>
+            <pre><code>
+@Component({
+    selector: 'app-example',
+    template: `<div [ngClass]="{'active': isActive, 'inactive': !isActive}">Classy div</div>`,
+})
+export class ExampleComponent {
+    isActive = true;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use Angular's `ngFor` directive to iterate over objects?</h2>
+        <div class="answer">
+            <p>`ngFor` can be used to iterate over objects by using the `keyvalue` pipe.</p>
+            <pre><code>
+<ul>
+    <li *ngFor="let entry of object | keyvalue">{{ entry.key }}: {{ entry.value }}</li>
+</ul>
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent {
+    object = { name: 'John', age: 30 };
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use Angular's `ngTemplateOutlet` directive?</h2>
+        <div class="answer">
+            <p>`ngTemplateOutlet` is used to dynamically insert an `<ng-template>` into the DOM.</p>
+            <pre><code>
+<ng-template #template>
+    <p>Template content</p>
+</ng-template>
+
+<div [ngTemplateOutlet]="template"></div>
+
+@Component({
+    selector: 'app-example',
+    template: '...',
+})
+export class ExampleComponent { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you use Angular's `ngContent` directive?</h2>
+        <div class="answer">
+            <p>`ngContent` is used to project content into a component's template.</p>
+            <pre><code>
+@Component({
+    selector: 'app-example',
+    template: `<ng-content></ng-content>`,
+})
+export class ExampleComponent { }
+
+@Component({
+    selector: 'app-parent',
+    template: `<app-example><p>Projected content</p></app-example>`,
+})
+export class ParentComponent { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `@HostBinding` decorator?</h2>
+        <div class="answer">
+            <p>`@HostBinding` is used to bind properties of the host element to component or directive properties.</p>
+            <pre><code>
+import { Directive, HostBinding } from '@angular/core';
+
+@Directive({
+    selector: '[appHighlight]'
+})
+export class HighlightDirective {
+    @HostBinding('class.highlighted') isHighlighted = true;
+}
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas sobre Control de Versiones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .question {
+            font-weight: bold;
+        }
+        .consecutive {
+            text-align: center;
+            background-color: #e2e2e2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preguntas sobre Control de Versiones</h1>
+    <table>
+        <thead>
+            <tr>
+                <th class="consecutive">#</th>
+                <th class="question">Pregunta</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="consecutive">1</td>
+                <td>¿Qué es Git?</td>
+                <td>Git es un sistema de control de versiones distribuido que permite a los desarrolladores gestionar cambios en el código fuente y colaborar en proyectos.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">2</td>
+                <td>¿Cuál es el comando para clonar un repositorio en Git?</td>
+                <td>El comando es <code>git clone &lt;url-del-repositorio&gt;</code>.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">3</td>
+                <td>¿Cómo se crea una nueva rama en Git?</td>
+                <td>Se utiliza el comando <code>git branch &lt;nombre-de-la-rama&gt;</code>.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">4</td>
+                <td>¿Cómo se cambia a una rama existente en Git?</td>
+                <td>Con el comando <code>git checkout &lt;nombre-de-la-rama&gt;</code>.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">5</td>
+                <td>¿Cómo se fusiona una rama en Git?</td>
+                <td>Para fusionar una rama, primero cámbiate a la rama de destino con <code>git checkout &lt;rama-destino&gt;</code>, y luego usa <code>git merge &lt;rama-a-fusionar&gt;</code>.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">6</td>
+                <td>¿Qué hace el comando <code>git status</code>?</td>
+                <td>El comando <code>git status</code> muestra el estado actual del repositorio, incluyendo archivos modificados, añadidos y no rastreados.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">7</td>
+                <td>¿Cómo se añaden cambios al área de preparación (staging area) en Git?</td>
+                <td>Usando el comando <code>git add &lt;archivo-o-directorio&gt;</code>.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">8</td>
+                <td>¿Cuál es el comando para confirmar (commit) los cambios en Git?</td>
+                <td>El comando es <code>git commit -m "Mensaje del commit"</code>.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">9</td>
+                <td>¿Cómo se visualizan los commits anteriores en Git?</td>
+                <td>Con el comando <code>git log</code>.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">10</td>
+                <td>¿Qué hace el comando <code>git push</code>?</td>
+                <td>El comando <code>git push</code> sube los commits locales a un repositorio remoto.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">11</td>
+                <td>¿Cómo se recupera la última versión de un archivo desde el repositorio remoto?</td>
+                <td>Con el comando <code>git pull</code>.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">12</td>
+                <td>¿Qué es un conflicto de fusión en Git?</td>
+                <td>Un conflicto de fusión ocurre cuando Git no puede combinar automáticamente cambios de diferentes ramas en un archivo.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">13</td>
+                <td>¿Cómo se resuelven conflictos de fusión en Git?</td>
+                <td>Abre los archivos conflictivos, edítalos para resolver el conflicto, y luego añade y confirma los cambios.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">14</td>
+                <td>¿Qué hace el comando <code>git reset</code>?</td>
+                <td>El comando <code>git reset</code> revierte cambios en el área de preparación y/o en el directorio de trabajo.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">15</td>
+                <td>¿Cómo se eliminan archivos del área de preparación sin eliminar los archivos del directorio de trabajo?</td>
+                <td>Usa <code>git reset &lt;archivo&gt;</code>.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">16</td>
+                <td>¿Qué hace el comando <code>git diff</code>?</td>
+                <td>El comando <code>git diff</code> muestra las diferencias entre archivos modificados y sus versiones anteriores.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">17</td>
+                <td>¿Cómo se cambian los archivos en un commit anterior?</td>
+                <td>Usa <code>git checkout &lt;hash-del-commit&gt; &lt;archivo&gt;</code>.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">18</td>
+                <td>¿Qué es una etiqueta (tag) en Git?</td>
+                <td>Una etiqueta es un marcador que se utiliza para identificar versiones específicas en el historial del repositorio.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">19</td>
+                <td>¿Cómo se crea una etiqueta en Git?</td>
+                <td>Usa el comando <code>git tag &lt;nombre-de-la-etiqueta&gt;</code>.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">20</td>
+                <td>¿Qué es RTC?</td>
+                <td>RTC (Rational Team Concert) es una herramienta de gestión de configuración y control de versiones desarrollada por IBM.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">21</td>
+                <td>¿Cómo se hace un check-out en RTC?</td>
+                <td>En RTC, se utiliza el menú contextual en el Eclipse Client para hacer check-out de un componente o una versión.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">22</td>
+                <td>¿Qué es un "workspace" en RTC?</td>
+                <td>Un workspace en RTC es un entorno de trabajo donde los desarrolladores pueden realizar cambios y pruebas antes de integrarlos en el repositorio principal.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">23</td>
+                <td>¿Cómo se realiza una revisión de código en RTC?</td>
+                <td>Se puede realizar a través del cliente RTC, creando una revisión de código y añadiendo los cambios y comentarios correspondientes.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">24</td>
+                <td>¿Qué es un "repository workspace" en RTC?</td>
+                <td>Un repository workspace en RTC es un espacio donde los cambios se almacenan en el repositorio para su posterior integración.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">25</td>
+                <td>¿Cómo se gestionan las versiones en RTC?</td>
+                <td>Las versiones en RTC se gestionan utilizando cambiosets y componentes, permitiendo el seguimiento y control de los cambios.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">26</td>
+                <td>¿Cómo se añaden archivos nuevos a un repositorio en RTC?</td>
+                <td>Los archivos nuevos se añaden mediante el cliente RTC seleccionando los archivos y usando la opción "Add".</td>
+            </tr>
+            <tr>
+                <td class="consecutive">27</td>
+                <td>¿Qué comando se usa para deshacer el último commit en Git?</td>
+                <td>Usa el comando <code>git reset --soft HEAD~1</code> para deshacer el último commit manteniendo los cambios en el área de preparación.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">28</td>
+                <td>¿Cómo se descarta cambios locales no comprometidos en Git?</td>
+                <td>Utiliza el comando <code>git checkout -- &lt;archivo&gt;</code> para descartar cambios en un archivo específico.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">29</td>
+                <td>¿Qué hace el comando <code>git rebase</code>?</td>
+                <td>El comando <code>git rebase</code> aplica los cambios de una rama sobre otra, reescribiendo el historial de commits.</td>
+            </tr>
+            <tr>
+                <td class="consecutive">30</td>
+                <td>¿Cómo se comprueba el historial de cambios en RTC?</td>
+                <td>El historial de cambios en RTC se puede comprobar mediante el cliente RTC, accediendo a la vista de "Change Sets" o "Delivery" para ver los cambios realizados.</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

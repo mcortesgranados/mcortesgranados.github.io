@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitectura Serverless - Preguntas y Respuestas</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preguntas y Respuestas sobre Arquitectura Serverless</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Pregunta</th>
+                <th>Respuesta Teórica</th>
+                <th>Java</th>
+                <th>Python</th>
+                <th>C#</th>
+                <th>TypeScript</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>¿Qué es la arquitectura serverless?</td>
+                <td>La arquitectura serverless permite construir y ejecutar aplicaciones sin gestionar servidores. Los proveedores de la nube manejan la infraestructura, y los recursos se escalan automáticamente.</td>
+                <td><pre><code>// Java does not have a specific serverless framework, but AWS Lambda can be used
+// Example: AWS Lambda function handler in Java
+public class LambdaFunctionHandler implements RequestHandler<Map<String, String>, String> {
+    @Override
+    public String handleRequest(Map<String, String> input, Context context) {
+        return "Hello, " + input.get("name");
+    }
+}</code></pre></td>
+                <td><pre><code># Python example using AWS Lambda
+import json
+
+def lambda_handler(event, context):
+    name = event.get('name', 'World')
+    return {
+        'statusCode': 200,
+        'body': json.dumps(f'Hello, {name}')
+    }</code></pre></td>
+                <td><pre><code>// C# example using AWS Lambda
+using System.Collections.Generic;
+using Amazon.Lambda.Core;
+
+public class Function
+{
+    public string FunctionHandler(Dictionary<string, string> input, ILambdaContext context)
+    {
+        return $"Hello, {input.GetValueOrDefault("name", "World")}";
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example using AWS Lambda
+import { APIGatewayProxyHandler } from 'aws-lambda';
+
+export const handler: APIGatewayProxyHandler = async (event) => {
+    const name = event.queryStringParameters?.name || 'World';
+    return {
+        statusCode: 200,
+        body: `Hello, ${name}`,
+    };
+};</code></pre></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>¿Cuáles son los beneficios de utilizar una arquitectura serverless?</td>
+                <td>Los beneficios incluyen la reducción de costos operativos, escalabilidad automática, reducción del tiempo de desarrollo, y una menor carga de administración de infraestructura.</td>
+                <td><pre><code>// Benefits are not code-related, but Java code for AWS Lambda functions can illustrate usage</code></pre></td>
+                <td><pre><code># Python benefits are similar to Java. Example code shows usage, not benefits.</code></pre></td>
+                <td><pre><code>// Benefits are similar in C# as well. Example code shows usage.</code></pre></td>
+                <td><pre><code>// TypeScript benefits are similar. Example code shows usage.</code></pre></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>¿Cómo se maneja la escalabilidad en una arquitectura serverless?</td>
+                <td>En una arquitectura serverless, la escalabilidad se maneja automáticamente. Los proveedores de la nube ajustan los recursos en función de la demanda sin intervención manual.</td>
+                <td><pre><code>// AWS Lambda scales automatically based on incoming requests. No specific code needed.</code></pre></td>
+                <td><pre><code># AWS Lambda scales automatically. No specific code needed.</code></pre></td>
+                <td><pre><code>// AWS Lambda scales automatically. No specific code needed.</code></pre></td>
+                <td><pre><code>// AWS Lambda scales automatically. No specific code needed.</code></pre></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>¿Qué es una función Lambda?</td>
+                <td>Una función Lambda es una unidad de código que se ejecuta en respuesta a eventos. Los proveedores de la nube, como AWS, administran el entorno de ejecución y la escalabilidad.</td>
+                <td><pre><code>// Example of AWS Lambda function in Java is shown above.</code></pre></td>
+                <td><pre><code># Example of AWS Lambda function in Python is shown above.</code></pre></td>
+                <td><pre><code>// Example of AWS Lambda function in C# is shown above.</code></pre></td>
+                <td><pre><code>// Example of AWS Lambda function in TypeScript is shown above.</code></pre></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>¿Cómo se configuran los triggers para una función serverless?</td>
+                <td>Los triggers se configuran en el proveedor de la nube y pueden incluir eventos como cargas de archivos en S3, cambios en bases de datos, o solicitudes HTTP.</td>
+                <td><pre><code>// Trigger configuration is done via AWS Console or Infrastructure as Code (IaC), not code-specific.</code></pre></td>
+                <td><pre><code># Trigger configuration is done via AWS Console or IaC.</code></pre></td>
+                <td><pre><code>// Trigger configuration is done via AWS Console or IaC.</code></pre></td>
+                <td><pre><code>// Trigger configuration is done via AWS Console or IaC.</code></pre></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>¿Cómo se gestionan los errores en una arquitectura serverless?</td>
+                <td>Los errores se gestionan a través de mecanismos de manejo de excepciones y notificaciones proporcionadas por el proveedor de la nube, así como herramientas de monitoreo y logging.</td>
+                <td><pre><code>// Example of error handling in AWS Lambda in Java
+public class LambdaFunctionHandler implements RequestHandler<Map<String, String>, String> {
+    @Override
+    public String handleRequest(Map<String, String> input, Context context) {
+        try {
+            // Your logic here
+            return "Hello, " + input.get("name");
+        } catch (Exception e) {
+            context.getLogger().log("Error: " + e.getMessage());
+            throw e;
+        }
+    }
+}</code></pre></td>
+                <td><pre><code># Example of error handling in AWS Lambda in Python
+import json
+
+def lambda_handler(event, context):
+    try:
+        name = event.get('name', 'World')
+        return {
+            'statusCode': 200,
+            'body': json.dumps(f'Hello, {name}')
+        }
+    except Exception as e:
+        print(f"Error: {e}")
+        raise e</code></pre></td>
+                <td><pre><code>// Example of error handling in AWS Lambda in C#
+using System.Collections.Generic;
+using Amazon.Lambda.Core;
+
+public class Function
+{
+    public string FunctionHandler(Dictionary<string, string> input, ILambdaContext context)
+    {
+        try
+        {
+            return $"Hello, {input.GetValueOrDefault("name", "World")}";
+        }
+        catch (Exception ex)
+        {
+            context.Logger.Log($"Error: {ex.Message}");
+            throw;
+        }
+    }
+}</code></pre></td>
+                <td><pre><code>// Example of error handling in AWS Lambda in TypeScript
+import { APIGatewayProxyHandler } from 'aws-lambda';
+
+export const handler: APIGatewayProxyHandler = async (event) => {
+    try {
+        const name = event.queryStringParameters?.name || 'World';
+        return {
+            statusCode: 200,
+            body: `Hello, ${name}`,
+        };
+    } catch (error) {
+        console.error(`Error: ${error}`);
+        throw error;
+    }
+};</code></pre></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>¿Qué es un API Gateway y cómo se usa en una arquitectura serverless?</td>
+                <td>Un API Gateway es un servicio que gestiona las solicitudes HTTP y las direcciona a las funciones Lambda u otros servicios. Facilita la creación y gestión de APIs.</td>
+                <td><pre><code>// API Gateway configuration is done via AWS Console or IaC, not code-specific.</code></pre></td>
+                <td><pre><code># API Gateway configuration is done via AWS Console or IaC.</code></pre></td>
+                <td><pre><code>// API Gateway configuration is done via AWS Console or IaC.</code></pre></td>
+                <td><pre><code>// API Gateway configuration is done via AWS Console or IaC.</code></pre></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>¿Cómo se integran bases de datos en una arquitectura serverless?</td>
+                <td>Las bases de datos serverless, como DynamoDB, se integran utilizando SDKs o APIs proporcionados por el proveedor de la nube. Las funciones Lambda pueden interactuar con estas bases de datos directamente.</td>
+                <td><pre><code>// Java example of integrating with DynamoDB in AWS Lambda
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Table;
+
+public class LambdaFunctionHandler implements RequestHandler<Map<String, String>, String> {
+    private final DynamoDB dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.defaultClient());
+    private final Table table = dynamoDB.getTable("MyTable");
+
+    @Override
+    public String handleRequest(Map<String, String> input, Context context) {
+        // Interact with DynamoDB
+        return "Data from DynamoDB";
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of integrating with DynamoDB in AWS Lambda
+import boto3
+
+def lambda_handler(event, context):
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('MyTable')
+    # Interact with DynamoDB
+    return "Data from DynamoDB"</code></pre></td>
+                <td><pre><code>// C# example of integrating with DynamoDB in AWS Lambda
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.Lambda.Core;
+using System.Collections.Generic;
+
+public class Function
+{
+    private readonly DynamoDBContext dbContext;
+
+    public Function()
+    {
+        var client = new AmazonDynamoDBClient();
+        dbContext = new DynamoDBContext(client);
+    }
+
+    public string FunctionHandler(Dictionary<string, string> input, ILambdaContext context)
+    {
+        // Interact with DynamoDB
+        return "Data from DynamoDB";
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of integrating with DynamoDB in AWS Lambda
+import * as AWS from 'aws-sdk';
+
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
+
+export const handler: APIGatewayProxyHandler = async (event) => {
+    // Interact with DynamoDB
+    return {
+        statusCode: 200,
+        body: 'Data from DynamoDB',
+    };
+};</code></pre></td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>¿Qué son las funciones como servicio (FaaS)?</td>
+                <td>Las funciones como servicio (FaaS) permiten ejecutar bloques de código en respuesta a eventos sin gestionar servidores. Las funciones se ejecutan en entornos de ejecución gestionados por el proveedor de la nube.</td>
+                <td><pre><code>// Example of FaaS with AWS Lambda in Java
+public class LambdaFunctionHandler implements RequestHandler<Map<String, String>, String> {
+    @Override
+    public String handleRequest(Map<String, String> input, Context context) {
+        return "Hello from FaaS";
+    }
+}</code></pre></td>
+                <td><pre><code># Example of FaaS with AWS Lambda in Python
+def lambda_handler(event, context):
+    return "Hello from FaaS"</code></pre></td>
+                <td><pre><code>// Example of FaaS with AWS Lambda in C#
+public class Function
+{
+    public string FunctionHandler(Dictionary<string, string> input, ILambdaContext context)
+    {
+        return "Hello from FaaS";
+    }
+}</code></pre></td>
+                <td><pre><code>// Example of FaaS with AWS Lambda in TypeScript
+export const handler: APIGatewayProxyHandler = async (event) => {
+    return {
+        statusCode: 200,
+        body: 'Hello from FaaS',
+    };
+};</code></pre></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>¿Cómo se optimiza el costo en una arquitectura serverless?</td>
+                <td>La optimización de costos en una arquitectura serverless se logra mediante la correcta configuración de los recursos, el uso eficiente del código, y el ajuste de las políticas de escalado automático.</td>
+                <td><pre><code>// Java does not have a specific cost optimization code, but using AWS Lambda efficiently helps.
+public class LambdaFunctionHandler implements RequestHandler<Map<String, String>, String> {
+    @Override
+    public String handleRequest(Map<String, String> input, Context context) {
+        // Efficient code and resource usage
+        return "Optimized cost";
+    }
+}</code></pre></td>
+                <td><pre><code># Python example
+def lambda_handler(event, context):
+    # Efficient code and resource usage
+    return "Optimized cost"</code></pre></td>
+                <td><pre><code>// C# example
+public class Function
+{
+    public string FunctionHandler(Dictionary<string, string> input, ILambdaContext context)
+    {
+        // Efficient code and resource usage
+        return "Optimized cost";
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example
+export const handler: APIGatewayProxyHandler = async (event) => {
+    // Efficient code and resource usage
+    return {
+        statusCode: 200,
+        body: 'Optimized cost',
+    };
+};</code></pre></td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>¿Qué herramientas se utilizan para monitorear funciones serverless?</td>
+                <td>Las herramientas de monitoreo incluyen servicios integrados como AWS CloudWatch, Azure Monitor, y herramientas de terceros como Datadog o New Relic.</td>
+                <td><pre><code>// Monitoring is typically configured outside of code, using AWS CloudWatch or similar tools.</code></pre></td>
+                <td><pre><code># Monitoring is configured using AWS CloudWatch or similar tools.</code></pre></td>
+                <td><pre><code>// Monitoring is configured using AWS CloudWatch or similar tools.</code></pre></td>
+                <td><pre><code>// Monitoring is configured using AWS CloudWatch or similar tools.</code></pre></td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>¿Cómo se maneja el estado en una arquitectura serverless?</td>
+                <td>El estado se maneja utilizando servicios de almacenamiento como bases de datos noSQL (DynamoDB) o almacenamiento en objetos (S3) para mantener la persistencia entre invocaciones.</td>
+                <td><pre><code>// Managing state with DynamoDB in Java
+public class LambdaFunctionHandler implements RequestHandler<Map<String, String>, String> {
+    private final DynamoDB dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.defaultClient());
+
+    @Override
+    public String handleRequest(Map<String, String> input, Context context) {
+        // Interact with DynamoDB to maintain state
+        return "State managed";
+    }
+}</code></pre></td>
+                <td><pre><code># Managing state with DynamoDB in Python
+import boto3
+
+def lambda_handler(event, context):
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('MyTable')
+    # Interact with DynamoDB to maintain state
+    return "State managed"</code></pre></td>
+                <td><pre><code>// Managing state with DynamoDB in C#
+public class Function
+{
+    private readonly DynamoDBContext dbContext;
+
+    public Function()
+    {
+        var client = new AmazonDynamoDBClient();
+        dbContext = new DynamoDBContext(client);
+    }
+
+    public string FunctionHandler(Dictionary<string, string> input, ILambdaContext context)
+    {
+        // Interact with DynamoDB to maintain state
+        return "State managed";
+    }
+}</code></pre></td>
+                <td><pre><code>// Managing state with DynamoDB in TypeScript
+import * as AWS from 'aws-sdk';
+
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
+
+export const handler: APIGatewayProxyHandler = async (event) => {
+    // Interact with DynamoDB to maintain state
+    return {
+        statusCode: 200,
+        body: 'State managed',
+    };
+};</code></pre></td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>¿Cómo se asegura la seguridad en una arquitectura serverless?</td>
+                <td>La seguridad se asegura mediante el uso de roles y políticas de IAM, encriptación de datos, y validación de entrada y salida.</td>
+                <td><pre><code>// Security with IAM roles in Java
+public class LambdaFunctionHandler implements RequestHandler<Map<String, String>, String> {
+    @Override
+    public String handleRequest(Map<String, String> input, Context context) {
+        // Security managed through IAM roles and policies
+        return "Secure";
+    }
+}</code></pre></td>
+                <td><pre><code># Security with IAM roles in Python
+def lambda_handler(event, context):
+    # Security managed through IAM roles and policies
+    return "Secure"</code></pre></td>
+                <td><pre><code>// Security with IAM roles in C#
+public class Function
+{
+    public string FunctionHandler(Dictionary<string, string> input, ILambdaContext context)
+    {
+        // Security managed through IAM roles and policies
+        return "Secure";
+    }
+}</code></pre></td>
+                <td><pre><code>// Security with IAM roles in TypeScript
+export const handler: APIGatewayProxyHandler = async (event) => {
+    // Security managed through IAM roles and policies
+    return {
+        statusCode: 200,
+        body: 'Secure',
+    };
+};</code></pre></td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>¿Qué consideraciones de rendimiento se deben tener en cuenta en una arquitectura serverless?</td>
+                <td>Las consideraciones de rendimiento incluyen el tiempo de inicio en frío, el tamaño del paquete de la función y la gestión del estado.</td>
+                <td><pre><code>// Performance considerations in Java
+public class LambdaFunctionHandler implements RequestHandler<Map<String, String>, String> {
+    @Override
+    public String handleRequest(Map<String, String> input, Context context) {
+        // Performance optimizations
+        return "Performance optimized";
+    }
+}</code></pre></td>
+                <td><pre><code># Performance considerations in Python
+def lambda_handler(event, context):
+    # Performance optimizations
+    return "Performance optimized"</code></pre></td>
+                <td><pre><code>// Performance considerations in C#
+public class Function
+{
+    public string FunctionHandler(Dictionary<string, string> input, ILambdaContext context)
+    {
+        // Performance optimizations
+        return "Performance optimized";
+    }
+}</code></pre></td>
+                <td><pre><code>// Performance considerations in TypeScript
+export const handler: APIGatewayProxyHandler = async (event) => {
+    // Performance optimizations
+    return {
+        statusCode: 200,
+        body: 'Performance optimized',
+    };
+};</code></pre></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

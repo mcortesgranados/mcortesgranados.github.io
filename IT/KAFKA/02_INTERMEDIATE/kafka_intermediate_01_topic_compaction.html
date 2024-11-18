@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Intermediate: Topic Compaction</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka Intermediate: Topic Compaction</h1>
+    <p>Topic compaction in Apache Kafka is a feature that ensures that only the latest version of each key is retained within a topic. This is particularly useful for scenarios where you want to keep the most recent state of a key rather than a historical log of all changes.</p>
+
+    <h2>1. What is Topic Compaction?</h2>
+    <p>Topic compaction is a log cleanup policy that retains only the last message for each key within a topic. Unlike the traditional log retention based on time or size, compaction focuses on preserving the latest state for each key.</p>
+
+    <h2>2. How Does Topic Compaction Work?</h2>
+    <p>In a compacted topic, Kafka periodically performs log compaction to remove old records with the same key, keeping only the latest record for each key. This is done by creating a "compact" version of the topic that only retains the most recent message for each key.</p>
+
+    <h2>3. Configuring Topic Compaction</h2>
+    <p>To enable log compaction for a topic, you need to configure the topic with the <code>cleanup.policy</code> property set to <code>compact</code>. Here’s how you can configure it using Kafka's command-line tools:</p>
+
+    <h3>3.1. Creating a Compacted Topic</h3>
+    <pre><code>
+kafka-topics.sh --create --topic my-compacted-topic --partitions 1 --replication-factor 1 --config cleanup.policy=compact --bootstrap-server localhost:9092
+    </code></pre>
+
+    <h3>3.2. Altering an Existing Topic</h3>
+    <pre><code>
+kafka-configs.sh --alter --entity-type topics --entity-name my-compacted-topic --add-config cleanup.policy=compact --bootstrap-server localhost:9092
+    </code></pre>
+
+    <h2>4. Key Considerations</h2>
+    <ul>
+        <li><strong>Compaction Frequency:</strong> The frequency of compaction is controlled by the <code>log.cleaner.interval.ms</code> configuration, which determines how often the log cleaner runs.</li>
+        <li><strong>Retention Time:</strong> Even with compaction enabled, Kafka still respects the <code>retention.ms</code> and <code>retention.bytes</code> settings for additional cleanup of old segments.</li>
+        <li><strong>Log Segment Size:</strong> Larger log segment sizes can impact compaction efficiency, so it’s important to balance segment sizes with the frequency of compaction.</li>
+        <li><strong>Compaction Performance:</strong> Compaction can be resource-intensive, so monitoring the performance and resource usage of the Kafka brokers is essential.</li>
+    </ul>
+
+    <h2>5. Example: Producing and Consuming from a Compacted Topic</h2>
+    <p>Here’s an example of producing and consuming messages from a compacted topic in Java:</p>
+
+    <h3>5.1. Producer Example</h3>
+    <pre><code>
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
+
+import java.util.Properties;
+import java.util.concurrent.Future;
+
+public class CompactedTopicProducer {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+
+        KafkaProducer<String, String> producer = new KafkaProducer<>(props);
+
+        try {
+            ProducerRecord<String, String> record1 = new ProducerRecord<>("my-compacted-topic", "key1", "value1");
+            ProducerRecord<String, String> record2 = new ProducerRecord<>("my-compacted-topic", "key1", "value2"); // Update for key1
+
+            Future<RecordMetadata> future1 = producer.send(record1);
+            Future<RecordMetadata> future2 = producer.send(record2);
+
+            future1.get();
+            future2.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            producer.close();
+        }
+    }
+}
+    </code></pre>
+
+    <h3>5.2. Consumer Example</h3>
+    <pre><code>
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.common.serialization.StringDeserializer;
+
+import java.time.Duration;
+import java.util.Collections;
+import java.util.Properties;
+
+public class CompactedTopicConsumer {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "my-consumer-group");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+        consumer.subscribe(Collections.singletonList("my-compacted-topic"));
+
+        try {
+            while (true) {
+                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
+                for (ConsumerRecord<String, String> record : records) {
+                    System.out.printf("Consumed record with key %s and value %s%n", record.key(), record.value());
+                }
+            }
+        } finally {
+            consumer.close();
+        }
+    }
+}
+    </code></pre>
+
+    <h2>6. Conclusion</h2>
+    <p>Topic compaction in Kafka is a powerful feature for maintaining the latest state of each key while minimizing storage requirements. By understanding and properly configuring topic compaction, you can optimize Kafka’s performance and ensure efficient data management.</p>
+</body>
+</html>

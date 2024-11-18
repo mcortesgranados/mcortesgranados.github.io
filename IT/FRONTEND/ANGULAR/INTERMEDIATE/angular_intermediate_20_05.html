@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intermediate Angular Questions - Part 5</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Intermediate Angular Questions - Part 5</h1>
+
+    <div class="question">
+        <h2>1. How do you use Angular's `FormArray` to manage an array of form controls?</h2>
+        <div class="answer">
+            <p>The `FormArray` class is used to manage an array of form controls.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+
+@Component({
+    selector: 'app-form-array',
+    template: `
+        <form [formGroup]="form">
+            <div formArrayName="items">
+                <div *ngFor="let item of items.controls; let i = index">
+                    <input [formControlName]="i" />
+                </div>
+            </div>
+            <button (click)="addItem()">Add Item</button>
+        </form>
+    `,
+})
+export class FormArrayComponent {
+    form: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            items: this.fb.array([this.fb.control('')])
+        });
+    }
+
+    get items() {
+        return this.form.get('items') as FormArray;
+    }
+
+    addItem() {
+        this.items.push(this.fb.control(''));
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How do you use Angular's `ReactiveForms` to create a form with validation?</h2>
+        <div class="answer">
+            <p>Reactive forms allow you to create forms with validation using `FormControl` and `FormGroup` classes.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+    selector: 'app-reactive-form',
+    template: `
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <input formControlName="name" placeholder="Name" />
+            <div *ngIf="form.controls.name.invalid && form.controls.name.touched">
+                Name is required
+            </div>
+            <button type="submit" [disabled]="form.invalid">Submit</button>
+        </form>
+    `,
+})
+export class ReactiveFormComponent {
+    form: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            name: ['', Validators.required]
+        });
+    }
+
+    onSubmit() {
+        console.log(this.form.value);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you use Angular's `FormBuilder` to create a form with nested controls?</h2>
+        <div class="answer">
+            <p>The `FormBuilder` class helps create complex forms with nested controls.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+@Component({
+    selector: 'app-nested-form',
+    template: `
+        <form [formGroup]="form">
+            <div formGroupName="address">
+                <input formControlName="street" placeholder="Street" />
+                <input formControlName="city" placeholder="City" />
+            </div>
+        </form>
+    `,
+})
+export class NestedFormComponent {
+    form: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            address: this.fb.group({
+                street: [''],
+                city: ['']
+            })
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you use Angular's `Validators` to add custom validation?</h2>
+        <div class="answer">
+            <p>You can create custom validators and use them with form controls.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+    selector: 'app-custom-validation',
+    template: `
+        <form [formGroup]="form">
+            <input formControlName="password" placeholder="Password" />
+            <div *ngIf="form.controls.password.errors?.pattern">
+                Password must contain at least one uppercase letter
+            </div>
+        </form>
+    `,
+})
+export class CustomValidationComponent {
+    form: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            password: ['', [Validators.required, this.uppercaseValidator]]
+        });
+    }
+
+    uppercaseValidator(control) {
+        const hasUppercase = /[A-Z]/.test(control.value);
+        return hasUppercase ? null : { pattern: true };
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you use Angular's `AsyncValidator` for asynchronous validation?</h2>
+        <div class="answer">
+            <p>Asynchronous validators are used to perform validation that requires an HTTP request or other async operations.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, AsyncValidatorFn, AbstractControl } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { debounceTime, map, catchError } from 'rxjs/operators';
+
+@Component({
+    selector: 'app-async-validator',
+    template: `
+        <form [formGroup]="form">
+            <input formControlName="username" placeholder="Username" />
+            <div *ngIf="form.controls.username.errors?.taken">
+                Username is taken
+            </div>
+        </form>
+    `,
+})
+export class AsyncValidatorComponent {
+    form: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            username: ['', null, this.usernameValidator()]
+        });
+    }
+
+    usernameValidator(): AsyncValidatorFn {
+        return (control: AbstractControl): Observable<any> => {
+            return of(control.value).pipe(
+                debounceTime(300),
+                map(value => value === 'admin' ? { taken: true } : null),
+                catchError(() => of(null))
+            );
+        };
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you use Angular's `HttpClient` to make HTTP requests?</h2>
+        <div class="answer">
+            <p>The `HttpClient` service is used to perform HTTP requests.</p>
+            <pre><code>
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+    selector: 'app-http',
+    template: `
+        <p>Data: {{ data | json }}</p>
+    `,
+})
+export class HttpComponent implements OnInit {
+    data: any;
+
+    constructor(private http: HttpClient) {}
+
+    ngOnInit() {
+        this.http.get('https://api.example.com/data').subscribe(response => {
+            this.data = response;
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use Angular's `HttpInterceptor` to modify HTTP requests?</h2>
+        <div class="answer">
+            <p>The `HttpInterceptor` allows you to intercept and modify HTTP requests and responses.</p>
+            <pre><code>
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const cloned = req.clone({
+            setHeaders: {
+                Authorization: 'Bearer my-token'
+            }
+        });
+        return next.handle(cloned);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you use Angular's `HttpParams` to build query parameters?</h2>
+        <div class="answer">
+            <p>The `HttpParams` class is used to build query parameters for HTTP requests.</p>
+            <pre><code>
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+
+@Component({
+    selector: 'app-http-params',
+    template: `
+        <p>Data: {{ data | json }}</p>
+    `,
+})
+export class HttpParamsComponent implements OnInit {
+    data: any;
+
+    constructor(private http: HttpClient) {}
+
+    ngOnInit() {
+        const params = new HttpParams().set('param1', 'value1').set('param2', 'value2');
+        this.http.get('https://api.example.com/data', { params }).subscribe(response => {
+            this.data = response;
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you use Angular's `NgModel` for two-way data binding?</h2>
+        <div class="answer">
+            <p>The `NgModel` directive is used for two-way data binding in Angular forms.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-model',
+    template: `
+        <input [(ngModel)]="name" placeholder="Name" />
+        <p>Name: {{ name }}</p>
+    `,
+})
+export class NgModelComponent {
+    name: string = '';
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use Angular's `Custom Pipe` to transform data?</h2>
+        <div class="answer">
+            <p>Custom pipes allow you to transform data before displaying it in the template.</p>
+            <pre><code>
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'reverse'
+})
+export class ReversePipe implements PipeTransform {
+    transform(value: string): string {
+        return value.split('').reverse().join('');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you use Angular's `@HostListener` to listen to DOM events?</h2>
+        <div class="answer">
+            <p>The `@HostListener` decorator allows you to listen to DOM events in your component or directive.</p>
+            <pre><code>
+import { Directive, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appHover]'
+})
+export class HoverDirective {
+    @HostListener('mouseenter') onMouseEnter() {
+        console.log('Mouse entered');
+    }
+
+    @HostListener('mouseleave') onMouseLeave() {
+        console.log('Mouse left');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you use Angular's `@ContentChild` to access projected content?</h2>
+        <div class="answer">
+            <p>The `@ContentChild` decorator is used to access a single child element projected into a component.</p>
+            <pre><code>
+import { Component, ContentChild, AfterContentInit, ElementRef } from '@angular/core';
+
+@Component({
+    selector: 'app-content-child',
+    template: `<ng-content></ng-content>`,
+})
+export class ContentChildComponent implements AfterContentInit {
+    @ContentChild('content') content: ElementRef;
+
+    ngAfterContentInit() {
+        console.log(this.content.nativeElement.textContent);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use Angular's `ChangeDetectorRef` to manually trigger change detection?</h2>
+        <div class="answer">
+            <p>The `ChangeDetectorRef` service allows you to manually trigger change detection.</p>
+            <pre><code>
+import { Component, ChangeDetectorRef } from '@angular/core';
+
+@Component({
+    selector: 'app-detection',
+    template: `
+        <p>{{ message }}</p>
+        <button (click)="updateMessage()">Update Message</button>
+    `,
+})
+export class DetectionComponent {
+    message: string = 'Initial Message';
+
+    constructor(private cd: ChangeDetectorRef) {}
+
+    updateMessage() {
+        this.message = 'Updated Message';
+        this.cd.detectChanges();
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use Angular's `@Injectable` decorator to create a service?</h2>
+        <div class="answer">
+            <p>The `@Injectable` decorator is used to create a service that can be injected into other components or services.</p>
+            <pre><code>
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DataService {
+    getData() {
+        return ['Item1', 'Item2', 'Item3'];
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you use Angular's `@NgModule` to configure providers?</h2>
+        <div class="answer">
+            <p>Providers can be configured in the `@NgModule` decorator to be available throughout the application or module.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DataService } from './data.service';
+
+@NgModule({
+    imports: [CommonModule],
+    providers: [DataService]
+})
+export class SharedModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you use Angular's `ng-content` to project content into a component?</h2>
+        <div class="answer">
+            <p>The `ng-content` directive is used to project content into a component's template.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-content',
+    template: `<ng-content></ng-content>`,
+})
+export class ContentComponent { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use Angular's `@Inject` decorator for dependency injection?</h2>
+        <div class="answer">
+            <p>The `@Inject` decorator allows you to specify a dependency to be injected into a component or service.</p>
+            <pre><code>
+import { Component, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+
+@Component({
+    selector: 'app-doc',
+    template: `<p>Document title: {{ title }}</p>`,
+})
+export class DocComponent {
+    title: string;
+
+    constructor(@Inject(DOCUMENT) private document: Document) {
+        this.title = this.document.title;
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use Angular's `@HostBinding` to bind properties to a host element?</h2>
+        <div class="answer">
+            <p>The `@HostBinding` decorator is used to bind properties to the host element of a directive or component.</p>
+            <pre><code>
+import { Directive, HostBinding } from '@angular/core';
+
+@Directive({
+    selector: '[appHighlight]'
+})
+export class HighlightDirective {
+    @HostBinding('class.highlighted') isHighlighted = true;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you use Angular's `@Host` decorator for dependency injection?</h2>
+        <div class="answer">
+            <p>The `@Host` decorator allows you to inject a dependency from the host element.</p>
+            <pre><code>
+import { Directive, Host } from '@angular/core';
+import { DataService } from './data.service';
+
+@Directive({
+    selector: '[appHost]',
+})
+export class HostDirective {
+    constructor(@Host() private dataService: DataService) {
+        console.log(this.dataService.getData());
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `ngOnInit` lifecycle hook?</h2>
+        <div class="answer">
+            <p>The `ngOnInit` lifecycle hook is used to perform initialization logic after Angular has initialized the component's data-bound properties.</p>
+            <pre><code>
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+    selector: 'app-init',
+    template: `<p>Component initialized</p>`,
+})
+export class InitComponent implements OnInit {
+    ngOnInit() {
+        console.log('Component initialized');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

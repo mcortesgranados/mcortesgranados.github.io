@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Forms Q&A - Part 5</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        h2 {
+            color: #007BFF;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-left: 4px solid #007BFF;
+            overflow-x: auto;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .question strong {
+            color: #333;
+        }
+        .answer {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Oracle Forms Q&A - Part 5</h1>
+
+    <div class="question">
+        <strong>1. What is the <code>WHEN-VALIDATE-ITEM</code> trigger used for?</strong>
+        <div class="answer">
+            <p>The <code>WHEN-VALIDATE-ITEM</code> trigger is fired when a user has entered a value into an item and the item loses focus. It is used to validate or modify item values before they are committed to the database.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>2. How can you set a default value for a field in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can set a default value for a field using the <code>DEFAULT_VALUE</code> property of the item or by using the <code>SET_ITEM_PROPERTY</code> procedure in a form trigger.</p>
+            <pre><code>
+SET_ITEM_PROPERTY('block.item', DEFAULT_VALUE, 'Default Value');
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>3. How can you retrieve the current user in Oracle Forms?</strong>
+        <div class="answer">
+            <p>You can retrieve the current user using the <code>USER</code> built-in function, which returns the username of the current database session.</p>
+            <pre><code>
+DECLARE
+    current_user VARCHAR2(30);
+BEGIN
+    current_user := USER;
+    DBMS_OUTPUT.PUT_LINE('Current User: ' || current_user);
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>4. What is the purpose of the <code>ON-ERROR</code> trigger in Oracle Forms?</strong>
+        <div class="answer">
+            <p>The <code>ON-ERROR</code> trigger is used to handle exceptions and errors that occur during the execution of other triggers or processes. It allows for custom error handling and message display.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>5. How can you use the <code>RUN_PROGRAM</code> procedure in Oracle Forms?</strong>
+        <div class="answer">
+            <p>The <code>RUN_PROGRAM</code> procedure is used to execute external programs or scripts from within an Oracle Forms application.</p>
+            <pre><code>
+BEGIN
+    RUN_PROGRAM('external_program.exe');
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>6. How do you perform a multi-record query in Oracle Forms?</strong>
+        <div class="answer">
+            <p>To perform a multi-record query, use the <code>QUERY</code> built-in procedure to retrieve multiple records into a block's dataset, allowing for browsing and editing of multiple rows.</p>
+            <pre><code>
+BEGIN
+    QUERY_BLOCK('block_name');
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>7. What is a "master-detail relationship" in Oracle Forms?</strong>
+        <div class="answer">
+            <p>A master-detail relationship in Oracle Forms is a type of data relationship where a master block's records are related to detail block records. Changes in the master block affect the detail block's data.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>8. How can you disable a field in Oracle Forms?</strong>
+        <div class="answer">
+            <p>To disable a field, use the <code>SET_ITEM_PROPERTY</code> procedure to set the <code>ENABLED</code> property to <code>FALSE</code>.</p>
+            <pre><code>
+SET_ITEM_PROPERTY('block.item', ENABLED, FALSE);
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>9. What is the <code>WHEN-NEW-FORM-INSTANCE</code> trigger used for?</strong>
+        <div class="answer">
+            <p>The <code>WHEN-NEW-FORM-INSTANCE</code> trigger is executed when a form instance is created. It is used for initialization tasks and setting up form-level settings.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>10. How can you handle "form-level" validation in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Form-level validation can be handled using the <code>WHEN-VALIDATE-RECORD</code> trigger to ensure that all records in the form meet certain criteria before committing them to the database.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>11. How do you use the <code>POST-CHANGE</code> trigger in Oracle Forms?</strong>
+        <div class="answer">
+            <p>The <code>POST-CHANGE</code> trigger is fired after an item’s value is changed. It can be used to perform additional actions or calculations based on the new value.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>12. How can you programmatically change the color of a field in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Change the color of a field using the <code>SET_ITEM_PROPERTY</code> procedure to modify properties related to the item's color or appearance.</p>
+            <pre><code>
+SET_ITEM_PROPERTY('block.item', BACKGROUND_COLOR, 'LIGHT_BLUE');
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>13. What is the <code>QUERY</code> built-in procedure used for?</strong>
+        <div class="answer">
+            <p>The <code>QUERY</code> built-in procedure is used to retrieve data from the database into the form's block for displaying or processing records.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>14. How can you handle "post-query" processing in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Post-query processing is handled using the <code>POST-QUERY</code> trigger, which executes after a query retrieves records. It is used for actions such as formatting or calculating data.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>15. How can you make a field "read-only" in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Make a field read-only by setting the <code>ENABLED</code> property to <code>FALSE</code> using the <code>SET_ITEM_PROPERTY</code> procedure.</p>
+            <pre><code>
+SET_ITEM_PROPERTY('block.item', ENABLED, FALSE);
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>16. What is the <code>PRE-FORM</code> trigger used for?</strong>
+        <div class="answer">
+            <p>The <code>PRE-FORM</code> trigger is fired before a form is displayed. It is used to perform initialization tasks or set up form properties before the form is shown to the user.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>17. How can you use the <code>SET_ITEM_INSTANCE_PROPERTY</code> procedure?</strong>
+        <div class="answer">
+            <p>The <code>SET_ITEM_INSTANCE_PROPERTY</code> procedure is used to set properties for individual instances of items, especially in a multi-record block.</p>
+            <pre><code>
+SET_ITEM_INSTANCE_PROPERTY('block.item', 1, ENABLED, TRUE);
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>18. How do you use the <code>PRE-QUERY</code> trigger?</strong>
+        <div class="answer">
+            <p>The <code>PRE-QUERY</code> trigger is executed before a query is processed. It can be used to set or modify query parameters or perform other actions before data retrieval.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>19. How can you dynamically change the layout of a form in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Change the layout dynamically by adjusting properties such as position, size, or visibility of form items using built-in procedures like <code>SET_ITEM_PROPERTY</code>.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>20. What is the <code>WHEN-NEW-ITEM-INSTANCE</code> trigger used for?</strong>
+        <div class="answer">
+            <p>The <code>WHEN-NEW-ITEM-INSTANCE</code> trigger is fired when a new item instance is created or selected. It is used to initialize or modify item attributes based on context.</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

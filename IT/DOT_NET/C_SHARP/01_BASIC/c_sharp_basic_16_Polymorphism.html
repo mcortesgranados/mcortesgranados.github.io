@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Polymorphism</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Polymorphism</h1>
+    <p>Polymorphism is a core concept in object-oriented programming (OOP) that allows objects to be treated as instances of their parent class rather than their actual class. The primary types of polymorphism in C# are compile-time polymorphism (method overloading) and runtime polymorphism (method overriding).</p>
+    
+    <h2>1. Compile-Time Polymorphism (Method Overloading)</h2>
+    <p>Compile-time polymorphism, also known as method overloading, occurs when multiple methods have the same name but different parameters within the same class. The method that is executed is determined at compile-time based on the method signature.</p>
+    <pre><code>
+    public class Calculator
+    {
+        // Method Overloading
+        public int Add(int a, int b)
+        {
+            return a + b;
+        }
+
+        public double Add(double a, double b)
+        {
+            return a + b;
+        }
+        
+        public int Add(int a, int b, int c)
+        {
+            return a + b + c;
+        }
+    }
+    </code></pre>
+    
+    <h2>2. Runtime Polymorphism (Method Overriding)</h2>
+    <p>Runtime polymorphism, or method overriding, occurs when a derived class provides a specific implementation of a method that is already defined in its base class. The method in the base class must be marked as <code>virtual</code>, and the method in the derived class must use the <code>override</code> keyword.</p>
+    <pre><code>
+    // Base class
+    public class Animal
+    {
+        public virtual void MakeSound()
+        {
+            Console.WriteLine("Animal makes a sound.");
+        }
+    }
+
+    // Derived class
+    public class Dog : Animal
+    {
+        public override void MakeSound()
+        {
+            Console.WriteLine("The dog barks.");
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Using Polymorphism</h2>
+    <p>Polymorphism allows you to use a base class reference to refer to a derived class object. This enables you to call overridden methods and achieve dynamic method binding at runtime.</p>
+    <pre><code>
+    class Program
+    {
+        static void Main()
+        {
+            // Using base class reference to refer to derived class object
+            Animal myAnimal = new Dog();
+            
+            // Calling the overridden method
+            myAnimal.MakeSound(); // Output: The dog barks.
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Example Program</h2>
+    <p>Here’s a complete C# program demonstrating both compile-time and runtime polymorphism:</p>
+    <pre><code>
+    using System;
+
+    public class Calculator
+    {
+        // Method Overloading
+        public int Add(int a, int b)
+        {
+            return a + b;
+        }
+
+        public double Add(double a, double b)
+        {
+            return a + b;
+        }
+        
+        public int Add(int a, int b, int c)
+        {
+            return a + b + c;
+        }
+    }
+
+    // Base class
+    public class Animal
+    {
+        public virtual void MakeSound()
+        {
+            Console.WriteLine("Animal makes a sound.");
+        }
+    }
+
+    // Derived class
+    public class Dog : Animal
+    {
+        public override void MakeSound()
+        {
+            Console.WriteLine("The dog barks.");
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            // Demonstrating method overloading
+            Calculator calc = new Calculator();
+            Console.WriteLine(calc.Add(5, 10));           // Output: 15
+            Console.WriteLine(calc.Add(5.5, 10.5));       // Output: 16.0
+            Console.WriteLine(calc.Add(5, 10, 15));       // Output: 30
+
+            // Demonstrating method overriding
+            Animal myAnimal = new Dog();
+            myAnimal.MakeSound(); // Output: The dog barks.
+        }
+    }
+    </code></pre>
+    
+    <h2>5. Key Points</h2>
+    <ul>
+        <li><strong>Polymorphism</strong> allows objects to be treated as instances of their parent class.</li>
+        <li><strong>Compile-Time Polymorphism</strong> is achieved through method overloading.</li>
+        <li><strong>Runtime Polymorphism</strong> is achieved through method overriding.</li>
+        <li>Use <code>virtual</code> in the base class and <code>override</code> in the derived class to achieve runtime polymorphism.</li>
+    </ul>
+</body>
+</html>

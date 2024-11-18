@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Reports FAQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background: #f4f4f4;
+            border-left: 4px solid #ccc;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Oracle Reports FAQ</h1>
+
+    <h2>1. What is Oracle Reports?</h2>
+    <p>Oracle Reports is a reporting tool from Oracle that provides a platform for creating and managing various types of reports, including operational, transactional, and analytical reports.</p>
+
+    <h2>2. How do you create a simple report in Oracle Reports?</h2>
+    <p>To create a simple report, you can use Oracle Reports Builder to define your data model, layout, and report format. Here’s a basic example:</p>
+    <pre>
+    -- Basic SQL Query for Report Data
+    SELECT employee_id, first_name, last_name, salary
+    FROM employees;
+    </pre>
+
+    <h2>3. How can you format text in Oracle Reports?</h2>
+    <p>You can format text using the 'Property Inspector' in Oracle Reports Builder. For example, to change font size and color:</p>
+    <pre>
+    -- Set font size and color in Property Inspector
+    Font Size: 12
+    Font Color: Blue
+    </pre>
+
+    <h2>4. What is a parameter in Oracle Reports?</h2>
+    <p>A parameter is a variable that you can pass to your report to dynamically filter data or customize the report output. Parameters are defined in the 'Parameters' section of Reports Builder.</p>
+
+    <h2>5. How do you add a parameter to a report?</h2>
+    <p>To add a parameter:</p>
+    <pre>
+    -- In Reports Builder
+    1. Go to the 'Parameters' section.
+    2. Add a new parameter.
+    3. Define its properties, such as data type and default value.
+    4. Use the parameter in your SQL query or report layout.
+    </pre>
+
+    <h2>6. How do you use PL/SQL in Oracle Reports?</h2>
+    <p>You can use PL/SQL to perform computations, manipulate data, or control report flow. For example:</p>
+    <pre>
+    -- PL/SQL Block for Calculations
+    DECLARE
+        v_total_salary NUMBER;
+    BEGIN
+        SELECT SUM(salary) INTO v_total_salary FROM employees;
+        :total_salary := v_total_salary;
+    END;
+    </pre>
+
+    <h2>7. What is a layout model in Oracle Reports?</h2>
+    <p>The layout model defines how the report is visually presented. It includes elements like frames, repeating frames, and fields to display data.</p>
+
+    <h2>8. How do you create a repeating frame in Oracle Reports?</h2>
+    <p>To create a repeating frame:</p>
+    <pre>
+    -- In Reports Builder
+    1. Drag and drop a 'Repeating Frame' from the tool palette.
+    2. Bind it to a data query.
+    3. Place data fields inside the repeating frame.
+    </pre>
+
+    <h2>9. How can you use SQL query parameters in Oracle Reports?</h2>
+    <p>You can use bind variables in your SQL query to refer to report parameters:</p>
+    <pre>
+    -- SQL Query with Bind Variable
+    SELECT employee_id, first_name, last_name, salary
+    FROM employees
+    WHERE department_id = :department_id;
+    </pre>
+
+    <h2>10. How do you handle multi-page reports in Oracle Reports?</h2>
+    <p>Oracle Reports handles multi-page reports automatically if the content exceeds one page. You can control pagination settings in the 'Report Properties' section.</p>
+
+    <h2>11. What is a trigger in Oracle Reports?</h2>
+    <p>A trigger is a PL/SQL block that is executed at specific points during report generation, such as before or after a report is executed. For example:</p>
+    <pre>
+    -- Before Report Trigger
+    BEGIN
+        :report_title := 'Employee Salary Report';
+    END;
+    </pre>
+
+    <h2>12. How can you add a summary field in Oracle Reports?</h2>
+    <p>To add a summary field:</p>
+    <pre>
+    -- In Reports Builder
+    1. Create a 'Summary' field in the layout model.
+    2. Use aggregation functions like SUM, AVG in the field's formula.
+    </pre>
+
+    <h2>13. What is a layout model and data model in Oracle Reports?</h2>
+    <p>The layout model determines the report’s appearance, while the data model defines the structure and source of data for the report.</p>
+
+    <h2>14. How do you use Oracle Reports to generate PDF output?</h2>
+    <p>To generate PDF output, configure the report's output format settings:</p>
+    <pre>
+    -- In Reports Builder
+    1. Go to 'Report Properties'.
+    2. Set 'Output Format' to PDF.
+    </pre>
+
+    <h2>15. How do you schedule a report in Oracle Reports?</h2>
+    <p>Use Oracle Enterprise Manager or Oracle Reports Server to schedule reports for automatic execution at specified intervals.</p>
+
+    <h2>16. How can you control report formatting based on data values?</h2>
+    <p>Use conditional formatting rules in the 'Property Inspector' to change the appearance based on data values.</p>
+
+    <h2>17. What is the difference between a 'Group' and a 'Repeating Frame'?</h2>
+    <p>A 'Group' is used to organize data logically and manage grouping, while a 'Repeating Frame' is used to display repeating rows of data in a layout.</p>
+
+    <h2>18. How do you pass data from Oracle Reports to other applications?</h2>
+    <p>You can use Oracle Reports' output formats like CSV or XML to export data for use in other applications.</p>
+
+    <h2>19. How do you integrate Oracle Reports with Oracle Application Express (APEX)?</h2>
+    <p>You can call Oracle Reports from APEX using web services or report URLs. Configure the integration through the APEX report region or page processes.</p>
+
+    <h2>20. How do you troubleshoot errors in Oracle Reports?</h2>
+    <p>Check the report's log files and use Oracle Reports Builder’s debugging tools to diagnose and resolve issues.</p>
+</body>
+</html>

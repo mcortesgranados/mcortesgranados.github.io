@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced TypeScript Questions</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Advanced TypeScript Questions</h1>
+
+    <div class="question">
+        <h2>1. How do you define a TypeScript decorator and what is its purpose?</h2>
+        <div class="answer">
+            <p>Decorators are a special kind of declaration that can be attached to a class, method, accessor, property, or parameter. They are used to modify or augment the behavior of the entity they are attached to. Decorators are a feature of TypeScript that allows for metaprogramming.</p>
+            <pre><code>
+function Log(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    descriptor.value = function (...args: any[]) {
+        console.log(`Arguments for ${propertyKey}: ${JSON.stringify(args)}`);
+        return originalMethod.apply(this, args);
+    };
+}
+
+class Example {
+    @Log
+    greet(name: string) {
+        return `Hello, ${name}!`;
+    }
+}
+
+const example = new Example();
+example.greet('World');
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. What is the difference between `type` and `interface` in TypeScript?</h2>
+        <div class="answer">
+            <p>Both `type` and `interface` can be used to define shapes of objects, but there are differences:</p>
+            <ul>
+                <li><strong>Interface</strong> is used to describe the shape of an object or a class. It supports declaration merging and can be extended using `extends`.</li>
+                <li><strong>Type</strong> can be used to define a union, intersection, or other complex types. It cannot be merged but can be combined using intersection types.</li>
+            </ul>
+            <pre><code>
+// Interface
+interface Person {
+    name: string;
+    age: number;
+}
+
+interface Person {
+    gender?: string;
+}
+
+// Type
+type Car = {
+    brand: string;
+    model: string;
+};
+
+type Vehicle = Car & {
+    year: number;
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you use generics in TypeScript to create a function that can accept any type?</h2>
+        <div class="answer">
+            <p>Generics allow you to write functions, classes, and interfaces that work with any data type while maintaining type safety. You can use a type parameter to represent the type that will be used later.</p>
+            <pre><code>
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+let result = identity<string>('Hello, TypeScript!');
+console.log(result);
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. What are mapped types in TypeScript and how do you use them?</h2>
+        <div class="answer">
+            <p>Mapped types allow you to create new types by transforming properties of an existing type. You can use mapped types to create variations of types by changing their properties.</p>
+            <pre><code>
+type ReadOnly<T> = {
+    readonly [P in keyof T]: T[P];
+};
+
+interface User {
+    name: string;
+    age: number;
+}
+
+const user: ReadOnly<User> = {
+    name: 'John',
+    age: 30
+};
+
+// user.age = 31; // Error: Cannot assign to 'age' because it is a read-only property.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. Explain how to use conditional types in TypeScript.</h2>
+        <div class="answer">
+            <p>Conditional types allow you to create types that depend on a condition. They are similar to ternary operators in JavaScript, but for types.</p>
+            <pre><code>
+type TrueType = true extends true ? 'Yes' : 'No'; // 'Yes'
+type FalseType = false extends true ? 'Yes' : 'No'; // 'No'
+
+type Check<T> = T extends number ? 'Number' : 'Other';
+type Result = Check<string>; // 'Other'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. What is the purpose of the `keyof` operator in TypeScript?</h2>
+        <div class="answer">
+            <p>The `keyof` operator is used to get the keys of an object type as a union of string literal types.</p>
+            <pre><code>
+interface Person {
+    name: string;
+    age: number;
+}
+
+type PersonKeys = keyof Person; // 'name' | 'age'
+
+function getValue<T, K extends keyof T>(obj: T, key: K): T[K] {
+    return obj[key];
+}
+
+const person: Person = { name: 'Alice', age: 25 };
+const name = getValue(person, 'name'); // 'Alice'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use the `as` keyword for type assertions in TypeScript?</h2>
+        <div class="answer">
+            <p>The `as` keyword is used to assert that a value is of a certain type. It tells TypeScript to treat a value as a specific type.</p>
+            <pre><code>
+let someValue: any = 'Hello, TypeScript!';
+let strLength: number = (someValue as string).length;
+
+let anotherValue: any = 42;
+let numLength: number = (anotherValue as string).length; // Error: Property 'length' does not exist on type 'number'.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. What are union and intersection types in TypeScript?</h2>
+        <div class="answer">
+            <p>Union types allow you to specify that a value can be one of several types, while intersection types combine multiple types into one.</p>
+            <pre><code>
+// Union Type
+function printId(id: number | string) {
+    console.log(`ID: ${id}`);
+}
+
+printId(123);
+printId('abc');
+
+// Intersection Type
+type Person = { name: string };
+type Employee = { jobTitle: string };
+
+type Worker = Person & Employee;
+
+const worker: Worker = {
+    name: 'Alice',
+    jobTitle: 'Engineer'
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you define a tuple in TypeScript and how can you use it?</h2>
+        <div class="answer">
+            <p>Tuples are a way to express an array with a fixed number of elements where each element can have a different type.</p>
+            <pre><code>
+let tuple: [string, number, boolean] = ['Hello', 42, true];
+
+console.log(tuple[0]); // 'Hello'
+console.log(tuple[1]); // 42
+console.log(tuple[2]); // true
+
+tuple[0] = 'World'; // OK
+tuple[1] = 24; // OK
+tuple[2] = false; // OK
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. What is type inference in TypeScript and how does it work?</h2>
+        <div class="answer">
+            <p>Type inference allows TypeScript to automatically deduce the type of a value based on its context. This helps in reducing the need for explicit type annotations.</p>
+            <pre><code>
+let num = 42; // TypeScript infers the type as number
+let str = 'Hello'; // TypeScript infers the type as string
+
+function add(x: number, y: number) {
+    return x + y; // TypeScript infers the return type as number
+}
+
+let result = add(1, 2); // result is inferred as number
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you create a TypeScript class with private and protected members?</h2>
+        <div class="answer">
+            <p>Classes in TypeScript can have `private` and `protected` members. `private` members can only be accessed within the class, while `protected` members can be accessed within the class and its subclasses.</p>
+            <pre><code>
+class Animal {
+    private name: string;
+    protected age: number;
+
+    constructor(name: string, age: number) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public getName(): string {
+        return this.name;
+    }
+}
+
+class Dog extends Animal {
+    public bark() {
+        console.log('Woof!');
+        console.log(`Age: ${this.age}`); // OK
+    }
+}
+
+const dog = new Dog('Buddy', 5);
+console.log(dog.getName()); // 'Buddy'
+dog.bark();
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. What is a namespace in TypeScript and how is it used?</h2>
+        <div class="answer">
+            <p>Namespaces are a way to organize code and avoid name collisions by grouping related code together. They are an older feature and are less commonly used with modern module systems.</p>
+            <pre><code>
+namespace Geometry {
+    export class Circle {
+        constructor(public radius: number) {}
+        getArea(): number {
+            return Math.PI * this.radius ** 2;
+        }
+    }
+}
+
+const circle = new Geometry.Circle(10);
+console.log(circle.getArea()); // 314.159...
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use `Promise` with async/await in TypeScript?</h2>
+        <div class="answer">
+            <p>Async/await is syntactic sugar over Promises that allows you to write asynchronous code in a more synchronous style.</p>
+            <pre><code>
+async function fetchData(url: string): Promise<string> {
+    const response = await fetch(url);
+    const data = await response.text();
+    return data;
+}
+
+fetchData('https://api.example.com/data')
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use `type` guards in TypeScript?</h2>
+        <div class="answer">
+            <p>Type guards are used to narrow down the type of a variable within a conditional block. You can use type guards to ensure that certain code paths only execute if the variable is of a specific type.</p>
+            <pre><code>
+function isString(value: any): value is string {
+    return typeof value === 'string';
+}
+
+function print(value: string | number) {
+    if (isString(value)) {
+        console.log(value.toUpperCase());
+    } else {
+        console.log(value.toFixed(2));
+    }
+}
+
+print('hello'); // 'HELLO'
+print(42); // '42.00'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. What is the purpose of `never` type in TypeScript?</h2>
+        <div class="answer">
+            <p>The `never` type represents values that never occur. It is used to signify that a function does not return or an expression cannot produce a value.</p>
+            <pre><code>
+function throwError(message: string): never {
+    throw new Error(message);
+}
+
+function infiniteLoop(): never {
+    while (true) {}
+}
+
+throwError('An error occurred');
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you use `Partial` and `Required` utility types in TypeScript?</h2>
+        <div class="answer">
+            <p>The `Partial` utility type makes all properties of a type optional, while the `Required` utility type makes all properties required.</p>
+            <pre><code>
+interface User {
+    name: string;
+    age?: number;
+}
+
+const user: Partial<User> = { name: 'Alice' }; // `age` is optional
+
+const completeUser: Required<User> = { name: 'Alice', age: 25 }; // `age` is required
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use `Record` utility type in TypeScript?</h2>
+        <div class="answer">
+            <p>The `Record` utility type creates an object type with specific keys and values. It is useful for creating types that represent a mapping of keys to values.</p>
+            <pre><code>
+type Roles = 'admin' | 'user';
+type RolePermissions = Record<Roles, boolean>;
+
+const permissions: RolePermissions = {
+    admin: true,
+    user: false
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. What is the purpose of `typeof` operator in TypeScript?</h2>
+        <div class="answer">
+            <p>The `typeof` operator in TypeScript allows you to get the type of a variable or property. It is commonly used to create types based on the type of another variable.</p>
+            <pre><code>
+const user = { name: 'Alice', age: 25 };
+type UserType = typeof user;
+
+const anotherUser: UserType = { name: 'Bob', age: 30 };
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you define and use a TypeScript mixin?</h2>
+        <div class="answer">
+            <p>Mixins allow you to compose classes from multiple sources. In TypeScript, mixins are implemented by combining class behaviors from different classes.</p>
+            <pre><code>
+class Flyable {
+    fly() {
+        console.log('Flying');
+    }
+}
+
+class Swimmable {
+    swim() {
+        console.log('Swimming');
+    }
+}
+
+function applyMixins(derivedCtor: any, baseCtors: any[]) {
+    baseCtors.forEach(baseCtor => {
+        Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {
+            derivedCtor.prototype[name] = baseCtor.prototype[name];
+        });
+    });
+}
+
+class Duck { }
+
+applyMixins(Duck, [Flyable, Swimmable]);
+
+const duck = new Duck();
+duck.fly(); // 'Flying'
+duck.swim(); // 'Swimming'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use `Tuple` and `Readonly` in TypeScript?</h2>
+        <div class="answer">
+            <p>The `Readonly` utility type makes all properties of a tuple or object read-only, while tuples allow you to define arrays with fixed lengths and types.</p>
+            <pre><code>
+type Point = readonly [number, number];
+
+const point: Point = [10, 20];
+// point[0] = 15; // Error: Index signature in type 'readonly [number, number]' only permits reading property.
+
+type ReadonlyPoint = Readonly<Point>;
+
+const readonlyPoint: ReadonlyPoint = [30, 40];
+// readonlyPoint[0] = 35; // Error: Index signature in type 'readonly [number, number]' only permits reading property.
+            </code></pre>
+        </div>
+    </div>
+</body>
+</html>

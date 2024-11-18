@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced TypeScript Questions - Part 6</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Advanced TypeScript Questions - Part 6</h1>
+
+    <div class="question">
+        <h2>1. How can you use `keyof` with mapped types to create a type that includes only specific keys from an object type?</h2>
+        <div class="answer">
+            <p>The `keyof` operator combined with mapped types can be used to create types that include only specific keys from an object.</p>
+            <pre><code>
+interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+
+type UserKeys = keyof User; // 'id' | 'name' | 'email'
+
+type NameAndEmail = Pick<User, 'name' | 'email'>;
+// { name: string; email: string; }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. What is the `ReturnType` utility type and how is it used in TypeScript?</h2>
+        <div class="answer">
+            <p>The `ReturnType` utility type extracts the return type of a function type.</p>
+            <pre><code>
+type Func = (a: number) => string;
+type FuncReturnType = ReturnType<Func>; // string
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you use `Extract` to obtain a subset of union types in TypeScript?</h2>
+        <div class="answer">
+            <p>The `Extract` utility type allows you to create a type that includes only those members of a union type that are assignable to another type.</p>
+            <pre><code>
+type A = 'a' | 'b' | 'c';
+type B = Extract<A, 'b' | 'c'>; // 'b' | 'c'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you create a type that represents all properties of an object type except for certain properties?</h2>
+        <div class="answer">
+            <p>You can use the `Omit` utility type to create a type that excludes specific properties from an object type.</p>
+            <pre><code>
+interface User {
+    id: number;
+    name: string;
+    email: string;
+}
+
+type UserWithoutEmail = Omit<User, 'email'>;
+// { id: number; name: string; }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How can you use `Exclude` to create a type that excludes certain values from a union type?</h2>
+        <div class="answer">
+            <p>The `Exclude` utility type creates a type by excluding from a union type all values that are assignable to another type.</p>
+            <pre><code>
+type A = 'a' | 'b' | 'c';
+type B = Exclude<A, 'b'>; // 'a' | 'c'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How can you use `Type Guards` to narrow down types in TypeScript?</h2>
+        <div class="answer">
+            <p>Type guards are functions or expressions that help TypeScript narrow down the type of a variable within a conditional block.</p>
+            <pre><code>
+interface Dog {
+    bark: () => void;
+}
+
+interface Cat {
+    meow: () => void;
+}
+
+function isDog(animal: Dog | Cat): animal is Dog {
+    return (animal as Dog).bark !== undefined;
+}
+
+const animal: Dog | Cat = getAnimal();
+
+if (isDog(animal)) {
+    animal.bark(); // TypeScript knows 'animal' is of type 'Dog'
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. What is the `as` keyword used for in TypeScript?</h2>
+        <div class="answer">
+            <p>The `as` keyword is used for type assertions to specify the type of a variable when TypeScript cannot infer it correctly.</p>
+            <pre><code>
+const someValue: any = 'hello';
+const stringValue: string = someValue as string;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How can you use `Template Literal Types` to create types based on string literals in TypeScript?</h2>
+        <div class="answer">
+            <p>Template literal types allow you to create types based on string template literals.</p>
+            <pre><code>
+type Greeting = `Hello, ${string}!`;
+
+const hello: Greeting = 'Hello, World!'; // valid
+const hi: Greeting = 'Hi, World!'; // Error: Type '"Hi, World!"' is not assignable to type 'Greeting'.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How can you use `Readonly` utility type to make all properties of a type readonly?</h2>
+        <div class="answer">
+            <p>The `Readonly` utility type constructs a type where all properties are read-only.</p>
+            <pre><code>
+interface User {
+    name: string;
+    age: number;
+}
+
+type ReadonlyUser = Readonly<User>;
+// { readonly name: string; readonly age: number; }
+
+const user: ReadonlyUser = { name: 'Alice', age: 30 };
+// user.age = 31; // Error: Cannot assign to 'age' because it is a read-only property.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How can you use `Partial` utility type to make all properties of a type optional?</h2>
+        <div class="answer">
+            <p>The `Partial` utility type creates a type with all properties set to optional.</p>
+            <pre><code>
+interface User {
+    name: string;
+    age: number;
+}
+
+type PartialUser = Partial<User>;
+// { name?: string; age?: number; }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. What is `Intersection Types` and how do you use it to combine multiple types?</h2>
+        <div class="answer">
+            <p>Intersection types allow you to combine multiple types into one using the `&` operator.</p>
+            <pre><code>
+interface A {
+    a: number;
+}
+
+interface B {
+    b: string;
+}
+
+type C = A & B;
+
+const obj: C = { a: 1, b: 'test' };
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you use `Union` types to represent a value that can be one of several types?</h2>
+        <div class="answer">
+            <p>Union types are used to define a type that can be one of several types using the `|` operator.</p>
+            <pre><code>
+type StringOrNumber = string | number;
+
+const value1: StringOrNumber = 'hello';
+const value2: StringOrNumber = 42;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use `Function Overloads` to create multiple signatures for a function in TypeScript?</h2>
+        <div class="answer">
+            <p>Function overloads allow you to define multiple function signatures with different parameter types and return types.</p>
+            <pre><code>
+function greet(person: string): string;
+function greet(person: string, age: number): string;
+function greet(person: string, age?: number): string {
+    return age ? `Hello ${person}, you are ${age} years old` : `Hello ${person}`;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use `Array<type>` to specify the type of elements in an array?</h2>
+        <div class="answer">
+            <p>The `Array<type>` syntax is used to define arrays where each element is of a specific type.</p>
+            <pre><code>
+const numbers: Array<number> = [1, 2, 3];
+const strings: Array<string> = ['a', 'b', 'c'];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. What is `Unknown` type and how is it different from `Any`?</h2>
+        <div class="answer">
+            <p>The `Unknown` type is a safer alternative to `Any`. Values of type `Unknown` must be type-checked before performing operations on them.</p>
+            <pre><code>
+function handleValue(value: unknown) {
+    if (typeof value === 'string') {
+        console.log(value.toUpperCase()); // Safe operation
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you use `this` parameter in TypeScript to specify the type of `this` inside a method?</h2>
+        <div class="answer">
+            <p>The `this` parameter allows you to explicitly type the `this` context within a method.</p>
+            <pre><code>
+class Person {
+    name: string;
+
+    constructor(name: string) {
+        this.name = name;
+    }
+
+    greet(this: Person) {
+        console.log(`Hello, ${this.name}`);
+    }
+}
+
+const person = new Person('Alice');
+person.greet();
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How can you use `Promise` with async functions in TypeScript?</h2>
+        <div class="answer">
+            <p>Async functions return a `Promise` implicitly, and you can use `await` to handle asynchronous operations.</p>
+            <pre><code>
+async function fetchData(): Promise<string> {
+    return 'Data';
+}
+
+fetchData().then(data => console.log(data)); // 'Data'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. What is the purpose of `declare` keyword in TypeScript?</h2>
+        <div class="answer">
+            <p>The `declare` keyword is used to define types or variables that are expected to exist, but are not directly defined in the TypeScript code.</p>
+            <pre><code>
+declare const MY_GLOBAL_VAR: string;
+console.log(MY_GLOBAL_VAR);
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How can you use `Conditional Types` to create types based on conditions?</h2>
+        <div class="answer">
+            <p>Conditional types allow you to create types that vary based on a condition, using the `T extends U ? X : Y` syntax.</p>
+            <pre><code>
+type TrueType = true extends true ? 'Yes' : 'No'; // 'Yes'
+type FalseType = false extends true ? 'Yes' : 'No'; // 'No'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use `Type Assertions` to override TypeScript’s type inference?</h2>
+        <div class="answer">
+            <p>Type assertions allow you to manually specify the type of a value when TypeScript’s type inference does not meet your needs.</p>
+            <pre><code>
+const value: any = 'This is a string';
+const length: number = (value as string).length;
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

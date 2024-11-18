@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Enums</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Enums</h1>
+    <p>Enums (short for enumerations) in C# are a special "class" that represents a group of named constants. They are useful for defining a set of related constants that can be used in a type-safe manner.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>Enums are used to:</p>
+    <ul>
+        <li><strong>Group Related Constants:</strong> Define a set of related values that represent a specific category or type.</li>
+        <li><strong>Improve Code Readability:</strong> Replace numeric or string constants with meaningful names.</li>
+        <li><strong>Ensure Type Safety:</strong> Provide compile-time checking of values.</li>
+    </ul>
+    
+    <h2>2. Defining an Enum</h2>
+    <p>To define an enum, use the <code>enum</code> keyword. Here’s an example of a simple enum definition:</p>
+    <pre><code>
+using System;
+
+public enum DaysOfWeek
+{
+    Sunday,
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday
+}
+    </code></pre>
+    
+    <h2>3. Using Enums</h2>
+    <p>Enums can be used to make code more readable and maintainable. Here’s an example of how to use an enum:</p>
+    <pre><code>
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Assign an enum value
+        DaysOfWeek today = DaysOfWeek.Monday;
+
+        // Display the enum value
+        Console.WriteLine($"Today is {today}");
+
+        // Use enum in a switch statement
+        switch (today)
+        {
+            case DaysOfWeek.Monday:
+                Console.WriteLine("Start of the work week.");
+                break;
+            case DaysOfWeek.Friday:
+                Console.WriteLine("Almost the weekend!");
+                break;
+            case DaysOfWeek.Saturday:
+            case DaysOfWeek.Sunday:
+                Console.WriteLine("Weekend!");
+                break;
+            default:
+                Console.WriteLine("Midweek days.");
+                break;
+        }
+    }
+}
+    </code></pre>
+    
+    <h2>4. Key Points</h2>
+    <ul>
+        <li><strong>Underlying Type:</strong> By default, enums are based on the <code>int</code> type, but you can specify another integral type.</li>
+        <li><strong>Named Constants:</strong> Each value in an enum is a named constant with an associated integer value starting from 0.</li>
+        <li><strong>Explicit Values:</strong> You can assign specific values to enum members if needed.</li>
+        <li><strong>Type Safety:</strong> Enums ensure that only valid values are used, avoiding errors from invalid literals.</li>
+        <li><strong>Conversion:</strong> Enums can be converted to and from their underlying type using casting.</li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Event Handlers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Event Handlers</h1>
+    <p>Events in C# are a way to provide notifications when certain actions occur, such as a button click or a data update. Event handlers are methods that respond to these events. They are essential for creating interactive applications.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>Event handlers in C# are used to:</p>
+    <ul>
+        <li><strong>Respond to User Actions:</strong> Handle events like button clicks, text changes, and more.</li>
+        <li><strong>Implement Event-Driven Programming:</strong> Design applications where actions trigger responses.</li>
+        <li><strong>Decouple Components:</strong> Allow components to react to changes without tight coupling.</li>
+    </ul>
+    
+    <h2>2. Defining Events</h2>
+    <p>To define an event, declare a delegate and an event field. Here’s an example:</p>
+    <pre><code>
+using System;
+
+public class Publisher
+{
+    // Define a delegate
+    public delegate void NotifyEventHandler(object sender, EventArgs e);
+
+    // Declare an event of the delegate type
+    public event NotifyEventHandler Notify;
+
+    // Method to trigger the event
+    public void RaiseEvent()
+    {
+        Notify?.Invoke(this, EventArgs.Empty);
+    }
+}
+    </code></pre>
+    
+    <h2>3. Creating Event Handlers</h2>
+    <p>An event handler is a method that matches the delegate signature of the event. Here’s how to create and attach an event handler:</p>
+    <pre><code>
+using System;
+
+public class Subscriber
+{
+    public void OnNotify(object sender, EventArgs e)
+    {
+        Console.WriteLine("Event received!");
+    }
+}
+    </code></pre>
+    
+    <h2>4. Attaching Event Handlers</h2>
+    <p>To respond to an event, attach the event handler to the event. Here’s an example of how to do this:</p>
+    <pre><code>
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Publisher publisher = new Publisher();
+        Subscriber subscriber = new Subscriber();
+
+        // Attach the event handler
+        publisher.Notify += subscriber.OnNotify;
+
+        // Trigger the event
+        publisher.RaiseEvent();
+    }
+}
+    </code></pre>
+    
+    <h2>5. Key Points</h2>
+    <ul>
+        <li><strong>Delegates:</strong> Events are based on delegates, which define the method signature for event handlers.</li>
+        <li><strong>Event Declaration:</strong> Use the <code>event</code> keyword to declare an event in a class.</li>
+        <li><strong>Event Handlers:</strong> Methods that match the delegate signature handle the event.</li>
+        <li><strong>Attaching Handlers:</strong> Use the <code>+=</code> operator to attach event handlers to events.</li>
+        <li><strong>Triggering Events:</strong> Call the event to notify all attached handlers.</li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Parameter Passing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Parameter Passing</h1>
+    <p>In C#, parameters can be passed to methods in several ways: by value, by reference, and by output. Each method of passing parameters affects how changes to the parameters are handled in the method.</p>
+
+    <h2>1. Passing Parameters by Value</h2>
+    <p>When parameters are passed by value, a copy of the argument is passed to the method. Changes made to the parameter inside the method do not affect the original argument.</p>
+    <pre><code>
+public class Example
+{
+    public void PassByValue(int x)
+    {
+        x = x * 2;
+        Console.WriteLine("Inside method: " + x);
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Example example = new Example();
+        int value = 10;
+        example.PassByValue(value);
+        Console.WriteLine("Outside method: " + value);
+    }
+}
+    </code></pre>
+    <p>Output:</p>
+    <pre><code>
+Inside method: 20
+Outside method: 10
+    </code></pre>
+
+    <h2>2. Passing Parameters by Reference</h2>
+    <p>When parameters are passed by reference using the <code>ref</code> keyword, the method receives a reference to the original argument. Changes to the parameter affect the original argument.</p>
+    <pre><code>
+public class Example
+{
+    public void PassByReference(ref int x)
+    {
+        x = x * 2;
+        Console.WriteLine("Inside method: " + x);
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Example example = new Example();
+        int value = 10;
+        example.PassByReference(ref value);
+        Console.WriteLine("Outside method: " + value);
+    }
+}
+    </code></pre>
+    <p>Output:</p>
+    <pre><code>
+Inside method: 20
+Outside method: 20
+    </code></pre>
+
+    <h2>3. Passing Parameters by Output</h2>
+    <p>When parameters are passed by output using the <code>out</code> keyword, the method must assign a value to the parameter before the method ends. The caller must also use the <code>out</code> keyword when calling the method.</p>
+    <pre><code>
+public class Example
+{
+    public void PassByOutput(out int x)
+    {
+        x = 20;
+        Console.WriteLine("Inside method: " + x);
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Example example = new Example();
+        int value;
+        example.PassByOutput(out value);
+        Console.WriteLine("Outside method: " + value);
+    }
+}
+    </code></pre>
+    <p>Output:</p>
+    <pre><code>
+Inside method: 20
+Outside method: 20
+    </code></pre>
+
+    <h2>4. Key Points</h2>
+    <ul>
+        <li><strong>Pass by Value:</strong> A copy of the argument is passed; changes do not affect the original value.</li>
+        <li><strong>Pass by Reference:</strong> A reference to the original argument is passed; changes affect the original value.</li>
+        <li><strong>Pass by Output:</strong> The method must assign a value to the parameter; it must be initialized before use.</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Understanding parameter passing is crucial for effective method design and debugging in C#. By using pass-by-value, pass-by-reference, or pass-by-output, you can control how data is transferred and manipulated within methods, enhancing your code's flexibility and functionality.</p>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Advanced: Event Time Processing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        pre {
+            background: #eee;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            background: #f9f9f9;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .example-code {
+            background: #282c34;
+            color: #61dafb;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Kafka Advanced: Event Time Processing</h1>
+    </header>
+
+    <div class="container">
+        <section class="section">
+            <h2>Introduction to Event Time Processing</h2>
+            <p>
+                Event time processing refers to handling data based on the time when events actually occurred, rather than the time when the events are processed by the system. This is crucial for scenarios where the order of events matters, and for applications requiring accurate time-based analyses, such as financial transactions or real-time monitoring systems.
+            </p>
+            <p>
+                In Apache Kafka, event time processing is supported through Kafka Streams and Kafka's native support for timestamps. This ensures that even if events arrive out of order or are delayed, the processing can be accurate based on the actual event times.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>Key Concepts</h2>
+            <ul>
+                <li><strong>Event Time:</strong> The time when an event occurred, as recorded by the producer.</li>
+                <li><strong>Processing Time:</strong> The time when the event is processed by the consumer or system.</li>
+                <li><strong>Watermarks:</strong> Mechanism to handle out-of-order events and manage event time processing.</li>
+                <li><strong>Event Time Windowing:</strong> Grouping events based on event time into fixed or sliding windows for aggregation and analysis.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Event Time Processing in Kafka Streams</h2>
+            <p>
+                Kafka Streams provides built-in support for event time processing through the use of timestamps and windowing. By configuring your Kafka Streams application, you can handle event time effectively.
+            </p>
+
+            <h3>Setting Up Kafka Streams for Event Time Processing</h3>
+            <p>
+                To work with event time in Kafka Streams, you need to specify a timestamp extractor that determines the event time from the records. Kafka Streams uses this timestamp for windowing and aggregation.
+            </p>
+            <pre><code>
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.processor.TimestampExtractor;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Materialized;
+import org.apache.kafka.streams.kstream.TimeWindows;
+import org.apache.kafka.streams.kstream.Windowed;
+import org.apache.kafka.common.serialization.Serdes;
+
+import java.time.Duration;
+import java.util.Properties;
+
+public class EventTimeProcessingExample {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "event-time-app");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        props.put(StreamsConfig.DEFAULT_TIMESTAMP_EXTRACTOR_CLASS_CONFIG, CustomTimestampExtractor.class.getName());
+
+        StreamsBuilder builder = new StreamsBuilder();
+        KStream<String, String> stream = builder.stream("input-topic");
+
+        stream
+            .groupByKey()
+            .windowedBy(TimeWindows.of(Duration.ofMinutes(5)))
+            .count(Materialized.as("count-store"))
+            .toStream()
+            .to("output-topic");
+
+        KafkaStreams streams = new KafkaStreams(builder.build(), props);
+        streams.start();
+    }
+}
+
+class CustomTimestampExtractor implements TimestampExtractor {
+    @Override
+    public long extract(ConsumerRecord<Object, Object> record, long previousTimestamp) {
+        // Extract timestamp from the record value or headers
+        return (long) record.value(); // Example extraction
+    }
+}
+            </code></pre>
+
+            <h3>Handling Late Events with Watermarks</h3>
+            <p>
+                Watermarks are used to handle late arriving events. You can define a watermark interval to determine how long to wait for late events before processing a window.
+            </p>
+            <pre><code>
+import org.apache.kafka.streams.processor.ProcessorContext;
+import org.apache.kafka.streams.processor.TimestampExtractor;
+import org.apache.kafka.streams.processor.api.Processor;
+import org.apache.kafka.streams.processor.api.ProcessorContext;
+import org.apache.kafka.streams.processor.api.Record;
+
+public class WatermarkExample implements Processor<String, String> {
+    private static final long WATERMARK_INTERVAL_MS = 60000L; // 1 minute
+
+    @Override
+    public void init(ProcessorContext context) {
+        // Initialization logic
+    }
+
+    @Override
+    public void process(Record<String, String> record) {
+        long eventTime = record.timestamp();
+        long currentTime = System.currentTimeMillis();
+
+        if (currentTime - eventTime > WATERMARK_INTERVAL_MS) {
+            // Handle late events
+        }
+    }
+
+    @Override
+    public void close() {
+        // Cleanup logic
+    }
+}
+            </code></pre>
+        </section>
+
+        <section class="section">
+            <h2>Example Use Cases</h2>
+            <ul>
+                <li><strong>Financial Transactions:</strong> Ensuring accurate processing of transactions based on their actual occurrence time, even if they arrive late.</li>
+                <li><strong>Real-Time Analytics:</strong> Analyzing and aggregating data based on when events happened rather than when they were processed.</li>
+                <li><strong>IoT Data:</strong> Processing sensor data based on the actual time of data generation, handling out-of-order events effectively.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Conclusion</h2>
+            <p>
+                Event time processing in Kafka enables precise and accurate data handling based on the actual occurrence time of events. By leveraging Kafka Streams, custom timestamp extractors, and watermarks, you can build robust real-time processing applications that correctly manage and analyze event time data.
+            </p>
+        </section>
+    </div>
+</body>
+</html>

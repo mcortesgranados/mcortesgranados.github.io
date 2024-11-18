@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Threading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Threading</h1>
+    <p>Threading in C# is a technique used to run multiple operations concurrently within a single process. It allows you to execute code in parallel, improving the responsiveness and performance of applications, especially those that perform time-consuming tasks.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>Threading helps to maximize the utilization of CPU resources by enabling concurrent execution of multiple threads. This is particularly useful for CPU-bound operations, where multiple threads can perform different tasks simultaneously, enhancing performance and efficiency.</p>
+    
+    <h2>2. Basics of Threading</h2>
+    <p>In C#, you can use the <code>System.Threading.Thread</code> class to create and manage threads. Here are some common operations:</p>
+    <ul>
+        <li><code>Thread.Start()</code>: Starts the execution of a thread.</li>
+        <li><code>Thread.Join()</code>: Blocks the calling thread until the thread represented by the current instance completes.</li>
+        <li><code>Thread.Sleep()</code>: Suspends the current thread for a specified time.</li>
+    </ul>
+    
+    <h2>3. Example 1: Basic Thread Creation</h2>
+    <pre><code>
+    using System;
+    using System.Threading;
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Thread thread = new Thread(DoWork);
+            thread.Start(); // Start the thread
+
+            Console.WriteLine("Main thread is running.");
+            thread.Join(); // Wait for the thread to complete
+            Console.WriteLine("Main thread completed.");
+        }
+
+        static void DoWork()
+        {
+            Console.WriteLine("Thread is running...");
+            Thread.Sleep(2000); // Simulate some work
+            Console.WriteLine("Thread completed.");
+        }
+    }
+    </code></pre>
+    <p>This example demonstrates creating and starting a thread using the <code>Thread</code> class. The <code>Main</code> method starts the thread and then waits for it to complete using <code>Join</code>.</p>
+    
+    <h2>4. Example 2: Passing Parameters to Threads</h2>
+    <pre><code>
+    using System;
+    using System.Threading;
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Thread thread = new Thread(() => DoWork("Hello from thread!"));
+            thread.Start(); // Start the thread
+
+            Console.WriteLine("Main thread is running.");
+            thread.Join(); // Wait for the thread to complete
+            Console.WriteLine("Main thread completed.");
+        }
+
+        static void DoWork(string message)
+        {
+            Console.WriteLine(message);
+            Thread.Sleep(2000); // Simulate some work
+        }
+    }
+    </code></pre>
+    <p>This example shows how to pass parameters to a thread. The <code>DoWork</code> method now takes a string parameter that is passed when the thread is started.</p>
+    
+    <h2>5. Example 3: Thread Pool</h2>
+    <pre><code>
+    using System;
+    using System.Threading;
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                ThreadPool.QueueUserWorkItem(DoWork, i);
+            }
+
+            Console.WriteLine("Main thread is running.");
+            Thread.Sleep(3000); // Wait for all thread pool tasks to complete
+            Console.WriteLine("Main thread completed.");
+        }
+
+        static void DoWork(object state)
+        {
+            int taskNumber = (int)state;
+            Console.WriteLine($"Thread pool task {taskNumber} is running...");
+            Thread.Sleep(2000); // Simulate some work
+            Console.WriteLine($"Thread pool task {taskNumber} completed.");
+        }
+    }
+    </code></pre>
+    <p>This example demonstrates using the <code>ThreadPool</code> class to queue multiple tasks. The <code>DoWork</code> method is executed by threads from the thread pool, which helps manage and reuse threads efficiently.</p>
+    
+    <h2>6. Key Points</h2>
+    <ul>
+        <li><strong>Threading</strong> enables concurrent execution of multiple tasks within a single process, improving performance and responsiveness.</li>
+        <li><strong>System.Threading.Thread</strong> class provides methods for creating and managing threads.</li>
+        <li><strong>ThreadPool</strong> class offers a way to manage a pool of worker threads for executing tasks efficiently.</li>
+        <li><strong>Thread synchronization</strong> is important to avoid race conditions and ensure data consistency when multiple threads access shared resources.</li>
+    </ul>
+</body>
+</html>

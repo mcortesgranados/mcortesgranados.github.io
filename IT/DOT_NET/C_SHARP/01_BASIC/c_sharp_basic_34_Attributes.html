@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Attributes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Attributes</h1>
+    <p>Attributes in C# provide a way to add metadata to your code. They can be applied to various program elements such as classes, methods, properties, and fields. Attributes are used to convey additional information to the compiler, tools, or runtime about the elements they decorate.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>Attributes are used for several purposes in C#, including:</p>
+    <ul>
+        <li><strong>Code Documentation:</strong> Provide additional information about code elements.</li>
+        <li><strong>Runtime Behavior:</strong> Influence the behavior of code at runtime through reflection.</li>
+        <li><strong>Tool Integration:</strong> Interact with development tools and frameworks (e.g., testing frameworks, serialization libraries).</li>
+        <li><strong>Validation:</strong> Define constraints and validation rules for data.</li>
+    </ul>
+    
+    <h2>2. Using Built-in Attributes</h2>
+    <p>C# provides several built-in attributes that can be applied to code elements. Here are a few examples:</p>
+    
+    <h3>Example 1: <code>[Obsolete]</code> Attribute</h3>
+    <p>The <code>[Obsolete]</code> attribute marks elements that are no longer recommended for use. It generates a compiler warning or error if the deprecated element is used.</p>
+    <pre><code>
+    using System;
+
+    [Obsolete("This method is obsolete. Use NewMethod instead.")]
+    public void OldMethod()
+    {
+        // Old method implementation
+    }
+
+    public void NewMethod()
+    {
+        // New method implementation
+    }
+    </code></pre>
+    
+    <h3>Example 2: <code>[Serializable]</code> Attribute</h3>
+    <p>The <code>[Serializable]</code> attribute indicates that a class can be serialized. This is required for classes that are to be converted to a data format suitable for storage or transmission.</p>
+    <pre><code>
+    [Serializable]
+    public class Person
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+    }
+    </code></pre>
+    
+    <h3>Example 3: <code>[DataContract]</code> and <code>[DataMember]</code> Attributes</h3>
+    <p>The <code>[DataContract]</code> and <code>[DataMember]</code> attributes are used in WCF (Windows Communication Foundation) to define which members of a class are serialized and deserialized in data contracts.</p>
+    <pre><code>
+    using System.Runtime.Serialization;
+
+    [DataContract]
+    public class Customer
+    {
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public int CustomerID { get; set; }
+    }
+    </code></pre>
+    
+    <h2>3. Creating Custom Attributes</h2>
+    <p>You can define your own attributes by creating a class that derives from <code>System.Attribute</code>. Custom attributes can be used to annotate code elements with specific metadata.</p>
+    <pre><code>
+    using System;
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class MyCustomAttribute : Attribute
+    {
+        public string Description { get; }
+
+        public MyCustomAttribute(string description)
+        {
+            Description = description;
+        }
+    }
+
+    [MyCustomAttribute("This is a custom attribute")]
+    public class MyClass
+    {
+        [MyCustomAttribute("This is a custom method attribute")]
+        public void MyMethod()
+        {
+            // Method implementation
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Retrieving Attribute Information</h2>
+    <p>Attributes can be retrieved at runtime using reflection. This allows you to examine the metadata associated with code elements.</p>
+    <pre><code>
+    using System;
+    using System.Reflection;
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Type type = typeof(MyClass);
+            foreach (Attribute attr in type.GetCustomAttributes(false))
+            {
+                Console.WriteLine(attr.GetType().Name);
+            }
+
+            MethodInfo method = type.GetMethod("MyMethod");
+            foreach (Attribute attr in method.GetCustomAttributes(false))
+            {
+                Console.WriteLine(attr.GetType().Name);
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>5. Key Points</h2>
+    <ul>
+        <li><strong>Attributes</strong> are used to add metadata to code elements.</li>
+        <li><strong>Built-in attributes</strong> provide functionality for common scenarios (e.g., serialization, deprecation).</li>
+        <li><strong>Custom attributes</strong> can be defined to add specific metadata tailored to your needs.</li>
+        <li><strong>Reflection</strong> is used to retrieve and process attribute data at runtime.</li>
+    </ul>
+</body>
+</html>

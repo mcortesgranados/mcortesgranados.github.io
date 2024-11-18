@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka AdminClient API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .code {
+            background-color: #f4f4f4;
+            border-left: 3px solid #333;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap; /* Preserve whitespace formatting */
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka AdminClient API</h1>
+    <p>The Kafka AdminClient API provides a programmatic way to manage and inspect Kafka resources such as topics, brokers, and configurations. It allows you to perform administrative operations on your Kafka cluster, such as creating or deleting topics, describing cluster metadata, and altering configurations.</p>
+
+    <h2>1. Overview</h2>
+    <p>The AdminClient API is part of the Kafka client library and provides methods for interacting with Kafka brokers. It is useful for managing Kafka resources programmatically and can be used in applications or scripts to automate cluster management tasks.</p>
+
+    <h3>Key Features</h3>
+    <ul>
+        <li><strong>Creating and Deleting Topics:</strong> Manage Kafka topics by creating new ones or deleting existing ones.</li>
+        <li><strong>Describing Topics:</strong> Retrieve metadata about Kafka topics, including partitions and configurations.</li>
+        <li><strong>Listing Topics:</strong> List all topics in the Kafka cluster.</li>
+        <li><strong>Managing Configurations:</strong> Alter topic and broker configurations.</li>
+    </ul>
+
+    <h2>2. Basic Operations</h2>
+    <p>Here are some common operations you can perform using the AdminClient API:</p>
+
+    <h3>Creating a Topic</h3>
+    <p>To create a new topic, you need to define topic configurations such as the number of partitions and replication factor. Here is an example in Java:</p>
+
+    <div class="code">
+        import org.apache.kafka.clients.admin.AdminClient;<br>
+        import org.apache.kafka.clients.admin.AdminClientConfig;<br>
+        import org.apache.kafka.clients.admin.NewTopic;<br>
+        import org.apache.kafka.clients.admin.CreateTopicsResult;<br>
+        <br>
+        import java.util.Collections;<br>
+        import java.util.Properties;<br>
+        <br>
+        public class CreateTopicExample {<br>
+            <br>
+            public static void main(String[] args) {<br>
+                Properties props = new Properties();<br>
+                props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");<br>
+                <br>
+                try (AdminClient adminClient = AdminClient.create(props)) {<br>
+                    NewTopic newTopic = new NewTopic("my-new-topic", 1, (short) 1);<br>
+                    CreateTopicsResult result = adminClient.createTopics(Collections.singleton(newTopic));<br>
+                    result.all().get();<br>
+                    System.out.println("Topic created successfully.");<br>
+                } catch (Exception e) {<br>
+                    e.printStackTrace();<br>
+                }<br>
+            }<br>
+        }<br>
+    </div>
+
+    <h3>Listing Topics</h3>
+    <p>To list all topics in the Kafka cluster, you can use the `listTopics` method:</p>
+
+    <div class="code">
+        import org.apache.kafka.clients.admin.AdminClient;<br>
+        import org.apache.kafka.clients.admin.AdminClientConfig;<br>
+        import org.apache.kafka.clients.admin.ListTopicsResult;<br>
+        <br>
+        import java.util.Properties;<br>
+        import java.util.Set;<br>
+        <br>
+        public class ListTopicsExample {<br>
+            <br>
+            public static void main(String[] args) {<br>
+                Properties props = new Properties();<br>
+                props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");<br>
+                <br>
+                try (AdminClient adminClient = AdminClient.create(props)) {<br>
+                    ListTopicsResult result = adminClient.listTopics();<br>
+                    Set<String> topics = result.names().get();<br>
+                    System.out.println("Topics: " + topics);<br>
+                } catch (Exception e) {<br>
+                    e.printStackTrace();<br>
+                }<br>
+            }<br>
+        }<br>
+    </div>
+
+    <h3>Describing a Topic</h3>
+    <p>To retrieve metadata about a topic, such as partitions and configurations, use the `describeTopics` method:</p>
+
+    <div class="code">
+        import org.apache.kafka.clients.admin.AdminClient;<br>
+        import org.apache.kafka.clients.admin.AdminClientConfig;<br>
+        import org.apache.kafka.clients.admin.DescribeTopicsResult;<br>
+        import org.apache.kafka.clients.admin.TopicDescription;<br>
+        <br>
+        import java.util.Properties;<br>
+        import java.util.Map;<br>
+        <br>
+        public class DescribeTopicExample {<br>
+            <br>
+            public static void main(String[] args) {<br>
+                Properties props = new Properties();<br>
+                props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");<br>
+                <br>
+                try (AdminClient adminClient = AdminClient.create(props)) {<br>
+                    DescribeTopicsResult result = adminClient.describeTopics(Collections.singleton("my-topic"));<br>
+                    Map<String, TopicDescription> descriptions = result.all().get();<br>
+                    System.out.println("Topic description: " + descriptions.get("my-topic"));<br>
+                } catch (Exception e) {<br>
+                    e.printStackTrace();<br>
+                }<br>
+            }<br>
+        }<br>
+    </div>
+
+    <h2>3. Advanced Operations</h2>
+    <p>In addition to basic operations, the AdminClient API supports advanced functionalities:</p>
+
+    <h3>Altering Configurations</h3>
+    <p>Modify existing topic or broker configurations using the `alterConfigs` method:</p>
+
+    <div class="code">
+        import org.apache.kafka.clients.admin.AdminClient;<br>
+        import org.apache.kafka.clients.admin.AdminClientConfig;<br>
+        import org.apache.kafka.clients.admin.AlterConfigsResult;<br>
+        import org.apache.kafka.clients.admin.Config;<br>
+        import org.apache.kafka.clients.admin.ConfigEntry;<br>
+        <br>
+        import java.util.Properties;<br>
+        import java.util.Collections;<br>
+        import java.util.Map;<br>
+        <br>
+        public class AlterConfigExample {<br>
+            <br>
+            public static void main(String[] args) {<br>
+                Properties props = new Properties();<br>
+                props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");<br>
+                <br>
+                try (AdminClient adminClient = AdminClient.create(props)) {<br>
+                    Config config = new Config(Collections.singleton(new ConfigEntry("cleanup.policy", "compact")));<br>
+                    AlterConfigsResult result = adminClient.alterConfigs(Collections.singletonMap(new ConfigResource(ConfigResource.Type.TOPIC, "my-topic"), config));<br>
+                    result.all().get();<br>
+                    System.out.println("Configuration altered successfully.");<br>
+                } catch (Exception e) {<br>
+                    e.printStackTrace();<br>
+                }<br>
+            }<br>
+        }<br>
+    </div>
+
+    <h2>4. Error Handling</h2>
+    <p>Handling errors effectively is crucial for using the AdminClient API. Common errors include:</p>
+
+    <ul>
+        <li><strong>TimeoutException:</strong> Indicates that a request took too long to complete. This can be due to network issues or overloaded brokers.</li>
+        <li><strong>InvalidTopicException:</strong> Occurs when a topic does not exist or is incorrectly specified.</li>
+        <li><strong>NotControllerException:</strong> Indicates that the client is not connected to the Kafka controller, which is needed for certain administrative operations.</li>
+    </ul>
+
+    <h3>Troubleshooting Tips</h3>
+    <ul>
+        <li><strong>Check Logs:</strong> Review Kafka broker and client logs for error details.</li>
+        <li><strong>Increase Timeouts:</strong> Adjust timeout settings if experiencing frequent timeouts.</li>
+        <li><strong>Verify Configurations:</strong> Ensure that topic and broker configurations are correctly specified.</li>
+    </ul>
+</body>
+</html>

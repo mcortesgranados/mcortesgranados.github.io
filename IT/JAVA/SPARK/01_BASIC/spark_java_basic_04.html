@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting Up Apache Spark Environment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Setting Up Apache Spark Environment</h1>
+
+    <p>To start working with Apache Spark, you need to set up your environment properly. This involves installing Spark, configuring it, and running a basic application. Below is a step-by-step guide to setting up Apache Spark on a local machine.</p>
+
+    <h2>1. Prerequisites</h2>
+    <ul>
+        <li><strong>Java:</strong> Spark requires Java 8 or later. Ensure that Java is installed and JAVA_HOME is set up.</li>
+        <li><strong>Scala:</strong> While Scala is not strictly required, Spark is written in Scala, and having it can be beneficial.</li>
+        <li><strong>Hadoop:</strong> Spark can run on top of Hadoop, but it's not mandatory. You can use Spark in standalone mode.</li>
+    </ul>
+
+    <h2>2. Download and Install Apache Spark</h2>
+    <ol>
+        <li>Download the latest version of Apache Spark from the <a href="https://spark.apache.org/downloads.html" target="_blank">official website</a>.</li>
+        <li>Extract the downloaded archive to a directory of your choice.</li>
+        <li>Add Spark's `bin` directory to your system's PATH environment variable. For example:
+            <pre><code>export PATH=$PATH:/path/to/spark/bin</code></pre>
+        </li>
+    </ol>
+
+    <h2>3. Configure Apache Spark</h2>
+    <ol>
+        <li>Navigate to the `conf` directory within the Spark installation directory.</li>
+        <li>Copy the template configuration file:
+            <pre><code>cp spark-env.sh.template spark-env.sh</code></pre>
+        </li>
+        <li>Edit `spark-env.sh` to set the necessary environment variables. For example:
+            <pre><code>export SPARK_MASTER_HOST='localhost'</code></pre>
+        </li>
+    </ol>
+
+    <h2>4. Verify the Installation</h2>
+    <p>Run the following command to verify that Spark is correctly installed and configured:</p>
+    <pre><code>$ spark-shell</code></pre>
+    <p>This should start the Spark shell. If it opens successfully, Spark is correctly installed.</p>
+
+    <h2>5. Example Code in Java</h2>
+    <p>The following Java code demonstrates a basic Spark application that initializes a Spark context, creates an RDD, and performs a simple operation:</p>
+
+    <pre><code class="language-java">
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+
+public class SparkSetupExample {
+    public static void main(String[] args) {
+        // Create a SparkConf object and set the application name
+        SparkConf conf = new SparkConf().setAppName("Spark Setup Example").setMaster("local");
+        
+        // Create a JavaSparkContext with the configuration
+        JavaSparkContext sc = new JavaSparkContext(conf);
+
+        // Create an RDD from a list of integers
+        JavaRDD<Integer> numbers = sc.parallelize(java.util.Arrays.asList(1, 2, 3, 4, 5));
+
+        // Perform a transformation and action
+        JavaRDD<Integer> doubledNumbers = numbers.map(number -> number * 2);
+        doubledNumbers.collect().forEach(System.out::println);
+
+        // Stop the SparkContext
+        sc.close();
+    }
+}
+    </code></pre>
+
+    <p>This example creates a Spark application, performs a simple map operation on an RDD, and prints the results. It's a good starting point for testing your Spark setup.</p>
+</body>
+</html>

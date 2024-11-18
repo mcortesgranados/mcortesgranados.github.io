@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Spark SQL</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Introduction to Spark SQL</h1>
+    <p>Spark SQL is a module in Apache Spark for structured data processing. It provides an interface for working with data in a tabular format using SQL queries, and integrates with Spark's core APIs for data processing. Spark SQL allows you to run SQL queries alongside data processing operations.</p>
+
+    <h2>Key Features of Spark SQL</h2>
+    <ul>
+        <li><strong>Unified Data Processing:</strong> Combines SQL and data processing using DataFrames and Datasets.</li>
+        <li><strong>Integration with BI Tools:</strong> Connects with BI tools like Tableau and Qlik using JDBC or ODBC drivers.</li>
+        <li><strong>Support for Various Data Sources:</strong> Reads from and writes to multiple data sources such as Hive, Avro, Parquet, JSON, and JDBC.</li>
+        <li><strong>Optimization:</strong> Uses Catalyst optimizer and Tungsten execution engine for performance improvements.</li>
+    </ul>
+
+    <h2>Java Code Example</h2>
+    <pre><code>
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructType;
+
+public class SparkSQLExample {
+    public static void main(String[] args) {
+        // Create SparkSession
+        SparkSession spark = SparkSession.builder()
+            .appName("Spark SQL Example")
+            .master("local[*]")
+            .getOrCreate();
+
+        // Create a DataFrame from a JSON file
+        Dataset&lt;Row&gt; df = spark.read().json("data/input.json");
+        df.show();
+
+        // Register the DataFrame as a temporary view
+        df.createOrReplaceTempView("people");
+
+        // Run SQL queries
+        Dataset&lt;Row&gt; sqlDF = spark.sql("SELECT name, age FROM people WHERE age BETWEEN 21 AND 30");
+        sqlDF.show();
+
+        // Define a schema for a DataFrame
+        StructType schema = new StructType()
+            .add("name", DataTypes.StringType, false)
+            .add("age", DataTypes.IntegerType, false);
+
+        // Create a DataFrame with the defined schema
+        Dataset&lt;Row&gt; customDF = spark.createDataFrame(
+            spark.sparkContext().parallelize(Arrays.asList(
+                RowFactory.create("Alice", 30),
+                RowFactory.create("Bob", 25)
+            )),
+            schema
+        );
+
+        // Show the DataFrame
+        customDF.show();
+
+        // Stop the SparkSession
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <h2>Understanding the Example</h2>
+    <p>In this example, we demonstrate the following operations:</p>
+    <ul>
+        <li><strong>Creating a SparkSession:</strong> The entry point for using Spark SQL.</li>
+        <li><strong>Reading a JSON File:</strong> Use the <code>json</code> method to read data into a DataFrame.</li>
+        <li><strong>Creating a Temp View:</strong> Register the DataFrame as a temporary view to run SQL queries.</li>
+        <li><strong>Running SQL Queries:</strong> Use the <code>sql</code> method to run SQL queries on the temporary view.</li>
+        <li><strong>Defining a Schema:</strong> Create a DataFrame with a custom schema using <code>StructType</code>.</li>
+        <li><strong>Creating a DataFrame with Schema:</strong> Create a DataFrame with predefined schema and data.</li>
+        <li><strong>Stopping SparkSession:</strong> Properly stop the <code>SparkSession</code> to release resources.</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Spark SQL provides powerful capabilities for working with structured data using SQL queries and integrates seamlessly with Spark's data processing engine. By leveraging Spark SQL, you can perform complex queries and analysis on large datasets efficiently.</p>
+</body>
+</html>

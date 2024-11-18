@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas sobre Herencia y Composición</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        code {
+            background-color: #f9f9f9;
+            display: block;
+            padding: 10px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Preguntas sobre Herencia y Composición</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Pregunta</th>
+            <th>Ejemplo en Java</th>
+            <th>Ejemplo en Python</th>
+            <th>Ejemplo en C#</th>
+            <th>Ejemplo en TypeScript</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Preguntas -->
+        <!-- Pregunta 1 -->
+        <tr>
+            <td>1</td>
+            <td>¿Qué es la herencia en programación orientada a objetos?</td>
+            <td>
+                <code>
+                class Animal { <br>
+                    &nbsp;&nbsp;void hacerSonido() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Sonido de animal"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Perro extends Animal { <br>
+                    &nbsp;&nbsp;void hacerSonido() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Ladrido"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                class Animal: <br>
+                    &nbsp;&nbsp;def hacer_sonido(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("Sonido de animal") <br>
+                class Perro(Animal): <br>
+                    &nbsp;&nbsp;def hacer_sonido(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("Ladrido")
+                </code>
+            </td>
+            <td>
+                <code>
+                class Animal { <br>
+                    &nbsp;&nbsp;public void HacerSonido() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Sonido de animal"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Perro : Animal { <br>
+                    &nbsp;&nbsp;public void HacerSonido() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Ladrido"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                class Animal { <br>
+                    &nbsp;&nbsp;hacerSonido(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("Sonido de animal"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Perro extends Animal { <br>
+                    &nbsp;&nbsp;hacerSonido(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("Ladrido"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+        </tr>
+
+        <!-- Pregunta 2 -->
+        <tr>
+            <td>2</td>
+            <td>¿Qué es la composición en programación orientada a objetos?</td>
+            <td>
+                <code>
+                class Motor { <br>
+                    &nbsp;&nbsp;void encender() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Motor encendido"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Coche { <br>
+                    &nbsp;&nbsp;private Motor motor = new Motor(); <br>
+                    &nbsp;&nbsp;void arrancar() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;motor.encender(); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                class Motor: <br>
+                    &nbsp;&nbsp;def encender(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("Motor encendido") <br>
+                class Coche: <br>
+                    &nbsp;&nbsp;def __init__(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.motor = Motor() <br>
+                    &nbsp;&nbsp;def arrancar(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.motor.encender()
+                </code>
+            </td>
+            <td>
+                <code>
+                class Motor { <br>
+                    &nbsp;&nbsp;public void Encender() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Motor encendido"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Coche { <br>
+                    &nbsp;&nbsp;private Motor motor = new Motor(); <br>
+                    &nbsp;&nbsp;public void Arrancar() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;motor.Encender(); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                class Motor { <br>
+                    &nbsp;&nbsp;encender(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("Motor encendido"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Coche { <br>
+                    &nbsp;&nbsp;private motor = new Motor(); <br>
+                    &nbsp;&nbsp;arrancar(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.motor.encender(); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+        </tr>
+
+        <!-- Pregunta 3 -->
+        <tr>
+            <td>3</td>
+            <td>¿Cuál es la principal diferencia entre herencia y composición?</td>
+            <td>
+                <code>
+                // Herencia: <br>
+                class Perro extends Animal { } <br><br>
+                // Composición: <br>
+                class Coche { <br>
+                    &nbsp;&nbsp;private Motor motor = new Motor(); <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                # Herencia: <br>
+                class Perro(Animal): <br><br>
+                # Composición: <br>
+                class Coche: <br>
+                    &nbsp;&nbsp;def __init__(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.motor = Motor()
+                </code>
+            </td>
+            <td>
+                <code>
+                // Herencia: <br>
+                class Perro : Animal { } <br><br>
+                // Composición: <br>
+                class Coche { <br>
+                    &nbsp;&nbsp;private Motor motor = new Motor(); <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                // Herencia: <br>
+                class Perro extends Animal { } <br><br>
+                // Composición: <br>
+                class Coche { <br>
+                    &nbsp;&nbsp;private motor = new Motor(); <br>
+                }
+                </code>
+            </td>
+        </tr>
+
+        <!-- Pregunta 4 -->
+        <tr>
+            <td>4</td>
+            <td>¿Cuándo deberías utilizar herencia en lugar de composición?</td>
+            <td>
+                <code>
+                class Vehiculo { <br>
+                    &nbsp;&nbsp;void moverse() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("El vehículo se mueve"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Coche extends Vehiculo { <br>
+                    &nbsp;&nbsp;void moverse() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("El coche se mueve"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                class Vehiculo: <br>
+                    &nbsp;&nbsp;def moverse(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("El vehículo se mueve") <br>
+                class Coche(Vehiculo): <br>
+                    &nbsp;&nbsp;def moverse(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("El coche se mueve")
+                </code>
+            </td>
+            <td>
+                <code>
+                class Vehiculo { <br>
+                    &nbsp;&nbsp;public void Moverse() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("El vehículo se mueve"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Coche : Vehiculo { <br>
+                    &nbsp;&nbsp;public void Moverse() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("El coche se mueve"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                class Vehiculo { <br>
+                    &nbsp;&nbsp;moverse(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("El vehículo se mueve"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Coche extends Vehiculo { <br>
+                    &nbsp;&nbsp;moverse(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("El coche se mueve"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+        </tr>
+
+        <!-- Pregunta 5 -->
+        <tr>
+            <td>5</td>
+            <td>¿Cuándo deberías utilizar composición en lugar de herencia?</td>
+            <td>
+                <code>
+                class Motor { <br>
+                    &nbsp;&nbsp;void encender() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Motor encendido"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Coche { <br>
+                    &nbsp;&nbsp;private Motor motor = new Motor(); <br>
+                    &nbsp;&nbsp;void arrancar() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;motor.encender(); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                class Motor: <br>
+                    &nbsp;&nbsp;def encender(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("Motor encendido") <br>
+                class Coche: <br>
+                    &nbsp;&nbsp;def __init__(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.motor = Motor() <br>
+                    &nbsp;&nbsp;def arrancar(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.motor.encender()
+                </code>
+            </td>
+            <td>
+                <code>
+                class Motor { <br>
+                    &nbsp;&nbsp;public void Encender() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Motor encendido"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Coche { <br>
+                    &nbsp;&nbsp;private Motor motor = new Motor(); <br>
+                    &nbsp;&nbsp;public void Arrancar() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;motor.Encender(); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                class Motor { <br>
+                    &nbsp;&nbsp;encender(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("Motor encendido"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Coche { <br>
+                    &nbsp;&nbsp;private motor = new Motor(); <br>
+                    &nbsp;&nbsp;arrancar(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.motor.encender(); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+        </tr>
+
+        <!-- Pregunta 6 -->
+        <tr>
+            <td>6</td>
+            <td>¿Cómo puedes evitar el problema de la herencia múltiple?</td>
+            <td>
+                <code>
+                // Usar interfaces para evitar la herencia múltiple <br>
+                interface IVolador { <br>
+                    &nbsp;&nbsp;void volar(); <br>
+                } <br>
+                class Pajaro implements IVolador { <br>
+                    &nbsp;&nbsp;public void volar() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("El pájaro vuela"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                # Usar interfaces para evitar la herencia múltiple <br>
+                class Volador: <br>
+                    &nbsp;&nbsp;def volar(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("El pájaro vuela") <br>
+                class Pajaro(Volador): <br>
+                    &nbsp;&nbsp;pass
+                </code>
+            </td>
+            <td>
+                <code>
+                // Usar interfaces para evitar la herencia múltiple <br>
+                interface IVolador { <br>
+                    &nbsp;&nbsp;void Volar(); <br>
+                } <br>
+                class Pajaro : IVolador { <br>
+                    &nbsp;&nbsp;public void Volar() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("El pájaro vuela"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                // Usar interfaces para evitar la herencia múltiple <br>
+                interface Volador { <br>
+                    &nbsp;&nbsp;volar(): void; <br>
+                } <br>
+                class Pajaro implements Volador { <br>
+                    &nbsp;&nbsp;volar(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("El pájaro vuela"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+        </tr>
+
+        <!-- Pregunta 7 -->
+        <tr>
+            <td>7</td>
+            <td>¿Qué ventajas ofrece la herencia sobre la composición?</td>
+            <td>
+                <code>
+                // Ventajas de la herencia: <br>
+                // Reutilización de código <br>
+                class Animal { <br>
+                    &nbsp;&nbsp;void comer() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("El animal come"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Perro extends Animal { }
+                </code>
+            </td>
+            <td>
+                <code>
+                # Ventajas de la herencia: <br>
+                # Reutilización de código <br>
+                class Animal: <br>
+                    &nbsp;&nbsp;def comer(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("El animal come") <br>
+                class Perro(Animal): <br>
+                    &nbsp;&nbsp;pass
+                </code>
+            </td>
+            <td>
+                <code>
+                // Ventajas de la herencia: <br>
+                // Reutilización de código <br>
+                class Animal { <br>
+                    &nbsp;&nbsp;public void Comer() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("El animal come"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Perro : Animal { }
+                </code>
+            </td>
+
+            <td>
+                <code>
+                // Ventajas de la herencia: <br>
+                // Reutilización de código <br>
+                class Animal { <br>
+                    &nbsp;&nbsp;comer(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("El animal come"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Perro extends Animal { }
+                </code>
+            </td>
+        </tr>
+
+        <!-- Pregunta 8 -->
+        <tr>
+            <td>8</td>
+            <td>¿Qué desventajas puede tener la herencia?</td>
+            <td>
+                <code>
+                // Desventajas de la herencia: <br>
+                // Dependencia entre clases <br>
+                class Animal { <br>
+                    &nbsp;&nbsp;void comer() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("El animal come"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Perro extends Animal { <br>
+                    &nbsp;&nbsp;void comer() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("El perro come"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                # Desventajas de la herencia: <br>
+                # Dependencia entre clases <br>
+                class Animal: <br>
+                    &nbsp;&nbsp;def comer(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("El animal come") <br>
+                class Perro(Animal): <br>
+                    &nbsp;&nbsp;def comer(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("El perro come") <br>
+                </code>
+            </td>
+            <td>
+                <code>
+                // Desventajas de la herencia: <br>
+                // Dependencia entre clases <br>
+                class Animal { <br>
+                    &nbsp;&nbsp;public void Comer() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("El animal come"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Perro : Animal { <br>
+                    &nbsp;&nbsp;public void Comer() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("El perro come"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                // Desventajas de la herencia: <br>
+                // Dependencia entre clases <br>
+                class Animal { <br>
+                    &nbsp;&nbsp;comer(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("El animal come"); <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Perro extends Animal { <br>
+                    &nbsp;&nbsp;comer(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("El perro come"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+        </tr>
+
+        <!-- Pregunta 9 -->
+        <tr>
+            <td>9</td>
+            <td>¿Qué es el principio de sustitución de Liskov?</td>
+            <td>
+                <code>
+                // Principio de sustitución de Liskov: <br>
+                // Las clases derivadas deben ser sustituibles por sus clases base <br>
+                class Cuadrado { <br>
+                    &nbsp;&nbsp;private int lado; <br>
+                    &nbsp;&nbsp;void setLado(int lado) { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.lado = lado; <br>
+                    &nbsp;&nbsp;} <br>
+                    &nbsp;&nbsp;int getLado() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;return lado; <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Rectangulo : Cuadrado { <br>
+                    &nbsp;&nbsp;private int ancho; <br>
+                    &nbsp;&nbsp;void setAncho(int ancho) { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.ancho = ancho; <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                # Principio de sustitución de Liskov: <br>
+                # Las clases derivadas deben ser sustituidas por sus clases base <br>
+                class Cuadrado: <br>
+                    &nbsp;&nbsp;def __init__(self, lado): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.lado = lado <br>
+                    &nbsp;&nbsp;def set_lado(self, lado): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.lado = lado <br>
+                    &nbsp;&nbsp;def get_lado(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;return self.lado <br>
+                class Rectangulo(Cuadrado): <br>
+                    &nbsp;&nbsp;def __init__(self, lado, ancho): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;super().__init__(lado) <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.ancho = ancho <br>
+                </code>
+            </td>
+            <td>
+                <code>
+                // Principio de sustitución de Liskov: <br>
+                // Las clases derivadas deben ser sustituidas por sus clases base <br>
+                class Cuadrado { <br>
+                    &nbsp;&nbsp;private int lado; <br>
+                    &nbsp;&nbsp;public void SetLado(int lado) { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.lado = lado; <br>
+                    &nbsp;&nbsp;} <br>
+                    &nbsp;&nbsp;public int GetLado() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;return lado; <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Rectangulo : Cuadrado { <br>
+                    &nbsp;&nbsp;private int ancho; <br>
+                    &nbsp;&nbsp;public void SetAncho(int ancho) { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.ancho = ancho; <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                // Principio de sustitución de Liskov: <br>
+                // Las clases derivadas deben ser sustituibles por sus clases base <br>
+                class Cuadrado { <br>
+                    &nbsp;&nbsp;private lado: number; <br>
+                    &nbsp;&nbsp;setLado(lado: number): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.lado = lado; <br>
+                    &nbsp;&nbsp;} <br>
+                    &nbsp;&nbsp;getLado(): number { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;return this.lado; <br>
+                    &nbsp;&nbsp;} <br>
+                } <br>
+                class Rectangulo extends Cuadrado { <br>
+                    &nbsp;&nbsp;private ancho: number; <br>
+                    &nbsp;&nbsp;setAncho(ancho: number): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;this.ancho = ancho; <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+        </tr>
+
+        <!-- Pregunta 10 -->
+        <tr>
+            <td>10</td>
+            <td>¿Qué es el principio de segregación de interfaces?</td>
+            <td>
+                <code>
+                // Principio de segregación de interfaces: <br>
+                // Una interfaz debe ser específica y no obligar a las clases a implementar métodos que no usan <br>
+                interface IAnimal { <br>
+                    &nbsp;&nbsp;void comer(); <br>
+                } <br>
+                interface IVuelo { <br>
+                    &nbsp;&nbsp;void volar(); <br>
+                } <br>
+                class Pajaro implements IAnimal, IVuelo { <br>
+                    &nbsp;&nbsp;public void comer() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("El pájaro come"); <br>
+                    &nbsp;&nbsp;} <br>
+                    &nbsp;&nbsp;public void volar() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("El pájaro vuela"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                # Principio de segregación de interfaces: <br>
+                # Una interfaz debe ser específica y no obligar a las clases a implementar métodos que no usan <br>
+                class IAnimal: <br>
+                    &nbsp;&nbsp;def comer(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;pass <br>
+                class IVuelo: <br>
+                    &nbsp;&nbsp;def volar(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;pass <br>
+                class Pajaro(IAnimal, IVuelo): <br>
+                    &nbsp;&nbsp;def comer(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("El pájaro come") <br>
+                    &nbsp;&nbsp;def volar(self): <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;print("El pájaro vuela") <br>
+                </code>
+            </td>
+            <td>
+                <code>
+                // Principio de segregación de interfaces: <br>
+                // Una interfaz debe ser específica y no obligar a las clases a implementar métodos que no usan <br>
+                interface IAnimal { <br>
+                    &nbsp;&nbsp;void Comer(); <br>
+                } <br>
+                interface IVuelo { <br>
+                    &nbsp;&nbsp;void Volar(); <br>
+                } <br>
+                class Pajaro : IAnimal, IVuelo { <br>
+                    &nbsp;&nbsp;public void Comer() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("El pájaro come"); <br>
+                    &nbsp;&nbsp;} <br>
+                    &nbsp;&nbsp;public void Volar() { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("El pájaro vuela"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+            <td>
+                <code>
+                // Principio de segregación de interfaces: <br>
+                // Una interfaz debe ser específica y no obligar a las clases a implementar métodos que no usan <br>
+                interface Animal { <br>
+                    &nbsp;&nbsp;comer(): void; <br>
+                } <br>
+                interface Vuelo { <br>
+                    &nbsp;&nbsp;volar(): void; <br>
+                } <br>
+                class Pajaro implements Animal, Vuelo { <br>
+                    &nbsp;&nbsp;comer(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("El pájaro come"); <br>
+                    &nbsp;&nbsp;} <br>
+                    &nbsp;&nbsp;volar(): void { <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;console.log("El pájaro vuela"); <br>
+                    &nbsp;&nbsp;} <br>
+                }
+                </code>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

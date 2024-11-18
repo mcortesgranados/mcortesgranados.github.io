@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Intermediate: Custom Kafka Connectors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Kafka Intermediate: Custom Kafka Connectors</h1>
+
+    <p>Kafka Connect is designed to enable scalable and reliable data transfer between Kafka and external systems. It comes with a wide variety of built-in connectors for popular data sources and sinks, but in some cases, you may need to create custom connectors to meet specific requirements.</p>
+
+    <h2>1. Understanding Custom Kafka Connectors</h2>
+    <p>Custom Kafka Connectors are used when no out-of-the-box connectors are available for a specific data source or sink. Kafka Connect allows developers to implement their own source or sink connectors using Java by extending the Kafka Connect framework.</p>
+
+    <p>A custom connector typically consists of three components:</p>
+    <ul>
+        <li><strong>Connector:</strong> The entry point of the connector, responsible for configuration and task management.</li>
+        <li><strong>Task:</strong> Handles the actual data processing, either reading from or writing to Kafka.</li>
+        <li><strong>Data Converter:</strong> Converts the data between Kafka’s internal format and the source/sink format.</li>
+    </ul>
+
+    <h2>2. Implementing a Custom Source Connector</h2>
+    <p>A custom source connector reads data from an external system (e.g., a database, a REST API) and writes it into Kafka topics.</p>
+
+    <h3>Step 1: Create the Connector Class</h3>
+    <p>The <code>SourceConnector</code> class is responsible for initializing the connector, managing configuration, and creating tasks.</p>
+
+<pre><code>
+import org.apache.kafka.connect.connector.Task;
+import org.apache.kafka.connect.source.SourceConnector;
+import java.util.List;
+import java.util.Map;
+
+public class CustomSourceConnector extends SourceConnector {
+
+    private Map<String, String> config;
+
+    @Override
+    public String version() {
+        return "1.0";
+    }
+
+    @Override
+    public void start(Map<String, String> config) {
+        this.config = config;
+    }
+
+    @Override
+    public Class&lt;? extends Task&gt; taskClass() {
+        return CustomSourceTask.class;
+    }
+
+    @Override
+    public List&lt;Map&lt;String, String&gt;&gt; taskConfigs(int maxTasks) {
+        return List.of(config);
+    }
+
+    @Override
+    public void stop() {
+        // Stop any resources when the connector is stopped
+    }
+
+    @Override
+    public ConfigDef config() {
+        return new ConfigDef()
+            .define("some.config", ConfigDef.Type.STRING, ConfigDef.Importance.HIGH, "Custom Config Parameter");
+    }
+}
+</code></pre>
+
+    <h3>Step 2: Implement the Task Class</h3>
+    <p>The <code>SourceTask</code> is responsible for reading data from the source system and pushing it to Kafka. In this example, we simulate reading data from a custom data source.</p>
+
+<pre><code>
+import org.apache.kafka.connect.source.SourceRecord;
+import org.apache.kafka.connect.source.SourceTask;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+public class CustomSourceTask extends SourceTask {
+
+    private String someConfig;
+
+    @Override
+    public String version() {
+        return "1.0";
+    }
+
+    @Override
+    public void start(Map&lt;String, String&gt; config) {
+        this.someConfig = config.get("some.config");
+    }
+
+    @Override
+    public List&lt;SourceRecord&gt; poll() throws InterruptedException {
+        // Simulate reading data from a custom source
+        // Create SourceRecord and return as a list
+        SourceRecord record = new SourceRecord(
+            null, null,
+            "custom-topic", null,
+            null, "key",
+            null, "value"
+        );
+        return Collections.singletonList(record);
+    }
+
+    @Override
+    public void stop() {
+        // Clean up resources when stopping the task
+    }
+}
+</code></pre>
+
+    <h2>3. Implementing a Custom Sink Connector</h2>
+    <p>A custom sink connector reads data from Kafka topics and writes it to an external system (e.g., a database, storage system).</p>
+
+    <h3>Step 1: Create the SinkConnector Class</h3>
+    <p>The <code>SinkConnector</code> class handles the configuration and task management of the sink connector.</p>
+
+<pre><code>
+import org.apache.kafka.connect.connector.Task;
+import org.apache.kafka.connect.sink.SinkConnector;
+import java.util.List;
+import java.util.Map;
+
+public class CustomSinkConnector extends SinkConnector {
+
+    private Map&lt;String, String&gt; config;
+
+    @Override
+    public String version() {
+        return "1.0";
+    }
+
+    @Override
+    public void start(Map&lt;String, String&gt; config) {
+        this.config = config;
+    }
+
+    @Override
+    public Class&lt;? extends Task&gt; taskClass() {
+        return CustomSinkTask.class;
+    }
+
+    @Override
+    public List&lt;Map&lt;String, String&gt;&gt; taskConfigs(int maxTasks) {
+        return List.of(config);
+    }
+
+    @Override
+    public void stop() {
+        // Stop any resources when the connector is stopped
+    }
+
+    @Override
+    public ConfigDef config() {
+        return new ConfigDef()
+            .define("some.config", ConfigDef.Type.STRING, ConfigDef.Importance.HIGH, "Custom Config Parameter");
+    }
+}
+</code></pre>
+
+    <h3>Step 2: Implement the SinkTask Class</h3>
+    <p>The <code>SinkTask</code> reads data from Kafka and writes it to the external system.</p>
+
+<pre><code>
+import org.apache.kafka.connect.sink.SinkRecord;
+import org.apache.kafka.connect.sink.SinkTask;
+
+import java.util.Collection;
+import java.util.Map;
+
+public class CustomSinkTask extends SinkTask {
+
+    private String someConfig;
+
+    @Override
+    public String version() {
+        return "1.0";
+    }
+
+    @Override
+    public void start(Map&lt;String, String&gt; config) {
+        this.someConfig = config.get("some.config");
+    }
+
+    @Override
+    public void put(Collection&lt;SinkRecord&gt; records) {
+        for (SinkRecord record : records) {
+            // Write data to the external system
+            System.out.println("Received record: " + record.value());
+        }
+    }
+
+    @Override
+    public void stop() {
+        // Clean up resources when stopping the task
+    }
+}
+</code></pre>
+
+    <h2>4. Packaging and Deploying the Connector</h2>
+    <p>Once you’ve implemented your custom connector, you need to package it as a JAR file and place it in the <code>connectors</code> directory of your Kafka Connect installation. You can then configure and deploy it like any other connector.</p>
+
+    <h2>5. Testing the Custom Connector</h2>
+    <p>It’s important to test your custom connector thoroughly to ensure it works as expected. You can use tools like <code>curl</code> or the <code>Kafka Connect REST API</code> to deploy and manage your custom connectors. Be sure to test both the source and sink connectors by feeding data through Kafka topics and verifying that the custom source or sink works correctly.</p>
+
+    <h2>Conclusion</h2>
+    <p>Creating custom Kafka Connectors enables you to extend Kafka’s integration capabilities to new systems. By implementing custom connectors, you can build tailored solutions for specific use cases that are not supported by the built-in connectors. Following this guide, you can build your own custom connectors for both source and sink systems.</p>
+
+</body>
+</html>

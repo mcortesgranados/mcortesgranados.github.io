@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Using Statements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Using Statements</h1>
+    <p>The <code>using</code> statement in C# is used for two primary purposes:</p>
+    <ul>
+        <li><strong>Namespace Import:</strong> To include namespaces in the current file so that you can use the types defined in those namespaces without needing to fully qualify their names.</li>
+        <li><strong>Resource Management:</strong> To ensure that resources are properly disposed of once they are no longer needed, which is particularly useful for handling unmanaged resources.</li>
+    </ul>
+    
+    <h2>1. Using Statements for Namespace Import</h2>
+    <p>The <code>using</code> directive allows you to use types from a namespace without fully qualifying them. Here’s an example:</p>
+    <pre><code>
+using System;
+
+namespace MyApplication
+{
+    class Program
+    {
+        static void Main()
+        {
+            Console.WriteLine("Hello, World!");
+        }
+    }
+}
+    </code></pre>
+    <p>In this example, the <code>using System;</code> directive imports the <code>System</code> namespace, so you can use <code>Console</code> without needing to write <code>System.Console</code>.</p>
+    
+    <h2>2. Using Statements for Resource Management</h2>
+    <p>The <code>using</code> statement can also be used to automatically dispose of resources when they are no longer needed. This is typically used with objects that implement the <code>IDisposable</code> interface. Here’s an example:</p>
+    <pre><code>
+using System;
+using System.IO;
+
+namespace MyApplication
+{
+    class Program
+    {
+        static void Main()
+        {
+            using (StreamWriter writer = new StreamWriter("example.txt"))
+            {
+                writer.WriteLine("Hello, World!");
+            }  // StreamWriter is disposed of here
+        }
+    }
+}
+    </code></pre>
+    <p>In this example, the <code>using</code> statement ensures that the <code>StreamWriter</code> is disposed of properly after its usage, even if an exception occurs.</p>
+    
+    <h2>3. Nested Using Statements</h2>
+    <p>You can nest <code>using</code> statements to manage multiple resources:</p>
+    <pre><code>
+using (StreamReader reader = new StreamReader("input.txt"))
+{
+    using (StreamWriter writer = new StreamWriter("output.txt"))
+    {
+        string line;
+        while ((line = reader.ReadLine()) != null)
+        {
+            writer.WriteLine(line);
+        }
+    }
+}
+    </code></pre>
+    <p>In this example, both the <code>StreamReader</code> and <code>StreamWriter</code> are disposed of correctly at the end of their usage.</p>
+    
+    <h2>4. Key Points</h2>
+    <ul>
+        <li><strong>Namespace Import:</strong> Simplifies code by allowing types to be used without full qualification.</li>
+        <li><strong>Resource Management:</strong> Automatically disposes of resources that implement <code>IDisposable</code> to prevent resource leaks.</li>
+        <li><strong>Nested Using Statements:</strong> Can be used to manage multiple resources, ensuring each is disposed of properly.</li>
+    </ul>
+</body>
+</html>

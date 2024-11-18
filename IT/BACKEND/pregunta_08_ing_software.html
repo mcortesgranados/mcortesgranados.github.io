@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principios de Código Seguro</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pregunta 8: Acerca de la aplicación de principios de código seguro en las implementaciones que realiza, usted:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1. ¿Qué es el principio de validación de entradas y cómo se aplica?</td>
+                <td>El principio de validación de entradas asegura que los datos recibidos de los usuarios sean verificados antes de ser procesados. Se aplica validando los datos contra reglas predefinidas, utilizando técnicas de sanitización para prevenir ataques como inyecciones SQL o XSS.</td>
+            </tr>
+            <tr>
+                <td>2. ¿Cómo se implementa el principio de principio de menor privilegio?</td>
+                <td>El principio de menor privilegio implica que cada componente del sistema debe tener solo los permisos necesarios para realizar su función. Se implementa configurando roles y permisos de acceso de manera estricta y revisando regularmente los privilegios asignados.</td>
+            </tr>
+            <tr>
+                <td>3. ¿Qué es la encriptación de datos y cómo se aplica en el código?</td>
+                <td>La encriptación de datos protege la información transformándola en un formato no legible sin la clave adecuada. Se aplica en el código cifrando datos sensibles tanto en tránsito (usando HTTPS) como en reposo (usando algoritmos de cifrado como AES).</td>
+            </tr>
+            <tr>
+                <td>4. ¿Cómo se implementa la autenticación multifactor en una aplicación?</td>
+                <td>La autenticación multifactor requiere que los usuarios proporcionen múltiples formas de verificación (como una contraseña y un código enviado al teléfono) antes de acceder a la aplicación. Se implementa integrando servicios de autenticación que soporten MFA.</td>
+            </tr>
+            <tr>
+                <td>5. ¿Qué es el principio de defensa en profundidad y cómo se aplica?</td>
+                <td>El principio de defensa en profundidad implica usar múltiples capas de seguridad para proteger un sistema. Se aplica implementando varias medidas de seguridad, como firewalls, sistemas de detección de intrusiones y encriptación, para proteger los datos y sistemas.</td>
+            </tr>
+            <tr>
+                <td>6. ¿Qué técnicas se utilizan para proteger las contraseñas almacenadas?</td>
+                <td>Para proteger las contraseñas almacenadas se utilizan técnicas como el hash seguro (ej., bcrypt, PBKDF2) y el uso de sal (salt) para evitar ataques de diccionario y fuerza bruta.</td>
+            </tr>
+            <tr>
+                <td>7. ¿Cómo se aplica el principio de mínimo privilegio en una base de datos?</td>
+                <td>El principio de mínimo privilegio en una base de datos se aplica asignando a los usuarios y roles solo los permisos necesarios para sus tareas específicas, evitando el acceso innecesario a datos sensibles o funciones administrativas.</td>
+            </tr>
+            <tr>
+                <td>8. ¿Qué es la seguridad en la gestión de sesiones y cómo se implementa?</td>
+                <td>La seguridad en la gestión de sesiones protege las sesiones de usuario contra secuestros y ataques. Se implementa utilizando cookies seguras, tokens de sesión con caducidad y validaciones constantes de autenticidad del usuario.</td>
+            </tr>
+            <tr>
+                <td>9. ¿Cómo se realiza el manejo de errores para prevenir la divulgación de información sensible?</td>
+                <td>Para prevenir la divulgación de información sensible, se debe manejar los errores de manera que no revelen detalles internos del sistema. Esto se hace usando mensajes de error genéricos para el usuario y registrando detalles internos en archivos de log seguros.</td>
+            </tr>
+            <tr>
+                <td>10. ¿Qué son las pruebas de penetración y cómo contribuyen a la seguridad del código?</td>
+                <td>Las pruebas de penetración simulan ataques para identificar vulnerabilidades en el sistema. Contribuyen a la seguridad del código al revelar debilidades que pueden ser corregidas antes de que un atacante real aproveche dichas vulnerabilidades.</td>
+            </tr>
+            <tr>
+                <td>11. ¿Cómo se usa la seguridad en el desarrollo de APIs?</td>
+                <td>La seguridad en el desarrollo de APIs se asegura mediante autenticación (como OAuth), autorización, cifrado de datos en tránsito, y validación y sanitización de entradas.</td>
+            </tr>
+            <tr>
+                <td>12. ¿Qué es un "Secure Coding Standard" y por qué es importante?</td>
+                <td>Un "Secure Coding Standard" es un conjunto de directrices y mejores prácticas para escribir código seguro. Es importante porque ayuda a los desarrolladores a prevenir vulnerabilidades comunes y mejorar la seguridad general del software.</td>
+            </tr>
+            <tr>
+                <td>13. ¿Qué es un "Threat Model" y cómo se utiliza en el desarrollo seguro?</td>
+                <td>Un "Threat Model" es una representación de las amenazas potenciales contra una aplicación. Se utiliza para identificar vulnerabilidades y diseñar estrategias para mitigarlas durante el desarrollo del software.</td>
+            </tr>
+            <tr>
+                <td>14. ¿Cómo se aplica la seguridad en el desarrollo de software de código abierto?</td>
+                <td>La seguridad en el desarrollo de software de código abierto se aplica revisando el código de manera colaborativa, implementando políticas de seguridad, y manteniendo una vigilancia constante para identificar y corregir vulnerabilidades.</td>
+            </tr>
+            <tr>
+                <td>15. ¿Qué son las vulnerabilidades de inyección y cómo se previenen?</td>
+                <td>Las vulnerabilidades de inyección permiten que los atacantes inserten código malicioso en una aplicación. Se previenen validando y sanitizando todas las entradas y utilizando consultas parametrizadas.</td>
+            </tr>
+            <tr>
+                <td>16. ¿Cómo se asegura la comunicación segura entre microservicios?</td>
+                <td>Se asegura utilizando HTTPS para cifrar el tráfico, autenticación y autorización entre servicios, y utilizando mecanismos de validación de datos para evitar inyecciones y ataques similares.</td>
+            </tr>
+            <tr>
+                <td>17. ¿Qué es el "Secure Design Principle" y cómo se aplica?</td>
+                <td>El "Secure Design Principle" es el enfoque de diseñar aplicaciones con seguridad desde el principio. Se aplica mediante la implementación de controles de seguridad desde las primeras fases del diseño y el desarrollo.</td>
+            </tr>
+            <tr>
+                <td>18. ¿Cómo se implementa la seguridad en el manejo de archivos subidos por los usuarios?</td>
+                <td>La seguridad en el manejo de archivos se implementa validando el tipo y tamaño de los archivos, usando mecanismos de escaneo para detectar malware, y almacenando los archivos en ubicaciones seguras con permisos adecuados.</td>
+            </tr>
+            <tr>
+                <td>19. ¿Qué es un "Security Audit" y cómo se realiza?</td>
+                <td>Un "Security Audit" es una revisión detallada de un sistema para evaluar su seguridad. Se realiza revisando configuraciones, realizando pruebas de penetración y análisis de código para identificar vulnerabilidades y debilidades.</td>
+            </tr>
+            <tr>
+                <td>20. ¿Cómo se maneja la seguridad en el almacenamiento de datos sensibles?</td>
+                <td>Se maneja cifrando los datos en reposo, utilizando controles de acceso para limitar quién puede ver o modificar los datos, y aplicando principios de mínimo privilegio para la gestión de datos.</td>
+            </tr>
+            <tr>
+                <td>21. ¿Qué es la "Seguridad en el Diseño" y cómo se aplica durante el desarrollo?</td>
+                <td>La "Seguridad en el Diseño" es el enfoque de incorporar controles de seguridad durante la fase de diseño del software. Se aplica identificando amenazas y vulnerabilidades y diseñando contramedidas adecuadas.</td>
+            </tr>
+            <tr>
+                <td>22. ¿Cómo se utilizan las listas blancas (whitelisting) en la seguridad de aplicaciones?</td>
+                <td>Las listas blancas permiten el acceso solo a entidades preaprobadas. Se utilizan para controlar y restringir el acceso a recursos, asegurando que solo usuarios o sistemas autorizados puedan interactuar con la aplicación.</td>
+            </tr>
+            <tr>
+                <td>23. ¿Qué es la "Seguridad en el Desarrollo de Software" (SDLC) y cuáles son sus fases?</td>
+                <td>La "Seguridad en el Desarrollo de Software" (SDLC) es el proceso de integrar medidas de seguridad en cada fase del ciclo de vida del desarrollo de software, incluyendo planificación, diseño, desarrollo, pruebas, implementación y mantenimiento.</td>
+            </tr>
+            <tr>
+                <td>24. ¿Cómo se realiza la seguridad en la configuración de servidores y entornos?</td>
+                <td>Se realiza configurando servidores con actualizaciones y parches de seguridad, utilizando configuraciones seguras, y restringiendo el acceso a servicios y puertos no necesarios.</td>
+            </tr>
+            <tr>
+                <td>25. ¿Qué es un "Vulnerability Scanner" y cómo ayuda en la seguridad del código?</td>
+                <td>Un "Vulnerability Scanner" es una herramienta que analiza el software en busca de vulnerabilidades conocidas. Ayuda en la seguridad del código identificando problemas potenciales que pueden ser corregidos antes de que sean explotados.</td>
+            </tr>
+            <tr>
+                <td>26. ¿Cómo se realiza la gestión de parches para mantener la seguridad del software?</td>
+                <td>Se realiza aplicando parches y actualizaciones de seguridad regularmente para corregir vulnerabilidades. Esto implica monitorear avisos de seguridad, probar parches y aplicarlos en el entorno de producción.</td>
+            </tr>
+            <tr>
+                <td>27. ¿Qué son las "Prácticas de Codificación Segura" y cómo se implementan?</td>
+                <td>Las "Prácticas de Codificación Segura" son directrices para escribir código que minimice las vulnerabilidades. Se implementan siguiendo buenas prácticas, como evitar el uso de funciones inseguras y aplicar validaciones adecuadas.</td>
+            </tr>
+            <tr>
+                <td>28. ¿Cómo se protege la seguridad en aplicaciones móviles?</td>
+                <td>Se protege implementando cifrado para datos sensibles, utilizando autenticación robusta, y aplicando buenas prácticas en la gestión de permisos y almacenamiento de datos en el dispositivo.</td>
+            </tr>
+            <tr>
+                <td>29. ¿Qué es el "Principio de Menor Privilegio" y cómo se aplica en la programación?</td>
+                <td>El "Principio de Menor Privilegio" asegura que cada usuario o componente tenga solo los permisos necesarios. Se aplica limitando el acceso a recursos y funcionalidades solo a aquellos que realmente los necesitan.</td>
+            </tr>
+            <tr>
+                <td>30. ¿Cómo se manejan las credenciales en un entorno seguro?</td>
+                <td>Se manejan almacenándolas de forma segura usando cifrado y técnicas de hashing, y evitando su inclusión en el código fuente o archivos de configuración.</td>
+            </tr>
+            <tr>
+                <td>31. ¿Qué es la "Seguridad en el Proceso de Desarrollo" y cómo se asegura?</td>
+                <td>La "Seguridad en el Proceso de Desarrollo" asegura que las prácticas de seguridad se integren en todas las etapas del desarrollo. Se asegura realizando revisiones de seguridad, pruebas y capacitación continua en seguridad.</td>
+            </tr>
+            <tr>
+                <td>32. ¿Cómo se realiza la validación de entradas para prevenir ataques de inyección?</td>
+                <td>Se realiza validando y sanitizando todas las entradas del usuario, utilizando consultas parametrizadas y evitando la inclusión de datos no confiables en comandos o consultas SQL.</td>
+            </tr>
+            <tr>
+                <td>33. ¿Qué es el "Security by Design" y cómo se aplica en el desarrollo de software?</td>
+                <td>El "Security by Design" es un enfoque que integra la seguridad en el diseño del software desde el inicio. Se aplica identificando y mitigando riesgos de seguridad durante la fase de diseño del software.</td>
+            </tr>
+            <tr>
+                <td>34. ¿Cómo se protege la privacidad de los usuarios en el desarrollo de aplicaciones?</td>
+                <td>Se protege mediante la implementación de políticas de privacidad, cifrando datos personales, y limitando el acceso a información sensible solo a usuarios autorizados.</td>
+            </tr>
+            <tr>
+                <td>35. ¿Qué es el "Secure Software Development Life Cycle" (SSDLC)?</td>
+                <td>El "Secure Software Development Life Cycle" (SSDLC) es un enfoque que integra la seguridad en cada fase del ciclo de vida del desarrollo de software, desde el diseño hasta la implementación y mantenimiento.</td>
+            </tr>
+            <tr>
+                <td>36. ¿Cómo se utilizan los controles de acceso para proteger las aplicaciones?</td>
+                <td>Se utilizan implementando autenticación, autorización y control de acceso basado en roles para asegurar que solo los usuarios autorizados puedan acceder a recursos específicos y realizar acciones dentro de la aplicación.</td>
+            </tr>
+            <tr>
+                <td>37. ¿Qué son las vulnerabilidades comunes en el desarrollo de software y cómo se previenen?</td>
+                <td>Las vulnerabilidades comunes incluyen inyecciones SQL, Cross-Site Scripting (XSS), y Cross-Site Request Forgery (CSRF). Se previenen mediante validación y sanitización de entradas, y utilizando prácticas de codificación segura.</td>
+            </tr>
+            <tr>
+                <td>38. ¿Cómo se asegura la integridad del código en el desarrollo de software?</td>
+                <td>Se asegura utilizando controles de versiones, realizando revisiones de código y pruebas de seguridad, y aplicando prácticas de desarrollo seguro para evitar alteraciones no autorizadas.</td>
+            </tr>
+            <tr>
+                <td>39. ¿Qué es la "Seguridad en el Diseño de Arquitectura" y cómo se aplica?</td>
+                <td>La "Seguridad en el Diseño de Arquitectura" implica diseñar la arquitectura del sistema con consideraciones de seguridad en mente. Se aplica identificando y mitigando riesgos en la arquitectura y diseño del sistema.</td>
+            </tr>
+            <tr>
+                <td>40. ¿Cómo se implementa la seguridad en la integración de terceros?</td>
+                <td>Se implementa validando y sanitizando todas las interacciones con servicios de terceros, utilizando mecanismos de autenticación y autorización, y realizando auditorías de seguridad periódicas.</td>
+            </tr>
+            <tr>
+                <td>41. ¿Qué técnicas se utilizan para la protección contra ataques de fuerza bruta?</td>
+                <td>Se utilizan técnicas como la implementación de límites en los intentos de inicio de sesión, el uso de CAPTCHAs, y la aplicación de autenticación multifactor para mitigar ataques de fuerza bruta.</td>
+            </tr>
+            <tr>
+                <td>42. ¿Cómo se asegura la seguridad en el uso de APIs externas?</td>
+                <td>Se asegura utilizando autenticación adecuada (como OAuth), validación de entradas, cifrado de datos y monitoreo de acceso a las APIs.</td>
+            </tr>
+            <tr>
+                <td>43. ¿Qué es el análisis de seguridad de código estático (SAST) y cómo se utiliza?</td>
+                <td>El análisis de seguridad de código estático (SAST) evalúa el código fuente en busca de vulnerabilidades sin ejecutar el código. Se utiliza para identificar problemas de seguridad en el código durante el desarrollo.</td>
+            </tr>
+            <tr>
+                <td>44. ¿Cómo se protege contra vulnerabilidades en la configuración de sistemas?</td>
+                <td>Se protege mediante la aplicación de configuraciones seguras, revisiones periódicas de configuraciones, y la implementación de controles de acceso adecuados.</td>
+            </tr>
+            <tr>
+                <td>45. ¿Qué es el análisis de seguridad dinámico (DAST) y cómo se utiliza?</td>
+                <td>El análisis de seguridad dinámico (DAST) evalúa una aplicación en ejecución en busca de vulnerabilidades. Se utiliza para identificar problemas de seguridad que solo pueden ser detectados cuando la aplicación está en uso.</td>
+            </tr>
+            <tr>
+                <td>46. ¿Cómo se manejan las vulnerabilidades descubiertas durante el ciclo de vida del desarrollo?</td>
+                <td>Se manejan identificando y evaluando las vulnerabilidades, aplicando parches y correcciones, y realizando pruebas de validación para asegurar que se han resuelto adecuadamente.</td>
+            </tr>
+            <tr>
+                <td>47. ¿Qué son los controles de seguridad en el desarrollo de software y cómo se implementan?</td>
+                <td>Los controles de seguridad son mecanismos que ayudan a proteger el software contra vulnerabilidades. Se implementan mediante el uso de herramientas y técnicas como el análisis de código, pruebas de seguridad y políticas de desarrollo seguro.</td>
+            </tr>
+            <tr>
+                <td>48. ¿Cómo se asegura la protección contra ataques de denegación de servicio (DoS)?</td>
+                <td>Se asegura utilizando técnicas como el rate limiting, implementación de firewalls, y monitoreo de tráfico para detectar y mitigar ataques de denegación de servicio.</td>
+            </tr>
+            <tr>
+                <td>49. ¿Qué es el "Code Review" y cómo contribuye a la seguridad del código?</td>
+                <td>El "Code Review" es el proceso de revisar el código fuente por otros desarrolladores para identificar errores y vulnerabilidades. Contribuye a la seguridad del código al detectar y corregir problemas antes de la implementación.</td>
+            </tr>
+            <tr>
+                <td>50. ¿Cómo se aplican las mejores prácticas de seguridad en el desarrollo de aplicaciones web?</td>
+                <td>Se aplican mediante la implementación de medidas como el cifrado de datos, validación de entradas, y uso de autenticación y autorización robustas. También se realizan pruebas de seguridad para identificar y corregir vulnerabilidades.</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

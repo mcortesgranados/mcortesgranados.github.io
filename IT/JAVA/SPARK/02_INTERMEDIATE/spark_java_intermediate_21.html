@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spark Structured Streaming</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spark Structured Streaming</h1>
+    <p>Spark Structured Streaming is a scalable and fault-tolerant stream processing engine built on the Spark SQL engine. It allows for real-time data processing with the same DataFrame and Dataset APIs used for batch processing.</p>
+
+    <h2>1. Introduction to Structured Streaming</h2>
+    <p>Structured Streaming allows you to write streaming queries as if you were writing batch queries. The underlying engine handles the complexities of streaming computation, including fault tolerance, state management, and more. It provides end-to-end exactly-once guarantees and integrates seamlessly with Spark SQL and DataFrames.</p>
+
+    <h2>2. Example: Basic Structured Streaming Query</h2>
+    <p>The following example demonstrates a basic structured streaming query that reads data from a socket source, processes it, and writes the results to the console.</p>
+
+    <h3>Example: Basic Structured Streaming Query</h3>
+    <pre><code>
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.streaming.StreamingQuery;
+import org.apache.spark.sql.streaming.StreamingQueryException;
+
+public class StructuredStreamingExample {
+    public static void main(String[] args) throws StreamingQueryException {
+        // Step 1: Create a SparkSession
+        SparkSession spark = SparkSession.builder()
+                .appName("Structured Streaming Example")
+                .master("local[*]")
+                .getOrCreate();
+        
+        // Step 2: Read streaming data from a socket
+        Dataset&lt;String&gt; lines = spark.readStream()
+                .format("socket")
+                .option("host", "localhost")
+                .option("port", 9999)
+                .load()
+                .as(Encoders.STRING());
+        
+        // Step 3: Perform basic transformations
+        Dataset&lt;Row&gt; wordCounts = lines.groupBy("value")
+                .count();
+        
+        // Step 4: Write the results to the console
+        StreamingQuery query = wordCounts.writeStream()
+                .outputMode("complete")
+                .format("console")
+                .start();
+        
+        // Step 5: Await termination
+        query.awaitTermination();
+    }
+}
+    </code></pre>
+
+    <h2>3. Explanation of the Example</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Step</th>
+                <th>Description</th>
+                <th>Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Create a SparkSession</td>
+                <td><code>SparkSession spark = SparkSession.builder() ... .getOrCreate();</code></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Read streaming data from a socket</td>
+                <td><code>Dataset&lt;String&gt; lines = spark.readStream() ... .load().as(Encoders.STRING());</code></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Perform basic transformations</td>
+                <td><code>Dataset&lt;Row&gt; wordCounts = lines.groupBy("value").count();</code></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Write results to the console</td>
+                <td><code>StreamingQuery query = wordCounts.writeStream() ... .start();</code></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Await termination</td>
+                <td><code>query.awaitTermination();</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4. Conclusion</h2>
+    <p>Spark Structured Streaming provides a powerful and scalable way to process real-time data streams using the same APIs as batch processing. Its integration with Spark SQL and DataFrames simplifies stream processing tasks and offers robust fault tolerance and exactly-once guarantees.</p>
+</body>
+</html>

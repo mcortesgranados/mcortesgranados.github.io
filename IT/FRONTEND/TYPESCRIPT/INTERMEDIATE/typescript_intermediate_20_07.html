@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Intermediate Level Questions and Answers - Part 7</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Intermediate Level Questions and Answers - Part 7</h1>
+
+    <h2>1. How do you use <code>enum</code> to define a set of named constants?</h2>
+    <p>The <code>enum</code> keyword is used to define a set of named constants.</p>
+    <pre><code>enum Direction {
+    Up,
+    Down,
+    Left,
+    Right
+}
+
+const move: Direction = Direction.Up;
+console.log(move); // 0</code></pre>
+
+    <h2>2. How do you use <code>as</code> to assert types in TypeScript?</h2>
+    <p>The <code>as</code> keyword is used for type assertions to override TypeScript's inferred types.</p>
+    <pre><code>let value: any = "This is a string";
+let length: number = (value as string).length;
+
+console.log(length); // 16</code></pre>
+
+    <h2>3. How do you use <code>default type parameters</code> in generics?</h2>
+    <p>Default type parameters in generics provide a fallback type if none is specified.</p>
+    <pre><code>function identity<T = string>(value: T): T {
+    return value;
+}
+
+const result1 = identity("Hello"); // string
+const result2 = identity(123); // number
+
+console.log(result1); // Hello
+console.log(result2); // 123</code></pre>
+
+    <h2>4. How do you use <code>type assertions</code> to convert between types?</h2>
+    <p>Type assertions allow converting a value to a different type without runtime checks.</p>
+    <pre><code>const someValue: any = "This is a string";
+const strLength: number = (<string>someValue).length;
+
+console.log(strLength); // 16</code></pre>
+
+    <h2>5. How do you use <code>tuple</code> to define a fixed-length array with different types?</h2>
+    <p>Tuples allow defining arrays with fixed lengths and specific types for each position.</p>
+    <pre><code>let tuple: [number, string, boolean] = [1, "Hello", true];
+
+console.log(tuple); // [1, 'Hello', true]</code></pre>
+
+    <h2>6. How do you use <code>type narrowing</code> to work with union types?</h2>
+    <p>Type narrowing involves refining a union type to a more specific type using type guards.</p>
+    <pre><code>function printLength(value: string | number) {
+    if (typeof value === "string") {
+        console.log("String length:", value.length);
+    } else {
+        console.log("Number:", value);
+    }
+}
+
+printLength("Hello"); // String length: 5
+printLength(123); // Number: 123</code></pre>
+
+    <h2>7. How do you use <code>Partial</code> to make all properties of a type optional?</h2>
+    <p>The <code>Partial</code> utility type makes all properties of a type optional.</p>
+    <pre><code>interface User {
+    name: string;
+    age: number;
+}
+
+const updateUser: Partial<User> = { name: "Alice" };
+
+console.log(updateUser); // { name: 'Alice' }</code></pre>
+
+    <h2>8. How do you use <code>Required</code> to make all properties of a type required?</h2>
+    <p>The <code>Required</code> utility type makes all properties of a type required.</p>
+    <pre><code>interface User {
+    name?: string;
+    age?: number;
+}
+
+const user: Required<User> = { name: "Alice", age: 30 };
+
+console.log(user); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>9. How do you use <code>ReturnType</code> to get the return type of a function?</h2>
+    <p>The <code>ReturnType</code> utility type extracts the return type of a function.</p>
+    <pre><code>function getName(): string {
+    return "Alice";
+}
+
+type NameType = ReturnType<typeof getName>; // string
+
+const name: NameType = "Bob";
+console.log(name); // Bob</code></pre>
+
+    <h2>10. How do you use <code>Parameters</code> to get the types of a function's parameters?</h2>
+    <p>The <code>Parameters</code> utility type extracts the types of a function's parameters.</p>
+    <pre><code>function greet(name: string, age: number): string {
+    return `Hello, ${name}. You are ${age} years old.`;
+}
+
+type GreetParams = Parameters<typeof greet>; // [string, number]
+
+const params: GreetParams = ["Alice", 30];
+console.log(greet(...params)); // Hello, Alice. You are 30 years old.</code></pre>
+
+    <h2>11. How do you use <code>Class Decorators</code> to add metadata to classes?</h2>
+    <p>Class decorators are functions that can modify or add metadata to classes.</p>
+    <pre><code>function addMetadata(constructor: Function) {
+    console.log(`Class ${constructor.name} has been decorated.`);
+}
+
+@addMetadata
+class MyClass {
+    constructor(public name: string) {}
+}
+
+const myClassInstance = new MyClass("Test");
+console.log(myClassInstance); // MyClass { name: 'Test' }</code></pre>
+
+    <h2>12. How do you use <code>Method Decorators</code> to modify method behavior?</h2>
+    <p>Method decorators can be used to modify the behavior of methods within a class.</p>
+    <pre><code>function logMethod(target: any, propertyName: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    descriptor.value = function (...args: any[]) {
+        console.log(`Method ${propertyName} called with arguments: ${args}`);
+        return originalMethod.apply(this, args);
+    };
+}
+
+class MyClass {
+    @logMethod
+    sayHello(name: string) {
+        return `Hello, ${name}`;
+    }
+}
+
+const myClassInstance = new MyClass();
+console.log(myClassInstance.sayHello("Alice")); // Method sayHello called with arguments: Alice
+                                                  // Hello, Alice</code></pre>
+
+    <h2>13. How do you use <code>Property Decorators</code> to add metadata to properties?</h2>
+    <p>Property decorators are used to add metadata or modify properties within a class.</p>
+    <pre><code>function logProperty(target: any, propertyKey: string) {
+    let value = target[propertyKey];
+
+    const getter = () => {
+        console.log(`Getting value of ${propertyKey}: ${value}`);
+        return value;
+    };
+
+    const setter = (newValue: any) => {
+        console.log(`Setting value of ${propertyKey} to: ${newValue}`);
+        value = newValue;
+    };
+
+    Object.defineProperty(target, propertyKey, {
+        get: getter,
+        set: setter,
+        enumerable: true,
+        configurable: true
+    });
+}
+
+class MyClass {
+    @logProperty
+    name: string;
+
+    constructor(name: string) {
+        this.name = name;
+    }
+}
+
+const myClassInstance = new MyClass("Alice");
+myClassInstance.name = "Bob"; // Setting value of name to: Bob
+console.log(myClassInstance.name); // Getting value of name: Bob
+                                     // Bob</code></pre>
+
+    <h2>14. How do you use <code>Accessor Decorators</code> to modify getter and setter methods?</h2>
+    <p>Accessor decorators can modify the behavior of getter and setter methods in classes.</p>
+    <pre><code>function logAccess(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const originalGet = descriptor.get;
+    const originalSet = descriptor.set;
+
+    descriptor.get = function () {
+        console.log(`Getting ${propertyKey}`);
+        return originalGet?.apply(this);
+    };
+
+    descriptor.set = function (value: any) {
+        console.log(`Setting ${propertyKey} to ${value}`);
+        originalSet?.apply(this, [value]);
+    };
+}
+
+class MyClass {
+    private _value: string;
+
+    @logAccess
+    get value() {
+        return this._value;
+    }
+
+    @logAccess
+    set value(val: string) {
+        this._value = val;
+    }
+
+    constructor(value: string) {
+        this._value = value;
+    }
+}
+
+const myClassInstance = new MyClass("Initial");
+myClassInstance.value = "Updated"; // Setting value to Updated
+console.log(myClassInstance.value); // Getting value
+                                     // Updated</code></pre>
+
+    <h2>15. How do you use <code>Abstract Classes</code> to create base classes that cannot be instantiated?</h2>
+    <p>Abstract classes cannot be instantiated directly and are used as base classes.</p>
+    <pre><code>abstract class Animal {
+    abstract makeSound(): void;
+
+    move(): void {
+        console.log("Moving...");
+    }
+}
+
+class Dog extends Animal {
+    makeSound(): void {
+        console.log("Woof!");
+    }
+}
+
+const dog = new Dog();
+dog.makeSound(); // Woof!
+dog.move();      // Moving...</code></pre>
+
+    <h2>16. How do you use <code>Interface Merging</code> to extend interfaces?</h2>
+    <p>Interface merging allows extending existing interfaces with additional properties.</p>
+    <pre><code>interface Person {
+    name: string;
+}
+
+interface Person {
+    age: number;
+}
+
+const person: Person = {
+    name: "Alice",
+    age: 30
+};
+
+console.log(person); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>17. How do you use <code>Intersection Types</code> to combine multiple types?</h2>
+    <p>Intersection types combine multiple types into one.</p>
+    <pre><code>interface A {
+    x: number;
+}
+
+interface B {
+    y: number;
+}
+
+type C = A & B;
+
+const obj: C = { x: 1, y: 2 };
+
+console.log(obj); // { x: 1, y: 2 }</code></pre>
+
+    <h2>18. How do you use <code>Type Guards</code> to perform runtime type checking?</h2>
+    <p>Type guards are functions or conditions used to perform runtime type checking.</p>
+    <pre><code>function isString(value: any): value is string {
+    return typeof value === "string";
+}
+
+function printValue(value: string | number) {
+    if (isString(value)) {
+        console.log("String:", value);
+    } else {
+        console.log("Number:", value);
+    }
+}
+
+printValue("Hello"); // String: Hello
+printValue(123);     // Number: 123</code></pre>
+
+    <h2>19. How do you use <code>Conditional Types</code> to create types based on conditions?</h2>
+    <p>Conditional types allow creating types based on a condition.</p>
+    <pre><code>type TrueType = true extends true ? "Yes" : "No"; // "Yes"
+type FalseType = false extends true ? "Yes" : "No"; // "No"
+
+console.log(TrueType);  // Yes
+console.log(FalseType); // No</code></pre>
+
+    <h2>20. How do you use <code>Type Aliases</code> to create custom types?</h2>
+    <p>Type aliases create custom types that can be used throughout your code.</p>
+    <pre><code>type ID = number | string;
+
+const userId: ID = 123;
+const productId: ID = "ABC";
+
+console.log(userId);   // 123
+console.log(productId); // ABC</code></pre>
+
+</body>
+</html>

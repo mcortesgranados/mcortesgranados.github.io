@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Message Format and Serialization</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka Message Format and Serialization</h1>
+    <p>This guide covers Kafka message formats and serialization, which are essential for sending and receiving data in Kafka topics. Proper serialization ensures that data is correctly encoded and decoded across different systems.</p>
+
+    <h2>1. Kafka Message Format</h2>
+    <p>Kafka messages are composed of the following components:</p>
+
+    <ul>
+        <li><strong>Key:</strong> Optional component that can be used to ensure that messages with the same key are sent to the same partition.</li>
+        <li><strong>Value:</strong> The main content of the message, which is the data you want to send or receive.</li>
+        <li><strong>Timestamp:</strong> The time when the message was produced.</li>
+        <li><strong>Headers:</strong> Optional metadata that can be associated with the message.</li>
+    </ul>
+
+    <h2>2. Serialization and Deserialization</h2>
+    <p>Serialization is the process of converting an object into a format suitable for storage or transmission (e.g., converting an object to a byte array). Deserialization is the reverse process, converting bytes back into an object. Kafka uses serializers and deserializers to handle the conversion of keys and values.</p>
+
+    <h3>Common Serialization Formats:</h3>
+    <ul>
+        <li><strong>StringSerializer:</strong> Converts strings into byte arrays.</li>
+        <li><strong>IntegerSerializer:</strong> Converts integers into byte arrays.</li>
+        <li><strong>AvroSerializer:</strong> Serializes objects into Avro format.</li>
+        <li><strong>JsonSerializer:</strong> Serializes objects into JSON format.</li>
+    </ul>
+
+    <h2>3. Example: Serialization with Java</h2>
+    <p>Here’s a Java example demonstrating how to use Kafka's StringSerializer and StringDeserializer to send and receive string messages:</p>
+
+    <pre><code>
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.common.serialization.StringDeserializer;
+
+import java.util.Properties;
+import java.util.Collections;
+
+public class KafkaSerializationExample {
+    public static void main(String[] args) {
+        // Properties for Kafka Producer
+        Properties producerProps = new Properties();
+        producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        producerProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        producerProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+        // Create KafkaProducer
+        KafkaProducer<String, String> producer = new KafkaProducer<>(producerProps);
+
+        // Create a ProducerRecord
+        ProducerRecord<String, String> record = new ProducerRecord<>("my-topic", "key1", "Hello, Kafka!");
+        
+        // Send the record
+        producer.send(record, (metadata, exception) -> {
+            if (exception != null) {
+                exception.printStackTrace();
+            } else {
+                System.out.printf("Sent record to partition %d with offset %d%n",
+                                  metadata.partition(), metadata.offset());
+            }
+        });
+
+        // Close the producer
+        producer.close();
+
+        // Properties for Kafka Consumer
+        Properties consumerProps = new Properties();
+        consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "test-group");
+        consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        consumerProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        // Create KafkaConsumer
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProps);
+        consumer.subscribe(Collections.singletonList("my-topic"));
+
+        // Poll for new records
+        while (true) {
+            consumer.poll(100).forEach(record -> {
+                System.out.printf("Received record: key=%s value=%s partition=%d offset=%d%n",
+                                  record.key(), record.value(), record.partition(), record.offset());
+            });
+        }
+    }
+}
+    </code></pre>
+
+    <h2>4. Kafka Message Format Diagram</h2>
+    <p>The following diagram illustrates the structure of a Kafka message, including its key, value, timestamp, and headers.</p>
+
+    <div class="diagram">
+        <img src="kafka-message-format-diagram.png" alt="Kafka Message Format Diagram">
+        <p><em>Diagram: Kafka Message Format</em></p>
+    </div>
+
+    <h2>5. Conclusion</h2>
+    <p>Understanding Kafka message formats and serialization is crucial for effective data exchange in Kafka. Proper serialization ensures compatibility and efficiency in sending and receiving data across different systems.</p>
+</body>
+</html>

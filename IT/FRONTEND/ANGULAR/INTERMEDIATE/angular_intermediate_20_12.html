@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intermediate Angular Questions - Part 12</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Intermediate Angular Questions - Part 12</h1>
+
+    <div class="question">
+        <h2>1. How do you use Angular's `ng-content` to project content into a component?</h2>
+        <div class="answer">
+            <p>The `ng-content` directive allows you to project content into a component's view.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-card',
+    template: `
+        <div class="card">
+            <ng-content></ng-content>
+        </div>
+    `
+})
+export class CardComponent {}
+            </code></pre>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-root',
+    template: `
+        <app-card>
+            <h1>Card Title</h1>
+            <p>Card content goes here.</p>
+        </app-card>
+    `
+})
+export class AppComponent {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How do you use Angular's `ng-template` to define reusable templates?</h2>
+        <div class="answer">
+            <p>The `ng-template` directive defines reusable templates that can be instantiated later.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-template',
+    template: `
+        <ng-template #myTemplate>
+            <p>This is a reusable template.</p>
+        </ng-template>
+        <ng-container *ngTemplateOutlet="myTemplate"></ng-container>
+    `
+})
+export class TemplateComponent {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you use Angular's `ChangeDetectionStrategy` to optimize change detection?</h2>
+        <div class="answer">
+            <p>The `ChangeDetectionStrategy` can be set to `OnPush` to optimize change detection performance.</p>
+            <pre><code>
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+
+@Component({
+    selector: 'app-optimized',
+    template: `<p>Optimized Change Detection</p>`,
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class OptimizedComponent {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you use Angular's `Renderer2` to safely manipulate DOM elements?</h2>
+        <div class="answer">
+            <p>The `Renderer2` service is used to safely manipulate DOM elements without direct access.</p>
+            <pre><code>
+import { Component, ElementRef, Renderer2 } from '@angular/core';
+
+@Component({
+    selector: 'app-renderer',
+    template: `<p #paragraph>Text</p>`
+})
+export class RendererComponent {
+    constructor(private renderer: Renderer2, private el: ElementRef) {}
+
+    ngAfterViewInit() {
+        const paragraph = this.el.nativeElement.querySelector('p');
+        this.renderer.setStyle(paragraph, 'color', 'blue');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you use Angular's `@Directive` to create custom directives?</h2>
+        <div class="answer">
+            <p>The `@Directive` decorator is used to create custom directives that can modify the behavior of elements.</p>
+            <pre><code>
+import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appHighlight]'
+})
+export class HighlightDirective {
+    constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+    @HostListener('mouseenter') onMouseEnter() {
+        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'yellow');
+    }
+
+    @HostListener('mouseleave') onMouseLeave() {
+        this.renderer.removeStyle(this.el.nativeElement, 'backgroundColor');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you use Angular's `@NgModule` to define modules and their dependencies?</h2>
+        <div class="answer">
+            <p>The `@NgModule` decorator defines a module and its components, directives, and services.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { FeatureComponent } from './feature/feature.component';
+
+@NgModule({
+    declarations: [
+        AppComponent,
+        FeatureComponent
+    ],
+    imports: [
+        BrowserModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
+})
+export class AppModule {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use Angular's `Dependency Injection` to provide services?</h2>
+        <div class="answer">
+            <p>Dependency Injection allows you to provide and inject services into components or other services.</p>
+            <pre><code>
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class AuthService {
+    login() {
+        console.log('User logged in');
+    }
+}
+
+import { Component } from '@angular/core';
+import { AuthService } from './auth.service';
+
+@Component({
+    selector: 'app-login',
+    template: `<button (click)="login()">Login</button>`
+})
+export class LoginComponent {
+    constructor(private authService: AuthService) {}
+
+    login() {
+        this.authService.login();
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you use Angular's `Observable` to handle asynchronous data streams?</h2>
+        <div class="answer">
+            <p>The `Observable` class is used to handle asynchronous data streams and is often used with Angular's `HttpClient`.</p>
+            <pre><code>
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Component({
+    selector: 'app-data',
+    template: `<p>{{ data | json }}</p>`
+})
+export class DataComponent implements OnInit {
+    data: any;
+
+    constructor(private http: HttpClient) {}
+
+    ngOnInit() {
+        this.getData().subscribe(response => this.data = response);
+    }
+
+    getData(): Observable<any> {
+        return this.http.get('https://api.example.com/data');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you use Angular's `RxJS` operators to transform data streams?</h2>
+        <div class="answer">
+            <p>RxJS operators are used to transform and manipulate data streams.</p>
+            <pre><code>
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+
+@Component({
+    selector: 'app-transformed-data',
+    template: `<p>{{ data | json }}</p>`
+})
+export class TransformedDataComponent implements OnInit {
+    data: any;
+
+    constructor(private http: HttpClient) {}
+
+    ngOnInit() {
+        this.getData().pipe(
+            map(response => response.items)
+        ).subscribe(items => this.data = items);
+    }
+
+    getData() {
+        return this.http.get<any>('https://api.example.com/data');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use Angular's `@Output` and `EventEmitter` to emit events from a child component?</h2>
+        <div class="answer">
+            <p>The `@Output` decorator and `EventEmitter` are used to emit events from a child component to its parent.</p>
+            <pre><code>
+import { Component, EventEmitter, Output } from '@angular/core';
+
+@Component({
+    selector: 'app-child',
+    template: `<button (click)="notify()">Notify</button>`
+})
+export class ChildComponent {
+    @Output() notifyEvent = new EventEmitter<string>();
+
+    notify() {
+        this.notifyEvent.emit('Event from child');
+    }
+}
+
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-parent',
+    template: `<app-child (notifyEvent)="handleNotification($event)"></app-child>`
+})
+export class ParentComponent {
+    handleNotification(message: string) {
+        console.log(message);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you use Angular's `@HostBinding` to bind host element properties?</h2>
+        <div class="answer">
+            <p>The `@HostBinding` decorator allows you to bind properties of the host element.</p>
+            <pre><code>
+import { Directive, HostBinding } from '@angular/core';
+
+@Directive({
+    selector: '[appHighlight]'
+})
+export class HighlightDirective {
+    @HostBinding('style.backgroundColor') backgroundColor: string = 'yellow';
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you use Angular's `@HostListener` to listen to events on the host element?</h2>
+        <div class="answer">
+            <p>The `@HostListener` decorator listens to events on the host element.</p>
+            <pre><code>
+import { Directive, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appClickTracker]'
+})
+export class ClickTrackerDirective {
+    @HostListener('click', ['$event'])
+    onClick(event: MouseEvent) {
+        console.log('Element clicked:', event);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use Angular's `ngFor` to loop through a collection of items?</h2>
+        <div class="answer">
+            <p>The `ngFor` directive is used to loop through a collection and render each item.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-list',
+    template: `
+        <ul>
+            <li *ngFor="let item of items">{{ item }}</li>
+        </ul>
+    `
+})
+export class ListComponent {
+    items: string[] = ['Item 1', 'Item 2', 'Item 3'];
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use Angular's `ngIf` to conditionally include or exclude elements?</h2>
+        <div class="answer">
+            <p>The `ngIf` directive is used to conditionally include or exclude elements based on an expression.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-conditional',
+    template: `
+        <p *ngIf="isVisible">This text is visible</p>
+    `
+})
+export class ConditionalComponent {
+    isVisible = true;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you use Angular's `ngSwitch` to conditionally display elements?</h2>
+        <div class="answer">
+            <p>The `ngSwitch` directive allows you to conditionally display elements based on a switch value.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-switch',
+    template: `
+        <div [ngSwitch]="color">
+            <p *ngSwitchCase="'red'">Red color</p>
+            <p *ngSwitchCase="'green'">Green color</p>
+            <p *ngSwitchDefault>Default color</p>
+        </div>
+    `
+})
+export class SwitchComponent {
+    color = 'green';
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you use Angular's `ngStyle` to dynamically set styles?</h2>
+        <div class="answer">
+            <p>The `ngStyle` directive allows you to dynamically set CSS styles based on an object.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-style',
+    template: `
+        <div [ngStyle]="styles">Styled Div</div>
+    `
+})
+export class StyleComponent {
+    styles = {
+        'color': 'blue',
+        'font-size': '20px'
+    };
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use Angular's `ngClass` to conditionally apply CSS classes?</h2>
+        <div class="answer">
+            <p>The `ngClass` directive allows you to conditionally apply CSS classes based on an expression.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-class',
+    template: `
+        <div [ngClass]="{'active': isActive, 'inactive': !isActive}">Styled Div</div>
+    `
+})
+export class ClassComponent {
+    isActive = true;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use Angular's `ngModel` to bind form inputs to component properties?</h2>
+        <div class="answer">
+            <p>The `ngModel` directive is used for two-way data binding between form inputs and component properties.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-two-way-binding',
+    template: `
+        <input [(ngModel)]="name">
+        <p>Hello, {{ name }}!</p>
+    `
+})
+export class TwoWayBindingComponent {
+    name: string = '';
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you use Angular's `FormControl` to manage individual form controls?</h2>
+        <div class="answer">
+            <p>The `FormControl` class is used to manage the state and validation of individual form controls.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
+
+@Component({
+    selector: 'app-form-control',
+    template: `
+        <input [formControl]="nameControl">
+        <p>Control Value: {{ nameControl.value }}</p>
+    `
+})
+export class FormControlComponent {
+    nameControl = new FormControl('');
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `FormGroup` to manage a group of form controls?</h2>
+        <div class="answer">
+            <p>The `FormGroup` class is used to group related `FormControl` instances into a single entity.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+
+@Component({
+    selector: 'app-form-group',
+    template: `
+        <form [formGroup]="form">
+            <input formControlName="name">
+            <input formControlName="email">
+        </form>
+    `
+})
+export class FormGroupComponent {
+    form = new FormGroup({
+        name: new FormControl(''),
+        email: new FormControl('')
+    });
+}
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

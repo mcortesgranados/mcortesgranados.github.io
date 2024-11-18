@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced TypeScript Questions - Part 8</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Advanced TypeScript Questions - Part 8</h1>
+
+    <div class="question">
+        <h2>1. What are `Discriminated Unions` and how can they be used for type safety in TypeScript?</h2>
+        <div class="answer">
+            <p>Discriminated unions use a common property to distinguish between different types in a union. This allows for type-safe operations based on that common property.</p>
+            <pre><code>
+interface Cat {
+    kind: 'cat';
+    meow: () => void;
+}
+
+interface Dog {
+    kind: 'dog';
+    bark: () => void;
+}
+
+type Animal = Cat | Dog;
+
+function handleAnimal(animal: Animal) {
+    switch (animal.kind) {
+        case 'cat':
+            animal.meow();
+            break;
+        case 'dog':
+            animal.bark();
+            break;
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How does `Mapped Types` work with `keyof` and `in` operators in TypeScript?</h2>
+        <div class="answer">
+            <p>Mapped types work by iterating over the keys of an existing type to create a new type. The `keyof` operator gets the keys of a type, and `in` is used within mapped types to transform these keys.</p>
+            <pre><code>
+type Person = {
+    name: string;
+    age: number;
+}
+
+type ReadOnlyPerson = {
+    readonly [K in keyof Person]: Person[K];
+}
+// { readonly name: string; readonly age: number; }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How can you use `Recursive Types` in TypeScript?</h2>
+        <div class="answer">
+            <p>Recursive types allow you to define a type in terms of itself. This is useful for defining complex structures like trees or nested objects.</p>
+            <pre><code>
+type Tree<T> = {
+    value: T;
+    children?: Tree<T>[];
+}
+
+const myTree: Tree<number> = {
+    value: 1,
+    children: [
+        { value: 2, children: [{ value: 4 }] },
+        { value: 3 }
+    ]
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you use `Utility Types` like `Pick`, `Record`, and `Partial` in TypeScript?</h2>
+        <div class="answer">
+            <p>Utility types help in creating new types based on existing types. `Pick` selects specific properties, `Record` creates an object type with specific properties, and `Partial` makes all properties optional.</p>
+            <pre><code>
+interface Person {
+    name: string;
+    age: number;
+    address: string;
+}
+
+type PersonName = Pick<Person, 'name'>;
+// { name: string; }
+
+type PersonRecord = Record<'name' | 'age', string>;
+// { name: string; age: string; }
+
+type OptionalPerson = Partial<Person>;
+// { name?: string; age?: number; address?: string; }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. What is `Type Guards` and how can you create a custom type guard function in TypeScript?</h2>
+        <div class="answer">
+            <p>Type guards are functions that determine if a value is of a specific type. Custom type guards return a boolean and narrow the type based on the result.</p>
+            <pre><code>
+function isString(value: any): value is string {
+    return typeof value === 'string';
+}
+
+const value: any = 'Hello';
+if (isString(value)) {
+    console.log(value.toUpperCase()); // Safe to use as string
+}
+            </code></pre>
+        </div>
+    </div>
+
+
+    <div class="question">
+        <h2>6. How does `Type Assertion` differ from `Type Casting` in TypeScript?</h2>
+        <div class="answer">
+            <p>Type assertion in TypeScript allows you to specify a type for a value, but it does not perform any actual type checking or conversion. Type casting typically involves runtime type conversion.</p>
+            <pre><code>
+const value: any = 'Hello';
+const length: number = (value as string).length; // Type assertion
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. What is the `never` type in TypeScript and when should it be used?</h2>
+        <div class="answer">
+            <p>The `never` type represents a value that never occurs. It is used for functions that never return or for cases where a value is not expected.</p>
+            <pre><code>
+function throwError(message: string): never {
+    throw new Error(message);
+}
+
+function infiniteLoop(): never {
+    while (true) {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How can you use `Class Decorators` and `Method Decorators` in TypeScript?</h2>
+        <div class="answer">
+            <p>Decorators are special functions that can be used to modify classes, methods, or properties. Class decorators modify class definitions, while method decorators modify method behaviors.</p>
+            <pre><code>
+function Log(target: any) {
+    console.log('Class decorated:', target);
+}
+
+function LogMethod(target: any, propertyKey: string | symbol, descriptor: PropertyDescriptor) {
+    console.log('Method decorated:', propertyKey);
+}
+
+@Log
+class MyClass {
+    @LogMethod
+    myMethod() {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you use `Decorator Factories` to create parameterized decorators in TypeScript?</h2>
+        <div class="answer">
+            <p>Decorator factories are functions that return decorators, allowing you to pass parameters to customize decorator behavior.</p>
+            <pre><code>
+function Log(level: string) {
+    return function (target: any, propertyKey: string | symbol, descriptor: PropertyDescriptor) {
+        console.log(`${level} - Method decorated: ${String(propertyKey)}`);
+    };
+}
+
+class MyClass {
+    @Log('INFO')
+    myMethod() {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. What is `Indexed Access Types` and how do you use them to extract types?</h2>
+        <div class="answer">
+            <p>Indexed access types use the syntax `T[K]` to extract the type of a specific property `K` from type `T`.</p>
+            <pre><code>
+interface Person {
+    name: string;
+    age: number;
+}
+
+type NameType = Person['name']; // string
+type AgeType = Person['age']; // number
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How can you use `Class Types` and `Static Types` in TypeScript?</h2>
+        <div class="answer">
+            <p>Class types define the shape of class instances, while static types refer to the shape of static members of a class.</p>
+            <pre><code>
+class MyClass {
+    static staticProp: string = 'Static Property';
+    instanceProp: number = 42;
+}
+
+type InstanceType = MyClass; // Instance type
+type StaticType = typeof MyClass; // Static type
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. What is `Type Inference` and how does TypeScript determine types automatically?</h2>
+        <div class="answer">
+            <p>Type inference allows TypeScript to automatically infer the type of a variable or expression based on its usage without explicit type annotations.</p>
+            <pre><code>
+let num = 42; // TypeScript infers number
+let str = 'Hello'; // TypeScript infers string
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How can you use `Union and Intersection Types` together in TypeScript?</h2>
+        <div class="answer">
+            <p>Union types represent values that can be one of several types, while intersection types represent values that combine multiple types.</p>
+            <pre><code>
+type A = { a: number };
+type B = { b: string };
+
+type AB = A & B; // Intersection type: { a: number; b: string; }
+type AOrB = A | B; // Union type: A or B
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. What is `Conditional Types` and how can they be used for type transformations?</h2>
+        <div class="answer">
+            <p>Conditional types provide a way to perform type transformations based on conditions. They follow the format `T extends U ? X : Y`.</p>
+            <pre><code>
+type TrueType = true extends true ? 'Yes' : 'No'; // 'Yes'
+type FalseType = false extends true ? 'Yes' : 'No'; // 'No'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How can you use `String Literal Types` and `Numeric Literal Types` to define specific values in TypeScript?</h2>
+        <div class="answer">
+            <p>String and numeric literal types represent specific values rather than general types.</p>
+            <pre><code>
+type Direction = 'left' | 'right'; // String literal types
+type Status = 200 | 404; // Numeric literal types
+
+function move(direction: Direction) {
+    // Function implementation
+}
+
+function handleStatus(status: Status) {
+    // Function implementation
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. What is `Tuple Types` and how can you use them to represent arrays of fixed sizes and types?</h2>
+        <div class="answer">
+            <p>Tuple types represent arrays with fixed sizes and specific types for each element.</p>
+            <pre><code>
+type Point = [number, number];
+
+const p1: Point = [10, 20];
+const p2: Point = [5, 15];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How does `Type Assertion` work with `as` and `<type>` syntax in TypeScript?</h2>
+        <div class="answer">
+            <p>Type assertions tell TypeScript to treat a value as a specific type. The `as` keyword and `<type>` syntax are used for this purpose.</p>
+            <pre><code>
+const value: any = 'Hello';
+const length1: number = (value as string).length; // Using 'as'
+const length2: number = (<string>value).length; // Using '<type>'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How can you use `Enum Types` in TypeScript to define a set of named constants?</h2>
+        <div class="answer">
+            <p>Enums are a way to define a set of named constants. They can be used to represent a collection of related values.</p>
+            <pre><code>
+enum Direction {
+    Up = 1,
+    Down,
+    Left,
+    Right
+}
+
+const moveDirection: Direction = Direction.Up;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. What are `Type Aliases` and how do they differ from `Interfaces` in TypeScript?</h2>
+        <div class="answer">
+            <p>Type aliases and interfaces can be used to define custom types. However, type aliases can represent more complex types like unions and intersections, while interfaces are primarily used for object shapes.</p>
+            <pre><code>
+type Person = {
+    name: string;
+    age: number;
+};
+
+interface PersonInterface {
+    name: string;
+    age: number;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How can you use `TypeScript’s `infer` keyword to infer types within conditional types?</h2>
+        <div class="answer">
+            <p>The `infer` keyword allows you to create a type variable within a conditional type to infer a type based on the conditional type's logic.</p>
+            <pre><code>
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+
+function getNumber(): number {
+    return 42;
+}
+
+type ResultType = ReturnType<typeof getNumber>; // number
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

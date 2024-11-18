@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Abstraction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Abstraction</h1>
+    <p>Abstraction is a fundamental concept in object-oriented programming (OOP) that involves hiding complex implementation details and showing only the necessary features of an object. In C#, abstraction is achieved using abstract classes and interfaces.</p>
+    
+    <h2>1. Abstract Classes</h2>
+    <p>An abstract class is a class that cannot be instantiated on its own and must be inherited by other classes. It can contain abstract methods (methods without implementation) that must be implemented by derived classes, as well as non-abstract methods (methods with implementation).</p>
+    <pre><code>
+    // Abstract class
+    public abstract class Animal
+    {
+        // Abstract method (does not have a body)
+        public abstract void MakeSound();
+
+        // Regular method
+        public void Eat()
+        {
+            Console.WriteLine("This animal eats food.");
+        }
+    }
+
+    // Derived class
+    public class Dog : Animal
+    {
+        // Implementing the abstract method
+        public override void MakeSound()
+        {
+            Console.WriteLine("The dog barks.");
+        }
+    }
+    </code></pre>
+    
+    <h2>2. Interfaces</h2>
+    <p>An interface is a contract that defines a set of methods and properties that a class must implement. Unlike abstract classes, interfaces cannot contain any implementation. A class that implements an interface must provide the implementations for all its members.</p>
+    <pre><code>
+    // Interface
+    public interface IAnimal
+    {
+        void MakeSound();
+        void Eat();
+    }
+
+    // Implementing the interface
+    public class Dog : IAnimal
+    {
+        public void MakeSound()
+        {
+            Console.WriteLine("The dog barks.");
+        }
+
+        public void Eat()
+        {
+            Console.WriteLine("The dog eats food.");
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Using Abstraction</h2>
+    <p>Abstraction allows you to create a clear and simple interface while hiding complex details. This can be useful in designing a system where you want to provide a simplified interface for users or other parts of the system.</p>
+    <pre><code>
+    class Program
+    {
+        static void Main()
+        {
+            // Using abstract class
+            Animal myAnimal = new Dog();
+            myAnimal.MakeSound(); // Output: The dog barks.
+            myAnimal.Eat();       // Output: This animal eats food.
+
+            // Using interface
+            IAnimal myDog = new Dog();
+            myDog.MakeSound();   // Output: The dog barks.
+            myDog.Eat();         // Output: The dog eats food.
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Example Program</h2>
+    <p>Here’s a complete C# program demonstrating both abstraction with abstract classes and interfaces:</p>
+    <pre><code>
+    using System;
+
+    // Abstract class
+    public abstract class Animal
+    {
+        public abstract void MakeSound();
+        public void Eat()
+        {
+            Console.WriteLine("This animal eats food.");
+        }
+    }
+
+    // Interface
+    public interface IAnimal
+    {
+        void MakeSound();
+        void Eat();
+    }
+
+    // Implementing the abstract class
+    public class Dog : Animal
+    {
+        public override void MakeSound()
+        {
+            Console.WriteLine("The dog barks.");
+        }
+    }
+
+    // Implementing the interface
+    public class Cat : IAnimal
+    {
+        public void MakeSound()
+        {
+            Console.WriteLine("The cat meows.");
+        }
+
+        public void Eat()
+        {
+            Console.WriteLine("The cat eats food.");
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            // Using abstract class
+            Animal myDog = new Dog();
+            myDog.MakeSound(); // Output: The dog barks.
+            myDog.Eat();       // Output: This animal eats food.
+
+            // Using interface
+            IAnimal myCat = new Cat();
+            myCat.MakeSound(); // Output: The cat meows.
+            myCat.Eat();       // Output: The cat eats food.
+        }
+    }
+    </code></pre>
+    
+    <h2>5. Key Points</h2>
+    <ul>
+        <li><strong>Abstraction</strong> hides complex implementation details and shows only the necessary features.</li>
+        <li><strong>Abstract Classes</strong> can contain abstract methods (without implementation) and non-abstract methods (with implementation).</li>
+        <li><strong>Interfaces</strong> define a contract with methods and properties that must be implemented by a class.</li>
+        <li>Use <code>abstract</code> keyword for abstract classes and <code>interface</code> keyword for interfaces.</li>
+    </ul>
+</body>
+</html>

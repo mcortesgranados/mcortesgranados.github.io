@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Window Functions in Spark SQL</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Window Functions in Spark SQL</h1>
+    <p>Window functions perform calculations across a specified window of rows related to the current row. They are essential for tasks like ranking, cumulative sums, and moving averages. This guide explains various window functions and includes examples in Java using Spark SQL.</p>
+
+    <h2>1. Introduction to Window Functions</h2>
+    <p>Window functions operate on a set of rows defined by a window specification. This window can be a range of rows or the entire partition. Common window functions include <code>ROW_NUMBER()</code>, <code>RANK()</code>, <code>DENSE_RANK()</code>, <code>LEAD()</code>, and <code>LAG()</code>.</p>
+
+    <h2>2. Example: Using Window Functions</h2>
+    <p>Here’s a practical example of using window functions in Spark SQL with Java:</p>
+
+    <h3>Example: Ranking and Aggregation</h3>
+    <pre><code>
+import org.apache.spark.SparkConf;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.expressions.Window;
+import org.apache.spark.sql.functions;
+
+public class WindowFunctionsExample {
+    public static void main(String[] args) {
+        // Step 1: Create a SparkConf object and set the application name
+        SparkConf conf = new SparkConf().setAppName("Window Functions Example").setMaster("local[*]");
+        
+        // Step 2: Create a SparkSession object
+        SparkSession spark = SparkSession.builder().config(conf).getOrCreate();
+        
+        // Step 3: Load data into a DataFrame
+        Dataset&lt;Row&gt; df = spark.read().json("path/to/json/file");
+        
+        // Step 4: Define a window specification
+        WindowSpec windowSpec = Window.partitionBy("department").orderBy("salary");
+        
+        // Step 5: Apply window functions
+        Dataset&lt;Row&gt; result = df
+            .withColumn("rank", functions.rank().over(windowSpec))
+            .withColumn("row_number", functions.row_number().over(windowSpec))
+            .withColumn("lead_salary", functions.lead("salary", 1).over(windowSpec))
+            .withColumn("lag_salary", functions.lag("salary", 1).over(windowSpec));
+        
+        // Step 6: Show the result
+        result.show();
+        
+        // Step 7: Stop the Spark session
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <h2>3. Explanation of Window Functions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Function</th>
+                <th>Description</th>
+                <th>Example Usage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>ROW_NUMBER()</code></td>
+                <td>Assigns a unique number to each row within a partition, starting from 1.</td>
+                <td><code>functions.row_number().over(windowSpec)</code></td>
+            </tr>
+            <tr>
+                <td><code>RANK()</code></td>
+                <td>Assigns a rank to each row within a partition, with gaps in rank values for ties.</td>
+                <td><code>functions.rank().over(windowSpec)</code></td>
+            </tr>
+            <tr>
+                <td><code>DENSE_RANK()</code></td>
+                <td>Assigns a rank to each row within a partition, without gaps in rank values for ties.</td>
+                <td><code>functions.dense_rank().over(windowSpec)</code></td>
+            </tr>
+            <tr>
+                <td><code>LEAD()</code></td>
+                <td>Accesses the value of a column from a subsequent row within the same partition.</td>
+                <td><code>functions.lead("salary", 1).over(windowSpec)</code></td>
+            </tr>
+            <tr>
+                <td><code>LAG()</code></td>
+                <td>Accesses the value of a column from a preceding row within the same partition.</td>
+                <td><code>functions.lag("salary", 1).over(windowSpec)</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4. Conclusion</h2>
+    <p>Window functions are powerful tools for performing complex calculations over data partitions. By understanding and utilizing functions like <code>ROW_NUMBER()</code>, <code>RANK()</code>, <code>DENSE_RANK()</code>, <code>LEAD()</code>, and <code>LAG()</code>, you can enhance your data processing capabilities in Spark SQL.</p>
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intermediate Angular Questions - Part 7</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Intermediate Angular Questions - Part 7</h1>
+
+    <div class="question">
+        <h2>1. How do you use Angular's `HttpClient` to send a POST request with JSON data?</h2>
+        <div class="answer">
+            <p>The `HttpClient` service can send POST requests with JSON data using the `post` method.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+    selector: 'app-post-request',
+    template: `<p>Check console for response</p>`,
+})
+export class PostRequestComponent {
+    constructor(private http: HttpClient) {
+        this.http.post('https://api.example.com/data', { key: 'value' })
+            .subscribe(response => {
+                console.log(response);
+            });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How do you use Angular's `FormArray` to manage an array of form controls?</h2>
+        <div class="answer">
+            <p>The `FormArray` class allows you to manage an array of form controls in a reactive form.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+
+@Component({
+    selector: 'app-form-array',
+    template: `
+        <form [formGroup]="form">
+            <div formArrayName="items">
+                <div *ngFor="let item of items.controls; let i = index">
+                    <input [formControlName]="i" />
+                </div>
+            </div>
+        </form>
+    `,
+})
+export class FormArrayComponent {
+    form: FormGroup;
+
+    get items() {
+        return this.form.get('items') as FormArray;
+    }
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            items: this.fb.array(['', '', ''])
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you use Angular's `HttpParams` to add query parameters to an HTTP request?</h2>
+        <div class="answer">
+            <p>The `HttpParams` class is used to construct query parameters for an HTTP request.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+
+@Component({
+    selector: 'app-http-params',
+    template: `<p>Check console for response</p>`,
+})
+export class HttpParamsComponent {
+    constructor(private http: HttpClient) {
+        const params = new HttpParams().set('param1', 'value1').set('param2', 'value2');
+        this.http.get('https://api.example.com/data', { params })
+            .subscribe(response => {
+                console.log(response);
+            });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you use Angular's `@HostBinding` to bind properties of the host element?</h2>
+        <div class="answer">
+            <p>The `@HostBinding` decorator allows you to bind properties of the host element in a directive or component.</p>
+            <pre><code>
+import { Directive, HostBinding } from '@angular/core';
+
+@Directive({
+    selector: '[appHighlight]'
+})
+export class HighlightDirective {
+    @HostBinding('class.highlighted') isHighlighted = true;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you use Angular's `@HostListener` to listen to events on the host element?</h2>
+        <div class="answer">
+            <p>The `@HostListener` decorator allows you to listen to events on the host element in a directive or component.</p>
+            <pre><code>
+import { Directive, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appHover]'
+})
+export class HoverDirective {
+    @HostListener('mouseenter') onMouseEnter() {
+        console.log('Mouse entered');
+    }
+
+    @HostListener('mouseleave') onMouseLeave() {
+        console.log('Mouse left');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you use Angular's `@Inject` to inject dependencies into a service?</h2>
+        <div class="answer">
+            <p>The `@Inject` decorator is used to specify a dependency to be injected into a service or component.</p>
+            <pre><code>
+import { Injectable, Inject } from '@angular/core';
+import { MyService } from './my-service.service';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class MyComponentService {
+    constructor(@Inject(MyService) private myService: MyService) {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use Angular's `@Optional` to make dependency injection optional?</h2>
+        <div class="answer">
+            <p>The `@Optional` decorator allows you to specify that a dependency is optional.</p>
+            <pre><code>
+import { Injectable, Optional } from '@angular/core';
+import { OptionalService } from './optional.service';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class MyService {
+    constructor(@Optional() private optionalService?: OptionalService) {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you use Angular's `@Self` to specify that a dependency should be resolved from the same injector?</h2>
+        <div class="answer">
+            <p>The `@Self` decorator ensures that a dependency is resolved from the same injector, not from parent injectors.</p>
+            <pre><code>
+import { Injectable, Self } from '@angular/core';
+import { MyService } from './my-service.service';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class AnotherService {
+    constructor(@Self() private myService: MyService) {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you use Angular's `@Attribute` to access the value of an attribute on the host element?</h2>
+        <div class="answer">
+            <p>The `@Attribute` decorator allows you to access the value of an attribute on the host element.</p>
+            <pre><code>
+import { Directive, Attribute } from '@angular/core';
+
+@Directive({
+    selector: '[appAttribute]'
+})
+export class AttributeDirective {
+    constructor(@Attribute('data-attribute') private dataAttribute: string) {
+        console.log(dataAttribute);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use Angular's `NgModule` to declare and import modules?</h2>
+        <div class="answer">
+            <p>The `@NgModule` decorator is used to declare and import modules in an Angular application.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+
+@NgModule({
+    declarations: [AppComponent],
+    imports: [BrowserModule],
+    providers: [],
+    bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you use Angular's `@NgModule` to provide services at the module level?</h2>
+        <div class="answer">
+            <p>The `providers` array in `@NgModule` allows you to specify services to be available at the module level.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+import { MyService } from './my-service.service';
+
+@NgModule({
+    declarations: [AppComponent],
+    imports: [],
+    providers: [MyService],
+    bootstrap: [AppComponent]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you use Angular's `@Pipe` to create a custom pipe?</h2>
+        <div class="answer">
+            <p>The `@Pipe` decorator is used to create custom pipes that can transform data in templates.</p>
+            <pre><code>
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'reverse'
+})
+export class ReversePipe implements PipeTransform {
+    transform(value: string): string {
+        return value.split('').reverse().join('');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use Angular's `@Injectable` to create a service?</h2>
+        <div class="answer">
+            <p>The `@Injectable` decorator is used to define a service that can be injected into other components or services.</p>
+            <pre><code>
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class MyService {
+    constructor() {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use Angular's `@Component` to create a reusable component?</h2>
+        <div class="answer">
+            <p>The `@Component` decorator is used to define a reusable component in Angular.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-reusable',
+    template: `<p>This is a reusable component</p>`,
+})
+export class ReusableComponent {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you use Angular's `@ViewChild` to access a child component?</h2>
+        <div class="answer">
+            <p>The `@ViewChild` decorator allows you to access and manipulate a child component or DOM element.</p>
+            <pre><code>
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+    selector: 'app-parent',
+    template: `<app-child></app-child>`,
+})
+export class ParentComponent implements AfterViewInit {
+    @ViewChild(ChildComponent) child: ChildComponent;
+
+    ngAfterViewInit() {
+        console.log(this.child);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you use Angular's `@ContentChild` to access content projected into a component?</h2>
+        <div class="answer">
+            <p>The `@ContentChild` decorator allows you to access and manipulate content projected into a component.</p>
+            <pre><code>
+import { Component, ContentChild, AfterContentInit, ElementRef } from '@angular/core';
+
+@Component({
+    selector: 'app-content',
+    template: `<ng-content></ng-content>`,
+})
+export class ContentComponent implements AfterContentInit {
+    @ContentChild('content') content: ElementRef;
+
+    ngAfterContentInit() {
+        console.log(this.content.nativeElement.textContent);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use Angular's `@NgModule` to export components from a module?</h2>
+        <div class="answer">
+            <p>The `exports` array in `@NgModule` allows you to specify which components, directives, and pipes should be available to other modules.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedComponent } from './shared.component';
+
+@NgModule({
+    imports: [CommonModule],
+    declarations: [SharedComponent],
+    exports: [SharedComponent]
+})
+export class SharedModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use Angular's `@Inject` to provide a specific token value?</h2>
+        <div class="answer">
+            <p>The `@Inject` decorator allows you to provide a specific token value for dependency injection.</p>
+            <pre><code>
+import { Injectable, Inject, InjectionToken } from '@angular/core';
+
+export const API_URL = new InjectionToken<string>('apiUrl');
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ApiService {
+    constructor(@Inject(API_URL) private apiUrl: string) {
+        console.log(apiUrl);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you use Angular's `@Directive` to create a structural directive?</h2>
+        <div class="answer">
+            <p>The `@Directive` decorator is used to create a structural directive that can change the layout of the DOM.</p>
+            <pre><code>
+import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+
+@Directive({
+    selector: '[appIf]'
+})
+export class IfDirective {
+    constructor(private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef) {}
+
+    @Input() set appIf(condition: boolean) {
+        if (condition) {
+            this.viewContainer.createEmbeddedView(this.templateRef);
+        } else {
+            this.viewContainer.clear();
+        }
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `@NgModule` to configure providers with `forRoot` and `forChild`?</h2>
+        <div class="answer">
+            <p>The `forRoot` and `forChild` methods are used to configure providers for root and feature modules, respectively.</p>
+            <pre><code>
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MyService } from './my-service.service';
+
+@NgModule({
+    imports: [CommonModule],
+    declarations: [],
+    exports: []
+})
+export class FeatureModule {
+    static forRoot(): ModuleWithProviders<FeatureModule> {
+        return {
+            ngModule: FeatureModule,
+            providers: [MyService]
+        };
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

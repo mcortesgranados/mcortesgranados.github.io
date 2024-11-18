@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Assemblies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Assemblies</h1>
+    <p>In C#, an assembly is a fundamental building block of .NET applications. It is a compiled code library used by .NET applications and provides the runtime environment with metadata about the application.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>Assemblies serve several purposes in a .NET application:</p>
+    <ul>
+        <li><strong>Modularization:</strong> Divide code into manageable and reusable units.</li>
+        <li><strong>Versioning:</strong> Manage different versions of code components.</li>
+        <li><strong>Deployment:</strong> Package and deploy application components.</li>
+        <li><strong>Security:</strong> Enforce code access security through strong naming.</li>
+    </ul>
+    
+    <h2>2. Types of Assemblies</h2>
+    <p>There are two main types of assemblies:</p>
+    <ul>
+        <li><strong>Private Assemblies:</strong> Used by a single application and are stored in the application's directory.</li>
+        <li><strong>Shared Assemblies:</strong> Can be used by multiple applications and are usually stored in the Global Assembly Cache (GAC).</li>
+    </ul>
+    
+    <h2>3. Creating an Assembly</h2>
+    <p>Assemblies are created by compiling C# code. Here’s an example of how to create a simple class library assembly:</p>
+    <pre><code>
+// Example: MyLibrary.cs
+
+using System;
+
+namespace MyLibrary
+{
+    public class Greeter
+    {
+        public string Greet(string name)
+        {
+            return $"Hello, {name}!";
+        }
+    }
+}
+    </code></pre>
+    <p>To compile this code into an assembly, use the C# compiler (csc) or an IDE like Visual Studio to build the project.</p>
+    
+    <h2>4. Assembly Metadata</h2>
+    <p>Assemblies contain metadata about the types they contain. This metadata includes information such as:</p>
+    <ul>
+        <li><strong>Assembly Name:</strong> The name of the assembly.</li>
+        <li><strong>Version:</strong> The version number of the assembly.</li>
+        <li><strong>Culture:</strong> The culture/locale the assembly supports.</li>
+        <li><strong>Public Key:</strong> If the assembly is strongly named, the public key used to sign it.</li>
+    </ul>
+    <p>Metadata is used by the .NET runtime for tasks such as loading and linking assemblies and enforcing security.</p>
+    
+    <h2>5. Using Assemblies</h2>
+    <p>To use an assembly, reference it in your project. For example, if you have created a class library assembly named <code>MyLibrary.dll</code>, you can reference it in another project:</p>
+    <pre><code>
+// Example: Program.cs
+
+using System;
+using MyLibrary;  // Reference to the MyLibrary assembly
+
+class Program
+{
+    static void Main()
+    {
+        Greeter greeter = new Greeter();
+        Console.WriteLine(greeter.Greet("World"));
+    }
+}
+    </code></pre>
+    
+    <h2>6. Key Points</h2>
+    <ul>
+        <li><strong>Assembly Manifest:</strong> Contains assembly metadata and defines its version, culture, and strong name.</li>
+        <li><strong>Strong Naming:</strong> A strong-named a

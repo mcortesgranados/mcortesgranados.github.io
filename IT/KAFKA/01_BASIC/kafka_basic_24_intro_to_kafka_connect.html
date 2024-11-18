@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka: Introduction to Kafka Connect</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka: Introduction to Kafka Connect</h1>
+    <p>Kafka Connect is a tool for integrating Apache Kafka with various data sources and sinks. It simplifies the process of moving data between Kafka and other systems by providing a scalable and reliable framework for data integration. Kafka Connect is part of the Apache Kafka project and helps automate the process of data ingestion and extraction.</p>
+
+    <h2>1. Overview of Kafka Connect</h2>
+    <p>Kafka Connect is designed to handle the integration of Kafka with external systems. It provides a framework for:</p>
+    <ul>
+        <li>Connecting to various data sources and sinks.</li>
+        <li>Managing and scaling data integration tasks.</li>
+        <li>Handling data transformations and conversions.</li>
+    </ul>
+
+    <h3>Key Concepts</h3>
+    <ul>
+        <li><strong>Connector</strong>: A plugin that implements the logic to connect to a specific data source or sink.</li>
+        <li><strong>Source Connector</strong>: Reads data from a source system and writes it to Kafka topics.</li>
+        <li><strong>Sink Connector</strong>: Reads data from Kafka topics and writes it to a sink system.</li>
+        <li><strong>Task</strong>: A unit of work within a connector that performs the actual data reading or writing.</li>
+        <li><strong>Worker</strong>: The process that runs connectors and tasks. Workers can be standalone or distributed.</li>
+        <li><strong>Configuration</strong>: Kafka Connect is configured using JSON or properties files. Each connector has its own configuration parameters.</li>
+    </ul>
+
+    <h2>2. Kafka Connect Architecture</h2>
+    <p>The architecture of Kafka Connect consists of several components:</p>
+    <ul>
+        <li><strong>Connectors</strong>: Implement the interface for connecting to external systems. Examples include JDBC, HDFS, Elasticsearch connectors.</li>
+        <li><strong>Tasks</strong>: Subcomponents of connectors that handle the data movement. Tasks can run in parallel to scale data processing.</li>
+        <li><strong>Workers</strong>: Manage connectors and tasks. Kafka Connect can run in standalone mode or distributed mode for scaling and fault tolerance.</li>
+        <li><strong>Plugins</strong>: Libraries that include the implementations for connectors and their associated tasks.</li>
+    </ul>
+
+    <h3>Standalone vs. Distributed Mode</h3>
+    <ul>
+        <li><strong>Standalone Mode</strong>: Suitable for development and testing. Runs a single instance of Kafka Connect with a single worker process.</li>
+        <li><strong>Distributed Mode</strong>: Suitable for production environments. Runs multiple instances of Kafka Connect to provide scalability and fault tolerance. Configurations and offsets are managed across multiple workers.</li>
+    </ul>
+
+    <h2>3. Getting Started with Kafka Connect</h2>
+    <p>To get started with Kafka Connect, follow these steps:</p>
+    
+    <h3>3.1. Download and Install Kafka Connect</h3>
+    <p>Kakfa Connect is bundled with Apache Kafka. To use it, download and install Kafka as you would normally. Kafka Connect is included in the <code>connect</code> directory.</p>
+
+    <h3>3.2. Configure a Connector</h3>
+    <p>Connectors are configured using JSON or properties files. Here's an example configuration for a source connector:</p>
+
+    <pre><code>
+{
+  "name": "my-source-connector",
+  "config": {
+    "connector.class": "org.apache.kafka.connect.file.FileStreamSourceConnector",
+    "tasks.max": "1",
+    "file": "/path/to/input/file.txt",
+    "topic": "my-topic"
+  }
+}
+    </code></pre>
+
+    <p>In this example, the FileStreamSourceConnector reads from a file and writes data to a Kafka topic.</p>
+
+    <h3>3.3. Start Kafka Connect</h3>
+    <p>Run Kafka Connect in standalone mode with the following command:</p>
+
+    <pre><code>
+bin/connect-standalone.sh config/connect-standalone.properties config/my-source-connector.properties
+    </code></pre>
+
+    <p>For distributed mode, use the following command to start a Kafka Connect worker:</p>
+
+    <pre><code>
+bin/connect-distributed.sh config/connect-distributed.properties
+    </code></pre>
+
+    <p>Then post the connector configuration to the Kafka Connect REST API:</p>
+
+    <pre><code>
+curl -X POST -H "Content-Type: application/json" --data-binary @my-source-connector.json http://localhost:8083/connectors
+    </code></pre>
+
+    <h2>4. Monitoring and Managing Kafka Connect</h2>
+    <p>Kafka Connect provides REST APIs for managing and monitoring connectors:</p>
+    
+    <h3>4.1. View Connectors</h3>
+    <p>List all connectors:</p>
+
+    <pre><code>
+curl -X GET http://localhost:8083/connectors
+    </code></pre>
+
+    <h3>4.2. View Connector Status</h3>
+    <p>Check the status of a specific connector:</p>
+
+    <pre><code>
+curl -X GET http://localhost:8083/connectors/my-source-connector/status
+    </code></pre>
+
+    <h3>4.3. Pause and Resume Connectors</h3>
+    <p>Pause a connector:</p>
+
+    <pre><code>
+curl -X PUT http://localhost:8083/connectors/my-source-connector/pause
+    </code></pre>
+
+    <p>Resume a connector:</p>
+
+    <pre><code>
+curl -X PUT http://localhost:8083/connectors/my-source-connector/resume
+    </code></pre>
+
+    <h3>4.4. Restart Connectors</h3>
+    <p>Restart a connector:</p>
+
+    <pre><code>
+curl -X POST http://localhost:8083/connectors/my-source-connector/restart
+    </code></pre>
+
+    <h2>5. Conclusion</h2>
+    <p>Kafka Connect simplifies the process of integrating Kafka with various data systems, handling both data ingestion and extraction with ease. By understanding its architecture, configuration, and management, you can effectively leverage Kafka Connect to streamline your data workflows.</p>
+</body>
+</html>

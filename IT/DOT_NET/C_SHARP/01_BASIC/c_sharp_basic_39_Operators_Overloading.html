@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Operator Overloading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Operator Overloading</h1>
+    <p>Operator overloading in C# allows you to define how operators work with custom types, such as classes and structs. By overloading operators, you can provide intuitive and natural syntax for your custom types, making your code more readable and expressive.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>Operator overloading is used to:</p>
+    <ul>
+        <li><strong>Enhance Readability:</strong> Allow custom types to use operators in a way that makes sense for the type.</li>
+        <li><strong>Provide Intuitive Syntax:</strong> Enable operations on custom types to be performed using familiar operator syntax.</li>
+        <li><strong>Implement Custom Behavior:</strong> Define how operators should behave for your custom types.</li>
+    </ul>
+    
+    <h2>2. Declaring Operator Overloads</h2>
+    <p>To overload an operator, you need to define a method in your class or struct with the <code>operator</code> keyword followed by the operator you want to overload. The method should be marked as <code>public</code> and <code>static</code>.</p>
+    <pre><code>
+    public class Vector
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public Vector(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        // Overload the + operator
+        public static Vector operator +(Vector v1, Vector v2)
+        {
+            return new Vector(v1.X + v2.X, v1.Y + v2.Y);
+        }
+
+        // Overload the - operator
+        public static Vector operator -(Vector v1, Vector v2)
+        {
+            return new Vector(v1.X - v2.X, v1.Y - v2.Y);
+        }
+
+        // Overload the * operator
+        public static Vector operator *(Vector v, int scalar)
+        {
+            return new Vector(v.X * scalar, v.Y * scalar);
+        }
+
+        public override string ToString()
+        {
+            return $"({X}, {Y})";
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Using Overloaded Operators</h2>
+    <p>Once the operators are overloaded, you can use them with instances of your custom type as if they were built-in types.</p>
+    <pre><code>
+    class Program
+    {
+        static void Main()
+        {
+            Vector v1 = new Vector(2, 3);
+            Vector v2 = new Vector(4, 5);
+
+            Vector sum = v1 + v2;
+            Vector difference = v1 - v2;
+            Vector scaled = v1 * 3;
+
+            Console.WriteLine($"Sum: {sum}");          // Output: Sum: (6, 8)
+            Console.WriteLine($"Difference: {difference}"); // Output: Difference: (-2, -2)
+            Console.WriteLine($"Scaled: {scaled}");    // Output: Scaled: (6, 9)
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Overloading Comparison Operators</h2>
+    <p>You can also overload comparison operators to compare instances of your custom types.</p>
+    <pre><code>
+    public class Point
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public Point(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        // Overload the == operator
+        public static bool operator ==(Point p1, Point p2)
+        {
+            return p1.X == p2.X && p1.Y == p2.Y;
+        }
+
+        // Overload the != operator
+        public static bool operator !=(Point p1, Point p2)
+        {
+     

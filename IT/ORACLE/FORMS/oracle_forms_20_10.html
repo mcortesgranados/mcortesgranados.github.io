@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Forms Q&A - Part 10</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        h2 {
+            color: #007BFF;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-left: 4px solid #007BFF;
+            overflow-x: auto;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .question strong {
+            color: #333;
+        }
+        .answer {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Oracle Forms Q&A - Part 10</h1>
+
+    <div class="question">
+        <strong>1. How can you create a custom validation for a form field?</strong>
+        <div class="answer">
+            <p>Create a custom validation using the <code>WHEN-VALIDATE-ITEM</code> trigger to check field values and enforce rules.</p>
+            <pre><code>
+BEGIN
+    IF LENGTH(:block.field) < 5 THEN
+        MESSAGE('Field must contain at least 5 characters.');
+        RAISE FORM_TRIGGER_FAILURE;
+    END IF;
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>2. How do you handle multi-record navigation in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Handle multi-record navigation using the <code>GO_RECORD</code> built-in to move between records in a block.</p>
+            <pre><code>
+BEGIN
+    GO_RECORD(:system.current_record + 1);
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>3. What is the purpose of the <code>PRE-QUERY</code> trigger?</strong>
+        <div class="answer">
+            <p>The <code>PRE-QUERY</code> trigger is used to modify or validate the query before it is executed.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>4. How can you create a dynamic LOV (List of Values) based on user input?</strong>
+        <div class="answer">
+            <p>Create a dynamic LOV by defining a query in the LOV that uses user input values.</p>
+            <pre><code>
+BEGIN
+    SET_LOV_PROPERTY('my_lov', QUERY, 'SELECT column FROM table WHERE condition = ''' || :block.item || '''');
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>5. How do you manage transactions in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Manage transactions using the <code>COMMIT</code> and <code>ROLLBACK</code> built-ins to save or undo changes made during a transaction.</p>
+            <pre><code>
+BEGIN
+    -- Perform some operations
+    COMMIT;
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>6. How do you create a LOV that filters records based on a condition?</strong>
+        <div class="answer">
+            <p>Create a LOV with a WHERE clause in the query to filter records based on specific conditions.</p>
+            <pre><code>
+SET_LOV_PROPERTY('my_lov', QUERY, 'SELECT column1, column2 FROM table WHERE condition = ''value''');
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>7. How can you dynamically set the value of a form item based on user actions?</strong>
+        <div class="answer">
+            <p>Set the value of a form item dynamically using PL/SQL code in triggers such as <code>WHEN-BUTTON-PRESSED</code>.</p>
+            <pre><code>
+BEGIN
+    :block.item := 'New Value';
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>8. What is the <code>WHEN-CHECKPOINT-RELEASE</code> trigger used for?</strong>
+        <div class="answer">
+            <p>The <code>WHEN-CHECKPOINT-RELEASE</code> trigger is executed when a checkpoint is released, allowing you to perform actions related to form checkpoints.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>9. How do you use the <code>FORM_QUALIFY</code> property?</strong>
+        <div class="answer">
+            <p>The <code>FORM_QUALIFY</code> property determines how items and blocks are referenced within the form, affecting how you access their values.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>10. How can you display a message to the user in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Display a message to the user using the <code>MESSAGE</code> built-in, which shows a message in a dialog box.</p>
+            <pre><code>
+BEGIN
+    MESSAGE('This is a message.');
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>11. How can you control the display of a form's navigation buttons?</strong>
+        <div class="answer">
+            <p>Control the display of navigation buttons by setting their <code>VISIBLE</code> property to <code>TRUE</code> or <code>FALSE</code>.</p>
+            <pre><code>
+SET_ITEM_PROPERTY('block.item', VISIBLE, FALSE);
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>12. What is the use of the <code>WHEN-NEW-BLOCK-INSTANCE</code> trigger?</strong>
+        <div class="answer">
+            <p>The <code>WHEN-NEW-BLOCK-INSTANCE</code> trigger is used to perform actions when a block is instantiated, such as initializing block-level properties.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>13. How can you retrieve a specific record from a database using Oracle Forms?</strong>
+        <div class="answer">
+            <p>Retrieve a specific record using the <code>EXECUTE_QUERY</code> built-in with a specific condition.</p>
+            <pre><code>
+BEGIN
+    EXECUTE_QUERY;
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>14. How do you handle user authentication in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Handle user authentication by integrating Oracle Forms with Oracle's security modules or implementing custom PL/SQL authentication procedures.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>15. How do you implement a custom toolbar in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Implement a custom toolbar by creating a toolbar in Oracle Forms Builder and adding custom buttons and actions to it.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>16. What is the <code>WHEN-LIST-CHANGED</code> trigger used for?</strong>
+        <div class="answer">
+            <p>The <code>WHEN-LIST-CHANGED</code> trigger is used to handle events when a list item changes its value, allowing you to execute specific actions based on the new selection.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>17. How can you use the <code>SET_BLOCK_PROPERTY</code> built-in in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Use the <code>SET_BLOCK_PROPERTY</code> built-in to modify the properties of a block dynamically.</p>
+            <pre><code>
+SET_BLOCK_PROPERTY('block', ENABLED, FALSE);
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>18. How do you define a form-level parameter?</strong>
+        <div class="answer">
+            <p>Define a form-level parameter by adding parameters in the form module and using them in your PL/SQL code or queries.</p>
+            <pre><code>
+PARAMETER p_id NUMBER;
+BEGIN
+    -- Use p_id in your code
+END;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>19. What is the function of the <code>WHEN-NEW-FORM-INSTANCE</code> trigger?</strong>
+        <div class="answer">
+            <p>The <code>WHEN-NEW-FORM-INSTANCE</code> trigger executes code when a new form instance is created, ideal for initializing form settings.</p>
+        </div>
+    </div>
+
+    <div class="question">
+        <strong>20. How can you handle user input errors in Oracle Forms?</strong>
+        <div class="answer">
+            <p>Handle user input errors by using the <code>WHEN-VALIDATE-ITEM</code> trigger to validate data and provide feedback to the user.</p>
+            <pre><code>
+BEGIN
+    IF LENGTH(:block.item) < 3 THEN
+        MESSAGE('Input must be at least 3 characters long.');
+        RAISE FORM_TRIGGER_FAILURE;
+    END IF;
+END;
+            </code></pre>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

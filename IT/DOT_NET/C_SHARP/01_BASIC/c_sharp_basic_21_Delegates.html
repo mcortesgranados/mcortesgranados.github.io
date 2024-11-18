@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Delegates</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Delegates</h1>
+    <p>Delegates in C# are type-safe function pointers that allow you to pass methods as parameters or store them as variables. They are a way to encapsulate a method reference, enabling you to invoke methods indirectly and implement callback mechanisms.</p>
+    
+    <h2>1. Defining a Delegate</h2>
+    <p>To define a delegate, you use the <code>delegate</code> keyword followed by a return type and a method signature. Here is an example of defining a delegate:</p>
+    <pre><code>
+    public delegate void Notify(string message);
+    </code></pre>
+    
+    <h2>2. Using a Delegate</h2>
+    <p>Once a delegate is defined, you can create instances of it, point it to methods that match its signature, and invoke those methods through the delegate.</p>
+    <pre><code>
+    class Program
+    {
+        // Method that matches the delegate signature
+        public static void ShowMessage(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        static void Main()
+        {
+            // Create a delegate instance and point it to the method
+            Notify notifyDelegate = new Notify(ShowMessage);
+
+            // Use the delegate to call the method
+            notifyDelegate("Hello, Delegates!");
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Delegates as Method Parameters</h2>
+    <p>Delegates can be used as parameters to pass methods as arguments. This allows for flexible and reusable code.</p>
+    <pre><code>
+    class Program
+    {
+        // Method that takes a delegate as a parameter
+        public static void ProcessMessage(string message, Notify notify)
+        {
+            notify(message);
+        }
+
+        public static void ShowMessage(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        static void Main()
+        {
+            // Pass the delegate as a parameter
+            ProcessMessage("Processing message with delegate...", new Notify(ShowMessage));
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Multicast Delegates</h2>
+    <p>Delegates in C# can be multicast, meaning they can hold references to more than one method. When the delegate is invoked, all the methods in the invocation list are called.</p>
+    <pre><code>
+    class Program
+    {
+        public delegate void Notify(string message);
+
+        public static void ShowMessage(string message)
+        {
+            Console.WriteLine("ShowMessage: " + message);
+        }
+
+        public static void LogMessage(string message)
+        {
+            Console.WriteLine("LogMessage: " + message);
+        }
+
+        static void Main()
+        {
+            // Create a multicast delegate
+            Notify notifyDelegate = ShowMessage;
+            notifyDelegate += LogMessage; // Add another method to the delegate
+
+            // Call all methods in the delegate
+            notifyDelegate("Hello, Multicast Delegates!");
+        }
+    }
+    </code></pre>
+    
+    <h2>5. Key Points</h2>
+    <ul>
+        <li><strong>Delegates</strong> are type-safe function pointers that can encapsulate method references.</li>
+        <li>Delegates can be used to pass methods as parameters or to store method references.</li>
+        <li>Delegates support multicast, allowing multiple methods to be invoked with a single delegate.</li>
+        <li>Delegates provide a flexible way to implement callbacks and event handling in your application.</li>
+    </ul>
+</body>
+</html>

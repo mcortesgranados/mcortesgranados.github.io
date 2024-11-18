@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spark Standalone Cluster Setup</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Setting Up a Spark Standalone Cluster</h1>
+    <p>This guide walks you through setting up a Spark standalone cluster and running a Java Spark application on it.</p>
+
+    <h2>Prerequisites</h2>
+    <ul>
+        <li>Apache Spark 3.x installed on all nodes</li>
+        <li>SSH access to all nodes in the cluster</li>
+        <li>Java 8 or higher installed</li>
+    </ul>
+
+    <h2>Step 1: Configure Spark on the Master Node</h2>
+    <p>On the master node, configure Spark by editing the <code>spark-env.sh</code> file:</p>
+    <pre><code>
+# spark-env.sh
+export SPARK_MASTER_HOST='master-node-ip'
+export JAVA_HOME='/path/to/java'
+export SPARK_WORKER_CORES=4
+export SPARK_WORKER_MEMORY=8g
+    </code></pre>
+
+    <p>Start the master node:</p>
+    <pre><code>
+$SPARK_HOME/sbin/start-master.sh
+    </code></pre>
+
+    <p>The master node should now be running at <code>spark://master-node-ip:7077</code>.</p>
+
+    <h2>Step 2: Configure Spark on Worker Nodes</h2>
+    <p>On each worker node, configure the <code>spark-env.sh</code> file similarly and start the worker:</p>
+    <pre><code>
+# spark-env.sh
+export SPARK_WORKER_CORES=4
+export SPARK_WORKER_MEMORY=8g
+    </code></pre>
+
+    <p>Start the worker node:</p>
+    <pre><code>
+$SPARK_HOME/sbin/start-slave.sh spark://master-node-ip:7077
+    </code></pre>
+
+    <p>Repeat this step for all worker nodes in your cluster.</p>
+
+    <h2>Step 3: Verify the Cluster Setup</h2>
+    <p>To verify the setup, access the Spark web UI at <code>http://master-node-ip:8080</code>. You should see all worker nodes listed and connected to the master.</p>
+
+    <h2>Step 4: Run a Java Spark Application</h2>
+    <p>Create a simple Java Spark application:</p>
+    <pre><code>
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.JavaRDD;
+
+public class SparkStandaloneExample {
+    public static void main(String[] args) {
+        // Step 1: Create a SparkConf object and set the master to the Spark master URL
+        SparkConf conf = new SparkConf().setAppName("Spark Standalone Example").setMaster("spark://master-node-ip:7077");
+        
+        // Step 2: Create a JavaSparkContext object
+        JavaSparkContext sc = new JavaSparkContext(conf);
+        
+        // Step 3: Load a text file from HDFS or local file system
+        JavaRDD&lt;String&gt; textFile = sc.textFile("hdfs://path/to/textfile.txt");
+        
+        // Step 4: Perform a simple word count operation
+        JavaRDD&lt;String&gt; words = textFile.flatMap(line -> Arrays.asList(line.split(" ")).iterator());
+        long wordCount = words.count();
+        
+        // Step 5: Print the result
+        System.out.println("Total number of words: " + wordCount);
+        
+        // Step 6: Stop the Spark context
+        sc.stop();
+    }
+}
+    </code></pre>
+
+    <h2>Step 5: Submit the Application to the Cluster</h2>
+    <p>Use the Spark submit command to run the application on your standalone cluster:</p>
+    <pre><code>
+$SPARK_HOME/bin/spark-submit \
+  --class SparkStandaloneExample \
+  --master spark://master-node-ip:7077 \
+  /path/to/your/spark-application.jar
+    </code></pre>
+
+    <h2>Step 6: Monitor the Application</h2>
+    <p>Monitor your application's progress using the Spark web UI or by checking the logs:</p>
+    <pre><code>
+tail -f /path/to/spark/logs/spark-master.out
+    </code></pre>
+
+    <h2>Conclusion</h2>
+    <p>This example shows how to set up a Spark standalone cluster and run a simple Java application on it. For more advanced configurations, refer to the official Spark documentation.</p>
+</body>
+</html>

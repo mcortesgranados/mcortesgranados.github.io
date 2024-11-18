@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Basic Level Questions and Answers - Part 3</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Basic Level Questions and Answers - Part 3</h1>
+
+    <h2>1. How do you define a class with private members in TypeScript?</h2>
+    <p>Private members in a class are only accessible within the class itself.</p>
+    <pre><code>class Car {
+    private model: string;
+
+    constructor(model: string) {
+        this.model = model;
+    }
+
+    public getModel(): string {
+        return this.model;
+    }
+}
+
+const myCar = new Car("Toyota");
+console.log(myCar.getModel()); // Toyota
+// console.log(myCar.model); // Error: Property 'model' is private and only accessible within class 'Car'</code></pre>
+
+    <h2>2. What is type assertion in TypeScript?</h2>
+    <p>Type assertion allows you to specify a type for a value. It does not perform any type checking or restructuring.</p>
+    <pre><code>let value: any = "Hello, world!";
+let length: number = (value as string).length;
+
+console.log(length); // 13</code></pre>
+
+    <h2>3. How do you create a function type in TypeScript?</h2>
+    <p>You can define a type for a function using the following syntax.</p>
+    <pre><code>type MathOperation = (x: number, y: number) => number;
+
+const add: MathOperation = (x, y) => x + y;
+
+console.log(add(5, 3)); // 8</code></pre>
+
+    <h2>4. What is the <code>unknown</code> type in TypeScript?</h2>
+    <p>The <code>unknown</code> type is a safer alternative to <code>any</code> as it requires type checking before usage.</p>
+    <pre><code>let input: unknown = "A string";
+if (typeof input === "string") {
+    console.log(input.toUpperCase()); // A STRING
+}</code></pre>
+
+    <h2>5. How do you use type guards in TypeScript?</h2>
+    <p>Type guards are used to narrow down the type of a variable.</p>
+    <pre><code>function isString(value: any): value is string {
+    return typeof value === "string";
+}
+
+let input: unknown = "Hello";
+
+if (isString(input)) {
+    console.log(input.toUpperCase()); // HELLO
+}</code></pre>
+
+    <h2>6. What is the <code>keyof</code> operator in TypeScript?</h2>
+    <p>The <code>keyof</code> operator creates a type consisting of the keys of another type.</p>
+    <pre><code>interface Person {
+    name: string;
+    age: number;
+}
+
+type PersonKeys = keyof Person; // "name" | "age"</code></pre>
+
+    <h2>7. How do you use the <code>Record</code> utility type in TypeScript?</h2>
+    <p>The <code>Record</code> utility type creates an object type with specific keys and values.</p>
+    <pre><code>type PageInfo = Record<string, string>;
+
+const pageInfo: PageInfo = {
+    title: "Home Page",
+    description: "Welcome to the homepage"
+};</code></pre>
+
+    <h2>8. How do you define a method inside an interface in TypeScript?</h2>
+    <p>Methods in an interface can be defined like any other property, but they include parentheses for arguments.</p>
+    <pre><code>interface Calculator {
+    add(x: number, y: number): number;
+}
+
+const myCalculator: Calculator = {
+    add: (x, y) => x + y
+};
+
+console.log(myCalculator.add(5, 7)); // 12</code></pre>
+
+    <h2>9. What are conditional types in TypeScript?</h2>
+    <p>Conditional types allow you to create types based on conditions.</p>
+    <pre><code>type IsString<T> = T extends string ? "Yes" : "No";
+
+type Test1 = IsString<string>; // "Yes"
+type Test2 = IsString<number>; // "No"</code></pre>
+
+    <h2>10. How do you use intersection types in TypeScript?</h2>
+    <p>Intersection types combine multiple types into one.</p>
+    <pre><code>interface Person {
+    name: string;
+}
+
+interface Contact {
+    email: string;
+}
+
+type PersonWithContact = Person & Contact;
+
+const person: PersonWithContact = {
+    name: "Alice",
+    email: "alice@example.com"
+};</code></pre>
+
+</body>
+</html>

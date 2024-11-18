@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas y Respuestas sobre Deuda Técnica, Bugs y Vulnerabilidades</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .question {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .answer {
+            margin-left: 20px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preguntas y Respuestas sobre Deuda Técnica, Bugs y Vulnerabilidades</h1>
+    
+    <div class="question">1. ¿Qué es la deuda técnica?</div>
+    <div class="answer">La deuda técnica se refiere a las decisiones de diseño o implementación en el software que son más rápidas de realizar en el corto plazo pero que pueden llevar a problemas en el futuro. Es similar a la deuda financiera: es un costo que debe pagarse eventualmente.</div>
+
+    <div class="question">2. ¿Cómo se identifica la deuda técnica en un proyecto?</div>
+    <div class="answer">La deuda técnica se puede identificar mediante revisiones de código, análisis de herramientas estáticas de calidad de código, y mediante la revisión de problemas recurrentes en el mantenimiento del sistema.</div>
+
+    <div class="question">3. ¿Qué estrategias se pueden utilizar para gestionar la deuda técnica?</div>
+    <div class="answer">Las estrategias incluyen priorizar la deuda técnica en el backlog, asignar tiempo específico para refactorización en el ciclo de desarrollo, y aplicar prácticas de codificación y diseño sólidas desde el inicio.</div>
+
+    <div class="question">4. ¿Cómo se pueden resolver bugs en una aplicación?</div>
+    <div class="answer">Para resolver bugs, primero se debe reproducir el error, luego analizar el código y los logs para identificar la causa raíz. Una vez encontrada la causa, se debe corregir el código y verificar la solución con pruebas adecuadas.</div>
+
+    <div class="question">5. ¿Qué herramientas se utilizan para detectar vulnerabilidades en el código?</div>
+    <div class="answer">Las herramientas comunes para detectar vulnerabilidades incluyen escáneres de seguridad como SonarQube, Checkmarx, Veracode, y OWASP ZAP.</div>
+
+    <div class="question">6. ¿Cómo se puede mejorar la calidad del código para evitar deuda técnica?</div>
+    <div class="answer">Mejorar la calidad del código incluye seguir buenas prácticas de programación, realizar revisiones de código, escribir pruebas unitarias, y refactorizar el código cuando sea necesario.</div>
+
+    <div class="question">7. ¿Qué es una vulnerabilidad de seguridad?</div>
+    <div class="answer">Una vulnerabilidad de seguridad es una debilidad en el sistema que puede ser explotada para comprometer la confidencialidad, integridad o disponibilidad de los datos y recursos.</div>
+
+    <div class="question">8. ¿Cómo se realiza un análisis de seguridad estática?</div>
+    <div class="answer">El análisis de seguridad estática se realiza utilizando herramientas que escanean el código fuente para identificar patrones de vulnerabilidad sin ejecutar el código. Ejemplo con SonarQube:</div>
+    <pre><code>sonar-scanner -Dsonar.projectKey=my_project -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.login=my_token</code></pre>
+    </div>
+
+    <div class="question">9. ¿Cómo se realiza un análisis de seguridad dinámica?</div>
+    <div class="answer">El análisis de seguridad dinámica se realiza mediante herramientas que ejecutan la aplicación en un entorno de prueba y detectan vulnerabilidades mientras la aplicación está en funcionamiento. Ejemplo con OWASP ZAP:</div>
+    <pre><code>zap-cli quick-scan --self-signed https://myapp.example.com</code></pre>
+    </div>
+
+    <div class="question">10. ¿Qué son las pruebas de penetración?</div>
+    <div class="answer">Las pruebas de penetración son simulaciones de ataques a la aplicación para identificar y explotar vulnerabilidades de seguridad. Se realizan manualmente o con herramientas especializadas.</div>
+
+    <div class="question">11. ¿Cómo se debe abordar una vulnerabilidad crítica en una aplicación?</div>
+    <div class="answer">Una vulnerabilidad crítica debe ser abordada de inmediato. Se debe analizar la vulnerabilidad, desarrollar y aplicar una solución, y luego verificar que la solución es efectiva mediante pruebas exhaustivas.</div>
+
+    <div class="question">12. ¿Qué es la refactorización del código?</div>
+    <div class="answer">La refactorización del código es el proceso de mejorar el diseño interno del código sin cambiar su comportamiento externo. Se hace para mejorar la mantenibilidad y la legibilidad del código.</div>
+
+    <div class="question">13. ¿Cómo se priorizan los problemas de deuda técnica?</div>
+    <div class="answer">Los problemas de deuda técnica se priorizan según su impacto en el sistema, la frecuencia de los problemas asociados, y el costo de resolverlos. Se puede utilizar una matriz de priorización o un backlog de mantenimiento.</div>
+
+    <div class="question">14. ¿Qué papel juegan las pruebas automatizadas en la gestión de deuda técnica?</div>
+    <div class="answer">Las pruebas automatizadas ayudan a detectar problemas y errores de manera temprana, lo que facilita la identificación y resolución de deuda técnica antes de que se convierta en un problema mayor.</div>
+
+    <div class="question">15. ¿Cómo se puede medir la deuda técnica?</div>
+    <div class="answer">La deuda técnica se puede medir utilizando métricas como la complejidad ciclomática, la cobertura de pruebas, y el número de "smells" en el código. Herramientas como SonarQube pueden proporcionar métricas específicas.</div>
+
+    <div class="question">16. ¿Qué es un "code smell" y cómo se identifica?</div>
+    <div class="answer">Un "code smell" es una indicación de que algo puede estar mal en el código, como una estructura de código ineficiente o difícil de entender. Se identifica mediante revisiones de código y herramientas de análisis estático.</div>
+
+    <div class="question">17. ¿Cómo se maneja la deuda técnica en proyectos ágiles?</div>
+    <div class="answer">En proyectos ágiles, la deuda técnica se maneja al incluirla en el backlog del producto y asignar tiempo para abordarla durante los sprints. Se revisa y prioriza regularmente durante las reuniones de planificación.</div>
+
+    <div class="question">18. ¿Cómo se realiza una revisión de código efectiva?</div>
+    <div class="answer">Una revisión de código efectiva incluye la revisión del código en busca de errores, adherencia a las buenas prácticas, y mejoras potenciales. Involucra a los miembros del equipo en el proceso de revisión y proporciona retroalimentación constructiva.</div>
+
+    <div class="question">19. ¿Qué es un bug y cómo se gestiona?</div>
+    <div class="answer">Un bug es un error o defecto en el software que causa un comportamiento incorrecto o inesperado. Se gestiona mediante la identificación, reproducción, y corrección del error, seguido de pruebas para asegurar que el problema se ha resuelto.</div>
+
+    <div class="question">20. ¿Cómo se documenta la deuda técnica?</div>
+    <div class="answer">La deuda técnica se documenta en el backlog del producto, en herramientas de gestión de proyectos, y en documentación técnica. Incluye detalles sobre la naturaleza de la deuda y el impacto en el sistema.</div>
+
+    <div class="question">21. ¿Qué es el análisis de impacto en la deuda técnica?</div>
+    <div class="answer">El análisis de impacto evalúa cómo la deuda técnica afecta al sistema, su rendimiento, y la capacidad de mantenimiento. Ayuda a priorizar la deuda técnica y a tomar decisiones informadas sobre la resolución.</div>
+
+    <div class="question">22. ¿Cómo se realiza un parche de seguridad en una aplicación?</div>
+    <div class="answer">Un parche de seguridad se realiza identificando la vulnerabilidad, desarrollando una solución para corregirla, aplicando el parche en el entorno de desarrollo, y luego desplegando el parche a producción después de probarlo.</div>
+
+    <div class="question">23. ¿Qué son las pruebas de regresión y por qué son importantes?</div>
+    <div class="answer">Las pruebas de regresión son pruebas que verifican que los cambios recientes en el código no han introducido nuevos errores en las funcionalidades existentes. Son importantes para asegurar que las correcciones no afecten negativamente al sistema.</div>
+
+    <div class="question">24. ¿Cómo se puede prevenir la introducción de vulnerabilidades en el código?</div>
+    <div class="answer">Se puede prevenir la introducción de vulnerabilidades mediante la educación continua sobre seguridad, el uso de buenas prácticas de codificación, y la implementación de análisis de seguridad durante el desarrollo.</div>
+
+    <div class="question">25. ¿Qué son las pruebas de unidad y cómo contribuyen a la calidad del código?</div>
+    <div class="answer">Las pruebas de unidad verifican el funcionamiento correcto de las unidades individuales de código, como funciones o métodos. Contribuyen a la calidad del código al detectar errores temprano y asegurar que cada componente funciona como se espera.</div>
+
+    <div class="question">26. ¿Cómo se maneja la deuda técnica acumulada en un proyecto a largo plazo?</div>
+    <div class="answer">La deuda técnica acumulada se maneja realizando una evaluación periódica, priorizando la deuda según su impacto, y asignando tiempo y recursos para abordarla en el ciclo de desarrollo continuo.</div>
+
+    <div class="question">27. ¿Cómo se puede integrar la gestión de deuda técnica en el ciclo de vida del desarrollo?</div>
+    <div class="answer">La gestión de deuda técnica se integra en el ciclo de vida del desarrollo mediante la inclusión de tareas relacionadas en el backlog, la asignación de tiempo para la refactorización, y la revisión continua del código y los procesos.</div>
+
+    <div class="question">28. ¿Qué herramientas se utilizan para la gestión de bugs y problemas?</div>
+    <div class="answer">Herramientas comunes para la gestión de bugs incluyen JIRA, Bugzilla, y Redmine. Estas herramientas permiten rastrear y gestionar problemas, asignar tareas, y priorizar correcciones.</div>
+
+    <div class="question">29. ¿Cómo se realiza un análisis de calidad del código?</div>
+    <div class="answer">El análisis de calidad del código se realiza utilizando herramientas de análisis estático que revisan el código en busca de errores, malas prácticas, y oportunidades de mejora. Ejemplo con SonarQube:</div>
+    <pre><code>sonar-scanner -Dsonar.projectKey=my_project -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.login=my_token</code></pre>
+    </div>
+
+    <div class="question">30. ¿Qué papel juegan los tests de seguridad en la mejora de la aplicación?</div>
+    <div class="answer">Los tests de seguridad identifican vulnerabilidades en la aplicación antes de que sean explotadas por atacantes. Ayudan a mejorar la seguridad de la aplicación al detectar y corregir problemas potenciales.</div>
+</body>
+</html>

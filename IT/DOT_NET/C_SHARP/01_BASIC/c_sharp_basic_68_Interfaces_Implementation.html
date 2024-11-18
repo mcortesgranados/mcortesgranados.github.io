@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Interface Implementation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Interface Implementation</h1>
+    <p>An interface in C# defines a contract that classes or structs must adhere to. It specifies what methods, properties, events, or indexers the implementing class must define, without specifying how they are implemented.</p>
+    
+    <h2>1. Defining an Interface</h2>
+    <p>An interface is declared using the <code>interface</code> keyword. Here's a basic example:</p>
+    <pre><code>
+public interface IAnimal
+{
+    void MakeSound();
+    string Species { get; }
+}
+    </code></pre>
+
+    <h2>2. Implementing an Interface</h2>
+    <p>A class or struct that implements an interface must provide concrete implementations for all its members. For example:</p>
+    <pre><code>
+public class Dog : IAnimal
+{
+    public string Species { get { return "Dog"; } }
+    
+    public void MakeSound()
+    {
+        Console.WriteLine("Bark!");
+    }
+}
+
+public class Cat : IAnimal
+{
+    public string Species { get { return "Cat"; } }
+    
+    public void MakeSound()
+    {
+        Console.WriteLine("Meow!");
+    }
+}
+    </code></pre>
+    <p>In this example, both <code>Dog</code> and <code>Cat</code> classes implement the <code>IAnimal</code> interface, providing their own versions of the <code>MakeSound</code> method and the <code>Species</code> property.</p>
+    
+    <h2>3. Using an Interface</h2>
+    <p>Once a class implements an interface, you can use it as follows:</p>
+    <pre><code>
+public class Program
+{
+    public static void Main()
+    {
+        IAnimal dog = new Dog();
+        IAnimal cat = new Cat();
+        
+        dog.MakeSound();  // Output: Bark!
+        cat.MakeSound();  // Output: Meow!
+        
+        Console.WriteLine(dog.Species);  // Output: Dog
+        Console.WriteLine(cat.Species);  // Output: Cat
+    }
+}
+    </code></pre>
+
+    <h2>4. Interface Inheritance</h2>
+    <p>Interfaces can inherit from other interfaces, just like classes. When a class implements a derived interface, it must implement all the members of both the derived and base interfaces.</p>
+    <pre><code>
+public interface IWalkable
+{
+    void Walk();
+}
+
+public interface IAnimalWithLegs : IAnimal, IWalkable
+{
+    int NumberOfLegs { get; }
+}
+
+public class Horse : IAnimalWithLegs
+{
+    public string Species { get { return "Horse"; } }
+    
+    public int NumberOfLegs { get { return 4; } }
+    
+    public void MakeSound()
+    {
+        Console.WriteLine("Neigh!");
+    }
+
+    public void Walk()
+    {
+        Console.WriteLine("Horse is walking.");
+    }
+}
+    </code></pre>
+    <p>In this example, the <code>Horse</code> class implements the <code>IAnimalWithLegs</code> interface, which inherits from both <code>IAnimal</code> and <code>IWalkable</code>.</p>
+    
+    <h2>5. Explicit Interface Implementation</h2>
+    <p>In some cases, a class might need to implement members of multiple interfaces that have the same signature. To avoid ambiguity, you can use explicit interface implementation:</p>
+    <pre><code>
+public interface IPrinter
+{
+    void Print();
+}
+
+public interface IScanner
+{
+    void Print();
+}
+
+public class MultiFunctionDevice : IPrinter, IScanner
+{
+    // Explicit interface implementation
+    void IPrinter.Print()
+    {
+        Console.WriteLine("Printing a document.");
+    }
+
+    void IScanner.Print()
+    {
+        Console.WriteLine("Scanning a document.");
+    }
+}
+    </code></pre>
+    <p>In this case, <code>MultiFunctionDevice</code> implements both <code>IPrinter</code> and <code>IScanner</code>, but the <code>Print</code> method from each interface is explicitly implemented to handle the respective functionality.</p>
+
+    <h2>Conclusion</h2>
+    <p>Interfaces are a powerful tool in C# for enforcing contracts and ensuring that classes adhere to specific patterns of behavior. They promote flexibility, abstraction, and help decouple components in your codebase.</p>
+</body>
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas y Respuestas sobre Seguridad en el Ciclo de Vida del Desarrollo de Software</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow: auto;
+        }
+        code {
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preguntas y Respuestas sobre Seguridad en el Ciclo de Vida del Desarrollo de Software</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+                <th>Código de Ejemplo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1. ¿Qué es el "Secure Development Lifecycle" (SDL) y por qué es importante?</td>
+                <td>El SDL es un enfoque para desarrollar software con seguridad incorporada en cada fase del ciclo de vida del desarrollo. Es importante porque ayuda a identificar y mitigar vulnerabilidades desde el inicio.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>2. ¿Cómo se implementan controles de acceso en una aplicación web?</td>
+                <td>Se implementan mediante autenticación y autorización, asegurando que los usuarios tengan acceso solo a las partes del sistema para las cuales están autorizados.</td>
+                <td>
+                    <pre><code># Python: Implementación de control de acceso con Flask
+from flask import Flask, request, jsonify
+from functools import wraps
+
+app = Flask(__name__)
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if not request.headers.get('Authorization'):
+            return jsonify({'message': 'Unauthorized'}), 401
+        return f(*args, **kwargs)
+    return decorated
+
+@app.route('/secure-data')
+@requires_auth
+def secure_data():
+    return jsonify({'data': 'This is protected'})
+
+if __name__ == '__main__':
+    app.run()
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>3. ¿Cómo se realiza una validación adecuada de entradas para prevenir inyecciones SQL?</td>
+                <td>Se utilizan consultas preparadas y parámetros para evitar inyecciones SQL.</td>
+                <td>
+                    <pre><code># Python: Validación de entradas con consultas preparadas en SQLite
+import sqlite3
+
+conn = sqlite3.connect('example.db')
+cursor = conn.cursor()
+user_input = 'user'
+query = "SELECT * FROM users WHERE username = ?"
+cursor.execute(query, (user_input,))
+results = cursor.fetchall()
+print(results)
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>4. ¿Qué es el principio de "least privilege" y cómo se aplica en el desarrollo de software?</td>
+                <td>El principio de "least privilege" asegura que cada usuario o proceso tenga solo los permisos necesarios para realizar su tarea. Se aplica limitando los accesos a recursos y funcionalidades.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>5. ¿Cómo se asegura la integridad de los datos en una aplicación?</td>
+                <td>Se utilizan técnicas como la firma digital y la verificación de hash para asegurar que los datos no sean alterados durante su transmisión o almacenamiento.</td>
+                <td>
+                    <pre><code># Python: Verificación de hash con SHA-256
+import hashlib
+
+data = b'Hello, World!'
+hash_object = hashlib.sha256(data)
+hex_dig = hash_object.hexdigest()
+print(hex_dig)
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>6. ¿Qué es el "Cross-Site Scripting" (XSS) y cómo se previene?</td>
+                <td>XSS es una vulnerabilidad que permite inyectar scripts maliciosos en una página web. Se previene validando y escapando entradas del usuario.</td>
+                <td>
+                    <pre><code>// JavaScript: Ejemplo de escape de entrada en una aplicación web
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+const userInput = '<script>alert("XSS")</script>';
+const safeInput = escapeHtml(userInput);
+console.log(safeInput);
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>7. ¿Cómo se realiza un análisis estático de código para encontrar vulnerabilidades?</td>
+                <td>Se utilizan herramientas de análisis estático que examinan el código fuente en busca de patrones de vulnerabilidad sin ejecutar el programa.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>8. ¿Qué son las pruebas de penetración y por qué son importantes?</td>
+                <td>Las pruebas de penetración simulan ataques para identificar vulnerabilidades en una aplicación. Son importantes para detectar problemas de seguridad antes de que los atacantes reales los exploten.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>9. ¿Cómo se implementa el cifrado de datos en tránsito?</td>
+                <td>Se utilizan protocolos como TLS para cifrar los datos durante su transmisión a través de redes.</td>
+                <td>
+                    <pre><code>// Java: Configuración de HTTPS con TLS
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.io.FileInputStream;
+
+public class HttpsExample {
+    public static void main(String[] args) throws Exception {
+        KeyStore keyStore = KeyStore.getInstance("JKS");
+        FileInputStream fis = new FileInputStream("keystore.jks");
+        keyStore.load(fis, "password".toCharArray());
+
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        tmf.init(keyStore);
+
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, tmf.getTrustManagers(), null);
+        System.out.println("SSLContext configured");
+    }
+}
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>10. ¿Qué es la autenticación multifactor y cómo se implementa?</td>
+                <td>La autenticación multifactor requiere que los usuarios proporcionen dos o más formas de verificación antes de acceder a un sistema. Se implementa combinando algo que el usuario sabe, algo que tiene y algo que es.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>11. ¿Cómo se maneja la seguridad de las contraseñas en una aplicación?</td>
+                <td>Se deben almacenar contraseñas de forma segura usando técnicas como el hashing con sal y técnicas de estiramiento de clave.</td>
+                <td>
+                    <pre><code># Python: Ejemplo de hashing de contraseñas con bcrypt
+import bcrypt
+
+password = b'password123'
+hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+print(hashed)
+
+# Verificar contraseña
+if bcrypt.checkpw(password, hashed):
+    print("Contraseña correcta")
+else:
+    print("Contraseña incorrecta")
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>12. ¿Cómo se implementan controles de acceso basados en roles (RBAC) en una aplicación?</td>
+                <td>Se implementan asignando roles a los usuarios y definiendo permisos específicos para cada rol en la aplicación.</td>
+                <td>
+                    <pre><code# Python: Ejemplo básico de RBAC con Flask
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+roles = {
+    'admin': ['view', 'edit'],
+    'user': ['view']
+}
+
+def requires_role(role):
+    def wrapper(f):
+        def wrapped(*args, **kwargs):
+            user_role = request.headers.get('Role')
+            if user_role in roles and 'view' in roles[user_role]:
+                return f(*args, **kwargs)
+            return jsonify({'message': 'Forbidden'}), 403
+        return wrapped
+    return wrapper
+
+@app.route('/data')
+@requires_role('user')
+def get_data():
+    return jsonify({'data': 'This is some data'})
+
+if __name__ == '__main__':
+    app.run()
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>13. ¿Qué es el "Security by Design" y cómo se aplica durante el desarrollo de software?</td>
+                <td>"Security by Design" es el principio de diseñar software con seguridad integrada desde el principio. Se aplica mediante la incorporación de prácticas de seguridad en cada fase del desarrollo.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>14. ¿Cómo se realiza la seguridad en el almacenamiento de datos en bases de datos?</td>
+                <td>Se asegura el almacenamiento de datos mediante cifrado de datos, controles de acceso, y auditoría de actividades.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>15. ¿Qué técnicas se utilizan para proteger contra ataques de CSRF (Cross-Site Request Forgery)?</td>
+                <td>Se utilizan tokens CSRF, que se generan y validan con cada solicitud para garantizar que la solicitud proviene de una fuente confiable.</td>
+                <td>
+                    <pre><code# Python: Ejemplo básico de CSRF con Flask
+from flask import Flask, request, jsonify
+from flask_wtf.csrf import CSRFProtect
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret!'
+csrf = CSRFProtect(app)
+
+@app.route('/submit', methods=['POST'])
+@csrf.exempt
+def submit():
+    return jsonify({'message': 'Data submitted successfully'})
+
+if __name__ == '__main__':
+    app.run()
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>16. ¿Cómo se asegura el desarrollo de APIs seguras?</td>
+                <td>Se asegura mediante autenticación, autorización, validación de entrada, y cifrado de datos.</td>
+                <td>
+                    <pre><code# Python: Ejemplo básico de autenticación en una API con Flask
+from flask import Flask, request, jsonify
+from functools import wraps
+
+app = Flask(__name__)
+
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.headers.get('Authorization')
+        if not token or token != 'your_token':
+            return jsonify({'message': 'Unauthorized'}), 401
+        return f(*args, **kwargs)
+    return decorated
+
+@app.route('/api/data')
+@token_required
+def api_data():
+    return jsonify({'data': 'This is protected data'})
+
+if __name__ == '__main__':
+    app.run()
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>17. ¿Qué es el "Threat Modeling" y cómo se aplica durante el desarrollo de software?</td>
+                <td>"Threat Modeling" es un proceso para identificar, entender y gestionar amenazas en una aplicación. Se aplica mediante la identificación de posibles amenazas, vulnerabilidades y el diseño de contramedidas.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>18. ¿Cómo se realiza el monitoreo y registro de actividades en una aplicación?</td>
+                <td>Se realiza mediante la implementación de sistemas de registro y monitoreo que registran eventos y actividades para detectar comportamientos sospechosos.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>19. ¿Qué es la seguridad en el ciclo de vida del software y cómo se implementa?</td>
+                <td>La seguridad en el ciclo de vida del software es la integración de prácticas de seguridad en cada fase del desarrollo. Se implementa a través de pruebas de seguridad, auditorías y revisiones de código.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>20. ¿Cómo se implementa la seguridad en la integración continua y entrega continua (CI/CD)?</td>
+                <td>Se implementa mediante la inclusión de pruebas de seguridad automatizadas, escaneo de vulnerabilidades y revisión de configuraciones en los pipelines de CI/CD.</td>
+                <td>
+                    <pre><code# Python: Ejemplo básico de un script de seguridad en un pipeline CI/CD
+import subprocess
+
+def run_security_checks():
+    result = subprocess.run(['bandit', '-r', 'my_project'], capture_output=True, text=True)
+    print(result.stdout)
+
+if __name__ == '__main__':
+    run_security_checks()
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>21. ¿Cómo se implementan medidas de seguridad en el desarrollo móvil?</td>
+                <td>Se implementan mediante la protección de datos sensibles, autenticación y autorización segura, y validación de entradas.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>22. ¿Qué son las vulnerabilidades de seguridad comunes en aplicaciones web y cómo se mitigan?</td>
+                <td>Vulnerabilidades comunes incluyen XSS, CSRF, y SQL Injection. Se mitigan mediante validación de entrada, autenticación segura, y uso de consultas preparadas.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>23. ¿Cómo se asegura la seguridad en el desarrollo de microservicios?</td>
+                <td>Se asegura mediante la autenticación y autorización entre servicios, cifrado de datos, y monitoreo de comunicaciones.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>24. ¿Cómo se realiza la gestión de vulnerabilidades en una aplicación?</td>
+                <td>Se realiza mediante la identificación, evaluación, y mitigación de vulnerabilidades mediante parches y actualizaciones.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>25. ¿Qué son las mejores prácticas para manejar datos sensibles en aplicaciones?</td>
+                <td>Las mejores prácticas incluyen cifrado de datos, almacenamiento seguro, y control de acceso a datos sensibles.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>26. ¿Cómo se implementan pruebas de seguridad en una aplicación web?</td>
+                <td>Se implementan mediante pruebas de penetración, escaneo de vulnerabilidades y revisiones de seguridad del código.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>27. ¿Qué es la gestión de riesgos de seguridad en el desarrollo de software?</td>
+                <td>La gestión de riesgos de seguridad implica identificar, evaluar y mitigar los riesgos asociados con la seguridad del software durante el desarrollo.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>28. ¿Cómo se asegura la autenticación y autorización en aplicaciones web?</td>
+                <td>Se asegura mediante el uso de métodos como autenticación de múltiples factores, gestión de sesiones seguras y control de acceso basado en roles.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>29. ¿Qué es el análisis de impacto de seguridad y cómo se aplica?</td>
+                <td>El análisis de impacto de seguridad evalúa cómo las modificaciones en el software afectan la seguridad. Se aplica mediante la evaluación de riesgos antes de implementar cambios.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>30. ¿Cómo se implementa la seguridad en el desarrollo de APIs REST?</td>
+                <td>Se implementa mediante la autenticación, autorización, y validación de entrada, además de cifrar la comunicación.</td>
+                <td>
+                    <pre><code# Python: Ejemplo básico de seguridad en una API REST con Flask
+from flask import Flask, request, jsonify
+from functools import wraps
+
+app = Flask(__name__)
+
+def api_key_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        api_key = request.headers.get('API-Key')
+        if api_key != 'your_api_key':
+            return jsonify({'message': 'Unauthorized'}), 401
+        return f(*args, **kwargs)
+    return decorated
+
+@app.route('/secure-endpoint')
+@api_key_required
+def secure_endpoint():
+    return jsonify({'message': 'Access granted'})
+
+if __name__ == '__main__':
+    app.run()
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>31. ¿Cómo se manejan las vulnerabilidades de seguridad en bibliotecas y dependencias externas?</td>
+                <td>Se manejan mediante la actualización periódica de bibliotecas y el uso de herramientas de escaneo de vulnerabilidades.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>32. ¿Qué es la seguridad en la configuración y cómo se aplica?</td>
+                <td>La seguridad en la configuración implica asegurar que las configuraciones del software y el entorno sean seguras, como deshabilitar servicios innecesarios y aplicar configuraciones seguras.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>33. ¿Cómo se realiza la auditoría de seguridad en aplicaciones?</td>
+                <td>Se realiza mediante la revisión de registros de seguridad, pruebas de penetración y análisis de vulnerabilidades.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>34. ¿Qué es la "Secure Coding" y cómo se aplica durante el desarrollo?</td>
+                <td>"Secure Coding" es la práctica de escribir código con seguridad en mente. Se aplica mediante el uso de técnicas seguras de codificación y la revisión de código.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>35. ¿Cómo se maneja la seguridad en el desarrollo de aplicaciones móviles?</td>
+                <td>Se maneja mediante el cifrado de datos, autenticación segura y validación de entradas, así como revisiones de seguridad específicas para móviles.</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

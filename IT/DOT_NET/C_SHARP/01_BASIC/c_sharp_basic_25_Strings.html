@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Strings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Strings</h1>
+    <p>Strings in C# represent sequences of characters and are one of the most commonly used data types. C# strings are immutable, meaning that once a string is created, it cannot be changed.</p>
+    
+    <h2>1. Declaring Strings</h2>
+    <p>You can declare strings using the <code>string</code> keyword. Here’s how you can initialize and use strings:</p>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            // Declare and initialize a string
+            string greeting = "Hello, World!";
+
+            // Display the string
+            Console.WriteLine(greeting);
+        }
+    }
+    </code></pre>
+    
+    <h2>2. String Concatenation</h2>
+    <p>Strings can be concatenated using the <code>+</code> operator or the <code>String.Concat</code> method:</p>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            string firstName = "John";
+            string lastName = "Doe";
+
+            // Concatenate strings
+            string fullName = firstName + " " + lastName;
+
+            // Display the concatenated string
+            Console.WriteLine(fullName);
+        }
+    }
+    </code></pre>
+    
+    <h2>3. String Interpolation</h2>
+    <p>String interpolation provides a more readable and convenient syntax for formatting strings. It uses the <code>$</code> sign before the string literal:</p>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            string firstName = "John";
+            string lastName = "Doe";
+
+            // String interpolation
+            string fullName = $"{firstName} {lastName}";
+
+            // Display the interpolated string
+            Console.WriteLine(fullName);
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Common String Methods</h2>
+    <p>C# provides many useful methods for string manipulation:</p>
+    <ul>
+        <li><code>ToUpper()</code> - Converts the string to uppercase.</li>
+        <li><code>ToLower()</code> - Converts the string to lowercase.</li>
+        <li><code>Trim()</code> - Removes leading and trailing whitespace.</li>
+        <li><code>Substring()</code> - Extracts a substring from the string.</li>
+        <li><code>Replace()</code> - Replaces all occurrences of a specified substring.</li>
+    </ul>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            string message = "   Hello, C#!   ";
+
+            // Remove leading and trailing whitespace
+            string trimmedMessage = message.Trim();
+
+            // Convert to uppercase
+            string upperMessage = trimmedMessage.ToUpper();
+
+            // Replace a substring
+            string replacedMessage = upperMessage.Replace("C#", ".NET");
+
+            // Extract a substring
+            string subMessage = replacedMessage.Substring(0, 12);
+
+            // Display the results
+            Console.WriteLine($"Trimmed: '{trimmedMessage}'");
+            Console.WriteLine($"Uppercase: '{upperMessage}'");
+            Console.WriteLine($"Replaced: '{replacedMessage}'");
+            Console.WriteLine($"Substring: '{subMessage}'");
+        }
+    }
+    </code></pre>
+    
+    <h2>5. String Comparison</h2>
+    <p>Comparing strings can be done using methods such as <code>Equals()</code>, <code>Compare()</code>, and <code>CompareTo()</code>:</p>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            string str1 = "apple";
+            string str2 = "orange";
+
+            // Compare strings
+            bool areEqual = str1.Equals(str2);
+            int comparison = string.Compare(str1, str2);
+
+            // Display the results
+            Console.WriteLine($"Are strings equal? {areEqual}");
+            Console.WriteLine($"Comparison result: {comparison}");
+        }
+    }
+    </code></pre>
+    
+    <h2>6. Key Points</h2>
+    <ul>
+        <li><strong>Strings</strong> in C# are immutable and represent sequences of characters.</li>
+        <li><strong>String concatenation</strong> can be performed using the <code>+</code> operator or <code>String.Concat</code>.</li>
+        <li><strong>String interpolation</strong> offers a more readable way to format strings.</li>
+        <li><strong>Common string methods</strong> include <code>ToUpper()</code>, <code>ToLower()</code>, <code>Trim()</code>, <code>Substring()</code>, and <code>Replace()</code>.</li>
+        <li><strong>String comparison</strong> can be done using <code>Equals()</code>, <code>Compare()</code>, and <code>CompareTo()</code>.</li>
+ 

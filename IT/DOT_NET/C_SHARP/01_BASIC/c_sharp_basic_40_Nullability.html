@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Nullability</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Nullability</h1>
+    <p>Nullability in C# refers to the ability of a variable to hold a <code>null</code> value, which represents the absence of a value. Understanding nullability is crucial for preventing runtime errors and ensuring robust code.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>Nullability in C# is used to:</p>
+    <ul>
+        <li><strong>Handle Missing Values:</strong> Allow variables to represent the absence of a value with <code>null</code>.</li>
+        <li><strong>Improve Code Safety:</strong> Provide mechanisms to handle <code>null</code> values safely and avoid common null reference exceptions.</li>
+        <li><strong>Support Nullable Types:</strong> Enable value types (e.g., <code>int</code>, <code>bool</code>) to also be assigned <code>null</code>.</li>
+    </ul>
+    
+    <h2>2. Nullable Value Types</h2>
+    <p>In C#, value types (e.g., <code>int</code>, <code>bool</code>) are non-nullable by default. To allow these types to hold a <code>null</code> value, you can use the nullable value type syntax with a question mark (<code>?</code>).</p>
+    <pre><code>
+    int? nullableInt = null;
+    bool? nullableBool = true;
+
+    if (nullableInt.HasValue)
+    {
+        Console.WriteLine($"Value: {nullableInt.Value}");
+    }
+    else
+    {
+        Console.WriteLine("Value is null");
+    }
+    </code></pre>
+    
+    <h2>3. Nullable Reference Types</h2>
+    <p>Starting with C# 8.0, you can enable nullable reference types to indicate whether a reference type can be <code>null</code>. This feature helps catch potential null reference issues at compile time.</p>
+    <pre><code>
+    #nullable enable
+
+    public class Person
+    {
+        public string Name { get; set; } // Non-nullable reference type
+        public string? MiddleName { get; set; } // Nullable reference type
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            Person person = new Person
+            {
+                Name = "John",
+                MiddleName = null
+            };
+
+            Console.WriteLine($"Name: {person.Name}");
+            Console.WriteLine($"Middle Name: {person.MiddleName ?? "Not provided"}");
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Nullability Annotations</h2>
+    <p>With nullable reference types, you can use annotations to explicitly indicate whether a reference type is nullable or not. The <code>? </code> syntax specifies a nullable type, while absence of <code>?</code> implies a non-nullable type.</p>
+    <pre><code>
+    public class User
+    {
+        public string Username { get; set; } // Non-nullable
+        public string? Email { get; set; } // Nullable
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            User user = new User
+            {
+                Username = "alice",
+                Email = null
+            };
+
+            Console.WriteLine($"Username: {user.Username}");
+            Console.WriteLine($"Email: {user.Email ?? "Email not provided"}");
+        }
+    }
+    </code></pre>
+    
+    <h2>5. Handling Null Values</h2>
+    <p>When dealing with nullable types, use the <code>HasValue</code> property and the null-coalescing operator (<code>??</code>) to handle <code>null</code> values gracefully.</p>
+    <pre><code>
+    public static void DisplayLength(string? str)
+    {
+        int length = str?.Length ?? 0;
+        Console.WriteLine($"Length: {length}");
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            DisplayLength(null); // Output: Length: 0
+            DisplayLength("Hello"); // Output: Length: 5
+        }
+    }
+    </code></pre>
+    
+    <h2>6. Key Points</h2>
+    <ul>
+        <li><strong>Nullable Value Types</strong> are value types that can hold <code>null</code> by using <code>?</code>.</li>
+        <li><strong>Nullable Reference Types</strong> are reference types that can be explicitly declared as nullable with <code>?</code> starting from C# 8.0.</li>
+        <li><strong>Use <code>HasValue</code> and <code>??</code></strong> to handle nullable types safely and provide default values.</li>
+        <li><strong>Enable nullable reference types</strong> to improve code safety and avoid null reference exceptions.</li>
+    </ul>
+</body>
+</html>

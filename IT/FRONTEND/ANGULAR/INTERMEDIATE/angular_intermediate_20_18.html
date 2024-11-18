@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Intermediate Level Questions Part 18</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .question { margin: 20px 0; }
+        .answer { margin-left: 20px; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Angular Intermediate Level Questions - Part 18</h1>
+
+    <div id="questions">
+
+        <div class="question">
+            <h2>1. How do you use Angular's `HttpClient` to make HTTP GET requests?</h2>
+            <div class="answer">
+                <p>`HttpClient` is used to make HTTP GET requests and handle responses.</p>
+                <pre><code>
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+    selector: 'app-http-get',
+    template: `<p>Data: {{ data | json }}</p>`
+})
+export class HttpGetComponent implements OnInit {
+    data: any;
+
+    constructor(private http: HttpClient) {}
+
+    ngOnInit() {
+        this.http.get('https://api.example.com/data').subscribe(response => {
+            this.data = response;
+        });
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>2. How do you use Angular's `HttpClient` to make HTTP POST requests?</h2>
+            <div class="answer">
+                <p>`HttpClient` is used to make HTTP POST requests to send data to the server.</p>
+                <pre><code>
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-http-post',
+    template: `<button (click)="sendData()">Send Data</button>`
+})
+export class HttpPostComponent {
+    constructor(private http: HttpClient) {}
+
+    sendData() {
+        const payload = { key: 'value' };
+        this.http.post('https://api.example.com/submit', payload).subscribe(response => {
+            console.log('Response:', response);
+        });
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>3. How do you use Angular's `HttpClient` to handle query parameters?</h2>
+            <div class="answer">
+                <p>Query parameters can be handled using the `params` option in `HttpClient` methods.</p>
+                <pre><code>
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+    selector: 'app-http-params',
+    template: `<p>Data: {{ data | json }}</p>`
+})
+export class HttpParamsComponent implements OnInit {
+    data: any;
+
+    constructor(private http: HttpClient) {}
+
+    ngOnInit() {
+        let params = new HttpParams().set('param1', 'value1');
+        this.http.get('https://api.example.com/data', { params }).subscribe(response => {
+            this.data = response;
+        });
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>4. How do you use Angular's `HttpInterceptor` to add headers to HTTP requests?</h2>
+            <div class="answer">
+                <p>`HttpInterceptor` allows you to modify HTTP requests and responses globally.</p>
+                <pre><code>
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const authReq = req.clone({
+            setHeaders: { Authorization: 'Bearer token' }
+        });
+        return next.handle(authReq);
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>5. How do you use Angular's `HttpClient` to handle HTTP errors?</h2>
+            <div class="answer">
+                <p>Errors in HTTP requests can be handled using RxJS operators like `catchError`.</p>
+                <pre><code>
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+@Component({
+    selector: 'app-http-error',
+    template: `<p>Error: {{ errorMessage }}</p>`
+})
+export class HttpErrorComponent {
+    errorMessage: string = '';
+
+    constructor(private http: HttpClient) {}
+
+    makeRequest() {
+        this.http.get('https://api.example.com/data').pipe(
+            catchError(error => {
+                this.errorMessage = 'An error occurred!';
+                return of([]);
+            })
+        ).subscribe();
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>6. How do you use Angular's `NgForm` to handle form validation?</h2>
+            <div class="answer">
+                <p>`NgForm` provides form validation and status management.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+@Component({
+    selector: 'app-form-validation',
+    template: `
+        <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+            <input name="name" ngModel required>
+            <button type="submit" [disabled]="myForm.invalid">Submit</button>
+        </form>
+    `
+})
+export class FormValidationComponent {
+    onSubmit(form: NgForm) {
+        if (form.valid) {
+            console.log('Form Submitted!', form.value);
+        }
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>7. How do you use Angular's `FormBuilder` to create reactive forms?</h2>
+            <div class="answer">
+                <p>`FormBuilder` is used to create reactive forms with validators.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+    selector: 'app-reactive-form',
+    template: `
+        <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <input formControlName="name">
+            <button type="submit" [disabled]="myForm.invalid">Submit</button>
+        </form>
+    `
+})
+export class ReactiveFormComponent {
+    myForm: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.myForm = this.fb.group({
+            name: ['', Validators.required]
+        });
+    }
+
+    onSubmit() {
+        if (this.myForm.valid) {
+            console.log('Form Submitted!', this.myForm.value);
+        }
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>8. How do you use Angular's `FormControl` to handle form fields?</h2>
+            <div class="answer">
+                <p>`FormControl` is used to manage the value and validation of individual form fields.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
+
+@Component({
+    selector: 'app-form-control',
+    template: `
+        <input [formControl]="nameControl">
+        <p *ngIf="nameControl.invalid && (nameControl.dirty || nameControl.touched)">
+            Name is required
+        </p>
+    `
+})
+export class FormControlComponent {
+    nameControl = new FormControl('', Validators.required);
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>9. How do you use Angular's `FormArray` to handle dynamic form fields?</h2>
+            <div class="answer">
+                <p>`FormArray` allows you to manage an array of form controls or groups dynamically.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+
+@Component({
+    selector: 'app-form-array',
+    template: `
+        <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <div formArrayName="items">
+                <div *ngFor="let item of items.controls; let i = index">
+                    <input [formControlName]="i">
+                </div>
+            </div>
+            <button type="button" (click)="addItem()">Add Item</button>
+            <button type="submit" [disabled]="myForm.invalid">Submit</button>
+        </form>
+    `
+})
+export class FormArrayComponent {
+    myForm: FormGroup;
+
+    get items() {
+        return this.myForm.get('items') as FormArray;
+    }
+
+    constructor(private fb: FormBuilder) {
+        this.myForm = this.fb.group({
+            items: this.fb.array([this.fb.control('', Validators.required)])
+        });
+    }
+
+    addItem() {
+        this.items.push(this.fb.control('', Validators.required));
+    }
+
+    onSubmit() {
+        if (this.myForm.valid) {
+            console.log('Form Submitted!', this.myForm.value);
+        }
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>10. How do you use Angular's `ngFor` directive to iterate over a list of items?</h2>
+            <div class="answer">
+                <p>`ngFor` is used to iterate over a list and render a template for each item.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-for',
+    template: `
+        <ul>
+            <li *ngFor="let item of items">{{ item }}</li>
+        </ul>
+    `
+})
+export class NgForComponent {
+    items = ['Item 1', 'Item 2', 'Item 3'];
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>11. How do you use Angular's `ngIf` directive to conditionally render elements?</h2>
+            <div class="answer">
+                <p>`ngIf` is used to conditionally include or exclude elements from the DOM.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-if',
+    template: `
+        <div *ngIf="isVisible">Visible content</div>
+        <button (click)="toggleVisibility()">Toggle Visibility</button>
+    `
+})
+export class NgIfComponent {
+    isVisible = true;
+
+    toggleVisibility() {
+        this.isVisible = !this.isVisible;
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>12. How do you use Angular's `ngSwitch` directive to conditionally render elements?</h2>
+            <div class="answer">
+                <p>`ngSwitch` is used to conditionally include or exclude elements based on a switch expression.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-switch',
+    template: `
+        <div [ngSwitch]="selectedOption">
+            <div *ngSwitchCase="'option1'">Option 1 content</div>
+            <div *ngSwitchCase="'option2'">Option 2 content</div>
+            <div *ngSwitchDefault>Default content</div>
+        </div>
+        <button (click)="selectOption('option1')">Select Option 1</button>
+        <button (click)="selectOption('option2')">Select Option 2</button>
+    `
+})
+export class NgSwitchComponent {
+    selectedOption = 'option1';
+
+    selectOption(option: string) {
+        this.selectedOption = option;
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>13. How do you use Angular's `ngClass` directive to conditionally apply CSS classes?</h2>
+            <div class="answer">
+                <p>`ngClass` allows you to conditionally apply CSS classes to elements based on an expression.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-class',
+    template: `
+        <div [ngClass]="{ 'active': isActive, 'inactive': !isActive }">Content</div>
+        <button (click)="toggleStatus()">Toggle Status</button>
+    `,
+    styles: [`
+        .active { color: green; }
+        .inactive { color: red; }
+    `]
+})
+export class NgClassComponent {
+    isActive = true;
+
+    toggleStatus() {
+        this.isActive = !this.isActive;
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>14. How do you use Angular's `ngStyle` directive to conditionally apply inline styles?</h2>
+            <div class="answer">
+                <p>`ngStyle` allows you to conditionally apply inline styles to elements based on an expression.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-style',
+    template: `
+        <div [ngStyle]="{ 'color': isActive ? 'green' : 'red' }">Styled Content</div>
+        <button (click)="toggleStatus()">Toggle Status</button>
+    `
+})
+export class NgStyleComponent {
+    isActive = true;
+
+    toggleStatus() {
+        this.isActive = !this.isActive;
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>15. How do you use Angular's `ng-container` to group elements without adding extra DOM nodes?</h2>
+            <div class="answer">
+                <p>`ng-container` is used to group elements and apply structural directives without adding extra DOM nodes.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-container',
+    template: `
+        <ng-container *ngIf="isVisible">
+            <p>Visible Content 1</p>
+            <p>Visible Content 2</p>
+        </ng-container>
+    `
+})
+export class NgContainerComponent {
+    isVisible = true;
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>16. How do you use Angular's `ngModel` to two-way bind data?</h2>
+            <div class="answer">
+                <p>`ngModel` provides two-way data binding between the view and the component.</p>
+                <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-model',
+    template: `
+        <input [(ngModel)]="data">
+        <p>Data: {{ data }}</p>
+    `
+})
+export class NgModelComponent {
+    data = 'Initial value';
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>17. How do you use Angular's `@ViewChild` to access child components or DOM elements?</h2>
+            <div class="answer">
+                <p>`@ViewChild` allows you to access child components or DOM elements directly from the parent component.</p>
+                <pre><code>
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+
+@Component({
+    selector: 'app-view-child',
+    template: `
+        <div #myDiv>Content</div>
+        <button (click)="changeContent()">Change Content</button>
+    `
+})
+export class ViewChildComponent implements AfterViewInit {
+    @ViewChild('myDiv') myDiv!: ElementRef;
+
+    ngAfterViewInit() {
+        console.log(this.myDiv.nativeElement.textContent);
+    }
+
+    changeContent() {
+        this.myDiv.nativeElement.textContent = 'New Content';
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>18. How do you use Angular's `@ContentChild` to access projected content?</h2>
+            <div class="answer">
+                <p>`@ContentChild` allows you to access projected content inside a component.</p>
+                <pre><code>
+import { Component, ContentChild, AfterContentInit, ElementRef } from '@angular/core';
+
+@Component({
+    selector: 'app-content-child',
+    template: `<ng-content></ng-content>`
+})
+export class ContentChildComponent implements AfterContentInit {
+    @ContentChild('projectedContent') projectedContent!: ElementRef;
+
+    ngAfterContentInit() {
+        console.log(this.projectedContent.nativeElement.textContent);
+    }
+}
+
+@Component({
+    selector: 'app-root',
+    template: `
+        <app-content-child>
+            <div #projectedContent>Projected Content</div>
+        </app-content-child>
+    `
+})
+export class AppComponent {}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>19. How do you use Angular's `@HostListener` to listen to DOM events?</h2>
+            <div class="answer">
+                <p>`@HostListener` is used to listen to DOM events on the host element of the directive or component.</p>
+                <pre><code>
+import { Directive, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appHostListener]'
+})
+export class HostListenerDirective {
+    @HostListener('click', ['$event'])
+    onClick(event: Event) {
+        console.log('Host element clicked', event);
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>20. How do you use Angular's `@Input` and `@Output` decorators together to pass data between components?</h2>
+            <div class="answer">
+                <p>`@Input` is used to pass data to a child component, while `@Output` is used to emit events from the child component.</p>
+                <pre><code>
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+    selector: 'app-child',
+    template: `
+        <button (click)="notifyParent()">Notify Parent</button>
+    `
+})
+export class ChildComponent {
+    @Input() data: string = '';
+    @Output() notify: EventEmitter<void> = new EventEmitter<void>();
+
+    notifyParent() {
+        this.notify.emit();
+    }
+}
+
+@Component({
+    selector: 'app-parent',
+    template: `
+        <app-child [data]="parentData" (notify)="handleNotification()"></app-child>
+        <p>Received Data: {{ receivedData }}</p>
+    `
+})
+export class ParentComponent {
+    parentData = 'Data from parent';
+    receivedData = '';
+
+    handleNotification() {
+        this.receivedData = 'Notification received from child!';
+    }
+}
+                </code></pre>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

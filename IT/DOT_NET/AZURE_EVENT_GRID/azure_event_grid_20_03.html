@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Event Grid Q&A - Part 03</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #0078d4;
+        }
+        h2 {
+            color: #0078d4;
+            font-size: 1.5em;
+        }
+        .qa {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .question {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Azure Event Grid Q&A - Part 03</h1>
+
+<div class="qa">
+    <h2 class="question">1. What is the pricing model for Azure Event Grid?</h2>
+    <p>Azure Event Grid pricing is based on the number of operations, including event publishing and management operations, with a pay-as-you-go model.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">2. How can you filter events in Azure Event Grid?</h2>
+    <p>Event filtering can be done based on event types, subject begins/ends with, and custom attributes specified in the event schema.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">3. Can Azure Event Grid send events to multiple endpoints simultaneously?</h2>
+    <p>No, Azure Event Grid sends events to one endpoint per event subscription. However, you can create multiple subscriptions to the same source to send to different endpoints.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">4. What is the role of the Event Grid schema?</h2>
+    <p>The Event Grid schema defines the structure of events published to Event Grid, including standard properties like event type, subject, and data.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">5. How do you handle failed event deliveries in Azure Event Grid?</h2>
+    <p>Failed deliveries can be handled using retries and by configuring dead-letter destinations where undeliverable events can be sent for further analysis.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">6. What kind of events can be published to Azure Event Grid?</h2>
+    <p>Events can be published from Azure services like Blob Storage, Resource Manager, and custom applications, covering a wide range of scenarios.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">7. Can you use Azure Event Grid with serverless architectures?</h2>
+    <p>Yes, Azure Event Grid works seamlessly with serverless architectures, integrating well with Azure Functions and Logic Apps for event-driven processing.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">8. What happens to events if the endpoint is unavailable?</h2>
+    <p>If the endpoint is unavailable, Azure Event Grid will retry delivery for a specified period, and if still unsuccessful, the event may be sent to a dead-letter destination.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">9. Can Azure Event Grid support custom events?</h2>
+    <p>Yes, Azure Event Grid supports custom events, allowing applications to publish and subscribe to their own defined events.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">10. What is a custom topic in Azure Event Grid?</h2>
+    <p>A custom topic is a user-defined topic where you can publish events, separate from the system topics that Azure services use.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">11. How do you create an event subscription in Azure Event Grid?</h2>
+    <p>An event subscription can be created using the Azure portal, Azure CLI, or REST API by specifying the event source and endpoint for delivery.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">12. Can Azure Event Grid deliver events to on-premises applications?</h2>
+    <p>Yes, events can be delivered to on-premises applications by using a hybrid connection or a publicly accessible endpoint with appropriate authentication.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">13. How can Azure Event Grid be monitored?</h2>
+    <p>Monitoring can be done using Azure Monitor, enabling metrics, logs, and alerts to track event delivery, failures, and performance.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">14. Can you configure a retry policy for Azure Event Grid?</h2>
+    <p>Yes, Azure Event Grid has a built-in retry policy that automatically retries delivery for up to 24 hours before considering the event undeliverable.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">15. What is the difference between an event subscription and an event handler?</h2>
+    <p>An event subscription defines how events are routed to a destination, while an event handler is the application or service that processes the received events.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">16. How do you delete a topic in Azure Event Grid?</h2>
+    <p>A topic can be deleted through the Azure portal, Azure CLI, or REST API by specifying the topic's name and the resource group it belongs to.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">17. What authentication methods can be used with Azure Event Grid?</h2>
+    <p>Authentication methods include Azure Active Directory, managed identities, and shared access signatures (SAS) for securing event delivery.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">18. Can Azure Event Grid be used in multi-cloud environments?</h2>
+    <p>While Azure Event Grid is primarily an Azure service, it can integrate with applications in other clouds via webhooks and APIs, enabling multi-cloud scenarios.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">19. How do you validate event delivery in Azure Event Grid?</h2>
+    <p>Validation can be done by monitoring delivery status through Azure Monitor or by implementing logging in the endpoint to confirm receipt of events.</p>
+</div>
+
+<div class="qa">
+    <h2 class="question">20. What is the role of the Azure SDK in using Event Grid?</h2>
+    <p>The Azure SDK provides libraries and tools to simplify interaction with Azure Event Grid, making it easier to publish events, create subscriptions, and manage resources programmatically.</p>
+</div>
+
+</body>
+</html>

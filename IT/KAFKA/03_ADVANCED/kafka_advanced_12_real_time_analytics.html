@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Kafka Real-Time Analytics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        pre {
+            background: #eee;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            background: #f9f9f9;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .example-code {
+            background: #282c34;
+            color: #61dafb;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Advanced Kafka Real-Time Analytics</h1>
+    </header>
+
+    <div class="container">
+        <section class="section">
+            <h2>Introduction to Kafka for Real-Time Analytics</h2>
+            <p>
+                Apache Kafka is a distributed event streaming platform capable of handling real-time data feeds. Kafka is widely used for building real-time data pipelines and streaming applications. It provides high throughput, low latency, and fault tolerance, making it ideal for real-time analytics.
+            </p>
+            <p>
+                Real-time analytics with Kafka involves processing and analyzing data as it arrives. Kafka can be integrated with various processing frameworks such as Kafka Streams and Apache Flink to perform complex analytics.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>Setting Up Kafka for Real-Time Analytics</h2>
+            <p>
+                Before diving into advanced analytics, ensure Kafka is correctly set up. Below are the basic steps to set up Kafka:
+            </p>
+            <ol>
+                <li>Download and install Apache Kafka from the official website.</li>
+                <li>Start Zookeeper, which Kafka relies on for cluster management.</li>
+                <li>Start the Kafka broker.</li>
+                <li>Create topics for your data streams.</li>
+            </ol>
+            <p>Here's a basic setup configuration:</p>
+            <pre><code>
+# server.properties - Kafka Broker Configuration
+broker.id=0
+listeners=PLAINTEXT://localhost:9092
+log.dirs=/tmp/kafka-logs
+zookeeper.connect=localhost:2181
+            </code></pre>
+        </section>
+
+        <section class="section">
+            <h2>Advanced Kafka Concepts</h2>
+            <p>
+                Understanding advanced Kafka concepts is crucial for optimizing real-time analytics. Some of these concepts include:
+            </p>
+            <ul>
+                <li><strong>Partitioning:</strong> Kafka topics are divided into partitions to parallelize data processing and increase throughput.</li>
+                <li><strong>Replication:</strong> Kafka replicates data across multiple brokers to ensure durability and high availability.</li>
+                <li><strong>Offset Management:</strong> Kafka tracks the position of each consumer in the topic using offsets, allowing for efficient data retrieval.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Real-Time Analytics with Kafka Streams</h2>
+            <p>
+                Kafka Streams is a client library for building applications and microservices that process and analyze data stored in Kafka topics. It provides a high-level DSL for writing streaming applications.
+            </p>
+            <p>
+                To get started with Kafka Streams, include the following dependency in your Maven project:
+            </p>
+            <pre><code>
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.kafka&lt;/groupId&gt;
+    &lt;artifactId&gt;kafka-streams&lt;/artifactId&gt;
+    &lt;version&gt;3.1.0&lt;/version&gt;
+&lt;/dependency&gt;
+            </code></pre>
+            <p>Here's an example of a Kafka Streams application that counts the number of occurrences of each word:</p>
+            <div class="example-code">
+<pre><code>
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KTable;
+import org.apache.kafka.streams.kstream.Materialized;
+import org.apache.kafka.streams.kstream.Produced;
+import org.apache.kafka.streams.state.Stores;
+
+public class WordCountApp {
+    public static void main(String[] args) {
+        StreamsBuilder builder = new StreamsBuilder();
+
+        KStream<String, String> textLines = builder.stream("text-input");
+
+        KTable<String, Long> wordCounts = textLines
+            .flatMapValues(textLine -> Arrays.asList(textLine.toLowerCase().split("\\W+")))
+            .groupBy((key, word) -> word)
+            .count(Materialized.as("counts-store"));
+
+        wordCounts.toStream().to("word-count-output", Produced.with(Serdes.String(), Serdes.Long()));
+
+        KafkaStreams streams = new KafkaStreams(builder.build(), getStreamsConfig());
+        streams.start();
+    }
+
+    private static Properties getStreamsConfig() {
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "wordcount-app");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        return props;
+    }
+}
+</code></pre>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Example Code for Real-Time Analytics</h2>
+            <p>
+                Below is an example of a Kafka producer and consumer in Java. The producer sends messages to a Kafka topic, and the consumer reads messages from that topic and performs some processing.
+            </p>
+            <div class="example-code">
+<pre><code>
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.common.serialization.StringSerializer;
+
+import java.util.Properties;
+import java.util.concurrent.Future;
+
+public class KafkaProducerExample {
+    public static void main(String[] args) throws Exception {
+        Properties props = new Properties();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+        KafkaProducer<String, String> producer = new KafkaProducer<>(props);
+
+        ProducerRecord<String, String> record = new ProducerRecord<>("test-topic", "key", "value");
+        Future<RecordMetadata> future = producer.send(record);
+        RecordMetadata metadata = future.get();
+
+        System.out.printf("Record sent to partition %d with offset %d%n", metadata.partition(), metadata.offset());
+        producer.close();
+    }
+}
+</code></pre>
+            </div>
+            <div class="example-code">
+<pre><code>
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.StringDeserializer;
+
+import java.util.Collections;
+import java.util.Properties;
+
+public class KafkaConsumerExample {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "test-group");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+        consumer.subscribe(Collections.singletonList("test-topic"));
+
+        while (true) {
+            for (ConsumerRecord<String, String> record : consumer.poll(100).records("test-topic")) {
+                System.out.printf("Consumed record with key %s and value %s%n", record.key(), record.value());
+            }
+        }
+    }
+}
+</code></pre>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

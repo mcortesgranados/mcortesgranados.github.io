@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas sobre Problemas de Concurrencia</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        pre {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preguntas sobre Problemas de Concurrencia y Soluciones</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1. ¿Qué es una condición de carrera y cómo se puede evitar?</td>
+                <td>Una condición de carrera ocurre cuando dos o más hilos intentan acceder y modificar datos compartidos simultáneamente sin sincronización adecuada. Se puede evitar utilizando mecanismos de sincronización como `synchronized` en Java, `Lock` en Python, `lock` en C#, o `async-mutex` en TypeScript.</td>
+            </tr>
+            <tr>
+                <td>2. ¿Cómo se maneja la sincronización en Java?</td>
+                <td>
+                    <pre><code>public class SyncExample {
+    private int count = 0;
+
+    public synchronized void increment() {
+        count++;
+    }
+
+    public int getCount() {
+        return count;
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>3. ¿Cómo se maneja la sincronización en Python?</td>
+                <td>
+                    <pre><code>import threading
+
+count = 0
+lock = threading.Lock()
+
+def increment():
+    global count
+    with lock:
+        count += 1</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>4. ¿Cómo se maneja la sincronización en C#?</td>
+                <td>
+                    <pre><code>public class SyncExample {
+    private int count = 0;
+    private readonly object lockObject = new object();
+
+    public void Increment() {
+        lock (lockObject) {
+            count++;
+        }
+    }
+
+    public int GetCount() {
+        return count;
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>5. ¿Cómo se maneja la sincronización en TypeScript?</td>
+                <td>
+                    <pre><code>import { Mutex } from 'async-mutex';
+
+const mutex = new Mutex();
+let count = 0;
+
+async function increment() {
+    const release = await mutex.acquire();
+    try {
+        count++;
+    } finally {
+        release();
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>6. ¿Qué es un "deadlock" y cómo se puede evitar?</td>
+                <td>Un deadlock ocurre cuando dos o más hilos están bloqueados esperando unos a otros, creando un ciclo de espera. Se puede evitar asegurando que todos los hilos adquieran los recursos en el mismo orden o utilizando técnicas de detección y recuperación.</td>
+            </tr>
+            <tr>
+                <td>7. ¿Cómo se evita un deadlock en Java?</td>
+                <td>
+                    <pre><code>public class DeadlockPrevention {
+    private final Object lock1 = new Object();
+    private final Object lock2 = new Object();
+
+    public void method1() {
+        synchronized (lock1) {
+            synchronized (lock2) {
+                // Critical section
+            }
+        }
+    }
+
+    public void method2() {
+        synchronized (lock2) {
+            synchronized (lock1) {
+                // Critical section
+            }
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>8. ¿Cómo se evita un deadlock en Python?</td>
+                <td>
+                    <pre><code>import threading
+
+lock1 = threading.Lock()
+lock2 = threading.Lock()
+
+def method1():
+    with lock1:
+        with lock2:
+            # Critical section
+
+def method2():
+    with lock2:
+        with lock1:
+            # Critical section</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>9. ¿Cómo se evita un deadlock en C#?</td>
+                <td>
+                    <pre><code>public class DeadlockPrevention {
+    private readonly object lock1 = new object();
+    private readonly object lock2 = new object();
+
+    public void Method1() {
+        lock (lock1) {
+            lock (lock2) {
+                // Critical section
+            }
+        }
+    }
+
+    public void Method2() {
+        lock (lock2) {
+            lock (lock1) {
+                // Critical section
+            }
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>10. ¿Cómo se evita un deadlock en TypeScript?</td>
+                <td>En TypeScript, se puede evitar el deadlock mediante la correcta gestión de las promesas y el uso de mecanismos de sincronización como `async-mutex` para prevenir bloqueos mutuos.</td>
+            </tr>
+            <tr>
+                <td>11. ¿Qué es un "livelock" y cómo se puede evitar?</td>
+                <td>Un livelock es una situación en la que dos o más hilos están constantemente cambiando de estado en respuesta a las acciones del otro, sin que se realice ningún progreso. Se puede evitar usando técnicas como el backoff y retry.</td>
+            </tr>
+            <tr>
+                <td>12. ¿Cómo se evita el livelock en Java?</td>
+                <td>
+                    <pre><code>public class LivelockPrevention {
+    private final Object lock1 = new Object();
+    private final Object lock2 = new Object();
+
+    public void method1() {
+        while (true) {
+            synchronized (lock1) {
+                if (tryLock(lock2)) {
+                    try {
+                        // Critical section
+                    } finally {
+                        unlock(lock2);
+                    }
+                    return;
+                }
+            }
+            // Backoff and retry
+        }
+    }
+
+    public void method2() {
+        while (true) {
+            synchronized (lock2) {
+                if (tryLock(lock1)) {
+                    try {
+                        // Critical section
+                    } finally {
+                        unlock(lock1);
+                    }
+                    return;
+                }
+            }
+            // Backoff and retry
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>13. ¿Cómo se evita el livelock en Python?</td>
+                <td>
+                    <pre><code>import threading
+
+lock1 = threading.Lock()
+lock2 = threading.Lock()
+
+def method1():
+    while True:
+        with lock1:
+            if lock2.acquire(blocking=False):
+                try:
+                    # Critical section
+                finally:
+                    lock2.release()
+                return
+        # Backoff and retry
+
+def method2():
+    while True:
+        with lock2:
+            if lock1.acquire(blocking=False):
+                try:
+                    # Critical section
+                finally:
+                    lock1.release()
+                return
+        # Backoff and retry</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>14. ¿Cómo se evita el livelock en C#?</td>
+                <td>
+                    <pre><code>public class LivelockPrevention {
+    private readonly object lock1 = new object();
+    private readonly object lock2 = new object();
+
+    public void Method1() {
+        while (true) {
+            lock (lock1) {
+                if (Monitor.TryEnter(lock2)) {
+                    try {
+                        // Critical section
+                    } finally {
+                        Monitor.Exit(lock2);
+                    }
+                    return;
+                }
+            }
+            // Backoff and retry
+        }
+    }
+
+    public void Method2() {
+        while (true) {
+            lock (lock2) {
+                if (Monitor.TryEnter(lock1)) {
+                    try {
+                        // Critical section
+                    } finally {
+                        Monitor.Exit(lock1);
+                    }
+                    return;
+                }
+            }
+            // Backoff and retry
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>15. ¿Cómo se evita el livelock en TypeScript?</td>
+                <td>En TypeScript, se evita el livelock mediante una adecuada gestión de las promesas y evitando que los recursos sean accedidos de manera que causen interferencias mutuas.</td>
+            </tr>
+            <tr>
+                <td>16. ¿Qué es la contención de bloqueo y cómo se puede minimizar?</td>
+                <td>La contención de bloqueo ocurre cuando varios hilos están compitiendo por el mismo recurso bloqueado, lo que puede afectar el rendimiento. Se puede minimizar utilizando bloqueos de granularidad más fina o mecanismos de sincronización más eficientes.</td>
+            </tr>
+            <tr>
+                <td>17. ¿Cómo se minimiza la contención de bloqueo en Java?</td>
+                <td>
+                    <pre><code>public class ContentionExample {
+    private final ReentrantLock lock = new ReentrantLock();
+
+    public void method() {
+        lock.lock();
+        try {
+            // Critical section
+        } finally {
+            lock.unlock();
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>18. ¿Cómo se minimiza la contención de bloqueo en Python?</td>
+                <td>
+                    <pre><code>import threading
+
+lock = threading.Lock()
+
+def method():
+    with lock:
+        # Critical section</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>19. ¿Cómo se minimiza la contención de bloqueo en C#?</td>
+                <td>
+                    <pre><code>public class ContentionExample {
+    private readonly object lockObject = new object();
+
+    public void Method() {
+        lock (lockObject) {
+            // Critical section
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>20. ¿Cómo se minimiza la contención de bloqueo en TypeScript?</td>
+                <td>
+                    <pre><code>import { Mutex } from 'async-mutex';
+
+const mutex = new Mutex();
+
+async function method() {
+    const release = await mutex.acquire();
+    try {
+        // Critical section
+    } finally {
+        release();
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>21. ¿Qué es la "starvation" y cómo se puede evitar?</td>
+                <td>La starvation ocurre cuando un hilo no puede acceder a los recursos debido a que otros hilos están utilizando los recursos constantemente. Se puede evitar implementando políticas de asignación de recursos justas.</td>
+            </tr>
+            <tr>
+                <td>22. ¿Cómo se evita la starvation en Java?</td>
+                <td>
+                    <pre><code>public class StarvationPrevention {
+    private final Semaphore semaphore = new Semaphore(1);
+
+    public void method() {
+        try {
+            semaphore.acquire();
+            // Critical section
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            semaphore.release();
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>23. ¿Cómo se evita la starvation en Python?</td>
+                <td>
+                    <pre><code>import threading
+
+semaphore = threading.Semaphore(1)
+
+def method():
+    with semaphore:
+        # Critical section</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>24. ¿Cómo se evita la starvation en C#?</td>
+                <td>
+                    <pre><code>public class StarvationPrevention {
+    private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1);
+
+    public async Task Method() {
+        await semaphore.WaitAsync();
+        try {
+            // Critical section
+        } finally {
+            semaphore.Release();
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>25. ¿Cómo se evita la starvation en TypeScript?</td>
+                <td>
+                    <pre><code>import { Mutex } from 'async-mutex';
+
+const mutex = new Mutex();
+
+async function method() {
+    const release = await mutex.acquire();
+    try {
+        // Critical section
+    } finally {
+        release();
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>26. ¿Qué es la "inversión de prioridades" y cómo se puede evitar?</td>
+                <td>La inversión de prioridades ocurre cuando un hilo de alta prioridad se bloquea esperando a que un hilo de baja prioridad libere un recurso. Se puede evitar mediante técnicas de herencia de prioridad y políticas adecuadas de gestión de hilos.</td>
+            </tr>
+            <tr>
+                <td>27. ¿Cómo se evita la inversión de prioridades en Java?</td>
+                <td>
+                    <pre><code>public class PriorityInversionPrevention {
+    private final Object lock = new Object();
+
+    public void method() {
+        synchronized (lock) {
+            // Critical section
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>28. ¿Cómo se evita la inversión de prioridades en Python?</td>
+                <td>
+                    <pre><code>import threading
+
+lock = threading.Lock()
+
+def method():
+    with lock:
+        # Critical section</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>29. ¿Cómo se evita la inversión de prioridades en C#?</td>
+                <td>
+                    <pre><code>public class PriorityInversionPrevention {
+    private readonly object lockObject = new object();
+
+    public void Method() {
+        lock (lockObject) {
+            // Critical section
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>30. ¿Cómo se evita la inversión de prioridades en TypeScript?</td>
+                <td>En TypeScript, se puede evitar la inversión de prioridades mediante el uso adecuado de promesas y mecanismos de sincronización que eviten bloqueos prolongados.</td>
+            </tr>
+            <tr>
+                <td>31. ¿Qué son las "notificaciones de condiciones" y cómo se utilizan?</td>
+                <td>Las notificaciones de condiciones permiten a un hilo esperar a que se cumpla una condición específica antes de continuar. Se utilizan para coordinar el acceso a recursos compartidos entre múltiples hilos.</td>
+            </tr>
+            <tr>
+                <td>32. ¿Cómo se implementan notificaciones de condiciones en Java?</td>
+                <td>
+                    <pre><code>public class ConditionExample {
+    private final Object lock = new Object();
+    private boolean condition = false;
+
+    public void awaitCondition() throws InterruptedException {
+        synchronized (lock) {
+            while (!condition) {
+                lock.wait();
+            }
+        }
+    }
+
+    public void signalCondition() {
+        synchronized (lock) {
+            condition = true;
+            lock.notify();
+        }
+
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>33. ¿Cómo se implementan notificaciones de condiciones en Python?</td>
+                <td>
+                    <pre><code>import threading
+
+condition = threading.Condition()
+condition_met = False
+
+def await_condition():
+    global condition_met
+    with condition:
+        while not condition_met:
+            condition.wait()
+
+def signal_condition():
+    global condition_met
+    with condition:
+        condition_met = True
+        condition.notify()</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>34. ¿Cómo se implementan notificaciones de condiciones en C#?</td>
+                <td>
+                    <pre><code>public class ConditionExample {
+    private readonly object lockObject = new object();
+    private bool condition = false;
+    private readonly ManualResetEvent conditionEvent = new ManualResetEvent(false);
+
+    public void AwaitCondition() {
+        lock (lockObject) {
+            while (!condition) {
+                Monitor.Wait(lockObject);
+            }
+        }
+    }
+
+    public void SignalCondition() {
+        lock (lockObject) {
+            condition = true;
+            Monitor.Pulse(lockObject);
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>35. ¿Cómo se implementan notificaciones de condiciones en TypeScript?</td>
+                <td>En TypeScript, las notificaciones de condiciones se manejan mediante promesas y mecanismos asíncronos como `Promise` y `async/await`.</td>
+            </tr>
+            <tr>
+                <td>36. ¿Qué es el "context switching" y cómo afecta al rendimiento?</td>
+                <td>El context switching ocurre cuando el sistema operativo cambia de un hilo a otro. Esto puede afectar al rendimiento si se realiza con demasiada frecuencia, ya que consume recursos y tiempo de CPU.</td>
+            </tr>
+            <tr>
+                <td>37. ¿Cómo se minimiza el impacto del context switching en Java?</td>
+                <td>En Java, se puede minimizar el impacto reduciendo la cantidad de hilos activos y optimizando el uso de recursos compartidos para evitar bloqueos innecesarios.</td>
+            </tr>
+            <tr>
+                <td>38. ¿Cómo se minimiza el impacto del context switching en Python?</td>
+                <td>En Python, se puede minimizar el impacto limitando el uso de hilos y utilizando técnicas de programación asíncrona como `asyncio` para mejorar la eficiencia.</td>
+            </tr>
+            <tr>
+                <td>39. ¿Cómo se minimiza el impacto del context switching en C#?</td>
+                <td>En C#, se puede minimizar el impacto optimizando la sincronización y utilizando técnicas como el `Task Parallel Library` (TPL) para gestionar hilos de manera más eficiente.</td>
+            </tr>
+            <tr>
+                <td>40. ¿Cómo se minimiza el impacto del context switching en TypeScript?</td>
+                <td>En TypeScript, se puede minimizar el impacto usando técnicas de programación asíncrona como `Promise` y `async/await` para reducir la necesidad de context switching.</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

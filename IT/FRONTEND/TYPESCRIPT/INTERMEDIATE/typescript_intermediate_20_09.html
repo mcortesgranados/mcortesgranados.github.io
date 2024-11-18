@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Intermediate Level Questions and Answers - Part 9</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Intermediate Level Questions and Answers - Part 9</h1>
+
+    <h2>1. How do you use <code>Partial</code> to make all properties of a type optional?</h2>
+    <p>The <code>Partial</code> utility type makes all properties of a type optional.</p>
+    <pre><code>interface Person {
+    name: string;
+    age: number;
+}
+
+const updatePerson = (person: Person, updates: Partial<Person>): Person => {
+    return { ...person, ...updates };
+};
+
+const person = { name: "Alice", age: 30 };
+const updatedPerson = updatePerson(person, { age: 31 });
+
+console.log(updatedPerson); // { name: 'Alice', age: 31 }</code></pre>
+
+    <h2>2. How do you use <code>Required</code> to make all properties of a type required?</h2>
+    <p>The <code>Required</code> utility type makes all properties of a type required.</p>
+    <pre><code>interface Person {
+    name?: string;
+    age?: number;
+}
+
+const person: Required<Person> = { name: "Alice", age: 30 };
+
+console.log(person); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>3. How do you use <code>ReadonlyArray</code> to create an immutable array?</h2>
+    <p>The <code>ReadonlyArray</code> utility type creates an array where the elements cannot be modified.</p>
+    <pre><code>const numbers: ReadonlyArray<number> = [1, 2, 3];
+
+// numbers.push(4); // Error: Property 'push' does not exist on type 'ReadonlyArray<number>'
+
+console.log(numbers); // [1, 2, 3]</code></pre>
+
+    <h2>4. How do you use <code>Constructor Signature</code> to define a constructor in a type?</h2>
+    <p>A constructor signature defines the types of constructor parameters and the instance type.</p>
+    <pre><code>interface PersonConstructor {
+    new(name: string, age: number): Person;
+}
+
+class Person {
+    constructor(public name: string, public age: number) {}
+}
+
+const createPerson = (ctor: PersonConstructor, name: string, age: number) => {
+    return new ctor(name, age);
+};
+
+const person = createPerson(Person, "Alice", 30);
+
+console.log(person); // Person { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>5. How do you use <code>this</code> in method declarations within a class?</h2>
+    <p>The <code>this</code> keyword refers to the current instance of a class in method declarations.</p>
+    <pre><code>class Greeter {
+    constructor(public greeting: string) {}
+
+    greet() {
+        return `Hello, ${this.greeting}`;
+    }
+}
+
+const greeter = new Greeter("world");
+console.log(greeter.greet()); // Hello, world</code></pre>
+
+    <h2>6. How do you use <code>type</code> to create a mapped type?</h2>
+    <p>Mapped types allow you to create new types by transforming properties of an existing type.</p>
+    <pre><code>type ReadOnlyPerson = {
+    readonly [K in keyof Person]: Person[K];
+};
+
+const person: ReadOnlyPerson = { name: "Alice", age: 30 };
+
+// person.age = 31; // Error: Cannot assign to 'age' because it is a read-only property
+
+console.log(person); // { name: 'Alice', age: 30 }</code></pre>
+
+    <h2>7. How do you use <code>keyof</code> to create a union type of keys of an object?</h2>
+    <p>The <code>keyof</code> operator creates a union type of all property names of an object type.</p>
+    <pre><code>interface Car {
+    make: string;
+    model: string;
+    year: number;
+}
+
+type CarKeys = keyof Car; // "make" | "model" | "year"
+
+const key: CarKeys = "model";
+console.log(key); // model</code></pre>
+
+    <h2>8. How do you use <code>in</code> operator for type checking within a custom type guard?</h2>
+    <p>The <code>in</code> operator can be used in custom type guards to check for the existence of a property.</p>
+    <pre><code>interface Cat {
+    meow(): void;
+}
+
+interface Dog {
+    bark(): void;
+}
+
+function isDog(animal: Cat | Dog): animal is Dog {
+    return "bark" in animal;
+}
+
+const animal: Cat | Dog = { bark: () => console.log("Woof!") };
+
+if (isDog(animal)) {
+    animal.bark(); // Woof!
+} else {
+    // Handle Cat
+}</code></pre>
+
+    <h2>9. How do you use <code>never</code> to represent values that should never occur?</h2>
+    <p>The <code>never</code> type represents values that will never occur, such as the result of a function that always throws an error.</p>
+    <pre><code>function throwError(message: string): never {
+    throw new Error(message);
+}
+
+const result: never = throwError("Something went wrong"); // Error: 'never' type not assignable
+
+console.log(result); // This line will not be reached</code></pre>
+
+    <h2>10. How do you use <code>tuple</code> types to represent fixed-length arrays with different types?</h2>
+    <p>Tuple types represent arrays with a fixed length and different types for each element.</p>
+    <pre><code>type User = [string, number];
+
+const user: User = ["Alice", 30];
+
+console.log(user); // ['Alice', 30]</code></pre>
+
+    <h2>11. How do you use <code>function overloads</code> to define multiple function signatures?</h2>
+    <p>Function overloads allow you to define multiple signatures for a single function.</p>
+    <pre><code>function greet(person: string): string;
+function greet(person: string, age: number): string;
+
+function greet(person: string, age?: number): string {
+    return age ? `Hello, ${person}. You are ${age} years old.` : `Hello, ${person}.`;
+}
+
+console.log(greet("Alice"));         // Hello, Alice.
+console.log(greet("Alice", 30));     // Hello, Alice. You are 30 years old.</code></pre>
+
+    <h2>12. How do you use <code>assertion functions</code> to assert types in TypeScript?</h2>
+    <p>Assertion functions are used to tell TypeScript about the type of a value.</p>
+    <pre><code>function assertIsString(value: any): asserts value is string {
+    if (typeof value !== "string") {
+        throw new Error("Not a string");
+    }
+}
+
+const value: any = "Hello";
+assertIsString(value);
+console.log(value.length); // 5</code></pre>
+
+    <h2>13. How do you use <code>template literal types</code> to create types based on string templates?</h2>
+    <p>Template literal types create new string types based on string templates.</p>
+    <pre><code>type Greeting = `Hello, ${string}`;
+
+const greet: Greeting = "Hello, world";
+console.log(greet); // Hello, world</code></pre>
+
+    <h2>14. How do you use <code>keyof</code> with index signatures to create a union of property names?</h2>
+    <p>Index signatures allow you to define object types with dynamic property names.</p>
+    <pre><code>interface Dictionary {
+    [key: string]: number;
+}
+
+type DictionaryKeys = keyof Dictionary; // string
+
+const key: DictionaryKeys = "myKey";
+console.log(key); // myKey</code></pre>
+
+    <h2>15. How do you use <code>type</code> with intersections to combine multiple types?</h2>
+    <p>Intersection types combine multiple types into one.</p>
+    <pre><code>interface A {
+    x: number;
+}
+
+interface B {
+    y: number;
+}
+
+type C = A & B;
+
+const obj: C = { x: 1, y: 2 };
+
+console.log(obj); // { x: 1, y: 2 }</code></pre>
+
+    <h2>16. How do you use <code>typeof</code> to get the type of a variable?</h2>
+    <p>The <code>typeof</code> operator can be used to get the type of a variable or function.</p>
+    <pre><code>const name = "Alice";
+type NameType = typeof name; // string
+
+const greet: NameType = "Hello";
+
+console.log(greet); // Hello</code></pre>
+
+    <h2>17. How do you use <code>function types</code> to define the type of a function?</h2>
+    <p>Function types define the shape of functions, including their parameters and return type.</p>
+    <pre><code>type Add = (a: number, b: number) => number;
+
+const add: Add = (a, b) => a + b;
+
+console.log(add(2, 3)); // 5</code></pre>
+
+    <h2>18. How do you use <code>conditional types</code> to create types based on conditions?</h2>
+    <p>Conditional types create types based on a condition.</p>
+    <pre><code>type TrueType = true extends true ? "Yes" : "No"; // Yes
+type FalseType = false extends true ? "Yes" : "No"; // No
+
+console.log(TrueType);  // Yes
+console.log(FalseType); // No</code></pre>
+
+    <h2>19. How do you use <code>type</code> to create a union of string literals?</h2>
+    <p>Union types can be used to define a type that can be one of several string literals.</p>
+    <pre><code>type Status = "active" | "inactive" | "pending";
+
+const status: Status = "active";
+
+console.log(status); // active</code></pre>
+
+    <h2>20. How do you use <code>default parameters</code> in function definitions?</h2>
+    <p>Default parameters allow you to provide default values for function parameters.</p>
+    <pre><code>function greet(name: string = "Guest"): string {
+    return `Hello, ${name}`;
+}
+
+console.log(greet());      // Hello, Guest
+console.log(greet("Alice")); // Hello, Alice</code></pre>
+
+</body>
+</html>

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas y Respuestas sobre Uso de Recursos y Librerías</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        pre {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preguntas y Respuestas sobre Uso de Recursos y Librerías</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1. ¿Cómo se gestiona la conexión a bases de datos en Java?</td>
+                <td>
+                    En Java, se utiliza JDBC para conectarse a bases de datos. Aquí tienes un ejemplo:
+                    <pre><code>import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DatabaseExample {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/mydatabase";
+        String user = "root";
+        String password = "password";
+        
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            System.out.println("Conexión exitosa!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>2. ¿Cómo se realiza una solicitud HTTP en C#?</td>
+                <td>
+                    En C#, se puede usar `HttpClient` para hacer solicitudes HTTP. Ejemplo:
+                    <pre><code>using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task Main()
+    {
+        using HttpClient client = new HttpClient();
+        HttpResponseMessage response = await client.GetAsync("https://api.example.com/data");
+        response.EnsureSuccessStatusCode();
+        string responseBody = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(responseBody);
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>3. ¿Cómo se usa una librería externa en Python?</td>
+                <td>
+                    En Python, se pueden usar librerías externas mediante `pip`. Ejemplo de uso de `requests`:
+                    <pre><code>import requests
+
+response = requests.get('https://api.example.com/data')
+print(response.json())</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>4. ¿Cómo se gestiona el enrutamiento en TypeScript con Express?</td>
+                <td>
+                    En TypeScript, puedes usar Express para el enrutamiento. Ejemplo:
+                    <pre><code>import express from 'express';
+
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/`);
+});</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>5. ¿Cómo se maneja la concurrencia en Java?</td>
+                <td>
+                    En Java, se pueden usar hilos (`Thread`) o el framework `ExecutorService`. Ejemplo con `ExecutorService`:
+                    <pre><code>import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class ConcurrencyExample {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        executor.submit(() -> System.out.println("Tarea 1"));
+        executor.submit(() -> System.out.println("Tarea 2"));
+        executor.shutdown();
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>6. ¿Cómo se maneja la serialización en C#?</td>
+                <td>
+                    En C#, puedes usar `JsonSerializer` para serializar objetos a JSON. Ejemplo:
+                    <pre><code>using System;
+using System.Text.Json;
+
+class Program
+{
+    static void Main()
+    {
+        var person = new Person { Name = "John", Age = 30 };
+        string json = JsonSerializer.Serialize(person);
+        Console.WriteLine(json);
+    }
+}
+
+class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>7. ¿Cómo se realiza el manejo de excepciones en Python?</td>
+                <td>
+                    En Python, se utilizan bloques `try-except`. Ejemplo:
+                    <pre><code>try:
+    result = 10 / 0
+except ZeroDivisionError:
+    print("No se puede dividir entre cero")</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>8. ¿Cómo se configuran variables de entorno en TypeScript?</td>
+                <td>
+                    En TypeScript, se pueden usar variables de entorno a través de `process.env`. Ejemplo:
+                    <pre><code>console.log(process.env.NODE_ENV);</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>9. ¿Cómo se hace una transacción en Java con JDBC?</td>
+                <td>
+                    En Java, se gestionan transacciones usando `Connection`. Ejemplo:
+                    <pre><code>import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class TransactionExample {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/mydatabase";
+        String user = "root";
+        String password = "password";
+
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            connection.setAutoCommit(false);
+            try (Statement stmt = connection.createStatement()) {
+                stmt.executeUpdate("INSERT INTO mytable (name) VALUES ('John')");
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>10. ¿Cómo se implementa la autenticación en C# con ASP.NET Core?</td>
+                <td>
+                    En ASP.NET Core, puedes usar la autenticación basada en JWT. Ejemplo:
+                    <pre><code>public void ConfigureServices(IServiceCollection services)
+{
+    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = "yourdomain",
+                ValidAudience = "yourdomain",
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_secret_key"))
+            };
+        });
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>11. ¿Cómo se realiza la conexión a una API REST en Python?</td>
+                <td>
+                    Usando la librería `requests`. Ejemplo:
+                    <pre><code>import requests
+
+response = requests.get('https://api.example.com/data')
+print(response.status_code)
+print(response.json())</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>12. ¿Cómo se crea una ruta dinámica en TypeScript con Express?</td>
+                <td>
+                    En Express, puedes definir rutas dinámicas con parámetros. Ejemplo:
+                    <pre><code>import express from 'express';
+
+const app = express();
+const port = 3000;
+
+app.get('/user/:id', (req, res) => {
+    const userId = req.params.id;
+    res.send(`User ID: ${userId}`);
+});
+
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/`);
+});</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>13. ¿Cómo se gestiona el manejo de archivos en Java?</td>
+                <td>
+                    Puedes usar `java.nio.file.Files` para manejar archivos. Ejemplo:
+                    <pre><code>import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class FileExample {
+    public static void main(String[] args) {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("file.txt")));
+            System.out.println(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>14. ¿Cómo se implementa la inyección de dependencias en C# con ASP.NET Core?</td>
+                <td>
+                    En ASP.NET Core, la inyección de dependencias se configura en `Startup.cs`. Ejemplo:
+                    <pre><code>public void ConfigureServices(IServiceCollection services)
+{
+    services.AddScoped<IMyService, MyService>();
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>15. ¿Cómo se utiliza un archivo de configuración en Python?</td>
+                <td>
+                    Puedes usar el módulo `configparser`. Ejemplo:
+                    <pre><code>import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+print(config['DEFAULT']['ServerAliveInterval'])</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>16. ¿Cómo se realiza el manejo de sesiones en TypeScript con Express?</td>
+                <td>
+                    Usando `express-session`. Ejemplo:
+                    <pre><code>import express from 'express';
+import session from 'express-session';
+
+const app = express();
+const port = 3000;
+
+app.use(session({
+    secret: 'mysecret',
+    resave: false,
+    saveUninitialized: true
+}));
+
+app.get('/', (req, res) => {
+    req.session.views = (req.session.views || 0) + 1;
+    res.send(`Number of views: ${req.session.views}`);
+});
+
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/`);
+});</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>17. ¿Cómo se gestionan los recursos externos en Java?</td>
+                <td>
+                    Puedes usar `try-with-resources` para manejar recursos como streams. Ejemplo:
+                    <pre><code>import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class ResourceExample {
+    public static void main(String[] args) {
+        try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>18. ¿Cómo se utiliza Entity Framework en C#?</td>
+                <td>
+                    Con Entity Framework, puedes trabajar con bases de datos usando LINQ. Ejemplo:
+                    <pre><code>using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+
+public class MyContext : DbContext
+{
+    public DbSet<Person> People { get; set; }
+}
+
+public class Person
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+
+class Program
+{
+    static void Main()
+    {
+        using var context = new MyContext();
+        var people = context.People.ToList();
+        people.ForEach(p => Console.WriteLine(p.Name));
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>19. ¿Cómo se maneja la autenticación en Python?</td>
+                <td>
+                    Puedes usar `flask-jwt-extended` para JWT en Flask. Ejemplo:
+                    <pre><code>from flask import Flask, jsonify
+from flask_jwt_extended import JWTManager, create_access_token
+
+app = Flask(__name__)
+app.config['JWT_SECRET_KEY'] = 'your_secret_key'
+jwt = JWTManager(app)
+
+@app.route('/login', methods=['POST'])
+def login():
+    access_token = create_access_token(identity={'user_id': 1})
+    return jsonify(access_token=access_token)
+
+if __name__ == '__main__':
+    app.run() </code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>20. ¿Cómo se gestionan las conexiones en TypeScript con PostgreSQL?</td>
+                <td>
+                    Usando `pg`. Ejemplo:
+                    <pre><code>import { Client } from 'pg';
+
+const client = new Client({
+    connectionString: 'postgres://user:password@localhost:5432/mydatabase'
+});
+
+client.connect()
+    .then(() => client.query('SELECT NOW()'))
+    .then(res => console.log(res.rows[0]))
+    .catch(err => console.error('Error executing query', err.stack))
+    .finally(() => client.end());</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>21. ¿Cómo se configuran las rutas en Java con Spring Boot?</td>
+                <td>
+                    En Spring Boot, se utilizan controladores. Ejemplo:
+                    <pre><code>import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+
+@RestController
+@RequestMapping("/api")
+class MyController {
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello, World!";
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>22. ¿Cómo se implementa el manejo de excepciones en C#?</td>
+                <td>
+                    En C#, se utilizan bloques `try-catch`. Ejemplo:
+                    <pre><code>try
+{
+    int result = 10 / 0;
+}
+catch (DivideByZeroException ex)
+{
+    Console.WriteLine("No se puede dividir entre cero");
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>23. ¿Cómo se configuran los parámetros de la base de datos en Python?</td>
+                <td>
+                    Puedes usar `sqlalchemy` para manejar la configuración. Ejemplo:
+                    <pre><code>from sqlalchemy import create_engine
+
+engine = create_engine('sqlite:///mydatabase.db')
+connection = engine.connect()
+result = connection.execute('SELECT * FROM mytable')
+for row in result:
+    print(row)</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>24. ¿Cómo se realiza la integración con servicios externos en TypeScript?</td>
+                <td>
+                    Puedes usar `axios` para hacer solicitudes HTTP. Ejemplo:
+                    <pre><code>import axios from 'axios';
+
+axios.get('https://api.example.com/data')
+    .then(response => console.log(response.data))
+    .catch(error => console.error('Error:', error));</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>25. ¿Cómo se realiza la autenticación básica en Java con HTTP?</td>
+                <td>
+                    Puedes usar `HttpURLConnection`. Ejemplo:
+                    <pre><code>import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+
+public class BasicAuthExample {
+    public static void main(String[] args) {
+        String url = "https://api.example.com/data";
+        String username = "user";
+        String password = "password";
+        String auth = username + ":" + password;
+        String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+        String authHeader = "Basic " + encodedAuth;
+
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Authorization", authHeader);
+
+            int responseCode = con.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>26. ¿Cómo se gestiona el ciclo de vida de un objeto en C#?</td>
+                <td>
+                    En C#, puedes usar el patrón `Dispose` para manejar recursos. Ejemplo:
+                    <pre><code>using System;
+
+class Resource : IDisposable
+{
+    public void Dispose()
+    {
+        // Cleanup code here
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        using (var resource = new Resource())
+        {
+            // Use resource
+        }
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>27. ¿Cómo se hace un CRUD básico en Python con Flask?</td>
+                <td>
+                    Ejemplo básico de CRUD en Flask:
+                    <pre><code>from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+items = []
+
+@app.route('/items', methods=['GET'])
+def get_items():
+    return jsonify(items)
+
+@app.route('/items', methods=['POST'])
+def add_item():
+    item = request.json
+    items.append(item)
+    return jsonify(item), 201
+
+if __name__ == '__main__':
+    app.run()</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>28. ¿Cómo se configuran los logs en TypeScript con Winston?</td>
+                <td>
+                    Ejemplo con Winston:
+                    <pre><code>import winston from 'winston';
+
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    transports: [
+        new winston.transports.File({ filename: 'combined.log' }),
+        new winston.transports.Console()
+    ]
+});
+
+logger.info('Hello, world!');</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>29. ¿Cómo se maneja la concurrencia en Java?</td>
+                <td>
+                    Puedes usar `synchronized` para manejar la concurrencia. Ejemplo:
+                    <pre><code>public class Counter {
+    private int count = 0;
+
+    public synchronized void increment() {
+        count++;
+    }
+
+    public synchronized int getCount() {
+        return count;
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>30. ¿Cómo se configura la seguridad en una API REST en C#?</td>
+                <td>
+                    Usando `ASP.NET Core` y `JWT`. Ejemplo:
+                    <pre><code>public void ConfigureServices(IServiceCollection services)
+{
+    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = "yourIssuer",
+                ValidAudience = "yourAudience",
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("yourSecretKey"))
+            };
+        });
+}</code></pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

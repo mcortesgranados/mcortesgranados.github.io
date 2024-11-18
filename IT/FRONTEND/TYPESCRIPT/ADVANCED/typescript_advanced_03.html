@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced TypeScript Questions - Part 3</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Advanced TypeScript Questions - Part 3</h1>
+
+    <div class="question">
+        <h2>1. How do you use the `ReturnType` utility type in TypeScript?</h2>
+        <div class="answer">
+            <p>The `ReturnType` utility type extracts the return type of a function type.</p>
+            <pre><code>
+type MyFunction = (a: number, b: number) => string;
+type Result = ReturnType<MyFunction>; // string
+
+const myFunction: MyFunction = (a, b) => (a + b).toString();
+const result: Result = myFunction(5, 3); // '8'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. What is the purpose of the `Partial` utility type in TypeScript?</h2>
+        <div class="answer">
+            <p>The `Partial` utility type constructs a type with all properties of the given type set to optional.</p>
+            <pre><code>
+interface User {
+    name: string;
+    age: number;
+}
+
+const partialUser: Partial<User> = { name: 'Alice' }; // `age` is optional
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you create a tuple type with optional elements in TypeScript?</h2>
+        <div class="answer">
+            <p>You can create a tuple with optional elements by using a union type for the optional elements.</p>
+            <pre><code>
+type OptionalTuple = [string, number?];
+
+const example1: OptionalTuple = ['Hello']; // number is optional
+const example2: OptionalTuple = ['Hello', 42];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. What is the difference between `type` and `interface` when extending in TypeScript?</h2>
+        <div class="answer">
+            <p>Both `type` and `interface` can be extended, but interfaces can be merged (declaration merging), while types cannot. Types are more flexible but do not support declaration merging.</p>
+            <pre><code>
+interface A {
+    a: number;
+}
+
+interface B extends A {
+    b: string;
+}
+
+type C = A & { c: boolean; };
+type D = C & { d: string; };
+
+// Interfaces can be merged:
+interface A {
+    d: string;
+}
+// `A` now has `d` property as well.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you use `as const` to create a readonly tuple in TypeScript?</h2>
+        <div class="answer">
+            <p>The `as const` assertion can be used to make a tuple readonly, preserving its literal types.</p>
+            <pre><code>
+const tuple = [1, 'hello'] as const;
+// type of tuple is readonly [1, 'hello']
+
+tuple[0] = 2; // Error: Index signature in type 'readonly [1, "hello"]' only permits reading property '0'.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. What is the use of `this` parameter in TypeScript methods?</h2>
+        <div class="answer">
+            <p>The `this` parameter allows you to explicitly define the type of `this` inside a method, which can be useful for method chaining and fluent APIs.</p>
+            <pre><code>
+class Counter {
+    private count: number = 0;
+
+    increment(this: Counter): this {
+        this.count++;
+        return this;
+    }
+
+    getCount(): number {
+        return this.count;
+    }
+}
+
+const counter = new Counter();
+counter.increment().increment();
+console.log(counter.getCount()); // 2
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use `class` mixins in TypeScript?</h2>
+        <div class="answer">
+            <p>Mixins allow you to compose multiple classes into one, providing a way to reuse code in multiple classes.</p>
+            <pre><code>
+type Constructor<T = {}> = new (...args: any[]) => T;
+
+function MixinA<T extends Constructor>(Base: T) {
+    return class extends Base {
+        methodA() { console.log('Method A'); }
+    };
+}
+
+function MixinB<T extends Constructor>(Base: T) {
+    return class extends Base {
+        methodB() { console.log('Method B'); }
+    };
+}
+
+class MyClass extends MixinA(MixinB(Object)) {}
+
+const instance = new MyClass();
+instance.methodA(); // Method A
+instance.methodB(); // Method B
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. What is `keyof typeof` pattern in TypeScript, and how is it used with enums?</h2>
+        <div class="answer">
+            <p>The `keyof typeof` pattern can be used with enums to create types representing the keys or values of the enum.</p>
+            <pre><code>
+enum Colors {
+    Red = 'red',
+    Green = 'green',
+    Blue = 'blue'
+}
+
+type ColorKeys = keyof typeof Colors; // 'Red' | 'Green' | 'Blue'
+type ColorValues = typeof Colors[ColorKeys]; // 'red' | 'green' | 'blue'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How can you use `type assertions` to tell TypeScript that a variable is of a specific type?</h2>
+        <div class="answer">
+            <p>Type assertions let you inform TypeScript of the type of a variable when you are certain of it, using either `as` syntax or angle-bracket syntax.</p>
+            <pre><code>
+const value: any = 'Hello, TypeScript!';
+const strLength: number = (value as string).length;
+// or
+const strLength2: number = (<string>value).length;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use `Conditional Types` to create a type that excludes certain properties?</h2>
+        <div class="answer">
+            <p>You can use conditional types to create a type that excludes certain properties from a base type.</p>
+            <pre><code>
+type ExcludeProperties<T, U> = {
+    [K in keyof T as K extends U ? never : K]: T[K];
+};
+
+interface Person {
+    name: string;
+    age: number;
+    email: string;
+}
+
+type PersonWithoutEmail = ExcludeProperties<Person, 'email'>;
+// { name: string; age: number; }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. What is the `never` type, and when is it used in TypeScript?</h2>
+        <div class="answer">
+            <p>The `never` type represents a value that never occurs. It is used for functions that throw exceptions or have infinite loops, and for exhaustive checks in union types.</p>
+            <pre><code>
+function throwError(message: string): never {
+    throw new Error(message);
+}
+
+type Result = 'success' | 'failure';
+
+function handleResult(result: Result) {
+    switch (result) {
+        case 'success':
+            console.log('Success');
+            break;
+        case 'failure':
+            console.log('Failure');
+            break;
+        default:
+            // TypeScript will throw an error if there are missing cases.
+            const exhaustiveCheck: never = result;
+            break;
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How can you create a type that represents an object with all properties of another type set to `null`?</h2>
+        <div class="answer">
+            <p>You can use mapped types to create a new type where all properties of the original type are set to `null`.</p>
+            <pre><code>
+type Nullify<T> = {
+    [P in keyof T]: null;
+};
+
+interface User {
+    name: string;
+    age: number;
+}
+
+type NullifiedUser = Nullify<User>;
+// { name: null; age: null; }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. What is the `infer` keyword used for in conditional types?</h2>
+        <div class="answer">
+            <p>The `infer` keyword allows you to create a type variable within a conditional type to capture and use the type of a parameter or property.</p>
+            <pre><code>
+type ReturnTypeOfPromise<T> = T extends Promise<infer U> ? U : never;
+
+type Result = ReturnTypeOfPromise<Promise<number>>; // number
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How can you use `Union Types` to create a type that represents either a string or an array of strings?</h2>
+        <div class="answer">
+            <p>Union types allow you to create a type that can be one of several types, such as a string or an array of strings.</p>
+            <pre><code>
+type StringOrArray = string | string[];
+
+const example1: StringOrArray = 'Hello';
+const example2: StringOrArray = ['Hello', 'World'];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. What is the difference between `type` and `interface` when creating a union type?</h2>
+        <div class="answer">
+            <p>Both `type` and `interface` can be used to create union types, but `type` can be used for more complex type combinations, such as unions and intersections. Interfaces can be merged but cannot be used for unions directly.</p>
+            <pre><code>
+type A = 'x' | 'y';
+type B = 'z' | 'w';
+
+type C = A | B; // 'x' | 'y' | 'z' | 'w'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you create a type that represents an object with required and optional properties?</h2>
+        <div class="answer">
+            <p>You can create a type that represents both required and optional properties using intersection types and mapped types.</p>
+            <pre><code>
+type RequiredAndOptional<T, K extends keyof T> = T & {
+    [P in K]?: T[P];
+};
+
+interface User {
+    name: string;
+    age: number;
+    email?: string;
+}
+
+type ModifiedUser = RequiredAndOptional<User, 'email'>;
+// { name: string; age: number; email?: string; }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use `keyof` with nested object types in TypeScript?</h2>
+        <div class="answer">
+            <p>You can use `keyof` with nested object types to access the keys of inner objects.</p>
+            <pre><code>
+interface Address {
+    street: string;
+    city: string;
+}
+
+interface User {
+    name: string;
+    address: Address;
+}
+
+type AddressKeys = keyof User['address']; // 'street' | 'city'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use the `Exclude` utility type to filter out specific types?</h2>
+        <div class="answer">
+            <p>The `Exclude` utility type constructs a type by excluding from one type all properties that are assignable to another type.</p>
+            <pre><code>
+type A = 'a' | 'b' | 'c';
+type B = Exclude<A, 'a' | 'b'>; // 'c'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you use `Extract` utility type to get the types that are assignable to another type?</h2>
+        <div class="answer">
+            <p>The `Extract` utility type constructs a type by extracting from one type all properties that are assignable to another type.</p>
+            <pre><code>
+type A = 'a' | 'b' | 'c';
+type B = Extract<A, 'a' | 'c'>; // 'a' | 'c'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use `NonNullable` utility type to exclude `null` and `undefined` from a type?</h2>
+        <div class="answer">
+            <p>The `NonNullable` utility type constructs a type by excluding `null` and `undefined` from another type.</p>
+            <pre><code>
+type A = string | null | undefined;
+type B = NonNullable<A>; // string
+            </code></pre>
+        </div>
+    </div>
+</body>
+</html>

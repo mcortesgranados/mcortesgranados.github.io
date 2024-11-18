@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Basic Level Questions and Answers - Part 7</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Basic Level Questions and Answers - Part 7</h1>
+
+    <h2>1. How do you define a tuple in TypeScript?</h2>
+    <p>A tuple is a fixed-length array with specified types for each element in TypeScript.</p>
+    <pre><code>let tuple: [string, number];
+tuple = ["hello", 42];
+// tuple = [42, "hello"]; // Error: Type 'number' is not assignable to type 'string'</code></pre>
+
+    <h2>2. How do you define optional properties in an interface in TypeScript?</h2>
+    <p>You can mark properties as optional using the question mark (<code>?</code>) after the property name.</p>
+    <pre><code>interface Person {
+    name: string;
+    age?: number; // Optional property
+}
+
+let person: Person = { name: "Alice" };
+console.log(person.age); // undefined (age is optional)</code></pre>
+
+    <h2>3. What is the <code>void</code> type in TypeScript?</h2>
+    <p>The <code>void</code> type is used to indicate that a function does not return a value.</p>
+    <pre><code>function logMessage(message: string): void {
+    console.log(message);
+}
+
+logMessage("Hello, world!"); // Output: Hello, world!</code></pre>
+
+    <h2>4. How do you declare a union of string literals in TypeScript?</h2>
+    <p>A union of string literals allows you to specify multiple possible values for a variable.</p>
+    <pre><code>type Direction = "Up" | "Down" | "Left" | "Right";
+
+let move: Direction;
+move = "Up";   // Valid
+// move = "Forward"; // Error: Type '"Forward"' is not assignable to type '"Up" | "Down" | "Left" | "Right"'</code></pre>
+
+    <h2>5. How do you define a class with a constructor in TypeScript?</h2>
+    <p>A class constructor initializes the class properties when a new instance is created.</p>
+    <pre><code>class Car {
+    make: string;
+    model: string;
+
+    constructor(make: string, model: string) {
+        this.make = make;
+        this.model = model;
+    }
+
+    getDetails(): string {
+        return `${this.make} ${this.model}`;
+    }
+}
+
+let myCar = new Car("Toyota", "Corolla");
+console.log(myCar.getDetails()); // Toyota Corolla</code></pre>
+
+    <h2>6. How do you use an interface to enforce function parameter structure?</h2>
+    <p>You can use an interface to define the structure of objects passed as function arguments.</p>
+    <pre><code>interface User {
+    name: string;
+    age: number;
+}
+
+function greetUser(user: User): string {
+    return `Hello, ${user.name}!`;
+}
+
+const user = { name: "Alice", age: 25 };
+console.log(greetUser(user)); // Hello, Alice!</code></pre>
+
+    <h2>7. How do you handle default values in function parameters in TypeScript?</h2>
+    <p>Default values can be set for function parameters to ensure they have a value if none is provided.</p>
+    <pre><code>function greet(name: string = "Guest"): string {
+    return `Hello, ${name}!`;
+}
+
+console.log(greet()); // Hello, Guest!
+console.log(greet("Alice")); // Hello, Alice!</code></pre>
+
+    <h2>8. How do you create a class with private members in TypeScript?</h2>
+    <p>Private members can only be accessed within the class itself.</p>
+    <pre><code>class Employee {
+    private name: string;
+
+    constructor(name: string) {
+        this.name = name;
+    }
+
+    getName(): string {
+        return this.name;
+    }
+}
+
+let emp = new Employee("Bob");
+console.log(emp.getName()); // Bob
+// console.log(emp.name); // Error: Property 'name' is private</code></pre>
+
+    <h2>9. How do you use the <code>readonly</code> modifier for properties in TypeScript?</h2>
+    <p>The <code>readonly</code> modifier ensures that a property can only be assigned once and cannot be changed afterward.</p>
+    <pre><code>class Book {
+    readonly title: string;
+
+    constructor(title: string) {
+        this.title = title;
+    }
+}
+
+let book = new Book("TypeScript Basics");
+// book.title = "New Title"; // Error: Cannot assign to 'title' because it is a read-only property</code></pre>
+
+    <h2>10. How do you create a function with rest parameters in TypeScript?</h2>
+    <p>Rest parameters allow a function to accept an indefinite number of arguments as an array.</p>
+    <pre><code>function sum(...numbers: number[]): number {
+    return numbers.reduce((total, num) => total + num, 0);
+}
+
+console.log(sum(1, 2, 3)); // 6
+console.log(sum(4, 5, 6, 7)); // 22</code></pre>
+
+</body>
+</html>

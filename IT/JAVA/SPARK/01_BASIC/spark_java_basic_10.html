@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformations and Actions in Spark</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Transformations and Actions in Spark</h1>
+
+    <p>In Apache Spark, RDDs (Resilient Distributed Datasets) are manipulated using two types of operations: transformations and actions. Understanding these operations is crucial for effective Spark programming.</p>
+
+    <h2>Transformations</h2>
+    <p>Transformations are operations that produce a new RDD from an existing one. They are lazy, meaning they do not compute their results immediately. Instead, Spark builds up a logical plan of the transformations and only executes them when an action is called.</p>
+    <ul>
+        <li><strong>Map:</strong> Applies a function to each element of the RDD and returns a new RDD.</li>
+        <li><strong>Filter:</strong> Returns a new RDD containing only the elements that satisfy a predicate.</li>
+        <li><strong>FlatMap:</strong> Similar to map, but each input item can be mapped to zero or more output items (e.g., for tokenizing text).</li>
+        <li><strong>ReduceByKey:</strong> Performs a reduction on the RDD elements that have the same key.</li>
+    </ul>
+
+    <h2>Actions</h2>
+    <p>Actions trigger the execution of transformations and return results to the driver program or write data to external storage. Actions force Spark to compute the RDDs that were transformed.</p>
+    <ul>
+        <li><strong>Collect:</strong> Returns all the elements of the RDD as a list to the driver.</li>
+        <li><strong>Count:</strong> Returns the number of elements in the RDD.</li>
+        <li><strong>SaveAsTextFile:</strong> Writes the RDD to a text file in the specified path.</li>
+        <li><strong>First:</strong> Returns the first element of the RDD.</li>
+    </ul>
+
+    <h2>Example Code in Java</h2>
+    <p>The following Java code demonstrates the use of transformations and actions:</p>
+
+    <pre><code class="language-java">
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+
+public class TransformationsAndActionsExample {
+    public static void main(String[] args) {
+        // Create a SparkConf object and set the application name and master
+        SparkConf conf = new SparkConf().setAppName("Transformations and Actions Example").setMaster("local");
+        
+        // Create a JavaSparkContext with the configuration
+        JavaSparkContext sc = new JavaSparkContext(conf);
+
+        // Create an RDD by parallelizing a collection
+        JavaRDD<Integer> numbers = sc.parallelize(java.util.Arrays.asList(1, 2, 3, 4, 5));
+
+        // Transformation: Map
+        JavaRDD<Integer> squaredNumbers = numbers.map(number -> number * number);
+
+        // Transformation: Filter
+        JavaRDD<Integer> evenNumbers = squaredNumbers.filter(number -> number % 2 == 0);
+
+        // Action: Collect
+        System.out.println("Squared Even Numbers:");
+        evenNumbers.collect().forEach(System.out::println);
+
+        // Action: Count
+        long count = evenNumbers.count();
+        System.out.println("Count of Squared Even Numbers: " + count);
+
+        // Stop the SparkContext
+        sc.close();
+    }
+}
+    </code></pre>
+
+    <p>In this example:</p>
+    <ul>
+        <li><strong>Map Transformation:</strong> We use the <code>map()</code> transformation to square each number in the RDD.</li>
+        <li><strong>Filter Transformation:</strong> We use the <code>filter()</code> transformation to keep only even numbers from the squared numbers.</li>
+        <li><strong>Collect Action:</strong> We use the <code>collect()</code> action to retrieve and print the results.</li>
+        <li><strong>Count Action:</strong> We use the <code>count()</code> action to count the number of elements in the RDD and print it.</li>
+    </ul>
+
+    <p>These operations are fundamental in processing data with Spark, allowing you to transform and act on your data in a distributed environment.</p>
+
+</body>
+</html>

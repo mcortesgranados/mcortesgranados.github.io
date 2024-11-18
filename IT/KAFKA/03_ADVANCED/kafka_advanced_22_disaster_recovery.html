@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Advanced: Disaster Recovery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #007acc;
+        }
+        code {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        .note {
+            background: #e7f4e4;
+            border-left: 5px solid #4caf50;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .warning {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka Advanced: Disaster Recovery</h1>
+    <p>Disaster recovery (DR) in Apache Kafka is critical for ensuring data availability and consistency in the event of a failure. This document covers advanced concepts and practices related to Kafka disaster recovery, including configuration, strategies, and code examples.</p>
+
+    <h2>1. Understanding Kafka Disaster Recovery</h2>
+    <p>Kafka disaster recovery involves setting up a system that can recover data and restore services after a disaster or system failure. The main components and strategies include:</p>
+    <ul>
+        <li><strong>Replication:</strong> Ensuring that data is duplicated across multiple brokers to prevent data loss.</li>
+        <li><strong>Backups:</strong> Regularly backing up Kafka metadata and configuration.</li>
+        <li><strong>Monitoring and Alerts:</strong> Setting up monitoring to detect failures early and trigger alerts.</li>
+        <li><strong>Disaster Recovery Plan:</strong> Defining procedures for recovering from different types of failures.</li>
+    </ul>
+
+    <h2>2. Configuring Replication for Disaster Recovery</h2>
+    <p>Kafka replication ensures that data is available even if some brokers fail. Configure replication by setting up replication factors and adjusting broker settings.</p>
+    
+    <h3>2.1 Setting Replication Factor</h3>
+    <p>The replication factor determines how many copies of data are kept. To set the replication factor for a topic, use the following command:</p>
+    <pre><code>kafka-topics.sh --zookeeper localhost:2181 --alter --topic my-topic --partitions 3 --replication-factor 2</code></pre>
+
+    <h3>2.2 Broker Configuration</h3>
+    <p>Configure Kafka brokers to handle replication properly. Ensure the following settings are set in the <code>server.properties</code> file:</p>
+    <pre><code>
+# Enable replication
+num.replica.fetchers=2
+min.insync.replicas=2
+default.replication.factor=2
+replication.factor=2
+    </code></pre>
+
+    <h2>3. Implementing Backup Strategies</h2>
+    <p>Regular backups of Kafka metadata and configurations are essential for disaster recovery.</p>
+    
+    <h3>3.1 Backing Up Kafka Metadata</h3>
+    <p>To back up Kafka metadata, use tools like Kafka Manager or manually copy configuration files and logs.</p>
+    <pre><code>cp -r /path/to/kafka/config /backup/location/kafka-config</code></pre>
+
+    <h3>3.2 Automating Backups</h3>
+    <p>Create scripts to automate backups and schedule them using cron jobs:</p>
+    <pre><code>
+#!/bin/bash
+# Backup Kafka data and metadata
+tar -czvf /backup/location/kafka-backup-$(date +%F).tar.gz /path/to/kafka/data
+tar -czvf /backup/location/kafka-config-backup-$(date +%F).tar.gz /path/to/kafka/config
+    </code></pre>
+
+    <h2>4. Monitoring and Alerts</h2>
+    <p>Effective monitoring and alerting help detect issues early. Use tools like Prometheus and Grafana for monitoring Kafka clusters.</p>
+
+    <h3>4.1 Setting Up Prometheus</h3>
+    <p>Configure Prometheus to scrape Kafka metrics. Add the following configuration to <code>prometheus.yml</code>:</p>
+    <pre><code>
+scrape_configs:
+  - job_name: 'kafka'
+    static_configs:
+      - targets: ['localhost:9090']
+    metrics_path: '/metrics'
+    scheme: http
+    params:
+      format: [json]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+    </code></pre>
+
+    <h3>4.2 Configuring Alerts</h3>
+    <p>Set up alerts for key metrics such as broker availability, replication lag, and disk usage:</p>
+    <pre><code>
+alerting:
+  - alert: KafkaBrokerDown
+    expr: up{job="kafka"} == 0
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Kafka broker is down"
+      description: "The Kafka broker {{ $labels.instance }} has been down for more than 5 minutes."
+    </code></pre>
+
+    <h2>5. Disaster Recovery Plan</h2>
+    <p>Develop a comprehensive disaster recovery plan that outlines steps for various failure scenarios.</p>
+
+    <h3>5.1 Recovery from Broker Failure</h3>
+    <p>Steps to recover from a broker failure:</p>
+    <ul>
+        <li>Identify the failed broker using monitoring tools.</li>
+        <li>Restart the broker and verify its status.</li>
+        <li>Check the replication status and ensure all partitions are in sync.</li>
+    </ul>
+
+    <h3>5.2 Recovery from Data Loss</h3>
+    <p>Steps to recover from data loss:</p>
+    <ul>
+        <li>Restore data from backups.</li>
+        <li>Verify data integrity and consistency.</li>
+        <li>Restart Kafka and ensure proper functioning.</li>
+    </ul>
+
+    <h2>6. Code Example: Handling Failures</h2>
+    <p>Here’s an example of how to handle failures in a Kafka producer application:</p>
+    <pre><code>
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.common.errors.TimeoutException;
+import java.util.Properties;
+
+public class KafkaProducerExample {
+    public static void main(String[] args) {
+        Properties props = new Properties();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
+        props.put(ProducerConfig.RETRIES_CONFIG, 3);
+        props.put(ProducerConfig.ACKS_CONFIG, "all");
+
+        try (KafkaProducer<String, String> producer = new KafkaProducer<>(props)) {
+            ProducerRecord<String, String> record = new ProducerRecord<>("my-topic", "key", "value");
+            producer.send(record, (RecordMetadata metadata, Exception exception) -> {
+                if (exception != null) {
+                    if (exception instanceof TimeoutException) {
+                        System.err.println("Timeout occurred while sending message.");
+                    } else {
+                        exception.printStackTrace();
+                    }
+                } else {
+                    System.out.println("Message sent successfully to topic " + metadata.topic());
+                }
+            });
+        }
+    }
+}
+    </code></pre>
+
+    <h2>7. Conclusion</h2>
+    <p>Effective disaster recovery in Kafka involves setting up robust replication, regular backups, monitoring, and a well-defined recovery plan. By following these best practices, you can ensure high availability and data integrity even in the face of unexpected failures.</p>
+
+    <div class="note">
+        <strong>Note:</strong> Regularly test your disaster recovery plan to ensure it works as expected in different scenarios.
+    </div>
+
+    <div class="warning">
+        <strong>Warning:</strong> Avoid using a single point of failure in your Kafka setup to ensure redundancy and fault tolerance.
+    </div>
+</body>
+</html>

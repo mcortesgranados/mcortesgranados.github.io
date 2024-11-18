@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intermediate Angular Questions - Part 3</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Intermediate Angular Questions - Part 3</h1>
+
+    <div class="question">
+        <h2>1. How do you use Angular's `@ViewChild` decorator with a static flag?</h2>
+        <div class="answer">
+            <p>The `@ViewChild` decorator can be used with a static flag to determine when the query should be resolved.</p>
+            <pre><code>
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+    selector: 'app-parent',
+    template: `<app-child></app-child>`,
+})
+export class ParentComponent implements AfterViewInit {
+    @ViewChild(ChildComponent, { static: true }) child: ChildComponent;
+
+    ngAfterViewInit() {
+        console.log(this.child);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How do you implement Angular's `ngFor` directive with a `let` syntax?</h2>
+        <div class="answer">
+            <p>The `let` syntax in `ngFor` allows you to define a variable for each item in the loop.</p>
+            <pre><code>
+@Component({
+    selector: 'app-list',
+    template: `
+        <ul>
+            <li *ngFor="let item of items; let i = index">
+                {{ i + 1 }}: {{ item }}
+            </li>
+        </ul>
+    `,
+})
+export class ListComponent {
+    items = ['Item 1', 'Item 2', 'Item 3'];
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you use Angular's `@Input` and `@Output` decorators in parent-child communication?</h2>
+        <div class="answer">
+            <p>The `@Input` decorator is used to pass data from a parent component to a child component, while the `@Output` decorator is used to emit events from the child to the parent.</p>
+            <pre><code>
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+    selector: 'app-child',
+    template: `
+        <button (click)="notifyParent()">Notify Parent</button>
+    `,
+})
+export class ChildComponent {
+    @Input() data: string;
+    @Output() notify = new EventEmitter<string>();
+
+    notifyParent() {
+        this.notify.emit('Data from child');
+    }
+}
+
+@Component({
+    selector: 'app-parent',
+    template: `
+        <app-child [data]="parentData" (notify)="handleNotification($event)"></app-child>
+    `,
+})
+export class ParentComponent {
+    parentData = 'Data from parent';
+
+    handleNotification(message: string) {
+        console.log(message);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you use Angular's `@ContentChildren` decorator?</h2>
+        <div class="answer">
+            <p>The `@ContentChildren` decorator queries for multiple projected content elements in a component.</p>
+            <pre><code>
+import { Component, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+    selector: 'app-parent',
+    template: `<ng-content></ng-content>`,
+})
+export class ParentComponent implements AfterContentInit {
+    @ContentChildren(ChildComponent) children: QueryList<ChildComponent>;
+
+    ngAfterContentInit() {
+        this.children.forEach(child => console.log(child));
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you use Angular's `FormGroup` and `FormControl` in reactive forms?</h2>
+        <div class="answer">
+            <p>`FormGroup` and `FormControl` are used to create and manage reactive forms.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+    selector: 'app-reactive-form',
+    template: `
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+            <input formControlName="name" />
+            <button type="submit">Submit</button>
+        </form>
+    `,
+})
+export class ReactiveFormComponent {
+    formGroup: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.formGroup = this.fb.group({
+            name: ['', Validators.required]
+        });
+    }
+
+    onSubmit() {
+        console.log(this.formGroup.value);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you use Angular's `FormBuilder` service?</h2>
+        <div class="answer">
+            <p>The `FormBuilder` service simplifies form creation and validation in Angular forms.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+@Component({
+    selector: 'app-builder-form',
+    template: `
+        <form [formGroup]="formGroup">
+            <input formControlName="email" />
+        </form>
+    `,
+})
+export class BuilderFormComponent {
+    formGroup: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.formGroup = this.fb.group({
+            email: ['']
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use Angular's `Validators` class for form validation?</h2>
+        <div class="answer">
+            <p>The `Validators` class provides built-in validation functions for forms.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+    selector: 'app-validate-form',
+    template: `
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+            <input formControlName="email" />
+            <div *ngIf="formGroup.controls.email.invalid">Invalid email</div>
+            <button type="submit">Submit</button>
+        </form>
+    `,
+})
+export class ValidateFormComponent {
+    formGroup: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.formGroup = this.fb.group({
+            email: ['', [Validators.required, Validators.email]]
+        });
+    }
+
+    onSubmit() {
+        console.log(this.formGroup.value);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you use Angular's `Router` for lazy loading?</h2>
+        <div class="answer">
+            <p>Lazy loading allows modules to be loaded on demand, improving application performance.</p>
+            <pre><code>
+const routes: Routes = [
+    {
+        path: 'lazy',
+        loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule)
+    }
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you handle form submission with Angular's `ReactiveForms`?</h2>
+        <div class="answer">
+            <p>Form submission in reactive forms can be handled by subscribing to the form's `valueChanges` or `statusChanges` observable.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+@Component({
+    selector: 'app-reactive-form',
+    template: `
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+            <input formControlName="name" />
+            <button type="submit">Submit</button>
+        </form>
+    `,
+})
+export class ReactiveFormComponent {
+    formGroup: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.formGroup = this.fb.group({
+            name: ['']
+        });
+
+        this.formGroup.valueChanges.subscribe(value => {
+            console.log('Form value changed:', value);
+        });
+    }
+
+    onSubmit() {
+        console.log(this.formGroup.value);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use Angular's `HttpInterceptor` for global HTTP handling?</h2>
+        <div class="answer">
+            <p>An `HttpInterceptor` can be used to modify HTTP requests or responses globally.</p>
+            <pre><code>
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const clonedReq = req.clone({
+            setHeaders: {
+                Authorization: `Bearer your-token`
+            }
+        });
+
+        return next.handle(clonedReq);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you use Angular's `Router` for route guards?</h2>
+        <div class="answer">
+            <p>Route guards can be used to control access to routes based on certain conditions.</p>
+            <pre><code>
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+    constructor(private router: Router) {}
+
+    canActivate(): boolean {
+        const isLoggedIn = false; // Replace with actual login check
+        if (!isLoggedIn) {
+            this.router.navigate(['/login']);
+            return false;
+        }
+        return true;
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you use Angular's `Directive` to create a custom directive?</h2>
+        <div class="answer">
+            <p>Custom directives can be created to extend HTML elements with additional behavior.</p>
+            <pre><code>
+import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appHighlight]'
+})
+export class HighlightDirective {
+    constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+    @HostListener('mouseenter') onMouseEnter() {
+        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'yellow');
+    }
+
+    @HostListener('mouseleave') onMouseLeave() {
+        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'transparent');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use Angular's `ChangeDetectorRef` to manually trigger change detection?</h2>
+        <div class="answer">
+            <p>The `ChangeDetectorRef` service allows you to manually control change detection.</p>
+            <pre><code>
+import { Component, ChangeDetectorRef } from '@angular/core';
+
+@Component({
+    selector: 'app-manual-detection',
+    template: `<p>{{ message }}</p>`,
+})
+export class ManualDetectionComponent {
+    message = 'Initial message';
+
+    constructor(private cdRef: ChangeDetectorRef) {}
+
+    updateMessage() {
+        this.message = 'Updated message';
+        this.cdRef.detectChanges();
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use Angular's `EventEmitter` to communicate between components?</h2>
+        <div class="answer">
+            <p>The `EventEmitter` class is used to emit custom events from child components to parent components.</p>
+            <pre><code>
+import { Component, Output, EventEmitter } from '@angular/core';
+
+@Component({
+    selector: 'app-child',
+    template: `<button (click)="sendEvent()">Send Event</button>`,
+})
+export class ChildComponent {
+    @Output() event = new EventEmitter<string>();
+
+    sendEvent() {
+        this.event.emit('Data from child');
+    }
+}
+
+@Component({
+    selector: 'app-parent',
+    template: `
+        <app-child (event)="handleEvent($event)"></app-child>
+    `,
+})
+export class ParentComponent {
+    handleEvent(message: string) {
+        console.log(message);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you use Angular's `NgModule` to create feature modules?</h2>
+        <div class="answer">
+            <p>Feature modules allow you to organize application functionality into cohesive blocks.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FeatureComponent } from './feature.component';
+
+@NgModule({
+    declarations: [FeatureComponent],
+    imports: [CommonModule],
+    exports: [FeatureComponent]
+})
+export class FeatureModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you use Angular's `NgZone` for managing change detection?</h2>
+        <div class="answer">
+            <p>The `NgZone` service helps control Angular's change detection process manually.</p>
+            <pre><code>
+import { Component, NgZone } from '@angular/core';
+
+@Component({
+    selector: 'app-zone',
+    template: `<p>{{ message }}</p>`,
+})
+export class ZoneComponent {
+    message = 'Initial message';
+
+    constructor(private ngZone: NgZone) {
+        this.ngZone.runOutsideAngular(() => {
+            setTimeout(() => {
+                this.message = 'Updated message';
+                this.ngZone.run(() => console.log('Change detected'));
+            }, 1000);
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use Angular's `@HostListener` to handle DOM events?</h2>
+        <div class="answer">
+            <p>The `@HostListener` decorator allows you to listen to DOM events directly on the host element of a directive or component.</p>
+            <pre><code>
+import { Directive, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appClickTracker]'
+})
+export class ClickTrackerDirective {
+    @HostListener('click', ['$event']) onClick(event: Event) {
+        console.log('Element clicked:', event);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use Angular's `@ViewChildren` decorator for querying multiple elements?</h2>
+        <div class="answer">
+            <p>The `@ViewChildren` decorator queries for multiple elements within the view of a component.</p>
+            <pre><code>
+import { Component, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+    selector: 'app-parent',
+    template: `<app-child></app-child><app-child></app-child>`,
+})
+export class ParentComponent implements AfterViewInit {
+    @ViewChildren(ChildComponent) children: QueryList<ChildComponent>;
+
+    ngAfterViewInit() {
+        this.children.forEach(child => console.log(child));
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you use Angular's `ngOnChanges` lifecycle hook?</h2>
+        <div class="answer">
+            <p>The `ngOnChanges` lifecycle hook is used to respond to changes in input properties.</p>
+            <pre><code>
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+
+@Component({
+    selector: 'app-changes',
+    template: `<p>{{ inputValue }}</p>`,
+})
+export class ChangesComponent implements OnChanges {
+    @Input() inputValue: string;
+
+    ngOnChanges(changes: SimpleChanges) {
+        console.log('Changes:', changes);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `ngOnInit` lifecycle hook?</h2>
+        <div class="answer">
+            <p>The `ngOnInit` lifecycle hook is used for component initialization logic.</p>
+            <pre><code>
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+    selector: 'app-init',
+    template: `<p>Component initialized</p>`,
+})
+export class InitComponent implements OnInit {
+    ngOnInit() {
+        console.log('Component initialized');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

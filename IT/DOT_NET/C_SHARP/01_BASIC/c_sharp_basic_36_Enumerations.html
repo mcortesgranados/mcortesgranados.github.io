@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Enumerations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Enumerations</h1>
+    <p>Enumerations, or enums, in C# are a special "class" that represents a group of named integral constants. They are used to define a variable that can hold a set of predefined values. Enums make the code more readable and maintainable by giving names to integral values.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>Enumerations are used for:</p>
+    <ul>
+        <li><strong>Improving Code Readability:</strong> Use meaningful names for sets of related constants.</li>
+        <li><strong>Maintaining Code:</strong> Provide a way to group related constants in a type-safe manner.</li>
+        <li><strong>Reducing Errors:</strong> Limit the values that a variable can hold, reducing the chance of invalid values.</li>
+    </ul>
+    
+    <h2>2. Declaring an Enumeration</h2>
+    <p>To declare an enum, use the <code>enum</code> keyword followed by the enum name and a set of named constants.</p>
+    <pre><code>
+    public enum DaysOfWeek
+    {
+        Sunday,
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday,
+        Saturday
+    }
+    </code></pre>
+    
+    <h2>3. Using an Enumeration</h2>
+    <p>Enumerations can be used in code to represent and compare values.</p>
+    <pre><code>
+    using System;
+
+    public enum DaysOfWeek
+    {
+        Sunday,
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday,
+        Saturday
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            DaysOfWeek today = DaysOfWeek.Wednesday;
+
+            if (today == DaysOfWeek.Wednesday)
+            {
+                Console.WriteLine("It's hump day!");
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Assigning Specific Values</h2>
+    <p>By default, the first enumerator has the value 0, and the value of each successive enumerator is increased by 1. You can assign specific values to enumerators if needed.</p>
+    <pre><code>
+    public enum DaysOfWeek
+    {
+        Sunday = 1,
+        Monday = 2,
+        Tuesday = 3,
+        Wednesday = 4,
+        Thursday = 5,
+        Friday = 6,
+        Saturday = 7
+    }
+    </code></pre>
+    
+    <h2>5. Using Enum with Switch Statements</h2>
+    <p>Enums are commonly used in switch statements to handle different cases based on the enum values.</p>
+    <pre><code>
+    using System;
+
+    public enum DaysOfWeek
+    {
+        Sunday,
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday,
+        Saturday
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            DaysOfWeek today = DaysOfWeek.Friday;
+
+            switch (today)
+            {
+                case DaysOfWeek.Monday:
+                    Console.WriteLine("Start of the work week.");
+                    break;
+                case DaysOfWeek.Friday:
+                    Console.WriteLine("End of the work week.");
+                    break;
+                case DaysOfWeek.Saturday:
+                case DaysOfWeek.Sunday:
+                    Console.WriteLine("Weekend!");
+                    break;
+                default:
+                    Console.WriteLine("Midweek.");
+                    break;
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>6. Enum and Underlying Types</h2>
+    <p>By default, enums use the <code>int</code> type as their underlying type. You can specify a different integral type if needed.</p>
+    <pre><code>
+    public enum DaysOfWeek : byte
+    {
+        Sunday = 1,
+        Monday = 2,
+        Tuesday = 3,
+        Wednesday = 4,
+        Thursday = 5,
+        Friday = 6,
+        Saturday = 7
+    }
+    </code></pre>
+    
+    <h2>7. Key Points</h2>
+    <ul>
+        <li><strong>Enums</strong> define a set of named integral constants.</li>
+        <li><strong>Improves code readability</strong> and maintainability.</li>
+        <li><strong>Enums</strong> can be used in switch statements for clear and structured code.</li>
+        <li><strong>Underlying type</strong> can be customized if necessary.</li>
+    </ul>
+</body>
+</html>

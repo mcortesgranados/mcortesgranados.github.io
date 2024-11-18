@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Advanced ETL Streams Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            color: #a6e22e;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Kafka Advanced ETL Streams Example</h1>
+
+    <p>This example demonstrates how to use Apache Kafka Streams for a typical ETL (Extract, Transform, Load) pipeline. Kafka Streams is a lightweight, easy-to-use library that allows us to build real-time applications using Apache Kafka.</p>
+
+    <h2>What is ETL?</h2>
+    <p>ETL stands for <b>Extract, Transform, Load</b>. In a typical data pipeline:</p>
+    <ul>
+        <li><b>Extract</b>: Data is read from a source, such as a database or a topic.</li>
+        <li><b>Transform</b>: The extracted data is processed, cleaned, or transformed.</li>
+        <li><b>Load</b>: The transformed data is written to a target, such as another database or a Kafka topic.</li>
+    </ul>
+
+    <h2>Kafka Streams Overview</h2>
+    <p>Kafka Streams API is a client library for processing and analyzing data stored in Kafka. It provides features like:</p>
+    <ul>
+        <li>Stateful and stateless processing</li>
+        <li>Windowing operations</li>
+        <li>Exactly-once processing semantics</li>
+        <li>Fault-tolerance and scalability</li>
+    </ul>
+
+    <h2>ETL with Kafka Streams</h2>
+    <p>In this example, we will:</p>
+    <ul>
+        <li><b>Extract</b> data from a Kafka topic.</li>
+        <li><b>Transform</b> the data by applying some filtering and mapping operations.</li>
+        <li><b>Load</b> the transformed data to another Kafka topic.</li>
+    </ul>
+
+    <h2>Dependencies</h2>
+    <p>Ensure that you include the Kafka Streams library in your project. In Maven, add the following dependency:</p>
+    <pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.kafka&lt;/groupId&gt;
+    &lt;artifactId&gt;kafka-streams&lt;/artifactId&gt;
+    &lt;version&gt;3.4.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+
+    <h2>Source Code Example</h2>
+
+    <p>The following is a complete Java example of an ETL pipeline using Kafka Streams API:</p>
+
+    <pre><code>import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.kstream.KStream;
+
+import java.util.Properties;
+
+public class KafkaETLStreamExample {
+
+    public static void main(String[] args) {
+
+        // Define properties for the Kafka Streams application
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "kafka-etl-stream-app");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+
+        // Create a StreamsBuilder instance
+        StreamsBuilder builder = new StreamsBuilder();
+
+        // Extract: Read data from the input topic 'input-topic'
+        KStream&lt;String, String&gt; sourceStream = builder.stream("input-topic");
+
+        // Transform: Filter records where the value is not null and map values to uppercase
+        KStream&lt;String, String&gt; transformedStream = sourceStream
+                .filter((key, value) -&gt; value != null)
+                .mapValues(value -&gt; value.toUpperCase());
+
+        // Load: Write the transformed data to the output topic 'output-topic'
+        transformedStream.to("output-topic");
+
+        // Build and start the Kafka Streams application
+        KafkaStreams streams = new KafkaStreams(builder.build(), props);
+        streams.start();
+
+        // Add shutdown hook to gracefully stop the streams
+        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+    }
+}</code></pre>
+
+    <h2>Explanation of the Code</h2>
+    <ul>
+        <li><code>StreamsConfig</code>: Configures the Kafka Streams application, including the application ID and Kafka broker details.</li>
+        <li><code>StreamsBuilder</code>: Used to construct the processing topology, where we define the source topic, transformation logic, and target topic.</li>
+        <li><code>filter</code>: Filters out records where the value is null.</li>
+        <li><code>mapValues</code>: Transforms the value of each record to uppercase.</li>
+        <li><code>to</code>: Sends the transformed records to the specified Kafka topic (output-topic).</li>
+        <li><code>KafkaStreams</code>: The client instance that executes the stream processing application.</li>
+    </ul>
+
+    <h2>Running the Example</h2>
+    <ol>
+        <li>Ensure Kafka is running locally, with Zookeeper and Kafka brokers started.</li>
+        <li>Create the input and output topics:
+            <pre><code>bin/kafka-topics.sh --create --topic input-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+bin/kafka-topics.sh --create --topic output-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1</code></pre>
+        </li>
+        <li>Run the Java application.</li>
+        <li>Produce some data to the <code>input-topic</code>:
+            <pre><code>bin/kafka-console-producer.sh --topic input-topic --bootstrap-server localhost:9092
+&gt; hello world
+&gt; kafka streams example</code></pre>
+        </li>
+        <li>Consume the transformed data from the <code>output-topic</code>:
+            <pre><code>bin/kafka-console-consumer.sh --topic output-topic --bootstrap-server localhost:9092 --from-beginning</code></pre>
+        </li>
+    </ol>
+
+    <h2>Conclusion</h2>
+    <p>In this example, we created a basic ETL pipeline using Kafka Streams. Data was extracted from one topic, transformed by filtering and mapping operations, and loaded into another topic. Kafka Streams makes it easy to build real-time data pipelines with minimal code.</p>
+
+</body>
+</html>

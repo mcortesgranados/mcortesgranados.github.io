@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing Custom UDFs in Spark SQL</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Writing Custom UDFs in Spark SQL</h1>
+    <p>User-Defined Functions (UDFs) in Spark SQL enable you to define custom logic that can be applied to your data using SQL queries and DataFrame operations. UDFs allow you to extend Spark SQL's built-in functionality and tailor it to your specific needs.</p>
+
+    <h2>1. Introduction to UDFs</h2>
+    <p>UDFs are custom functions that you can register and use in Spark SQL queries and DataFrame operations. They provide a way to encapsulate complex logic and apply it consistently across your datasets. UDFs can be created in various programming languages, including Java, Scala, and Python.</p>
+
+    <h2>2. Example: Writing and Using a Custom UDF in Spark SQL</h2>
+    <p>The following example demonstrates how to create a custom UDF in Java that performs a simple string transformation, and how to use this UDF in a Spark SQL query.</p>
+
+    <h3>Example: Custom UDF for String Transformation</h3>
+    <pre><code>
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.api.java.UDF1;
+import org.apache.spark.sql.functions;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+
+public class CustomUDFExample {
+    public static void main(String[] args) {
+        // Step 1: Create a SparkSession
+        SparkSession spark = SparkSession.builder()
+                .appName("Custom UDF Example")
+                .master("local[*]")
+                .getOrCreate();
+        
+        // Step 2: Define the custom UDF
+        UDF1&lt;String, String&gt; toUpperCaseUDF = (String input) -> {
+            return input != null ? input.toUpperCase() : null;
+        };
+        
+        // Step 3: Register the UDF with Spark
+        spark.udf().register("toUpperCase", toUpperCaseUDF, DataTypes.StringType);
+        
+        // Step 4: Create a DataFrame with sample data
+        Dataset&lt;Row&gt; df = spark.createDataFrame(Arrays.asList(
+            new Tuple2<>("hello"),
+            new Tuple2<>("world")
+        ), Encoders.tuple(Encoders.STRING()).schema());
+        
+        // Step 5: Apply the UDF in a SQL query
+        df.createOrReplaceTempView("words");
+        Dataset&lt;Row&gt; result = spark.sql("SELECT toUpperCase(value) as upperCaseValue FROM words");
+        
+        // Step 6: Show the results
+        result.show();
+        
+        // Stop the SparkSession
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <h2>3. Explanation of the Example</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Step</th>
+                <th>Description</th>
+                <th>Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Create a SparkSession</td>
+                <td><code>SparkSession spark = SparkSession.builder() ... .getOrCreate();</code></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Define the custom UDF</td>
+                <td><code>UDF1&lt;String, String&gt; toUpperCaseUDF = (String input) -> { ... };</code></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Register the UDF with Spark</td>
+                <td><code>spark.udf().register("toUpperCase", toUpperCaseUDF, DataTypes.StringType);</code></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Create a DataFrame with sample data</td>
+                <td><code>Dataset&lt;Row&gt; df = spark.createDataFrame(Arrays.asList(...), ...);</code></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Apply the UDF in a SQL query</td>
+                <td><code>Dataset&lt;Row&gt; result = spark.sql("SELECT toUpperCase(value) ...");</code></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Show the results</td>
+                <td><code>result.show();</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4. Conclusion</h2>
+    <p>Writing custom UDFs in Spark SQL allows you to extend Spark's built-in functionality and apply custom transformations to your data. By defining and registering UDFs, you can encapsulate complex logic and use it in SQL queries and DataFrame operations, providing flexibility and power to your data processing tasks.</p>
+</body>
+</html>

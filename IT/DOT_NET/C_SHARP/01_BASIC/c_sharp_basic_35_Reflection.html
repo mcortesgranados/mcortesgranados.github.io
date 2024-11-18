@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Reflection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Reflection</h1>
+    <p>Reflection in C# is a feature that allows you to inspect and interact with the metadata and types of objects at runtime. It provides the ability to query and manipulate the structure of types and their members, such as methods, properties, fields, and more.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>Reflection is used for various purposes, including:</p>
+    <ul>
+        <li><strong>Dynamic Type Discovery:</strong> Inspect types, methods, and properties at runtime without knowing them at compile time.</li>
+        <li><strong>Code Generation:</strong> Generate code or create instances of types dynamically.</li>
+        <li><strong>Assembly Inspection:</strong> Examine and interact with assemblies and their types.</li>
+        <li><strong>Dynamic Invocation:</strong> Invoke methods and access properties dynamically.</li>
+    </ul>
+    
+    <h2>2. Basic Reflection Usage</h2>
+    <p>Here's how you can use reflection to inspect and interact with types and their members:</p>
+    
+    <h3>Example 1: Inspecting a Class</h3>
+    <p>Use reflection to get information about a class, such as its methods and properties.</p>
+    <pre><code>
+    using System;
+    using System.Reflection;
+
+    public class Person
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+        public void Greet()
+        {
+            Console.WriteLine("Hello!");
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            Type type = typeof(Person);
+            Console.WriteLine("Class Name: " + type.Name);
+
+            // Get and display properties
+            PropertyInfo[] properties = type.GetProperties();
+            foreach (PropertyInfo prop in properties)
+            {
+                Console.WriteLine("Property: " + prop.Name);
+            }
+
+            // Get and display methods
+            MethodInfo[] methods = type.GetMethods();
+            foreach (MethodInfo method in methods)
+            {
+                Console.WriteLine("Method: " + method.Name);
+            }
+        }
+    }
+    </code></pre>
+    
+    <h3>Example 2: Creating an Instance Dynamically</h3>
+    <p>Use reflection to create an instance of a type dynamically and invoke its methods.</p>
+    <pre><code>
+    using System;
+    using System.Reflection;
+
+    public class Person
+    {
+        public string Name { get; set; }
+
+        public void Greet()
+        {
+            Console.WriteLine($"Hello, my name is {Name}.");
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            // Create an instance of Person dynamically
+            Type type = typeof(Person);
+            object personInstance = Activator.CreateInstance(type);
+
+            // Set property value
+            PropertyInfo nameProperty = type.GetProperty("Name");
+            nameProperty.SetValue(personInstance, "Alice");
+
+            // Invoke method
+            MethodInfo greetMethod = type.GetMethod("Greet");
+            greetMethod.Invoke(personInstance, null);
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Accessing Private Members</h2>
+    <p>Reflection can also be used to access private members of a class.</p>
+    <pre><code>
+    using System;
+    using System.Reflection;
+
+    public class Secret
+    {
+        private string secretMessage = "This is a secret.";
+
+        private void RevealSecret()
+        {
+            Console.WriteLine(secretMessage);
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            // Access private field
+            Type type = typeof(Secret);
+            object secretInstance = Activator.CreateInstance(type);
+
+            FieldInfo secretField = type.GetField("secretMessage", BindingFlags.NonPublic | BindingFlags.Instance);
+            Console.WriteLine("Private Field Value: " + secretField.GetValue(secretInstance));
+
+            // Invoke private method
+            MethodInfo revealMethod = type.GetMethod("RevealSecret", BindingFlags.NonPublic | BindingFlags.Instance);
+            revealMethod.Invoke(secretInstance, null);
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Key Points</h2>
+    <ul>
+        <li><strong>Reflection</strong> allows dynamic inspection and manipulation of types and members at runtime.</li>
+        <li><strong>Type Inspection</strong> provides information about types, properties, methods, and fields.</li>
+        <li><strong>Dynamic Creation</strong> enables the creation of instances and invocation of methods without compile-time knowledge.</li>
+        <li><strong>Private Member Access</strong> allows access to private fields and methods, although this should be used with caution.</li>
+    </ul>
+</body>
+</html>

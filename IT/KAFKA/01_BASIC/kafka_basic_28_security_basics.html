@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka: Security Basics</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka: Security Basics</h1>
+    <p>Security is a crucial aspect of managing a Kafka cluster, especially in production environments. This guide provides an overview of the basic security features available in Apache Kafka and how to implement them.</p>
+
+    <h2>1. Authentication</h2>
+    <p>Authentication ensures that only authorized users can connect to your Kafka cluster. Kafka supports several authentication mechanisms:</p>
+    <ul>
+        <li><strong>SASL/PLAIN:</strong> Simple username and password-based authentication.</li>
+        <li><strong>SASL/SCRAM:</strong> Salted Challenge-Response Authentication Mechanism, a more secure option for password-based authentication.</li>
+        <li><strong>SASL/GSSAPI (Kerberos):</strong> Uses Kerberos for strong authentication, often used in enterprise environments.</li>
+    </ul>
+
+    <h3>Example: Configuring SASL/PLAIN Authentication</h3>
+    <p>Add the following properties to your Kafka broker configuration:</p>
+    <pre><code>
+listeners=SASL_PLAINTEXT://localhost:9092
+security.inter.broker.protocol=SASL_PLAINTEXT
+sasl.enabled.mechanisms=PLAIN
+sasl.mechanism.inter.broker.protocol=PLAIN
+
+# JAAS configuration
+# Add the following to the kafka_server_jaas.conf file
+KafkaServer {
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    username="broker"
+    password="broker-password"
+    user_broker="broker-password";
+};
+    </code></pre>
+
+    <h2>2. Authorization</h2>
+    <p>Authorization controls what actions authenticated users can perform on Kafka resources such as topics and consumer groups. Kafka provides access control through:</p>
+    <ul>
+        <li><strong>ACLs (Access Control Lists):</strong> Define who can read from or write to topics, create topics, etc.</li>
+    </ul>
+
+    <h3>Example: Configuring ACLs</h3>
+    <p>To set ACLs, use the Kafka command-line tool:</p>
+    <pre><code>
+# Grant a user read access to a topic
+kafka-acls --bootstrap-server localhost:9092 --add --allow-principal User:my-user --operation Read --topic my-topic
+
+# List all ACLs
+kafka-acls --bootstrap-server localhost:9092 --list
+    </code></pre>
+
+    <h2>3. Encryption</h2>
+    <p>Encryption ensures that data is protected both in transit and at rest:</p>
+    <ul>
+        <li><strong>Encryption in Transit:</strong> Uses SSL/TLS to encrypt data as it travels between Kafka brokers, producers, and consumers.</li>
+        <li><strong>Encryption at Rest:</strong> Data stored on disk can be encrypted to protect against unauthorized access.</li>
+    </ul>
+
+    <h3>Example: Configuring SSL Encryption</h3>
+    <p>Add the following properties to your Kafka broker configuration:</p>
+    <pre><code>
+listeners=SSL://localhost:9093
+security.inter.broker.protocol=SSL
+ssl.keystore.location=/path/to/kafka.server.keystore.jks
+ssl.keystore.password=keystore-password
+ssl.key.password=key-password
+ssl.truststore.location=/path/to/kafka.server.truststore.jks
+ssl.truststore.password=truststore-password
+    </code></pre>
+
+    <h2>4. Conclusion</h2>
+    <p>Implementing security measures in Kafka is essential for protecting your data and ensuring that only authorized users have access to the cluster. By configuring authentication, authorization, and encryption, you can significantly enhance the security of your Kafka environment.</p>
+</body>
+</html>

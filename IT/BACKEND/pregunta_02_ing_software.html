@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas sobre Código Limpio</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preguntas sobre Desarrollo de Código Limpio</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1. ¿Qué es el código limpio?</td>
+                <td>El código limpio es un código que es fácil de leer, entender y modificar. Se basa en principios y buenas prácticas que facilitan el mantenimiento y la evolución del software.</td>
+            </tr>
+            <tr>
+                <td>2. ¿Por qué es importante el código limpio?</td>
+                <td>El código limpio es importante porque mejora la mantenibilidad, facilita la colaboración entre desarrolladores y reduce la probabilidad de errores y defectos en el software.</td>
+            </tr>
+            <tr>
+                <td>3. ¿Qué es la regla del "principio de responsabilidad única" (SRP)?</td>
+                <td>El principio de responsabilidad única establece que una clase debe tener solo una razón para cambiar, es decir, debe tener solo una responsabilidad o función.</td>
+            </tr>
+            <tr>
+                <td>4. ¿Cómo se aplica SRP en Java?</td>
+                <td>
+                    <pre><code>public class User {
+    private String name;
+    private String email;
+
+    // Getters and setters
+}
+
+public class UserValidator {
+    public boolean validate(User user) {
+        // Validation logic
+        return true;
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>5. ¿Qué es el "principio de abierto/cerrado" (OCP)?</td>
+                <td>El principio de abierto/cerrado establece que una clase debe estar abierta para la extensión pero cerrada para la modificación. Esto significa que se debe poder extender el comportamiento de una clase sin modificar su código fuente.</td>
+            </tr>
+            <tr>
+                <td>6. ¿Cómo se aplica OCP en Python?</td>
+                <td>
+                    <pre><code>from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def draw(self):
+        pass
+
+class Circle(Shape):
+    def draw(self):
+        print("Drawing a circle")
+
+class Square(Shape):
+    def draw(self):
+        print("Drawing a square")</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>7. ¿Qué es el "principio de sustitución de Liskov" (LSP)?</td>
+                <td>El principio de sustitución de Liskov establece que los objetos de una clase derivada deben poder sustituirse por objetos de la clase base sin alterar el correcto funcionamiento del programa.</td>
+            </tr>
+            <tr>
+                <td>8. ¿Cómo se aplica LSP en C#?</td>
+                <td>
+                    <pre><code>public class Bird
+{
+    public virtual void Fly()
+    {
+        Console.WriteLine("Flying");
+    }
+}
+
+public class Sparrow : Bird
+{
+    public override void Fly()
+    {
+        Console.WriteLine("Sparrow flying");
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>9. ¿Qué es el "principio de segregación de interfaces" (ISP)?</td>
+                <td>El principio de segregación de interfaces establece que una clase no debe verse obligada a implementar interfaces que no utiliza. Es mejor tener muchas interfaces específicas en lugar de una interfaz general.</td>
+            </tr>
+            <tr>
+                <td>10. ¿Cómo se aplica ISP en TypeScript?</td>
+                <td>
+                    <pre><code>interface Shape {
+    draw(): void;
+}
+
+interface Scalable {
+    scale(factor: number): void;
+}
+
+class Circle implements Shape, Scalable {
+    draw() {
+        console.log("Drawing a circle");
+    }
+
+    scale(factor: number) {
+        console.log(`Scaling circle by ${factor}`);
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>11. ¿Qué es el "principio de inversión de dependencias" (DIP)?</td>
+                <td>El principio de inversión de dependencias establece que los módulos de alto nivel no deben depender de módulos de bajo nivel. Ambos deben depender de abstracciones. Además, las abstracciones no deben depender de los detalles, sino los detalles de las abstracciones.</td>
+            </tr>
+            <tr>
+                <td>12. ¿Cómo se aplica DIP en Java?</td>
+                <td>
+                    <pre><code>public interface NotificationService {
+    void send(String message);
+}
+
+public class EmailNotificationService implements NotificationService {
+    public void send(String message) {
+        System.out.println("Sending email: " + message);
+    }
+}
+
+public class User {
+    private NotificationService notificationService;
+
+    public User(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
+    public void notify(String message) {
+        notificationService.send(message);
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>13. ¿Qué es el principio de "nombre descriptivo" en el código?</td>
+                <td>El principio de nombre descriptivo sugiere que los nombres de variables, funciones y clases deben ser claros y descriptivos para que el propósito del código sea evidente.</td>
+            </tr>
+            <tr>
+                <td>14. ¿Cómo se aplican nombres descriptivos en Python?</td>
+                <td>
+                    <pre><code>def calculate_area_of_rectangle(width, height):
+    return width * height
+
+class Rectangle:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def calculate_area(self):
+        return self.width * self.height</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>15. ¿Qué es el principio de "funciones pequeñas" en el código?</td>
+                <td>El principio de funciones pequeñas sugiere que las funciones deben hacer una sola cosa y hacerla bien. Esto facilita la lectura y el mantenimiento del código.</td>
+            </tr>
+            <tr>
+                <td>16. ¿Cómo se aplican funciones pequeñas en C#?</td>
+                <td>
+                    <pre><code>public class Calculator
+{
+    public int Add(int a, int b)
+    {
+        return a + b;
+    }
+
+    public int Subtract(int a, int b)
+    {
+        return a - b;
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>17. ¿Qué es el principio de "comentarios necesarios"?</td>
+                <td>El principio de comentarios necesarios sugiere que el código debe ser tan claro que los comentarios sean mínimos. Los comentarios deben usarse solo para aclarar el código complejo o para explicar el "por qué" detrás de ciertas decisiones.</td>
+            </tr>
+            <tr>
+                <td>18. ¿Cómo se aplica el principio de comentarios necesarios en TypeScript?</td>
+                <td>
+                    <pre><code>// Calculates the area of a rectangle
+function calculateArea(width: number, height: number): number {
+    return width * height;
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>19. ¿Qué es el principio de "eliminar el código muerto"?</td>
+                <td>El principio de eliminar el código muerto establece que el código que no es utilizado o que no tiene un propósito debe ser eliminado para evitar confusión y mantener el código limpio.</td>
+            </tr>
+            <tr>
+                <td>20. ¿Cómo se elimina el código muerto en Java?</td>
+                <td>
+                    <pre><code>public class OldClass {
+    // This method is not used anywhere
+    public void oldMethod() {
+        // old logic
+    }
+}
+
+// Remove the unused method and class</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>21. ¿Qué es el principio de "evitar el código duplicado"?</td>
+                <td>El principio de evitar el código duplicado establece que se debe evitar repetir el mismo código en diferentes lugares. En su lugar, se deben usar funciones o métodos reutilizables.</td>
+            </tr>
+            <tr>
+                <td>22. ¿Cómo se evita el código duplicado en Python?</td>
+                <td>
+                    <pre><code>def calculate_area(width, height):
+    return width * height
+
+# Use the function wherever needed
+area1 = calculate_area(5, 10)
+area2 = calculate_area(7, 3)</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>23. ¿Qué es el principio de "pruebas unitarias"?</td>
+                <td>El principio de pruebas unitarias establece que el código debe ser probado en pequeñas unidades (funciones o métodos) para asegurar que cada componente funciona correctamente.</td>
+            </tr>
+            <tr>
+                <td>24. ¿Cómo se implementan pruebas unitarias en C#?</td>
+                <td>
+                    <pre><code>[TestClass]
+public class CalculatorTests
+{
+    [TestMethod]
+    public void Add_ValidInputs_ReturnsSum()
+    {
+        Calculator calc = new Calculator();
+        int result = calc.Add(5, 3);
+        Assert.AreEqual(8, result);
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>25. ¿Qué es el principio de "abstraer detalles"?</td>
+                <td>El principio de abstraer detalles establece que el código debe enfocarse en las interfaces y no en los detalles de implementación. Esto facilita la extensión y el mantenimiento del código.</td>
+            </tr>
+            <tr>
+                <td>26. ¿Cómo se abstraen detalles en Java?</td>
+                <td>
+                    <pre><code>public interface PaymentProcessor {
+    void processPayment(double amount);
+}
+
+public class PayPalProcessor implements PaymentProcessor {
+    public void processPayment(double amount) {
+        System.out.println("Processing payment via PayPal");
+    }
+}
+
+public class StripeProcessor implements PaymentProcessor {
+    public void processPayment(double amount) {
+        System.out.println("Processing payment via Stripe");
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>27. ¿Qué es el principio de "evitar dependencias circulares"?</td>
+                <td>El principio de evitar dependencias circulares establece que los módulos o clases no deben depender unos de otros en un ciclo, ya que esto puede causar problemas de mantenimiento y acoplamiento fuerte.</td>
+            </tr>
+            <tr>
+                <td>28. ¿Cómo se evitan dependencias circulares en Python?</td>
+                <td>
+                    <pre><code># Module A
+class A:
+    def __init__(self, b):
+        self.b = b
+
+# Module B
+class B:
+    def __init__(self):
+        self.a = A(self)
+
+# Refactor to avoid circular dependency</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>29. ¿Qué es el principio de "seguir el principio de menor sorpresa"?</td>
+                <td>El principio de seguir el principio de menor sorpresa establece que el comportamiento del código debe ser intuitivo y no sorprender a otros desarrolladores. El código debe comportarse de la manera en que se espera.</td>
+            </tr>
+            <tr>
+                <td>30. ¿Cómo se sigue el principio de menor sorpresa en C#?</td>
+                <td>
+                    <pre><code>public class User
+{
+    public string Name { get; set; }
+
+    public string GetUserName()
+    {
+        return Name;
+    }
+}
+
+// Use the class in a predictable way
+User user = new User();
+user.Name = "John";
+Console.WriteLine(user.GetUserName());</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>31. ¿Qué es el principio de "utilizar convenciones"?</td>
+                <td>El principio de utilizar convenciones establece que se deben seguir las convenciones de codificación establecidas para el proyecto o equipo, ya que esto mejora la legibilidad y coherencia del código.</td>
+            </tr>
+            <tr>
+                <td>32. ¿Cómo se utilizan convenciones en TypeScript?</td>
+                <td>
+                    <pre><code// Naming convention for classes
+class UserProfile {
+    firstName: string;
+    lastName: string;
+
+    constructor(firstName: string, lastName: string) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>33. ¿Qué es el principio de "módulos cohesivos"? </td>
+                <td>El principio de módulos cohesivos establece que los módulos deben ser cohesivos, es decir, deben agrupar funcionalidades relacionadas y tener una responsabilidad clara.</td>
+            </tr>
+            <tr>
+                <td>34. ¿Cómo se aplican módulos cohesivos en Java?</td>
+                <td>
+                    <pre><code>public class Order {
+    private List<Item> items;
+
+    public void addItem(Item item) {
+        items.add(item);
+    }
+
+    public double calculateTotal() {
+        double total = 0;
+        for (Item item : items) {
+            total += item.getPrice();
+        }
+        return total;
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>35. ¿Qué es el principio de "reducir la complejidad ciclómica"?</td>
+                <td>El principio de reducir la complejidad ciclómica establece que se debe minimizar la complejidad del código para hacerlo más fácil de entender y mantener. Esto se puede lograr simplificando la lógica y reduciendo el número de caminos de ejecución.</td>
+            </tr>
+            <tr>
+                <td>36. ¿Cómo se reduce la complejidad ciclómica en Python?</td>
+                <td>
+                    <pre><code>def calculate_discount(price, discount):
+    if discount > 0:
+        return price - (price * discount)
+    return price
+
+# Simplify conditional logic
+def calculate_discount(price, discount):
+    return price - (price * discount) if discount > 0 else price</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>37. ¿Qué es el principio de "no repetir el mismo código" (DRY)?</td>
+                <td>El principio de no repetir el mismo código, conocido como DRY (Don't Repeat Yourself), establece que el código duplicado debe ser refactorizado en funciones o módulos reutilizables para evitar la redundancia y facilitar el mantenimiento.</td>
+            </tr>
+            <tr>
+                <td>38. ¿Cómo se aplica DRY en C#?</td>
+                <td>
+                    <pre><code>public class TaxCalculator
+{
+    public double CalculateTax(double amount)
+    {
+        return amount * 0.2;
+    }
+}
+
+public class Invoice
+{
+    private TaxCalculator taxCalculator = new TaxCalculator();
+
+    public double CalculateTotal(double amount)
+    {
+        double tax = taxCalculator.CalculateTax(amount);
+        return amount + tax;
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>39. ¿Qué es el principio de "separación de preocupaciones"?</td>
+                <td>El principio de separación de preocupaciones establece que diferentes responsabilidades o funcionalidades deben ser separadas en diferentes módulos o clases para mejorar la organización y la mantenibilidad del código.</td>
+            </tr>
+            <tr>
+                <td>40. ¿Cómo se aplica la separación de preocupaciones en Java?</td>
+                <td>
+                    <pre><code>public class OrderService {
+    private OrderRepository orderRepository;
+
+    public void processOrder(Order order) {
+        // Order processing logic
+        orderRepository.save(order);
+    }
+}
+
+public class OrderRepository {
+    public void save(Order order) {
+        // Save order to database
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>41. ¿Qué es el principio de "uso de excepciones para errores excepcionales"? </td>
+                <td>El principio de uso de excepciones para errores excepcionales establece que las excepciones deben usarse solo para situaciones excepcionales y no para el control del flujo normal del programa.</td>
+            </tr>
+            <tr>
+                <td>42. ¿Cómo se usan excepciones en Python?</td>
+                <td>
+                    <pre><code>try:
+    result = 10 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero")
+
+# Avoid using exceptions for control flow
+def calculate_division(a, b):
+    if b == 0:
+        raise ValueError("Cannot divide by zero")
+    return a / b</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>43. ¿Qué es el principio de "evitar el acoplamiento fuerte"? </td>
+                <td>El principio de evitar el acoplamiento fuerte establece que las clases y módulos deben estar lo menos acoplados posible para facilitar el mantenimiento y la reutilización del código.</td>
+            </tr>
+            <tr>
+                <td>44. ¿Cómo se evita el acoplamiento fuerte en C#?</td>
+                <td>
+                    <pre><code>public interface IDataProvider
+{
+    string GetData();
+}
+
+public class DataProvider : IDataProvider
+{
+    public string GetData()
+    {
+        return "Data";
+    }
+}
+
+public class DataProcessor
+{
+    private IDataProvider dataProvider;
+
+    public DataProcessor(IDataProvider dataProvider)
+    {
+        this.dataProvider = dataProvider;
+    }
+
+    public void Process()
+    {
+        string data = dataProvider.GetData();
+        // Process data
+    }
+}</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>45. ¿Qué es el principio de "pruebas automatizadas"?</td>
+                <td>El principio de pruebas automatizadas establece que las pruebas deben ser automatizadas siempre que sea posible para asegurar la calidad del software de manera eficiente y repetible.</td>
+            </tr>
+            <tr>
+                <td>46. ¿Cómo se implementan pruebas automatizadas en Java?</td>
+                <td>
+                    <pre><code>@Test
+public void testCalculateArea() {
+    double result = calculateArea(5, 10);
+    assertEquals(50.0, result, 0.01);
+}</code></pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+### Pregunta 2: Con relación al desarrollo de código limpio, mediante el cual aplica principios que ayudan a producir código intuitivo (que cualquier desarrollador profesional pueda entender de inmediato) y fácil de modificar, usted:
+1. ¿Cuál es la importancia de aplicar el principio de "separación de preocupaciones" en el desarrollo de código limpio?
+2. ¿Cómo implementaría el principio de "no repetir el mismo código" (DRY) en un proyecto de desarrollo de software?
+3. Explique cómo aplicaría el principio de "reducir la complejidad ciclómica" en el desarrollo de código limpio.
+4. ¿Por qué es fundamental seguir el principio de "pruebas unitarias" en el desarrollo de software limpio?
+
+Espero tus respuestas para continuar con la evaluación.

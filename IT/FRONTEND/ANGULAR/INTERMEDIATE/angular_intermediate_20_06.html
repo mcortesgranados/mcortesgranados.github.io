@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intermediate Angular Questions - Part 6</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Intermediate Angular Questions - Part 6</h1>
+
+    <div class="question">
+        <h2>1. How do you use Angular's `ngOnDestroy` lifecycle hook to clean up resources?</h2>
+        <div class="answer">
+            <p>The `ngOnDestroy` lifecycle hook is used to perform cleanup just before Angular destroys the component or directive.</p>
+            <pre><code>
+import { Component, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+@Component({
+    selector: 'app-destroy',
+    template: `<p>Component is being destroyed</p>`,
+})
+export class DestroyComponent implements OnDestroy {
+    private subscription: Subscription = new Subscription();
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How do you use Angular's `@ViewChild` to access a child component or element?</h2>
+        <div class="answer">
+            <p>The `@ViewChild` decorator allows you to access a child component or element within the parent component.</p>
+            <pre><code>
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+
+@Component({
+    selector: 'app-view-child',
+    template: `<p #paragraph>Some text</p>`,
+})
+export class ViewChildComponent implements AfterViewInit {
+    @ViewChild('paragraph') paragraph: ElementRef;
+
+    ngAfterViewInit() {
+        console.log(this.paragraph.nativeElement.textContent);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you use Angular's `@ContentChildren` to access multiple projected content elements?</h2>
+        <div class="answer">
+            <p>The `@ContentChildren` decorator is used to access multiple child elements projected into a component.</p>
+            <pre><code>
+import { Component, ContentChildren, QueryList, AfterContentInit, ElementRef } from '@angular/core';
+
+@Component({
+    selector: 'app-content-children',
+    template: `<ng-content></ng-content>`,
+})
+export class ContentChildrenComponent implements AfterContentInit {
+    @ContentChildren('content') contents: QueryList<ElementRef>;
+
+    ngAfterContentInit() {
+        this.contents.forEach(content => {
+            console.log(content.nativeElement.textContent);
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you use Angular's `ngOnChanges` lifecycle hook to respond to input property changes?</h2>
+        <div class="answer">
+            <p>The `ngOnChanges` lifecycle hook allows you to respond to changes in input properties.</p>
+            <pre><code>
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+
+@Component({
+    selector: 'app-changes',
+    template: `<p>{{ value }}</p>`,
+})
+export class ChangesComponent implements OnChanges {
+    @Input() value: string;
+
+    ngOnChanges(changes: SimpleChanges) {
+        console.log('Changes:', changes);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you use Angular's `ngFor` to loop through an array in a template?</h2>
+        <div class="answer">
+            <p>The `ngFor` directive is used to iterate over arrays or collections in Angular templates.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-for',
+    template: `
+        <ul>
+            <li *ngFor="let item of items">{{ item }}</li>
+        </ul>
+    `,
+})
+export class NgForComponent {
+    items = ['Item 1', 'Item 2', 'Item 3'];
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you use Angular's `ngIf` to conditionally display elements?</h2>
+        <div class="answer">
+            <p>The `ngIf` directive conditionally includes or excludes elements from the DOM.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-if',
+    template: `
+        <div *ngIf="isVisible">This is visible</div>
+    `,
+})
+export class NgIfComponent {
+    isVisible = true;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use Angular's `ngClass` to apply CSS classes conditionally?</h2>
+        <div class="answer">
+            <p>The `ngClass` directive is used to dynamically add or remove CSS classes based on expressions.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-class',
+    template: `
+        <div [ngClass]="{'active': isActive, 'inactive': !isActive}">
+            Conditional classes
+        </div>
+    `,
+})
+export class NgClassComponent {
+    isActive = true;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you use Angular's `ngStyle` to apply inline styles conditionally?</h2>
+        <div class="answer">
+            <p>The `ngStyle` directive allows you to apply inline styles conditionally based on expressions.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-style',
+    template: `
+        <div [ngStyle]="{'color': color, 'font-size': fontSize}">
+            Styled text
+        </div>
+    `,
+})
+export class NgStyleComponent {
+    color = 'blue';
+    fontSize = '20px';
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you use Angular's `@Pipe` to create a custom pipe?</h2>
+        <div class="answer">
+            <p>The `@Pipe` decorator is used to create custom pipes to transform data in templates.</p>
+            <pre><code>
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'uppercase'
+})
+export class UppercasePipe implements PipeTransform {
+    transform(value: string): string {
+        return value.toUpperCase();
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use Angular's `ngModel` with two-way data binding in a form?</h2>
+        <div class="answer">
+            <p>The `ngModel` directive is used for two-way data binding in Angular forms.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-ng-model',
+    template: `
+        <input [(ngModel)]="name" placeholder="Name" />
+        <p>Name: {{ name }}</p>
+    `,
+})
+export class NgModelComponent {
+    name: string = '';
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you use Angular's `ReactiveForms` to handle form submissions?</h2>
+        <div class="answer">
+            <p>Reactive forms provide a way to handle form submissions with more control over validation and state.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+@Component({
+    selector: 'app-reactive-form',
+    template: `
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <input formControlName="name" placeholder="Name" />
+            <button type="submit">Submit</button>
+        </form>
+    `,
+})
+export class ReactiveFormComponent {
+    form: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            name: ['']
+        });
+    }
+
+    onSubmit() {
+        console.log(this.form.value);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you use Angular's `FormBuilder` to create a form group?</h2>
+        <div class="answer">
+            <p>The `FormBuilder` service is used to create form groups in a reactive form.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+@Component({
+    selector: 'app-form-builder',
+    template: `
+        <form [formGroup]="form">
+            <input formControlName="email" placeholder="Email" />
+        </form>
+    `,
+})
+export class FormBuilderComponent {
+    form: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.form = this.fb.group({
+            email: ['']
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use Angular's `HttpInterceptor` to intercept HTTP requests?</h2>
+        <div class="answer">
+            <p>The `HttpInterceptor` interface allows you to intercept and modify HTTP requests and responses.</p>
+            <pre><code>
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const authReq = req.clone({
+            headers: req.headers.set('Authorization', 'Bearer my-token')
+        });
+        return next.handle(authReq);
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use Angular's `HttpClient` to handle errors in HTTP requests?</h2>
+        <div class="answer">
+            <p>The `HttpClient` service provides methods to handle errors using RxJS operators.</p>
+            <pre><code>
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+@Component({
+    selector: 'app-http-error',
+    template: `<p>Check console for errors</p>`,
+})
+export class HttpErrorComponent {
+    constructor(private http: HttpClient) {
+        this.http.get('https://api.example.com/data')
+            .pipe(catchError(error => {
+                console.error('Error occurred:', error);
+                return of([]);
+            }))
+            .subscribe(response => {
+                console.log(response);
+            });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you use Angular's `@Directive` to create a custom directive?</h2>
+        <div class="answer">
+            <p>The `@Directive` decorator is used to create custom directives that can manipulate the DOM.</p>
+            <pre><code>
+import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
+
+@Directive({
+    selector: '[appHighlight]'
+})
+export class HighlightDirective {
+    constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+    @HostListener('mouseenter') onMouseEnter() {
+        this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'yellow');
+    }
+
+    @HostListener('mouseleave') onMouseLeave() {
+        this.renderer.removeStyle(this.el.nativeElement, 'backgroundColor');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you use Angular's `Renderer2` to interact with the DOM?</h2>
+        <div class="answer">
+            <p>The `Renderer2` service allows you to interact with the DOM in a safe way.</p>
+            <pre><code>
+import { Directive, Renderer2, ElementRef } from '@angular/core';
+
+@Directive({
+    selector: '[appColor]'
+})
+export class ColorDirective {
+    constructor(private el: ElementRef, private renderer: Renderer2) {
+        this.renderer.setStyle(this.el.nativeElement, 'color', 'blue');
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use Angular's `@ViewChildren` to query multiple elements or components?</h2>
+        <div class="answer">
+            <p>The `@ViewChildren` decorator allows you to query and access multiple child elements or components.</p>
+            <pre><code>
+import { Component, ViewChildren, QueryList, AfterViewInit, ElementRef } from '@angular/core';
+
+@Component({
+    selector: 'app-view-children',
+    template: `<div #item *ngFor="let i of items">{{ i }}</div>`,
+})
+export class ViewChildrenComponent implements AfterViewInit {
+    @ViewChildren('item') items: QueryList<ElementRef>;
+
+    ngAfterViewInit() {
+        this.items.forEach(item => {
+            console.log(item.nativeElement.textContent);
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use Angular's `@NgModule` to create feature modules?</h2>
+        <div class="answer">
+            <p>Feature modules are created using the `@NgModule` decorator to group related components, directives, and services.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FeatureComponent } from './feature.component';
+
+@NgModule({
+    imports: [CommonModule],
+    declarations: [FeatureComponent],
+    exports: [FeatureComponent]
+})
+export class FeatureModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you use Angular's `RouterModule` to configure routes?</h2>
+        <div class="answer">
+            <p>The `RouterModule` is used to configure routes and navigation in an Angular application.</p>
+            <pre><code>
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home.component';
+import { AboutComponent } from './about.component';
+
+const routes: Routes = [
+    { path: 'home', component: HomeComponent },
+    { path: 'about', component: AboutComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' }
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `ActivatedRoute` to get route parameters?</h2>
+        <div class="answer">
+            <p>The `ActivatedRoute` service allows you to access route parameters in your component.</p>
+            <pre><code>
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+    selector: 'app-route-params',
+    template: `<p>Route ID: {{ id }}</p>`,
+})
+export class RouteParamsComponent implements OnInit {
+    id: string;
+
+    constructor(private route: ActivatedRoute) {}
+
+    ngOnInit() {
+        this.route.paramMap.subscribe(params => {
+            this.id = params.get('id');
+        });
+    }
+}
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

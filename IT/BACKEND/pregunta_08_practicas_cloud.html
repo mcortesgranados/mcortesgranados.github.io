@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatización de Tareas en la Nube</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Automatización de Tareas en la Nube</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Pregunta</th>
+                <th>Descripción</th>
+                <th>Java</th>
+                <th>Python</th>
+                <th>C#</th>
+                <th>TypeScript</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>¿Cómo se automatiza la creación de instancias en AWS usando AWS SDK?</td>
+                <td>Se puede utilizar AWS SDK para Java para automatizar la creación de instancias EC2 mediante el uso de la API de Amazon EC2.</td>
+                <td><pre><code>import com.amazonaws.services.ec2.AmazonEC2;
+import com.amazonaws.services.ec2.AmazonEC2ClientBuilder;
+import com.amazonaws.services.ec2.model.RunInstancesRequest;
+import com.amazonaws.services.ec2.model.RunInstancesResult;
+
+public class EC2InstanceLauncher {
+    public static void main(String[] args) {
+        AmazonEC2 ec2 = AmazonEC2ClientBuilder.defaultClient();
+        RunInstancesRequest runInstancesRequest = new RunInstancesRequest()
+            .withImageId("ami-0abcdef1234567890")
+            .withInstanceType("t2.micro")
+            .withMinCount(1)
+            .withMaxCount(1);
+        RunInstancesResult result = ec2.runInstances(runInstancesRequest);
+        System.out.println("Instance created with ID: " + result.getReservation().getInstances().get(0).getInstanceId());
+    }
+}</code></pre></td>
+                <td><pre><code># Python example using boto3 to launch EC2 instance
+import boto3
+
+ec2 = boto3.client('ec2')
+response = ec2.run_instances(
+    ImageId='ami-0abcdef1234567890',
+    InstanceType='t2.micro',
+    MinCount=1,
+    MaxCount=1
+)
+print(f'Instance created with ID: {response["Instances"][0]["InstanceId"]}')
+</code></pre></td>
+                <td><pre><code>// C# example using AWS SDK to launch EC2 instance
+using Amazon.EC2;
+using Amazon.EC2.Model;
+using System.Threading.Tasks;
+
+public class EC2InstanceLauncher
+{
+    public static async Task Main(string[] args)
+    {
+        var ec2Client = new AmazonEC2Client();
+        var request = new RunInstancesRequest
+        {
+            ImageId = "ami-0abcdef1234567890",
+            InstanceType = InstanceType.T2Micro,
+            MinCount = 1,
+            MaxCount = 1
+        };
+        var response = await ec2Client.RunInstancesAsync(request);
+        Console.WriteLine($"Instance created with ID: {response.Reservation.Instances[0].InstanceId}");
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example using AWS SDK to launch EC2 instance
+import * as AWS from 'aws-sdk';
+
+const ec2 = new AWS.EC2();
+const params = {
+    ImageId: 'ami-0abcdef1234567890',
+    InstanceType: 't2.micro',
+    MinCount: 1,
+    MaxCount: 1
+};
+
+ec2.runInstances(params, (err, data) => {
+    if (err) console.error(err);
+    else console.log(`Instance created with ID: ${data.Instances[0].InstanceId}`);
+});
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>¿Cómo se configura una tarea programada en Azure utilizando Azure Functions?</td>
+                <td>Las Azure Functions pueden configurarse para ejecutar tareas programadas utilizando desencadenadores de temporizador.</td>
+                <td><pre><code>// Java example of Azure Function with TimerTrigger
+import com.microsoft.azure.functions.annotation.*;
+import com.microsoft.azure.functions.*;
+
+public class TimerFunction {
+    @FunctionName("TimerFunction")
+    public void run(
+        @TimerTrigger(name = "timerInfo", schedule = "0 */5 * * * *") String timerInfo,
+        final ExecutionContext context) {
+        context.getLogger().info("Timer trigger function executed at: " + java.time.LocalDateTime.now());
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of Azure Function with TimerTrigger
+import logging
+import azure.functions as func
+
+def main(mytimer: func.TimerRequest) -> None:
+    if mytimer.past_due:
+        logging.info('The timer is past due!')
+    logging.info('Timer trigger function ran at %s', datetime.datetime.now())
+</code></pre></td>
+                <td><pre><code>// C# example of Azure Function with TimerTrigger
+using System;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Logging;
+
+public static class TimerFunction
+{
+    [FunctionName("TimerFunction")]
+    public static void Run([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log)
+    {
+        log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of Azure Function with TimerTrigger
+import { AzureFunction, Context } from "@azure/functions";
+
+const timerTrigger: AzureFunction = async function (context: Context, myTimer: any): Promise<void> {
+    const currentTime = new Date().toISOString();
+    context.log(`Timer trigger function executed at: ${currentTime}`);
+};
+
+export default timerTrigger;
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>¿Cómo se automatiza el respaldo de datos en AWS S3?</td>
+                <td>Se pueden automatizar respaldos en AWS S3 usando funciones Lambda que se disparan en intervalos regulares.</td>
+                <td><pre><code>// Java example of a Lambda function to backup S3 data
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+
+public class BackupFunction implements RequestHandler<Object, String> {
+    @Override
+    public String handleRequest(Object input, Context context) {
+        // Logic to backup S3 data
+        return "Backup completed";
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of a Lambda function to backup S3 data
+import boto3
+
+def lambda_handler(event, context):
+    s3 = boto3.client('s3')
+    # Logic to backup S3 data
+    return "Backup completed"
+</code></pre></td>
+                <td><pre><code>// C# example of a Lambda function to backup S3 data
+using Amazon.Lambda.Core;
+using Amazon.S3;
+using Amazon.S3.Model;
+using System.Threading.Tasks;
+
+public class BackupFunction
+{
+    public async Task<string> FunctionHandler(object input, ILambdaContext context)
+    {
+        var s3Client = new AmazonS3Client();
+        // Logic to backup S3 data
+        return "Backup completed";
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of a Lambda function to backup S3 data
+import { S3 } from 'aws-sdk';
+
+export const handler = async (event: any): Promise<string> => {
+    const s3 = new S3();
+    // Logic to backup S3 data
+    return "Backup completed";
+};
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>¿Cómo se automatiza la actualización de una base de datos en Azure SQL?</td>
+                <td>Se puede usar Azure Automation para ejecutar scripts que realicen actualizaciones en una base de datos de Azure SQL.</td>
+                <td><pre><code>// Java example of a script executed via Azure Automation (example not directly executable from Java)
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class DatabaseUpdater {
+    public static void main(String[] args) throws Exception {
+        Connection connection = DriverManager.getConnection("jdbc:sqlserver://your_server.database.windows.net;database=your_database", "user", "password");
+        Statement statement = connection.createStatement();
+        statement.execute("UPDATE your_table SET your_column = 'new_value'");
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of a script executed via Azure Automation
+import pyodbc
+
+conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=your_server.database.windows.net;DATABASE=your_database;UID=user;PWD=password')
+cursor = conn.cursor()
+cursor.execute("UPDATE your_table SET your_column = 'new_value'")
+conn.commit()
+</code></pre></td>
+                <td><pre><code>// C# example of a script executed via Azure Automation
+using System.Data.SqlClient;
+
+public class DatabaseUpdater
+{
+    public static void Main()
+    {
+        using (var connection = new SqlConnection("Server=your_server.database.windows.net;Database=your_database;User Id=user;Password=password;"))
+        {
+            connection.Open();
+            var command = new SqlCommand("UPDATE your_table SET your_column = 'new_value'", connection);
+            command.ExecuteNonQuery();
+        }
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of a script executed via Azure Automation
+import { Connection, Request } from 'tedious';
+
+const config = {
+    server: 'your_server.database.windows.net',
+    authentication: {
+        type: 'default',
+        options: {
+            userName: 'user',
+            password: 'password'
+        }
+    },
+    options: {
+        database: 'your_database',
+        encrypt: true
+    }
+};
+
+const connection = new Connection(config);
+
+connection.on('connect', err => {
+    if (err) {
+        console.error(err);
+    } else {
+        const request = new Request("UPDATE your_table SET your_column = 'new_value'", (err, rowCount) => {
+            if (err) {
+                console.error(err);
+            } else {
+                console.log(`Rows updated: ${rowCount}`);
+            }
+        });
+        connection.execSql(request);
+    }
+});
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>¿Cómo se automatiza el monitoreo de recursos en Google Cloud?</td>
+                <td>Se puede usar Google Cloud Monitoring para configurar alertas y monitorear recursos automáticamente.</td>
+                <td><pre><code>// Java example of using Google Cloud Monitoring API (usually managed via Google Console)
+import com.google.cloud.monitoring.v3.MetricServiceClient;
+import com.google.monitoring.v3.*;
+
+public class MonitoringSetup {
+    public static void main(String[] args) throws Exception {
+        MetricServiceClient client = MetricServiceClient.create();
+        // Logic to set up monitoring
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of using Google Cloud Monitoring API
+from google.cloud import monitoring_v3
+
+client = monitoring_v3.MetricServiceClient()
+# Logic to set up monitoring
+</code></pre></td>
+                <td><pre><code>// C# example of using Google Cloud Monitoring API
+using Google.Cloud.Monitoring.V3;
+
+public class MonitoringSetup
+{
+    public static void Main(string[] args)
+    {
+        var client = MetricServiceClient.Create();
+        // Logic to set up monitoring
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of using Google Cloud Monitoring API
+import { MetricServiceClient } from '@google-cloud/monitoring';
+
+const client = new MetricServiceClient();
+// Logic to set up monitoring
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>¿Cómo se automatiza el escalado de instancias en AWS?</td>
+                <td>Se puede configurar el escalado automático utilizando AWS Auto Scaling.</td>
+                <td><pre><code>// Java example of setting up Auto Scaling (usually done via AWS Console or CLI)
+import com.amazonaws.services.autoscaling.AmazonAutoScaling;
+import com.amazonaws.services.autoscaling.AmazonAutoScalingClientBuilder;
+import com.amazonaws.services.autoscaling.model.PutScalingPolicyRequest;
+
+public class AutoScalingSetup {
+    public static void main(String[] args) {
+        AmazonAutoScaling autoScaling = AmazonAutoScalingClientBuilder.defaultClient();
+        PutScalingPolicyRequest request = new PutScalingPolicyRequest()
+            .withPolicyName("ScaleUpPolicy")
+            .withAdjustmentType("ChangeInCapacity")
+            .withScalingAdjustment(1)
+            .withCooldown(60);
+        autoScaling.putScalingPolicy(request);
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of setting up Auto Scaling
+import boto3
+
+autoscaling = boto3.client('autoscaling')
+autoscaling.put_scaling_policy(
+    PolicyName='ScaleUpPolicy',
+    AdjustmentType='ChangeInCapacity',
+    ScalingAdjustment=1,
+    Cooldown=60
+)
+</code></pre></td>
+                <td><pre><code>// C# example of setting up Auto Scaling
+using Amazon.AutoScaling;
+using Amazon.AutoScaling.Model;
+using System.Threading.Tasks;
+
+public class AutoScalingSetup
+{
+    public static async Task Main(string[] args)
+    {
+        var client = new AmazonAutoScalingClient();
+        var request = new PutScalingPolicyRequest
+        {
+            PolicyName = "ScaleUpPolicy",
+            AdjustmentType = AdjustmentType.ChangeInCapacity,
+            ScalingAdjustment = 1,
+            Cooldown = 60
+        };
+        await client.PutScalingPolicyAsync(request);
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of setting up Auto Scaling
+import * as AWS from 'aws-sdk';
+
+const autoscaling = new AWS.AutoScaling();
+const params = {
+    PolicyName: 'ScaleUpPolicy',
+    AdjustmentType: 'ChangeInCapacity',
+    ScalingAdjustment: 1,
+    Cooldown: 60
+};
+
+autoscaling.putScalingPolicy(params, (err, data) => {
+    if (err) console.error(err);
+    else console.log(data);
+});
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>¿Cómo se automatiza la creación de redes VPC en AWS?</td>
+                <td>Se puede usar AWS CloudFormation para definir y desplegar una VPC.</td>
+                <td><pre><code>// Java example using AWS SDK to create a VPC (usually done via CloudFormation template)
+import com.amazonaws.services.ec2.AmazonEC2;
+import com.amazonaws.services.ec2.AmazonEC2ClientBuilder;
+import com.amazonaws.services.ec2.model.CreateVpcRequest;
+import com.amazonaws.services.ec2.model.CreateVpcResult;
+
+public class VPCSetup {
+    public static void main(String[] args) {
+        AmazonEC2 ec2 = AmazonEC2ClientBuilder.defaultClient();
+        CreateVpcRequest request = new CreateVpcRequest()
+            .withCidrBlock("10.0.0.0/16");
+        CreateVpcResult result = ec2.createVpc(request);
+        System.out.println("VPC created with ID: " + result.getVpc().getVpcId());
+    }
+}</code></pre></td>
+                <td><pre><code># Python example using boto3 to create a VPC
+import boto3
+
+ec2 = boto3.client('ec2')
+response = ec2.create_vpc(CidrBlock='10.0.0.0/16')
+print(f'VPC created with ID: {response["Vpc"]["VpcId"]}')
+</code></pre></td>
+                <td><pre><code>// C# example using AWS SDK to create a VPC
+using Amazon.EC2;
+using Amazon.EC2.Model;
+using System.Threading.Tasks;
+
+public class VPCSetup
+{
+    public static async Task Main(string[] args)
+    {
+        var ec2Client = new AmazonEC2Client();
+        var request = new CreateVpcRequest
+        {
+            CidrBlock = "10.0.0.0/16"
+        };
+        var response = await ec2Client.CreateVpcAsync(request);
+        Console.WriteLine($"VPC created with ID: {response.Vpc.VpcId}");
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example using AWS SDK to create a VPC
+import * as AWS from 'aws-sdk';
+
+const ec2 = new AWS.EC2();
+const params = {
+    CidrBlock: '10.0.0.0/16'
+};
+
+ec2.createVpc(params, (err, data) => {
+    if (err) console.error(err);
+    else console.log(`VPC created with ID: ${data.Vpc.VpcId}`);
+});
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>¿Cómo se automatiza el despliegue de aplicaciones en Kubernetes?</td>
+                <td>Se puede usar Helm para gestionar despliegues en Kubernetes de manera automatizada.</td>
+                <td><pre><code>// Java example of deploying to Kubernetes (usually managed via Helm)
+import io.kubernetes.client.openapi.*;
+import io.kubernetes.client.openapi.models.*;
+import io.kubernetes.client.openapi.apis.*;
+
+public class KubernetesDeployment {
+    public static void main(String[] args) throws Exception {
+        // Kubernetes client setup and deployment logic
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of deploying to Kubernetes using client
+from kubernetes import client, config
+
+config.load_kube_config()
+v1 = client.CoreV1Api()
+# Deployment logic here
+</code></pre></td>
+                <td><pre><code>// C# example of deploying to Kubernetes using client
+using k8s.Models;
+using k8s.KubeConfig;
+
+public class KubernetesDeployment
+{
+    public static void Main(string[] args)
+    {
+        var config = KubernetesClientConfiguration.BuildConfigFromConfigFile();
+        var client = new KubernetesClient(config);
+        // Deployment logic here
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of deploying to Kubernetes using client
+import * as k8s from '@kubernetes/client-node';
+
+const k8sApi = k8s.Config.defaultClient();
+k8sApi.readNamespacedPod('my-pod', 'my-namespace')
+    .then((res) => console.log(res.body))
+    .catch((err) => console.error(err));
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>¿Cómo se automatiza el manejo de secretos en AWS?</td>
+                <td>Se puede usar AWS Secrets Manager para almacenar y gestionar secretos de manera segura.</td>
+                <td><pre><code>// Java example of using AWS Secrets Manager
+import com.amazonaws.services.secretsmanager.AWSSecretsManager;
+import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
+import com.amazonaws.services.secretsmanager.model.GetSecretValueRequest;
+import com.amazonaws.services.secretsmanager.model.GetSecretValueResult;
+
+public class SecretsManagerSetup {
+    public static void main(String[] args) {
+        AWSSecretsManager client = AWSSecretsManagerClientBuilder.standard().build();
+        GetSecretValueRequest request = new GetSecretValueRequest().withSecretId("your_secret_id");
+        GetSecretValueResult result = client.getSecretValue(request);
+        System.out.println("Secret: " + result.getSecretString());
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of using AWS Secrets Manager
+import boto3
+
+secretsmanager = boto3.client('secretsmanager')
+response = secretsmanager.get_secret_value(SecretId='your_secret_id')
+print(f'Secret: {response["SecretString"]}')
+</code></pre></td>
+                <td><pre><code>// C# example of using AWS Secrets Manager
+using Amazon.SecretsManager;
+using Amazon.SecretsManager.Model;
+using System.Threading.Tasks;
+
+public class SecretsManagerSetup
+{
+    public static async Task Main(string[] args)
+    {
+        var client = new AmazonSecretsManagerClient();
+        var request = new GetSecretValueRequest
+        {
+            SecretId = "your_secret_id"
+        };
+        var response = await client.GetSecretValueAsync(request);
+        Console.WriteLine($"Secret: {response.SecretString}");
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of using AWS Secrets Manager
+import * as AWS from 'aws-sdk';
+
+const secretsmanager = new AWS.SecretsManager();
+secretsmanager.getSecretValue({ SecretId: 'your_secret_id' }, (err, data) => {
+    if (err) console.error(err);
+    else console.log(`Secret: ${data.SecretString}`);
+});
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>¿Cómo se automatiza la actualización de imágenes de contenedores en Docker?</td>
+                <td>Se puede usar Docker Hub o un repositorio privado para gestionar y automatizar actualizaciones.</td>
+                <td><pre><code>// Java example of interacting with Docker (usually managed via Dockerfile)
+import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.DockerClientBuilder;
+
+public class DockerUpdate {
+    public static void main(String[] args) {
+        DockerClient dockerClient = DockerClientBuilder.getInstance().build();
+        // Docker update logic
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of interacting with Docker using docker-py
+import docker
+
+client = docker.from_env()
+# Docker update logic
+</code></pre></td>
+                <td><pre><code>// C# example of interacting with Docker using Docker.DotNet
+using Docker.DotNet;
+using System.Threading.Tasks;
+
+public class DockerUpdate
+{
+    public static async Task Main(string[] args)
+    {
+        using (var client = new DockerClientConfiguration().CreateClient())
+        {
+            // Docker update logic
+        }
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of interacting with Docker using dockerode
+import Docker from 'dockerode';
+
+const docker = new Docker();
+docker.listContainers((err, containers) => {
+    if (err) console.error(err);
+    else console.log(containers);
+});
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>¿Cómo se automatiza el análisis de logs en Google Cloud?</td>
+                <td>Se puede usar Google Cloud Logging para gestionar y analizar logs automáticamente.</td>
+                <td><pre><code>// Java example of using Google Cloud Logging API
+import com.google.cloud.logging.v2.LoggingClient;
+import com.google.cloud.logging.v2.LogEntry;
+
+public class LogAnalysis {
+    public static void main(String[] args) throws Exception {
+        try (LoggingClient loggingClient = LoggingClient.create()) {
+            // Log analysis logic
+        }
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of using Google Cloud Logging API
+from google.cloud import logging_v2
+
+client = logging_v2.LoggingServiceV2Client()
+# Log analysis logic
+</code></pre></td>
+                <td><pre><code>// C# example of using Google Cloud Logging API
+using Google.Cloud.Logging.V2;
+
+public class LogAnalysis
+{
+    public static void Main(string[] args)
+    {
+        var client = LoggingServiceV2Client.Create();
+        // Log analysis logic
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of using Google Cloud Logging API
+import { LoggingServiceV2Client } from '@google-cloud/logging';
+
+const client = new LoggingServiceV2Client();
+// Log analysis logic
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>¿Cómo se automatiza la gestión de políticas de acceso en Azure?</td>
+                <td>Se puede usar Azure Policy para definir y aplicar políticas de acceso automáticamente.</td>
+                <td><pre><code>// Java example of using Azure Policy
+import com.azure.resourcemanager.AzureResourceManager;
+import com.azure.resourcemanager.policy.models.PolicyDefinition;
+import com.azure.resourcemanager.policy.models.PolicyAssignment;
+
+public class PolicyManagement {
+    public static void main(String[] args) {
+        AzureResourceManager azure = AzureResourceManager.authenticate(...).withDefaultSubscription();
+        PolicyDefinition policyDefinition = azure.policyDefinitions().define("policyName")
+            .withDescription("Policy description")
+            .withPolicyDefinition("{ \"if\": { ... }, \"then\": { ... } }")
+            .create();
+        PolicyAssignment policyAssignment = azure.policyAssignments().define("assignmentName")
+            .withPolicyDefinitionId(policyDefinition.id())
+            .create();
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of using Azure Policy
+from azure.mgmt.policyinsights import PolicyInsightsClient
+from azure.identity import DefaultAzureCredential
+
+client = PolicyInsightsClient(credential=DefaultAzureCredential())
+# Policy management logic
+</code></pre></td>
+                <td><pre><code>// C# example of using Azure Policy
+using Azure.Identity;
+using Azure.ResourceManager;
+using Azure.ResourceManager.Policy;
+
+public class PolicyManagement
+{
+    public static void Main(string[] args)
+    {
+        var client = new PolicyClient(new DefaultAzureCredential());
+        // Policy management logic
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of using Azure Policy
+import { PolicyClient } from '@azure/arm-policy';
+import { DefaultAzureCredential } from '@azure/identity';
+
+const client = new PolicyClient(new DefaultAzureCredential());
+// Policy management logic
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>¿Cómo se automatiza la creación de recursos en Google Cloud?</td>
+                <td>Se puede usar Google Cloud Deployment Manager para gestionar la creación de recursos.</td>
+                <td><pre><code>// Java example of using Google Cloud Deployment Manager (usually managed via configuration files)
+import com.google.cloud.deploymentmanager.v2.DeploymentManagerClient;
+
+public class ResourceCreation {
+    public static void main(String[] args) throws Exception {
+        DeploymentManagerClient client = DeploymentManagerClient.create();
+        // Resource creation logic
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of using Google Cloud Deployment Manager
+from google.cloud import deploymentmanager_v2
+
+client = deploymentmanager_v2.DeploymentManagerClient()
+# Resource creation logic
+</code></pre></td>
+                <td><pre><code>// C# example of using Google Cloud Deployment Manager
+using Google.Cloud.DeploymentManager.V2;
+
+public class ResourceCreation
+{
+    public static void Main(string[] args)
+    {
+        var client = DeploymentManagerClient.Create();
+        // Resource creation logic
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of using Google Cloud Deployment Manager
+import { DeploymentManagerClient } from '@google-cloud/deployment-manager';
+
+const client = new DeploymentManagerClient();
+// Resource creation logic
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>¿Cómo se automatiza la gestión de bases de datos en Azure?</td>
+                <td>Se puede usar Azure Automation para gestionar y mantener bases de datos.</td>
+                <td><pre><code>// Java example of using Azure Automation to manage databases
+import com.azure.resourcemanager.AzureResourceManager;
+import com.azure.resourcemanager.sql.models.SqlServer;
+
+public class DatabaseManagement {
+    public static void main(String[] args) {
+        AzureResourceManager azure = AzureResourceManager.authenticate(...).withDefaultSubscription();
+        SqlServer sqlServer = azure.sqlServers().define("serverName")
+            .withRegion("region")
+            .withNewResourceGroup("resourceGroup")
+            .create();
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of using Azure Automation to manage databases
+from azure.mgmt.sql import SqlManagementClient
+from azure.identity import DefaultAzureCredential
+
+client = SqlManagementClient(credential=DefaultAzureCredential(), subscription_id='your_subscription_id')
+# Database management logic
+</code></pre></td>
+                <td><pre><code>// C# example of using Azure Automation to manage databases
+using Azure.Identity;
+using Azure.ResourceManager.Sql;
+
+public class DatabaseManagement
+{
+    public static void Main(string[] args)
+    {
+        var client = new SqlManagementClient(new DefaultAzureCredential());
+        // Database management logic
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of using Azure Automation to manage databases
+import { SqlManagementClient } from '@azure/arm-sql';
+import { DefaultAzureCredential } from '@azure/identity';
+
+const client = new SqlManagementClient(new DefaultAzureCredential(), 'your_subscription_id');
+// Database management logic
+</code></pre></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

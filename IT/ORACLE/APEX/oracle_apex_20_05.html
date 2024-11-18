@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Application Express (APEX) Questions - Part 5</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #3498db;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Oracle Application Express (APEX) Questions and Answers - Part 5</h1>
+
+    <h2>81. How do you enable session state protection in APEX?</h2>
+    <p>Session state protection in APEX ensures that URL tampering does not alter the session state of an application. To enable session state protection:</p>
+    <ol>
+        <li>Go to "Shared Components" &gt; "Security" &gt; "Session State Protection".</li>
+        <li>Enable the protection and configure it for specific pages or items.</li>
+    </ol>
+
+    <h2>82. How do you perform database updates using a form in APEX?</h2>
+    <p>In APEX, to update the database using a form:</p>
+    <ol>
+        <li>Create a form using the wizard.</li>
+        <li>Define the process to handle the database update after the form submission.</li>
+        <li>Use a PL/SQL process or Automatic DML handling in Page Designer.</li>
+    </ol>
+    <pre><code>
+    BEGIN
+        UPDATE my_table
+        SET column1 = :P1_ITEM1,
+            column2 = :P1_ITEM2
+        WHERE id = :P1_ID;
+    END;
+    </code></pre>
+
+    <h2>83. What are Authorization Schemes in APEX?</h2>
+    <p>Authorization Schemes in APEX define the rules to control access to certain application components based on user roles or conditions. You can create Authorization Schemes in "Shared Components" and apply them to pages, regions, buttons, etc.</p>
+
+    <h2>84. How do you create a LOV (List of Values) in APEX?</h2>
+    <p>To create a LOV:</p>
+    <ol>
+        <li>Navigate to "Shared Components" &gt; "List of Values".</li>
+        <li>Choose "Dynamic" (SQL query) or "Static" LOV, depending on your requirement.</li>
+        <li>Assign the LOV to form items like select lists, radio buttons, or checkboxes.</li>
+    </ol>
+    <pre><code>
+    SELECT emp_id, emp_name
+    FROM employees;
+    </code></pre>
+
+    <h2>85. How do you implement conditional logic in APEX pages?</h2>
+    <p>You can implement conditional logic for rendering or processing in APEX by:</p>
+    <ul>
+        <li>Using the "Conditions" attribute in Page Designer for items, regions, and buttons.</li>
+        <li>Writing PL/SQL expressions for custom conditions, such as <code>RETURN :P1_ITEM = 'VALUE';</code>.</li>
+    </ul>
+
+    <h2>86. How do you manage session state in APEX?</h2>
+    <p>Session state in APEX stores the values of page items during a session. You can manage session state using:</p>
+    <ul>
+        <li>Built-in PL/SQL functions like <code>APEX_UTIL.SET_SESSION_STATE</code> and <code>APEX_UTIL.GET_SESSION_STATE</code>.</li>
+        <li>Using Dynamic Actions to set or reset page items' values.</li>
+    </ul>
+
+    <h2>87. How do you use the "Reset Pagination" feature in APEX?</h2>
+    <p>The "Reset Pagination" feature resets the page number to the first page after an action like a search or report filtering. You can enable this by configuring the "Reset Pagination" option in the report attributes.</p>
+
+    <h2>88. How do you use dynamic SQL in APEX for interactive reports?</h2>
+    <p>Dynamic SQL can be used in Interactive Reports by referencing PL/SQL code. Here's an example:</p>
+    <pre><code>
+    SELECT column1, column2
+    FROM my_table
+    WHERE column3 = :P1_FILTER;
+    </code></pre>
+
+    <h2>89. How do you create a tabular form in APEX?</h2>
+    <p>To create a tabular form:</p>
+    <ol>
+        <li>Use the "Create Page" wizard and select "Tabular Form".</li>
+        <li>Specify the table or SQL query that will be used to populate the form.</li>
+        <li>The resulting form allows for editing multiple rows in a grid format.</li>
+    </ol>
+
+    <h2>90. How can you send email notifications in APEX?</h2>
+    <p>To send emails in APEX, you can use the <code>APEX_MAIL</code> package:</p>
+    <pre><code>
+    BEGIN
+        APEX_MAIL.SEND(
+            p_to => 'recipient@example.com',
+            p_from => 'sender@example.com',
+            p_body => 'This is the email body',
+            p_subj => 'Email Subject');
+        COMMIT;
+    END;
+    </code></pre>
+
+    <h2>91. How do you implement cascading LOVs in APEX?</h2>
+    <p>Cascading LOVs are dependent select lists where the values of one select list depend on the selection made in another. To implement this:</p>
+    <ol>
+        <li>Define a dynamic LOV for both items.</li>
+        <li>Set the "Cascading LOV Parent Item(s)" attribute for the child LOV.</li>
+        <li>Use a SQL query that filters based on the parent item’s value.</li>
+    </ol>
+
+    <h2>92. How do you track user activity in APEX applications?</h2>
+    <p>To track user activity in APEX:</p>
+    <ul>
+        <li>Use the "Activity Monitoring" feature under "App Builder" &gt; "Utilities".</li>
+        <li>Log user activity manually using custom logging tables and triggers on specific page events.</li>
+    </ul>
+
+    <h2>93. How do you display a custom success message after form submission?</h2>
+    <p>After a successful form submission, you can display a custom success message using the <code>apex_application.g_print_success_message</code> API:</p>
+    <pre><code>
+    apex_application.g_print_success_message := 'Your data has been successfully saved!';
+    </code></pre>
+
+    <h2>94. What is the difference between "Shared Components" and "Application Items"?</h2>
+    <p>"Shared Components" are reusable components that can be used throughout the application, such as LOVs, templates, and Authorization Schemes. "Application Items" are global variables that hold values that can be referenced across different pages.</p>
+
+    <h2>95. How do you implement a search feature in APEX?</h2>
+    <p>To implement a search feature in APEX:</p>
+    <ul>
+        <li>Create a text field for the search input.</li>
+        <li>Create an Interactive Report that uses the search input in its SQL query, for example:</li>
+    </ul>
+    <pre><code>
+    SELECT * FROM my_table WHERE column LIKE '%' || :P1_SEARCH || '%';
+    </code></pre>
+
+    <h2>96. How do you format numbers in APEX forms and reports?</h2>
+    <p>To format numbers in APEX:</p>
+    <ul>
+        <li>For forms, set the "Number Format" property in the item's attributes.</li>
+        <li>For reports, use the <code>TO_CHAR</code> function in SQL queries to format numbers:</li>
+    </ul>
+    <pre><code>
+    SELECT TO_CHAR(salary, '999,999.00') AS formatted_salary
+    FROM employees;
+    </code></pre>
+
+    <h2>97. How do you handle error messages in APEX?</h2>
+    <p>In APEX, you can handle errors using PL/SQL error-handling procedures or built-in validation. For custom error handling, use the <code>apex_error</code> package:</p>
+    <pre><code>
+    apex_error.add_error (
+        p_message => 'Custom error message',
+        p_display_location => apex_error.c_inline_in_notification);
+    </code></pre>
+
+    <h2>98. How do you create and use a collection in APEX?</h2>
+    <p>APEX collections are used to store data temporarily for the session. You can create and manipulate collections using the <code>APEX_COLLECTION</code> package:</p>
+    <pre><code>
+    BEGIN
+        APEX_COLLECTION.CREATE_COLLECTION('MY_COLLECTION');
+        APEX_COLLECTION.ADD_MEMBER('MY_COLLECTION', p_c001 => 'Value1');
+    END;
+    </code></pre>
+
+    <h2>99. How do you handle file uploads in APEX?</h2>
+    <p>APEX provides built-in support for file uploads through form items. You can also use the <code>APEX_APPLICATION_TEMP_FILES</code> table to handle uploaded files:</p>
+    <pre><code>
+    SELECT * FROM apex_application_temp_files;
+    </code></pre>
+
+    <h2>100. How do you use page redirects in APEX?</h2>
+    <p>To redirect a page in APEX, use the "Branch" component or a PL/SQL procedure:</p>
+    <pre><code>
+    apex_util.redirect_url('f?p=&APP_ID.:2:&SESSION.');
+    </code></pre>
+
+</body>
+</html>

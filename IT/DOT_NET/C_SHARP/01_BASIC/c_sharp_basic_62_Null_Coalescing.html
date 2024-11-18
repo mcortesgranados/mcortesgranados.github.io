@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Null-Coalescing Operator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Null-Coalescing Operator</h1>
+    <p>The null-coalescing operator in C# provides a way to define a default value that will be used if an expression evaluates to <code>null</code>. This operator simplifies code that checks for null values and provides a fallback option.</p>
+    
+    <h2>1. What is the Null-Coalescing Operator?</h2>
+    <p>The null-coalescing operator is represented by <code>??</code>. It allows you to specify a default value to use when an expression evaluates to <code>null</code>.</p>
+    
+    <h2>2. How to Use the Null-Coalescing Operator</h2>
+    <p>When you use the <code>??</code> operator, it evaluates the expression on its left side. If that expression is not <code>null</code>, its value is returned. If it is <code>null</code>, the value on the right side of the operator is returned.</p>
+    
+    <h2>3. Example</h2>
+    <p>Here’s an example demonstrating the use of the null-coalescing operator:</p>
+    <pre><code>
+string name = null;
+string defaultName = "Guest";
+
+// Use the null-coalescing operator to provide a default value
+string displayName = name ?? defaultName;
+
+Console.WriteLine(displayName); // Output: Guest
+    </code></pre>
+    <p>In this example, the <code>name</code> variable is <code>null</code>, so the <code>defaultName</code> is used instead.</p>
+    
+    <h2>4. Null-Coalescing Assignment Operator</h2>
+    <p>C# 8.0 introduced the null-coalescing assignment operator <code>??=</code>. This operator assigns a value to a variable only if that variable is <code>null</code>.</p>
+    <pre><code>
+string name = null;
+name ??= "Guest";
+
+Console.WriteLine(name); // Output: Guest
+    </code></pre>
+    <p>In this example, the <code>name</code> variable is assigned the value <code>"Guest"</code> only because it was initially <code>null</code>.</p>
+    
+    <h2>5. Key Points</h2>
+    <ul>
+        <li><strong>Definition:</strong> The null-coalescing operator <code>??</code> provides a default value when an expression is <code>null</code>.</li>
+        <li><strong>Usage:</strong> Simplifies code by reducing the need for explicit null checks and conditionals.</li>
+        <li><strong>Null-Coalescing Assignment:</strong> The <code>??=</code> operator assigns a value only if the variable is <code>null</code>.</li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producer API Usage in Kafka</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Producer API Usage in Kafka</h1>
+    <p>This guide covers the basics of using the Kafka Producer API, which is responsible for sending records to Kafka topics. Understanding how to configure and use the Producer API is crucial for writing data into Kafka.</p>
+
+    <h2>1. What is a Kafka Producer?</h2>
+    <p>A Kafka producer is an application or component that writes records to Kafka topics. Producers are responsible for sending data to Kafka and are typically configured with various properties to control their behavior.</p>
+
+    <ul>
+        <li><strong>Record Production:</strong> Producers send records to Kafka topics, where each record includes a key, value, and optional metadata.</li>
+        <li><strong>Partitioning:</strong> Producers can specify the partition to which records should be sent, or Kafka can automatically assign partitions based on a key.</li>
+        <li><strong>Acknowledgments:</strong> Producers can configure acknowledgment settings to control how they receive confirmations from the Kafka cluster.</li>
+    </ul>
+
+    <h2>2. Basic Configuration Options</h2>
+    <p>Kafka producers can be configured using various properties to control their behavior. Key configuration options include:</p>
+
+    <ul>
+        <li><strong>bootstrap.servers:</strong> A list of Kafka brokers to connect to, in the format `host1:port1,host2:port2`.</li>
+        <li><strong>key.serializer:</strong> The class used to serialize the key of the record. For example, `org.apache.kafka.common.serialization.StringSerializer` for string keys.</li>
+        <li><strong>value.serializer:</strong> The class used to serialize the value of the record. For example, `org.apache.kafka.common.serialization.StringSerializer` for string values.</li>
+        <li><strong>acks:</strong> The acknowledgment setting for the producer. Options include `0`, `1`, and `all`, which control how many brokers must acknowledge the record before it is considered successfully sent.</li>
+        <li><strong>retries:</strong> The number of times the producer will retry sending a record if the initial send fails.</li>
+        <li><strong>linger.ms:</strong> The time to wait before sending a batch of records. This setting can improve throughput by allowing more records to accumulate before sending.</li>
+    </ul>
+
+    <h2>3. Example: Basic Kafka Producer Configuration</h2>
+    <p>Below is a Java example demonstrating how to configure and use a Kafka producer to send messages to a Kafka topic.</p>
+
+    <pre><code>
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.common.serialization.StringSerializer;
+
+import java.util.Properties;
+import java.util.concurrent.Future;
+
+public class KafkaProducerExample {
+    public static void main(String[] args) {
+        // Producer configuration
+        Properties props = new Properties();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        props.put(ProducerConfig.ACKS_CONFIG, "all");
+        props.put(ProducerConfig.RETRIES_CONFIG, 3);
+        props.put(ProducerConfig.LINGER_MS_CONFIG, 100);
+        
+        // Create KafkaProducer
+        KafkaProducer<String, String> producer = new KafkaProducer<>(props);
+        
+        // Create a ProducerRecord
+        ProducerRecord<String, String> record = new ProducerRecord<>("my-topic", "key", "value");
+        
+        // Send the record asynchronously
+        Future<RecordMetadata> future = producer.send(record);
+        
+        // Wait for the record to be sent and print metadata
+        try {
+            RecordMetadata metadata = future.get();
+            System.out.printf("Sent record to topic %s partition %d with offset %d%n",
+                              metadata.topic(), metadata.partition(), metadata.offset());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        // Close the producer
+        producer.close();
+    }
+}
+    </code></pre>
+
+    <h2>4. Kafka Producer Configuration Diagram</h2>
+    <p>The following diagram illustrates the key components involved in Kafka producer configuration, including the Kafka broker connection, serialization, and acknowledgment settings.</p>
+
+    <div class="diagram">
+        <img src="kafka-producer-configuration-diagram.png" alt="Kafka Producer Configuration Diagram">
+        <p><em>Diagram: Kafka Producer Configuration Components</em></p>
+    </div>
+
+    <h2>5. Conclusion</h2>
+    <p>The Kafka Producer API is essential for writing data into Kafka topics. By understanding and applying the various configuration options, you can optimize your Kafka producers for efficient and reliable data production.</p>
+</body>
+</html>

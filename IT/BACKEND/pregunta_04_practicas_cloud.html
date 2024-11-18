@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios en la Nube y Despliegues</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Uso de Servicios en la Nube y Despliegues</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Pregunta</th>
+                <th>Descripción</th>
+                <th>Java</th>
+                <th>Python</th>
+                <th>C#</th>
+                <th>TypeScript</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>¿Cómo se realiza un despliegue de una aplicación web en AWS?</td>
+                <td>En AWS, se puede realizar el despliegue de una aplicación web usando servicios como Elastic Beanstalk, ECS, o directamente en EC2. Elastic Beanstalk simplifica el proceso de despliegue y gestión de aplicaciones web.</td>
+                <td><pre><code>// Java example of deploying to AWS Elastic Beanstalk
+import com.amazonaws.services.elasticbeanstalk.AWSElasticBeanstalk;
+import com.amazonaws.services.elasticbeanstalk.AWSElasticBeanstalkClientBuilder;
+import com.amazonaws.services.elasticbeanstalk.model.CreateApplicationRequest;
+
+public class ElasticBeanstalkDeployment {
+    public static void main(String[] args) {
+        AWSElasticBeanstalk client = AWSElasticBeanstalkClientBuilder.defaultClient();
+        CreateApplicationRequest request = new CreateApplicationRequest()
+            .withApplicationName("MyApplication");
+        client.createApplication(request);
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of deploying to AWS Elastic Beanstalk
+import boto3
+
+client = boto3.client('elasticbeanstalk')
+response = client.create_application(ApplicationName='MyApplication')
+print(response)
+</code></pre></td>
+                <td><pre><code>// C# example of deploying to AWS Elastic Beanstalk
+using Amazon.ElasticBeanstalk;
+using Amazon.ElasticBeanstalk.Model;
+using System.Threading.Tasks;
+
+public class ElasticBeanstalkDeployment
+{
+    public static async Task Main(string[] args)
+    {
+        var client = new AmazonElasticBeanstalkClient();
+        var request = new CreateApplicationRequest
+        {
+            ApplicationName = "MyApplication"
+        };
+        var response = await client.CreateApplicationAsync(request);
+        Console.WriteLine(response);
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of deploying to AWS Elastic Beanstalk
+import * as AWS from 'aws-sdk';
+
+const elasticbeanstalk = new AWS.ElasticBeanstalk();
+const params = {
+    ApplicationName: 'MyApplication'
+};
+
+elasticbeanstalk.createApplication(params, (err, data) => {
+    if (err) console.error(err);
+    else console.log(data);
+});
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>¿Cómo se realiza un despliegue de una aplicación en Azure?</td>
+                <td>En Azure, se puede realizar el despliegue de una aplicación usando Azure App Service, Azure Kubernetes Service (AKS), o directamente en una máquina virtual (VM). Azure App Service facilita el despliegue y gestión de aplicaciones web.</td>
+                <td><pre><code>// Java example of deploying to Azure App Service
+import com.microsoft.azure.management.Azure;
+import com.microsoft.azure.management.appservice.WebApp;
+import com.microsoft.azure.management.appservice.WebAppBase;
+
+public class AzureDeployment {
+    public static void main(String[] args) {
+        Azure azure = Azure.authenticate(...).withDefaultSubscription();
+        WebApp webApp = azure.webApps().define("mywebapp")
+            .withRegion("West US")
+            .withNewResourceGroup("myresourcegroup")
+            .create();
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of deploying to Azure App Service
+from azure.identity import DefaultAzureCredential
+from azure.mgmt.web import WebSiteManagementClient
+
+credential = DefaultAzureCredential()
+client = WebSiteManagementClient(credential, subscription_id)
+app = client.web_apps.begin_create_or_update(resource_group_name, app_name, parameters)
+print(app.result())
+</code></pre></td>
+                <td><pre><code>// C# example of deploying to Azure App Service
+using Azure.Identity;
+using Azure.ResourceManager;
+using Azure.ResourceManager.WebSites;
+using System.Threading.Tasks;
+
+public class AzureDeployment
+{
+    public static async Task Main(string[] args)
+    {
+        var credential = new DefaultAzureCredential();
+        var client = new ArmClient(credential);
+        var webApp = client.GetWebSiteResource(...);
+        await webApp.CreateOrUpdateAsync(...);
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of deploying to Azure App Service
+import { DefaultAzureCredential } from '@azure/identity';
+import { WebSiteManagementClient } from '@azure/arm-appservice';
+
+const credential = new DefaultAzureCredential();
+const client = new WebSiteManagementClient(credential, subscriptionId);
+const result = await client.webApps.beginCreateOrUpdate(resourceGroupName, appName, parameters);
+console.log(result);
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>¿Cómo se realiza un despliegue de una aplicación en Google Cloud?</td>
+                <td>En Google Cloud, se puede realizar el despliegue de una aplicación usando Google App Engine, Google Kubernetes Engine (GKE), o Compute Engine. Google App Engine facilita el despliegue de aplicaciones web sin necesidad de gestionar la infraestructura.</td>
+                <td><pre><code>// Java example of deploying to Google App Engine
+import com.google.cloud.appengine.v1beta.AppEngineClient;
+import com.google.cloud.appengine.v1beta.CreateVersionRequest;
+
+public class AppEngineDeployment {
+    public static void main(String[] args) {
+        try (AppEngineClient client = AppEngineClient.create()) {
+            CreateVersionRequest request = CreateVersionRequest.newBuilder()
+                .setVersion("v1")
+                .build();
+            client.createVersion(request);
+        }
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of deploying to Google App Engine
+from google.cloud import appengine_v1
+
+client = appengine_v1.AppEngineClient()
+response = client.create_version(...)
+print(response)
+</code></pre></td>
+                <td><pre><code>// C# example of deploying to Google App Engine
+using Google.Cloud.AppEngine.V1;
+using System.Threading.Tasks;
+
+public class AppEngineDeployment
+{
+    public static async Task Main(string[] args)
+    {
+        var client = await AppEngineClient.CreateAsync();
+        var response = await client.CreateVersionAsync(...);
+        Console.WriteLine(response);
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of deploying to Google App Engine
+import { GoogleCloudAppengineV1 } from '@google-cloud/appengine';
+
+const client = new GoogleCloudAppengineV1();
+const response = await client.createVersion(...);
+console.log(response);
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>¿Cómo se realiza un despliegue de contenedores en la nube?</td>
+                <td>Los contenedores se pueden desplegar usando servicios como Amazon ECS, Azure Kubernetes Service (AKS), o Google Kubernetes Engine (GKE). Estos servicios facilitan la gestión, escalado y despliegue de contenedores.</td>
+                <td><pre><code>// Java example of deploying to Amazon ECS
+import com.amazonaws.services.ecs.AmazonECS;
+import com.amazonaws.services.ecs.AmazonECSClientBuilder;
+import com.amazonaws.services.ecs.model.CreateClusterRequest;
+
+public class ECSDeployment {
+    public static void main(String[] args) {
+        AmazonECS ecs = AmazonECSClientBuilder.defaultClient();
+        CreateClusterRequest request = new CreateClusterRequest()
+            .withClusterName("my-cluster");
+        ecs.createCluster(request);
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of deploying to Amazon ECS
+import boto3
+
+client = boto3.client('ecs')
+response = client.create_cluster(clusterName='my-cluster')
+print(response)
+</code></pre></td>
+                <td><pre><code>// C# example of deploying to Amazon ECS
+using Amazon.ECS;
+using Amazon.ECS.Model;
+using System.Threading.Tasks;
+
+public class ECSDeployment
+{
+    public static async Task Main(string[] args)
+    {
+        var client = new AmazonECSClient();
+        var request = new CreateClusterRequest
+        {
+            ClusterName = "my-cluster"
+        };
+        var response = await client.CreateClusterAsync(request);
+        Console.WriteLine(response);
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of deploying to Amazon ECS
+import * as AWS from 'aws-sdk';
+
+const ecs = new AWS.ECS();
+const params = {
+    clusterName: 'my-cluster'
+};
+
+ecs.createCluster(params, (err, data) => {
+    if (err) console.error(err);
+    else console.log(data);
+});
+</code></pre></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

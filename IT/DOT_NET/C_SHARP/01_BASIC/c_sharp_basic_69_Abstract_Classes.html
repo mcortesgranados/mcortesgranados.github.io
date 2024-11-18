@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Abstract Classes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Abstract Classes</h1>
+    <p>An abstract class in C# is a class that cannot be instantiated directly. It is designed to be a base class from which other classes can derive. Abstract classes can contain abstract methods (methods without implementation) that derived classes must implement.</p>
+
+    <h2>1. Declaring an Abstract Class</h2>
+    <p>To declare a class as abstract, use the <code>abstract</code> keyword. Abstract classes can have both abstract methods and methods with implementations:</p>
+    <pre><code>
+public abstract class Animal
+{
+    // Abstract method (does not have a body)
+    public abstract void MakeSound();
+    
+    // Regular method (has a body)
+    public void Sleep()
+    {
+        Console.WriteLine("Sleeping...");
+    }
+}
+    </code></pre>
+
+    <h2>2. Implementing Abstract Methods</h2>
+    <p>Any class that inherits from an abstract class must implement all abstract methods. Here’s an example:</p>
+    <pre><code>
+public class Dog : Animal
+{
+    // Implementing the abstract method
+    public override void MakeSound()
+    {
+        Console.WriteLine("Bark!");
+    }
+}
+
+public class Cat : Animal
+{
+    // Implementing the abstract method
+    public override void MakeSound()
+    {
+        Console.WriteLine("Meow!");
+    }
+}
+    </code></pre>
+    <p>In this example, both <code>Dog</code> and <code>Cat</code> classes inherit from <code>Animal</code> and provide their own implementations for the <code>MakeSound</code> method.</p>
+
+    <h2>3. Abstract Class Usage</h2>
+    <p>Abstract classes are used to define a common base with shared functionality and a common interface. They are particularly useful when you want to define a template for a group of related classes:</p>
+    <pre><code>
+public class Program
+{
+    public static void Main()
+    {
+        Animal myDog = new Dog();
+        Animal myCat = new Cat();
+        
+        myDog.MakeSound();  // Output: Bark!
+        myCat.MakeSound();  // Output: Meow!
+        
+        myDog.Sleep();      // Output: Sleeping...
+        myCat.Sleep();      // Output: Sleeping...
+    }
+}
+    </code></pre>
+
+    <h2>4. Key Points</h2>
+    <ul>
+        <li>An abstract class cannot be instantiated directly.</li>
+        <li>Abstract methods in an abstract class must be implemented by derived classes.</li>
+        <li>Abstract classes can contain both abstract methods and methods with implementations.</li>
+        <li>Abstract classes are useful for defining a common base and enforcing a contract for derived classes.</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>Abstract classes in C# provide a way to define a common base class with shared functionality and a contract for derived classes. By using abstract classes, you can create a more structured and maintainable codebase that adheres to object-oriented principles.</p>
+</body>
+</html>

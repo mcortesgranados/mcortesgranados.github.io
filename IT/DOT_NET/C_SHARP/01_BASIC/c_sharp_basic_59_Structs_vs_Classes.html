@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Structs vs Classes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Structs vs Classes</h1>
+    <p>In C#, both structs and classes are used to define types, but they have different characteristics and are used in different scenarios. Understanding the differences between them is important for making the right design choices in your application.</p>
+    
+    <h2>1. Overview</h2>
+    <p><strong>Structs:</strong> Value types that are typically used for small, lightweight data structures. They are stored on the stack and are copied by value.</p>
+    <p><strong>Classes:</strong> Reference types that are used for larger, more complex data structures. They are stored on the heap and are copied by reference.</p>
+    
+    <h2>2. Memory Allocation</h2>
+    <p><strong>Structs:</strong> Allocated on the stack. This means they are generally faster to allocate and deallocate, but they have a limited lifetime and cannot have a dynamic size.</p>
+    <p><strong>Classes:</strong> Allocated on the heap. This means they can have a larger and dynamic size, but memory management is handled by the garbage collector, which can introduce some overhead.</p>
+    
+    <h2>3. Default Constructor</h2>
+    <p><strong>Structs:</strong> Cannot have an explicit parameterless constructor. The default constructor initializes all fields to their default values.</p>
+    <p><strong>Classes:</strong> Can have explicit parameterless constructors as well as constructors with parameters.</p>
+    
+    <h2>4. Inheritance</h2>
+    <p><strong>Structs:</strong> Do not support inheritance. They cannot derive from another struct or class and cannot be the base of another struct or class.</p>
+    <p><strong>Classes:</strong> Support inheritance. They can derive from other classes and be the base of other classes.</p>
+    
+    <h2>5. Nullability</h2>
+    <p><strong>Structs:</strong> Cannot be null. They are value types and always have a default value even if not explicitly initialized.</p>
+    <p><strong>Classes:</strong> Can be null. They are reference types and can be assigned a null value.</p>
+    
+    <h2>6. Examples</h2>
+    
+    <h3>Struct Example</h3>
+    <pre><code>
+public struct Point
+{
+    public int X { get; set; }
+    public int Y { get; set; }
+
+    public Point(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+}
+    </code></pre>
+    <p>The <code>Point</code> struct represents a point in a 2D coordinate system. It is a value type and cannot be inherited from.</p>
+    
+    <h3>Class Example</h3>
+    <pre><code>
+public class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+
+    public Person(string name, int age)
+    {
+        Name = name;
+        Age = age;
+    }
+}
+    </code></pre>
+    <p>The <code>Person</code> class represents a person with a name and age. It is a reference type and can be inherited from.</p>
+    
+    <h2>7. Key Points</h2>
+    <ul>
+        <li><strong>Memory Allocation:</strong> Structs are allocated on the stack, while classes are allocated on the heap.</li>
+        <li><strong>Default Constructor:</strong> Structs cannot have explicit parameterless constructors; classes can.</li>
+        <li><strong>Inheritance:</strong> Structs do not support inheritance; classes do.</li>
+        <li><strong>Nullability:</strong> Structs cannot be null; classes can be null.</li>
+    </ul>
+</body>
+</html>

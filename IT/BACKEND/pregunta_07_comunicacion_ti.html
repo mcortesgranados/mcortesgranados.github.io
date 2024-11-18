@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pruebas a APIs Externas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+            color: #d63384;
+        }
+        .question {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pruebas a APIs Externas</h1>
+
+    <div class="question">
+        <h2>1. ¿Qué es una prueba de integración para una API externa?</h2>
+        <p>Una prueba de integración para una API externa verifica que la comunicación y la integración entre el sistema y la API externa funcionen correctamente. Asegura que el sistema pueda enviar y recibir datos de la API y manejar las respuestas adecuadamente.</p>
+    </div>
+
+    <div class="question">
+        <h2>2. ¿Cómo se puede simular una API externa para pruebas?</h2>
+        <p>Se puede simular una API externa usando herramientas como MockServer, WireMock, o servicios como Postman Mock Servers. Estas herramientas permiten crear respuestas simuladas para probar cómo tu sistema maneja diferentes escenarios de la API.</p>
+    </div>
+
+    <div class="question">
+        <h2>3. ¿Qué es un "mock" en el contexto de pruebas de APIs externas?</h2>
+        <p>Un "mock" es una simulación de una API externa que responde con datos predefinidos. Se utiliza para probar cómo una aplicación maneja respuestas de la API sin necesidad de depender de la API real, lo que facilita las pruebas en un entorno controlado.</p>
+    </div>
+
+    <div class="question">
+        <h2>4. ¿Cómo se gestionan las credenciales en las pruebas de APIs externas?</h2>
+        <p>Las credenciales se deben gestionar de manera segura durante las pruebas, evitando su inclusión en el código fuente. Se recomienda usar herramientas de gestión de secretos o variables de entorno para almacenar y acceder a las credenciales de forma segura.</p>
+    </div>
+
+    <div class="question">
+        <h2>5. ¿Qué es una prueba de carga en una API externa?</h2>
+        <p>Una prueba de carga evalúa cómo una API externa maneja un alto volumen de solicitudes simultáneas. Permite identificar cuellos de botella y asegurar que la API pueda manejar el tráfico esperado sin degradar el rendimiento.</p>
+    </div>
+
+    <div class="question">
+        <h2>6. ¿Cómo se prueba la resiliencia de una API externa?</h2>
+        <p>La resiliencia se prueba simulando fallos en la API externa, como respuestas lentas, errores de red o respuestas incorrectas. Esto permite verificar cómo el sistema maneja situaciones inesperadas y si implementa correctamente estrategias de recuperación.</p>
+    </div>
+
+    <div class="question">
+        <h2>7. ¿Qué herramientas se pueden usar para probar APIs externas?</h2>
+        <p>Herramientas como Postman, SoapUI, JMeter, y Insomnia se pueden utilizar para probar APIs externas. Estas herramientas permiten enviar solicitudes, verificar respuestas y realizar pruebas de rendimiento y seguridad.</p>
+    </div>
+
+    <div class="question">
+        <h2>8. ¿Cómo se realizan pruebas de compatibilidad con APIs externas?</h2>
+        <p>Las pruebas de compatibilidad verifican que la API externa funcione correctamente con diferentes versiones de tu sistema y con diversas configuraciones. Se realizan pruebas para asegurar que las actualizaciones en la API no afecten la integración.</p>
+    </div>
+
+    <div class="question">
+        <h2>9. ¿Qué es una prueba de regresión en el contexto de APIs externas?</h2>
+        <p>Una prueba de regresión verifica que los cambios recientes en la API externa no hayan introducido errores o problemas en la integración. Se ejecutan pruebas para asegurar que las funcionalidades existentes sigan funcionando como se espera.</p>
+    </div>
+
+    <div class="question">
+        <h2>10. ¿Cómo se realiza una prueba de seguridad para APIs externas?</h2>
+        <p>Las pruebas de seguridad para APIs externas incluyen la verificación de vulnerabilidades como inyección de SQL, XSS, y ataques de fuerza bruta. Se utilizan herramientas de escaneo de seguridad y análisis de vulnerabilidades para identificar y mitigar riesgos.</p>
+    </div>
+
+    <div class="question">
+        <h2>11. ¿Qué es una prueba de integración continua para APIs externas?</h2>
+        <p>Una prueba de integración continua verifica automáticamente la integración con APIs externas cada vez que se realiza un cambio en el código. Se integra en el proceso de CI/CD para asegurar que los cambios no rompan la funcionalidad existente con la API.</p>
+    </div>
+
+    <div class="question">
+        <h2>12. ¿Cómo se manejan las diferencias en formatos de datos entre la API externa y tu sistema?</h2>
+        <p>Las diferencias en formatos de datos se manejan mediante la conversión y el mapeo de datos. Se implementan adaptadores o transformadores en el sistema para asegurar que los datos se conviertan correctamente entre los formatos utilizados por la API externa y tu sistema.</p>
+    </div>
+
+    <div class="question">
+        <h2>13. ¿Qué es una prueba de rendimiento para una API externa?</h2>
+        <p>Una prueba de rendimiento evalúa cómo responde la API externa bajo diferentes condiciones de carga. Incluye pruebas de tiempo de respuesta, capacidad de manejo de solicitudes concurrentes y consumo de recursos para asegurar que la API pueda cumplir con los requisitos de rendimiento.</p>
+    </div>
+
+    <div class="question">
+        <h2>14. ¿Cómo se prueba la capacidad de recuperación de una API externa?</h2>
+        <p>La capacidad de recuperación se prueba simulando fallos y errores en la API externa y observando cómo se recupera el sistema. Esto incluye la prueba de mecanismos de reintento, la verificación de la robustez de las transacciones y la recuperación ante desastres.</p>
+    </div>
+
+    <div class="question">
+        <h2>15. ¿Cómo se implementa la prueba de interfaz para una API externa?</h2>
+        <p>La prueba de interfaz verifica que los endpoints de la API externa respondan correctamente a las solicitudes y que los datos sean devueltos en el formato esperado. Se utilizan herramientas de prueba de API para enviar solicitudes y verificar las respuestas.</p>
+    </div>
+
+    <div class="question">
+        <h2>16. ¿Qué es una prueba de estrés para una API externa?</h2>
+        <p>Una prueba de estrés evalúa cómo se comporta la API externa bajo condiciones extremas de carga. Se somete a la API a un número muy alto de solicitudes para identificar sus límites y evaluar su estabilidad y rendimiento bajo presión.</p>
+    </div>
+
+    <div class="question">
+        <h2>17. ¿Cómo se realiza la prueba de validación de datos para una API externa?</h2>
+        <p>La prueba de validación de datos asegura que la API externa devuelva datos válidos y correctos. Se comparan las respuestas de la API con los datos esperados y se verifican las reglas de validación para asegurar que se mantengan los estándares de calidad de los datos.</p>
+    </div>
+
+    <div class="question">
+        <h2>18. ¿Cómo se manejan los errores en las pruebas de APIs externas?</h2>
+        <p>Los errores se manejan registrando detalles sobre los fallos, como códigos de estado, mensajes de error y datos de la solicitud. Se realiza un análisis para identificar la causa del error y se ajustan las pruebas o el código del sistema según sea necesario.</p>
+    </div>
+
+    <div class="question">
+        <h2>19. ¿Qué es un "test case" en el contexto de pruebas de APIs externas?</h2>
+        <p>Un "test case" es un conjunto de condiciones o variables bajo las cuales una prueba se realiza. Incluye detalles sobre la entrada, las acciones a realizar y el resultado esperado. Los casos de prueba ayudan a asegurar que la API externa funcione según lo esperado.</p>
+    </div>
+
+    <div class="question">
+        <h2>20. ¿Cómo se realiza la prueba de compatibilidad de versiones para una API externa?</h2>
+        <p>La prueba de compatibilidad de versiones asegura que la API externa sea compatible con diferentes versiones de tu aplicación. Se prueban diferentes versiones de la API y del sistema para verificar que las actualizaciones o cambios no introduzcan problemas de integración.</p>
+    </div>
+
+    <div class="question">
+        <h2>21. ¿Qué es una prueba de aceptación en el contexto de APIs externas?</h2>
+        <p>Una prueba de aceptación verifica que la API externa cumpla con los requisitos y expectativas definidos. Se realiza para asegurar que la API funcione correctamente dentro del contexto del sistema y satisfaga las necesidades del usuario final.</p>
+    </div>
+
+    <div class="question">
+        <h2>22. ¿Cómo se realiza una prueba de seguridad para APIs externas?</h2>
+        <p>La prueba de seguridad incluye la identificación de vulnerabilidades como inyecciones, autenticación y autorización inadecuadas, y exposición de datos sensibles. Se utilizan herramientas de análisis de seguridad y técnicas de penetración para evaluar la robustez de la API.</p>
+    </div>
+
+    <div class="question">
+        <h2>23. ¿Cómo se implementan pruebas automatizadas para APIs externas?</h2>
+        <p>Las pruebas automatizadas se implementan utilizando frameworks de pruebas como JUnit, NUnit, o frameworks específicos de API como RestAssured. Se crean scripts que envían solicitudes a la API y verifican las respuestas de manera automática.</p>
+    </div>
+
+    <div class="question">
+        <h2>24. ¿Qué es una prueba de integración en el contexto de APIs externas?</h2>
+        <p>Una prueba de integración asegura que el sistema pueda interactuar correctamente con la API externa, manejando correctamente las respuestas y errores. Verifica que los flujos de datos entre la API y el sistema funcionen como se espera.</p>
+    </div>
+
+    <div class="question">
+        <h2>25. ¿Cómo se realiza una prueba de recuperación ante desastres para APIs externas?</h2>
+        <p>La prueba de recuperación ante desastres simula fallos graves en la API externa y evalúa cómo se recupera el sistema. Incluye pruebas de restauración de datos y verificación de mecanismos de recuperación y respaldo.</p>
+    </div>
+
+    <div class="question">
+        <h2>26. ¿Qué es una prueba de interoperabilidad para una API externa?</h2>
+        <p>Una prueba de interoperabilidad asegura que la API externa pueda integrarse y comunicarse de manera efectiva con otros sistemas y tecnologías. Se realiza para verificar que la API funcione correctamente en diferentes entornos y configuraciones.</p>
+    </div>
+
+    <div class="question">
+        <h2>27. ¿Cómo se realiza una prueba de validación de esquema para una API externa?</h2>
+        <p>La prueba de validación de esquema verifica que los datos devueltos por la API externa cumplan con el esquema definido, como JSON Schema o XML Schema. Se asegura de que la estructura y el formato de los datos sean correctos.</p>
+    </div>
+
+    <div class="question">
+        <h2>28. ¿Qué es una prueba de consistencia de datos en el contexto de APIs externas?</h2>
+        <p>Una prueba de consistencia de datos asegura que los datos enviados y recibidos entre la API externa y el sistema se mantengan consistentes y sin errores. Verifica que no haya pérdida o corrupción de datos durante las transacciones.</p>
+    </div>
+
+    <div class="question">
+        <h2>29. ¿Cómo se realiza una prueba de desempeño en una API externa?</h2>
+        <p>La prueba de desempeño evalúa la velocidad, capacidad de respuesta y eficiencia de la API externa bajo condiciones normales y extremas. Se utilizan herramientas como Apache JMeter para medir el rendimiento y detectar posibles cuellos de botella.</p>
+    </div>
+
+    <div class="question">
+        <h2>30. ¿Qué es una prueba de cobertura en el contexto de APIs externas?</h2>
+        <p>Una prueba de cobertura asegura que todas las funcionalidades de la API externa sean probadas exhaustivamente. Incluye pruebas para todos los endpoints, parámetros y escenarios posibles para garantizar que no haya áreas sin probar.</p>
+    </div>
+
+</body>
+</html>

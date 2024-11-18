@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spark DataFrames API</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spark DataFrames API</h1>
+    <p>This guide introduces the Spark DataFrames API, a powerful feature of Apache Spark for working with structured and semi-structured data. It provides a high-level API for performing operations on data in a tabular format.</p>
+
+    <h2>What are DataFrames?</h2>
+    <p>DataFrames are distributed collections of data organized into named columns. They are similar to tables in relational databases or data frames in R and Python (Pandas). DataFrames provide a domain-specific language for structured data manipulation.</p>
+
+    <h2>Creating DataFrames</h2>
+    <p>You can create DataFrames in several ways, such as from existing RDDs, external data sources, or by converting other data structures.</p>
+
+    <h3>Example: Creating DataFrames from a List in Java</h3>
+    <p>Below is a Java example that demonstrates how to create a DataFrame from a list of data:</p>
+    <pre><code>
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructType;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class DataFrameExample {
+    public static void main(String[] args) {
+        // Step 1: Create a SparkConf object and set the application name
+        SparkConf conf = new SparkConf().setAppName("DataFrame Example").setMaster("local[*]");
+        
+        // Step 2: Create a SparkSession object
+        SparkSession spark = SparkSession.builder().config(conf).getOrCreate();
+        
+        // Step 3: Create a list of data
+        List&lt;Row&gt; data = Arrays.asList(
+            RowFactory.create(1, "Alice", 29),
+            RowFactory.create(2, "Bob", 31),
+            RowFactory.create(3, "Cathy", 25)
+        );
+        
+        // Step 4: Define the schema for the DataFrame
+        StructType schema = DataTypes.createStructType(new StructField[] {
+            DataTypes.createStructField("id", DataTypes.IntegerType, false),
+            DataTypes.createStructField("name", DataTypes.StringType, false),
+            DataTypes.createStructField("age", DataTypes.IntegerType, false)
+        });
+        
+        // Step 5: Create a DataFrame from the data and schema
+        Dataset&lt;Row&gt; df = spark.createDataFrame(data, schema);
+        
+        // Step 6: Show the DataFrame
+        df.show();
+        
+        // Step 7: Stop the SparkSession
+        spark.stop();
+    }
+}
+    </code></pre>
+
+    <h2>Operations on DataFrames</h2>
+    <p>DataFrames support a variety of operations for data manipulation, including:</p>
+    <ul>
+        <li><strong>Filtering:</strong> Selecting rows based on certain conditions.</li>
+        <li><strong>Aggregation:</strong> Performing aggregate operations like sum, average, and count.</li>
+        <li><strong>Joining:</strong> Combining DataFrames based on common keys.</li>
+        <li><strong>Sorting:</strong> Ordering rows based on one or more columns.</li>
+    </ul>
+
+    <h3>Example: Performing Operations on a DataFrame</h3>
+    <p>Here's how you can perform some common operations on a DataFrame:</p>
+    <pre><code>
+import org.apache.spark.sql.functions;
+
+public class DataFrameOperationsExample {
+    public static void main(String[] args) {
+        // ... (previous setup code)
+
+        // Step 1: Filter DataFrame
+        Dataset&lt;Row&gt; filteredDF = df.filter(df.col("age").gt(30));
+        filteredDF.show();
+        
+        // Step 2: Aggregate DataFrame
+        Dataset&lt;Row&gt; ageAvgDF = df.groupBy("name").avg("age");
+        ageAvgDF.show();
+        
+        // Step 3: Sort DataFrame
+        Dataset&lt;Row&gt; sortedDF = df.orderBy(df.col("age").desc());
+        sortedDF.show();
+    }
+}
+    </code></pre>
+
+    <h2>Conclusion</h2>
+    <p>The Spark DataFrames API provides a robust and versatile tool for working with structured data. It allows you to perform complex data manipulations efficiently using a high-level, declarative API. Understanding how to use DataFrames effectively can greatly enhance your data processing and analysis capabilities in Apache Spark.</p>
+</body>
+</html>

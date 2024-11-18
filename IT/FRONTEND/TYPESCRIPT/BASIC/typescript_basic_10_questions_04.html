@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Basic Level Questions and Answers - Part 4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Basic Level Questions and Answers - Part 4</h1>
+
+    <h2>1. How do you use optional chaining in TypeScript?</h2>
+    <p>Optional chaining allows safe access to deeply nested object properties that might be <code>null</code> or <code>undefined</code>.</p>
+    <pre><code>let user: { name?: { first?: string } } = {};
+
+console.log(user.name?.first); // undefined
+user.name = { first: "John" };
+console.log(user.name?.first); // John</code></pre>
+
+    <h2>2. How do you create a tuple in TypeScript?</h2>
+    <p>Tuples allow you to define an array with a fixed number of elements of specific types.</p>
+    <pre><code>let person: [string, number];
+person = ["Alice", 30]; // Valid
+// person = [30, "Alice"]; // Error: Type 'number' is not assignable to type 'string'</code></pre>
+
+    <h2>3. What is a union type in TypeScript?</h2>
+    <p>A union type allows a variable to hold values of different types.</p>
+    <pre><code>let id: number | string;
+id = 123; // Valid
+id = "abc"; // Also valid</code></pre>
+
+    <h2>4. How do you use the <code>Pick</code> utility type in TypeScript?</h2>
+    <p>The <code>Pick</code> utility type allows you to create a new type by picking specific properties from another type.</p>
+    <pre><code>interface User {
+    name: string;
+    age: number;
+    email: string;
+}
+
+type UserNameAndEmail = Pick<User, "name" | "email">;
+
+const user: UserNameAndEmail = {
+    name: "Alice",
+    email: "alice@example.com"
+};</code></pre>
+
+    <h2>5. What is the <code>Exclude</code> utility type in TypeScript?</h2>
+    <p>The <code>Exclude</code> utility type allows you to remove certain types from a union.</p>
+    <pre><code>type Status = "active" | "inactive" | "pending";
+type ActiveStatus = Exclude<Status, "inactive" | "pending">;
+
+let status: ActiveStatus = "active"; // Only "active" is allowed</code></pre>
+
+    <h2>6. How do you define index signatures in TypeScript?</h2>
+    <p>Index signatures allow you to define the type of keys and values for dynamic properties in objects.</p>
+    <pre><code>interface StringArray {
+    [index: number]: string;
+}
+
+let myArray: StringArray = ["apple", "banana", "cherry"];
+
+console.log(myArray[0]); // "apple"</code></pre>
+
+    <h2>7. How do you use generics in TypeScript functions?</h2>
+    <p>Generics allow you to create reusable components or functions that work with different types.</p>
+    <pre><code>function identity<T>(arg: T): T {
+    return arg;
+}
+
+let output = identity<string>("Hello");
+console.log(output); // "Hello"</code></pre>
+
+    <h2>8. How do you enforce immutability with the <code>ReadonlyArray</code> type in TypeScript?</h2>
+    <p><code>ReadonlyArray</code> ensures that the elements of an array cannot be modified.</p>
+    <pre><code>let arr: ReadonlyArray<number> = [1, 2, 3];
+// arr.push(4); // Error: Property 'push' does not exist on type 'readonly number[]'</code></pre>
+
+    <h2>9. How do you use mapped types in TypeScript?</h2>
+    <p>Mapped types allow you to transform the properties of an existing type into another type.</p>
+    <pre><code>type User = {
+    name: string;
+    age: number;
+};
+
+type ReadonlyUser = {
+    [K in keyof User]: Readonly<User[K]>;
+};
+
+let user: ReadonlyUser = { name: "Alice", age: 25 };
+// user.age = 30; // Error: Cannot assign to 'age' because it is a read-only property</code></pre>
+
+    <h2>10. How do you define a constructor in a TypeScript class?</h2>
+    <p>The constructor is a special method in a class that gets called when a new instance is created.</p>
+    <pre><code>class Person {
+    name: string;
+    age: number;
+
+    constructor(name: string, age: number) {
+        this.name = name;
+        this.age = age;
+    }
+
+    greet() {
+        console.log(`Hello, my name is ${this.name}.`);
+    }
+}
+
+let john = new Person("John", 25);
+john.greet(); // "Hello, my name is John."</code></pre>
+
+</body>
+</html>

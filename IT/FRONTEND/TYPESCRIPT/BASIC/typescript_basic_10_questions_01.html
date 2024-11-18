@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Basic Level Questions and Answers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d14;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TypeScript Basic Level Questions and Answers</h1>
+
+    <h2>1. What is TypeScript?</h2>
+    <p>TypeScript is a superset of JavaScript that adds static types to the language. It compiles down to plain JavaScript and helps in catching type-related errors during development.</p>
+
+    <h2>2. How do you declare a variable in TypeScript?</h2>
+    <pre><code>let variableName: type = value;</code></pre>
+    <p><strong>Example:</strong></p>
+    <pre><code>let age: number = 30;</code></pre>
+
+    <h2>3. What is an interface in TypeScript?</h2>
+    <p>An interface in TypeScript defines the shape of an object. It can include properties and methods.</p>
+    <pre><code>interface Person {
+    name: string;
+    age: number;
+}
+
+const person: Person = {
+    name: "John",
+    age: 25
+};</code></pre>
+
+    <h2>4. How do you define a function in TypeScript?</h2>
+    <p>Functions in TypeScript can include type annotations for parameters and return values.</p>
+    <pre><code>function greet(name: string): string {
+    return `Hello, ${name}`;
+}
+
+const message: string = greet("Alice");</code></pre>
+
+    <h2>5. What is a tuple in TypeScript?</h2>
+    <p>A tuple is an array with fixed sizes and types for each element.</p>
+    <pre><code>let tuple: [string, number] = ["Hello", 10];</code></pre>
+
+    <h2>6. How do you handle optional parameters in TypeScript functions?</h2>
+    <p>Optional parameters are denoted with a question mark <code>?</code> after the parameter name.</p>
+    <pre><code>function multiply(a: number, b?: number): number {
+    return b ? a * b : a;
+}</code></pre>
+
+    <h2>7. What is a class in TypeScript?</h2>
+    <p>A class in TypeScript is a blueprint for creating objects with shared properties and methods.</p>
+    <pre><code>class Animal {
+    name: string;
+
+    constructor(name: string) {
+        this.name = name;
+    }
+
+    speak(): void {
+        console.log(`${this.name} makes a noise.`);
+    }
+}
+
+const dog = new Animal("Dog");
+dog.speak();</code></pre>
+
+    <h2>8. What is the difference between <code>interface</code> and <code>type</code> in TypeScript?</h2>
+    <p>Both <code>interface</code> and <code>type</code> can be used to define the shape of an object, but <code>type</code> can also be used to define unions, intersections, and more complex types.</p>
+    <pre><code>interface User {
+    name: string;
+}
+
+type UserType = {
+    name: string;
+    age: number;
+};</code></pre>
+
+    <h2>9. How do you create a union type in TypeScript?</h2>
+    <p>A union type allows a variable to be one of several types.</p>
+    <pre><code>let value: string | number;
+
+value = "Hello"; // valid
+value = 100;     // valid
+value = true;    // error</code></pre>
+
+    <h2>10. How do you use generics in TypeScript?</h2>
+    <p>Generics allow you to create reusable and flexible components that work with any data type.</p>
+    <pre><code>function identity<T>(arg: T): T {
+    return arg;
+}
+
+let output = identity<string>("myString");</code></pre>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spark with Hadoop YARN and Resource Managers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spark with Hadoop YARN and Resource Managers</h1>
+
+    <p>
+        Apache Spark can be integrated with Hadoop YARN (Yet Another Resource Negotiator) for resource management and job scheduling. YARN is a resource management layer in the Hadoop ecosystem that allows multiple applications to share resources dynamically and run concurrently on a Hadoop cluster.
+    </p>
+
+    <h2>Introduction to Hadoop YARN</h2>
+    <ul>
+        <li><strong>Resource Management:</strong> YARN manages cluster resources and schedules jobs by allocating resources to applications based on their requirements and availability.</li>
+        <li><strong>Job Scheduling:</strong> YARN provides a unified scheduling framework for different types of applications, including batch processing, interactive queries, and real-time processing.</li>
+        <li><strong>Components:</strong> YARN consists of ResourceManager (RM), NodeManager (NM), and ApplicationMaster (AM). RM manages resources, NM manages resources on individual nodes, and AM manages application execution.</li>
+    </ul>
+
+    <h2>Integrating Spark with YARN</h2>
+    <ul>
+        <li><strong>Configuration:</strong> To run Spark applications on YARN, configure Spark to use YARN as the cluster manager. This involves setting up Spark's configuration files and specifying YARN-related options.</li>
+        <li><strong>Submitting Jobs:</strong> Use the <code>spark-submit</code> command to submit Spark applications to a YARN cluster. This command includes options for specifying YARN-specific settings such as the number of executors and memory allocation.</li>
+        <li><strong>Resource Allocation:</strong> YARN dynamically allocates resources based on the requirements of Spark applications and other applications running on the cluster. Spark applications can specify their resource needs in their configuration.</li>
+    </ul>
+
+    <h2>Example Source Code</h2>
+    <p>
+        Below is an example of how to configure and submit a Spark application to run on a Hadoop YARN cluster.
+    </p>
+
+    <h3>Configuration File Example</h3>
+    <pre><code class="language-text">
+# spark-defaults.conf
+spark.master yarn
+spark.eventLog.enabled true
+spark.eventLog.dir hdfs:///path/to/spark/event/logs
+spark.history.fs.logDirectory hdfs:///path/to/spark/history
+spark.yarn.jars hdfs:///path/to/spark/jars/*
+spark.executor.memory 4g
+spark.driver.memory 2g
+spark.executor.cores 2
+    </code></pre>
+
+    <h3>Submitting a Spark Application</h3>
+    <pre><code class="language-bash">
+# Submit a Spark job to YARN
+spark-submit \
+    --class com.example.MySparkApp \
+    --master yarn \
+    --deploy-mode cluster \
+    --executor-memory 4G \
+    --total-executor-cores 4 \
+    path/to/my-spark-app.jar
+    </code></pre>
+
+    <p>
+        In this example:
+    </p>
+    <ul>
+        <li><strong>Configuration File:</strong> The <code>spark-defaults.conf</code> file sets Spark to use YARN as the master, enables event logging, and specifies memory and core settings for executors and the driver.</li>
+        <li><strong>Submitting a Spark Application:</strong> The <code>spark-submit</code> command submits a Spark job to a YARN cluster. The <code>--master</code> option specifies YARN as the cluster manager, and <code>--deploy-mode</code> is set to <code>cluster</code> for running the driver on the cluster.</li>
+    </ul>
+
+    <p>
+        Integrating Spark with Hadoop YARN allows for efficient resource management and job scheduling in a distributed environment. By configuring Spark to use YARN and specifying the necessary options, you can effectively run and manage Spark applications on a YARN-managed cluster.
+    </p>
+</body>
+</html>

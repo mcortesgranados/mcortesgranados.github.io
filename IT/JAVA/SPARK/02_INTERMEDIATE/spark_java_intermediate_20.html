@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windowed Operations in Spark Streaming</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Windowed Operations in Spark Streaming</h1>
+    <p>Windowed operations in Spark Streaming enable you to perform computations over a sliding or tumbling window of data. These operations are useful for aggregating data over specific time intervals and performing time-based analysis.</p>
+
+    <h2>1. Introduction to Windowed Operations</h2>
+    <p>Windowed operations allow you to process data within a defined time window, such as a 5-minute sliding window. This is useful for tasks like calculating moving averages or aggregating events within a fixed timeframe. You can specify the window length and slide duration to control the windowing behavior.</p>
+
+    <h2>2. Example: Windowed Operations with Sliding Windows</h2>
+    <p>The following example demonstrates how to use sliding windows to compute the count of words over a 1-minute window, sliding every 30 seconds.</p>
+
+    <h3>Example: Sliding Window Operations</h3>
+    <pre><code>
+import org.apache.spark.SparkConf;
+import org.apache.spark.streaming.api.java.JavaDStream;
+import org.apache.spark.streaming.api.java.JavaPairDStream;
+import org.apache.spark.streaming.api.java.JavaStreamingContext;
+import org.apache.spark.streaming.Durations;
+import scala.Tuple2;
+
+public class WindowedOperationsExample {
+    public static void main(String[] args) throws InterruptedException {
+        // Step 1: Create a SparkConf object and set the application name
+        SparkConf conf = new SparkConf().setAppName("Windowed Operations Example").setMaster("local[*]");
+        
+        // Step 2: Create a JavaStreamingContext object with a batch interval of 10 seconds
+        JavaStreamingContext jsc = new JavaStreamingContext(conf, Durations.seconds(10));
+        
+        // Step 3: Create a DStream that connects to a socket stream on port 9999
+        JavaDStream&lt;String&gt; lines = jsc.socketTextStream("localhost", 9999);
+        
+        // Step 4: Map lines to (key, 1) pairs
+        JavaPairDStream&lt;String, Integer&gt; pairs = lines.mapToPair(line -> new Tuple2<>(line, 1));
+        
+        // Step 5: Apply a sliding window of 1 minute with a slide interval of 30 seconds
+        JavaPairDStream&lt;String, Integer&gt; windowedCounts = pairs.reduceByKeyAndWindow(
+            (a, b) -> a + b,         // Reduce function
+            Durations.minutes(1),    // Window length
+            Durations.seconds(30)    // Slide interval
+        );
+        
+        // Step 6: Print the results of the windowed computation
+        windowedCounts.print();
+        
+        // Step 7: Start the computation and await termination
+        jsc.start();
+        jsc.awaitTermination();
+    }
+}
+    </code></pre>
+
+    <h2>3. Explanation of the Example</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Step</th>
+                <th>Description</th>
+                <th>Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Create a SparkConf object</td>
+                <td><code>SparkConf conf = new SparkConf().setAppName("Windowed Operations Example").setMaster("local[*]");</code></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Create a JavaStreamingContext object</td>
+                <td><code>JavaStreamingContext jsc = new JavaStreamingContext(conf, Durations.seconds(10));</code></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Create a DStream from a socket</td>
+                <td><code>JavaDStream&lt;String&gt; lines = jsc.socketTextStream("localhost", 9999);</code></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Map lines to (key, 1) pairs</td>
+                <td><code>JavaPairDStream&lt;String, Integer&gt; pairs = lines.mapToPair(line -> new Tuple2<>(line, 1));</code></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Apply a sliding window</td>
+                <td><code>JavaPairDStream&lt;String, Integer&gt; windowedCounts = pairs.reduceByKeyAndWindow(...);</code></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Print the windowed results</td>
+                <td><code>windowedCounts.print();</code></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Start computation and await termination</td>
+                <td><code>jsc.start();</code><br/><code>jsc.awaitTermination();</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4. Conclusion</h2>
+    <p>Windowed operations in Spark Streaming are powerful tools for analyzing data over specified time intervals. By using sliding or tumbling windows, you can perform real-time analytics, such as aggregations and moving averages, which are essential for time-based analysis and monitoring.</p>
+</body>
+</html>

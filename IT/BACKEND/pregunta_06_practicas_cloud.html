@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Despliegue de Infraestructura como Código</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Despliegue de Infraestructura como Código</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Pregunta</th>
+                <th>Descripción</th>
+                <th>Java</th>
+                <th>Python</th>
+                <th>C#</th>
+                <th>TypeScript</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>¿Cómo se define una plantilla de CloudFormation para desplegar una instancia EC2?</td>
+                <td>Para definir una plantilla de CloudFormation que despliegue una instancia EC2, se crea un archivo YAML o JSON que describe la configuración de la instancia, incluyendo la imagen AMI, el tipo de instancia, y las configuraciones de red.</td>
+                <td><pre><code>// Java example of using AWS SDK to create a CloudFormation stack
+import com.amazonaws.services.cloudformation.AmazonCloudFormation;
+import com.amazonaws.services.cloudformation.AmazonCloudFormationClientBuilder;
+import com.amazonaws.services.cloudformation.model.CreateStackRequest;
+
+public class CloudFormationSetup {
+    public static void main(String[] args) {
+        AmazonCloudFormation cf = AmazonCloudFormationClientBuilder.defaultClient();
+        CreateStackRequest request = new CreateStackRequest()
+            .withStackName("my-stack")
+            .withTemplateBody("..."); // Replace with CloudFormation template
+        cf.createStack(request);
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of using Boto3 to create a CloudFormation stack
+import boto3
+
+client = boto3.client('cloudformation')
+response = client.create_stack(
+    StackName='my-stack',
+    TemplateBody='...'  # Replace with CloudFormation template
+)
+print(response)
+</code></pre></td>
+                <td><pre><code>// C# example of using AWS SDK to create a CloudFormation stack
+using Amazon.CloudFormation;
+using Amazon.CloudFormation.Model;
+using System.Threading.Tasks;
+
+public class CloudFormationSetup
+{
+    public static async Task Main(string[] args)
+    {
+        var client = new AmazonCloudFormationClient();
+        var request = new CreateStackRequest
+        {
+            StackName = "my-stack",
+            TemplateBody = "..." // Replace with CloudFormation template
+        };
+        var response = await client.CreateStackAsync(request);
+        Console.WriteLine(response);
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of using AWS SDK to create a CloudFormation stack
+import * as AWS from 'aws-sdk';
+
+const cloudformation = new AWS.CloudFormation();
+const params = {
+    StackName: 'my-stack',
+    TemplateBody: '...' // Replace with CloudFormation template
+};
+
+cloudformation.createStack(params, (err, data) => {
+    if (err) console.error(err);
+    else console.log(data);
+});
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>¿Cómo se actualiza una plantilla de CloudFormation existente?</td>
+                <td>Para actualizar una plantilla de CloudFormation existente, se puede usar el comando `update-stack` para modificar la configuración actual. La nueva plantilla se proporciona como el cuerpo de la solicitud para reflejar los cambios deseados.</td>
+                <td><pre><code>// Java example of updating a CloudFormation stack
+import com.amazonaws.services.cloudformation.AmazonCloudFormation;
+import com.amazonaws.services.cloudformation.AmazonCloudFormationClientBuilder;
+import com.amazonaws.services.cloudformation.model.UpdateStackRequest;
+
+public class CloudFormationUpdate {
+    public static void main(String[] args) {
+        AmazonCloudFormation cf = AmazonCloudFormationClientBuilder.defaultClient();
+        UpdateStackRequest request = new UpdateStackRequest()
+            .withStackName("my-stack")
+            .withTemplateBody("..."); // Replace with updated CloudFormation template
+        cf.updateStack(request);
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of updating a CloudFormation stack
+import boto3
+
+client = boto3.client('cloudformation')
+response = client.update_stack(
+    StackName='my-stack',
+    TemplateBody='...'  # Replace with updated CloudFormation template
+)
+print(response)
+</code></pre></td>
+                <td><pre><code>// C# example of updating a CloudFormation stack
+using Amazon.CloudFormation;
+using Amazon.CloudFormation.Model;
+using System.Threading.Tasks;
+
+public class CloudFormationUpdate
+{
+    public static async Task Main(string[] args)
+    {
+        var client = new AmazonCloudFormationClient();
+        var request = new UpdateStackRequest
+        {
+            StackName = "my-stack",
+            TemplateBody = "..." // Replace with updated CloudFormation template
+        };
+        var response = await client.UpdateStackAsync(request);
+        Console.WriteLine(response);
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of updating a CloudFormation stack
+import * as AWS from 'aws-sdk';
+
+const cloudformation = new AWS.CloudFormation();
+const params = {
+    StackName: 'my-stack',
+    TemplateBody: '...' // Replace with updated CloudFormation template
+};
+
+cloudformation.updateStack(params, (err, data) => {
+    if (err) console.error(err);
+    else console.log(data);
+});
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>¿Cómo se eliminan recursos creados por una plantilla de CloudFormation?</td>
+                <td>Para eliminar recursos creados por una plantilla de CloudFormation, se puede usar el comando `delete-stack` para eliminar el stack completo. CloudFormation se encargará de eliminar todos los recursos asociados con el stack.</td>
+                <td><pre><code>// Java example of deleting a CloudFormation stack
+import com.amazonaws.services.cloudformation.AmazonCloudFormation;
+import com.amazonaws.services.cloudformation.AmazonCloudFormationClientBuilder;
+import com.amazonaws.services.cloudformation.model.DeleteStackRequest;
+
+public class CloudFormationDelete {
+    public static void main(String[] args) {
+        AmazonCloudFormation cf = AmazonCloudFormationClientBuilder.defaultClient();
+        DeleteStackRequest request = new DeleteStackRequest()
+            .withStackName("my-stack");
+        cf.deleteStack(request);
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of deleting a CloudFormation stack
+import boto3
+
+client = boto3.client('cloudformation')
+response = client.delete_stack(
+    StackName='my-stack'
+)
+print(response)
+</code></pre></td>
+                <td><pre><code>// C# example of deleting a CloudFormation stack
+using Amazon.CloudFormation;
+using Amazon.CloudFormation.Model;
+using System.Threading.Tasks;
+
+public class CloudFormationDelete
+{
+    public static async Task Main(string[] args)
+    {
+        var client = new AmazonCloudFormationClient();
+        var request = new DeleteStackRequest
+        {
+            StackName = "my-stack"
+        };
+        var response = await client.DeleteStackAsync(request);
+        Console.WriteLine(response);
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of deleting a CloudFormation stack
+import * as AWS from 'aws-sdk';
+
+const cloudformation = new AWS.CloudFormation();
+const params = {
+    StackName: 'my-stack'
+};
+
+cloudformation.deleteStack(params, (err, data) => {
+    if (err) console.error(err);
+    else console.log(data);
+});
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>¿Cómo se usa AWS CodePipeline para automatizar el despliegue de infraestructura como código?</td>
+                <td>AWS CodePipeline se puede usar para automatizar el despliegue de infraestructura como código mediante la creación de pipelines que integren etapas para la construcción, prueba y despliegue de plantillas de CloudFormation. El pipeline puede incluir etapas como la integración de código, pruebas, y despliegues automáticos.</td>
+                <td><pre><code>// Java example of creating a CodePipeline pipeline
+import com.amazonaws.services.codepipeline.AmazonCodePipeline;
+import com.amazonaws.services.codepipeline.AmazonCodePipelineClientBuilder;
+import com.amazonaws.services.codepipeline.model.CreatePipelineRequest;
+
+public class CodePipelineSetup {
+    public static void main(String[] args) {
+        AmazonCodePipeline client = AmazonCodePipelineClientBuilder.defaultClient();
+        CreatePipelineRequest request = new CreatePipelineRequest()
+            .withPipeline(...); // Define pipeline structure including stages for CloudFormation
+        client.createPipeline(request);
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of creating a CodePipeline pipeline
+import boto3
+
+client = boto3.client('codepipeline')
+response = client.create_pipeline(
+    pipeline={
+        # Define pipeline structure including stages for CloudFormation
+    }
+)
+print(response)
+</code></pre></td>
+                <td><pre><code>// C# example of creating a CodePipeline pipeline
+using Amazon.CodePipeline;
+using Amazon.CodePipeline.Model;
+using System.Threading.Tasks;
+
+public class CodePipelineSetup
+{
+    public static async Task Main(string[] args)
+    {
+        var client = new AmazonCodePipelineClient();
+        var request = new CreatePipelineRequest
+        {
+            Pipeline = new PipelineDeclaration
+            {
+                // Define pipeline structure including stages for CloudFormation
+            }
+        };
+        var response = await client.CreatePipelineAsync(request);
+        Console.WriteLine(response);
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of creating a CodePipeline pipeline
+import * as AWS from 'aws-sdk';
+
+const codepipeline = new AWS.CodePipeline();
+const params = {
+    pipeline: {
+        // Define pipeline structure including stages for CloudFormation
+    }
+};
+
+codepipeline.createPipeline(params, (err, data) => {
+    if (err) console.error(err);
+    else console.log(data);
+});
+</code></pre></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>¿Cómo se gestionan los cambios en la infraestructura usando CloudFormation StackSets?</td>
+                <td>CloudFormation StackSets permite gestionar la implementación de una plantilla de CloudFormation en múltiples cuentas y regiones. Para aplicar cambios, se actualiza la plantilla en el StackSet y luego se aplica la actualización a los stacks asociados en las cuentas y regiones especificadas.</td>
+                <td><pre><code>// Java example of updating a CloudFormation StackSet
+import com.amazonaws.services.cloudformation.AmazonCloudFormation;
+import com.amazonaws.services.cloudformation.AmazonCloudFormationClientBuilder;
+import com.amazonaws.services.cloudformation.model.UpdateStackSetRequest;
+
+public class StackSetUpdate {
+    public static void main(String[] args) {
+        AmazonCloudFormation cf = AmazonCloudFormationClientBuilder.defaultClient();
+        UpdateStackSetRequest request = new UpdateStackSetRequest()
+            .withStackSetName("my-stackset")
+            .withTemplateBody("..."); // Replace with updated CloudFormation template
+        cf.updateStackSet(request);
+    }
+}</code></pre></td>
+                <td><pre><code># Python example of updating a CloudFormation StackSet
+import boto3
+
+client = boto3.client('cloudformation')
+response = client.update_stack_set(
+    StackSetName='my-stackset',
+    TemplateBody='...'  # Replace with updated CloudFormation template
+)
+print(response)
+</code></pre></td>
+                <td><pre><code>// C# example of updating a CloudFormation StackSet
+using Amazon.CloudFormation;
+using Amazon.CloudFormation.Model;
+using System.Threading.Tasks;
+
+public class StackSetUpdate
+{
+    public static async Task Main(string[] args)
+    {
+        var client = new AmazonCloudFormationClient();
+        var request = new UpdateStackSetRequest
+        {
+            StackSetName = "my-stackset",
+            TemplateBody = "..." // Replace with updated CloudFormation template
+        };
+        var response = await client.UpdateStackSetAsync(request);
+        Console.WriteLine(response);
+    }
+}</code></pre></td>
+                <td><pre><code>// TypeScript example of updating a CloudFormation StackSet
+import * as AWS from 'aws-sdk';
+
+const cloudformation = new AWS.CloudFormation();
+const params = {
+    StackSetName: 'my-stackset',
+    TemplateBody: '...' // Replace with updated CloudFormation template
+};
+
+cloudformation.updateStackSet(params, (err, data) => {
+    if (err) console.error(err);
+    else console.log(data);
+});
+</code></pre></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

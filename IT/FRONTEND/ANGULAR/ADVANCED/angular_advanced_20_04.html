@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Advanced Level Questions - Part 4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .question {
+            margin-top: 20px;
+        }
+        .question h2 {
+            margin-bottom: 10px;
+        }
+        .answer {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Angular Advanced Level Questions - Part 4</h1>
+
+    <div class="question">
+        <h2>1. How do you use Angular's `NgModule` for feature modules?</h2>
+        <div class="answer">
+            <p>Feature modules help to organize an Angular application into cohesive blocks. Here's how to set up a feature module:</p>
+            <pre><code>import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FeatureComponent } from './feature.component';
+import { FeatureRoutingModule } from './feature-routing.module';
+
+@NgModule({
+  declarations: [FeatureComponent],
+  imports: [
+    CommonModule,
+    FeatureRoutingModule
+  ]
+})
+export class FeatureModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How do you create a custom Angular Directive?</h2>
+        <div class="answer">
+            <p>Custom directives are used to extend the behavior of elements. Here’s an example of a custom directive:</p>
+            <pre><code>import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
+
+@Directive({
+  selector: '[appHighlight]'
+})
+export class HighlightDirective {
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+  @HostListener('mouseenter') onMouseEnter() {
+    this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'yellow');
+  }
+
+  @HostListener('mouseleave') onMouseLeave() {
+    this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'transparent');
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How do you handle Angular's Dependency Injection for multiple providers?</h2>
+        <div class="answer">
+            <p>When you need to provide multiple instances or configurations of a service, you can use multi-provider tokens:</p>
+            <pre><code>import { InjectionToken, Injectable, Inject } from '@angular/core';
+
+export const CONFIG = new InjectionToken<string[]>('app.config');
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ConfigService {
+  constructor(@Inject(CONFIG) private config: string[]) {}
+}
+
+// In a module
+@NgModule({
+  providers: [
+    { provide: CONFIG, useValue: ['config1', 'config2'], multi: true }
+  ]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you optimize Angular applications for performance?</h2>
+        <div class="answer">
+            <p>To optimize performance, you can use techniques like lazy loading, Ahead-of-Time (AOT) compilation, and change detection strategies:</p>
+            <pre><code>import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+@Component({
+  selector: 'app-performance',
+  templateUrl: './performance.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class PerformanceComponent {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you handle Angular's dynamic forms?</h2>
+        <div class="answer">
+            <p>Dynamic forms are built based on data received at runtime. Use Angular’s reactive forms to create dynamic controls:</p>
+            <pre><code>import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+
+@Component({
+  selector: 'app-dynamic-form',
+  template: \`
+    <form [formGroup]="form">
+      <div formArrayName="items">
+        <div *ngFor="let item of items.controls; let i = index">
+          <input [formControlName]="i">
+        </div>
+      </div>
+    </form>
+  \`
+})
+export class DynamicFormComponent implements OnInit {
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit() {
+    this.form = this.fb.group({
+      items: this.fb.array([this.fb.control('')])
+    });
+  }
+
+  get items() {
+    return this.form.get('items') as FormArray;
+  }
+
+  addItem() {
+    this.items.push(this.fb.control(''));
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you implement Angular's lazy loading with nested routes?</h2>
+        <div class="answer">
+            <p>Lazy load a module with nested routes by defining child routes in the lazy-loaded module:</p>
+            <pre><code>const routes: Routes = [
+  {
+    path: 'lazy',
+    loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule),
+    children: [
+      { path: 'child', component: ChildComponent }
+    ]
+  }
+];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How do you use Angular's `NgZone` for running code outside Angular's zone?</h2>
+        <div class="answer">
+            <p><code>NgZone</code> helps to execute code outside Angular's change detection:</p>
+            <pre><code>import { Component, NgZone } from '@angular/core';
+
+@Component({
+  selector: 'app-ngzone',
+  template: \`<p>NgZone Example</p>\`
+})
+export class NgZoneComponent {
+  constructor(private ngZone: NgZone) {
+    this.ngZone.runOutsideAngular(() => {
+      // Code running outside Angular's zone
+    });
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you handle Angular's server-side rendering (SSR) with Angular Universal?</h2>
+        <div class="answer">
+            <p>Angular Universal allows you to perform server-side rendering to improve performance and SEO. Install Angular Universal and configure it:</p>
+            <pre><code>ng add @nguniversal/express-engine
+// Configure server.ts and other settings
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. How do you use Angular's `Router` to handle route parameters and query parameters?</h2>
+        <div class="answer">
+            <p>Handle route and query parameters in Angular components:</p>
+            <pre><code>import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-route',
+  template: \`<p>Route Parameter: {{ param }}</p>\`
+})
+export class RouteComponent implements OnInit {
+  param: string;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.param = params.get('id');
+    });
+
+    this.route.queryParams.subscribe(queryParams => {
+      console.log(queryParams);
+    });
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you create and manage Angular's custom elements?</h2>
+        <div class="answer">
+            <p>Create custom elements with Angular and use them in other applications:</p>
+            <pre><code>import { Component, NgModule } from '@angular/core';
+import { createCustomElement } from '@angular/elements';
+import { BrowserModule } from '@angular/platform-browser';
+import { Injector } from '@angular/core';
+
+@Component({
+  selector: 'app-custom-element',
+  template: \`<p>Custom Element</p>\`
+})
+export class CustomElementComponent {}
+
+@NgModule({
+  declarations: [CustomElementComponent],
+  imports: [BrowserModule],
+  entryComponents: [CustomElementComponent]
+})
+export class AppModule {
+  constructor(private injector: Injector) {
+    const el = createCustomElement(CustomElementComponent, { injector });
+    customElements.define('custom-element', el);
+  }
+
+  ngDoBootstrap() {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you handle Angular's `HttpClient` for advanced HTTP operations?</h2>
+        <div class="answer">
+            <p>Use <code>HttpClient</code> for advanced HTTP operations like interceptors, retries, and request caching:</p>
+            <pre><code>import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { catchError, retry } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiService {
+  constructor(private http: HttpClient) {}
+
+  getData() {
+    return this.http.get('https://api.example.com/data', {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer my-token'
+      })
+    }).pipe(
+      retry(3),
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: any) {
+    console.error('An error occurred', error);
+    return throwError(error);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you manage Angular's internationalization (i18n) and localization?</h2>
+        <div class="answer">
+            <p>Internationalization and localization involve translating your application into different languages:</p>
+            <pre><code>ng add @angular/localize
+// Use i18n attributes in templates
+// Configure locales and translations
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use Angular's `Renderer2` to safely manipulate the DOM?</h2>
+        <div class="answer">
+            <p><code>Renderer2</code> provides a way to safely interact with the DOM:</p>
+            <pre><code>import { Component, Renderer2, ElementRef } from '@angular/core';
+
+@Component({
+  selector: 'app-renderer2',
+  template: \`<p>Renderer2 Example</p>\`
+})
+export class Renderer2Component {
+  constructor(private renderer: Renderer2, private el: ElementRef) {
+    this.renderer.setStyle(this.el.nativeElement, 'color', 'blue');
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you handle Angular's animations with the Angular Animations library?</h2>
+        <div class="answer">
+            <p>Use Angular's Animation API to create complex animations:</p>
+            <pre><code>import { trigger, transition, style, animate } from '@angular/animations';
+
+@Component({
+  selector: 'app-animation',
+  template: \`<div [@fadeInOut]="state">Content</div>\`,
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('1s', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('1s', style({ opacity: 0 }))
+      ])
+    ])
+  ]
+})
+export class AnimationComponent {
+  state = 'in';
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you manage Angular's change detection strategy for performance optimization?</h2>
+        <div class="answer">
+            <p>Optimize performance by using <code>ChangeDetectionStrategy.OnPush</code>:</p>
+            <pre><code>import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+@Component({
+  selector: 'app-optimization',
+  template: \`<p>Optimization Example</p>\`,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class OptimizationComponent {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you implement Angular's `@ContentChild` and `@ContentChildren` decorators?</h2>
+        <div class="answer">
+            <p>Use <code>@ContentChild</code> and <code>@ContentChildren</code> to query and access projected content:</p>
+            <pre><code>import { Component, ContentChild, ContentChildren, QueryList } from '@angular/core';
+import { ContentComponent } from './content.component';
+
+@Component({
+  selector: 'app-parent',
+  template: \`<ng-content></ng-content>\`
+})
+export class ParentComponent {
+  @ContentChild(ContentComponent) content: ContentComponent;
+  @ContentChildren(ContentComponent) contentChildren: QueryList<ContentComponent>;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use Angular's `@HostListener` and `@HostBinding` decorators?</h2>
+        <div class="answer">
+            <p>Use <code>@HostListener</code> to listen to events on the host element and <code>@HostBinding</code> to bind properties:</p>
+            <pre><code>import { Component, HostListener, HostBinding } from '@angular/core';
+
+@Component({
+  selector: 'app-host',
+  template: \`<p>Host Binding and Listener Example</p>\`
+})
+export class HostComponent {
+  @HostBinding('class.active') isActive = true;
+
+  @HostListener('click') onClick() {
+    this.isActive = !this.isActive;
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you use Angular's `NgModel` with two-way data binding?</h2>
+        <div class="answer">
+            <p><code>NgModel</code> enables two-way data binding in Angular forms:</p>
+            <pre><code>import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-model',
+  template: \`
+    <input [(ngModel)]="value">
+    <p>Value: {{ value }}</p>
+  \`
+})
+export class ModelComponent {
+  value = '';
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you configure Angular's HTTP client for handling global error handling?</h2>
+        <div class="answer">
+            <p>Global error handling can be configured with HTTP interceptors:</p>
+            <pre><code>import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+@Injectable()
+export class ErrorInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(req).pipe(
+      catchError(error => {
+        console.error('An error occurred', error);
+        return throwError(error);
+      })
+    );
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you implement Angular's service worker for Progressive Web Apps (PWA)?</h2>
+        <div class="answer">
+            <p>Set up a service worker to enable PWA features:</p>
+            <pre><code>ng add @angular/pwa
+// Configure ngsw-config.json for caching strategies
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

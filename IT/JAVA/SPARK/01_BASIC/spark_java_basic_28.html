@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Spark Applications with Spark UI</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Monitoring Spark Applications with Spark UI</h1>
+    <p>The Spark UI is a web-based user interface that provides detailed information about the execution of Spark applications. It helps you monitor and debug applications by offering insights into various aspects of the execution process, such as stages, tasks, and job execution.</p>
+
+    <h2>Accessing the Spark UI</h2>
+    <p>To access the Spark UI, you need to navigate to the web interface provided by Spark. By default, the Spark UI runs on port 4040 of the host machine where Spark is running. You can access it using the following URL:</p>
+    <pre><code>http://localhost:4040</code></pre>
+    <p>If you're running Spark on a cluster, you may need to access the Spark UI from the master node or through the cluster manager’s web interface.</p>
+
+    <h2>Key Features of Spark UI</h2>
+    <ul>
+        <li><strong>Jobs Tab:</strong> Displays a list of jobs executed by the Spark application, along with their status, duration, and stages.</li>
+        <li><strong>Stages Tab:</strong> Provides detailed information about each stage of a job, including task details and execution times.</li>
+        <li><strong>Tasks Tab:</strong> Shows information about individual tasks within a stage, including task duration, failure details, and shuffle read/write metrics.</li>
+        <li><strong>Storage Tab:</strong> Displays information about the RDDs and DataFrames that are cached or persisted, including their storage levels and memory usage.</li>
+        <li><strong>Environment Tab:</strong> Provides details about the Spark configuration and environment, including settings for Spark and JVM options.</li>
+        <li><strong>Executors Tab:</strong> Lists information about each executor, including memory usage, task metrics, and storage usage.</li>
+    </ul>
+
+    <h2>Example: Accessing Spark UI</h2>
+    <p>The Spark UI is automatically available when you run a Spark application. Here’s a basic example of how to run a Spark application and access the Spark UI:</p>
+    <pre><code>
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaSparkContext;
+
+public class SparkUIExample {
+    public static void main(String[] args) {
+        // Step 1: Create a SparkConf object and set application name
+        SparkConf conf = new SparkConf().setAppName("Spark UI Example").setMaster("local[*]");
+        
+        // Step 2: Create a JavaSparkContext object
+        JavaSparkContext sc = new JavaSparkContext(conf);
+        
+        // Example operation
+        sc.parallelize(Arrays.asList(1, 2, 3, 4, 5))
+          .map(x -> x * x)
+          .collect();
+
+        // Step 3: Spark UI will be available at http://localhost:4040
+
+        // Step 4: Stop the Spark context
+        sc.stop();
+    }
+}
+    </code></pre>
+
+    <h2>Understanding the Example</h2>
+    <ul>
+        <li><strong>SparkConf Object:</strong> Configures the Spark application, including setting the master URL to run locally.</li>
+        <li><strong>JavaSparkContext:</strong> Creates a context for running Spark operations.</li>
+        <li><strong>Accessing the Spark UI:</strong> After running the application, you can monitor it by navigating to <code>http://localhost:4040</code> in your web browser.</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>The Spark UI is an invaluable tool for monitoring and debugging Spark applications. By using the various tabs and features available in the UI, you can gain insights into your application's performance and troubleshoot issues effectively.</p>
+</body>
+</html>

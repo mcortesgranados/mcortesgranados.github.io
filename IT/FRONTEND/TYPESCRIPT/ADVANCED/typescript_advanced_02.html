@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced TypeScript Questions - Part 2</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background-color: #f4f4f4; padding: 5px; border-radius: 5px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .question { margin-top: 20px; }
+        .answer { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Advanced TypeScript Questions - Part 2</h1>
+
+    <div class="question">
+        <h2>1. How do you create a TypeScript type that represents a function with specific parameters and return type?</h2>
+        <div class="answer">
+            <p>You can use the function type syntax to define a type for a function, specifying its parameters and return type.</p>
+            <pre><code>
+type AddFunction = (a: number, b: number) => number;
+
+const add: AddFunction = (a, b) => a + b;
+
+console.log(add(5, 3)); // 8
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. What are `infer` types in TypeScript, and how do you use them in conditional types?</h2>
+        <div class="answer">
+            <p>The `infer` keyword allows you to create types based on values inside a conditional type. It is used to capture and infer types within the conditional type expression.</p>
+            <pre><code>
+type ExtractType<T> = T extends (infer U)[] ? U : never;
+
+type ElementType = ExtractType<number[]>; // number
+type NotArray = ExtractType<string>; // never
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How can you create a type that represents a union of all properties in an object type?</h2>
+        <div class="answer">
+            <p>Use the `keyof` operator and mapped types to create a union type of all property names in an object type.</p>
+            <pre><code>
+interface User {
+    name: string;
+    age: number;
+    email: string;
+}
+
+type UserKeys = keyof User; // 'name' | 'age' | 'email'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. What are `ReadonlyArray` and `ReadonlyMap` types in TypeScript, and how do they work?</h2>
+        <div class="answer">
+            <p>The `ReadonlyArray` and `ReadonlyMap` types create immutable versions of arrays and maps, respectively. They prevent modifications to the original structure.</p>
+            <pre><code>
+const numbers: ReadonlyArray<number> = [1, 2, 3];
+// numbers.push(4); // Error: Property 'push' does not exist on type 'readonly number[]'.
+
+const map: ReadonlyMap<string, number> = new Map([['a', 1]]);
+// map.set('b', 2); // Error: Property 'set' does not exist on type 'ReadonlyMap<string, number>'.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How do you use `keyof` with generic types in TypeScript?</h2>
+        <div class="answer">
+            <p>By combining `keyof` with generics, you can create flexible types that adapt to various object shapes.</p>
+            <pre><code>
+type PropertyNames<T> = keyof T;
+
+interface Product {
+    id: number;
+    name: string;
+    price: number;
+}
+
+type ProductProperties = PropertyNames<Product>; // 'id' | 'name' | 'price'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you create a mapped type that converts all properties of a type to optional?</h2>
+        <div class="answer">
+            <p>You can use mapped types to iterate over all properties of a type and apply the `?` modifier to make them optional.</p>
+            <pre><code>
+type Optional<T> = {
+    [P in keyof T]?: T[P];
+};
+
+interface User {
+    name: string;
+    age: number;
+}
+
+const optionalUser: Optional<User> = { name: 'Alice' }; // `age` is optional
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. What is a discriminated union, and how can you use it in TypeScript?</h2>
+        <div class="answer">
+            <p>A discriminated union is a union type where each member type has a common, literal type property that TypeScript uses to discriminate between the different types.</p>
+            <pre><code>
+type Animal = 
+    | { type: 'dog'; bark: () => void }
+    | { type: 'cat'; meow: () => void };
+
+function makeSound(animal: Animal) {
+    if (animal.type === 'dog') {
+        animal.bark();
+    } else {
+        animal.meow();
+    }
+}
+
+makeSound({ type: 'dog', bark: () => console.log('Woof!') });
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you create a type that allows a property to be of any type but only once?</h2>
+        <div class="answer">
+            <p>You can use the `unique symbol` type to ensure that a property can only occur once in an object.</p>
+            <pre><code>
+const uniqueKey: unique symbol = Symbol();
+
+interface UniqueProperty {
+    [uniqueKey]: string;
+}
+
+const obj: UniqueProperty = { [uniqueKey]: 'value' };
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. What is the `asserts` keyword in TypeScript, and how is it used?</h2>
+        <div class="answer">
+            <p>The `asserts` keyword is used in function signatures to indicate that a function will perform runtime checks and that its return type will be narrowed based on those checks.</p>
+            <pre><code>
+function assertIsString(value: any): asserts value is string {
+    if (typeof value !== 'string') {
+        throw new Error('Value is not a string');
+    }
+}
+
+const value: any = 'Hello, TypeScript!';
+assertIsString(value);
+
+const strLength = value.length; // OK
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How do you use `this` type in TypeScript?</h2>
+        <div class="answer">
+            <p>The `this` type refers to the instance type of the class in which it is used. It can be useful for fluent interfaces and method chaining.</p>
+            <pre><code>
+class FluentAPI {
+    private value: number = 0;
+
+    add(x: number): this {
+        this.value += x;
+        return this;
+    }
+
+    multiply(x: number): this {
+        this.value *= x;
+        return this;
+    }
+
+    getValue(): number {
+        return this.value;
+    }
+}
+
+const result = new FluentAPI().add(5).multiply(2).getValue(); // 10
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. What are `extract` and `exclude` utility types in TypeScript?</h2>
+        <div class="answer">
+            <p>`Extract` and `Exclude` are utility types that help with filtering union types. `Extract` extracts types that are assignable to another type, while `Exclude` excludes types that are assignable to another type.</p>
+            <pre><code>
+type A = 'a' | 'b' | 'c';
+type B = 'b' | 'c';
+
+type Extracted = Extract<A, B>; // 'b' | 'c'
+type Excluded = Exclude<A, B>; // 'a'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you use `function overloads` in TypeScript?</h2>
+        <div class="answer">
+            <p>Function overloads allow you to define multiple signatures for a single function, providing different behaviors based on the arguments passed.</p>
+            <pre><code>
+function greet(name: string): string;
+function greet(name: string, age: number): string;
+function greet(name: string, age?: number): string {
+    if (age !== undefined) {
+        return `Hello, ${name}. You are ${age} years old.`;
+    }
+    return `Hello, ${name}`;
+}
+
+console.log(greet('Alice')); // 'Hello, Alice'
+console.log(greet('Bob', 30)); // 'Hello, Bob. You are 30 years old.'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. What is `keyof typeof` pattern in TypeScript, and when would you use it?</h2>
+        <div class="answer">
+            <p>The `keyof typeof` pattern is used to get the keys of an object type as a union of string literals. It is often used for creating type-safe mappings and enumerations.</p>
+            <pre><code>
+const Colors = {
+    Red: 'red',
+    Green: 'green',
+    Blue: 'blue'
+};
+
+type ColorKeys = keyof typeof Colors; // 'Red' | 'Green' | 'Blue'
+type ColorValues = typeof Colors[ColorKeys]; // 'red' | 'green' | 'blue'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you use `class` decorators in TypeScript?</h2>
+        <div class="answer">
+            <p>Class decorators allow you to modify the behavior of a class at runtime. They are applied to the class constructor and can be used for logging, validation, and more.</p>
+            <pre><code>
+function LogClass(constructor: Function) {
+    console.log(`Class ${constructor.name} was created`);
+}
+
+@LogClass
+class MyClass {
+    constructor() {
+        console.log('MyClass instance created');
+    }
+}
+
+const instance = new MyClass();
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. What are `type assertions`, and how do you use them in TypeScript?</h2>
+        <div class="answer">
+            <p>Type assertions are used to tell TypeScript to treat a value as a specific type, often when you know more about the value than the compiler does.</p>
+            <pre><code>
+const inputElement = document.querySelector('input') as HTMLInputElement;
+inputElement.value = 'Hello, TypeScript!';
+
+const anyValue: any = 'This is a string';
+const stringValue: string = anyValue as string;
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you use `type` and `interface` together in TypeScript?</h2>
+        <div class="answer">
+            <p>You can use `type` and `interface` together to extend or combine types and interfaces for more complex scenarios.</p>
+            <pre><code>
+interface Person {
+    name: string;
+}
+
+type Contact = Person & { email: string };
+
+const contact: Contact = {
+    name: 'Alice',
+    email: 'alice@example.com'
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you use `typeof` operator with `indexed access types` in TypeScript?</h2>
+        <div class="answer">
+            <p>The `typeof` operator can be used with indexed access types to get the type of a specific property in an object type.</p>
+            <pre><code>
+interface User {
+    name: string;
+    age: number;
+}
+
+type UserNameType = typeof User['name']; // string
+type UserAgeType = typeof User['age']; // number
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How do you define a type that represents a read-only object in TypeScript?</h2>
+        <div class="answer">
+            <p>You can use the `Readonly` utility type to make all properties of an object type read-only, preventing modifications to the object.</p>
+            <pre><code>
+interface User {
+    name: string;
+    age: number;
+}
+
+const user: Readonly<User> = {
+    name: 'Alice',
+    age: 30
+};
+
+// user.name = 'Bob'; // Error: Cannot assign to 'name' because it is a read-only property.
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you create a `constructor` signature in TypeScript?</h2>
+        <div class="answer">
+            <p>Constructor signatures are used to define the type of constructors for a class or object. They specify the parameters and return type of the constructor.</p>
+            <pre><code>
+interface PersonConstructor {
+    new (name: string, age: number): Person;
+}
+
+class Person {
+    constructor(public name: string, public age: number) {}
+}
+
+const PersonClass: PersonConstructor = Person;
+
+const person = new PersonClass('Alice', 30);
+console.log(person.name); // 'Alice'
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use `conditional types` with mapped types in TypeScript?</h2>
+        <div class="answer">
+            <p>Conditional types combined with mapped types allow you to create complex type transformations based on conditions.</p>
+            <pre><code>
+type Conditional<T> = {
+    [K in keyof T]: T[K] extends string ? number : T[K];
+};
+
+interface Original {
+    name: string;
+    age: number;
+}
+
+type Transformed = Conditional<Original>; // { name: number; age: number; }
+            </code></pre>
+        </div>
+    </div>
+</body>
+</html>

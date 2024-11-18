@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Named Arguments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Named Arguments</h1>
+    <p>Named arguments in C# allow you to specify the name of the parameter when calling a method, which improves readability and can be useful when dealing with methods with multiple parameters or optional parameters.</p>
+    
+    <h2>1. Purpose</h2>
+    <p>Named arguments provide several benefits:</p>
+    <ul>
+        <li><strong>Improved Readability:</strong> Makes it clear what each argument represents, especially in methods with many parameters.</li>
+        <li><strong>Flexibility:</strong> Allows you to pass arguments in a different order than they are defined in the method signature.</li>
+        <li><strong>Optional Parameters:</strong> Enables you to specify values for optional parameters without having to provide values for all preceding parameters.</li>
+    </ul>
+    
+    <h2>2. Syntax</h2>
+    <p>To use named arguments, you specify the parameter name followed by a colon (<code>:</code>) and then the value. The general syntax is:</p>
+    <pre><code>
+    MethodName(parameterName: value, parameterName: value, ...);
+    </code></pre>
+    
+    <h2>3. Basic Examples</h2>
+    <p>Here are some examples of using named arguments:</p>
+    <pre><code>
+public void PrintDetails(string name, int age, string city)
+{
+    Console.WriteLine($"Name: {name}, Age: {age}, City: {city}");
+}
+
+// Calling the method using named arguments
+PrintDetails(age: 25, name: "Alice", city: "New York");
+    </code></pre>
+    <p>In the above example, the arguments are passed in a different order than the method signature, but the names ensure that the correct values are assigned to the correct parameters.</p>
+    
+    <h2>4. Using Named Arguments with Optional Parameters</h2>
+    <p>Named arguments are particularly useful with optional parameters:</p>
+    <pre><code>
+public void DisplayInfo(string name, int age = 0, string city = "Unknown")
+{
+    Console.WriteLine($"Name: {name}, Age: {age}, City: {city}");
+}
+
+// Calling the method with named arguments, specifying only the required parameters
+DisplayInfo(name: "Bob");
+    </code></pre>
+    <p>In this example, only the <code>name</code> parameter is provided, while <code>age</code> and <code>city</code> use their default values.</p>
+    
+    <h2>5. Key Points</h2>
+    <ul>
+        <li><strong>Named Arguments</strong> enhance code readability by clearly specifying which parameter each argument is intended for.</li>
+        <li><strong>Order Independence</strong> allows arguments to be passed in any order, as long as each parameter is named.</li>
+        <li><strong>Optional Parameters</strong> can be used effectively with named arguments to provide default values for some parameters while specifying values for others.</li>
+    </ul>
+</body>
+</html>

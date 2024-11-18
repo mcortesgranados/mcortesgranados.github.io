@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Client Tuning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .code {
+            background-color: #f4f4f4;
+            border-left: 3px solid #333;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap; /* Preserve whitespace formatting */
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka Client Tuning</h1>
+    <p>Optimizing Kafka clients involves adjusting settings for producers and consumers to enhance performance and resource utilization. Below are some key tuning parameters and examples.</p>
+    
+    <h2>1. Producer Tuning</h2>
+    <p>Optimize the producer settings to improve throughput and reduce latency:</p>
+    
+    <h3>Producer Configuration</h3>
+    <div class="code">
+        # Enable acknowledgments from all in-sync replicas<br>
+        acks=all<br><br>
+        
+        # Batch size in bytes<br>
+        batch.size=16384<br><br>
+        
+        # Time to wait before sending messages<br>
+        linger.ms=5<br><br>
+        
+        # Compression type<br>
+        compression.type=gzip
+    </div>
+    
+    <h2>2. Consumer Tuning</h2>
+    <p>Adjust consumer settings for efficient and reliable message consumption:</p>
+    
+    <h3>Consumer Configuration</h3>
+    <div class="code">
+        # Minimum bytes to fetch<br>
+        fetch.min.bytes=50000<br><br>
+        
+        # Maximum time to wait for fetch<br>
+        fetch.max.wait.ms=500<br><br>
+        
+        # Maximum number of records returned in a single poll<br>
+        max.poll.records=100<br><br>
+        
+        # Session timeout in milliseconds<br>
+        session.timeout.ms=10000
+    </div>
+</body>
+</html>

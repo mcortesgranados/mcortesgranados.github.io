@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka: Log Retention and Cleanup Policies</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka: Log Retention and Cleanup Policies</h1>
+    <p>Apache Kafka provides built-in mechanisms for managing logs. Each topic is broken down into partitions, and each partition is a commit log. To avoid the logs growing indefinitely, Kafka offers configurable policies for retention and cleanup of log data.</p>
+
+    <h2>1. Log Retention Policies</h2>
+    <p>Log retention policies in Kafka determine how long Kafka retains logs before they are deleted. There are two main types of log retention policies:</p>
+
+    <h3>a) Time-based Retention (<code>log.retention.hours</code>)</h3>
+    <p>This policy allows Kafka to delete logs older than a specified amount of time. The default retention period is 168 hours (7 days).</p>
+    <pre><code>
+# Retain logs for 7 days (default)
+log.retention.hours=168
+    </code></pre>
+    <p>If you want to retain logs for a longer or shorter period, modify this setting:</p>
+    <pre><code>
+# Retain logs for 3 days
+log.retention.hours=72
+    </code></pre>
+
+    <h3>b) Size-based Retention (<code>log.retention.bytes</code>)</h3>
+    <p>This policy allows Kafka to delete logs based on the total size of the logs. Once the log size exceeds the configured threshold, the oldest logs are deleted.</p>
+    <pre><code>
+# Retain logs up to 10 GB per partition
+log.retention.bytes=10737418240  # 10 GB
+    </code></pre>
+    <p>By configuring size-based retention, you can ensure that your disk usage is kept under control.</p>
+
+    <h2>2. Log Cleanup Policies</h2>
+    <p>Log cleanup policies determine how Kafka handles log segments. There are two main log cleanup policies:</p>
+
+    <h3>a) <code>delete</code> Cleanup Policy</h3>
+    <p>This is the default policy in Kafka, where old log segments are simply deleted after the retention period or size threshold is exceeded.</p>
+    <pre><code>
+# Use the delete cleanup policy (default)
+log.cleanup.policy=delete
+    </code></pre>
+    <p>In this policy, data is removed when it surpasses the defined retention criteria (time or size).</p>
+
+    <h3>b) <code>compact</code> Cleanup Policy</h3>
+    <p>In the compact policy, Kafka only removes old versions of messages with the same key, retaining the most recent version of each key. This is useful for topics where you want to keep the latest state of a key, such as in a database-like scenario.</p>
+    <pre><code>
+# Enable log compaction
+log.cleanup.policy=compact
+    </code></pre>
+    <p>Compaction ensures that Kafka retains the latest update for each key while discarding older duplicates.</p>
+
+    <h2>3. Combining Retention and Cleanup Policies</h2>
+    <p>It’s possible to combine both time-based and size-based retention policies for logs, along with either the <code>delete</code> or <code>compact</code> cleanup policy:</p>
+    <pre><code>
+# Retain logs for 3 days or until they exceed 5 GB per partition
+log.retention.hours=72
+log.retention.bytes=5368709120  # 5 GB
+
+# Use the delete cleanup policy
+log.cleanup.policy=delete
+    </code></pre>
+
+    <h2>4. Log Segment Configuration</h2>
+    <p>Logs are stored as segments in Kafka. Each segment is a file, and Kafka continuously writes to the latest segment. Kafka also allows you to control how frequently new log segments are created.</p>
+
+    <h3>a) <code>log.segment.bytes</code></h3>
+    <p>This property controls the maximum size of a log segment file before Kafka creates a new segment.</p>
+    <pre><code>
+# Each log segment is 1 GB in size
+log.segment.bytes=1073741824  # 1 GB
+    </code></pre>
+
+    <h3>b) <code>log.segment.ms</code></h3>
+    <p>This setting defines the time interval after which a new log segment is created, regardless of its size.</p>
+    <pre><code>
+# Create a new log segment every 24 hours
+log.segment.ms=86400000  # 24 hours in milliseconds
+    </code></pre>
+
+    <h2>5. Example Configuration for Log Retention and Cleanup</h2>
+    <p>Here is a sample configuration that combines several retention and cleanup policies:</p>
+    <pre><code>
+# Retain logs for 7 days or until they exceed 20 GB
+log.retention.hours=168
+log.retention.bytes=21474836480  # 20 GB
+
+# Use log compaction
+log.cleanup.policy=compact
+
+# Create a new log segment every 2 GB or every 24 hours
+log.segment.bytes=2147483648  # 2 GB
+log.segment.ms=86400000  # 24 hours
+    </code></pre>
+
+    <h2>6. Monitoring Log Retention and Cleanup</h2>
+    <p>It is important to monitor the log retention and cleanup processes to avoid running out of disk space. Kafka provides metrics for this purpose:</p>
+    <ul>
+        <li><strong>kafka.log.Log</strong>: Provides statistics on log segment sizes, retention, and cleanup.</li>
+        <li><strong>kafka.server.LogCleaner</strong>: Reports on log compaction progress and cleanup metrics.</li>
+    </ul>
+
+    <h2>7. Conclusion</h2>
+    <p>Log retention and cleanup policies are critical for managing disk usage in a Kafka cluster. By configuring time-based, size-based retention, and choosing between the delete or compact cleanup policies, you can optimize the storage and retrieval of data in Kafka.</p>
+</body>
+</html>

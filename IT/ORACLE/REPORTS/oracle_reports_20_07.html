@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Reports FAQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background: #f4f4f4;
+            border-left: 4px solid #ccc;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Oracle Reports FAQ</h1>
+
+    <h2>1. How do you use 'Group By' clauses in Oracle Reports?</h2>
+    <p>Use 'Group By' clauses to aggregate data into groups based on one or more columns, allowing for summary and subtotal calculations.</p>
+    <pre>
+    -- Example of using GROUP BY in SQL Query
+    SELECT department_id, COUNT(employee_id) AS employee_count
+    FROM employees
+    GROUP BY department_id;
+    </pre>
+
+    <h2>2. What is 'Data Template' in Oracle Reports?</h2>
+    <p>A 'Data Template' defines the structure and layout of data in a report, including queries and data models, which can be reused for consistency.</p>
+
+    <h2>3. How can you include 'Images' in Oracle Reports?</h2>
+    <p>Include 'Images' by adding image items to the report layout and linking them to image files or database blobs.</p>
+    <pre>
+    -- Example of adding an image item
+    SET_ITEM_PROPERTY('image_item', SRC, 'path_to_image_file');
+    </pre>
+
+    <h2>4. How do you handle 'Report Pagination' in Oracle Reports?</h2>
+    <p>Handle 'Report Pagination' by configuring page breaks and specifying the number of rows per page in the report layout.</p>
+
+    <h2>5. What is 'Report Query' and how is it different from a 'SQL Query'?</h2>
+    <p>A 'Report Query' is a SQL query used to retrieve data specifically for reports, while a 'SQL Query' is a general term for any SQL used to interact with a database.</p>
+
+    <h2>6. How do you create a 'Multi-Page Report'?</h2>
+    <p>Create a 'Multi-Page Report' by defining page breaks and managing report sections to ensure data flows across multiple pages correctly.</p>
+
+    <h2>7. What is 'Formulas in Oracle Reports' and how do you use them?</h2>
+    <p>'Formulas' are expressions used to perform calculations or manipulate data within a report. Use them to create calculated fields or summaries.</p>
+    <pre>
+    -- Example of a formula for calculating discount
+    discount := salary * 0.05;
+    </pre>
+
+    <h2>8. How do you configure 'Report Parameters' for user input?</h2>
+    <p>Configure 'Report Parameters' by defining them in the report's parameter section and using them in queries or report logic to allow user input.</p>
+
+    <h2>9. What is 'Report Layout Editor' and how do you use it?</h2>
+    <p>'Report Layout Editor' is a tool used to design and customize the appearance of reports, including positioning of report items and defining styles.</p>
+
+    <h2>10. How can you implement 'Conditional Formatting' based on data values?</h2>
+    <p>Implement 'Conditional Formatting' by using PL/SQL triggers or report property settings to change item appearance based on data conditi

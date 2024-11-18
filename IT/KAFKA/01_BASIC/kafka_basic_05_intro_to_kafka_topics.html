@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Kafka Topics</title>
+    <style>
+        body {
+            font-family: Arial, Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Introduction to Kafka Topics</h1>
+    <p>Kafka topics are fundamental components of Apache Kafka, serving as channels for data communication between producers and consumers. This guide provides an overview of Kafka topics, their characteristics, and how to work with them using Java.</p>
+
+    <h2>1. What is a Kafka Topic?</h2>
+    <p>A Kafka topic is a logical channel to which messages are sent by producers and from which messages are read by consumers. Topics in Kafka are used to categorize and organize data, allowing multiple producers and consumers to interact with the data streams independently.</p>
+
+    <h2>2. Key Characteristics of Kafka Topics</h2>
+    <ul>
+        <li><strong>Partitions:</strong> Each topic is divided into multiple partitions. Partitions allow Kafka to parallelize processing and increase throughput. Each partition is an ordered, immutable sequence of messages.</li>
+        <li><strong>Offset:</strong> Each message in a partition is assigned a unique offset, which is a sequential ID that allows consumers to track their progress.</li>
+        <li><strong>Replication:</strong> Topics can be replicated across multiple brokers to ensure fault tolerance. Each partition has one leader and multiple followers that replicate the data.</li>
+        <li><strong>Retention Policy:</strong> Kafka topics have configurable retention policies to determine how long messages are kept. Messages can be retained based on time or size.</li>
+    </ul>
+
+    <h2>3. Creating a Kafka Topic</h2>
+    <p>Topics can be created using Kafka's command-line tools. Below is an example of how to create a topic using the `kafka-topics.sh` script.</p>
+
+    <pre><code>
+# Create a new Kafka topic with 3 partitions and a replication factor of 1
+bin/kafka-topics.sh --create --topic my-topic --bootstrap-server localhost:9092 --partitions 3 --replication-factor 1
+    </code></pre>
+
+    <h2>4. Listing Kafka Topics</h2>
+    <p>You can list all existing topics in a Kafka cluster using the following command:</p>
+
+    <pre><code>
+# List all Kafka topics
+bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+    </code></pre>
+
+    <h2>5. Java Example: Producing to and Consuming from a Kafka Topic</h2>
+    <p>Here's a simple Java example demonstrating how to produce messages to and consume messages from a Kafka topic using the Kafka client library.</p>
+
+    <pre><code>
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
+
+import java.util.Properties;
+import java.util.Collections;
+
+public class KafkaExample {
+
+    public static void main(String[] args) {
+        // Producer Configuration
+        Properties producerProps = new Properties();
+        producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        producerProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        producerProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+        // Create Kafka Producer
+        KafkaProducer<String, String> producer = new KafkaProducer<>(producerProps);
+        ProducerRecord<String, String> record = new ProducerRecord<>("my-topic", "key", "value");
+
+        // Send message to topic
+        producer.send(record);
+        producer.close();
+
+        // Consumer Configuration
+        Properties consumerProps = new Properties();
+        consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "my-group");
+        consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        consumerProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+        // Create Kafka Consumer
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProps);
+        consumer.subscribe(Collections.singletonList("my-topic"));
+
+        // Poll for messages
+        ConsumerRecords<String, String> records = consumer.poll(1000);
+        for (ConsumerRecord<String, String> consumerRecord : records) {
+            System.out.printf("Offset = %d, Key = %s, Value = %s%n",
+                              consumerRecord.offset(), consumerRecord.key(), consumerRecord.value());
+        }
+
+        consumer.close();
+    }
+}
+    </code></pre>
+
+    <h2>6. Kafka Topic Diagram</h2>
+    <p>The following diagram illustrates how topics fit into the Kafka architecture, showing the relationship between producers, topics, partitions, and consumers.</p>
+
+    <div class="diagram">
+        <img src="kafka-topic-diagram.png" alt="Kafka Topic Diagram">
+        <p><em>Diagram: Kafka Topics in the Kafka Architecture</em></p>
+    </div>
+
+    <h2>7. Conclusion</h2>
+    <p>Kafka topics are essential for organizing and managing data streams within a Kafka cluster. Understanding topics, partitions, and how to interact with them through producers and consumers is crucial for effective Kafka usage.</p>
+</body>
+</html>

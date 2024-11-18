@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Transactions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .code {
+            background-color: #f4f4f4;
+            border-left: 3px solid #333;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap; /* Preserve whitespace formatting */
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka Transactions</h1>
+    <p>Kafka transactions provide exactly-once processing semantics for Kafka producers and consumers. They ensure that messages are neither lost nor processed more than once, even in the event of failures. Transactions in Kafka are essential for applications that require high reliability and consistency.</p>
+
+    <h2>1. Overview</h2>
+    <p>Kafka transactions allow you to group a set of operations (producing messages) into a single atomic unit. This means that all messages produced within a transaction are committed or none are committed if there is a failure. Transactions are managed using a special transactional API.</p>
+
+    <h3>Key Concepts</h3>
+    <ul>
+        <li><strong>Transactional Producer:</strong> A producer that sends messages as part of a transaction.</li>
+        <li><strong>Transactional Coordinator:</strong> A Kafka broker responsible for coordinating transactions and maintaining their state.</li>
+        <li><strong>Transaction Log:</strong> A special log used to track the state of transactions.</li>
+    </ul>
+
+    <h2>2. Configuring Transactions</h2>
+    <p>To use Kafka transactions, you need to configure both the producer and Kafka brokers. Here are the key configurations:</p>
+
+    <h3>Producer Configuration</h3>
+    <div class="code">
+        # Required producer configurations for transactions:<br>
+        <strong>acks=all</strong>  <!-- Ensure all replicas acknowledge the write. --> <br>
+        <strong>enable.idempotence=true</strong>  <!-- Enable idempotence to ensure exactly-once delivery. --> <br>
+        <strong>transactional.id=<unique-id></strong>  <!-- Set a unique ID for the transactional producer. -->
+    </div>
+
+    <h3>Broker Configuration</h3>
+    <div class="code">
+        # Broker configurations for transactions:<br>
+        <strong>transaction.state.log.replication.factor=3</strong>  <!-- Set replication factor for the transaction log. --> <br>
+        <strong>transaction.state.log.min.isr=2</strong>  <!-- Minimum in-sync replicas for the transaction log. --> <br>
+        <strong>log.retention.hours=168</strong>  <!-- Retention time for transaction logs. -->
+    </div>
+
+    <h2>3. Using Transactions in Code</h2>
+    <p>Here is a basic example of using transactions with a Kafka producer in Java:</p>
+
+    <div class="code">
+        import org.apache.kafka.clients.producer.KafkaProducer;<br>
+        import org.apache.kafka.clients.producer.ProducerConfig;<br>
+        import org.apache.kafka.clients.producer.ProducerRecord;<br>
+        import org.apache.kafka.clients.producer.Producer;<br>
+        import org.apache.kafka.clients.producer.ProducerException;<br>
+        import org.apache.kafka.common.serialization.StringSerializer;<br>
+        <br>
+        import java.util.Properties;<br>
+        <br>
+        public class TransactionalProducerExample {<br>
+        <br>
+            public static void main(String[] args) throws Exception {<br>
+                Properties props = new Properties();<br>
+                props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");<br>
+                props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());<br>
+                props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());<br>
+                props.put(ProducerConfig.ACKS_CONFIG, "all");<br>
+                props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");<br>
+                props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "my-transactional-id");<br>
+                <br>
+                Producer<String, String> producer = new KafkaProducer<>(props);<br>
+                producer.initTransactions();<br>
+                <br>
+                try {<br>
+                    producer.beginTransaction();<br>
+                    producer.send(new ProducerRecord<>("my-topic", "key", "value"));<br>
+                    producer.commitTransaction();<br>
+                } catch (ProducerException e) {<br>
+                    producer.abortTransaction();<br>
+                } finally {<br>
+                    producer.close();<br>
+                }<br>
+            }<br>
+        }<br>
+    </div>
+
+    <h2>4. Handling Failures</h2>
+    <p>Handling failures is a critical part of using transactions. Kafka transactions support automatic recovery in case of producer failures.</p>
+
+    <h3>Producer Failures</h3>
+    <ul>
+        <li>If a producer fails before committing a transaction, the transaction is aborted, and no messages are committed.</li>
+        <li>On restart, the producer can resume producing messages and reattempt the transaction.</li>
+    </ul>
+
+    <h3>Broker Failures</h3>
+    <ul>
+        <li>Broker failures are handled by the transactional coordinator, which tracks the state of transactions.</li>
+        <li>Transactions that are not committed will be rolled back automatically.</li>
+    </ul>
+
+    <h2>5. Best Practices</h2>
+    <ul>
+        <li><strong>Use Unique Transactional IDs:</strong> Ensure each producer instance uses a unique transactional ID.</li>
+        <li><strong>Monitor Transactional State:</strong> Regularly check the state of transactions to ensure they are committed or aborted as expected.</li>
+        <li><strong>Optimize Configuration:</strong> Tune broker and producer configurations to balance performance and reliability.</li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Data Retention Optimization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .code {
+            background-color: #f4f4f4;
+            border-left: 3px solid #333;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap; /* Preserve whitespace formatting */
+        }
+    </style>
+</head>
+<body>
+    <h1>Kafka Data Retention Optimization</h1>
+    <p>Optimizing data retention in Kafka involves configuring retention policies to balance data availability and storage usage. Here are key parameters and strategies for optimizing data retention.</p>
+    
+    <h2>1. Retention Policies</h2>
+    <p>Kafka allows you to configure retention policies based on time and size:</p>
+    
+    <h3>Broker Configuration</h3>
+    <div class="code">
+        # Retention time for topic data<br>
+        log.retention.hours=168  # Retain data for 7 days<br><br>
+        
+        # Maximum size of log segments before rolling over<br>
+        log.segment.bytes=1073741824  # 1 GB per segment<br><br>
+        
+        # Size of logs to retain before deletion<br>
+        log.retention.bytes=53687091200  # 50 GB per topic
+    </div>
+    
+    <h2>2. Topic-Level Configuration</h2>
+    <p>You can override broker-level settings at the topic level for finer control:</p>
+    
+    <h3>Topic Configuration</h3>
+    <div class="code">
+        # Retention time for a specific topic<br>
+        kafka-topics.sh --alter --zookeeper localhost:2181 --topic my-topic --config retention.ms=86400000  # Retain data for 1 day<br><br>
+        
+        # Maximum size of log segments for a specific topic<br>
+        kafka-topics.sh --alter --zookeeper localhost:2181 --topic my-topic --config segment.bytes=536870912  # 512 MB per segment
+    </div>
+    
+    <h2>3. Log Compaction</h2>
+    <p>Log compaction is used to retain only the latest value for each key, useful for topics where the latest state is more important than the entire history:</p>
+    
+    <h3>Compaction Configuration</h3>
+    <div class="code">
+        # Enable log compaction for a topic<br>
+        kafka-topics.sh --alter --zookeeper localhost:2181 --topic my-topic --config cleanup.policy=compact
+    </div>
+    
+    <h2>4. Monitoring and Maintenance</h2>
+    <p>Regularly monitor disk usage and adjust retention settings as needed. Kafka provides tools to check log size and perform maintenance:</p>
+    
+    <h3>Monitoring Tools</h3>
+    <div class="code">
+        # Check log directory size<br>
+        du -sh /path/to/kafka/logs/<br><br>
+        
+        # List topics and their configuration<br>
+        kafka-topics.sh --describe --zookeeper localhost:2181
+    </div>
+</body>
+</html>

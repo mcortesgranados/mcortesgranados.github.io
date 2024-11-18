@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Collections</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Collections</h1>
+    <p>Collections in C# are data structures that hold multiple values. They are essential for managing and manipulating groups of objects. C# provides various types of collections, each designed for different scenarios.</p>
+    
+    <h2>1. Arrays</h2>
+    <p>Arrays are a basic collection type that holds a fixed-size sequence of elements of the same type.</p>
+    <pre><code>
+    using System;
+
+    class Program
+    {
+        static void Main()
+        {
+            // Declare and initialize an array
+            int[] numbers = { 1, 2, 3, 4, 5 };
+
+            // Access array elements
+            foreach (int number in numbers)
+            {
+                Console.WriteLine(number);
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>2. Lists</h2>
+    <p>The <code>List&lt;T&gt;</code> class in the <code>System.Collections.Generic</code> namespace provides a dynamic array that can grow as needed.</p>
+    <pre><code>
+    using System;
+    using System.Collections.Generic;
+
+    class Program
+    {
+        static void Main()
+        {
+            // Create and initialize a list
+            List&lt;string&gt; names = new List&lt;string&gt; { "Alice", "Bob", "Charlie" };
+
+            // Add an item to the list
+            names.Add("David");
+
+            // Access list elements
+            foreach (string name in names)
+            {
+                Console.WriteLine(name);
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>3. Dictionaries</h2>
+    <p>The <code>Dictionary&lt;TKey, TValue&gt;</code> class in the <code>System.Collections.Generic</code> namespace stores key-value pairs.</p>
+    <pre><code>
+    using System;
+    using System.Collections.Generic;
+
+    class Program
+    {
+        static void Main()
+        {
+            // Create and initialize a dictionary
+            Dictionary&lt;string, int&gt; ageDictionary = new Dictionary&lt;string, int&gt;()
+            {
+                { "Alice", 30 },
+                { "Bob", 25 }
+            };
+
+            // Add an item to the dictionary
+            ageDictionary["Charlie"] = 35;
+
+            // Access dictionary elements
+            foreach (var kvp in ageDictionary)
+            {
+                Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>4. Queues</h2>
+    <p>The <code>Queue&lt;T&gt;</code> class in the <code>System.Collections.Generic</code> namespace represents a first-in, first-out (FIFO) collection.</p>
+    <pre><code>
+    using System;
+    using System.Collections.Generic;
+
+    class Program
+    {
+        static void Main()
+        {
+            // Create and initialize a queue
+            Queue&lt;string&gt; queue = new Queue&lt;string&gt;();
+            queue.Enqueue("First");
+            queue.Enqueue("Second");
+            queue.Enqueue("Third");
+
+            // Dequeue and display elements
+            while (queue.Count > 0)
+            {
+                Console.WriteLine(queue.Dequeue());
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>5. Stacks</h2>
+    <p>The <code>Stack&lt;T&gt;</code> class in the <code>System.Collections.Generic</code> namespace represents a last-in, first-out (LIFO) collection.</p>
+    <pre><code>
+    using System;
+    using System.Collections.Generic;
+
+    class Program
+    {
+        static void Main()
+        {
+            // Create and initialize a stack
+            Stack&lt;string&gt; stack = new Stack&lt;string&gt;();
+            stack.Push("First");
+            stack.Push("Second");
+            stack.Push("Third");
+
+            // Pop and display elements
+            while (stack.Count > 0)
+            {
+                Console.WriteLine(stack.Pop());
+            }
+        }
+    }
+    </code></pre>
+    
+    <h2>6. Key Points</h2>
+    <ul>
+        <li><strong>Arrays</strong> provide a fixed-size collection of elements.</li>
+        <li><strong>List&lt;T&gt;</strong> is a dynamic collection that can grow as needed.</li>
+        <li><strong>Dictionary&lt;TKey, TValue&gt;</strong> stores key-value pairs for efficient lookups.</li>
+        <li><strong>Queue&lt;T&gt;</strong> represents a FIFO collection, ideal for tasks requiring order preservation.</li>
+        <li><strong>Stack&lt;T&gt;</strong> represents a LIFO collection, ideal for tasks requiring last-in, first-out access.</li>
+    </ul>
+</body>
+</html>

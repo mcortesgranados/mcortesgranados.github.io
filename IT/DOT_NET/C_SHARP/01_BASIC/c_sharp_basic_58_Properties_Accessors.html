@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Properties and Accessors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        p {
+            margin: 10px 0;
+        }
+        pre {
+            background-color: #eee;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>C# Properties and Accessors</h1>
+    <p>In C#, properties are a special kind of class member that provide a flexible mechanism to read, write, or compute the values of private fields. Properties use accessors to control how values are retrieved and updated.</p>
+    
+    <h2>1. Purpose of Properties</h2>
+    <p>Properties are used to:</p>
+    <ul>
+        <li><strong>Encapsulate Data:</strong> Provide controlled access to the data within a class.</li>
+        <li><strong>Implement Data Validation:</strong> Ensure that the data being set is valid before storing it.</li>
+        <li><strong>Provide Computed Values:</strong> Compute values on the fly based on other data within the class.</li>
+    </ul>
+    
+    <h2>2. Defining Properties</h2>
+    <p>A property consists of a get accessor, a set accessor, or both. The <code>get</code> accessor returns the property value, while the <code>set</code> accessor assigns a new value. Here’s a basic example:</p>
+    <pre><code>
+public class Person
+{
+    private string name;
+
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    }
+}
+    </code></pre>
+    <p>In this example, the <code>Name</code> property has both <code>get</code> and <code>set</code> accessors, allowing for reading and writing the <code>name</code> field.</p>
+    
+    <h2>3. Read-Only Properties</h2>
+    <p>Properties can be read-only by omitting the <code>set</code> accessor:</p>
+    <pre><code>
+public class Person
+{
+    public string Name { get; }
+
+    public Person(string name)
+    {
+        Name = name;
+    }
+}
+    </code></pre>
+    <p>In this example, the <code>Name</code> property is read-only after initialization, as there is no <code>set</code> accessor.</p>
+    
+    <h2>4. Write-Only Properties</h2>
+    <p>Properties can also be write-only by omitting the <code>get</code> accessor:</p>
+    <pre><code>
+public class Person
+{
+    private string name;
+
+    public string Name
+    {
+        set { name = value; }
+    }
+}
+    </code></pre>
+    <p>In this example, the <code>Name</code> property can only be written to, not read from.</p>
+    
+    <h2>5. Auto-Implemented Properties</h2>
+    <p>C# also supports auto-implemented properties, which simplify property definitions when no additional logic is required:</p>
+    <pre><code>
+public class Person
+{
+    public string Name { get; set; }
+}
+    </code></pre>
+    <p>In this example, C# automatically creates a private backing field for the <code>Name</code> property.</p>
+    
+    <h2>6. Computed Properties</h2>
+    <p>Properties can also compute values dynamically based on other fields:</p>
+    <pre><code>
+public class Rectangle
+{
+    public int Width { get; set; }
+    public int Height { get; set; }
+
+    public int Area
+    {
+        get { return Width * Height; }
+    }
+}
+    </code></pre>
+    <p>In this example, the <code>Area</code> property calculates the area of a rectangle based on its width and height.</p>
+    
+    <h2>7. Key Points</h2>
+    <ul>
+        <li><strong>Encapsulation:</strong> Properties help to encapsulate data and provide controlled access.</li>
+        <li><strong>Accessors:</strong> Use <code>get</code> to retrieve and <code>set</code> to assign values.</li>
+        <li><strong>Read-Only and Write-Only:</strong> Properties can be read-only or write-only based on the accessors provided.</li>
+        <li><strong>Auto-Implemented:</strong> Simplify property definitions with auto-implemented properties.</li>
+        <li><strong>Computed Values:</strong> Use properties to compute values dynamically.</li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas sobre Manejo de Transacciones Complejas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+            color: #d63384;
+        }
+        .question {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preguntas sobre Manejo de Transacciones Complejas</h1>
+
+    <div class="question">
+        <h2>1. ¿Qué es una transacción en el contexto de bases de datos?</h2>
+        <p>Una transacción es un conjunto de operaciones que se ejecutan como una unidad indivisible. En caso de que una operación falle, toda la transacción se revierte para mantener la integridad de los datos.</p>
+    </div>
+
+    <div class="question">
+        <h2>2. ¿Qué propiedades debe tener una transacción?</h2>
+        <p>Las transacciones deben cumplir con las propiedades ACID: Atomicidad, Consistencia, Aislamiento y Durabilidad.</p>
+    </div>
+
+    <div class="question">
+        <h2>3. ¿Cómo se inicia una transacción en SQL?</h2>
+        <pre><code>BEGIN TRANSACTION;</code></pre>
+    </div>
+
+    <div class="question">
+        <h2>4. ¿Cómo se confirma una transacción en SQL?</h2>
+        <pre><code>COMMIT;</code></pre>
+    </div>
+
+    <div class="question">
+        <h2>5. ¿Cómo se revierte una transacción en SQL?</h2>
+        <pre><code>ROLLBACK;</code></pre>
+    </div>
+
+    <div class="question">
+        <h2>6. ¿Qué es el aislamiento de una transacción?</h2>
+        <p>El aislamiento asegura que las operaciones de una transacción no interfieran con las de otras transacciones concurrentes.</p>
+    </div>
+
+    <div class="question">
+        <h2>7. ¿Cómo manejar transacciones en Java usando JDBC?</h2>
+        <pre><code>
+Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/db", "user", "password");
+conn.setAutoCommit(false);
+
+try {
+    // Ejecutar operaciones
+    conn.commit();
+} catch (SQLException e) {
+    conn.rollback();
+}
+conn.close();
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>8. ¿Cómo manejar transacciones en Python usando SQLAlchemy?</h2>
+        <pre><code>
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+engine = create_engine('mysql+pymysql://user:password@localhost/db')
+Session = sessionmaker(bind=engine)
+session = Session()
+
+try:
+    # Ejecutar operaciones
+    session.commit()
+except:
+    session.rollback()
+finally:
+    session.close()
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>9. ¿Qué es un "deadlock" y cómo se puede evitar?</h2>
+        <p>Un "deadlock" ocurre cuando dos o más transacciones están bloqueadas esperando recursos que otros tienen. Se puede evitar mediante un buen diseño de transacciones y la implementación de algoritmos de detección y resolución de bloqueos.</p>
+    </div>
+
+    <div class="question">
+        <h2>10. ¿Qué es la propiedad de atomicidad en una transacción?</h2>
+        <p>La atomicidad asegura que una transacción se ejecute completamente o no se ejecute en absoluto. En caso de error, todas las operaciones realizadas hasta ese momento se revierten.</p>
+    </div>
+
+    <div class="question">
+        <h2>11. ¿Cómo manejar transacciones en una aplicación web con Spring Boot?</h2>
+        <pre><code>
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
+public void performTransaction() {
+    // Ejecutar operaciones
+}
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>12. ¿Cómo manejar transacciones en una aplicación Flask con SQLAlchemy?</h2>
+        <pre><code>
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy(app)
+
+with db.session.begin(subtransactions=True):
+    # Ejecutar operaciones
+        db.session.commit()
+        # O usar db.session.rollback() en caso de error
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>13. ¿Qué es el "write-ahead logging" (WAL) y cómo se relaciona con las transacciones?</h2>
+        <p>El "write-ahead logging" es una técnica que asegura que todas las modificaciones de datos se registren en un log antes de ser aplicadas al almacenamiento principal, lo que ayuda a mantener la consistencia en caso de fallos.</p>
+    </div>
+
+    <div class="question">
+        <h2>14. ¿Qué es un punto de guarda en el contexto de las transacciones?</h2>
+        <p>Un punto de guarda es un marcador dentro de una transacción que permite revertir la transacción hasta ese punto en lugar de hacerlo completamente en caso de fallo.</p>
+    </div>
+
+    <div class="question">
+        <h2>15. ¿Cómo gestionar transacciones en PostgreSQL?</h2>
+        <pre><code>
+BEGIN;
+-- Ejecutar operaciones
+COMMIT;
+        </code></pre>
+    </div>
+
+    <div class="question">
+        <h2>16. ¿Cómo prevenir inconsistencias en transacciones concurrentes?</h2>
+        <p>Usando niveles de aislamiento adecuados como Read Committed o Serializable y controlando el acceso concurrente a los datos.</p>
+    </div>
+
+    <div class="question">
+        <h2>17. ¿Cómo manejar transacciones en un entorno distribuido?</h2>
+        <p>Utilizando protocolos de dos fases de commit (2PC) para coordinar las transacciones entre múltiples sistemas.</p>
+    </div>
+
+    <div class="question">
+        <h2>18. ¿Qué es la propiedad de durabilidad en una transacción?</h2>
+        <p>La durabilidad asegura que una vez que una transacción ha sido confirmada, sus cambios son permanentes, incluso en caso de fallo del sistema.</p>
+    </div>
+
+    <div class="question">
+        <h2>19. ¿Cómo se pueden utilizar transacciones anidadas?</h2>
+        <p>Las transacciones anidadas permiten que una transacción contenga otras transacciones. El commit o rollback de la transacción principal afectará a todas las anidadas.</p>
+    </div>
+
+    <div class="question">
+        <h2>20. ¿Qué es el control de concurrencia optimista?</h2>
+        <p>El control de concurrencia optimista permite que varias transacciones se realicen simultáneamente, verificando al final si hubo conflictos para realizar el commit.</p>
+    </div>
+
+    <div class="question">
+        <h2>21. ¿Cómo manejar transacciones en un entorno de microservicios?</h2>
+        <p>Utilizando patrones como Sagas para coordinar transacciones a través de múltiples servicios, con compensaciones en caso de fallos.</p>
+    </div>
+
+    <div class="question">
+        <h2>22. ¿Qué es un "savepoint" en una transacción?</h2>
+        <p>Un "savepoint" es un punto dentro de una transacción al que se puede regresar si ocurre un error, sin tener que hacer rollback completo.</p>
+    </div>
+
+    <div class="question">
+        <h2>23. ¿Cómo manejar transacciones en un sistema de base de datos NoSQL?</h2>
+        <p>Dependiendo del sistema, pueden no ser tan estrictos como en SQL. Se puede usar el control de transacciones soportado por la base de datos o implementar lógica de compensación en la aplicación.</p>
+    </div>
+
+    <div class="question">
+        <h2>24. ¿Qué son los "locks" en el contexto de transacciones?</h2>
+        <p>Los "locks" son mecanismos para controlar el acceso concurrente a los recursos de la base de datos, evitando que varias transacciones modifiquen los mismos datos simultáneamente.</p>
+    </div>
+
+    <div class="question">
+        <h2>25. ¿Cómo se puede evitar el "phantom read" en transacciones?</h2>
+        <p>Utilizando el nivel de aislamiento Serializable para asegurar que las transacciones no vean los efectos de otras transacciones concurrentes.</p>
+    </div>
+
+    <div class="question">
+        <h2>26. ¿Qué herramientas de base de datos ofrecen soporte para transacciones distribuidas?</h2>
+        <p>Algunas herramientas incluyen bases de datos relacionales como PostgreSQL y MySQL, y sistemas de transacciones como Apache Kafka para entornos distribuidos.</p>
+    </div>
+
+    <div class="question">
+        <h2>27. ¿Cómo realizar un rollback parcial en transacciones?</h2>
+        <p>Utilizando "savepoints" para realizar rollback solo hasta un punto específico dentro de la transacción.</p>
+    </div>
+
+    <div class="question">
+        <h2>28. ¿Qué es el "two-phase commit" (2PC)?</h2>
+        <p>El "two-phase commit" es un protocolo que asegura que todas las partes de una transacción distribuida confirmen su compromiso antes de que se complete la transacción.</p>
+    </div>
+
+    <div class="question">
+        <h2>29. ¿Cómo afectan las transacciones a la escalabilidad de un sistema?</h2>
+        <p>Las transacciones pueden afectar la escalabilidad debido a la necesidad de coordinar y asegurar la integridad de los datos en entornos con alta concurrencia.</p>
+    </div>
+
+    <div class="question">
+        <h2>30. ¿Qué consideraciones de rendimiento se deben tener en cuenta al manejar transacciones complejas?</h2>
+        <p>Considerar el uso de índices adecuados, el nivel de aislamiento necesario, y el diseño de la transacción para minimizar el tiempo de bloqueo y maximizar la eficiencia.</p>
+    </div>
+
+</body>
+</html>

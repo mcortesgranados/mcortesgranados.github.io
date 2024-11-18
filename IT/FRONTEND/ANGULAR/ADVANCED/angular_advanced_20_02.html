@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Advanced Level Questions - Part 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .question {
+            margin-top: 20px;
+        }
+        .question h2 {
+            margin-bottom: 10px;
+        }
+        .answer {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Angular Advanced Level Questions - Part 2</h1>
+
+    <div class="question">
+        <h2>1. How do you implement Angular's Custom Validators?</h2>
+        <div class="answer">
+            <p>Custom validators are used to add validation logic to form controls. Implement a custom validator by creating a function that returns either null or an object indicating the validation error:</p>
+            <pre><code>import { AbstractControl, ValidatorFn } from '@angular/forms';
+
+export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const forbidden = nameRe.test(control.value);
+    return forbidden ? { 'forbiddenName': { value: control.value } } : null;
+  };
+}
+
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-custom-validator',
+  template: \`
+    <form [formGroup]="form">
+      <input formControlName="name">
+      <div *ngIf="form.get('name').hasError('forbiddenName')">
+        Name is forbidden
+      </div>
+    </form>
+  \`
+})
+export class CustomValidatorComponent {
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      name: ['', [forbiddenNameValidator(/admin/)]]
+    });
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>2. How do you use Angular's Dependency Injection to provide multiple instances of a service?</h2>
+        <div class="answer">
+            <p>To provide multiple instances of a service, use different providers with a unique token:</p>
+            <pre><code>import { Injectable, InjectionToken } from '@angular/core';
+
+export const MY_SERVICE_TOKEN = new InjectionToken<MyService>('MyService');
+
+@Injectable()
+export class MyService {
+  constructor() {}
+}
+
+@NgModule({
+  providers: [
+    { provide: MY_SERVICE_TOKEN, useClass: MyService }
+  ]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>3. How can you handle HTTP errors globally in Angular?</h2>
+        <div class="answer">
+            <p>Use an HTTP interceptor to catch and handle HTTP errors:</p>
+            <pre><code>import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+
+@Injectable()
+export class ErrorInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('HTTP Error:', error);
+        return throwError(error);
+      })
+    );
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>4. How do you use Angular's Router to handle child routes?</h2>
+        <div class="answer">
+            <p>Define child routes within a parent route configuration:</p>
+            <pre><code>const routes: Routes = [
+  {
+    path: 'parent',
+    component: ParentComponent,
+    children: [
+      { path: 'child1', component: Child1Component },
+      { path: 'child2', component: Child2Component }
+    ]
+  }
+];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>5. How can you manage Angular application state with NgRx Effects?</h2>
+        <div class="answer">
+            <p>NgRx Effects allow you to handle side effects in your application. Create effects to listen for actions and perform tasks like HTTP requests:</p>
+            <pre><code>import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { MyService } from './my.service';
+import { loadItems, loadItemsSuccess } from './actions';
+import { switchMap } from 'rxjs/operators';
+
+@Injectable()
+export class MyEffects {
+  loadItems$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadItems),
+      switchMap(() => this.myService.getItems()
+        .pipe(map(items => loadItemsSuccess({ items })))
+      )
+    )
+  );
+
+  constructor(
+    private actions$: Actions,
+    private myService: MyService
+  ) {}
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>6. How do you create a custom Angular Directive?</h2>
+        <div class="answer">
+            <p>Custom directives are used to extend HTML behavior. Create a directive by defining a class and using the <code>@Directive</code> decorator:</p>
+            <pre><code>import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core';
+
+@Directive({
+  selector: '[appHighlight]'
+})
+export class HighlightDirective {
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+  @HostListener('mouseenter') onMouseEnter() {
+    this.renderer.setStyle(this.el.nativeElement, 'backgroundColor', 'yellow');
+  }
+
+  @HostListener('mouseleave') onMouseLeave() {
+    this.renderer.removeStyle(this.el.nativeElement, 'backgroundColor');
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>7. How can you use Angular's `ViewEncapsulation` to control CSS styles?</h2>
+        <div class="answer">
+            <p>Angular provides different encapsulation strategies for component styles. Use <code>ViewEncapsulation</code> to control this:</p>
+            <pre><code>import { Component, ViewEncapsulation } from '@angular/core';
+
+@Component({
+  selector: 'app-encapsulation',
+  template: \`<p>Encapsulation example</p>\`,
+  styles: [\`
+    p {
+      color: red;
+    }
+  \`],
+  encapsulation: ViewEncapsulation.None
+})
+export class EncapsulationComponent {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>8. How do you implement lazy loading for Angular modules?</h2>
+        <div class="answer">
+            <p>Use the <code>loadChildren</code> property in route configurations to lazy-load modules:</p>
+            <pre><code>const routes: Routes = [
+  { path: 'lazy', loadChildren: () => import('./lazy/lazy.module').then(m => m.LazyModule) }
+];
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>9. What is Angular's `ChangeDetectorRef` and how is it used?</h2>
+        <div class="answer">
+            <p><code>ChangeDetectorRef</code> provides methods to manually trigger change detection in a component:</p>
+            <pre><code>import { ChangeDetectorRef, Component } from '@angular/core';
+
+@Component({
+  selector: 'app-change-detection',
+  template: \`<p>Change detection example</p>\`
+})
+export class ChangeDetectionComponent {
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  detectChanges() {
+    this.cdr.detectChanges();
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>10. How can you use Angular's `Renderer2` for DOM manipulation?</h2>
+        <div class="answer">
+            <p><code>Renderer2</code> is used to safely manipulate the DOM in Angular. Here’s an example of adding a class to an element:</p>
+            <pre><code>import { Component, ElementRef, Renderer2 } from '@angular/core';
+
+@Component({
+  selector: 'app-renderer',
+  template: \`<div #myDiv>Renderer2 Example</div>\`
+})
+export class RendererComponent {
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
+
+  ngAfterViewInit() {
+    const div = this.el.nativeElement.querySelector('div');
+    this.renderer.addClass(div, 'highlight');
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>11. How do you use Angular's `AsyncPipe` for handling asynchronous data in templates?</h2>
+        <div class="answer">
+            <p><code>AsyncPipe</code> allows you to subscribe to observables directly in the template:</p>
+            <pre><code>import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { DataService } from './data.service';
+
+@Component({
+  selector: 'app-async-pipe',
+  template: \`<p>Data: {{ data$ | async | json }}</p>\`
+})
+export class AsyncPipeComponent implements OnInit {
+  data$: Observable<any>;
+
+  constructor(private dataService: DataService) {}
+
+  ngOnInit() {
+    this.data$ = this.dataService.getData();
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>12. How do you use Angular's `ChangeDetectionStrategy`?</h2>
+        <div class="answer">
+            <p><code>ChangeDetectionStrategy</code> controls how Angular checks for changes in a component. Use <code>ChangeDetectionStrategy.OnPush</code> to optimize performance:</p>
+            <pre><code>import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+@Component({
+  selector: 'app-change-detection-strategy',
+  template: \`<p>Change Detection Strategy Example</p>\`,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ChangeDetectionStrategyComponent {}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>13. How do you use Angular's `HostBinding` and `HostListener` decorators?</h2>
+        <div class="answer">
+            <p><code>HostBinding</code> and <code>HostListener</code> are used to bind properties and listen to events on the host element:</p>
+            <pre><code>import { Component, HostBinding, HostListener } from '@angular/core';
+
+@Component({
+  selector: 'app-host',
+  template: \`<p>Host Binding and Listener Example</p>\`
+})
+export class HostComponent {
+  @HostBinding('class.highlight') isHighlighted = true;
+
+  @HostListener('click') onClick() {
+    this.isHighlighted = !this.isHighlighted;
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>14. How do you handle Angular's `ngOnChanges` lifecycle hook?</h2>
+        <div class="answer">
+            <p><code>ngOnChanges</code> is called when an input property value changes:</p>
+            <pre><code>import { Component, OnChanges, SimpleChanges, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-on-changes',
+  template: \`<p>On Changes Example</p>\`
+})
+export class OnChangesComponent implements OnChanges {
+  @Input() data: any;
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('Changes:', changes);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>15. How do you use Angular's `ng-container` and `ng-template`?</h2>
+        <div class="answer">
+            <p><code>ng-container</code> and <code>ng-template</code> are used to manage templates and control the rendering:</p>
+            <pre><code><ng-container *ngIf="condition">
+  <ng-template #template>
+    <p>Content to render</p>
+  </ng-template>
+</ng-container>
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-container',
+  template: \`
+    <ng-container *ngIf="showContent; else noContent">
+      <p>Content is visible</p>
+    </ng-container>
+    <ng-template #noContent>
+      <p>Content is hidden</p>
+    </ng-template>
+  \`
+})
+export class ContainerComponent {
+  showContent = true;
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>16. How do you manage Angular's environment configurations?</h2>
+        <div class="answer">
+            <p>Manage environment configurations using environment files:</p>
+            <pre><code>// environment.ts
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:3000'
+};
+
+// environment.prod.ts
+export const environment = {
+  production: true,
+  apiUrl: 'https://api.example.com'
+};
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>17. How do you create Angular's custom structural directives?</h2>
+        <div class="answer">
+            <p>Custom structural directives are created using the <code>*ngIf</code> and <code>*ngFor</code> syntax:</p>
+            <pre><code>import { Directive, TemplateRef, ViewContainerRef } from '@angular/core';
+
+@Directive({
+  selector: '[appMyDirective]'
+})
+export class MyDirective {
+  constructor(private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef) {}
+
+  @Input() set appMyDirective(condition: boolean) {
+    this.viewContainer.clear();
+    if (condition) {
+      this.viewContainer.createEmbeddedView(this.templateRef);
+    }
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>18. How can you configure Angular's global error handling?</h2>
+        <div class="answer">
+            <p>Global error handling is configured using an error handler class:</p>
+            <pre><code>import { Injectable, ErrorHandler } from '@angular/core';
+
+@Injectable()
+export class GlobalErrorHandler implements ErrorHandler {
+  handleError(error: any) {
+    console.error('Global error:', error);
+  }
+}
+
+@NgModule({
+  providers: [{ provide: ErrorHandler, useClass: GlobalErrorHandler }]
+})
+export class AppModule { }
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>19. How do you implement Angular's Internationalization (i18n)?</h2>
+        <div class="answer">
+            <p>Internationalization is handled using the Angular i18n package:</p>
+            <pre><code>ng add @angular/localize
+
+// app.component.html
+<p i18n="@@hello">Hello</p>
+
+// Extract messages
+ng extract-i18n
+
+// Translate and build for a specific locale
+ng build --localize
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>20. How do you use Angular's `Renderer2` to create dynamic components?</h2>
+        <div class="answer">
+            <p><code>Renderer2</code> can be used to dynamically create and manipulate components:</p>
+            <pre><code>import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+import { DynamicComponent } from './dynamic.component';
+
+@Component({
+  selector: 'app-dynamic',
+  template: \`<ng-template #container></ng-template>\`
+})
+export class DynamicComponentLoader {
+  @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
+
+  constructor(private resolver: ComponentFactoryResolver) {}
+
+  loadComponent() {
+    const factory = this.resolver.resolveComponentFactory(DynamicComponent);
+    this.container.clear();
+    this.container.createComponent(factory);
+  }
+}
+            </code></pre>
+        </div>
+    </div>
+
+</body>
+</html>

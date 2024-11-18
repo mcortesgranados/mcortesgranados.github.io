@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseño e Implementación de Componentes Transversales de Seguridad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        code {
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Diseño e Implementación de Componentes Transversales de Seguridad</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+                <th>Ejemplo de Código</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1. ¿Qué son los componentes transversales de seguridad?</td>
+                <td>Son componentes que proporcionan funcionalidades de seguridad comunes, como autenticación, autorización y cifrado, a lo largo de toda la aplicación o sistema.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>2. ¿Cómo se implementa una autenticación centralizada en una aplicación?</td>
+                <td>Se puede implementar utilizando un servicio de autenticación centralizado, como OAuth2 o un servidor de identidad.</td>
+                <td>
+                    <pre><code class="language-java">public class AuthService {
+    public boolean authenticate(String username, String password) {
+        // Lógica de autenticación centralizada
+        return true;
+    }
+}
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>3. ¿Qué es una arquitectura de referencia enfocada al aseguramiento de servicios?</td>
+                <td>Es un modelo arquitectónico que define cómo asegurar los servicios mediante prácticas y tecnologías estandarizadas para proteger la integridad, confidencialidad y disponibilidad.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>4. ¿Cómo se asegura la comunicación entre microservicios?</td>
+                <td>Se puede asegurar utilizando protocolos de cifrado como TLS para proteger los datos en tránsito entre microservicios.</td>
+                <td>
+                    <pre><code class="language-python">import ssl
+
+context = ssl.create_default_context()
+# Configuración de TLS para comunicaciones seguras
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>5. ¿Qué papel juegan los firewalls en la seguridad de una arquitectura de servicios?</td>
+                <td>Los firewalls ayudan a proteger los servicios bloqueando el tráfico no autorizado y permitiendo solo las conexiones legítimas.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>6. ¿Cómo se implementa la autorización basada en roles en una aplicación?</td>
+                <td>Se puede implementar utilizando un sistema de control de acceso basado en roles (RBAC), donde se asignan permisos a roles específicos y los usuarios se asignan a estos roles.</td>
+                <td>
+                    <pre><code class="language-csharp">public enum Role {
+    ADMIN,
+    USER
+}
+
+public class User {
+    public Role Role { get; set; }
+}
+
+public bool CanAccessResource(User user, Resource resource) {
+    if (user.Role == Role.ADMIN) {
+        return true;
+    }
+    return false;
+}
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>7. ¿Qué es el cifrado de datos y por qué es importante?</td>
+                <td>El cifrado de datos es el proceso de convertir datos en un formato ilegible sin una clave específica. Es importante para proteger la confidencialidad de la información sensible.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>8. ¿Cómo se gestiona el almacenamiento seguro de claves criptográficas?</td>
+                <td>Las claves criptográficas deben almacenarse en un entorno seguro, como un módulo de seguridad de hardware (HSM) o un servicio de gestión de claves en la nube.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>9. ¿Qué es la seguridad de API y cómo se implementa?</td>
+                <td>La seguridad de API implica proteger las interfaces de programación contra accesos no autorizados y ataques. Se puede implementar mediante autenticación, autorización y validación de entradas.</td>
+                <td>
+                    <pre><code class="language-typescript">import { Request, Response, NextFunction } from 'express';
+
+function authenticate(req: Request, res: Response, next: NextFunction) {
+    // Lógica de autenticación para API
+    next();
+}
+app.use(authenticate);
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>10. ¿Qué es el principio de menor privilegio?</td>
+                <td>Es un principio de seguridad que establece que los usuarios y sistemas deben tener solo los permisos necesarios para realizar sus tareas y nada más.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>11. ¿Cómo se realiza la auditoría de seguridad en una aplicación?</td>
+                <td>La auditoría de seguridad implica revisar y analizar los registros de actividad para identificar y responder a posibles incidentes de seguridad.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>12. ¿Qué es la segmentación de red y cómo contribuye a la seguridad?</td>
+                <td>La segmentación de red divide una red en segmentos más pequeños para limitar el alcance de un posible ataque y mejorar la seguridad.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>13. ¿Cómo se protege una API contra ataques de denegación de servicio (DoS)?</td>
+                <td>Se puede proteger implementando límites de tasa, controles de acceso y monitoreo para detectar y mitigar ataques de DoS.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>14. ¿Qué es la autenticación multifactor y por qué es importante?</td>
+                <td>La autenticación multifactor requiere que los usuarios proporcionen dos o más factores de autenticación para verificar su identidad, lo que mejora la seguridad.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>15. ¿Cómo se implementa un sistema de gestión de identidades y accesos (IAM)?</td>
+                <td>Un sistema IAM gestiona el acceso de los usuarios a recursos mediante políticas de permisos y autenticación. Puede ser implementado utilizando herramientas y servicios en la nube.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>16. ¿Qué es un ataque de intermediario (Man-in-the-Middle) y cómo se previene?</td>
+                <td>Un ataque de intermediario ocurre cuando un atacante intercepta y potencialmente altera la comunicación entre dos partes. Se previene utilizando cifrado y autenticación segura.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>17. ¿Qué papel juegan los certificados digitales en la seguridad de aplicaciones?</td>
+                <td>Los certificados digitales autentican la identidad de las partes y aseguran que las comunicaciones sean seguras mediante cifrado.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>18. ¿Cómo se implementa la seguridad en el almacenamiento de datos en la nube?</td>
+                <td>Se implementa mediante cifrado de datos en reposo, control de acceso y auditorías de seguridad regulares.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>19. ¿Qué es el concepto de "Zero Trust" y cómo se aplica?</td>
+                <td>El modelo "Zero Trust" asume que no se debe confiar en ninguna entidad, interna o externa, sin verificar. Se aplica mediante autenticación continua y políticas de acceso estrictas.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>20. ¿Cómo se asegura la integridad de los datos en una aplicación?</td>
+                <td>La integridad de los datos se asegura mediante técnicas como sumas de verificación, firmas digitales y mecanismos de validación de datos.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>21. ¿Qué es la gestión de parches y por qué es crucial?</td>
+                <td>La gestión de parches asegura que todas las vulnerabilidades conocidas sean corregidas a través de actualizaciones y parches, lo cual es crucial para mantener la seguridad.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>22. ¿Cómo se implementa la protección contra ataques de inyección SQL?</td>
+                <td>Se implementa utilizando consultas parametrizadas y validación adecuada de entradas para evitar que datos maliciosos se inserten en las consultas SQL.</td>
+                <td>
+                    <pre><code class="language-java">PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE username = ?");
+ps.setString(1, username);
+ResultSet rs = ps.executeQuery();
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>23. ¿Qué es el control de acceso basado en atributos (ABAC)?</td>
+                <td>ABAC es un modelo de control de acceso que usa atributos (como roles, ubicaciones, y horas) para tomar decisiones sobre permisos.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>24. ¿Cómo se protege contra ataques de cross-site scripting (XSS)?</td>
+                <td>Se protege validando y sanitizando entradas de usuario y utilizando políticas de seguridad de contenido (CSP).</td>
+                <td>
+                    <pre><code class="language-python">from flask import Flask, request
+from flask_wtf import FlaskForm
+from wtforms import TextField
+
+app = Flask(__name__)
+
+class SafeForm(FlaskForm):
+    user_input = TextField('Input')
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    form = SafeForm(request.form)
+    # Validación de entrada para evitar XSS
+    return 'Success'
+</code></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>25. ¿Qué es el análisis de vulnerabilidades y cómo se realiza?</td>
+                <td>El análisis de vulnerabilidades implica identificar y evaluar debilidades en una aplicación o sistema. Se realiza utilizando herramientas de escaneo de seguridad y pruebas manuales.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>26. ¿Cómo se implementa la seguridad en la capa de aplicación de una arquitectura de microservicios?</td>
+                <td>Se implementa mediante autenticación y autorización en cada microservicio, además de cifrado de datos y validación de entradas.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>27. ¿Qué es un análisis de impacto de seguridad?</td>
+                <td>Es la evaluación de cómo una amenaza o vulnerabilidad puede afectar la seguridad de un sistema o aplicación, y qué medidas se deben tomar para mitigar el riesgo.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>28. ¿Cómo se implementa la protección contra ataques de fuerza bruta?</td>
+                <td>Se puede implementar limitando los intentos de acceso fallidos, utilizando CAPTCHAs y monitoreando patrones de acceso sospechosos.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>29. ¿Qué es la segmentación de red y cómo contribuye a la seguridad?</td>
+                <td>La segmentación de red divide una red en segmentos más pequeños para limitar el alcance de un posible ataque y mejorar la seguridad.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>30. ¿Cómo se realiza la gestión de identidades en un entorno en la nube?</td>
+                <td>Se realiza utilizando servicios de gestión de identidades y accesos (IAM) que permiten controlar y auditar el acceso a los recursos en la nube.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>31. ¿Qué es la seguridad en el diseño de APIs y cómo se implementa?</td>
+                <td>La seguridad en el diseño de APIs se refiere a asegurar que las APIs sean accesibles solo para usuarios y sistemas autorizados. Se implementa mediante autenticación, autorización y cifrado.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>32. ¿Cómo se protege la información personal identificable (PII) en una aplicación?</td>
+                <td>Se protege mediante cifrado, control de acceso y prácticas de manejo seguro de datos personales.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>33. ¿Qué es la seguridad en el almacenamiento en la nube y cómo se asegura?</td>
+                <td>La seguridad en el almacenamiento en la nube implica cifrar datos en reposo, gestionar el acceso de forma segura y realizar auditorías de seguridad regulares.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>34. ¿Cómo se implementa un sistema de alertas de seguridad?</td>
+                <td>Se implementa configurando herramientas de monitoreo que envíen alertas en caso de actividades sospechosas o eventos de seguridad importantes.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>35. ¿Qué son las políticas de seguridad y cómo se aplican?</td>
+                <td>Las políticas de seguridad son directrices que establecen cómo se deben proteger los activos y datos. Se aplican mediante la implementación de controles y procedimientos de seguridad.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>36. ¿Cómo se realiza la seguridad en el ciclo de vida del desarrollo de software?</td>
+                <td>Se realiza integrando prácticas de seguridad en cada fase del desarrollo, desde el diseño hasta la implementación y mantenimiento.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>37. ¿Qué son los controles de acceso y cómo se implementan?</td>
+                <td>Los controles de acceso regulan quién puede acceder a recursos y sistemas. Se implementan utilizando autenticación, autorización y políticas de acceso.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>38. ¿Cómo se realiza el control de versiones en un entorno de desarrollo seguro?</td>
+                <td>Se realiza utilizando sistemas de control de versiones que permiten rastrear cambios y proteger el código fuente mediante políticas de acceso y seguridad.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>39. ¿Qué es la protección contra amenazas internas y cómo se maneja?</td>
+                <td>La protección contra amenazas internas implica prevenir y detectar actividades maliciosas realizadas por empleados o personas con acceso autorizado. Se maneja mediante monitoreo y controles de acceso.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>40. ¿Cómo se asegura la integridad de los datos en tránsito?</td>
+                <td>Se asegura utilizando protocolos de cifrado como HTTPS para proteger los datos mientras se transmiten.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>41. ¿Qué es el escaneo de seguridad de aplicaciones y cómo se realiza?</td>
+                <td>El escaneo de seguridad de aplicaciones implica usar herramientas para identificar vulnerabilidades en el código fuente. Se realiza automáticamente o mediante revisiones manuales.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>42. ¿Cómo se implementa la seguridad en una arquitectura de microservicios?</td>
+                <td>Se implementa mediante el uso de autenticación y autorización para cada microservicio, cifrado de datos y monitoreo continuo.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>43. ¿Qué es la seguridad en el desarrollo de software y cómo se integra?</td>
+                <td>La seguridad en el desarrollo de software se integra mediante la adopción de prácticas y herramientas que previenen vulnerabilidades durante el ciclo de vida del desarrollo.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>44. ¿Cómo se maneja la seguridad en el despliegue de aplicaciones en la nube?</td>
+                <td>Se maneja configurando controles de seguridad adecuados, como redes seguras, cifrado de datos y gestión de identidades.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>45. ¿Qué son los registros de seguridad y cómo se utilizan?</td>
+                <td>Los registros de seguridad son archivos que registran eventos y actividades de seguridad. Se utilizan para monitorear y analizar posibles incidentes de seguridad.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>46. ¿Cómo se realiza la gestión de riesgos en seguridad?</td>
+                <td>La gestión de riesgos en seguridad implica identificar, evaluar y mitigar riesgos potenciales mediante políticas y controles de seguridad.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>47. ¿Qué son las pruebas de penetración y cómo se llevan a cabo?</td>
+                <td>Las pruebas de penetración simulan ataques para identificar vulnerabilidades. Se llevan a cabo utilizando herramientas y técnicas específicas para evaluar la seguridad.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>48. ¿Cómo se protege contra ataques de malware?</td>
+                <td>Se protege utilizando software antivirus, políticas de seguridad y educación del usuario sobre prácticas seguras.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>49. ¿Qué es un plan de respuesta a incidentes y cómo se elabora?</td>
+                <td>Un plan de respuesta a incidentes define cómo se manejarán los incidentes de seguridad. Se elabora identificando posibles incidentes, definiendo roles y responsabilidades, y estableciendo procedimientos de respuesta.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>50. ¿Cómo se realiza la auditoría de seguridad en un sistema?</td>
+                <td>Se realiza revisando los controles de seguridad, configuraciones y registros para evaluar la eficacia de las medidas de seguridad implementadas.</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
