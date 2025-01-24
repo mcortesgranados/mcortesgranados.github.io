@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP Principles - Questions & Answers</title>
+    <style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+    </style>
+</head>
+<body>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 2</h2>
+    <ol class="style1">
+        <li>
+            <strong>What is the difference between an abstract class and an interface in Java?</strong><br>
+            <p><em>Answer:</em> An abstract class can have both abstract methods (without implementation) and concrete methods (with implementation). An interface can only have abstract methods (until Java 8, after which default and static methods are allowed). A class can extend only one abstract class but can implement multiple interfaces.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of an abstract class and an interface?</strong><br>
+            <pre>
+abstract class Animal {
+    abstract void sound();
+}
+
+interface Movable {
+    void move();
+}
+
+class Dog extends Animal implements Movable {
+    void sound() {
+        System.out.println("Bark");
+    }
+    
+    public void move() {
+        System.out.println("Dog moves");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.sound(); // Outputs: Bark
+        dog.move();  // Outputs: Dog moves
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In the example, `Dog` extends `Animal` (abstract class) and implements `Movable` (interface), showcasing both inheritance and interface implementation.</p>
+        </li>
+        <li>
+            <strong>What is the use of the 'super' keyword in Java?</strong><br>
+            <p><em>Answer:</em> The `super` keyword in Java is used to refer to the immediate parent class object. It can be used to call a parent class constructor, method, or field.</p>
+        </li>
+        <li>
+            <strong>Can you give an example of using the 'super' keyword in Java?</strong><br>
+            <pre>
+class Animal {
+    void sound() {
+        System.out.println("Some sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        super.sound();
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.sound();
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In the example, `super.sound()` calls the `sound()` method from the `Animal` class before executing the `sound()` method from the `Dog` class.</p>
+        </li>
+        <li>
+            <strong>What is method overloading in Java?</strong><br>
+            <p><em>Answer:</em> Method overloading occurs when multiple methods have the same name but differ in the number or type of parameters. It is a way to create more than one method with the same name that performs similar but slightly different tasks.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of method overloading in Java?</strong><br>
+            <pre>
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+    
+    double add(double a, double b) {
+        return a + b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        System.out.println(calc.add(5, 3));   // Outputs: 8
+        System.out.println(calc.add(2.5, 3.5)); // Outputs: 6.0
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In the example, the method `add()` is overloaded with two versions, one that takes integers and another that takes doubles as parameters.</p>
+        </li>
+        <li>
+            <strong>What is method overriding in Java?</strong><br>
+            <p><em>Answer:</em> Method overriding occurs when a subclass provides a specific implementation for a method that is already defined in its superclass. The method in the subclass must have the same signature as the one in the superclass.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of method overriding in Java?</strong><br>
+            <pre>
+class Animal {
+    void sound() {
+        System.out.println("Some sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.sound(); // Outputs: Bark
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In the example, the `Dog` class overrides the `sound()` method of the `Animal` class to provide its own implementation.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of the 'this' keyword in Java?</strong><br>
+            <p><em>Answer:</em> The `this` keyword refers to the current object of the class. It is commonly used to differentiate between class fields and parameters with the same name, and to invoke the current object's methods.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of using the 'this' keyword in Java?</strong><br>
+            <pre>
+class Person {
+    String name;
+    
+    Person(String name) {
+        this.name = name; // 'this.name' refers to the class field, 'name' refers to the parameter
+    }
+    
+    void display() {
+        System.out.println("Name: " + this.name);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person("John");
+        person.display(); // Outputs: Name: John
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In the example, `this.name` refers to the class field, and it is used to distinguish it from the parameter `name` in the constructor.</p>
+        </li>
+        <li>
+            <strong>What is the significance of access modifiers in OOP?</strong><br>
+            <p><em>Answer:</em> Access modifiers in OOP define the visibility and accessibility of class members (fields and methods). The main access modifiers in Java are `public`, `private`, `protected`, and default (package-private), each offering different levels of access control.</p>
+        </li>
+    </ol>
+</body>
+</html>

@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP Principles - Questions & Answers</title>
+    <style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+    </style>
+</head>
+<body>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 1</h2>
+    <ol class="style1">
+        <li>
+            <strong>What is Object-Oriented Programming (OOP)?</strong><br>
+            <p><em>Answer:</em> OOP is a programming paradigm based on the concept of objects, which contain data in the form of fields (often known as attributes or properties) and code in the form of procedures (often known as methods).</p>
+        </li>
+        <li>
+            <strong>What are the four main principles of OOP?</strong><br>
+            <p><em>Answer:</em> The four main principles of OOP are Encapsulation, Abstraction, Inheritance, and Polymorphism.</p>
+        </li>
+        <li>
+            <strong>What is Encapsulation in OOP?</strong><br>
+            <p><em>Answer:</em> Encapsulation is the concept of wrapping data (variables) and methods (functions) into a single unit called a class, and restricting access to certain details using access modifiers (private, public, protected).</p>
+        </li>
+        <li>
+            <strong>Can you give an example of Encapsulation in Java?</strong><br>
+            <pre>
+class Person {
+    private String name;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person();
+        person.setName("John");
+        System.out.println(person.getName());
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In the example, the `name` field is encapsulated and can only be accessed or modified through the getter and setter methods.</p>
+        </li>
+        <li>
+            <strong>What is Abstraction in OOP?</strong><br>
+            <p><em>Answer:</em> Abstraction is the concept of hiding the implementation details and showing only the essential features of an object. It helps in reducing complexity by providing a clear interface.</p>
+        </li>
+        <li>
+            <strong>Can you give an example of Abstraction in Java?</strong><br>
+            <pre>
+abstract class Animal {
+    abstract void sound();
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal animal = new Dog();
+        animal.sound();
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In the example, the abstract class `Animal` defines the method `sound()` which is implemented in the `Dog` class. The abstract class hides the details of the sound implementation.</p>
+        </li>
+        <li>
+            <strong>What is Inheritance in OOP?</strong><br>
+            <p><em>Answer:</em> Inheritance is the mechanism in OOP that allows one class to acquire the properties and behaviors (methods) of another class. This helps in code reusability and hierarchical class structure.</p>
+        </li>
+        <li>
+            <strong>Can you give an example of Inheritance in Java?</strong><br>
+            <pre>
+class Animal {
+    void sound() {
+        System.out.println("Some sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.sound();
+    }
+}
+            </pre>
+            <p><em>Answer:</em> The `Dog` class inherits from the `Animal` class and overrides the `sound()` method to provide a specific implementation.</p>
+        </li>
+        <li>
+            <strong>What is Polymorphism in OOP?</strong><br>
+            <p><em>Answer:</em> Polymorphism allows objects of different classes to be treated as objects of a common superclass. It also allows the method of the same name to behave differently based on the object that invokes it.</p>
+        </li>
+        <li>
+            <strong>Can you give an example of Polymorphism in Java?</strong><br>
+            <pre>
+class Animal {
+    void sound() {
+        System.out.println("Some sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+
+class Cat extends Animal {
+    void sound() {
+        System.out.println("Meow");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal animal1 = new Dog();
+        Animal animal2 = new Cat();
+
+        animal1.sound(); // Outputs: Bark
+        animal2.sound(); // Outputs: Meow
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In the example, polymorphism allows the `sound()` method to behave differently depending on whether it is invoked on a `Dog` or a `Cat` object.</p>
+        </li>
+    </ol>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 2</h2>
+    <ol class="style1">
+      <li> <strong>What is the difference between an abstract class and an interface in Java?</strong><br>
+          <p><em>Answer:</em> An abstract class can have both abstract methods (without implementation) and concrete methods (with implementation). An interface can only have abstract methods (until Java 8, after which default and static methods are allowed). A class can extend only one abstract class but can implement multiple interfaces.</p>
+      </li>
+      <li> <strong>Can you provide an example of an abstract class and an interface?</strong><br>
+          <pre>
+abstract class Animal {
+    abstract void sound();
+}
+
+interface Movable {
+    void move();
+}
+
+class Dog extends Animal implements Movable {
+    void sound() {
+        System.out.println("Bark");
+    }
+    
+    public void move() {
+        System.out.println("Dog moves");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.sound(); // Outputs: Bark
+        dog.move();  // Outputs: Dog moves
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In the example, `Dog` extends `Animal` (abstract class) and implements `Movable` (interface), showcasing both inheritance and interface implementation.</p>
+      </li>
+      <li> <strong>What is the use of the 'super' keyword in Java?</strong><br>
+          <p><em>Answer:</em> The `super` keyword in Java is used to refer to the immediate parent class object. It can be used to call a parent class constructor, method, or field.</p>
+      </li>
+      <li> <strong>Can you give an example of using the 'super' keyword in Java?</strong><br>
+          <pre>
+class Animal {
+    void sound() {
+        System.out.println("Some sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        super.sound();
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.sound();
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In the example, `super.sound()` calls the `sound()` method from the `Animal` class before executing the `sound()` method from the `Dog` class.</p>
+      </li>
+      <li> <strong>What is method overloading in Java?</strong><br>
+          <p><em>Answer:</em> Method overloading occurs when multiple methods have the same name but differ in the number or type of parameters. It is a way to create more than one method with the same name that performs similar but slightly different tasks.</p>
+      </li>
+      <li> <strong>Can you provide an example of method overloading in Java?</strong><br>
+          <pre>
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+    
+    double add(double a, double b) {
+        return a + b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        System.out.println(calc.add(5, 3));   // Outputs: 8
+        System.out.println(calc.add(2.5, 3.5)); // Outputs: 6.0
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In the example, the method `add()` is overloaded with two versions, one that takes integers and another that takes doubles as parameters.</p>
+      </li>
+      <li> <strong>What is method overriding in Java?</strong><br>
+          <p><em>Answer:</em> Method overriding occurs when a subclass provides a specific implementation for a method that is already defined in its superclass. The method in the subclass must have the same signature as the one in the superclass.</p>
+      </li>
+      <li> <strong>Can you provide an example of method overriding in Java?</strong><br>
+          <pre>
+class Animal {
+    void sound() {
+        System.out.println("Some sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.sound(); // Outputs: Bark
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In the example, the `Dog` class overrides the `sound()` method of the `Animal` class to provide its own implementation.</p>
+      </li>
+      <li> <strong>What is the purpose of the 'this' keyword in Java?</strong><br>
+          <p><em>Answer:</em> The `this` keyword refers to the current object of the class. It is commonly used to differentiate between class fields and parameters with the same name, and to invoke the current object's methods.</p>
+      </li>
+      <li> <strong>Can you provide an example of using the 'this' keyword in Java?</strong><br>
+          <pre>
+class Person {
+    String name;
+    
+    Person(String name) {
+        this.name = name; // 'this.name' refers to the class field, 'name' refers to the parameter
+    }
+    
+    void display() {
+        System.out.println("Name: " + this.name);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person("John");
+        person.display(); // Outputs: Name: John
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In the example, `this.name` refers to the class field, and it is used to distinguish it from the parameter `name` in the constructor.</p>
+      </li>
+      <li> <strong>What is the significance of access modifiers in OOP?</strong><br>
+          <p><em>Answer:</em> Access modifiers in OOP define the visibility and accessibility of class members (fields and methods). The main access modifiers in Java are `public`, `private`, `protected`, and default (package-private), each offering different levels of access control.</p>
+      </li>
+    </ol>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 3</h2>
+    <ol class="style1">
+      <li> <strong>What is the difference between '=='' and 'equals()' in Java?</strong><br>
+          <p><em>Answer:</em> The `==` operator compares the reference (memory address) of two objects, while the `equals()` method compares the actual content of the objects. `equals()` must be overridden in a class to provide meaningful comparison.</p>
+      </li>
+      <li> <strong>Can you provide an example comparing '==' and 'equals()' in Java?</strong><br>
+          <pre>
+class Person {
+    String name;
+    
+    Person(String name) {
+        this.name = name;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Person person = (Person) obj;
+        return name.equals(person.name);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person1 = new Person("John");
+        Person person2 = new Person("John");
+        
+        System.out.println(person1 == person2); // Outputs: false
+        System.out.println(person1.equals(person2)); // Outputs: true
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In the example, `==` compares the references (false because they are different objects), whereas `equals()` compares the content (true because the names are the same).</p>
+      </li>
+      <li> <strong>What is the difference between 'final', 'finally', and 'finalize' in Java?</strong><br>
+          <p><em>Answer:</em> - `final` is used to declare constants, prevent method overriding, or prevent inheritance.
+            - `finally` is used to define a block of code that will always be executed, regardless of whether an exception was thrown.
+            - `finalize` is a method that is called by the garbage collector before an object is removed from memory. </p>
+      </li>
+      <li> <strong>Can you provide an example of using 'final', 'finally', and 'finalize'?</strong><br>
+          <pre>
+class MyClass {
+    final int CONSTANT = 10; // 'final' for constant
+
+    void myMethod() {
+        try {
+            int result = 10 / 0;
+        } catch (ArithmeticException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            System.out.println("This block always executes.");
+        }
+    }
+
+    @Override
+    protected void finalize() {
+        System.out.println("Finalize method called before garbage collection.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyClass obj = new MyClass();
+        obj.myMethod();
+        obj = null; // The object is ready for garbage collection
+        System.gc(); // Request garbage collection
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, the `CONSTANT` field is declared as `final`, the `finally` block always runs regardless of an exception, and the `finalize()` method is called by the garbage collector before the object is removed from memory.</p>
+      </li>
+      <li> <strong>What is the concept of "composition" in OOP?</strong><br>
+          <p><em>Answer:</em> Composition is a design principle in OOP where one object contains references to other objects, which may be used as part of its functionality. It represents a "has-a" relationship.</p>
+      </li>
+      <li> <strong>Can you provide an example of composition in Java?</strong><br>
+          <pre>
+class Engine {
+    void start() {
+        System.out.println("Engine starting");
+    }
+}
+
+class Car {
+    private Engine engine; // Car has an Engine (composition)
+
+    Car(Engine engine) {
+        this.engine = engine;
+    }
+
+    void startCar() {
+        engine.start();
+        System.out.println("Car starting");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Engine engine = new Engine();
+        Car car = new Car(engine);
+        car.startCar();
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In the example, the `Car` class has an `Engine` object, demonstrating a "has-a" relationship, which is composition.</p>
+      </li>
+      <li> <strong>What is the concept of "aggregation" in OOP?</strong><br>
+          <p><em>Answer:</em> Aggregation is a special form of association where one object is associated with another but both can exist independently. It represents a "whole-part" relationship but without strong ownership.</p>
+      </li>
+      <li> <strong>Can you provide an example of aggregation in Java?</strong><br>
+          <pre>
+class Department {
+    private String name;
+    
+    Department(String name) {
+        this.name = name;
+    }
+
+    String getName() {
+        return name;
+    }
+}
+
+class Employee {
+    private String name;
+    private Department department; // Employee belongs to Department (aggregation)
+
+    Employee(String name, Department department) {
+        this.name = name;
+        this.department = department;
+    }
+
+    void showInfo() {
+        System.out.println("Employee: " + name + ", Department: " + department.getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Department dept = new Department("Engineering");
+        Employee emp = new Employee("John", dept);
+        emp.showInfo(); // Outputs: Employee: John, Department: Engineering
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In the example, the `Employee` object has a reference to a `Department` object, but both can exist independently, which demonstrates aggregation.</p>
+      </li>
+      <li> <strong>What is the concept of "association" in OOP?</strong><br>
+          <p><em>Answer:</em> Association is a general term used to describe a relationship between two or more objects, which may be one-to-one, one-to-many, or many-to-many. Unlike composition or aggregation, association does not imply ownership.</p>
+      </li>
+      <li> <strong>Can you provide an example of association in Java?</strong><br>
+          <pre>
+class Author {
+    private String name;
+
+    Author(String name) {
+        this.name = name;
+    }
+
+    String getName() {
+        return name;
+    }
+}
+
+class Book {
+    private String title;
+    private Author author; // Book is associated with Author (association)
+
+    Book(String title, Author author) {
+        this.title = title;
+        this.author = author;
+    }
+
+    void displayInfo() {
+        System.out.println("Book: " + title + ", Author: " + author.getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Author author = new Author("J.K. Rowling");
+        Book book = new Book("Harry Potter", author);
+        book.displayInfo(); // Outputs: Book: Harry Potter, Author: J.K. Rowling
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In the example, the `Book` object is associated with an `Author` object. This is an association where the objects are related but neither owns the other.</p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 4</h2>
+    <ol class="style1">
+      <li> <strong>What is the concept of "inheritance" in OOP?</strong><br>
+          <p><em>Answer:</em> Inheritance is a fundamental concept in OOP that allows a class (child or subclass) to inherit fields and methods from another class (parent or superclass). This promotes code reuse and establishes a hierarchical relationship between classes.</p>
+      </li>
+      <li> <strong>Can you provide an example of inheritance in Java?</strong><br>
+          <pre>
+class Animal {
+    void sound() {
+        System.out.println("Some sound...");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal animal = new Animal();
+        Dog dog = new Dog();
+        
+        animal.sound(); // Outputs: Some sound...
+        dog.sound();    // Outputs: Bark
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, the `Dog` class inherits the `sound()` method from the `Animal` class and overrides it to provide a specific implementation.</p>
+      </li>
+      <li> <strong>What is the difference between "overriding" and "overloading" in OOP?</strong><br>
+          <p><em>Answer:</em> - **Overriding** is when a subclass provides its own implementation of a method that is already defined in its superclass. The method signature remains the same.
+            - **Overloading** is when multiple methods with the same name are defined in the same class, but they differ in parameters (number or type).</p>
+      </li>
+      <li> <strong>Can you provide an example of method overriding in Java?</strong><br>
+          <pre>
+class Parent {
+    void showMessage() {
+        System.out.println("Message from Parent");
+    }
+}
+
+class Child extends Parent {
+    @Override
+    void showMessage() {
+        System.out.println("Message from Child");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Parent parent = new Parent();
+        Parent child = new Child();
+        
+        parent.showMessage(); // Outputs: Message from Parent
+        child.showMessage();  // Outputs: Message from Child
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, the `Child` class overrides the `showMessage()` method from the `Parent` class to provide its own implementation.</p>
+      </li>
+      <li> <strong>Can you provide an example of method overloading in Java?</strong><br>
+          <pre>
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    double add(double a, double b) {
+        return a + b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        System.out.println(calc.add(5, 10));    // Outputs: 15
+        System.out.println(calc.add(5.5, 10.5)); // Outputs: 16.0
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, the `add()` method is overloaded to handle both integer and double types with the same method name.</p>
+      </li>
+      <li> <strong>What is the concept of "polymorphism" in OOP?</strong><br>
+          <p><em>Answer:</em> Polymorphism allows objects to be treated as instances of their parent class while invoking methods that are specific to their actual class. It enables one interface to be used for a general class of actions.</p>
+      </li>
+      <li> <strong>Can you provide an example of polymorphism in Java?</strong><br>
+          <pre>
+class Shape {
+    void draw() {
+        System.out.println("Drawing a shape");
+    }
+}
+
+class Circle extends Shape {
+    @Override
+    void draw() {
+        System.out.println("Drawing a circle");
+    }
+}
+
+class Square extends Shape {
+    @Override
+    void draw() {
+        System.out.println("Drawing a square");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Shape shape1 = new Circle();
+        Shape shape2 = new Square();
+        
+        shape1.draw(); // Outputs: Drawing a circle
+        shape2.draw(); // Outputs: Drawing a square
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, both `Circle` and `Square` override the `draw()` method. A `Shape` reference is used to call the `draw()` method, demonstrating polymorphism.</p>
+      </li>
+      <li> <strong>What is the difference between "abstract class" and "interface" in Java?</strong><br>
+          <p><em>Answer:</em> - An **abstract class** can have both abstract (without implementation) and concrete (with implementation) methods, and it can have fields with default values.
+            - An **interface** can only contain abstract methods (until Java 8, after which default and static methods are allowed), and all fields are implicitly `public`, `static`, and `final`.</p>
+      </li>
+      <li> <strong>Can you provide an example of an abstract class in Java?</strong><br>
+          <pre>
+abstract class Animal {
+    abstract void sound(); // Abstract method
+    
+    void sleep() {
+        System.out.println("Sleeping");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = new Dog();
+        dog.sound();  // Outputs: Bark
+        dog.sleep();  // Outputs: Sleeping
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, `Animal` is an abstract class with an abstract method `sound()`, and `Dog` provides its own implementation of this method.</p>
+      </li>
+      <li> <strong>Can you provide an example of an interface in Java?</strong><br>
+          <pre>
+interface Animal {
+    void sound(); // Abstract method
+}
+
+class Dog implements Animal {
+    @Override
+    public void sound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = new Dog();
+        dog.sound();  // Outputs: Bark
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, the `Animal` interface is implemented by the `Dog` class, which provides its own implementation of the `sound()` method.</p>
+      </li>
+    </ol>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 5</h2>
+    <ol class="style1">
+      <li> <strong>What is the concept of "encapsulation" in OOP?</strong><br>
+          <p><em>Answer:</em> Encapsulation is the concept of hiding the internal implementation details of a class and only exposing the necessary parts of it, typically through public methods. This is done by marking the fields as private and providing getter and setter methods for accessing them.</p>
+      </li>
+      <li> <strong>Can you provide an example of encapsulation in Java?</strong><br>
+          <pre>
+class Person {
+    private String name;
+    private int age;
+
+    // Getter and Setter methods for encapsulation
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person();
+        person.setName("John");
+        person.setAge(30);
+
+        System.out.println(person.getName()); // Outputs: John
+        System.out.println(person.getAge());  // Outputs: 30
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, the `Person` class encapsulates its `name` and `age` fields by making them private and providing getter and setter methods for access.</p>
+      </li>
+      <li> <strong>What is the difference between "public", "private", "protected", and "default" access modifiers in Java?</strong><br>
+          <p><em>Answer:</em> - **public**: The member is accessible from any other class.
+            - **private**: The member is accessible only within the same class.
+            - **protected**: The member is accessible within the same package and by subclasses (even if they are in different packages).
+            - **default** (no modifier): The member is accessible only within the same package.</p>
+      </li>
+      <li> <strong>Can you explain the term "composition" in OOP?</strong><br>
+          <p><em>Answer:</em> Composition is a design principle in OOP where one class contains an instance of another class to represent a "has-a" relationship. It is a more flexible alternative to inheritance, as objects can be composed dynamically.</p>
+      </li>
+      <li> <strong>Can you provide an example of composition in Java?</strong><br>
+          <pre>
+class Engine {
+    void start() {
+        System.out.println("Engine starting...");
+    }
+}
+
+class Car {
+    private Engine engine;
+
+    public Car() {
+        engine = new Engine();
+    }
+
+    void drive() {
+        engine.start();
+        System.out.println("Car is driving...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.drive();
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, the `Car` class contains an instance of the `Engine` class, demonstrating the composition relationship.</p>
+      </li>
+      <li> <strong>What is the difference between "composition" and "inheritance" in OOP?</strong><br>
+          <p><em>Answer:</em> - **Inheritance** represents an "is-a" relationship where a subclass inherits properties and behaviors from a superclass.
+            - **Composition** represents a "has-a" relationship where a class contains an object of another class to provide functionality.</p>
+      </li>
+      <li> <strong>What is "aggregation" in OOP?</strong><br>
+          <p><em>Answer:</em> Aggregation is a special form of association where one object is part of another object, but the contained objects can exist independently of the container. It represents a "whole-part" relationship.</p>
+      </li>
+      <li> <strong>Can you provide an example of aggregation in Java?</strong><br>
+          <pre>
+class Department {
+    private String name;
+
+    public Department(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+class Employee {
+    private String name;
+    private Department department;
+
+    public Employee(String name, Department department) {
+        this.name = name;
+        this.department = department;
+    }
+
+    public void display() {
+        System.out.println("Employee Name: " + name + ", Department: " + department.getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Department dept = new Department("HR");
+        Employee emp = new Employee("Alice", dept);
+
+        emp.display(); // Outputs: Employee Name: Alice, Department: HR
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, the `Department` class and the `Employee` class have an aggregation relationship. The `Employee` object is associated with the `Department` object, but the department can exist independently.</p>
+      </li>
+      <li> <strong>What is "association" in OOP?</strong><br>
+          <p><em>Answer:</em> Association in OOP refers to a relationship between two or more objects where they can interact with each other, but they do not own or control each other. It can be one-to-one, one-to-many, or many-to-many.</p>
+      </li>
+      <li> <strong>Can you explain the concept of "dependency injection" in OOP?</strong><br>
+          <p><em>Answer:</em> Dependency Injection (DI) is a design pattern used to implement Inversion of Control (IoC), where an object's dependencies are provided externally rather than being created within the object itself. This promotes loose coupling and better testability.</p>
+      </li>
+    </ol>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 6</h2>
+    <ol class="style1">
+      <li> <strong>What is the difference between "abstract class" and "interface" in Java?</strong><br>
+          <p><em>Answer:</em> - An **abstract class** can have both abstract (without implementation) and concrete (with implementation) methods. It allows the use of constructors and fields.
+            - An **interface** only contains abstract methods (until Java 8, when default and static methods were introduced). A class can implement multiple interfaces but can extend only one abstract class.</p>
+      </li>
+      <li> <strong>Can you provide an example of an abstract class in Java?</strong><br>
+          <pre>
+abstract class Animal {
+    abstract void makeSound();
+    
+    void breathe() {
+        System.out.println("Breathing...");
+    }
+}
+
+class Dog extends Animal {
+    void makeSound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.makeSound();  // Outputs: Bark
+        dog.breathe();    // Outputs: Breathing...
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Animal` class is abstract, and the `Dog` class extends it and implements the abstract method `makeSound()`.</p>
+      </li>
+      <li> <strong>What is the purpose of an interface in Java?</strong><br>
+          <p><em>Answer:</em> An interface defines a contract that any implementing class must follow. It allows for abstraction and multiple inheritance in Java. A class can implement multiple interfaces, providing flexibility in design.</p>
+      </li>
+      <li> <strong>Can you provide an example of an interface in Java?</strong><br>
+          <pre>
+interface Vehicle {
+    void start();
+    void stop();
+}
+
+class Car implements Vehicle {
+    public void start() {
+        System.out.println("Car is starting...");
+    }
+
+    public void stop() {
+        System.out.println("Car is stopping...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Vehicle vehicle = new Car();
+        vehicle.start(); // Outputs: Car is starting...
+        vehicle.stop();  // Outputs: Car is stopping...
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Vehicle` interface defines two methods, and the `Car` class implements these methods.</p>
+      </li>
+      <li> <strong>What is the concept of "method overloading" in Java?</strong><br>
+          <p><em>Answer:</em> Method overloading is the concept of defining multiple methods in the same class with the same name but different parameter lists (different number, types, or both). The appropriate method is called based on the number or type of arguments passed.</p>
+      </li>
+      <li> <strong>Can you provide an example of method overloading in Java?</strong><br>
+          <pre>
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    double add(double a, double b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        System.out.println(calc.add(5, 10));       // Outputs: 15
+        System.out.println(calc.add(5.5, 10.5));   // Outputs: 16.0
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `add()` method is overloaded with two versions: one for integers and another for doubles.</p>
+      </li>
+      <li> <strong>What is the concept of "method overriding" in Java?</strong><br>
+          <p><em>Answer:</em> Method overriding occurs when a subclass provides its own implementation of a method that is already defined in its superclass. The method signature in the subclass must match the one in the superclass.</p>
+      </li>
+      <li> <strong>Can you provide an example of method overriding in Java?</strong><br>
+          <pre>
+class Animal {
+    void sound() {
+        System.out.println("Some animal sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Bark");
+    }
+
+    public static void main(String[] args) {
+        Animal animal = new Dog();
+        animal.sound(); // Outputs: Bark
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, the `Dog` class overrides the `sound()` method of the `Animal` class.</p>
+      </li>
+      <li> <strong>What is the purpose of the "super" keyword in Java?</strong><br>
+          <p><em>Answer:</em> The `super` keyword is used to refer to the immediate parent class of the current object. It is commonly used to call the superclass constructor or to access superclass methods and fields that are overridden or hidden by the subclass.</p>
+      </li>
+      <li> <strong>Can you provide an example of using "super" in Java?</strong><br>
+          <pre>
+class Animal {
+    void sound() {
+        System.out.println("Some animal sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        super.sound();
+        System.out.println("Bark");
+    }
+
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.sound(); // Outputs: Some animal sound
+                      //          Bark
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, the `super.sound()` call invokes the `sound()` method of the `Animal` class before executing the overridden `sound()` method in the `Dog` class.</p>
+      </li>
+      <li> <strong>What is "polymorphism" in OOP?</strong><br>
+          <p><em>Answer:</em> Polymorphism is the ability of a class to take many forms. It allows methods to behave differently based on the object that is calling them. This can be achieved through method overriding (runtime polymorphism) and method overloading (compile-time polymorphism).</p>
+      </li>
+    </ol>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 7</h2>
+    <ol class="style1">
+      <li> <strong>What is "encapsulation" in OOP?</strong><br>
+          <p><em>Answer:</em> Encapsulation is the bundling of data (variables) and the methods that operate on that data into a single unit, called a class. It helps restrict access to certain components of the object and is achieved using access modifiers like `private`, `protected`, and `public`.</p>
+      </li>
+      <li> <strong>Can you give an example of encapsulation in Java?</strong><br>
+          <pre>
+class Person {
+    private String name;
+    private int age;
+
+    // Getter and Setter methods
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public static void main(String[] args) {
+        Person person = new Person();
+        person.setName("John");
+        person.setAge(30);
+        System.out.println(person.getName()); // Outputs: John
+        System.out.println(person.getAge());  // Outputs: 30
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Person` class encapsulates the `name` and `age` fields. Access to these fields is provided via getter and setter methods.</p>
+      </li>
+      <li> <strong>What is the difference between "composition" and "inheritance" in OOP?</strong><br>
+          <p><em>Answer:</em> - **Composition** refers to building complex objects by combining simpler objects. It is a "has-a" relationship, where one object contains references to other objects.
+            - **Inheritance** represents an "is-a" relationship, where a subclass inherits the behavior and properties of its superclass, allowing for code reuse and extension. </p>
+      </li>
+      <li> <strong>Can you provide an example of composition in Java?</strong><br>
+          <pre>
+class Engine {
+    void start() {
+        System.out.println("Engine starting...");
+    }
+}
+
+class Car {
+    private Engine engine;
+
+    public Car() {
+        engine = new Engine();
+    }
+
+    void startCar() {
+        engine.start();
+        System.out.println("Car is starting...");
+    }
+
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.startCar();  // Outputs: Engine starting...
+                         //          Car is starting...
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, the `Car` class has a reference to an `Engine` object, demonstrating composition. The `Car` "has-a" `Engine`.</p>
+      </li>
+      <li> <strong>What is the concept of "constructor" in Java?</strong><br>
+          <p><em>Answer:</em> A constructor is a special method that is called when an object is instantiated. It is used to initialize the object's fields. Constructors have the same name as the class and do not have a return type.</p>
+      </li>
+      <li> <strong>Can you provide an example of a constructor in Java?</strong><br>
+          <pre>
+class Person {
+    private String name;
+    private int age;
+
+    // Constructor
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void displayInfo() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        Person person = new Person("Alice", 25);
+        person.displayInfo();  // Outputs: Name: Alice
+                               //          Age: 25
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Person` class has a constructor that takes `name` and `age` parameters to initialize the object's fields.</p>
+      </li>
+      <li> <strong>What is the concept of "constructor overloading" in Java?</strong><br>
+          <p><em>Answer:</em> Constructor overloading is the ability to define multiple constructors in the same class with different parameter lists. Each constructor performs different initialization tasks depending on the arguments passed.</p>
+      </li>
+      <li> <strong>Can you provide an example of constructor overloading in Java?</strong><br>
+          <pre>
+class Person {
+    private String name;
+    private int age;
+
+    // Constructor with parameters
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Overloaded constructor with only name
+    public Person(String name) {
+        this.name = name;
+        this.age = 0;  // Default age
+    }
+
+    public void displayInfo() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        Person person1 = new Person("Bob", 30);
+        Person person2 = new Person("Charlie");
+        person1.displayInfo();  // Outputs: Name: Bob
+                                 //          Age: 30
+        person2.displayInfo();  // Outputs: Name: Charlie
+                                 //          Age: 0
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Person` class has two constructors: one that takes both `name` and `age`, and another that only takes `name`.</p>
+      </li>
+      <li> <strong>What is the difference between "static" and "instance" variables in Java?</strong><br>
+          <p><em>Answer:</em> - A **static variable** is shared among all instances of a class. It belongs to the class itself rather than to any specific object.
+            - An **instance variable** is specific to each instance of a class. Each object has its own copy of instance variables. </p>
+      </li>
+      <li> <strong>Can you provide an example of static and instance variables in Java?</strong><br>
+          <pre>
+class Counter {
+    static int staticCount = 0;
+    int instanceCount = 0;
+
+    void increment() {
+        staticCount++;
+        instanceCount++;
+    }
+
+    void displayCounts() {
+        System.out.println("Static Count: " + staticCount);
+        System.out.println("Instance Count: " + instanceCount);
+    }
+
+    public static void main(String[] args) {
+        Counter counter1 = new Counter();
+        Counter counter2 = new Counter();
+
+        counter1.increment();
+        counter2.increment();
+
+        counter1.displayCounts();  // Outputs: Static Count: 2
+                                   //          Instance Count: 1
+        counter2.displayCounts();  // Outputs: Static Count: 2
+                                   //          Instance Count: 1
+    }
+}
+            </pre>
+          <p><em>Answer:</em> In this example, `staticCount` is shared by all instances, while each `Counter` object has its own `instanceCount`.</p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 8</h2>
+    <ol class="style1">
+      <li> <strong>What is "polymorphism" in OOP?</strong><br>
+          <p><em>Answer:</em> Polymorphism allows objects of different classes to be treated as objects of a common superclass. It enables the same method or operation to behave differently depending on the type of object it is called on.</p>
+      </li>
+      <li> <strong>Can you provide an example of polymorphism in Java?</strong><br>
+          <pre>
+class Animal {
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Cat meows");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal animal1 = new Dog();
+        Animal animal2 = new Cat();
+        
+        animal1.sound();  // Outputs: Dog barks
+        animal2.sound();  // Outputs: Cat meows
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `sound` method is overridden in both `Dog` and `Cat` classes. When the `sound` method is called on `animal1` and `animal2`, it produces different outputs, demonstrating polymorphism.</p>
+      </li>
+      <li> <strong>What is the concept of "method overloading" in Java?</strong><br>
+          <p><em>Answer:</em> Method overloading refers to defining multiple methods with the same name but different parameter lists. It allows different behaviors based on the number or type of parameters passed.</p>
+      </li>
+      <li> <strong>Can you provide an example of method overloading in Java?</strong><br>
+          <pre>
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    double add(double a, double b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        System.out.println(calc.add(10, 20));    // Outputs: 30
+        System.out.println(calc.add(10.5, 20.5));  // Outputs: 31.0
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `add` method is overloaded: one method accepts `int` parameters, and the other accepts `double` parameters. The appropriate method is called based on the argument types.</p>
+      </li>
+      <li> <strong>What is the difference between "abstract class" and "interface" in Java?</strong><br>
+          <p><em>Answer:</em> - An **abstract class** can have both abstract (unimplemented) and concrete (implemented) methods. It can have member variables and constructors.
+            - An **interface** can only have abstract methods (until Java 8 introduced default and static methods). A class that implements an interface must provide implementations for all its methods. </p>
+      </li>
+      <li> <strong>Can you provide an example of using an interface in Java?</strong><br>
+          <pre>
+interface Animal {
+    void sound();
+}
+
+class Dog implements Animal {
+    public void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat implements Animal {
+    public void sound() {
+        System.out.println("Cat meows");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = new Dog();
+        Animal cat = new Cat();
+        
+        dog.sound();  // Outputs: Dog barks
+        cat.sound();  // Outputs: Cat meows
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Animal` interface defines a `sound` method that both `Dog` and `Cat` classes implement. Each class provides its own implementation of the `sound` method.</p>
+      </li>
+      <li> <strong>What is the concept of "constructor chaining" in Java?</strong><br>
+          <p><em>Answer:</em> Constructor chaining is the process of calling one constructor from another constructor in the same class or from a superclass constructor. It can be done using the `this` or `super` keyword.</p>
+      </li>
+      <li> <strong>Can you provide an example of constructor chaining in Java?</strong><br>
+          <pre>
+class Person {
+    private String name;
+    private int age;
+
+    // Constructor with two parameters
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Constructor with one parameter
+    public Person(String name) {
+        this(name, 0);  // Calling the two-parameter constructor
+    }
+
+    public void displayInfo() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        Person person1 = new Person("Alice", 30);
+        Person person2 = new Person("Bob");
+        person1.displayInfo();  // Outputs: Name: Alice
+                                //          Age: 30
+        person2.displayInfo();  // Outputs: Name: Bob
+                                //          Age: 0
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The constructor with one parameter calls the constructor with two parameters, demonstrating constructor chaining.</p>
+      </li>
+      <li> <strong>What is the concept of "super" in Java?</strong><br>
+          <p><em>Answer:</em> The `super` keyword is used to refer to the immediate superclass of a class. It is used to call the superclass constructor or access its methods and fields.</p>
+      </li>
+      <li> <strong>Can you provide an example of using the `super` keyword in Java?</strong><br>
+          <pre>
+class Animal {
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        super.sound();  // Calling the superclass method
+        System.out.println("Dog barks");
+    }
+
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.sound();  // Outputs: Animal makes a sound
+                      //          Dog barks
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Dog` class uses `super.sound()` to call the `sound` method of the `Animal` superclass before executing its own implementation.</p>
+      </li>
+    </ol>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 9</h2>
+    <ol class="style1">
+      <li> <strong>What is the concept of "inheritance" in OOP?</strong><br>
+          <p><em>Answer:</em> Inheritance is a mechanism in OOP where one class inherits properties and behaviors (methods) from another class. This allows for code reuse and can model hierarchical relationships between classes.</p>
+      </li>
+      <li> <strong>Can you provide an example of inheritance in Java?</strong><br>
+          <pre>
+class Animal {
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Dog barks");
+    }
+
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.sound();  // Outputs: Dog barks
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Dog` class inherits the `sound` method from the `Animal` class, but overrides it to provide its own implementation.</p>
+      </li>
+      <li> <strong>What is the difference between "overriding" and "overloading" in Java?</strong><br>
+          <p><em>Answer:</em> - **Method Overloading** is when multiple methods have the same name but differ in the number or type of parameters.
+            - **Method Overriding** occurs when a subclass provides its own implementation of a method already defined in its superclass.</p>
+      </li>
+      <li> <strong>Can you provide an example of method overriding in Java?</strong><br>
+          <pre>
+class Animal {
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+
+    public static void main(String[] args) {
+        Animal animal = new Dog();
+        animal.sound();  // Outputs: Dog barks
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Dog` class overrides the `sound` method of the `Animal` class to provide its own behavior. The method is called on an object of type `Animal` but it executes the `Dog` version of `sound` due to dynamic method dispatch.</p>
+      </li>
+      <li> <strong>What is "encapsulation" in OOP?</strong><br>
+          <p><em>Answer:</em> Encapsulation is the practice of hiding the internal details of an object and only exposing necessary parts of it. This is typically achieved by defining private fields and providing public getter and setter methods to access and modify them.</p>
+      </li>
+      <li> <strong>Can you provide an example of encapsulation in Java?</strong><br>
+          <pre>
+class Person {
+    private String name;
+    private int age;
+
+    // Getter and Setter for name
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // Getter and Setter for age
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        if(age > 0) {
+            this.age = age;
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person();
+        person.setName("Alice");
+        person.setAge(25);
+        System.out.println(person.getName());  // Outputs: Alice
+        System.out.println(person.getAge());   // Outputs: 25
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Person` class encapsulates the `name` and `age` fields by making them private. It provides getter and setter methods to allow controlled access to these fields.</p>
+      </li>
+      <li> <strong>What is the purpose of the `this` keyword in Java?</strong><br>
+          <p><em>Answer:</em> The `this` keyword is used to refer to the current instance of a class. It is commonly used to access instance variables and methods, and to distinguish between instance variables and local variables when they have the same name.</p>
+      </li>
+      <li> <strong>Can you provide an example of using the `this` keyword in Java?</strong><br>
+          <pre>
+class Person {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;  // Refers to the instance variable 'name'
+    }
+
+    public void displayInfo() {
+        System.out.println("Name: " + this.name);  // Refers to the current object's 'name'
+    }
+
+    public static void main(String[] args) {
+        Person person = new Person("Alice");
+        person.displayInfo();  // Outputs: Name: Alice
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `this` keyword is used in the constructor and `displayInfo` method to refer to the current instance's `name` field.</p>
+      </li>
+      <li> <strong>What is the difference between "static" and "non-static" methods in Java?</strong><br>
+          <p><em>Answer:</em> - **Static methods** belong to the class rather than to any specific instance of the class. They can be called without creating an object of the class.
+            - **Non-static methods** belong to an instance of the class and can only be called on an object of that class.</p>
+      </li>
+      <li> <strong>Can you provide an example of a static method in Java?</strong><br>
+          <pre>
+class MathOperations {
+    static int add(int a, int b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(MathOperations.add(10, 20));  // Outputs: 30
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `add` method is static and can be called on the class `MathOperations` directly, without creating an instance of the class.</p>
+      </li>
+    </ol>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 10</h2>
+    <ol class="style1">
+      <li> <strong>What is "polymorphism" in OOP?</strong><br>
+          <p><em>Answer:</em> Polymorphism allows objects of different classes to be treated as objects of a common superclass. It enables a single method to work on different types of objects, allowing for flexibility in code.</p>
+      </li>
+      <li> <strong>Can you provide an example of polymorphism in Java?</strong><br>
+          <pre>
+class Animal {
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat extends Animal {
+    void sound() {
+        System.out.println("Cat meows");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal animal1 = new Dog();
+        Animal animal2 = new Cat();
+
+        animal1.sound();  // Outputs: Dog barks
+        animal2.sound();  // Outputs: Cat meows
+    }
+}
+            </pre>
+          <p><em>Answer:</em> Polymorphism allows the `sound` method to work differently depending on the actual object type (either `Dog` or `Cat`) even though it is called on a reference of type `Animal`.</p>
+      </li>
+      <li> <strong>What is an "abstract class" in Java?</strong><br>
+          <p><em>Answer:</em> An abstract class is a class that cannot be instantiated on its own and is meant to be extended by other classes. It may contain abstract methods (methods without a body) that must be implemented by subclasses.</p>
+      </li>
+      <li> <strong>Can you provide an example of an abstract class in Java?</strong><br>
+          <pre>
+abstract class Animal {
+    abstract void sound();
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = new Dog();
+        dog.sound();  // Outputs: Dog barks
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Animal` class is abstract and contains an abstract method `sound()`, which is implemented by the `Dog` class.</p>
+      </li>
+      <li> <strong>What is an "interface" in Java?</strong><br>
+          <p><em>Answer:</em> An interface is a reference type in Java that can contain only constants, method signatures, default methods, and static methods. It cannot contain instance fields or constructors. A class implements an interface by providing concrete implementations of the methods defined in the interface.</p>
+      </li>
+      <li> <strong>Can you provide an example of an interface in Java?</strong><br>
+          <pre>
+interface Animal {
+    void sound();
+}
+
+class Dog implements Animal {
+    public void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = new Dog();
+        dog.sound();  // Outputs: Dog barks
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Dog` class implements the `Animal` interface and provides a concrete implementation for the `sound` method.</p>
+      </li>
+      <li> <strong>What is the significance of the `super` keyword in Java?</strong><br>
+          <p><em>Answer:</em> The `super` keyword refers to the superclass of the current object. It is used to access superclass methods, constructors, and fields from a subclass.</p>
+      </li>
+      <li> <strong>Can you provide an example of using the `super` keyword in Java?</strong><br>
+          <pre>
+class Animal {
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        super.sound();  // Calls the superclass method
+        System.out.println("Dog barks");
+    }
+
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.sound();
+        // Outputs:
+        // Animal makes a sound
+        // Dog barks
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `super.sound()` statement calls the `sound` method from the `Animal` class before executing the `Dog` class's `sound` method.</p>
+      </li>
+      <li> <strong>What is "composition" in OOP?</strong><br>
+          <p><em>Answer:</em> Composition is a design principle where one class is composed of one or more objects of other classes. It represents a "has-a" relationship and is considered a more flexible alternative to inheritance.</p>
+      </li>
+      <li> <strong>Can you provide an example of composition in Java?</strong><br>
+          <pre>
+class Engine {
+    void start() {
+        System.out.println("Engine starts");
+    }
+}
+
+class Car {
+    private Engine engine;
+
+    public Car() {
+        engine = new Engine();  // Car "has-a" Engine
+    }
+
+    void startCar() {
+        engine.start();
+        System.out.println("Car starts");
+    }
+
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.startCar();
+        // Outputs:
+        // Engine starts
+        // Car starts
+    }
+}
+            </pre>
+          <p><em>Answer:</em> The `Car` class has an `Engine` object as a member, demonstrating the composition relationship. The `Car` "has-a" `Engine`.</p>
+      </li>
+      <li> <strong>What is the difference between composition and inheritance in OOP?</strong><br>
+          <p><em>Answer:</em> - **Inheritance** represents an "is-a" relationship, where a subclass inherits the behavior of its superclass.
+            - **Composition** represents a "has-a" relationship, where a class contains objects of other classes.</p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+</body>
+</html>
+
+

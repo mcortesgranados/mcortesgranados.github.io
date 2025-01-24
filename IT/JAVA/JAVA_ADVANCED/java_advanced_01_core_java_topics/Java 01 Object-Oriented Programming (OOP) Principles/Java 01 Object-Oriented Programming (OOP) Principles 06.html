@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP Principles - Questions & Answers</title>
+    <style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+    </style>
+</head>
+<body>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 6</h2>
+    <ol class="style1">
+        <li>
+            <strong>What is the difference between "abstract class" and "interface" in Java?</strong><br>
+            <p><em>Answer:</em> 
+            - An **abstract class** can have both abstract (without implementation) and concrete (with implementation) methods. It allows the use of constructors and fields.
+            - An **interface** only contains abstract methods (until Java 8, when default and static methods were introduced). A class can implement multiple interfaces but can extend only one abstract class.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of an abstract class in Java?</strong><br>
+            <pre>
+abstract class Animal {
+    abstract void makeSound();
+    
+    void breathe() {
+        System.out.println("Breathing...");
+    }
+}
+
+class Dog extends Animal {
+    void makeSound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.makeSound();  // Outputs: Bark
+        dog.breathe();    // Outputs: Breathing...
+    }
+}
+            </pre>
+            <p><em>Answer:</em> The `Animal` class is abstract, and the `Dog` class extends it and implements the abstract method `makeSound()`.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of an interface in Java?</strong><br>
+            <p><em>Answer:</em> An interface defines a contract that any implementing class must follow. It allows for abstraction and multiple inheritance in Java. A class can implement multiple interfaces, providing flexibility in design.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of an interface in Java?</strong><br>
+            <pre>
+interface Vehicle {
+    void start();
+    void stop();
+}
+
+class Car implements Vehicle {
+    public void start() {
+        System.out.println("Car is starting...");
+    }
+
+    public void stop() {
+        System.out.println("Car is stopping...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Vehicle vehicle = new Car();
+        vehicle.start(); // Outputs: Car is starting...
+        vehicle.stop();  // Outputs: Car is stopping...
+    }
+}
+            </pre>
+            <p><em>Answer:</em> The `Vehicle` interface defines two methods, and the `Car` class implements these methods.</p>
+        </li>
+        <li>
+            <strong>What is the concept of "method overloading" in Java?</strong><br>
+            <p><em>Answer:</em> Method overloading is the concept of defining multiple methods in the same class with the same name but different parameter lists (different number, types, or both). The appropriate method is called based on the number or type of arguments passed.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of method overloading in Java?</strong><br>
+            <pre>
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    double add(double a, double b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        System.out.println(calc.add(5, 10));       // Outputs: 15
+        System.out.println(calc.add(5.5, 10.5));   // Outputs: 16.0
+    }
+}
+            </pre>
+            <p><em>Answer:</em> The `add()` method is overloaded with two versions: one for integers and another for doubles.</p>
+        </li>
+        <li>
+            <strong>What is the concept of "method overriding" in Java?</strong><br>
+            <p><em>Answer:</em> Method overriding occurs when a subclass provides its own implementation of a method that is already defined in its superclass. The method signature in the subclass must match the one in the superclass.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of method overriding in Java?</strong><br>
+            <pre>
+class Animal {
+    void sound() {
+        System.out.println("Some animal sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Bark");
+    }
+
+    public static void main(String[] args) {
+        Animal animal = new Dog();
+        animal.sound(); // Outputs: Bark
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In this example, the `Dog` class overrides the `sound()` method of the `Animal` class.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of the "super" keyword in Java?</strong><br>
+            <p><em>Answer:</em> The `super` keyword is used to refer to the immediate parent class of the current object. It is commonly used to call the superclass constructor or to access superclass methods and fields that are overridden or hidden by the subclass.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of using "super" in Java?</strong><br>
+            <pre>
+class Animal {
+    void sound() {
+        System.out.println("Some animal sound");
+    }
+}
+
+class Dog extends Animal {
+    void sound() {
+        super.sound();
+        System.out.println("Bark");
+    }
+
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.sound(); // Outputs: Some animal sound
+                      //          Bark
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In this example, the `super.sound()` call invokes the `sound()` method of the `Animal` class before executing the overridden `sound()` method in the `Dog` class.</p>
+        </li>
+        <li>
+            <strong>What is "polymorphism" in OOP?</strong><br>
+            <p><em>Answer:</em> Polymorphism is the ability of a class to take many forms. It allows methods to behave differently based on the object that is calling them. This can be achieved through method overriding (runtime polymorphism) and method overloading (compile-time polymorphism).</p>
+        </li>
+    </ol>
+</body>
+</html>

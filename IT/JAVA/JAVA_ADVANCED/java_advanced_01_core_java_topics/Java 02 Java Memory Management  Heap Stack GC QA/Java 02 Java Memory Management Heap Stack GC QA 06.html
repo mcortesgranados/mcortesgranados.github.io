@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Memory Management (Heap, Stack, GC) - Questions & Answers</title>
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+</style>
+</head>
+<body>
+    <h1 class="style1">Java Memory Management (Heap, Stack, GC) - Questions & Answers</h1>
+    <h2 class="style1">Set 6</h2>
+    <ol class="style1">
+        <li>
+            <strong>What is the "stack overflow" error in Java?</strong><br>
+            <p><em>Answer:</em> A stack overflow error occurs when the call stack (where method calls and local variables are stored) exceeds its allocated limit. This often happens due to deep or infinite recursion, where methods call themselves indefinitely without an exit condition.</p>
+        </li>
+        <li>
+            <strong>How does the garbage collector decide which objects to collect?</strong><br>
+            <p><em>Answer:</em> The garbage collector identifies objects that are no longer reachable from any live threads (i.e., objects that are not referenced by any active part of the application). These objects are considered garbage and can be reclaimed to free memory.</p>
+        </li>
+        <li>
+            <strong>What is "mark-and-sweep" garbage collection algorithm in Java?</strong><br>
+            <p><em>Answer:</em> The "mark-and-sweep" algorithm is a garbage collection technique that works in two phases:
+                <ul>
+                    <li>Mark phase: It traverses the object graph, starting from root references, and marks all reachable objects.</li>
+                    <li>Sweep phase: It goes through the heap and removes objects that are not marked as reachable.</li>
+                </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What are the different types of garbage collectors available in Java?</strong><br>
+            <p><em>Answer:</em> Java provides several types of garbage collectors, including:
+                <ul>
+                    <li>Serial GC</li>
+                    <li>Parallel GC</li>
+                    <li>Concurrent Mark-Sweep (CMS) GC</li>
+                    <li>G1 (Garbage First) GC</li>
+                    <li>ZGC (Z Garbage Collector)</li>
+                </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What is the purpose of the "root" in the context of garbage collection?</strong><br>
+            <p><em>Answer:</em> In garbage collection, a "root" is an object that is directly accessible by a thread, such as local variables, active method calls, or static references. The garbage collector starts from these root objects to trace all reachable objects in the heap.</p>
+        </li>
+        <li>
+            <strong>What is "object promotion" in garbage collection?</strong><br>
+            <p><em>Answer:</em> Object promotion refers to the process of moving an object from the young generation to the old generation after it survives several garbage collection cycles in the young generation.</p>
+        </li>
+        <li>
+            <strong>What is the difference between "soft reference" and "weak reference" in Java?</strong><br>
+            <p><em>Answer:</em> 
+                <ul>
+                    <li>A soft reference is an object reference that is collected by the garbage collector only when the JVM is running low on memory.</li>
+                    <li>A weak reference is an object reference that can be collected by the garbage collector at any time, regardless of memory pressure.</li>
+                </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What is the "Tenured Generation" in Java garbage collection?</strong><br>
+            <p><em>Answer:</em> The tenured generation (or old generation) in Java is where long-lived objects are stored after they survive several garbage collection cycles in the young generation. Objects in the tenured generation are collected less frequently during major GC events.</p>
+        </li>
+        <li>
+            <strong>What is the effect of garbage collection on application performance?</strong><br>
+            <p><em>Answer:</em> Garbage collection can affect application performance by introducing pauses during GC events. These pauses may vary in length depending on the type of garbage collector and the size of the heap. Large heaps and full garbage collections can cause noticeable delays, which may impact real-time or latency-sensitive applications.</p>
+        </li>
+        <li>
+            <strong>How can you optimize garbage collection in a Java application?</strong><br>
+            <p><em>Answer:</em> To optimize garbage collection:
+                <ul>
+                    <li>Use a suitable garbage collection algorithm based on the application's needs.</li>
+                    <li>Minimize the creation of short-lived objects in the young generation.</li>
+                    <li>Increase heap size to reduce the frequency of garbage collections.</li>
+                    <li>Use tools like JVM monitoring and profiling to analyze memory usage and GC performance.</li>
+                </ul>
+            </p>
+        </li>
+    </ol>
+</body>
+</html>

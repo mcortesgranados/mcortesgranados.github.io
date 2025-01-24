@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Memory Management (Heap, Stack, GC) - Questions & Answers</title>
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+</style>
+</head>
+<body>
+    <h1 class="style1">Java Memory Management (Heap, Stack, GC) - Questions & Answers</h1>
+    <h2 class="style1">Set 2</h2>
+    <ol class="style1">
+        <li>
+            <strong>What is the difference between a Strong Reference and a Soft Reference in Java?</strong><br>
+            <p><em>Answer:</em> A Strong Reference is the default reference type in Java. Objects referenced by strong references are not eligible for garbage collection. A Soft Reference, on the other hand, is used for objects that can be garbage collected when the JVM is low on memory, making it more memory-efficient for caching purposes.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of using SoftReference in Java?</strong><br>
+            <pre>
+import java.lang.ref.SoftReference;
+
+public class SoftReferenceExample {
+    public static void main(String[] args) {
+        String str = new String("Soft Reference Example");
+        SoftReference<String> softRef = new SoftReference<>(str);
+        
+        // Object can be garbage collected when memory is low
+        System.out.println("SoftReference: " + softRef.get());
+    }
+}
+            </pre>
+            <p><em>Answer:</em> The string object is wrapped in a `SoftReference`, and it may be garbage collected when the JVM is running low on memory.</p>
+        </li>
+        <li>
+            <strong>What is a Weak Reference in Java?</strong><br>
+            <p><em>Answer:</em> A Weak Reference is used for objects that are eligible for garbage collection as soon as they are no longer referenced strongly. Weak references are useful in cases like implementing memory-sensitive caches.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of using WeakReference in Java?</strong><br>
+            <pre>
+import java.lang.ref.WeakReference;
+
+public class WeakReferenceExample {
+    public static void main(String[] args) {
+        String str = new String("Weak Reference Example");
+        WeakReference<String> weakRef = new WeakReference<>(str);
+        
+        // The object is eligible for garbage collection
+        System.out.println("WeakReference: " + weakRef.get());
+        
+        str = null;  // Dereference the original object
+        System.gc();  // Suggest garbage collection
+        System.out.println("After GC: " + weakRef.get());
+    }
+}
+            </pre>
+            <p><em>Answer:</em> After dereferencing the object and suggesting garbage collection, the weakly referenced object is collected, and the `weakRef.get()` returns `null`.</p>
+        </li>
+        <li>
+            <strong>What is the concept of "finalization" in Java?</strong><br>
+            <p><em>Answer:</em> Finalization refers to the process where the `finalize()` method is called before an object is garbage collected. It allows the object to clean up any resources (e.g., closing file streams) before being collected. However, the `finalize()` method is unreliable and is generally discouraged in modern Java applications.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of using finalize() in Java?</strong><br>
+            <pre>
+class MyClass {
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Finalize method called for MyClass object");
+        super.finalize();
+    }
+
+    public static void main(String[] args) {
+        MyClass obj = new MyClass();
+        obj = null;  // Dereference the object
+        System.gc();  // Suggest garbage collection
+    }
+}
+            </pre>
+            <p><em>Answer:</em> The `finalize()` method is called before the object is garbage collected, allowing for cleanup operations.</p>
+        </li>
+        <li>
+            <strong>What is the difference between shallow copy and deep copy in Java?</strong><br>
+            <p><em>Answer:</em> A shallow copy in Java copies the values of the original object's fields, but if the fields are references to other objects, the references are copied, not the objects themselves. A deep copy creates a new object and also copies all the objects referenced by the original object recursively, ensuring that all referenced objects are also copied.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of shallow copy in Java?</strong><br>
+            <pre>
+class Person {
+    String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+}
+
+public class ShallowCopyExample {
+    public static void main(String[] args) {
+        Person original = new Person("John");
+        Person shallowCopy = original;
+
+        System.out.println(original.name);   // Outputs: John
+        shallowCopy.name = "Mike";
+        System.out.println(original.name);   // Outputs: Mike (Both point to the same object)
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In this case, both `original` and `shallowCopy` refer to the same object, so changes to one affect the other.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of deep copy in Java?</strong><br>
+            <pre>
+class Person {
+    String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    Person deepCopy() {
+        return new Person(this.name);
+    }
+}
+
+public class DeepCopyExample {
+    public static void main(String[] args) {
+        Person original = new Person("John");
+        Person deepCopy = original.deepCopy();
+
+        System.out.println(original.name);   // Outputs: John
+        deepCopy.name = "Mike";
+        System.out.println(original.name);   // Outputs: John (Original object remains unchanged)
+    }
+}
+            </pre>
+            <p><em>Answer:</em> The `deepCopy()` method creates a new `Person` object with a copy of the `name`, so changes to `deepCopy` do not affect the `original` object.</p>
+        </li>
+        <li>
+            <strong>What is the significance of the "young generation" in garbage collection?</strong><br>
+            <p><em>Answer:</em> The young generation is part of the Heap memory where newly created objects are allocated. It consists of the Eden space and two survivor spaces. Objects in the young generation are frequently garbage collected, as most objects tend to be short-lived.</p>
+        </li>
+        <li>
+            <strong>What is the "old generation" in Java memory management?</strong><br>
+            <p><em>Answer:</em> The old generation (or tenured generation) is where long-lived objects are stored. Objects that survive multiple garbage collection cycles in the young generation are promoted to the old generation. Garbage collection in the old generation is less frequent than in the young generation.</p>
+        </li>
+    </ol>
+</body>
+</html>

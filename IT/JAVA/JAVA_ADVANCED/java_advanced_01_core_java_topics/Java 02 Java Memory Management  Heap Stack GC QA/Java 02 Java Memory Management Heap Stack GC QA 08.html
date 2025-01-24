@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Memory Management (Heap, Stack, GC) - Questions & Answers</title>
+</head>
+<body>
+    <h1>Java Memory Management (Heap, Stack, GC) - Questions & Answers</h1>
+    <h2>Set 8</h2>
+    <ol>
+        <li>
+            <strong>What is the "garbage collection pause" in Java?</strong><br>
+            <p><em>Answer:</em> A garbage collection pause occurs when the JVM halts application execution to perform garbage collection. The pause duration can vary depending on factors such as heap size, the garbage collection algorithm in use, and the number of objects to collect.</p>
+        </li>
+        <li>
+            <strong>What is the difference between "minor GC" and "major GC" in Java?</strong><br>
+            <p><em>Answer:</em>
+                <ul>
+                    <li>Minor GC is a garbage collection event that occurs in the young generation (Eden space and survivor spaces). It is usually quick and focuses on reclaiming space from newly created objects.</li>
+                    <li>Major GC (also called Full GC) is a more expensive operation that occurs when the old generation fills up. It involves collecting both the young and old generations.</li>
+                </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What is the "permanent generation" in Java?</strong><br>
+            <p><em>Answer:</em> The permanent generation (or metaspace in Java 8 and later) is a part of memory where class metadata, method information, and other static data are stored. In older Java versions (pre-Java 8), it was part of the heap, but it has been replaced by metaspace in Java 8 to separate class metadata from the heap.</p>
+        </li>
+        <li>
+            <strong>What is "full garbage collection" in Java?</strong><br>
+            <p><em>Answer:</em> Full garbage collection (or major GC) is the process where the JVM performs garbage collection on both the young and old generations. It is more expensive and may cause longer pauses compared to minor GC.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of the "survivor space" in Java's young generation?</strong><br>
+            <p><em>Answer:</em> The survivor space in Java's young generation is used to hold objects that have survived one or more garbage collection cycles in the Eden space. It helps reduce the frequency of major garbage collections by promoting objects that are likely to live longer to the old generation.</p>
+        </li>
+        <li>
+            <strong>What is the "tenuring threshold" in Java's garbage collection?</strong><br>
+            <p><em>Answer:</em> The tenuring threshold determines how many garbage collection cycles an object in the young generation must survive before it is promoted to the old generation. It helps optimize memory management by reducing unnecessary promotions.</p>
+        </li>
+        <li>
+            <strong>What is the "JVM heap dump" and when would you need it?</strong><br>
+            <p><em>Answer:</em> A JVM heap dump is a snapshot of the heap memory at a particular point in time, containing all the objects in memory. Heap dumps are useful for diagnosing memory leaks, analyzing memory usage, and identifying memory-related performance issues.</p>
+        </li>
+        <li>
+            <strong>What is the difference between "StackOverflowError" and "OutOfMemoryError" in Java?</strong><br>
+            <p><em>Answer:</em>
+                <ul>
+                    <li>A `StackOverflowError` occurs when the stack of a thread overflows, typically due to deep recursion or too many method calls.</li>
+                    <li>An `OutOfMemoryError` occurs when the JVM cannot allocate memory, either in the heap or the stack, due to insufficient memory resources or an excessive amount of memory being used.</li>
+                </ul>
+            </p>
+        </li>
+        <li>
+            <strong>How does the JVM handle memory management when multiple threads are involved?</strong><br>
+            <p><em>Answer:</em> In the JVM, each thread has its own stack for managing method calls and local variables. However, all threads share the heap for storing objects. The garbage collector operates on the heap independently of the threads, and synchronization mechanisms are used to handle memory-related issues in multi-threaded environments.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of JVM options like "-Xms" and "-Xmx"?</strong><br>
+            <p><em>Answer:</em> The `-Xms` option sets the initial heap size, while the `-Xmx` option sets the maximum heap size. These options help control the memory allocation for the JVM, ensuring that it has sufficient memory for object allocation without exceeding available resources.</p>
+        </li>
+    </ol>
+</body>
+</html>

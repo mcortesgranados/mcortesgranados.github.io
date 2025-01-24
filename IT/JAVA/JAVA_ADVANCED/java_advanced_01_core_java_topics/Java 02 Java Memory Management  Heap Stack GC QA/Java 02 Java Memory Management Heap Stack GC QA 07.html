@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Memory Management (Heap, Stack, GC) - Questions & Answers</title>
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+</style>
+</head>
+<body>
+    <h1 class="style1">Java Memory Management (Heap, Stack, GC) - Questions & Answers</h1>
+    <h2 class="style1">Set 7</h2>
+    <ol class="style1">
+        <li>
+            <strong>What is "heap space" in Java memory management?</strong><br>
+            <p><em>Answer:</em> Heap space in Java is the part of memory where Java objects are allocated. It is managed by the garbage collector, and it can grow or shrink dynamically. The heap is divided into generations: young generation, old generation, and permanent generation (or metaspace in newer versions).</p>
+        </li>
+        <li>
+            <strong>What is the "stack" in Java memory management?</strong><br>
+            <p><em>Answer:</em> The stack in Java is a part of memory where method calls and local variables are stored. Each thread has its own stack, and data is pushed onto the stack when a method is called and popped when the method returns.</p>
+        </li>
+        <li>
+            <strong>What is the difference between heap and stack in Java?</strong><br>
+            <p><em>Answer:</em>
+                <ul>
+                    <li>Heap is used to store objects and is shared by all threads. It is subject to garbage collection and is larger in size.</li>
+                    <li>Stack is used to store method calls and local variables. It is thread-specific, faster to access, and smaller than the heap.</li>
+                </ul>
+            </p>
+        </li>
+        <li>
+            <strong>How do you prevent memory leaks in Java?</strong><br>
+            <p><em>Answer:</em> To prevent memory leaks in Java:
+                <ul>
+                    <li>Ensure that objects are dereferenced when they are no longer needed.</li>
+                    <li>Use weak references for objects that can be garbage collected.</li>
+                    <li>Avoid circular references.</li>
+                    <li>Use tools like profilers to identify memory usage and potential leaks.</li>
+                </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What are the "young generation" and "old generation" in the heap?</strong><br>
+            <p><em>Answer:</em> In Java, the heap is divided into:
+                <ul>
+                    <li>Young Generation: Where newly created objects are stored. It is further divided into Eden space and two survivor spaces (S0 and S1).</li>
+                    <li>Old Generation: Where objects that have lived longer are promoted to after surviving multiple garbage collection cycles in the young generation.</li>
+                </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What is the "eden space" in Java heap memory?</strong><br>
+            <p><em>Answer:</em> Eden space is part of the young generation in the heap where new objects are created. When the Eden space fills up, a minor garbage collection is triggered, and the surviving objects are moved to one of the survivor spaces.</p>
+        </li>
+        <li>
+            <strong>What is the role of the garbage collector in Java?</strong><br>
+            <p><em>Answer:</em> The garbage collector (GC) in Java automatically manages memory by reclaiming memory used by objects that are no longer reachable from any live thread, thus preventing memory leaks and freeing up space for new objects.</p>
+        </li>
+        <li>
+            <strong>What is "minor garbage collection" in Java?</strong><br>
+            <p><em>Answer:</em> Minor garbage collection is a garbage collection process that occurs in the young generation of the heap. It is typically quick and involves collecting garbage from the Eden space and moving surviving objects to one of the survivor spaces.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of "GC logs" in Java?</strong><br>
+            <p><em>Answer:</em> GC logs provide detailed information about the garbage collection process, including the times and sizes of garbage collections, heap usage, and performance statistics. They help diagnose memory issues, tune garbage collection settings, and optimize memory usage.</p>
+        </li>
+        <li>
+            <strong>What are the common causes of "OutOfMemoryError" in Java?</strong><br>
+            <p><em>Answer:</em> Common causes of `OutOfMemoryError` include:
+                <ul>
+                    <li>Heap space exhaustion due to memory leaks or excessive object creation.</li>
+                    <li>Stack overflow due to excessive recursion.</li>
+                    <li>Insufficient metaspace (for class metadata) in Java 8+ due to too many classes being loaded.</li>
+                    <li>Improper tuning of JVM heap size and garbage collection settings.</li>
+                </ul>
+            </p>
+        </li>
+    </ol>
+</body>
+</html>

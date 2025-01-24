@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Collections Framework - Questions & Answers</title>
+</head>
+<body>
+    <h1>Java Collections Framework - Questions & Answers</h1>
+    <h2>Set 1</h2>
+    <ol>
+        <li>
+            <strong>What is the Java Collections Framework?</strong><br>
+            <p><em>Answer:</em> The Java Collections Framework (JCF) is a set of interfaces and classes in `java.util` that provide data structures and algorithms for storing, managing, and manipulating collections of objects efficiently.</p>
+        </li>
+        <li>
+            <strong>What are the main interfaces in the Java Collections Framework?</strong><br>
+            <p><em>Answer:</em> The main interfaces in the JCF are:
+          <ul>
+                    <li>`Collection` (superinterface of all collections)</li>
+                    <li>`List` (ordered collection with duplicates)</li>
+                    <li>`Set` (unordered collection without duplicates)</li>
+                    <li>`Map` (key-value pair collection)</li>
+                    <li>`Queue` (FIFO structure for processing elements)</li>
+                    <li>`Deque` (double-ended queue allowing operations on both ends)</li>
+          </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What is the difference between `List`, `Set`, and `Map`?</strong><br>
+            <p><em>Answer:</em> 
+          <ul>
+                    <li>`List`: Ordered collection that allows duplicate elements.</li>
+                    <li>`Set`: Unordered collection that does not allow duplicate elements.</li>
+                    <li>`Map`: Collection that stores key-value pairs, where keys are unique.</li>
+          </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What are some common implementations of `List` in Java?</strong><br>
+            <p><em>Answer:</em> Common `List` implementations include:
+          <ul>
+                    <li>`ArrayList` - Dynamic array implementation</li>
+                    <li>`LinkedList` - Doubly linked list implementation</li>
+                    <li>`Vector` - Synchronized dynamic array</li>
+                    <li>`Stack` - LIFO stack implementation (extends `Vector`)</li>
+          </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What is the difference between `ArrayList` and `LinkedList`?</strong><br>
+            <p><em>Answer:</em> 
+          <ul>
+                    <li>`ArrayList`: Uses dynamic arrays, provides fast random access (`O(1)`) but slow insertions and deletions (`O(n)`).</li>
+                    <li>`LinkedList`: Uses a doubly linked list, provides fast insertions and deletions (`O(1)`) but slow random access (`O(n)`).</li>
+          </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What is the default initial capacity of an `ArrayList`?</strong><br>
+            <p><em>Answer:</em> The default initial capacity of an `ArrayList` is **10**.</p>
+        </li>
+        <li>
+            <strong>How can you convert an `ArrayList` to an array in Java?</strong><br>
+            <p><em>Answer:</em> You can use the `toArray()` method. Example:</p>
+            <pre>
+import java.util.ArrayList;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+
+        String[] array = list.toArray(new String[0]);
+
+        for (String s : array) {
+            System.out.println(s);
+        }
+    }
+}
+            </pre>
+        </li>
+        <li>
+            <strong>What are some common implementations of `Set`?</strong><br>
+            <p><em>Answer:</em> Common implementations of `Set` include:
+          <ul>
+                    <li>`HashSet` - Uses a hash table for storage (unordered, allows null).</li>
+                    <li>`LinkedHashSet` - Maintains insertion order.</li>
+                    <li>`TreeSet` - Uses a Red-Black Tree and maintains elements in sorted order.</li>
+          </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What is the difference between `HashSet` and `TreeSet`?</strong><br>
+            <p><em>Answer:</em>
+          <ul>
+                    <li>`HashSet`: Unordered collection, provides constant-time (`O(1)`) operations.</li>
+                    <li>`TreeSet`: Maintains elements in sorted order, provides logarithmic-time (`O(log n)`) operations.</li>
+          </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What is the purpose of the `Queue` interface?</strong><br>
+            <p><em>Answer:</em> The `Queue` interface represents a collection designed for holding elements prior to processing, typically in FIFO (First-In-First-Out) order. Implementations include `PriorityQueue` and `LinkedList`.</p>
+        </li>
+    </ol>
+    <h1>Java Collections Framework - Questions & Answers</h1>
+    <h2>Set 2</h2>
+    <ol>
+      <li> <strong>What are some common implementations of `Map` in Java?</strong><br>
+          <p><em>Answer:</em> Common `Map` implementations include:
+          <ul>
+                      <li>`HashMap` - Unordered key-value store, allows `null` keys.</li>
+            <li>`LinkedHashMap` - Maintains insertion order.</li>
+            <li>`TreeMap` - Sorted key-value store using a Red-Black Tree.</li>
+            <li>`Hashtable` - Synchronized key-value store (legacy).</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>What is the difference between `HashMap` and `TreeMap`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`HashMap`: Unordered, provides constant-time (`O(1)`) operations.</li>
+            <li>`TreeMap`: Maintains keys in sorted order, provides logarithmic-time (`O(log n)`) operations.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you iterate over a `HashMap` in Java?</strong><br>
+          <p><em>Answer:</em> You can use a `for-each` loop with `entrySet()`:</p>
+        <pre>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        Map map = new HashMap<>();
+        map.put("Apple", 10);
+        map.put("Banana", 20);
+        map.put("Cherry", 30);
+
+        for (Map.Entry entry : map.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `Queue` and `Deque`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`Queue`: A FIFO (First-In-First-Out) collection.</li>
+            <li>`Deque`: A double-ended queue that allows elements to be added/removed from both ends.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>What is a `PriorityQueue`?</strong><br>
+          <p><em>Answer:</em> A `PriorityQueue` is a queue where elements are ordered based on their priority rather than insertion order.</p>
+      </li>
+      <li> <strong>How do you sort an `ArrayList` in Java?</strong><br>
+          <p><em>Answer:</em> You can use `Collections.sort()`:</p>
+        <pre>
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Banana");
+        list.add("Apple");
+        list.add("Cherry");
+
+        Collections.sort(list);
+        
+        System.out.println(list);
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is `LinkedHashSet` and how is it different from `HashSet`?</strong><br>
+          <p><em>Answer:</em> `LinkedHashSet` maintains the insertion order of elements, while `HashSet` does not.</p>
+      </li>
+      <li> <strong>What is the difference between `poll()` and `remove()` in a `Queue`?</strong><br>
+          <p><em>Answer:</em> `poll()` returns `null` if the queue is empty, whereas `remove()` throws an exception.</p>
+      </li>
+      <li> <strong>How do you synchronize a `HashMap`?</strong><br>
+          <p><em>Answer:</em> You can use `Collections.synchronizedMap()`:</p>
+        <pre>
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        Map map = Collections.synchronizedMap(new HashMap<>());
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `Hashtable` and `ConcurrentHashMap`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`Hashtable`: Synchronizes all operations, leading to performance issues.</li>
+            <li>`ConcurrentHashMap`: Uses segment-based locking for better concurrency.</li>
+          </ul>
+        </p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <h1>Java Collections Framework - Questions & Answers</h1>
+    <h2>Set 3</h2>
+    <ol>
+      <li> <strong>What is the difference between `ArrayList` and `LinkedList`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`ArrayList`: Uses a dynamic array, provides fast random access (`O(1)`), slow insertions/deletions (`O(n)`).</li>
+            <li>`LinkedList`: Uses a doubly linked list, slow random access (`O(n)`), fast insertions/deletions (`O(1)` at head/tail).</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How does `HashSet` prevent duplicate elements?</strong><br>
+          <p><em>Answer:</em> `HashSet` uses a `HashMap` internally and relies on the `hashCode()` and `equals()` methods to ensure uniqueness.</p>
+      </li>
+      <li> <strong>What is the default initial capacity of an `ArrayList`?</strong><br>
+          <p><em>Answer:</em> The default initial capacity of an `ArrayList` is 10.</p>
+      </li>
+      <li> <strong>How do you convert a `List` to an `Array` in Java?</strong><br>
+          <p><em>Answer:</em> You can use `toArray()`:</p>
+        <pre>
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+
+        String[] array = list.toArray(new String[0]);
+
+        for (String s : array) {
+            System.out.println(s);
+        }
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `remove(int index)` and `remove(Object obj)` in an `ArrayList`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`remove(int index)`: Removes the element at the specified index.</li>
+            <li>`remove(Object obj)`: Removes the first occurrence of the specified object.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you remove duplicate elements from an `ArrayList`?</strong><br>
+          <p><em>Answer:</em> Convert the `ArrayList` to a `Set`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>(Arrays.asList("A", "B", "A", "C", "B"));
+        Set<String> set = new HashSet<>(list);
+        list.clear();
+        list.addAll(set);
+        System.out.println(list);
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `peek()`, `poll()`, and `remove()` in a `Queue`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`peek()`: Retrieves but does not remove the head element; returns `null` if empty.</li>
+            <li>`poll()`: Retrieves and removes the head element; returns `null` if empty.</li>
+            <li>`remove()`: Retrieves and removes the head element; throws an exception if empty.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you create a thread-safe `ArrayList`?</strong><br>
+          <p><em>Answer:</em> You can use `Collections.synchronizedList()`:</p>
+        <pre>
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = Collections.synchronizedList(new ArrayList<>());
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How does `TreeSet` maintain order?</strong><br>
+          <p><em>Answer:</em> `TreeSet` maintains elements in a sorted order using a Red-Black Tree.</p>
+      </li>
+      <li> <strong>How do you find the frequency of elements in a `List`?</strong><br>
+          <p><em>Answer:</em> Use `Collections.frequency()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = Arrays.asList("A", "B", "A", "C", "B", "A");
+        System.out.println(Collections.frequency(list, "A")); // Output: 3
+    }
+}
+            </pre>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <h1>Java Collections Framework - Questions & Answers</h1>
+    <h2>Set 4</h2>
+    <ol>
+      <li> <strong>What is the difference between `HashMap` and `TreeMap`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`HashMap`: Unordered, allows `null` keys, provides `O(1)` time complexity for operations.</li>
+            <li>`TreeMap`: Maintains keys in sorted order, does not allow `null` keys, provides `O(log n)` complexity.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you iterate over a `Map` in Java?</strong><br>
+          <p><em>Answer:</em> You can iterate using `entrySet()`:</p>
+        <pre>
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        Map map = new HashMap<>();
+        map.put(1, "A");
+        map.put(2, "B");
+
+        for (Map.Entry entry : map.entrySet()) {
+            System.out.println(entry.getKey() + " = " + entry.getValue());
+        }
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is a `PriorityQueue`, and how does it work?</strong><br>
+          <p><em>Answer:</em> `PriorityQueue` is a queue where elements are ordered based on priority using a heap structure.</p>
+      </li>
+      <li> <strong>How do you convert a `Map` to a `List`?</strong><br>
+          <p><em>Answer:</em> Convert using `ArrayList`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Map map = new HashMap<>();
+        map.put(1, "A");
+        map.put(2, "B");
+
+        List<String> values = new ArrayList<>(map.values());
+        System.out.println(values);
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `Deque` and `Queue`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`Queue`: Follows FIFO (First-In-First-Out).</li>
+            <li>`Deque`: Supports both FIFO and LIFO operations.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you reverse a `List` in Java?</strong><br>
+          <p><em>Answer:</em> Use `Collections.reverse()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 2, 3, 4);
+        Collections.reverse(list);
+        System.out.println(list);
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How does `ConcurrentHashMap` handle concurrency?</strong><br>
+          <p><em>Answer:</em> It divides the map into segments and allows concurrent reads and updates.</p>
+      </li>
+      <li> <strong>How do you synchronize a `HashSet`?</strong><br>
+          <p><em>Answer:</em> Use `Collections.synchronizedSet()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Set<String> set = Collections.synchronizedSet(new HashSet<>());
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `poll()` and `remove()` in a `Queue`?</strong><br>
+          <p><em>Answer:</em> `poll()` returns `null` if empty, while `remove()` throws an exception.</p>
+      </li>
+      <li> <strong>How do you create an immutable `List` in Java?</strong><br>
+          <p><em>Answer:</em> Use `Collections.unmodifiableList()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = Arrays.asList("A", "B", "C");
+        List<String> immutableList = Collections.unmodifiableList(list);
+    }
+}
+            </pre>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <h1>Java Collections Framework - Questions & Answers</h1>
+    <h2>Set 5</h2>
+    <ol>
+      <li> <strong>What is the difference between `LinkedList` and `ArrayList`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`ArrayList`: Uses a dynamic array, faster random access (`O(1)`).</li>
+            <li>`LinkedList`: Uses a doubly linked list, better for frequent insertions/removals (`O(1)` for adding/removing at the ends).</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you sort a `List` in Java?</strong><br>
+          <p><em>Answer:</em> Use `Collections.sort()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(4, 2, 7, 1);
+        Collections.sort(list);
+        System.out.println(list);
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is a `WeakHashMap`?</strong><br>
+          <p><em>Answer:</em> A `WeakHashMap` holds keys using weak references, allowing them to be garbage collected if no strong references exist.</p>
+      </li>
+      <li> <strong>What is the difference between `peek()` and `poll()` in `Queue`?</strong><br>
+          <p><em>Answer:</em> `peek()` retrieves the head of the queue without removing it, while `poll()` retrieves and removes it.</p>
+      </li>
+      <li> <strong>How do you create a thread-safe `ArrayList`?</strong><br>
+          <p><em>Answer:</em> Use `Collections.synchronizedList()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Collections.synchronizedList(new ArrayList<>());
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you check if two `HashSet` objects are equal?</strong><br>
+          <p><em>Answer:</em> Use the `equals()` method:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Set<Integer> set1 = new HashSet<>(Arrays.asList(1, 2, 3));
+        Set<Integer> set2 = new HashSet<>(Arrays.asList(1, 2, 3));
+
+        System.out.println(set1.equals(set2)); // true
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the default size of a `HashMap`?</strong><br>
+          <p><em>Answer:</em> The default capacity is 16, with a load factor of 0.75.</p>
+      </li>
+      <li> <strong>How do you remove duplicates from a `List`?</strong><br>
+          <p><em>Answer:</em> Convert it to a `Set`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 2, 2, 3, 3, 4);
+        Set<Integer> set = new HashSet<>(list);
+        System.out.println(new ArrayList<>(set));
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `TreeSet` and `HashSet`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`TreeSet`: Maintains elements in sorted order, `O(log n)` complexity.</li>
+            <li>`HashSet`: No ordering, `O(1)` complexity for basic operations.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you get the first and last elements of a `TreeSet`?</strong><br>
+          <p><em>Answer:</em> Use `first()` and `last()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        TreeSet<Integer> set = new TreeSet<>(Arrays.asList(3, 1, 4, 2));
+        System.out.println("First: " + set.first());
+        System.out.println("Last: " + set.last());
+    }
+}
+            </pre>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <h1>Java Collections Framework - Questions & Answers</h1>
+    <h2>Set 6</h2>
+    <ol>
+      <li> <strong>What is the difference between `ArrayDeque` and `LinkedList`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`ArrayDeque` is a resizable array-based implementation of a double-ended queue (deque), faster for queue operations.</li>
+            <li>`LinkedList` is a doubly linked list, useful for frequent insertions/removals at arbitrary positions.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you synchronize a `HashMap`?</strong><br>
+          <p><em>Answer:</em> Use `Collections.synchronizedMap()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Map map = Collections.synchronizedMap(new HashMap<>());
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `LinkedHashMap` and `HashMap`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`LinkedHashMap` maintains insertion order.</li>
+            <li>`HashMap` does not guarantee order.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>What is a `PriorityQueue` in Java?</strong><br>
+          <p><em>Answer:</em> A `PriorityQueue` is a queue that orders elements based on priority using a comparator or natural ordering.</p>
+      </li>
+      <li> <strong>How do you iterate over a `HashMap`?</strong><br>
+          <p><em>Answer:</em> Use `entrySet()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Map map = new HashMap<>();
+        map.put(1, "One");
+        map.put(2, "Two");
+
+        for (Map.Entry entry : map.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the default sorting order of a `TreeMap`?</strong><br>
+          <p><em>Answer:</em> `TreeMap` sorts elements in ascending order by key.</p>
+      </li>
+      <li> <strong>How do you reverse a `List`?</strong><br>
+          <p><em>Answer:</em> Use `Collections.reverse()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 2, 3, 4);
+        Collections.reverse(list);
+        System.out.println(list);
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you get the highest and lowest keys in a `TreeMap`?</strong><br>
+          <p><em>Answer:</em> Use `firstKey()` and `lastKey()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        TreeMap map = new TreeMap<>();
+        map.put(10, "Ten");
+        map.put(20, "Twenty");
+        map.put(30, "Thirty");
+
+        System.out.println("Lowest Key: " + map.firstKey());
+        System.out.println("Highest Key: " + map.lastKey());
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `Deque` and `Queue`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`Queue` follows FIFO (First-In-First-Out).</li>
+            <li>`Deque` allows insertion and removal from both ends.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you create an unmodifiable `List`?</strong><br>
+          <p><em>Answer:</em> Use `Collections.unmodifiableList()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        List<String> unmodifiableList = Collections.unmodifiableList(list);
+    }
+}
+            </pre>
+      </li>
+    </ol>
+    <h1>Java Collections Framework - Questions & Answers</h1>
+    <h2>Set 7</h2>
+    <ol>
+      <li> <strong>What is the difference between `peek()` and `poll()` in a Queue?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`peek()` retrieves the head of the queue without removing it.</li>
+            <li>`poll()` retrieves and removes the head of the queue.</li>
+          </ul>
+        </p>
+          <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Queue<String> queue = new LinkedList<>();
+        queue.add("A");
+        queue.add("B");
+        System.out.println(queue.peek()); // A
+        System.out.println(queue.poll()); // A
+        System.out.println(queue.peek()); // B
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is a `WeakHashMap` in Java?</strong><br>
+          <p><em>Answer:</em> A `WeakHashMap` stores keys as weak references, meaning keys can be garbage collected if no strong references exist.</p>
+      </li>
+      <li> <strong>What is the difference between `retainAll()` and `removeAll()` in a `List`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`retainAll()` keeps only the elements that are present in the given collection.</li>
+            <li>`removeAll()` removes all elements that are present in the given collection.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you remove duplicate elements from a `List`?</strong><br>
+          <p><em>Answer:</em> Convert the `List` to a `Set`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 2, 2, 3, 4, 4, 5);
+        Set<Integer> uniqueSet = new HashSet<>(list);
+        System.out.println(new ArrayList<>(uniqueSet)); // [1, 2, 3, 4, 5]
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `TreeSet` and `HashSet`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`TreeSet` maintains elements in sorted order.</li>
+            <li>`HashSet` does not guarantee order.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you find the frequency of elements in a `List`?</strong><br>
+          <p><em>Answer:</em> Use `Collections.frequency()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = Arrays.asList("A", "B", "A", "C", "B", "A");
+        System.out.println(Collections.frequency(list, "A")); // 3
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you convert a `Map` to a `List`?</strong><br>
+          <p><em>Answer:</em> Convert `keySet()` or `values()` to a `List`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Map map = new HashMap<>();
+        map.put(1, "One");
+        map.put(2, "Two");
+
+        List<Integer> keys = new ArrayList<>(map.keySet());
+        List<String> values = new ArrayList<>(map.values());
+
+        System.out.println(keys);   // [1, 2]
+        System.out.println(values); // ["One", "Two"]
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `headSet()`, `tailSet()`, and `subSet()` in a `TreeSet`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`headSet(element)`: Returns elements less than `element`.</li>
+            <li>`tailSet(element)`: Returns elements greater than or equal to `element`.</li>
+            <li>`subSet(start, end)`: Returns elements between `start` (inclusive) and `end` (exclusive).</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you make a `List` thread-safe?</strong><br>
+          <p><em>Answer:</em> Use `Collections.synchronizedList()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = Collections.synchronizedList(new ArrayList<>());
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you shuffle a `List` randomly?</strong><br>
+          <p><em>Answer:</em> Use `Collections.shuffle()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+        Collections.shuffle(list);
+        System.out.println(list);
+    }
+}
+            </pre>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <h1>Java Collections Framework - Questions & Answers</h1>
+    <h2>Set 8</h2>
+    <ol>
+      <li> <strong>What is the difference between `ArrayDeque` and `LinkedList` as a queue?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`ArrayDeque` is faster and does not allow null elements.</li>
+            <li>`LinkedList` allows null elements and has higher memory usage due to node references.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>What is the difference between `LinkedHashSet` and `HashSet`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`LinkedHashSet` maintains insertion order.</li>
+            <li>`HashSet` does not guarantee order.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you reverse a `List`?</strong><br>
+          <p><em>Answer:</em> Use `Collections.reverse()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+        Collections.reverse(list);
+        System.out.println(list); // [5, 4, 3, 2, 1]
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you check if two `Lists` are equal?</strong><br>
+          <p><em>Answer:</em> Use `list1.equals(list2)`, which checks for element-wise equality.</p>
+      </li>
+      <li> <strong>How do you create an immutable `List`?</strong><br>
+          <p><em>Answer:</em> Use `Collections.unmodifiableList()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = Arrays.asList("A", "B", "C");
+        List<String> immutableList = Collections.unmodifiableList(list);
+        // immutableList.add("D"); // Throws UnsupportedOperationException
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `ArrayList` and `Vector`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`ArrayList` is not synchronized, making it faster.</li>
+            <li>`Vector` is synchronized, making it thread-safe but slower.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>What is `PriorityQueue` and how does it work?</strong><br>
+          <p><em>Answer:</em> A `PriorityQueue` orders elements according to natural ordering or a custom comparator.</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.add(3);
+        pq.add(1);
+        pq.add(2);
+        System.out.println(pq.poll()); // 1 (smallest element)
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you sort a `Map` by value?</strong><br>
+          <p><em>Answer:</em> Convert it into a `List` of entries and sort using a comparator.</p>
+        <pre>
+import java.util.*;
+import java.util.stream.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Map map = new HashMap<>();
+        map.put("A", 3);
+        map.put("B", 1);
+        map.put("C", 2);
+
+        Map sortedMap = map.entrySet()
+            .stream()
+            .sorted(Map.Entry.comparingByValue())
+            .collect(Collectors.toMap(
+                Map.Entry::getKey, Map.Entry::getValue, 
+                (e1, e2) -> e1, LinkedHashMap::new));
+
+        System.out.println(sortedMap); // {B=1, C=2, A=3}
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you remove an element from a `Map` while iterating?</strong><br>
+          <p><em>Answer:</em> Use `Iterator.remove()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Map map = new HashMap<>();
+        map.put("A", 1);
+        map.put("B", 2);
+        map.put("C", 3);
+
+        Iterator> iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getKey().equals("B")) {
+                iterator.remove();
+            }
+        }
+        System.out.println(map); // {A=1, C=3}
+    }
+}
+            > iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getKey().equals("B")) {
+                iterator.remove();
+            }
+        }
+        System.out.println(map); // {A=1, C=3}
+    }
+}
+            > iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getKey().equals("B")) {
+                iterator.remove();
+            }
+        }
+        System.out.println(map); // {A=1, C=3}
+    }
+}
+            > iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getKey().equals("B")) {
+                iterator.remove();
+            }
+        }
+        System.out.println(map); // {A=1, C=3}
+    }
+}
+            <Map.Entry<String, Integer>> iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getKey().equals("B")) {
+                iterator.remove();
+            }
+        }
+        System.out.println(map); // {A=1, C=3}
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `poll()`, `remove()`, and `peek()` in a Queue?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`poll()`: Retrieves and removes the head, returning `null` if empty.</li>
+            <li>`remove()`: Retrieves and removes the head, throwing an exception if empty.</li>
+            <li>`peek()`: Retrieves the head without removing it, returning `null` if empty.</li>
+          </ul>
+        </p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <h1>Java Collections Framework - Questions & Answers</h1>
+    <h2>Set 9</h2>
+    <ol>
+      <li> <strong>How do you create a `TreeMap` with a custom comparator?</strong><br>
+          <p><em>Answer:</em> Use a `Comparator` while constructing the `TreeMap`.</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        TreeMap map = new TreeMap<>(Comparator.reverseOrder());
+        map.put("A", 1);
+        map.put("B", 2);
+        map.put("C", 3);
+        System.out.println(map); // {C=3, B=2, A=1} (Reverse order)
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `Deque` and `Queue`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`Queue` follows FIFO (First-In-First-Out).</li>
+            <li>`Deque` (Double-ended Queue) allows insertion and removal from both ends.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you find the maximum value in a `List
+            <Integer>
+        `?</strong><br>
+            <p><em>Answer:</em> Use `Collections.max()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(5, 8, 2, 10, 3);
+        int max = Collections.max(list);
+        System.out.println(max); // 10
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you convert a `List` to a `Set`?</strong><br>
+          <p><em>Answer:</em> Use `new HashSet<>(list)` to remove duplicates.</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 2, 2, 3, 3, 4);
+        Set<Integer> set = new HashSet<>(list);
+        System.out.println(set); // [1, 2, 3, 4]
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you merge two `Maps`?</strong><br>
+          <p><em>Answer:</em> Use `putAll()` or `merge()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Map map1 = new HashMap<>();
+        map1.put("A", 1);
+        map1.put("B", 2);
+
+        Map map2 = new HashMap<>();
+        map2.put("B", 3);
+        map2.put("C", 4);
+
+        map1.putAll(map2);
+        System.out.println(map1); // {A=1, B=3, C=4}
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `peek()`, `element()`, and `poll()` in `Queue`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`peek()`: Retrieves but does not remove, returns `null` if empty.</li>
+            <li>`element()`: Retrieves but does not remove, throws an exception if empty.</li>
+            <li>`poll()`: Retrieves and removes, returns `null` if empty.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you iterate over a `Map`?</strong><br>
+          <p><em>Answer:</em> Use `forEach()` or an `Iterator`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Map map = new HashMap<>();
+        map.put("A", 1);
+        map.put("B", 2);
+
+        map.forEach((key, value) -> System.out.println(key + "=" + value));
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you shuffle a `List`?</strong><br>
+          <p><em>Answer:</em> Use `Collections.shuffle()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+        Collections.shuffle(list);
+        System.out.println(list);
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you make a `Map` thread-safe?</strong><br>
+          <p><em>Answer:</em> Use `Collections.synchronizedMap()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Map map = Collections.synchronizedMap(new HashMap<>());
+        map.put("A", 1);
+        map.put("B", 2);
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you remove duplicates from a `List`?</strong><br>
+          <p><em>Answer:</em> Convert to a `Set`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 2, 2, 3, 3, 4);
+        List<Integer> uniqueList = new ArrayList<>(new HashSet<>(list));
+        System.out.println(uniqueList); // [1, 2, 3, 4]
+    }
+}
+            </pre>
+      </li>
+    </ol>
+    <h1>Java Collections Framework - Questions & Answers</h1>
+    <h2>Set 10</h2>
+    <ol>
+      <li> <strong>What is the difference between `LinkedList` and `ArrayList`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`ArrayList` is backed by a dynamic array, making random access fast (O(1)), but insertions and deletions slow (O(n)).</li>
+            <li>`LinkedList` is backed by a doubly-linked list, making insertions and deletions fast (O(1)), but random access slow (O(n)).</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you sort a `List
+            <String>
+        ` in reverse order?</strong><br>
+            <p><em>Answer:</em> Use `Collections.sort()` with `Collections.reverseOrder()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = Arrays.asList("Banana", "Apple", "Orange");
+        Collections.sort(list, Collections.reverseOrder());
+        System.out.println(list); // [Orange, Banana, Apple]
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `HashMap` and `TreeMap`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`HashMap` is unordered and provides O(1) time complexity for get/put operations.</li>
+            <li>`TreeMap` is sorted in natural order or by a custom comparator and provides O(log n) complexity.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you create an immutable `List`?</strong><br>
+          <p><em>Answer:</em> Use `Collections.unmodifiableList()` or `List.of()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = List.of("A", "B", "C"); // Immutable
+        System.out.println(list);
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is `PriorityQueue` and how does it work?</strong><br>
+          <p><em>Answer:</em> `PriorityQueue` is a queue where elements are ordered based on priority, using natural ordering or a comparator.</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.add(5);
+        pq.add(1);
+        pq.add(3);
+        System.out.println(pq.poll()); // 1 (smallest element)
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `peek()`, `poll()`, and `remove()` in `Queue`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`peek()`: Retrieves but does not remove, returns `null` if empty.</li>
+            <li>`poll()`: Retrieves and removes, returns `null` if empty.</li>
+            <li>`remove()`: Retrieves and removes, throws an exception if empty.</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>How do you create a synchronized `List`?</strong><br>
+          <p><em>Answer:</em> Use `Collections.synchronizedList()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> list = Collections.synchronizedList(new ArrayList<>());
+        list.add("A");
+        list.add("B");
+        System.out.println(list);
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you remove all elements from a `List` that match a condition?</strong><br>
+          <p><em>Answer:</em> Use `removeIf()`:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+        list.removeIf(n -> n % 2 == 0);
+        System.out.println(list); // [1, 3, 5]
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>How do you find duplicates in a `List`?</strong><br>
+          <p><em>Answer:</em> Use a `Set` to track seen elements:</p>
+        <pre>
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> list = Arrays.asList(1, 2, 3, 2, 4, 3, 5);
+        Set<Integer> seen = new HashSet<>();
+        Set<Integer> duplicates = new HashSet<>();
+
+        for (int num : list) {
+            if (!seen.add(num)) {
+                duplicates.add(num);
+            }
+        }
+
+        System.out.println(duplicates); // [2, 3]
+    }
+}
+            </pre>
+      </li>
+      <li> <strong>What is the difference between `Comparable` and `Comparator`?</strong><br>
+          <p><em>Answer:</em>
+          <ul>
+            <li>`Comparable` is implemented by a class to define a natural ordering (`compareTo`).</li>
+            <li>`Comparator` is an external comparison strategy used to define custom ordering (`compare`).</li>
+          </ul>
+        </p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+</body>
+</html>

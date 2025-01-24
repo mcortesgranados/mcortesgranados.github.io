@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Exception Handling (Checked vs Unchecked) - Questions & Answers</title>
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+</style>
+</head>
+<body>
+    <h1 class="style1">Java Exception Handling (Checked vs Unchecked) - Questions & Answers</h1>
+    <h2 class="style1">Set 1</h2>
+    <ol class="style1">
+        <li>
+            <strong>What is the difference between checked and unchecked exceptions in Java?</strong><br>
+            <p><em>Answer:</em> Checked exceptions are exceptions that are checked at compile time, and the code must handle them using `try-catch` blocks or declare them using `throws`. Unchecked exceptions are those that are not checked at compile time, and the code does not need to explicitly handle them. Checked exceptions extend `Exception`, while unchecked exceptions extend `RuntimeException`.</p>
+        </li>
+        <li>
+            <strong>What is a checked exception?</strong><br>
+            <p><em>Answer:</em> A checked exception is an exception that the programmer is required to handle either by using a `try-catch` block or declaring it in the method signature using the `throws` keyword. Examples include `IOException`, `SQLException`.</p>
+        </li>
+        <li>
+            <strong>What is an unchecked exception?</strong><br>
+            <p><em>Answer:</em> An unchecked exception, also known as a runtime exception, is an exception that is not checked at compile time. These exceptions usually occur due to programming errors, like `NullPointerException`, `ArrayIndexOutOfBoundsException`, etc.</p>
+        </li>
+        <li>
+            <strong>Can you give an example of a checked exception?</strong><br>
+            <p><em>Answer:</em> An example of a checked exception is `IOException`. Here’s an example of handling it:
+            <pre>try {
+                FileReader file = new FileReader("test.txt");
+            } catch (IOException e) {
+                System.out.println("IOException occurred: " + e.getMessage());
+            }</pre></p>
+        </li>
+        <li>
+            <strong>Can you give an example of an unchecked exception?</strong><br>
+            <p><em>Answer:</em> An example of an unchecked exception is `NullPointerException`. Here’s an example:
+            <pre>String str = null;
+            System.out.println(str.length());  // This will throw a NullPointerException</pre></p>
+        </li>
+        <li>
+            <strong>What is the significance of the `throws` keyword in Java?</strong><br>
+            <p><em>Answer:</em> The `throws` keyword is used in a method signature to declare that a method might throw one or more exceptions. It allows the caller of the method to handle or propagate the exception. Example:
+            <pre>public void readFile() throws IOException {
+                // Code that may throw an IOException
+            }</pre></p>
+        </li>
+        <li>
+            <strong>What is the impact of unchecked exceptions on program execution?</strong><br>
+            <p><em>Answer:</em> Unchecked exceptions, if not caught, will terminate the program because they occur during the runtime. They are typically used for programming errors, and it is usually not necessary to handle them unless needed for debugging or recovering from unexpected situations.</p>
+        </li>
+        <li>
+            <strong>What is the `try-catch` block used for in Java?</strong><br>
+            <p><em>Answer:</em> The `try-catch` block is used to handle exceptions in Java. The code that might throw an exception is placed inside the `try` block, and if an exception occurs, it is caught in the `catch` block where it can be handled. Example:
+            <pre>try {
+                int result = 10 / 0;
+            } catch (ArithmeticException e) {
+                System.out.println("Exception caught: " + e.getMessage());
+            }</pre></p>
+        </li>
+        <li>
+            <strong>What is the `finally` block in Java?</strong><br>
+            <p><em>Answer:</em> The `finally` block is used to execute code that must run regardless of whether an exception occurs or not. It is commonly used for resource cleanup, like closing files or database connections. Example:
+            <pre>try {
+                int result = 10 / 0;
+            } catch (ArithmeticException e) {
+                System.out.println("Exception caught: " + e.getMessage());
+            } finally {
+                System.out.println("This will always be executed.");
+            }</pre></p>
+        </li>
+        <li>
+            <strong>Is it possible to throw a checked exception in a method that does not declare it?</strong><br>
+            <p><em>Answer:</em> No, if a method throws a checked exception, it must declare it using the `throws` keyword, or it must handle the exception with a `try-catch` block. Failing to do so will result in a compile-time error.</p>
+        </li>
+    </ol>
+    <h1>Java Exception Handling (Checked vs Unchecked) - Questions & Answers</h1>
+    <h2>Set 2</h2>
+    <ol>
+      <li> <strong>What is the `throw` keyword used for in Java?</strong><br>
+          <p><em>Answer:</em> The `throw` keyword is used to explicitly throw an exception from a method or block of code. This allows the program to signal an error or an exceptional condition to be handled. Example:
+          <pre>throw new ArithmeticException("Division by zero");</pre>
+        </p>
+      </li>
+      <li> <strong>What is the difference between `throw` and `throws` in Java?</strong><br>
+          <p><em>Answer:</em> `throw` is used to throw an exception explicitly, while `throws` is used to declare exceptions that a method might throw. `throw` is followed by an instance of an exception, and `throws` is part of the method signature.</p>
+      </li>
+      <li> <strong>Can you handle unchecked exceptions in Java?</strong><br>
+          <p><em>Answer:</em> Yes, you can handle unchecked exceptions using a `try-catch` block, but they typically occur due to programming mistakes (e.g., accessing a null pointer), so they are usually not handled unless needed for debugging.</p>
+      </li>
+      <li> <strong>What is the purpose of the `Exception` class in Java?</strong><br>
+          <p><em>Answer:</em> The `Exception` class is the superclass of all exceptions in Java, including both checked and unchecked exceptions. It is used to represent exceptional conditions that a program should handle or report.</p>
+      </li>
+      <li> <strong>What is the `IllegalArgumentException` in Java?</strong><br>
+          <p><em>Answer:</em> `IllegalArgumentException` is an unchecked exception that indicates that a method has been passed an illegal or inappropriate argument. Example:
+          <pre>if (age < 0) {
+                throw new IllegalArgumentException("Age cannot be negative");
+            }</pre>
+        </p>
+      </li>
+      <li> <strong>How can you create your own custom exception class in Java?</strong><br>
+          <p><em>Answer:</em> To create a custom exception class, you can extend either `Exception` (for checked exceptions) or `RuntimeException` (for unchecked exceptions). Example:
+          <pre>public class MyCustomException extends Exception {
+                public MyCustomException(String message) {
+                    super(message);
+                }
+            }</pre>
+        </p>
+      </li>
+      <li> <strong>When should you use a checked exception?</strong><br>
+          <p><em>Answer:</em> Use a checked exception when you anticipate that an error might occur during normal program execution, and the caller of the method can potentially handle it. Examples include I/O errors, SQL exceptions, etc.</p>
+      </li>
+      <li> <strong>When should you use an unchecked exception?</strong><br>
+          <p><em>Answer:</em> Use an unchecked exception when an error occurs due to programming bugs or incorrect input, which the caller cannot reasonably recover from. Examples include `NullPointerException`, `ArrayIndexOutOfBoundsException`.</p>
+      </li>
+      <li> <strong>Can you catch multiple exceptions in a single `catch` block?</strong><br>
+          <p><em>Answer:</em> Yes, from Java 7 onwards, you can catch multiple exceptions in a single `catch` block using the pipe (`|`) operator. Example:
+          <pre>try {
+                // some code
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }</pre>
+        </p>
+      </li>
+      <li> <strong>What is the difference between `Exception` and `RuntimeException` in Java?</strong><br>
+          <p><em>Answer:</em> `Exception` is the parent class for all exceptions in Java, whereas `RuntimeException` is a subclass of `Exception` used for unchecked exceptions. `RuntimeException` is typically used for exceptions that result from programming errors, while `Exception` is used for checked exceptions.</p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <h1>Java Exception Handling (Checked vs Unchecked) - Questions & Answers</h1>
+    <h2>Set 3</h2>
+    <ol>
+      <li> <strong>What happens if an exception is not caught in Java?</strong><br>
+          <p><em>Answer:</em> If an exception is not caught, it propagates up the call stack, and if it reaches the main method or the JVM without being handled, the program will terminate. The JVM prints the stack trace, which provides details about the exception.</p>
+      </li>
+      <li> <strong>What is the `StackOverflowError` in Java?</strong><br>
+          <p><em>Answer:</em> A `StackOverflowError` is an unchecked exception that occurs when the stack space for a thread is exhausted. It typically happens due to deep or infinite recursion.</p>
+      </li>
+      <li> <strong>How can you handle multiple exceptions of different types in Java?</strong><br>
+          <p><em>Answer:</em> You can handle multiple exceptions by using multiple `catch` blocks, each for a specific type of exception. Alternatively, you can catch multiple exceptions in a single `catch` block if they share common handling logic (Java 7 and onwards). Example:
+          <pre>try {
+                // some code
+            } catch (IOException e) {
+                // handle IOException
+            } catch (SQLException e) {
+                // handle SQLException
+            }</pre>
+        </p>
+      </li>
+      <li> <strong>What is the `NullPointerException` in Java?</strong><br>
+          <p><em>Answer:</em> `NullPointerException` is an unchecked exception that occurs when an application attempts to use a `null` reference where an object is required, such as calling methods or accessing fields of a `null` object.</p>
+      </li>
+      <li> <strong>What is the difference between `throws` and `throw` in Java?</strong><br>
+          <p><em>Answer:</em> `throws` is used in a method declaration to indicate that the method might throw certain exceptions, while `throw` is used to actually throw an exception from within a method. Example of `throws`:
+          <pre>public void myMethod() throws IOException {}</pre>
+        Example of `throw`:
+        <pre>throw new IOException("An error occurred");</pre>
+        </p>
+      </li>
+      <li> <strong>Can you rethrow an exception in Java?</strong><br>
+          <p><em>Answer:</em> Yes, you can rethrow an exception in Java using the `throw` keyword inside a `catch` block. You can rethrow the same exception or throw a new one. Example:
+          <pre>catch (IOException e) {
+                throw e;  // Rethrowing the exception
+            }</pre>
+        </p>
+      </li>
+      <li> <strong>What is a `ClassNotFoundException` in Java?</strong><br>
+          <p><em>Answer:</em> `ClassNotFoundException` is a checked exception that occurs when the JVM or a class loader attempts to load a class by its name, but no definition for the class with that name could be found.</p>
+      </li>
+      <li> <strong>What are some common unchecked exceptions in Java?</strong><br>
+          <p><em>Answer:</em> Some common unchecked exceptions are:
+          <ul>
+                  <li>NullPointerException</li>
+            <li>ArrayIndexOutOfBoundsException</li>
+            <li>ArithmeticException</li>
+            <li>ClassCastException</li>
+            <li>IllegalArgumentException</li>
+          </ul>
+        </p>
+      </li>
+      <li> <strong>What is the role of exception chaining in Java?</strong><br>
+          <p><em>Answer:</em> Exception chaining allows you to propagate an exception while preserving the original cause. You can chain exceptions using the constructor of an exception, like `new Exception("message", cause)`, where `cause` is the original exception.</p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <h1>Java Exception Handling (Checked vs Unchecked) - Questions & Answers</h1>
+    <h2>Set 4</h2>
+    <ol>
+      <li> <strong>What is the `ArithmeticException` in Java?</strong><br>
+          <p><em>Answer:</em> `ArithmeticException` is an unchecked exception that occurs when an exceptional arithmetic condition occurs, such as division by zero.</p>
+      </li>
+      <li> <strong>How do you ensure resources are properly closed after usage in Java?</strong><br>
+          <p><em>Answer:</em> In Java, you can ensure resources are properly closed by using a `try-with-resources` statement, which automatically closes resources that implement the `AutoCloseable` interface. Example:
+          <pre>try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+                // use br
+            } catch (IOException e) {
+                e.printStackTrace();
+            }</pre>
+        </p>
+      </li>
+      <li> <strong>What is a `FileNotFoundException` in Java?</strong><br>
+          <p><em>Answer:</em> `FileNotFoundException` is a checked exception that occurs when an attempt to open the file denoted by a specified pathname has failed.</p>
+      </li>
+      <li> <strong>What is the `IOException` in Java?</strong><br>
+          <p><em>Answer:</em> `IOException` is a checked exception that signals an input/output operation failure, such as reading from or writing to a file or network socket.</p>
+      </li>
+      <li> <strong>What is the `SQLException` in Java?</strong><br>
+          <p><em>Answer:</em> `SQLException` is a checked exception that provides information on a database access error or other errors related to database operations in Java.</p>
+      </li>
+      <li> <strong>What is the significance of the `finally` block in exception handling?</strong><br>
+          <p><em>Answer:</em> The `finally` block is used to execute code that must run regardless of whether an exception was thrown or not. This is typically used to close resources like files or database connections.</p>
+      </li>
+      <li> <strong>What is the difference between `Error` and `Exception` in Java?</strong><br>
+          <p><em>Answer:</em> `Error` is a subclass of `Throwable` that represents serious issues that a program cannot reasonably recover from (e.g., `OutOfMemoryError`), while `Exception` represents conditions that a program can catch and handle.</p>
+      </li>
+      <li> <strong>Can a method that throws an unchecked exception be declared in the method signature?</strong><br>
+          <p><em>Answer:</em> No, a method throwing an unchecked exception does not need to declare it in the method signature using `throws` because unchecked exceptions are not subject to the checked exception requirement.</p>
+      </li>
+      <li> <strong>How does exception handling affect the performance of a Java application?</strong><br>
+          <p><em>Answer:</em> Exception handling can negatively impact performance due to the overhead of stack unwinding and object creation. Unchecked exceptions generally have less overhead, but using exceptions for normal control flow is discouraged due to its performance impact.</p>
+      </li>
+      <li> <strong>What are the best practices for handling exceptions in Java?</strong><br>
+          <p><em>Answer:</em> Best practices include:
+          <ul>
+                  <li>Catch specific exceptions rather than using a general `Exception` class.</li>
+            <li>Don’t use exceptions for normal program flow.</li>
+            <li>Log exceptions with meaningful messages.</li>
+            <li>Use `try-with-resources` for resource management.</li>
+            <li>Handle exceptions at appropriate levels in the application.</li>
+          </ul>
+      </li>
+    </ol>
+    <h1>Java Exception Handling (Checked vs Unchecked) - Questions & Answers</h1>
+    <h2>Set 5</h2>
+    <ol>
+      <li> <strong>What is the difference between `throw` and `throws` in Java?</strong><br>
+          <p><em>Answer:</em> `throw` is used to explicitly throw an exception in a method, while `throws` is used to declare the exceptions that a method may throw, allowing the caller to handle them.</p>
+      </li>
+      <li> <strong>What is a `NumberFormatException` in Java?</strong><br>
+          <p><em>Answer:</em> `NumberFormatException` is an unchecked exception that occurs when an attempt is made to convert a string to a numeric type, but the string is not a valid number. Example:
+          <pre>int num = Integer.parseInt("abc");</pre>
+        </p>
+      </li>
+      <li> <strong>What is the difference between a `CheckedException` and an `UncheckedException`?</strong><br>
+          <p><em>Answer:</em> A `CheckedException` is one that must be explicitly caught or declared in the method signature, such as `IOException` or `SQLException`. An `UncheckedException`, like `NullPointerException` or `ArrayIndexOutOfBoundsException`, does not require explicit handling.</p>
+      </li>
+      <li> <strong>How do you handle `IOException` when reading from a file in Java?</strong><br>
+          <p><em>Answer:</em> You can handle `IOException` using a `try-catch` block. Example:
+          <pre>try {
+                FileReader file = new FileReader("file.txt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }</pre>
+        </p>
+      </li>
+      <li> <strong>What is a `TimeoutException` in Java?</strong><br>
+          <p><em>Answer:</em> `TimeoutException` is an unchecked exception that occurs when a specified operation takes longer than expected or exceeds the allowed time limit.</p>
+      </li>
+      <li> <strong>Can an unchecked exception be caught using a `catch` block?</strong><br>
+          <p><em>Answer:</em> Yes, an unchecked exception can be caught using a `catch` block, just like checked exceptions. However, catching unchecked exceptions is typically not required unless you want to handle specific cases or perform logging.</p>
+      </li>
+      <li> <strong>What is the `NullPointerException` and how do you handle it in Java?</strong><br>
+          <p><em>Answer:</em> `NullPointerException` is an unchecked exception that occurs when trying to access or modify an object reference that is `null`. It can be avoided by ensuring proper null checks before accessing object methods or fields. Example:
+          <pre>if (myObject != null) {
+                myObject.someMethod();
+            }</pre>
+        </p>
+      </li>
+      <li> <strong>What happens when a `finally` block has an exception?</strong><br>
+          <p><em>Answer:</em> If a `finally` block throws an exception, that exception will propagate, potentially overwriting the exception thrown by the `try` block. If the `finally` block does not throw any exception, it will execute regardless of what happened in the `try` or `catch` blocks.</p>
+      </li>
+      <li> <strong>What is the `IllegalArgumentException` in Java?</strong><br>
+          <p><em>Answer:</em> `IllegalArgumentException` is an unchecked exception that indicates a method has received an argument that is not valid, such as a negative number where only positive numbers are expected.</p>
+      </li>
+      <li> <strong>What is the difference between `catch` and `finally` blocks?</strong><br>
+          <p><em>Answer:</em> A `catch` block is used to handle exceptions, whereas a `finally` block contains code that will always execute after the `try` or `catch` blocks, regardless of whether an exception occurred. The `finally` block is used for cleanup tasks, like closing resources.</p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <h1>Java Exception Handling (Checked vs Unchecked) - Questions & Answers</h1>
+    <h2>Set 6</h2>
+    <ol>
+      <li> <strong>What is the `ArrayIndexOutOfBoundsException` in Java?</strong><br>
+          <p><em>Answer:</em> `ArrayIndexOutOfBoundsException` is an unchecked exception that occurs when trying to access an invalid index of an array, i.e., an index that is either negative or greater than the array's length minus one.</p>
+      </li>
+      <li> <strong>What is a `ClassNotFoundException`?</strong><br>
+          <p><em>Answer:</em> `ClassNotFoundException` is a checked exception that occurs when an application tries to load a class through its name using methods like `Class.forName()`, but the class cannot be found in the classpath.</p>
+      </li>
+      <li> <strong>What is a `NumberFormatException` in Java?</strong><br>
+          <p><em>Answer:</em> `NumberFormatException` is an unchecked exception that occurs when an attempt is made to convert a string into a numeric type, but the string does not contain a parsable number (e.g., "abc" cannot be parsed to an integer).</p>
+      </li>
+      <li> <strong>What is the main purpose of using exceptions in Java?</strong><br>
+          <p><em>Answer:</em> Exceptions in Java are used to handle runtime errors, making the program flow more predictable and enabling recovery from unexpected conditions without crashing the entire application.</p>
+      </li>
+      <li> <strong>What are `Checked Exceptions` and why are they mandatory to handle?</strong><br>
+          <p><em>Answer:</em> `Checked Exceptions` are exceptions that must either be caught with a `catch` block or declared in the method signature using the `throws` keyword. They are mandatory to handle because they represent conditions that can be anticipated and handled by the program, such as file handling or database errors.</p>
+      </li>
+      <li> <strong>What is the difference between `Exception` and `RuntimeException` in Java?</strong><br>
+          <p><em>Answer:</em> `Exception` is the parent class for all exceptions that are checked and unchecked, while `RuntimeException` is a subclass of `Exception` that represents unchecked exceptions. Checked exceptions must be explicitly handled, but unchecked exceptions do not require explicit handling.</p>
+      </li>
+      <li> <strong>What is a `StackOverflowError`?</strong><br>
+          <p><em>Answer:</em> `StackOverflowError` is an error (not an exception) that occurs when the stack for a thread overflows, typically due to deep recursion or infinite recursion in the program.</p>
+      </li>
+      <li> <strong>Can you rethrow an exception in Java?</strong><br>
+          <p><em>Answer:</em> Yes, you can rethrow an exception in Java by using the `throw` keyword within a `catch` block or any other part of the code. Example:
+          <pre>try {
+                // code that may throw an exception
+            } catch (Exception e) {
+                throw e; // rethrowing the exception
+            }</pre>
+        </p>
+      </li>
+      <li> <strong>How does `throws` work in method signatures?</strong><br>
+          <p><em>Answer:</em> The `throws` keyword is used in the method signature to declare that a method can throw one or more exceptions. This informs the calling code that the exception may occur and that it needs to handle or propagate it. Example:
+          <pre>public void readFile() throws IOException { ... }</pre>
+        </p>
+      </li>
+      <li> <strong>What is a `ConcurrentModificationException`?</strong><br>
+          <p><em>Answer:</em> `ConcurrentModificationException` is an unchecked exception that occurs when an object is modified while it is being iterated over, and the modification is not done through the iterator itself. This often happens when a collection is modified during iteration without proper synchronization.</p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <h1>Java Exception Handling (Checked vs Unchecked) - Questions & Answers</h1>
+    <h2>Set 7</h2>
+    <ol>
+      <li> <strong>What is a `NoClassDefFoundError` in Java?</strong><br>
+          <p><em>Answer:</em> `NoClassDefFoundError` is a runtime error that occurs when the JVM cannot find a class during runtime that was present during compile time. This often happens if a class file is missing or not in the classpath.</p>
+      </li>
+      <li> <strong>Can an unchecked exception be declared using the `throws` keyword?</strong><br>
+          <p><em>Answer:</em> Yes, an unchecked exception can be declared using the `throws` keyword, but it is not mandatory. Unchecked exceptions (subclasses of `RuntimeException`) are not required to be declared, but you can declare them if you want to provide information to the caller.</p>
+      </li>
+      <li> <strong>What is the difference between `throw` and `throws` in the context of exception handling?</strong><br>
+          <p><em>Answer:</em> `throw` is used to actually throw an exception within a method, while `throws` is used in the method signature to declare that the method may throw certain exceptions.</p>
+      </li>
+      <li> <strong>What is the role of the `catch` block in exception handling?</strong><br>
+          <p><em>Answer:</em> The `catch` block is used to handle exceptions that occur in the `try` block. It catches exceptions and allows you to handle them gracefully, preventing the program from terminating abruptly.</p>
+      </li>
+      <li> <strong>What is the `ArithmeticException` in Java?</strong><br>
+          <p><em>Answer:</em> `ArithmeticException` is an unchecked exception that occurs when an illegal arithmetic operation is performed, such as dividing a number by zero.</p>
+      </li>
+      <li> <strong>What is the significance of `throws` in custom exception handling?</strong><br>
+          <p><em>Answer:</em> When creating custom exceptions, you use `throws` in the method signature to specify that the method might throw the custom exception, informing the calling code about the possibility of an exception being thrown.</p>
+      </li>
+      <li> <strong>What is a `FileNotFoundException`?</strong><br>
+          <p><em>Answer:</em> `FileNotFoundException` is a checked exception that occurs when trying to access a file that does not exist or cannot be found in the specified path.</p>
+      </li>
+      <li> <strong>What is the difference between an exception and an error in Java?</strong><br>
+          <p><em>Answer:</em> An exception represents a condition that the application can handle, such as invalid input or a file not being found. An error, on the other hand, represents a serious problem that the application generally cannot recover from, such as `OutOfMemoryError`.</p>
+      </li>
+      <li> <strong>How do you create a custom exception in Java?</strong><br>
+          <p><em>Answer:</em> You create a custom exception by extending the `Exception` or `RuntimeException` class. Example:
+          <pre>public class CustomException extends Exception { 
+                public CustomException(String message) { 
+                    super(message); 
+                } 
+            }</pre>
+        </p>
+      </li>
+      <li> <strong>What is the `IllegalStateException` in Java?</strong><br>
+          <p><em>Answer:</em> `IllegalStateException` is an unchecked exception that occurs when a method has been invoked at an inappropriate time, indicating that the method's environment is not in the correct state.</p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <h1>Java Exception Handling (Checked vs Unchecked) - Questions & Answers</h1>
+    <h2>Set 8</h2>
+    <ol>
+      <li> <strong>What is a `NullPointerException` and when does it occur?</strong><br>
+          <p><em>Answer:</em> `NullPointerException` is an unchecked exception that occurs when the JVM attempts to access a method or field of an object that is `null` (i.e., the reference variable does not point to any object).</p>
+      </li>
+      <li> <strong>Can a method with a checked exception be called without handling it?</strong><br>
+          <p><em>Answer:</em> No, a method that declares a checked exception must either handle it with a `try-catch` block or propagate it using the `throws` keyword in its method signature. If neither is done, a compile-time error occurs.</p>
+      </li>
+      <li> <strong>What is the `IOException` and when should it be used?</strong><br>
+          <p><em>Answer:</em> `IOException` is a checked exception that is thrown when an input or output operation fails, such as reading from or writing to a file or network stream. It should be used when performing such operations where failure is a possibility.</p>
+      </li>
+      <li> <strong>What is the purpose of the `finally` block in Java exception handling?</strong><br>
+          <p><em>Answer:</em> The `finally` block is used to write cleanup code that will be executed regardless of whether an exception was thrown or not, such as closing file streams or releasing resources.</p>
+      </li>
+      <li> <strong>What are the common types of unchecked exceptions in Java?</strong><br>
+          <p><em>Answer:</em> Common unchecked exceptions include `NullPointerException`, `ArrayIndexOutOfBoundsException`, `ArithmeticException`, `IllegalArgumentException`, and `ClassCastException`.</p>
+      </li>
+      <li> <strong>What is a `TimeoutException` in Java?</strong><br>
+          <p><em>Answer:</em> `TimeoutException` is a checked exception that occurs when a blocking operation times out, typically used in multi-threaded programming and network communication.</p>
+      </li>
+      <li> <strong>What does the `throw` keyword do in Java?</strong><br>
+          <p><em>Answer:</em> The `throw` keyword is used to explicitly throw an exception in Java. This is useful when you want to manually signal an error condition or trigger an exception.</p>
+      </li>
+      <li> <strong>What is the `SQLException`?</strong><br>
+          <p><em>Answer:</em> `SQLException` is a checked exception that occurs when there is a database access error, such as when a query fails or there is an issue with the database connection.</p>
+      </li>
+      <li> <strong>What is the `UnsupportedOperationException` in Java?</strong><br>
+          <p><em>Answer:</em> `UnsupportedOperationException` is an unchecked exception that occurs when a method that is not supported is called, such as calling a `remove()` operation on an immutable collection.</p>
+      </li>
+      <li> <strong>What are the benefits of exception handling in Java?</strong><br>
+          <p><em>Answer:</em> Exception handling provides several benefits, including making code more robust, separating error-handling logic from regular code, enabling better debugging and logging, and improving program flow by preventing crashes during runtime.</p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <h1>Java Exception Handling (Checked vs Unchecked) - Questions & Answers</h1>
+    <h2>Set 9</h2>
+    <ol>
+      <li> <strong>What is a `StackOverflowError` in Java?</strong><br>
+          <p><em>Answer:</em> `StackOverflowError` is an error that occurs when the stack size exceeds its limit, typically due to infinite recursion or excessively deep recursion.</p>
+      </li>
+      <li> <strong>How can you handle a `FileNotFoundException` in Java?</strong><br>
+          <p><em>Answer:</em> You can handle a `FileNotFoundException` by using a `try-catch` block to catch the exception and provide an appropriate error message or alternative action, such as creating the file if it doesn't exist.</p>
+      </li>
+      <li> <strong>What is the difference between `throw` and `throws` in exception handling?</strong><br>
+          <p><em>Answer:</em> `throw` is used to explicitly throw an exception from within a method, while `throws` is used in the method signature to declare that the method may throw certain exceptions.</p>
+      </li>
+      <li> <strong>What is an `IllegalArgumentException` in Java?</strong><br>
+          <p><em>Answer:</em> `IllegalArgumentException` is an unchecked exception that occurs when a method receives an argument that is not appropriate or not expected by the method's logic.</p>
+      </li>
+      <li> <strong>Can a `NullPointerException` be avoided?</strong><br>
+          <p><em>Answer:</em> Yes, a `NullPointerException` can be avoided by ensuring that objects are not `null` before calling their methods or accessing their fields, or by using `Optional` to safely handle potential `null` values.</p>
+      </li>
+      <li> <strong>How do you catch multiple exceptions in Java 7 and later?</strong><br>
+          <p><em>Answer:</em> You can catch multiple exceptions in a single `catch` block by separating them with a pipe (`|`) in Java 7 and later. Example:
+          <pre>catch (IOException | SQLException e) { 
+                // handle both exceptions 
+            }</pre>
+        </p>
+      </li>
+      <li> <strong>What is a `ConcurrentModificationException`?</strong><br>
+          <p><em>Answer:</em> `ConcurrentModificationException` is an unchecked exception that occurs when an object is modified concurrently while it is being iterated, typically with collections like `ArrayList` or `HashMap`.</p>
+      </li>
+      <li> <strong>What is the purpose of custom exception classes in Java?</strong><br>
+          <p><em>Answer:</em> Custom exception classes allow you to create specific exceptions for your application, making your code more readable, understandable, and easier to debug. They help to define clear and meaningful error messages.</p>
+      </li>
+      <li> <strong>What does the `ClassNotFoundException` indicate in Java?</strong><br>
+          <p><em>Answer:</em> `ClassNotFoundException` is a checked exception that occurs when the JVM cannot find a class during runtime that was needed for loading a class dynamically.</p>
+      </li>
+      <li> <strong>What is the difference between `Error` and `Exception` in Java?</strong><br>
+          <p><em>Answer:</em> `Error` represents severe problems that are generally outside the control of the application, such as `OutOfMemoryError`. `Exception` represents conditions that the application can handle, such as `IOException` or `SQLException`.</p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <h1>Java Exception Handling (Checked vs Unchecked) - Questions & Answers</h1>
+    <h2>Set 10</h2>
+    <ol>
+      <li> <strong>What is a `NumberFormatException` in Java?</strong><br>
+          <p><em>Answer:</em> `NumberFormatException` is an unchecked exception that occurs when an attempt is made to convert a string to a numeric type (such as `int` or `double`), but the string does not represent a valid number.</p>
+      </li>
+      <li> <strong>What is the purpose of the `throws` keyword?</strong><br>
+          <p><em>Answer:</em> The `throws` keyword is used in a method signature to declare that the method may throw certain exceptions, which must be handled by the caller or propagated further.</p>
+      </li>
+      <li> <strong>What happens when an exception is not caught in Java?</strong><br>
+          <p><em>Answer:</em> When an exception is not caught, it propagates up the call stack. If it is not handled anywhere in the call stack, it causes the program to terminate with an error message.</p>
+      </li>
+      <li> <strong>What is a `ArithmeticException` and how can it be avoided?</strong><br>
+          <p><em>Answer:</em> `ArithmeticException` is an unchecked exception that occurs when an illegal arithmetic operation is performed, such as dividing by zero. It can be avoided by checking for division by zero before performing the operation.</p>
+      </li>
+      <li> <strong>How does exception propagation work in Java?</strong><br>
+          <p><em>Answer:</em> Exception propagation in Java occurs when an exception is thrown in a method but not caught within that method. The exception is then passed (propagated) to the caller method, and this process continues up the call stack until the exception is caught or it reaches the `main` method, terminating the program.</p>
+      </li>
+      <li> <strong>What is the difference between `RuntimeException` and `Exception`?</strong><br>
+          <p><em>Answer:</em> `RuntimeException` is a subclass of `Exception` and represents exceptions that are not required to be declared or handled (unchecked exceptions). `Exception` is the parent class of both checked and unchecked exceptions, and checked exceptions must be declared or handled explicitly.</p>
+      </li>
+      <li> <strong>How do you handle multiple exceptions in a single catch block?</strong><br>
+          <p><em>Answer:</em> In Java 7 and later, you can handle multiple exceptions in a single `catch` block by separating the exceptions with a pipe (`|`) symbol. Example:
+          <pre>catch (IOException | SQLException e) {
+                // Handle both IOException and SQLException
+            }</pre>
+        </p>
+      </li>
+      <li> <strong>What is the `IllegalStateException` in Java?</strong><br>
+          <p><em>Answer:</em> `IllegalStateException` is an unchecked exception that occurs when a method is invoked at an illegal or inappropriate time, indicating that the state of the object is not suitable for the method call.</p>
+      </li>
+      <li> <strong>How can you avoid an exception from being thrown in Java?</strong><br>
+          <p><em>Answer:</em> You can avoid exceptions by performing proper input validation, ensuring that resources like files or network connections are available, using appropriate exception handling techniques, and validating object states before performing operations.</p>
+      </li>
+      <li> <strong>What does the `SQLException` class represent in Java?</strong><br>
+          <p><em>Answer:</em> `SQLException` is a checked exception that represents errors that occur while interacting with a database. It is typically thrown when there are issues with SQL statements, connections, or other database-related operations.</p>
+      </li>
+    </ol>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+</body>
+</html>

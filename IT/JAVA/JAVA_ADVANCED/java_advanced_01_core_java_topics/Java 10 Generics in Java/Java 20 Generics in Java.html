@@ -1,0 +1,1039 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<h1>Java Generics - Q&amp;A Set 1</h1>
+<ol>
+  <li> <strong>What are Generics in Java?</strong><br />
+    Generics in Java allow you to create classes, interfaces, and methods with type parameters. This enables stronger type checks at compile time and supports generic algorithms.<br />
+    Example:<br />
+    <pre><code>
+                class Box&lt;T&gt; {
+                    private T value;
+                    public void setValue(T value) {
+                        this.value = value;
+                    }
+                    public T getValue() {
+                        return value;
+                    }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Why are Generics used in Java?</strong><br />
+    Generics are used to provide type safety and avoid casting when dealing with collections or other types. They allow for the specification of the type of elements contained in a collection, class, or method.<br />
+    Example:<br />
+    <pre><code>
+                List&lt;String&gt; list = new ArrayList&lt;&gt;();
+                list.add(&quot;Hello&quot;);
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between raw types and parameterized types in Generics?</strong><br />
+    Raw types refer to generic classes or interfaces that are used without specifying a type parameter, while parameterized types specify the exact type.<br />
+    Example:<br />
+    <pre><code>
+                List rawList = new ArrayList(); // Raw type
+                List&lt;String&gt; typedList = new ArrayList&lt;&gt;(); // Parameterized type
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can we use primitive types with Generics in Java?</strong><br />
+    No, generics in Java work only with reference types, not primitive types. However, you can use their wrapper classes such as `Integer`, `Double`, and `Boolean`.<br />
+    Example:<br />
+    <pre><code>
+                List&lt;Integer&gt; integerList = new ArrayList&lt;&gt;();
+                // List&lt;int&gt; would cause a compile-time error
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is a wildcard in Generics?</strong><br />
+    A wildcard (`?`) is used to represent an unknown type. It can be used in method arguments or fields to make the code more flexible and reusable.<br />
+    Example:<br />
+    <pre><code>
+                public void printList(List&lt;? extends Number&gt; list) {
+                    for (Number num : list) {
+                        System.out.println(num);
+                    }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between `extends` and `super` wildcard in Generics?</strong><br />
+    The `extends` wildcard is used to define upper bounds (subtypes of a class), while the `super` wildcard defines lower bounds (supertypes of a class).<br />
+    Example of `extends`:<br />
+    <pre><code>
+                public void printNumbers(List&lt;? extends Number&gt; numbers) { ... }
+            </code></pre>
+    Example of `super`:<br />
+    <pre><code>
+                public void addNumbers(List&lt;? super Integer&gt; numbers) { ... }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is type erasure in Java Generics?</strong><br />
+    Type erasure is the process by which the Java compiler removes generic type information during compilation, converting it into raw types to ensure backward compatibility with older versions of Java.<br />
+    Example:<br />
+    <pre><code>
+                public class Box&lt;T&gt; {
+                    private T item;
+                }
+                // After erasure, this becomes:
+                // public class Box {
+                //     private Object item;
+                // }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can we create generic arrays in Java?</strong><br />
+    No, due to type erasure, Java does not allow the direct creation of generic arrays. However, you can work around this limitation by creating an array of `Object` and casting it to the generic type.<br />
+    Example:<br />
+    <pre><code>
+                T[] array = (T[]) new Object[10];
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the bounded type parameter in Generics?</strong><br />
+    A bounded type parameter restricts the type that can be used as a generic argument. You can use `extends` to limit the types to be subclasses of a specific class.<br />
+    Example:<br />
+    <pre><code>
+                public &lt;T extends Number&gt; void printNumber(T num) {
+                    System.out.println(num);
+                }
+            </code></pre>
+  </li>
+  <br />
+</ol>
+<p>&nbsp;</p>
+<h1>Java Generics - Q&amp;A Set 2</h1>
+<ol>
+  <li> <strong>What is the advantage of using Generics in Java collections?</strong><br />
+    Using generics in Java collections allows for stronger type checking at compile time, which reduces the risk of `ClassCastException` and ensures type safety.<br />
+    Example:<br />
+    <pre><code>
+                List&lt;String&gt; list = new ArrayList&lt;&gt;();
+                list.add(&quot;Hello&quot;);
+                // No need for casting when retrieving items
+                String item = list.get(0);
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can a generic type in Java extend multiple types?</strong><br />
+    No, a generic type in Java can extend only one class or interface. However, it can implement multiple interfaces.<br />
+    Example:<br />
+    <pre><code>
+                public &lt;T extends Number &amp; Comparable&lt;T&gt;&gt; void printNumber(T num) { ... }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the purpose of the `wildcard` `? extends T`?</strong><br />
+    The wildcard `? extends T` is used to specify that the generic type is a subtype of `T` (upper bounded wildcard). This allows for more flexibility in accepting different types of arguments while maintaining type safety.<br />
+    Example:<br />
+    <pre><code>
+                public void processNumbers(List&lt;? extends Number&gt; numbers) { ... }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is a generic method in Java?</strong><br />
+    A generic method is a method that has its own type parameter, independent of the class's type parameters. It allows for type-safe operations on various types.<br />
+    Example:<br />
+    <pre><code>
+                public &lt;T&gt; void printArray(T[] array) {
+                    for (T element : array) {
+                        System.out.println(element);
+                    }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between `List
+      <String>
+    ` and `List
+    <?>`?</strong><br>
+            `List<String>` specifies a list that can only hold `String` elements, whereas `List<?>
+    ` (a wildcard) can hold elements of any type, but you can't modify the list (except for adding `null`).<br />
+    Example:<br />
+    <pre><code>
+                List&lt;String&gt; stringList = new ArrayList&lt;&gt;();
+                List&lt;?&gt; wildcardList = stringList; // Valid
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is `List` used for?</strong><br />
+    `List` is a lower-bounded wildcard. It is used when you want to accept a list that can hold elements of type `T` or any supertype of `T`.<br />
+    Example:<br />
+    <pre><code>
+                public void addNumbers(List&lt;? super Integer&gt; list) { ... }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>How can you create a generic class with multiple type parameters?</strong><br />
+    You can create a generic class with multiple type parameters by specifying multiple type parameters separated by commas.<br />
+    Example:<br />
+    <pre><code>
+                class Pair&lt;K, V&gt; {
+                    private K key;
+                    private V value;
+                    public Pair(K key, V value) {
+                        this.key = key;
+                        this.value = value;
+                    }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between `T[]` and `List
+        <T>
+    `?</strong><br />
+    `T[]` is an array of type `T`, which has a fixed size and is not resizable. `List
+    <T>
+    ` is a collection that can grow dynamically, allowing for more flexibility.<br />
+    Example:<br />
+    <pre><code>
+                Integer[] arr = new Integer[5];
+                List&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+                list.add(1);
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What does `Collections.emptyList()` return?</strong><br />
+    `Collections.emptyList()` returns an immutable empty list of the specified type.<br />
+    Example:<br />
+    <pre><code>
+                List&lt;String&gt; emptyList = Collections.emptyList();
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can Generics be used with constructors?</strong><br />
+    Yes, generics can be used with constructors in the same way as with methods or fields. The type parameter is specified when the object is created.<br />
+    Example:<br />
+    <pre><code>
+                class Box&lt;T&gt; {
+                    private T value;
+                    public Box(T value) {
+                        this.value = value;
+                    }
+                }
+                Box&lt;String&gt; box = new Box&lt;&gt;(&quot;Hello&quot;);
+            </code></pre>
+  </li>
+  <br />
+</ol>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>Java Generics - Q&amp;A Set 3</h1>
+<ol>
+  <li> <strong>Can a method have multiple wildcard parameters in Java Generics?</strong><br />
+    Yes, a method can have multiple wildcard parameters, but they must be bounded properly. For example, you can specify different bounds for each parameter.<br />
+    Example:<br />
+    <pre><code>
+                public void processElements(List&lt;? extends Number&gt; list1, List&lt;? super Integer&gt; list2) { ... }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>How do you restrict a generic type to a specific class or subclass in Java?</strong><br />
+    You can restrict a generic type by using the `extends` keyword, which defines an upper bound for the generic type.<br />
+    Example:<br />
+    <pre><code>
+                public &lt;T extends Number&gt; void printNumber(T number) { ... }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is a `TypeToken` in Java Generics?</strong><br />
+    A `TypeToken` is a way to capture and pass generic type information at runtime. It is often used when dealing with reflection or serialization frameworks like Gson.<br />
+    Example:<br />
+    <pre><code>
+                TypeToken&lt;List&lt;String&gt;&gt; typeToken = new TypeToken&lt;&gt;() {};
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>How do you create a bounded wildcard with multiple bounds in Java?</strong><br />
+    In Java, you can create a bounded wildcard with multiple bounds using the `&amp;` symbol. The first bound must be a class, and subsequent bounds must be interfaces.<br />
+    Example:<br />
+    <pre><code>
+                public &lt;T extends Number &amp; Comparable&lt;T&gt;&gt; void process(T item) { ... }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the advantage of using `List` instead of `List
+        <T>
+    `?</strong><br />
+    The `List` wildcard allows you to accept any subclass of `T`, providing greater flexibility when working with collections of different types that inherit from a common superclass.<br />
+    Example:<br />
+    <pre><code>
+                public void printList(List&lt;? extends Number&gt; list) { ... }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can we use Generics with static methods?</strong><br />
+    Yes, you can use Generics with static methods. However, the type parameters should be defined within the method itself since static methods do not have access to the instance's type parameters.<br />
+    Example:<br />
+    <pre><code>
+                public static &lt;T&gt; void print(T value) { System.out.println(value); }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is a `Generic Class`?</strong><br />
+    A `Generic Class` is a class that defines one or more type parameters, allowing it to work with different types while maintaining type safety.<br />
+    Example:<br />
+    <pre><code>
+                public class Box&lt;T&gt; {
+                    private T value;
+                    public Box(T value) { this.value = value; }
+                    public T getValue() { return value; }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can Generics be used in `enum` types?</strong><br />
+    Yes, Generics can be used in `enum` types to define parameterized types for enum constants or methods in the enum class.<br />
+    Example:<br />
+    <pre><code>
+                public enum Status&lt;T&gt; {
+                    SUCCESS(&quot;Success&quot;),
+                    FAILURE(&quot;Failure&quot;);
+
+                    private T message;
+                    Status(T message) { this.message = message; }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can we create an instance of a generic type in Java?</strong><br />
+    Due to type erasure, you cannot directly create an instance of a generic type. However, you can create an instance of its raw type or use reflection for generic instantiation.<br />
+    Example:<br />
+    <pre><code>
+                // This will cause an error
+                T object = new T();
+                // Workaround using reflection
+                T object = clazz.getDeclaredConstructor().newInstance();
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the purpose of the `super` keyword in a wildcard in Generics?</strong><br />
+    The `super` keyword in a wildcard (`? super T`) is used to specify the lower bound, meaning that the generic type can be `T` or any supertype of `T`.<br />
+    Example:<br />
+    <pre><code>
+                public void addItem(List&lt;? super Integer&gt; list) { ... }
+            </code></pre>
+  </li>
+  <br />
+</ol>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>Java Generics - Q&amp;A Set 4</h1>
+<ol>
+  <li> <strong>Can we use Generics with constructors in Java?</strong><br />
+    Yes, Generics can be used in constructors, similar to their usage in methods and fields. The type parameter is defined when the object is created.<br />
+    Example:<br />
+    <pre><code>
+                class Box&lt;T&gt; {
+                    private T value;
+                    public Box(T value) {
+                        this.value = value;
+                    }
+                    public T getValue() {
+                        return value;
+                    }
+                }
+                Box&lt;String&gt; box = new Box&lt;&gt;(&quot;Hello&quot;);
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between `T[]` and `List
+        <T>
+    ` in Java Generics?</strong><br />
+    `T[]` is a fixed-size array, whereas `List
+    <T>
+    ` is a resizable collection that can grow and shrink dynamically. The `List
+    <T>
+    ` is generally preferred due to its flexibility.<br />
+    Example:<br />
+    <pre><code>
+                T[] array = new T[10];
+                List&lt;T&gt; list = new ArrayList&lt;&gt;();
+                list.add(new T());
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can a generic type be used as a method parameter in Java?</strong><br />
+    Yes, you can use a generic type as a method parameter. The type parameter is defined when the method is called.<br />
+    Example:<br />
+    <pre><code>
+                public &lt;T&gt; void print(T value) {
+                    System.out.println(value);
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the role of `type erasure` in Java Generics?</strong><br />
+    Type erasure is the process by which Java removes generic type information during compilation. It ensures backward compatibility with older versions of Java and allows generic types to be used with raw types.<br />
+    Example:<br />
+    <pre><code>
+                public &lt;T&gt; void printList(List&lt;T&gt; list) {
+                    // The type parameter T will be erased at runtime
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What does `wildcard` `? extends T` allow you to do?</strong><br />
+    The wildcard `? extends T` represents an unknown type that is a subtype of `T`. It is commonly used to provide more flexibility when working with collections of a known base type.<br />
+    Example:<br />
+    <pre><code>
+                public void printNumbers(List&lt;? extends Number&gt; list) {
+                    for (Number num : list) {
+                        System.out.println(num);
+                    }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the significance of `List` in Java?</strong><br />
+    `List` represents a list that can hold `T` or any supertype of `T`. This is useful when you want to write to a list but not necessarily read from it.<br />
+    Example:<br />
+    <pre><code>
+                public void addNumbers(List&lt;? super Integer&gt; list) {
+                    list.add(1); // Can add Integer or its supertypes
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is a `raw type` in Java Generics?</strong><br />
+    A raw type is a generic type without any type parameters. It is the non-generic form of a generic class or interface, and it is allowed for backward compatibility but should be avoided.<br />
+    Example:<br />
+    <pre><code>
+                List rawList = new ArrayList();
+                rawList.add(&quot;String&quot;);
+                rawList.add(10); // No compile-time type checking
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can you declare a generic array in Java?</strong><br />
+    No, you cannot directly create an array of a generic type due to type erasure. However, you can work around this by using `Object[]` or `Array.newInstance()`.<br />
+    Example:<br />
+    <pre><code>
+                // This will not work
+                T[] array = new T[10];
+                // Workaround using reflection
+                T[] array = (T[]) Array.newInstance(clazz, 10);
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between `List` and `List`?</strong><br />
+    `List` allows you to read from the list, but you cannot add elements (except `null`). On the other hand, `List` allows you to add elements of type `T` but limits what you can read from the list.<br />
+    Example:<br />
+    <pre><code>
+                public void processUpperBound(List&lt;? extends Number&gt; list) { ... }
+                public void processLowerBound(List&lt;? super Integer&gt; list) { ... }
+            </code></pre>
+  </li>
+  <br />
+</ol>
+<p>&nbsp;</p>
+<h1>Java Generics - Q&amp;A Set 5</h1>
+<ol>
+  <li> <strong>What is a bounded type parameter in Java Generics?</strong><br />
+    A bounded type parameter restricts the types that can be used as arguments for a generic class, interface, or method. It can specify a superclass or interface.<br />
+    Example:<br />
+    <pre><code>
+                public &lt;T extends Number&gt; void printNumber(T number) {
+                    System.out.println(number);
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between `T[]` and `List
+        <T>
+    ` when using Generics?</strong><br />
+    `T[]` is an array of a specific type, but arrays are fixed in size and cannot be resized. `List
+    <T>
+    `, on the other hand, is a more flexible collection that can grow and shrink.<br />
+    Example:<br />
+    <pre><code>
+                T[] array = new T[10]; // Fixed size
+                List&lt;T&gt; list = new ArrayList&lt;&gt;(); // Resizable
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the purpose of `wildcards` in Java Generics?</strong><br />
+    Wildcards provide more flexibility when dealing with Generics by allowing you to define a range of types. There are upper-bounded (`? extends T`), lower-bounded (`? super T`), and unbounded (`?`) wildcards.<br />
+    Example:<br />
+    <pre><code>
+                public void printNumbers(List&lt;? extends Number&gt; numbers) { ... }
+                public void addNumbers(List&lt;? super Integer&gt; numbers) { ... }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can you use Generics with static methods?</strong><br />
+    Yes, static methods can also have generic type parameters, and the type parameter is scoped to the method itself.<br />
+    Example:<br />
+    <pre><code>
+                public static &lt;T&gt; void print(T value) {
+                    System.out.println(value);
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between `T[]` and `List
+        <T>
+    ` in terms of Generics?</strong><br />
+    `T[]` is a basic array type in Java, while `List
+    <T>
+    ` is part of the Java Collections Framework and provides dynamic resizing and a richer set of operations.<br />
+    Example:<br />
+    <pre><code>
+                T[] array = new T[10]; // Array with fixed size
+                List&lt;T&gt; list = new ArrayList&lt;&gt;(); // Resizable list
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What are `generic methods` in Java?</strong><br />
+    Generic methods are methods that allow the definition of type parameters. These type parameters are specified when the method is called.<br />
+    Example:<br />
+    <pre><code>
+                public &lt;T&gt; void print(T value) {
+                    System.out.println(value);
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can you use `var` with Generics in Java?</strong><br />
+    Yes, you can use `var` with Generics in Java, allowing for type inference while still retaining the benefits of Generics.<br />
+    Example:<br />
+    <pre><code>
+                var list = new ArrayList&lt;String&gt;();
+                list.add(&quot;Hello&quot;);
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is a `generic interface` in Java?</strong><br />
+    A generic interface is an interface that uses type parameters, allowing it to work with different types while maintaining type safety.<br />
+    Example:<br />
+    <pre><code>
+                public interface Box&lt;T&gt; {
+                    void set(T value);
+                    T get();
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the effect of type erasure on generics in Java?</strong><br />
+    Type erasure removes the generic type information during runtime, replacing it with raw types. This ensures compatibility with older versions of Java that do not support Generics.<br />
+    Example:<br />
+    <pre><code>
+                public &lt;T&gt; void print(T value) {
+                    // T is replaced with Object at runtime due to type erasure
+                    System.out.println(value);
+                }
+            </code></pre>
+  </li>
+  <br />
+</ol>
+<h1>Java Generics - Q&amp;A Set 6</h1>
+<pre><code>
+                List&lt;?&gt; list1 = new ArrayList&lt;&gt;();
+                List&lt;Object&gt; list2 = new ArrayList&lt;&gt;();
+            </code></pre>
+<br />
+<ul>
+  <li> <strong>Can you create a class with multiple generic type parameters in Java?</strong><br />
+    Yes, you can create a class that takes multiple generic type parameters. This allows you to define relationships between multiple types in a single class.<br />
+    Example:<br />
+    <pre><code>
+                public class Pair&lt;T, U&gt; {
+                    private T first;
+                    private U second;
+                    public Pair(T first, U second) {
+                        this.first = first;
+                        this.second = second;
+                    }
+                }
+            </code></pre>
+  </li>
+</ul>
+<br />
+<ul>
+  <li> <strong>What are the benefits of using Generics in Java?</strong><br />
+    The main benefits of using Generics in Java are type safety, reusability, and avoiding the need for casting. It helps catch errors at compile time instead of runtime.<br />
+    Example:<br />
+    <pre><code>
+                List&lt;String&gt; list = new ArrayList&lt;&gt;();
+                list.add(&quot;Hello&quot;);
+                // No need for casting when retrieving
+                String value = list.get(0);
+            </code></pre>
+  </li>
+</ul>
+<br />
+<ul>
+  <li> <strong>What is the difference between a generic class and a generic method in Java?</strong><br />
+    A generic class has type parameters that apply to the entire class, while a generic method has type parameters that are specific to the method itself.<br />
+    Example:<br />
+    <pre><code>
+                class Box&lt;T&gt; { ... } // Generic class
+                public &lt;T&gt; void print(T value) { ... } // Generic method
+            </code></pre>
+  </li>
+</ul>
+<p><p>&nbsp;</p>
+<h1>Java Generics - Q&amp;A Set 7</h1>
+<ol>
+<ul>
+  <li> <strong>What is type inference in Java Generics?</strong><br />
+    Type inference allows the Java compiler to automatically determine the type of a generic class or method, reducing the need for explicit type declarations.<br />
+    Example:<br />
+    <pre><code>
+                List&lt;String&gt; list = new ArrayList&lt;&gt;(); // Type inferred as String
+            </code></pre>
+  </li>
+</ul>
+<br />
+<ul>
+  <li> <strong>Can you use multiple wildcards in a single generic declaration?</strong><br />
+    No, Java does not support multiple wildcards in a single generic declaration. You can, however, use bounds like `extends` and `super` to restrict the types.<br />
+    Example:<br />
+    <pre><code>
+                // This is invalid: List&lt;? extends Number, ? extends String&gt;
+            </code></pre>
+  </li>
+</ul>
+<br />
+<li>
+<strong>What is the difference between `List
+<?>` and `List<Object>` in Java?</strong><br>
+            `List<?>
+` is a wildcard type that can represent a list of any type, while `List
+<Object>
+` is a list specifically of `Object` types. `List` is more flexible in generic methods.<br />
+Example:<br />
+<pre><code>
+                List&lt;?&gt; list1 = new ArrayList&lt;&gt;(); // Could be any type
+                List&lt;Object&gt; list2 = new ArrayList&lt;&gt;(); // Specifically of type Object
+            </code></pre>
+</li>
+<br />
+<ul>
+  <li> <strong>Can you use `Generics` with enums in Java?</strong><br />
+    Yes, you can use `Generics` with enums in Java, allowing the creation of generic methods or classes that work with enum types.<br />
+    Example:<br />
+    <pre><code>
+                public enum Status { ACTIVE, INACTIVE }
+                public &lt;T extends Enum&lt;T&gt;&gt; void printEnumValues(Class&lt;T&gt; enumType) {
+                    for (T constant : enumType.getEnumConstants()) {
+                        System.out.println(constant);
+                    }
+                }
+            </code></pre>
+  </li>
+</ul>
+<br />
+<ul>
+  <li> <strong>How does the `Diamond` operator work in Java Generics?</strong><br />
+    The `Diamond` operator (`&lt;&gt;`) is used to let the compiler infer the type argument in generic classes and methods.<br />
+    Example:<br />
+    <pre><code>
+                List&lt;String&gt; list = new ArrayList&lt;&gt;(); // Compiler infers String
+            </code></pre>
+  </li>
+</ul>
+<br />
+<ul>
+  <li> <strong>What is a raw type in Java Generics?</strong><br />
+    A raw type refers to a generic type without specifying the type parameter. Using raw types bypasses the benefits of type safety and should be avoided.<br />
+    Example:<br />
+    <pre><code>
+                List rawList = new ArrayList(); // Raw type, no type parameter
+            </code></pre>
+  </li>
+</ul>
+<br />
+<ul>
+  <li> <strong>Can you use `Generics` with inner classes in Java?</strong><br />
+    Yes, you can use `Generics` with inner classes, but the outer class must be instantiated with the generic type parameters before the inner class can be instantiated.<br />
+    Example:<br />
+    <pre><code>
+                public class Outer&lt;T&gt; {
+                    public class Inner {
+                        public void print(T value) {
+                            System.out.println(value);
+                        }
+                    }
+                }
+            </code></pre>
+  </li>
+</ul>
+<br />
+<ul>
+  <li> <strong>What is a `type-safe` collection in Java?</strong><br />
+    A `type-safe` collection is a collection where the types of the elements are known and checked at compile time, preventing `ClassCastException` at runtime.<br />
+    Example:<br />
+    <pre><code>
+                List&lt;String&gt; list = new ArrayList&lt;&gt;(); // Type-safe collection
+                list.add(&quot;Hello&quot;);
+            </code></pre>
+  </li>
+</ul>
+<br />
+<ul>
+  <li> <strong>Can you define a generic array in Java?</strong><br />
+    No, you cannot directly create a generic array in Java due to type erasure. However, you can create an array of `Object` type and cast it.<br />
+    Example:<br />
+    <pre><code>
+                T[] array = (T[]) new Object[size]; // Workaround
+            </code></pre>
+  </li>
+</ul>
+<br />
+<ul>
+  <li> <strong>What are `type bounds` in Java Generics?</strong><br />
+    Type bounds define the range of types that can be used as arguments for a generic type. It can be specified using the `extends` keyword for upper bounds or `super` for lower bounds.<br />
+    Example:<br />
+  </li>
+</ul>
+<pre><code>
+                public &lt;T extends Number&gt; void printNumber(T number) {
+                    System.out.println(number);
+                }
+           </code></pre>
+<p>&nbsp;</p>
+<h1>Java Generics - Q&amp;A Set 8</h1>
+<ol>
+  <li> <strong>Can a `generic` method have a `wildcard` type parameter?</strong><br />
+    Yes, a generic method can have a wildcard type parameter, and it is useful for allowing flexibility in the types the method can handle.<br />
+    Example:<br />
+    <pre><code>
+                public static &lt;T&gt; void printList(List&lt;? extends T&gt; list) {
+                    for (T item : list) {
+                        System.out.println(item);
+                    }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>How does the `super` keyword work with wildcards in Java Generics?</strong><br />
+    The `super` keyword is used to specify a lower bound for wildcards. It allows the generic type to accept any type that is a superclass of the specified type.<br />
+    Example:<br />
+    <pre><code>
+                public static void addNumbers(List&lt;? super Integer&gt; list) {
+                    list.add(10); // Accepts Integer or any superclass of Integer
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the advantage of using `Generics` in Java?</strong><br />
+    The advantage of using `Generics` in Java is increased type safety and the ability to catch errors at compile time rather than runtime. It also allows for code reusability.<br />
+    Example:<br />
+    <pre><code>
+                List&lt;String&gt; list = new ArrayList&lt;&gt;(); // Type-safe
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between `Collection&lt;E&gt;` and `List&lt;E&gt;` in Java Generics?</strong><br />
+    `Collection&lt;E&gt;` is a root interface for all collection classes, while `List&lt;E&gt;` is a subtype that represents an ordered collection of elements.<br />
+    Example:<br />
+    <pre><code>
+                Collection&lt;String&gt; collection = new ArrayList&lt;&gt;();
+                List&lt;String&gt; list = new ArrayList&lt;&gt;(); // List is a more specific subtype
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can you create a `Generic` class without using parameters?</strong><br />
+    Yes, you can create a class without using generic parameters, which makes it a non-generic class. However, this defeats the purpose of using generics.<br />
+    Example:<br />
+    <pre><code>
+                public class NonGenericClass {
+                    // No type parameters here
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What happens if you don't use generics in a class or method that uses collections in Java?</strong><br />
+    Without generics, you lose type safety, which can lead to runtime errors such as `ClassCastException`.<br />
+    Example:<br />
+    <pre><code>
+                List list = new ArrayList(); // Raw type
+                list.add(&quot;Hello&quot;);
+                String str = (String) list.get(0); // Potential runtime error if type is mismatched
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the use of the `extends` keyword in Java Generics?</strong><br />
+    The `extends` keyword in Java generics is used to specify an upper bound, restricting the types that can be used as type parameters.<br />
+    Example:<br />
+    <pre><code>
+                public static &lt;T extends Number&gt; void printNumber(T num) {
+                    System.out.println(num);
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is a `generic constructor` in Java?</strong><br />
+    A `generic constructor` is a constructor that uses generic parameters. It allows you to create objects of different types within the same class.<br />
+    Example:<br />
+    <pre><code>
+                public class Box&lt;T&gt; {
+                    private T value;
+                    public Box(T value) {
+                        this.value = value;
+                    }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the advantage of using `bounded` wildcards in Java Generics?</strong><br />
+    Bounded wildcards provide more flexibility and allow you to specify a range of types for a generic method or class, enhancing its reusability.<br />
+    Example:<br />
+    <pre><code>
+                public static void printNumbers(List&lt;? extends Number&gt; list) {
+                    for (Number number : list) {
+                        System.out.println(number);
+                    }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can a `Generic` class extend a non-generic class in Java?</strong><br />
+    Yes, a generic class can extend a non-generic class, and you can use specific type parameters when extending.<br />
+    Example:<br />
+    <pre><code>
+                public class MyList&lt;T&gt; extends ArrayList&lt;T&gt; {
+                    // Class that extends a non-generic class with a type parameter
+                }
+            </code></pre>
+  </li>
+</ol>
+<h1>Java Generics - Q&amp;A Set 9</h1>
+<ol>
+  <li> <strong>What is the wildcard `?` used for in Java Generics?</strong><br />
+    The wildcard `?` represents an unknown type. It is used to allow a method to accept any type, with the possibility of restricting the type using `extends` or `super`.<br />
+    Example:<br />
+    <pre><code>
+                public static void printList(List&lt;?&gt; list) {
+                    for (Object item : list) {
+                        System.out.println(item);
+                    }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between `List&lt;E&gt;` and `List&lt;? extends E&gt;`?</strong><br />
+    `List&lt;E&gt;` is a list of exactly type `E`, while `List&lt;? extends E&gt;` is a list of any type that is a subtype of `E` (including `E` itself).<br />
+    Example:<br />
+    <pre><code>
+                List&lt;Integer&gt; intList = new ArrayList&lt;&gt;(); // Exact type
+                List&lt;? extends Number&gt; numList = new ArrayList&lt;&gt;(); // Any subtype of Number
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>How do you create a `generic method` that works with multiple types?</strong><br />
+    You can define multiple type parameters for a generic method by separating them with commas.<br />
+    Example:<br />
+    <pre><code>
+                public static &lt;T, U&gt; void printPair(T first, U second) {
+                    System.out.println(&quot;First: &quot; + first + &quot;, Second: &quot; + second);
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can `generics` be used with arrays in Java?</strong><br />
+    No, you cannot directly create generic arrays in Java due to type erasure. You can, however, create an array of a generic type by using reflection.<br />
+    Example:<br />
+    <pre><code>
+                public static &lt;T&gt; T[] createArray(Class&lt;T&gt; clazz, int size) {
+                    return (T[]) Array.newInstance(clazz, size);
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>How does type erasure affect Java Generics?</strong><br />
+    Type erasure removes generic type information at runtime. This means that the generic type is replaced with the upper bound, typically `Object`, during compilation.<br />
+    Example:<br />
+    <pre><code>
+                public class Box&lt;T&gt; {
+                    private T item;
+                    // After compilation, T is erased to Object
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the use of `bounded` wildcards in method parameters?</strong><br />
+    Bounded wildcards are used to restrict the range of types that can be passed as arguments to a generic method, offering greater flexibility.<br />
+    Example:<br />
+    <pre><code>
+                public static void printNumbers(List&lt;? extends Number&gt; list) {
+                    for (Number number : list) {
+                        System.out.println(number);
+                    }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between `List&lt;E&gt;` and `List&lt;? super E&gt;`?</strong><br />
+    `List&lt;E&gt;` is a list of type `E`, whereas `List&lt;? super E&gt;` is a list of any type that is a supertype of `E`, meaning you can add objects of type `E` and its subclasses.<br />
+    Example:<br />
+    <pre><code>
+                List&lt;? super Integer&gt; list = new ArrayList&lt;&gt;();
+                list.add(10); // OK, Integer is a subtype of Number
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can `generics` be used with `enums` in Java?</strong><br />
+    Yes, you can use generics with enums, which allows for type-safe operations within collections of enums.<br />
+    Example:<br />
+    <pre><code>
+                public enum Color { RED, GREEN, BLUE }
+                public class Box&lt;T extends Enum&lt;T&gt;&gt; {
+                    private T color;
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is a `wildcard` type in Java Generics?</strong><br />
+    A wildcard type (`?`) is used to represent an unknown type. You can specify a lower or upper bound for this wildcard to control what types can be used.<br />
+    Example:<br />
+    <pre><code>
+                public static void printStrings(List&lt;? extends String&gt; list) {
+                    for (String str : list) {
+                        System.out.println(str);
+                    }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What does `List&lt;? super T&gt;` represent in Java Generics?</strong><br />
+    `List&lt;? super T&gt;` represents a list that can hold any type that is a supertype of `T`, including `T` itself.<br />
+    Example:<br />
+    <pre><code>
+                public static void addNumber(List&lt;? super Integer&gt; list) {
+                    list.add(10); // List can accept Integer or any superclass of Integer
+                }
+            </code></pre>
+  </li>
+  <br />
+</ol>
+<h1>Java Generics - Q&amp;A Set 10</h1>
+<ol>
+  <li> <strong>What is the purpose of `wildcard` with an upper bound (`? extends T`)?</strong><br />
+    The wildcard with an upper bound (`? extends T`) restricts the type to be `T` or any subtype of `T`. It allows for reading but not writing to the collection.<br />
+    Example:<br />
+    <pre><code>
+                public static void printNumbers(List&lt;? extends Number&gt; list) {
+                    for (Number number : list) {
+                        System.out.println(number);
+                    }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>How do you constrain a type parameter to be a subtype of a specific class in Java Generics?</strong><br />
+    You can use the `extends` keyword to constrain a type parameter to be a subtype of a specific class.<br />
+    Example:<br />
+    <pre><code>
+                public static &lt;T extends Number&gt; void print(T number) {
+                    System.out.println(number);
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between `List&lt;? extends T&gt;` and `List&lt;? super T&gt;`?</strong><br />
+    `List&lt;? extends T&gt;` means the list can hold instances of `T` or any subclass of `T`, while `List&lt;? super T&gt;` means the list can hold `T` or any superclass of `T`.<br />
+    Example:<br />
+    <pre><code>
+                List&lt;? extends Number&gt; list1 = new ArrayList&lt;Integer&gt;();
+                List&lt;? super Integer&gt; list2 = new ArrayList&lt;Number&gt;();
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is the role of `` in Java Generics?</strong><br />
+    The `` wildcard allows you to write objects of type `T` (or its subtypes) into a collection. This is used to ensure type safety when writing elements.<br />
+    Example:<br />
+    <pre><code>
+                public static void addNumbers(List&lt;? super Integer&gt; list) {
+                    list.add(10); // Works because Integer is a subtype of Number
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Can you use `Generics` with `enum` types in Java?</strong><br />
+    Yes, generics can be used with enum types. You can use generics to define methods that work with enum types as well.<br />
+    Example:<br />
+    <pre><code>
+                public enum Color { RED, GREEN, BLUE }
+                public class Box&lt;T extends Enum&lt;T&gt;&gt; {
+                    private T color;
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>How do you create a generic class with multiple type parameters?</strong><br />
+    You can define a generic class with multiple type parameters by separating them with commas.<br />
+    Example:<br />
+    <pre><code>
+                public class Pair&lt;K, V&gt; {
+                    private K key;
+                    private V value;
+                    
+                    public Pair(K key, V value) {
+                        this.key = key;
+                        this.value = value;
+                    }
+                    
+                    public K getKey() { return key; }
+                    public V getValue() { return value; }
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is type erasure in Java Generics?</strong><br />
+    Type erasure is a process by which the compiler removes generic type information at runtime. After compilation, all the type parameters are replaced with their bounds (or `Object` if no bound is specified).<br />
+    Example:<br />
+    <pre><code>
+                public class Box&lt;T&gt; { // T is erased to Object after compilation
+                    private T item;
+                }
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>Why can't we create an array of a generic type in Java?</strong><br />
+    We cannot create an array of a generic type because of type erasure. The specific type information is lost at runtime, and the JVM cannot determine the component type of the array.<br />
+    Example:<br />
+    <pre><code>
+                // This will throw a compile-time error
+                // T[] array = new T[10];
+            </code></pre>
+  </li>
+  <br />
+  <li> <strong>What is a generic method in Java?</strong><br />
+    A generic method is a method that can operate on objects of various types, defined by type parameters. It allows you to write flexible code that can work with different data types.<br />
+    Example:<br />
+    <pre><code>
+                public static &lt;T&gt; void print(T item) {
+                    System.out.println(item);
+                }
+            </code></pre>
+  </li>
+  <br />
+</ol>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><br />
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

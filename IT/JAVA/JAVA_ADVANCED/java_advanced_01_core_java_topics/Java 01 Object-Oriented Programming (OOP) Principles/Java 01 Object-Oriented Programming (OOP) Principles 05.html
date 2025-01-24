@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP Principles - Questions & Answers</title>
+    <style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+    </style>
+</head>
+<body>
+    <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h2 class="style1">Set 5</h2>
+    <ol class="style1">
+        <li>
+            <strong>What is the concept of "encapsulation" in OOP?</strong><br>
+            <p><em>Answer:</em> Encapsulation is the concept of hiding the internal implementation details of a class and only exposing the necessary parts of it, typically through public methods. This is done by marking the fields as private and providing getter and setter methods for accessing them.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of encapsulation in Java?</strong><br>
+            <pre>
+class Person {
+    private String name;
+    private int age;
+
+    // Getter and Setter methods for encapsulation
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person();
+        person.setName("John");
+        person.setAge(30);
+
+        System.out.println(person.getName()); // Outputs: John
+        System.out.println(person.getAge());  // Outputs: 30
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In this example, the `Person` class encapsulates its `name` and `age` fields by making them private and providing getter and setter methods for access.</p>
+        </li>
+        <li>
+            <strong>What is the difference between "public", "private", "protected", and "default" access modifiers in Java?</strong><br>
+            <p><em>Answer:</em> 
+            - **public**: The member is accessible from any other class.
+            - **private**: The member is accessible only within the same class.
+            - **protected**: The member is accessible within the same package and by subclasses (even if they are in different packages).
+            - **default** (no modifier): The member is accessible only within the same package.</p>
+        </li>
+        <li>
+            <strong>Can you explain the term "composition" in OOP?</strong><br>
+            <p><em>Answer:</em> Composition is a design principle in OOP where one class contains an instance of another class to represent a "has-a" relationship. It is a more flexible alternative to inheritance, as objects can be composed dynamically.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of composition in Java?</strong><br>
+            <pre>
+class Engine {
+    void start() {
+        System.out.println("Engine starting...");
+    }
+}
+
+class Car {
+    private Engine engine;
+
+    public Car() {
+        engine = new Engine();
+    }
+
+    void drive() {
+        engine.start();
+        System.out.println("Car is driving...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.drive();
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In this example, the `Car` class contains an instance of the `Engine` class, demonstrating the composition relationship.</p>
+        </li>
+        <li>
+            <strong>What is the difference between "composition" and "inheritance" in OOP?</strong><br>
+            <p><em>Answer:</em> 
+            - **Inheritance** represents an "is-a" relationship where a subclass inherits properties and behaviors from a superclass.
+            - **Composition** represents a "has-a" relationship where a class contains an object of another class to provide functionality.</p>
+        </li>
+        <li>
+            <strong>What is "aggregation" in OOP?</strong><br>
+            <p><em>Answer:</em> Aggregation is a special form of association where one object is part of another object, but the contained objects can exist independently of the container. It represents a "whole-part" relationship.</p>
+        </li>
+        <li>
+            <strong>Can you provide an example of aggregation in Java?</strong><br>
+            <pre>
+class Department {
+    private String name;
+
+    public Department(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+class Employee {
+    private String name;
+    private Department department;
+
+    public Employee(String name, Department department) {
+        this.name = name;
+        this.department = department;
+    }
+
+    public void display() {
+        System.out.println("Employee Name: " + name + ", Department: " + department.getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Department dept = new Department("HR");
+        Employee emp = new Employee("Alice", dept);
+
+        emp.display(); // Outputs: Employee Name: Alice, Department: HR
+    }
+}
+            </pre>
+            <p><em>Answer:</em> In this example, the `Department` class and the `Employee` class have an aggregation relationship. The `Employee` object is associated with the `Department` object, but the department can exist independently.</p>
+        </li>
+        <li>
+            <strong>What is "association" in OOP?</strong><br>
+            <p><em>Answer:</em> Association in OOP refers to a relationship between two or more objects where they can interact with each other, but they do not own or control each other. It can be one-to-one, one-to-many, or many-to-many.</p>
+        </li>
+        <li>
+            <strong>Can you explain the concept of "dependency injection" in OOP?</strong><br>
+            <p><em>Answer:</em> Dependency Injection (DI) is a design pattern used to implement Inversion of Control (IoC), where an object's dependencies are provided externally rather than being created within the object itself. This promotes loose coupling and better testability.</p>
+        </li>
+    </ol>
+</body>
+</html>

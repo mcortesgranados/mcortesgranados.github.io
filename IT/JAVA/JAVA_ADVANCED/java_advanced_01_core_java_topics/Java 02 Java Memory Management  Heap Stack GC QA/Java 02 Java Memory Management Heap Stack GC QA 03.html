@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Memory Management (Heap, Stack, GC) - Questions & Answers</title>
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+</style>
+</head>
+<body>
+    <h1 class="style1">Java Memory Management (Heap, Stack, GC) - Questions & Answers</h1>
+    <h2 class="style1">Set 3</h2>
+    <ol class="style1">
+        <li>
+            <strong>What is the purpose of the Stack in Java memory management?</strong><br>
+            <p><em>Answer:</em> The Stack in Java is used for storing method calls, local variables, and references to objects. It follows a last-in, first-out (LIFO) order, and each thread has its own stack. The stack is where the memory for primitive types and references is allocated.</p>
+        </li>
+        <li>
+            <strong>What happens when the Stack memory is full in Java?</strong><br>
+            <p><em>Answer:</em> When the Stack memory is full, a `StackOverflowError` occurs. This happens typically when there is excessive recursion or too many local variables allocated in a method.</p>
+        </li>
+        <li>
+            <strong>How is memory managed in the Heap in Java?</strong><br>
+            <p><em>Answer:</em> The Heap in Java is used to store objects and arrays. Memory allocation in the Heap is managed by the Garbage Collector. Objects in the Heap are subject to garbage collection when they are no longer referenced.</p>
+        </li>
+        <li>
+            <strong>What is Garbage Collection (GC) in Java?</strong><br>
+            <p><em>Answer:</em> Garbage Collection (GC) in Java is the process of automatically identifying and reclaiming memory that is no longer in use (i.e., objects that are no longer referenced). It helps in memory management and prevents memory leaks.</p>
+        </li>
+        <li>
+            <strong>What are the different types of Garbage Collectors in Java?</strong><br>
+            <p><em>Answer:</em> The main types of Garbage Collectors in Java are:
+                <ul>
+                    <li>Serial GC</li>
+                    <li>Parallel GC</li>
+                    <li>Concurrent Mark-Sweep (CMS) GC</li>
+                    <li>G1 GC (Garbage-First GC)</li>
+                </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What is the Serial Garbage Collector in Java?</strong><br>
+            <p><em>Answer:</em> The Serial Garbage Collector is a simple GC that uses a single thread to perform garbage collection. It is designed for single-threaded applications and works well in small applications with limited resources.</p>
+        </li>
+        <li>
+            <strong>What is the Parallel Garbage Collector in Java?</strong><br>
+            <p><em>Answer:</em> The Parallel Garbage Collector is designed for multi-threaded environments. It uses multiple threads for minor garbage collection to improve performance in applications with multiple processors or cores.</p>
+        </li>
+        <li>
+            <strong>What is the CMS (Concurrent Mark-Sweep) Garbage Collector in Java?</strong><br>
+            <p><em>Answer:</em> The CMS Garbage Collector performs garbage collection concurrently with the application threads. It is designed to minimize application pause times by performing most of the work concurrently with the application threads.</p>
+        </li>
+        <li>
+            <strong>What is the G1 (Garbage-First) Garbage Collector in Java?</strong><br>
+            <p><em>Answer:</em> The G1 Garbage Collector is designed for large applications with large heaps. It divides the heap into regions and performs garbage collection in a way that tries to minimize pause times while still providing high throughput.</p>
+        </li>
+        <li>
+            <strong>Can you explain the process of garbage collection in Java?</strong><br>
+            <p><em>Answer:</em> The garbage collection process in Java typically involves:
+                <ul>
+                    <li><strong>Marking:</strong> The garbage collector identifies which objects are still in use.</li>
+                    <li><strong>Normal cleanup:</strong> Unused objects are reclaimed, and their memory is freed.</li>
+                    <li><strong>Compaction:</strong> The memory is compacted to avoid fragmentation.</li>
+                </ul>
+            </p>
+        </li>
+    </ol>
+</body>
+</html>

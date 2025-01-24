@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Memory Management (Heap, Stack, GC) - Questions & Answers</title>
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+</style>
+</head>
+<body>
+    <h1 class="style1">Java Memory Management (Heap, Stack, GC) - Questions & Answers</h1>
+    <h2 class="style1">Set 9</h2>
+    <ol class="style1">
+        <li>
+            <strong>What is "garbage collection tuning" in Java?</strong><br>
+            <p><em>Answer:</em> Garbage collection tuning in Java involves adjusting various JVM options to optimize the garbage collection process for better performance. This may include adjusting heap sizes, choosing different garbage collection algorithms, and fine-tuning parameters like the frequency of garbage collection.</p>
+        </li>
+        <li>
+            <strong>What is the "garbage first (G1) collector" in Java?</strong><br>
+            <p><em>Answer:</em> The Garbage First (G1) collector is a garbage collection algorithm designed to achieve low pause times by dividing the heap into regions. It is the default garbage collector in Java 9 and later versions and is designed for large heaps and multi-core processors.</p>
+        </li>
+        <li>
+            <strong>How do you detect memory leaks in a Java application?</strong><br>
+            <p><em>Answer:</em> Memory leaks in Java can be detected by:
+                <ul>
+                    <li>Using profiling tools (e.g., VisualVM, YourKit) to monitor memory usage and object retention.</li>
+                    <li>Analyzing heap dumps to identify objects that are not being garbage collected.</li>
+                    <li>Examining code for unnecessary references that prevent garbage collection, such as static collections or improper use of singletons.</li>
+                </ul>
+            </p>
+        </li>
+        <li>
+            <strong>What is the "metaspace" in Java?</strong><br>
+            <p><em>Answer:</em> Metaspace is the memory area in the JVM where class metadata (e.g., class definitions, method information) is stored. Introduced in Java 8, it replaced the permanent generation. Unlike the permanent generation, metaspace grows automatically depending on the application’s needs.</p>
+        </li>
+        <li>
+            <strong>What is the role of "garbage collection roots" in Java?</strong><br>
+            <p><em>Answer:</em> Garbage collection roots are the set of objects that are always reachable from the application. These roots include active threads, static fields, and local variables in method calls. The garbage collector uses these roots to trace reachable objects and collect the unreferenced ones.</p>
+        </li>
+        <li>
+            <strong>What is the "WriteBarrier" in Java garbage collection?</strong><br>
+            <p><em>Answer:</em> A WriteBarrier is a mechanism used in garbage collection to track writes to objects. It helps manage memory access in multi-threaded environments, ensuring that changes to objects are reflected accurately during the garbage collection process.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of "heap dump analysis" in Java?</strong><br>
+            <p><em>Answer:</em> Heap dump analysis is the process of analyzing a heap dump to examine the objects in memory at a specific point in time. This helps in diagnosing memory leaks, identifying objects that are using excessive memory, and improving memory management in the application.</p>
+        </li>
+        <li>
+            <strong>What is "escape analysis" in Java?</strong><br>
+            <p><em>Answer:</em> Escape analysis is a JVM optimization technique used to determine whether an object can be allocated on the stack instead of the heap. If the object’s references do not escape the method, the JVM may allocate it on the stack to reduce garbage collection overhead.</p>
+        </li>
+        <li>
+            <strong>What is "object promotion" in Java garbage collection?</strong><br>
+            <p><em>Answer:</em> Object promotion is the process of moving objects from the young generation to the old generation in the heap after they have survived several garbage collection cycles. The objects are considered long-lived and are moved to the old generation to reduce the frequency of minor garbage collections.</p>
+        </li>
+    </ol>
+</body>
+</html>
