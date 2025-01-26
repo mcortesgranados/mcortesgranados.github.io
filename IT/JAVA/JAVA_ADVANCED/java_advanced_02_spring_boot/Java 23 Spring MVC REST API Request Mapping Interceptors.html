@@ -1,0 +1,1195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+<!--
+.question {            margin-bottom: 20px;
+}
+-->
+</style>
+</head>
+
+<body>	
+<h2>Spring MVC REST API Request Mapping &amp; Interceptors - Set 1</h2>
+<div class="question">
+  <h3>1. What is the purpose of the @RequestMapping annotation in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The @RequestMapping annotation is used to map HTTP requests to handler methods of MVC and REST controllers in Spring. It can be applied to methods and classes to specify the request path, request method, and other parameters that the method should handle. It simplifies the mapping of different HTTP request types (GET, POST, etc.) to specific methods in a controller.</p>
+</div>
+<div class="question">
+  <h3>2. What is the difference between @GetMapping, @PostMapping, @PutMapping, and @DeleteMapping annotations in Spring MVC?</h3>
+  <p><strong>Answer:</strong> These annotations are shortcuts for @RequestMapping with specific HTTP request methods: </p>
+  <ul>
+    <li>@GetMapping: Handles HTTP GET requests, typically used to retrieve resources.</li>
+    <li>@PostMapping: Handles HTTP POST requests, typically used to create new resources.</li>
+    <li>@PutMapping: Handles HTTP PUT requests, typically used to update an existing resource.</li>
+    <li>@DeleteMapping: Handles HTTP DELETE requests, typically used to delete a resource.</li>
+  </ul>
+  </p>
+</div>
+<div class="question">
+  <h3>3. What is the role of the @PathVariable annotation in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The @PathVariable annotation is used to bind a method parameter to a URI template variable. It is commonly used in REST APIs when the request URI contains dynamic values (e.g., a resource identifier) that need to be passed to the method as parameters.</p>
+</div>
+<div class="question">
+  <h3>4. How does @RequestParam differ from @PathVariable in Spring MVC?</h3>
+  <p><strong>Answer:</strong> @RequestParam is used to bind query parameters from the URL, while @PathVariable is used to bind URI template variables. @RequestParam is used in cases where the parameter is part of the query string or form data, while @PathVariable is used when the parameter is embedded in the URL path itself.</p>
+</div>
+<div class="question">
+  <h3>5. What is the purpose of an Interceptor in Spring MVC?</h3>
+  <p><strong>Answer:</strong> An Interceptor in Spring MVC is used to pre-process and post-process requests. It can be used to perform actions such as logging, authentication, authorization, modifying request/response objects, or handling exceptions before and after the controller's method is executed. Interceptors are similar to filters but have more flexibility.</p>
+</div>
+<div class="question">
+  <h3>6. How do you configure interceptors in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Interceptors are configured using the WebMvcConfigurer interface. By implementing the addInterceptors() method, you can add interceptors to the application. You also specify the URL patterns for which the interceptors should be applied. Example configuration in a Java config class: </p>
+  <pre>
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(new MyInterceptor()).addPathPatterns(&quot;/api/**&quot;);
+            }
+            </pre>
+  </p>
+</div>
+<div class="question">
+  <h3>7. What is the difference between HandlerInterceptor and HandlerInterceptorAdapter?</h3>
+  <p><strong>Answer:</strong> HandlerInterceptor is the interface that defines the methods for intercepting requests and responses. HandlerInterceptorAdapter is an abstract class that implements HandlerInterceptor with default empty methods. It provides an easier way to implement interceptors by overriding only the necessary methods, instead of implementing the entire interface.</p>
+</div>
+<div class="question">
+  <h3>8. How can you intercept a request before it reaches the controller in Spring MVC?</h3>
+  <p><strong>Answer:</strong> To intercept a request before it reaches the controller, you can implement the preHandle() method in a custom interceptor. This method is executed before the controller's handler method is called and can be used for tasks such as authentication or modifying the request.</p>
+</div>
+<div class="question">
+  <h3>9. What is the significance of the preHandle() method in an interceptor?</h3>
+  <p><strong>Answer:</strong> The preHandle() method in an interceptor is executed before the request is processed by the handler method in the controller. It returns a boolean value indicating whether the request should continue processing or be interrupted (e.g., for authentication failure). If it returns true, the request proceeds; if false, the request is stopped, and the response is sent immediately.</p>
+</div>
+<div class="question">
+  <h3>10. What is the purpose of postHandle() in an interceptor?</h3>
+  <p><strong>Answer:</strong> The postHandle() method in an interceptor is executed after the controller's handler method has been invoked but before the view is rendered. It can be used to modify the ModelAndView object, for example, adding attributes or altering the view name before the response is sent back to the client.</p>
+</div>
+<p>&nbsp;</p>
+<h2>Spring MVC REST API Request Mapping &amp; Interceptors - Set 2</h2>
+<div class="question">
+  <h3>1. How do you return a response body in a Spring MVC REST API method?</h3>
+  <p><strong>Answer:</strong> You can return a response body in a Spring MVC REST API method by annotating the method with @ResponseBody. This tells Spring to convert the return value into the appropriate HTTP response body, typically in JSON or XML format depending on the client's request. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public @ResponseBody List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>2. What is the purpose of @RestController annotation in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The @RestController annotation is a convenience annotation that combines @Controller and @ResponseBody. It is used for RESTful APIs and ensures that the return values from the methods are automatically serialized into HTTP response bodies without needing to manually annotate each method with @ResponseBody.</p>
+</div>
+<div class="question">
+  <h3>3. Can you use both @RequestMapping and specific HTTP method annotations like @GetMapping?</h3>
+  <p><strong>Answer:</strong> Yes, you can use both. @RequestMapping is a general-purpose annotation that can handle all HTTP methods (GET, POST, PUT, DELETE, etc.). However, specific annotations like @GetMapping, @PostMapping, etc., are more concise and are preferred for readability and clarity. They are essentially shorthand for @RequestMapping with the corresponding HTTP method.</p>
+</div>
+<div class="question">
+  <h3>4. How can you pass parameters in the request URL in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Parameters can be passed in the request URL as either query parameters (using @RequestParam) or path variables (using @PathVariable). Example with @RequestParam:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getUsers(@RequestParam(&quot;age&quot;) int age) {
+            return userService.getUsersByAge(age);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>5. How would you map a request to a method using multiple path variables?</h3>
+  <p><strong>Answer:</strong> You can map a request with multiple path variables by specifying multiple parameters in the @GetMapping (or @RequestMapping) path and using @PathVariable for each parameter. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users/{userId}/posts/{postId}&quot;)
+        public Post getPost(@PathVariable(&quot;userId&quot;) Long userId, @PathVariable(&quot;postId&quot;) Long postId) {
+            return postService.getPostByUserIdAndPostId(userId, postId);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>6. What is the function of @ExceptionHandler in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The @ExceptionHandler annotation is used to define a method for handling exceptions thrown by handler methods in a controller. It allows you to handle specific exceptions and provide a custom response for error scenarios.</p>
+</div>
+<div class="question">
+  <h3>7. How can you globally configure exception handling in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Global exception handling in Spring MVC can be configured using @ControllerAdvice. This allows you to define a centralized handler for exceptions across multiple controllers. Example:</p>
+  <pre>
+        @ControllerAdvice
+        public class GlobalExceptionHandler {
+            @ExceptionHandler(ResourceNotFoundException.class)
+            public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>8. What is the role of @RequestBody annotation in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The @RequestBody annotation is used to bind the HTTP request body to a method parameter. This is useful for receiving JSON, XML, or other data formats in the request body and converting them to Java objects. Example:</p>
+  <pre>
+        @PostMapping(&quot;/api/users&quot;)
+        public User createUser(@RequestBody User user) {
+            return userService.createUser(user);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>9. How can you add custom headers to a response in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can add custom headers to a response by using the ResponseEntity class. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public ResponseEntity<List<User>&gt; getUsers() {
+            List<User> users = userService.getAllUsers();
+            return ResponseEntity.ok()
+                .header(&quot;X-Custom-Header&quot;, &quot;value&quot;)
+                .body(users);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>10. How do you implement cross-origin resource sharing (CORS) in Spring MVC?</h3>
+  <p><strong>Answer:</strong> CORS can be configured in Spring MVC using the @CrossOrigin annotation or by setting global CORS mappings using Java config. Example of using @CrossOrigin:</p>
+  <pre>
+        @RestController
+        @CrossOrigin(origins = &quot;http://example.com&quot;)
+        public class UserController {
+            @GetMapping(&quot;/api/users&quot;)
+            public List<User> getUsers() {
+                return userService.getAllUsers();
+            }
+        }
+        </pre>
+</div>
+<p>&nbsp;</p>
+<h2>Spring MVC REST API Request Mapping &amp; Interceptors - Set 3</h2>
+<div class="question">
+  <h3>1. How do you use Spring MVC interceptors for logging requests?</h3>
+  <p><strong>Answer:</strong> You can use interceptors to log requests in Spring MVC by implementing the HandlerInterceptor interface. The preHandle method is used to log the incoming request before the controller is called. Example:</p>
+  <pre>
+        public class LoggingInterceptor implements HandlerInterceptor {
+            @Override
+            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+                System.out.println(&quot;Request URL: &quot; + request.getRequestURL());
+                return true;
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>2. How do you register a custom interceptor in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Custom interceptors can be registered in Spring MVC by adding them to the <code>InterceptorRegistry</code> within a configuration class that implements <code>WebMvcConfigurer</code>. Example:</p>
+  <pre>
+        @Configuration
+        public class WebConfig implements WebMvcConfigurer {
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(new LoggingInterceptor()).addPathPatterns(&quot;/api/**&quot;);
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>3. How can you restrict access to a controller method based on the HTTP method type (GET, POST)?</h3>
+  <p><strong>Answer:</strong> You can restrict access to a controller method based on the HTTP method by using specific annotations such as @GetMapping, @PostMapping, @PutMapping, etc. These annotations ensure that the method is only invoked for the corresponding HTTP request method. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+
+        @PostMapping(&quot;/api/users&quot;)
+        public User createUser(@RequestBody User user) {
+            return userService.createUser(user);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>4. What is the difference between @ResponseBody and @RequestBody in Spring MVC?</h3>
+  <p><strong>Answer:</strong> @ResponseBody is used to convert the return value of a method into the response body (e.g., JSON, XML). @RequestBody, on the other hand, is used to bind the HTTP request body to a method parameter. Example:</p>
+  <pre>
+        @PostMapping(&quot;/api/users&quot;)
+        public User createUser(@RequestBody User user) {
+            return userService.createUser(user);
+        }
+
+        @GetMapping(&quot;/api/users&quot;)
+        public @ResponseBody List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>5. How can you handle form data in Spring MVC REST API?</h3>
+  <p><strong>Answer:</strong> Form data can be handled in Spring MVC using the @RequestParam annotation. It is used to extract values from the request parameters. Example:</p>
+  <pre>
+        @PostMapping(&quot;/api/users&quot;)
+        public User createUser(@RequestParam(&quot;name&quot;) String name, @RequestParam(&quot;email&quot;) String email) {
+            return userService.createUser(new User(name, email));
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>6. How would you handle pagination in Spring MVC REST API?</h3>
+  <p><strong>Answer:</strong> Pagination can be implemented in Spring MVC REST API by using the Pageable interface from Spring Data. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public Page<User> getUsers(Pageable pageable) {
+            return userService.getUsers(pageable);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>7. How can you handle JSON parsing errors in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can handle JSON parsing errors by using the @ExceptionHandler annotation to handle specific exceptions like <code>HttpMessageNotReadableException</code>. Example:</p>
+  <pre>
+        @ExceptionHandler(HttpMessageNotReadableException.class)
+        public ResponseEntity<String> handleJsonParseError(HttpMessageNotReadableException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(&quot;Invalid JSON format: &quot; + ex.getMessage());
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>8. How do you configure a Spring MVC REST API to accept only JSON data?</h3>
+  <p><strong>Answer:</strong> You can configure Spring MVC REST API to accept only JSON data by specifying the <code>consumes</code> attribute in the @RequestMapping annotations. Example:</p>
+  <pre>
+        @PostMapping(value = &quot;/api/users&quot;, consumes = &quot;application/json&quot;)
+        public User createUser(@RequestBody User user) {
+            return userService.createUser(user);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>9. How do you implement a custom HTTP status code in Spring MVC REST API?</h3>
+  <p><strong>Answer:</strong> A custom HTTP status code can be returned by using the ResponseEntity class, which allows you to specify both the response body and HTTP status. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users/{id}&quot;)
+        public ResponseEntity<User> getUserById(@PathVariable Long id) {
+            User user = userService.getUserById(id);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            return ResponseEntity.ok(user);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>10. What is the use of @RequestMapping annotation in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The @RequestMapping annotation is used to map web requests to specific handler methods in a controller. It can be used with different HTTP methods (GET, POST, PUT, DELETE) and can also specify parameters, headers, and more. Example:</p>
+  <pre>
+        @RequestMapping(&quot;/api/users&quot;)
+        public List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<p>&nbsp;</p>
+<h2>Spring MVC REST API Request Mapping &amp; Interceptors - Set 4</h2>
+<div class="question">
+  <h3>1. How do you enable Cross-Origin Resource Sharing (CORS) in Spring MVC?</h3>
+  <p><strong>Answer:</strong> CORS can be enabled globally by adding a CORS mapping in the WebMvcConfigurer interface, or it can be configured at the method level using the @CrossOrigin annotation. Example of global configuration:</p>
+  <pre>
+        @Configuration
+        public class WebConfig implements WebMvcConfigurer {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping(&quot;/api/**&quot;).allowedOrigins(&quot;http://example.com&quot;);
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>2. How do you handle the 404 error in Spring MVC?</h3>
+  <p><strong>Answer:</strong> A 404 error can be handled by defining a custom error handler using the @ExceptionHandler annotation for <code>ResourceNotFoundException</code>. Example:</p>
+  <pre>
+        @ExceptionHandler(ResourceNotFoundException.class)
+        public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(&quot;Resource not found: &quot; + ex.getMessage());
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>3. How do you create a custom annotation for request mapping in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can create a custom annotation and use it with <code>@RequestMapping</code> as part of a combination of custom logic. Example:</p>
+  <pre>
+        @Target(ElementType.METHOD)
+        @Retention(RetentionPolicy.RUNTIME)
+        @RequestMapping
+        public @interface CustomMapping {
+            String value() default &quot;&quot;;
+        }
+
+        @CustomMapping(&quot;/api/custom&quot;)
+        public String customEndpoint() {
+            return &quot;Custom Mapping Logic&quot;;
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>4. How can you customize the response body in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can customize the response body in Spring MVC by using the @ResponseBody annotation or ResponseEntity class. Example using ResponseEntity:</p>
+  <pre>
+        @GetMapping(&quot;/api/users/{id}&quot;)
+        public ResponseEntity<User> getUser(@PathVariable Long id) {
+            User user = userService.getUser(id);
+            if (user != null) {
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>5. How do you handle request parameters in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can handle request parameters using the @RequestParam annotation. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/search&quot;)
+        public List<User> searchUsers(@RequestParam(&quot;name&quot;) String name) {
+            return userService.findByName(name);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>6. How can you restrict method mappings to specific HTTP methods in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can restrict method mappings by using the HTTP method specific annotations like @GetMapping, @PostMapping, etc. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getAllUsers() {
+            return userService.getAllUsers();
+        }
+
+        @PostMapping(&quot;/api/users&quot;)
+        public User createUser(@RequestBody User user) {
+            return userService.createUser(user);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>7. How do you use path variables in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Path variables can be used with @PathVariable to capture values from the URI. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users/{id}&quot;)
+        public User getUser(@PathVariable Long id) {
+            return userService.getUser(id);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>8. What is the use of @RequestHeader in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The @RequestHeader annotation is used to extract header values from an HTTP request. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public String getUserByHeader(@RequestHeader(&quot;User-Agent&quot;) String userAgent) {
+            return &quot;User-Agent: &quot; + userAgent;
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>9. How do you prevent CSRF attacks in Spring MVC?</h3>
+  <p><strong>Answer:</strong> CSRF (Cross-Site Request Forgery) protection can be enabled by default in Spring Security. It can be disabled or configured if needed. Example of disabling CSRF protection:</p>
+  <pre>
+        @Configuration
+        @EnableWebSecurity
+        public class SecurityConfig extends WebSecurityConfigurerAdapter {
+            @Override
+            protected void configure(HttpSecurity http) throws Exception {
+                http.csrf().disable();
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>10. How can you validate user input in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Input validation in Spring MVC can be done using JSR-303 annotations like @NotNull, @Size, and @Email on your entity or DTO classes. Example:</p>
+  <pre>
+        public class User {
+            @NotNull
+            @Size(min = 2, max = 30)
+            private String name;
+
+            @Email
+            private String email;
+        }
+
+        @PostMapping(&quot;/api/users&quot;)
+        public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
+            return ResponseEntity.ok(userService.createUser(user));
+        }
+        </pre>
+</div>
+<p>&nbsp;</p>
+<h2>Spring MVC REST API Request Mapping &amp; Interceptors - Set 5</h2>
+<div class="question">
+  <h3>1. How do you handle multipart file uploads in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Multipart file uploads can be handled using the <code>@RequestParam</code> annotation. Example:</p>
+  <pre>
+        @PostMapping(&quot;/api/upload&quot;)
+        public String uploadFile(@RequestParam(&quot;file&quot;) MultipartFile file) {
+            try {
+                fileService.saveFile(file);
+                return &quot;File uploaded successfully&quot;;
+            } catch (Exception e) {
+                return &quot;Error uploading file&quot;;
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>2. What is the purpose of the @RequestBody annotation in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The <code>@RequestBody</code> annotation is used to bind the HTTP request body to a method parameter, typically for JSON or XML payloads. Example:</p>
+  <pre>
+        @PostMapping(&quot;/api/users&quot;)
+        public User createUser(@RequestBody User user) {
+            return userService.createUser(user);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>3. How can you customize the HTTP status code in a Spring MVC response?</h3>
+  <p><strong>Answer:</strong> You can customize the HTTP status code by using <code>ResponseEntity</code> to return the desired status. Example:</p>
+  <pre>
+        @PutMapping(&quot;/api/users/{id}&quot;)
+        public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+            User updatedUser = userService.updateUser(id, user);
+            return updatedUser != null
+                ? ResponseEntity.status(HttpStatus.OK).body(updatedUser)
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>4. How do you set request mapping for multiple endpoints in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can set multiple mappings for a single method using <code>@RequestMapping</code> with the <code>value</code> parameter, or use more specific annotations like <code>@GetMapping</code> and <code>@PostMapping</code>. Example:</p>
+  <pre>
+        @RequestMapping(value = {&quot;/api/users&quot;, &quot;/api/customers&quot;})
+        public List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>5. What is an interceptor in Spring MVC and how is it used?</h3>
+  <p><strong>Answer:</strong> An interceptor in Spring MVC is a mechanism to preprocess or postprocess HTTP requests. You can implement an <code>HandlerInterceptor</code> interface and register it in the configuration. Example:</p>
+  <pre>
+        public class CustomInterceptor implements HandlerInterceptor {
+            @Override
+            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+                // Logic before controller method
+                return true;
+            }
+
+            @Override
+            public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+                // Logic after controller method but before view rendering
+            }
+
+            @Override
+            public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+                // Logic after view rendering
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>6. How can you configure global interceptors in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Global interceptors can be configured by implementing <code>WebMvcConfigurer</code> and overriding the <code>addInterceptors</code> method. Example:</p>
+  <pre>
+        @Configuration
+        public class WebConfig implements WebMvcConfigurer {
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(new CustomInterceptor()).addPathPatterns(&quot;/api/**&quot;);
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>7. How do you handle exception handling in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Exception handling can be done globally using <code>@ControllerAdvice</code> or locally with <code>@ExceptionHandler</code>. Example using <code>@ControllerAdvice</code>:</p>
+  <pre>
+        @ControllerAdvice
+        public class GlobalExceptionHandler {
+            @ExceptionHandler(ResourceNotFoundException.class)
+            public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+            }
+
+            @ExceptionHandler(Exception.class)
+            public ResponseEntity<String> handleGenericException(Exception ex) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(&quot;An unexpected error occurred&quot;);
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>8. How can you use query parameters in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Query parameters can be accessed using <code>@RequestParam</code>. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/search&quot;)
+        public List<User> searchUsers(@RequestParam(&quot;query&quot;) String query) {
+            return userService.searchUsers(query);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>9. How do you make Spring MVC REST API methods return JSON?</h3>
+  <p><strong>Answer:</strong> By default, Spring MVC automatically converts the return values to JSON when using <code>@RestController</code>. Example:</p>
+  <pre>
+        @RestController
+        public class UserController {
+            @GetMapping(&quot;/api/users&quot;)
+            public List<User> getAllUsers() {
+                return userService.getAllUsers();
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>10. How do you secure a Spring MVC REST API endpoint?</h3>
+  <p><strong>Answer:</strong> You can secure REST API endpoints by using Spring Security. Example of securing an endpoint:</p>
+  <pre>
+        @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+        @GetMapping(&quot;/api/admin&quot;)
+        public String getAdminData() {
+            return &quot;Admin data&quot;;
+        }
+        </pre>
+</div>
+<p>&nbsp;</p>
+<h2>Spring MVC REST API Request Mapping &amp; Interceptors - Set 6</h2>
+<div class="question">
+  <h3>1. How can you bind path variables in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Path variables can be bound using the <code>@PathVariable</code> annotation. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users/{id}&quot;)
+        public User getUserById(@PathVariable Long id) {
+            return userService.getUserById(id);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>2. How do you configure Spring MVC to support cross-origin resource sharing (CORS)?</h3>
+  <p><strong>Answer:</strong> CORS can be configured at the method, controller, or global level using <code>@CrossOrigin</code> or a <code>WebMvcConfigurer</code> implementation. Example:</p>
+  <pre>
+        @CrossOrigin(origins = &quot;http://localhost:3000&quot;)
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>3. What is the difference between @RequestParam and @PathVariable in Spring MVC?</h3>
+  <p><strong>Answer:</strong> <code>@RequestParam</code> is used for query parameters, while <code>@PathVariable</code> is used to extract values from the URL path. Example:</p>
+  <pre>
+        // @RequestParam
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getUsers(@RequestParam(&quot;status&quot;) String status) {
+            return userService.getUsersByStatus(status);
+        }
+
+        // @PathVariable
+        @GetMapping(&quot;/api/users/{id}&quot;)
+        public User getUserById(@PathVariable Long id) {
+            return userService.getUserById(id);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>4. How can you add custom headers to a Spring MVC response?</h3>
+  <p><strong>Answer:</strong> You can add custom headers using the <code>HttpServletResponse</code> object in your controller method. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public ResponseEntity<List<User>&gt; getUsers() {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(&quot;X-Custom-Header&quot;, &quot;CustomValue&quot;);
+            return new ResponseEntity&lt;&gt;(userService.getAllUsers(), headers, HttpStatus.OK);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>5. How do you use the <code>@ResponseBody</code> annotation in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The <code>@ResponseBody</code> annotation tells Spring MVC to write the return value directly to the HTTP response body as JSON or XML. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        @ResponseBody
+        public List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>6. How do you handle form data submission in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can handle form data using <code>@ModelAttribute</code> to bind form fields to an object. Example:</p>
+  <pre>
+        @PostMapping(&quot;/api/users&quot;)
+        public String createUser(@ModelAttribute User user) {
+            userService.createUser(user);
+            return &quot;User created successfully&quot;;
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>7. How can you implement pagination in Spring MVC REST API?</h3>
+  <p><strong>Answer:</strong> Pagination can be implemented using <code>Pageable</code> and <code>Page</code> from Spring Data. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public Page<User> getUsers(Pageable pageable) {
+            return userService.getUsers(pageable);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>8. How can you secure your Spring MVC API endpoints using JWT?</h3>
+  <p><strong>Answer:</strong> Spring Security can be configured to validate JWT tokens in request headers for secure access. Example:</p>
+  <pre>
+        @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>9. How do you add custom exception handling in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Custom exception handling can be done using <code>@ExceptionHandler</code> or <code>@ControllerAdvice</code>. Example:</p>
+  <pre>
+        @ControllerAdvice
+        public class GlobalExceptionHandler {
+            @ExceptionHandler(ResourceNotFoundException.class)
+            public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>10. How do you handle HTTP requests with custom HTTP methods in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can use <code>@RequestMapping</code> to map custom HTTP methods (e.g., PUT, DELETE, PATCH). Example:</p>
+  <pre>
+        @RequestMapping(value = &quot;/api/users/{id}&quot;, method = RequestMethod.PATCH)
+        public ResponseEntity<User> updateUserPartial(@PathVariable Long id, @RequestBody User user) {
+            User updatedUser = userService.updateUserPartial(id, user);
+            return updatedUser != null ? ResponseEntity.ok(updatedUser) : ResponseEntity.notFound().build();
+        }
+        </pre>
+</div>
+<p>&nbsp;</p>
+<h2>Spring MVC REST API Request Mapping &amp; Interceptors - Set 7</h2>
+<div class="question">
+  <h3>1. How can you configure an interceptor in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can configure an interceptor by implementing <code>HandlerInterceptor</code> and registering it in <code>WebMvcConfigurer</code>. Example:</p>
+  <pre>
+        @Configuration
+        public class WebConfig implements WebMvcConfigurer {
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(new MyCustomInterceptor()).addPathPatterns(&quot;/api/**&quot;);
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>2. What is the purpose of the <code>@RequestMapping</code> annotation in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The <code>@RequestMapping</code> annotation is used to map HTTP requests to handler methods of MVC controllers. It can handle multiple HTTP methods like GET, POST, PUT, DELETE, etc. Example:</p>
+  <pre>
+        @RequestMapping(&quot;/api/users&quot;)
+        public List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>3. How can you handle multiple HTTP request methods for a single method in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can use <code>@RequestMapping</code> with <code>method</code> parameter to specify multiple HTTP methods. Example:</p>
+  <pre>
+        @RequestMapping(value = &quot;/api/users&quot;, method = {RequestMethod.GET, RequestMethod.POST})
+        public List<User> handleGetAndPost() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>4. How can you handle request parameters in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Request parameters can be handled using <code>@RequestParam</code>. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getUsers(@RequestParam(&quot;status&quot;) String status) {
+            return userService.getUsersByStatus(status);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>5. What is the purpose of the <code>@RequestBody</code> annotation in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The <code>@RequestBody</code> annotation is used to bind the body of the HTTP request to a method parameter in the controller. Example:</p>
+  <pre>
+        @PostMapping(&quot;/api/users&quot;)
+        public void createUser(@RequestBody User user) {
+            userService.createUser(user);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>6. How can you use custom interceptors to modify requests and responses?</h3>
+  <p><strong>Answer:</strong> Custom interceptors can be implemented by creating a class that implements <code>HandlerInterceptor</code>. Example:</p>
+  <pre>
+        public class MyCustomInterceptor implements HandlerInterceptor {
+            @Override
+            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+                // Custom pre-processing logic
+                return true;
+            }
+
+            @Override
+            public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+                // Custom post-processing logic
+            }
+
+            @Override
+            public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+                // Clean-up code after request completion
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>7. What is the role of <code>HandlerInterceptor</code> in Spring MVC?</h3>
+  <p><strong>Answer:</strong> <code>HandlerInterceptor</code> allows for pre-processing, post-processing, and completion handling of HTTP requests and responses. It can be used for tasks like logging, authentication, or modifying the response. Example:</p>
+  <pre>
+        public class LoggingInterceptor implements HandlerInterceptor {
+            @Override
+            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+                System.out.println(&quot;Request URL: &quot; + request.getRequestURL());
+                return true;
+            }
+
+            @Override
+            public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+                // Post-processing logic
+            }
+
+            @Override
+            public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+                // Final clean-up logic
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>8. How can you configure exception handling globally in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Global exception handling can be done using <code>@ControllerAdvice</code> along with <code>@ExceptionHandler</code>. Example:</p>
+  <pre>
+        @ControllerAdvice
+        public class GlobalExceptionHandler {
+            @ExceptionHandler(ResourceNotFoundException.class)
+            public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>9. How do you perform content negotiation in Spring MVC?</h3>
+  <p><strong>Answer:</strong> Content negotiation is handled using <code>@RequestMapping</code> with produces or consumes parameters to specify the desired media type (JSON, XML). Example:</p>
+  <pre>
+        @GetMapping(value = &quot;/api/users&quot;, produces = MediaType.APPLICATION_JSON_VALUE)
+        public List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>10. How do you add custom headers to a Spring MVC response?</h3>
+  <p><strong>Answer:</strong> You can add custom headers by using <code>HttpServletResponse</code> or returning a <code>ResponseEntity</code>. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public ResponseEntity<List<User>&gt; getUsers() {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(&quot;X-Custom-Header&quot;, &quot;CustomValue&quot;);
+            return new ResponseEntity&lt;&gt;(userService.getAllUsers(), headers, HttpStatus.OK);
+        }
+        </pre>
+</div>
+<p>&nbsp;</p>
+<h2>Spring MVC REST API Request Mapping &amp; Interceptors - Set 8</h2>
+<div class="question">
+  <h3>1. What is the function of <code>@PathVariable</code> in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The <code>@PathVariable</code> annotation is used to extract values from the URI of the request. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users/{id}&quot;)
+        public User getUser(@PathVariable(&quot;id&quot;) Long id) {
+            return userService.getUserById(id);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>2. How can you limit the number of results in Spring MVC REST API?</h3>
+  <p><strong>Answer:</strong> You can limit the number of results by using query parameters, for example, using <code>@RequestParam</code> for pagination. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getUsers(@RequestParam(defaultValue = &quot;10&quot;) int limit) {
+            return userService.getUsersWithLimit(limit);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>3. What is the difference between <code>@RequestMapping</code> and <code>@GetMapping</code>?</h3>
+  <p><strong>Answer:</strong> <code>@RequestMapping</code> is a general-purpose mapping annotation that can handle various HTTP methods (GET, POST, PUT, DELETE). <code>@GetMapping</code> is a specialized version of <code>@RequestMapping</code> for handling HTTP GET requests. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>4. How can you handle different HTTP methods for the same method in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can use <code>@RequestMapping</code> with the <code>method</code> attribute to specify which HTTP methods the handler should accept. Example:</p>
+  <pre>
+        @RequestMapping(value = &quot;/api/users&quot;, method = {RequestMethod.GET, RequestMethod.POST})
+        public List<User> handleGetAndPost() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>5. How can you intercept and log the request URL and method in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can use a custom <code>HandlerInterceptor</code> to log the request details. Example:</p>
+  <pre>
+        public class LoggingInterceptor implements HandlerInterceptor {
+            @Override
+            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+                System.out.println(&quot;Request URL: &quot; + request.getRequestURL());
+                System.out.println(&quot;Request Method: &quot; + request.getMethod());
+                return true;
+            }
+
+            @Override
+            public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+                // Additional post-processing if needed
+            }
+
+            @Override
+            public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+                // Cleanup after request completion
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>6. How can you configure a Spring MVC handler method to consume JSON or XML?</h3>
+  <p><strong>Answer:</strong> You can specify the <code>consumes</code> attribute of <code>@RequestMapping</code> to define which media type the handler method will consume. Example:</p>
+  <pre>
+        @RequestMapping(value = &quot;/api/users&quot;, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+        public void createUser(@RequestBody User user) {
+            userService.createUser(user);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>7. How do you configure an interceptor to handle HTTP requests and responses in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You configure an interceptor by implementing <code>HandlerInterceptor</code> and registering it via <code>WebMvcConfigurer</code>. Example:</p>
+  <pre>
+        @Configuration
+        public class WebConfig implements WebMvcConfigurer {
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(new LoggingInterceptor()).addPathPatterns(&quot;/api/**&quot;);
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>8. What is the role of <code>@ControllerAdvice</code> in Spring MVC?</h3>
+  <p><strong>Answer:</strong> <code>@ControllerAdvice</code> is used to define global exception handling, model attribute population, and data binding for all controllers in the application. Example:</p>
+  <pre>
+        @ControllerAdvice
+        public class GlobalExceptionHandler {
+            @ExceptionHandler(Exception.class)
+            public ResponseEntity<String> handleException(Exception ex) {
+                return new ResponseEntity&lt;&gt;(&quot;Error: &quot; + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>9. How can you return custom error messages in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can return custom error messages by using <code>@ExceptionHandler</code> within <code>@ControllerAdvice</code> or within individual controllers. Example:</p>
+  <pre>
+        @ControllerAdvice
+        public class GlobalExceptionHandler {
+            @ExceptionHandler(UserNotFoundException.class)
+            public ResponseEntity<String> handleUserNotFound(UserNotFoundException ex) {
+                return new ResponseEntity&lt;&gt;(&quot;User not found: &quot; + ex.getMessage(), HttpStatus.NOT_FOUND);
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>10. How can you bind HTTP request parameters to method arguments in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can bind HTTP request parameters to method arguments using <code>@RequestParam</code>. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getUsers(@RequestParam(&quot;status&quot;) String status) {
+            return userService.getUsersByStatus(status);
+        }
+        </pre>
+</div>
+<p>&nbsp;</p>
+<h2>Spring MVC REST API Request Mapping &amp; Interceptors - Set 9</h2>
+<div class="question">
+  <h3>1. How do you handle multiple HTTP methods in a single method in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can handle multiple HTTP methods using <code>@RequestMapping</code> with the <code>method</code> attribute, or use the specific annotations like <code>@GetMapping</code>, <code>@PostMapping</code>, etc. Example:</p>
+  <pre>
+        @RequestMapping(value = &quot;/api/users&quot;, method = {RequestMethod.GET, RequestMethod.POST})
+        public ResponseEntity<String> handleRequest() {
+            return ResponseEntity.ok(&quot;Handled GET and POST methods&quot;);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>2. What is the difference between <code>@RequestBody</code> and <code>@RequestParam</code>?</h3>
+  <p><strong>Answer:</strong> <code>@RequestBody</code> is used to bind the entire HTTP request body to a method parameter, typically for JSON or XML content. <code>@RequestParam</code> is used to bind individual query parameters from the request URL to method parameters. Example:</p>
+  <pre>
+        @PostMapping(&quot;/api/users&quot;)
+        public ResponseEntity<String> createUser(@RequestBody User user) {
+            userService.createUser(user);
+            return ResponseEntity.ok(&quot;User created&quot;);
+        }
+
+        @GetMapping(&quot;/api/users&quot;)
+        public ResponseEntity<List<User>&gt; getUsers(@RequestParam(&quot;status&quot;) String status) {
+            List<User> users = userService.getUsersByStatus(status);
+            return ResponseEntity.ok(users);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>3. How can you add cross-origin support in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can add cross-origin support by using <code>@CrossOrigin</code> on the controller or method level. Example:</p>
+  <pre>
+        @RestController
+        @CrossOrigin(origins = &quot;http://localhost:3000&quot;)
+        public class UserController {
+            @GetMapping(&quot;/api/users&quot;)
+            public List<User> getUsers() {
+                return userService.getAllUsers();
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>4. How do you configure a custom error page for a REST API in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can configure a custom error page using <code>@ExceptionHandler</code> in combination with <code>@ControllerAdvice</code>. Example:</p>
+  <pre>
+        @ControllerAdvice
+        public class GlobalExceptionHandler {
+            @ExceptionHandler(Exception.class)
+            public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+                ErrorResponse errorResponse = new ErrorResponse(&quot;Error&quot;, ex.getMessage());
+                return new ResponseEntity&lt;&gt;(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>5. What is the use of <code>@RequestMapping</code> in Spring MVC?</h3>
+  <p><strong>Answer:</strong> <code>@RequestMapping</code> is used to map HTTP requests to handler methods of MVC and REST controllers. It can handle different HTTP methods (GET, POST, PUT, DELETE) and accept parameters like <code>value</code>, <code>method</code>, <code>produces</code>, and <code>consumes</code>. Example:</p>
+  <pre>
+        @RequestMapping(value = &quot;/api/users&quot;, method = RequestMethod.GET)
+        public List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>6. How can you specify request parameters in Spring MVC REST API?</h3>
+  <p><strong>Answer:</strong> You can specify request parameters using <code>@RequestParam</code> to bind query parameters to method arguments. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getUsers(@RequestParam(&quot;status&quot;) String status) {
+            return userService.getUsersByStatus(status);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>7. How do you customize Spring MVC response headers?</h3>
+  <p><strong>Answer:</strong> You can customize response headers using <code>HttpServletResponse</code> or through <code>@ResponseHeader</code>. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public ResponseEntity<List<User>&gt; getUsers(HttpServletResponse response) {
+            response.setHeader(&quot;X-Custom-Header&quot;, &quot;customValue&quot;);
+            return ResponseEntity.ok(userService.getAllUsers());
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>8. What is <code>HandlerInterceptor</code> used for in Spring MVC?</h3>
+  <p><strong>Answer:</strong> <code>HandlerInterceptor</code> is used to intercept HTTP requests before and after the controller execution. It allows for pre-processing (e.g., authentication) and post-processing (e.g., logging). Example:</p>
+  <pre>
+        public class LoggingInterceptor implements HandlerInterceptor {
+            @Override
+            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+                System.out.println(&quot;Request URL: &quot; + request.getRequestURL());
+                return true;
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>9. How can you enable session management in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can enable session management by using <code>@SessionAttributes</code> or managing HTTP session state directly through <code>HttpSession</code>. Example:</p>
+  <pre>
+        @SessionAttributes(&quot;user&quot;)
+        @GetMapping(&quot;/api/session&quot;)
+        public String getSessionData(HttpSession session) {
+            return (String) session.getAttribute(&quot;user&quot;);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>10. How do you bind request parameters to complex objects in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can bind request parameters to complex objects using <code>@ModelAttribute</code> for form data or JSON data. Example:</p>
+  <pre>
+        @PostMapping(&quot;/api/users&quot;)
+        public ResponseEntity<String> createUser(@ModelAttribute User user) {
+            userService.createUser(user);
+            return ResponseEntity.ok(&quot;User created&quot;);
+        }
+        </pre>
+</div>
+<p>&nbsp;</p>
+<h2>Spring MVC REST API Request Mapping &amp; Interceptors - Set 10</h2>
+<div class="question">
+  <h3>1. What is <code>@ResponseBody</code> annotation in Spring MVC?</h3>
+  <p><strong>Answer:</strong> The <code>@ResponseBody</code> annotation is used to indicate that the return value of a method should be bound to the web response body. It is commonly used in REST APIs to send JSON or XML data to the client. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/user&quot;)
+        @ResponseBody
+        public User getUser() {
+            return new User(&quot;John&quot;, &quot;Doe&quot;);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>2. How do you handle HTTP exceptions in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can handle HTTP exceptions using <code>@ExceptionHandler</code> at the controller level, or globally using <code>@ControllerAdvice</code>. Example:</p>
+  <pre>
+        @ControllerAdvice
+        public class GlobalExceptionHandler {
+            @ExceptionHandler({ NullPointerException.class })
+            public ResponseEntity<String> handleNullPointerException(NullPointerException ex) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(&quot;Null Pointer Exception occurred&quot;);
+            }
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>3. How can you configure Spring MVC to use JSON as the response format?</h3>
+  <p><strong>Answer:</strong> You can configure Spring MVC to use JSON as the default response format by adding <code>Jackson</code> to the project dependencies, and Spring will automatically map Java objects to JSON. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/user&quot;)
+        public User getUser() {
+            return new User(&quot;John&quot;, &quot;Doe&quot;);
+        }
+        </pre>
+  <p>The response will automatically be serialized to JSON.</p>
+</div>
+<div class="question">
+  <h3>4. How do you perform authentication with Spring Security in a REST API?</h3>
+  <p><strong>Answer:</strong> You can perform authentication in a REST API using JWT (JSON Web Token) or session-based authentication. JWT tokens are commonly used in RESTful APIs for stateless authentication. Example:</p>
+  <pre>
+        @PostMapping(&quot;/api/login&quot;)
+        public ResponseEntity<String> login(@RequestBody UserCredentials credentials) {
+            String token = authenticationService.authenticate(credentials);
+            return ResponseEntity.ok(token);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>5. How can you handle CORS (Cross-Origin Resource Sharing) in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can handle CORS by using <code>@CrossOrigin</code> at the method or controller level, or by configuring it globally in Spring Security or WebMvcConfigurer. Example:</p>
+  <pre>
+        @CrossOrigin(origins = &quot;http://localhost:3000&quot;)
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>6. What is the purpose of <code>@RequestMapping</code> in a Spring MVC controller?</h3>
+  <p><strong>Answer:</strong> The <code>@RequestMapping</code> annotation is used to map web requests to specific handler methods in a controller. It can handle HTTP methods, request parameters, headers, and content types. Example:</p>
+  <pre>
+        @RequestMapping(&quot;/api/users&quot;)
+        public List<User> getUsers() {
+            return userService.getAllUsers();
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>7. How can you define default values for request parameters in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can define default values for request parameters using the <code>defaultValue</code> attribute in <code>@RequestParam</code>. Example:</p>
+  <pre>
+        @GetMapping(&quot;/api/users&quot;)
+        public List<User> getUsers(@RequestParam(defaultValue = &quot;active&quot;) String status) {
+            return userService.getUsersByStatus(status);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>8. How do you map a specific HTTP status code to a controller method?</h3>
+  <p><strong>Answer:</strong> You can use <code>@ResponseStatus</code> on a method or exception class to specify the HTTP status code to return. Example:</p>
+  <pre>
+        @ResponseStatus(HttpStatus.CREATED)
+        @PostMapping(&quot;/api/users&quot;)
+        public void createUser(@RequestBody User user) {
+            userService.createUser(user);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>9. What is the use of <code>@ModelAttribute</code> in Spring MVC?</h3>
+  <p><strong>Answer:</strong> <code>@ModelAttribute</code> is used to bind request parameters to method arguments or populate a model attribute in the controller. It is often used for form handling. Example:</p>
+  <pre>
+        @PostMapping(&quot;/api/users&quot;)
+        public ResponseEntity<String> createUser(@ModelAttribute User user) {
+            userService.createUser(user);
+            return ResponseEntity.ok(&quot;User created&quot;);
+        }
+        </pre>
+</div>
+<div class="question">
+  <h3>10. How do you add an interceptor in Spring MVC?</h3>
+  <p><strong>Answer:</strong> You can add an interceptor by implementing the <code>HandlerInterceptor</code> interface and registering it in the <code>WebMvcConfigurer</code>. Example:</p>
+  <pre>
+        public class LoggingInterceptor implements HandlerInterceptor {
+            @Override
+            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+                System.out.println(&quot;Request URL: &quot; + request.getRequestURL());
+                return true;
+            }
+        }
+
+        @Configuration
+        public class WebConfig implements WebMvcConfigurer {
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(new LoggingInterceptor()).addPathPatterns(&quot;/api/**&quot;);
+            }
+        }
+        </pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>

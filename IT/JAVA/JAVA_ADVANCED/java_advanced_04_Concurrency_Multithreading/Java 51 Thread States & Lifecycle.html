@@ -1,0 +1,1063 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<h1>Thread States &amp; Lifecycle - Q&amp;A Set 1</h1>
+<ol>
+  <li> <strong>What are the different states of a thread in Java?</strong><br />
+    A thread in Java can be in one of the following states:<br />
+    <ul>
+      <li><strong>New</strong> - When a thread is created but not yet started.</li>
+      <li><strong>Runnable</strong> - When a thread is ready to run and is waiting for the CPU.</li>
+      <li><strong>Blocked</strong> - When a thread is blocked and waiting for a resource (like I/O or a lock).</li>
+      <li><strong>Waiting</strong> - When a thread is waiting for another thread to perform a particular action.</li>
+      <li><strong>Timed Waiting</strong> - When a thread is waiting for a specific period before performing an action.</li>
+      <li><strong>Terminated</strong> - When a thread has completed its execution or has been interrupted.</li>
+    </ul>
+  </li>
+  <br />
+  <li> <strong>What is the lifecycle of a thread in Java?</strong><br />
+    The lifecycle of a thread in Java includes the following stages:<br />
+    1. <strong>New</strong> - The thread is created but not started.<br />
+    2. <strong>Runnable</strong> - The thread is ready to run.<br />
+    3. <strong>Blocked</strong> - The thread is waiting for a resource.<br />
+    4. <strong>Waiting</strong> - The thread is waiting for another thread to do something.<br />
+    5. <strong>Timed Waiting</strong> - The thread is waiting for a period of time.<br />
+    6. <strong>Terminated</strong> - The thread has completed its execution. </li>
+  <br />
+  <li> <strong>How do you start a thread in Java?</strong><br />
+    A thread is started using the <code>start()</code> method. Once started, the thread will move to the <code>Runnable</code> state.
+    <pre>
+Thread myThread = new Thread(() -&gt; {
+    System.out.println(&quot;Thread is running.&quot;);
+});
+myThread.start(); // Starts the thread and changes its state to Runnable
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between <code>sleep()</code> and <code>wait()</code> in thread lifecycle?</strong><br />
+    - <code>sleep()</code>: Makes the current thread sleep for a specified amount of time. The thread remains in the <code>Timed Waiting</code> state.<br />
+    - <code>wait()</code>: Makes the current thread wait for a condition to be met (such as receiving a signal from another thread). The thread enters the <code>Waiting</code> state.
+    <pre>
+Thread.sleep(1000); // Sleep for 1 second, the thread goes to Timed Waiting
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What happens when a thread reaches the <code>terminated</code> state?</strong><br />
+    A thread reaches the <code>terminated</code> state when it finishes executing its <code>run()</code> method or when it is forcefully terminated (e.g., by calling <code>interrupt()</code>).
+    After the thread reaches the <code>terminated</code> state, it cannot be started again. </li>
+  <br />
+  <li> <strong>What is the use of <code>interrupt()</code> method in thread lifecycle?</strong><br />
+    The <code>interrupt()</code> method is used to interrupt a thread. When a thread is interrupted, it can throw an <code>InterruptedException</code> or set its interrupted flag to <code>true</code>.
+    <pre>
+Thread myThread = new Thread(() -&gt; {
+    try {
+        Thread.sleep(5000);
+    } catch (InterruptedException e) {
+        System.out.println(&quot;Thread interrupted!&quot;);
+    }
+});
+myThread.start();
+myThread.interrupt(); // Interrupts the thread
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How can a thread move from <code>Runnable</code> to <code>Blocked</code> state?</strong><br />
+    A thread moves from <code>Runnable</code> to <code>Blocked</code> when it is waiting to acquire a lock (for example, during synchronized method calls). It will stay in the <code>Blocked</code> state until it acquires the lock.
+    <pre>
+synchronized (lock) {
+    // Thread will be blocked if another thread is holding the lock
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>Can a thread move directly from <code>Runnable</code> to <code>Terminated</code> state?</strong><br />
+    Yes, a thread can move directly from the <code>Runnable</code> state to the <code>Terminated</code> state if its <code>run()</code> method completes its execution or if it is interrupted. </li>
+  <br />
+  <li> <strong>What is the significance of <code>Thread.join()</code>?</strong><br />
+    The <code>join()</code> method allows one thread to wait for another thread to finish its execution before it continues. The calling thread will be in the <code>Waiting</code> state until the thread being joined terminates.
+    <pre>
+Thread myThread = new Thread(() -&gt; {
+    System.out.println(&quot;Thread is running.&quot;);
+});
+myThread.start();
+myThread.join(); // The main thread waits for myThread to finish
+            </pre>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<h1>Thread States &amp; Lifecycle - Q&amp;A Set 2</h1>
+<ol>
+  <li> <strong>What is the initial state of a thread when created?</strong><br />
+    When a thread is created but not yet started, it is in the <code>New</code> state. It remains in this state until the <code>start()</code> method is invoked.
+    <pre>
+Thread myThread = new Thread(() -&gt; {
+    System.out.println(&quot;Thread is running.&quot;);
+});
+System.out.println(myThread.getState()); // NEW
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What are the different methods used to transition a thread between states?</strong><br />
+    The following methods are used to transition a thread between states:<br />
+    - <code>start()</code> - Transitions the thread from <code>New</code> to <code>Runnable</code>.<br />
+    - <code>sleep()</code> - Moves the thread from <code>Runnable</code> to <code>Timed Waiting</code>.<br />
+    - <code>wait()</code> - Moves the thread to <code>Waiting</code>.<br />
+    - <code>notify()</code>, <code>notifyAll()</code> - Moves a thread from <code>Waiting</code> to <code>Runnable</code>.<br />
+    - <code>join()</code> - Makes the current thread wait for the specified thread to terminate, moving it to <code>Waiting</code>. </li>
+  <br />
+  <li> <strong>What does the <code>Runnable</code> state mean in a thread's lifecycle?</strong><br />
+    In the <code>Runnable</code> state, a thread is ready to run and can be scheduled by the operating system. However, the thread may not be running immediately as it might be waiting for CPU time.
+    <pre>
+Thread myThread = new Thread(() -&gt; {
+    System.out.println(&quot;Thread is running.&quot;);
+});
+myThread.start(); // The thread is now in the Runnable state
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How does a thread enter the <code>Blocked</code> state?</strong><br />
+    A thread enters the <code>Blocked</code> state when it is waiting for a resource that is currently being used by another thread. It will remain in the <code>Blocked</code> state until it can acquire the resource.
+    <pre>
+synchronized (lock) {
+    // Thread will be blocked if another thread holds the lock
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What happens when a thread is in the <code>Timed Waiting</code> state?</strong><br />
+    A thread in the <code>Timed Waiting</code> state is waiting for a specified amount of time before it proceeds. The thread will return to the <code>Runnable</code> state once the time has elapsed.
+    <pre>
+Thread.sleep(2000); // Thread will sleep for 2 seconds, entering Timed Waiting state
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What causes a thread to transition from <code>Waiting</code> to <code>Runnable</code>?</strong><br />
+    A thread in the <code>Waiting</code> state can transition to the <code>Runnable</code> state when another thread notifies it by calling <code>notify()</code> or <code>notifyAll()</code>.
+    <pre>
+synchronized (lock) {
+    lock.wait(); // The thread waits until notified
+    lock.notify(); // Notify the waiting thread to move it to Runnable state
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>Can a thread be restarted after it has finished executing?</strong><br />
+    No, once a thread has finished executing and reached the <code>Terminated</code> state, it cannot be restarted. A new thread must be created if you wish to execute the code again. </li>
+  <br />
+  <li> <strong>What is the role of the <code>Thread.sleep()</code> method in a thread’s lifecycle?</strong><br />
+    The <code>Thread.sleep()</code> method pauses the execution of the current thread for a specified amount of time, which places the thread in the <code>Timed Waiting</code> state.
+    <pre>
+Thread.sleep(3000); // Puts the thread into Timed Waiting for 3 seconds
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How does a thread move to the <code>Terminated</code> state?</strong><br />
+    A thread reaches the <code>Terminated</code> state when its <code>run()</code> method completes or when it is terminated by an external interruption. </li>
+</ol>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>Thread States &amp; Lifecycle - Q&amp;A Set 3</h1>
+<ol>
+  <li> <strong>What is the difference between <code>sleep()</code> and <code>wait()</code> in Java?</strong><br />
+    - <code>sleep()</code>: Causes the current thread to pause for a specified time, releasing the CPU but not the lock.<br />
+    - <code>wait()</code>: Causes the current thread to release the lock and enter the <code>Waiting</code> state, waiting for another thread to call <code>notify()</code> or <code>notifyAll()</code>.
+    <pre>
+Thread thread1 = new Thread(() -&gt; {
+    synchronized (lock) {
+        lock.wait(); // Thread enters Waiting state
+    }
+});
+
+Thread thread2 = new Thread(() -&gt; {
+    lock.notify(); // Wakes up the waiting thread
+});
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the effect of calling <code>Thread.interrupt()</code> on a thread?</strong><br />
+    Calling <code>interrupt()</code> on a thread sets the interrupt flag for that thread. If the thread is in a blocking operation like <code>sleep()</code> or <code>wait()</code>, it will throw an <code>InterruptedException</code> and transition to the <code>Runnable</code> state.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    try {
+        Thread.sleep(10000); // Thread will be interrupted
+    } catch (InterruptedException e) {
+        System.out.println(&quot;Thread was interrupted!&quot;);
+    }
+});
+thread.start();
+thread.interrupt(); // Interrupt the thread
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What happens when a thread is in the <code>Terminated</code> state?</strong><br />
+    When a thread is in the <code>Terminated</code> state, it has completed its execution. It cannot be restarted, and any attempt to call <code>start()</code> on that thread will result in an <code>IllegalThreadStateException</code>. </li>
+  <br />
+  <li> <strong>What is the role of the <code>yield()</code> method in thread management?</strong><br />
+    The <code>yield()</code> method suggests to the thread scheduler that the current thread is willing to yield its current use of the CPU to other threads of the same priority. It doesn’t guarantee that the thread will stop immediately, but it gives the scheduler a chance to execute other threads.
+    <pre>
+Thread.yield(); // Suggests the thread to yield CPU time
+            </pre>
+  </li>
+  <br />
+  <li> <strong>Can a thread be in both <code>Runnable</code> and <code>Blocked</code> states simultaneously?</strong><br />
+    No, a thread cannot be in both <code>Runnable</code> and <code>Blocked</code> states at the same time. If a thread is blocked waiting for a resource, it cannot be scheduled to run until the resource is available. </li>
+  <br />
+  <li> <strong>What is the difference between <code>notify()</code> and <code>notifyAll()</code>?</strong><br />
+    - <code>notify()</code>: Wakes up one thread that is waiting on the object's monitor.<br />
+    - <code>notifyAll()</code>: Wakes up all threads that are waiting on the object's monitor.
+    <pre>
+synchronized (lock) {
+    lock.wait(); // Waiting thread
+    lock.notify(); // Notifies one waiting thread
+}
+
+synchronized (lock) {
+    lock.wait(); // Multiple waiting threads
+    lock.notifyAll(); // Notifies all waiting threads
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How does the <code>Thread</code> class handle synchronization?</strong><br />
+    The <code>Thread</code> class can handle synchronization using the synchronized block, which allows only one thread at a time to execute a block of code that is synchronized on an object.
+    <pre>
+synchronized (lock) {
+    // Only one thread can enter here at a time
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is a <code>Daemon</code> thread?</strong><br />
+    A <code>Daemon</code> thread is a thread that runs in the background, providing services to user threads. It does not prevent the JVM from exiting when all user threads have finished. It can be marked as a daemon thread by calling <code>Thread.setDaemon(true)</code>.
+    <pre>
+Thread daemonThread = new Thread(() -&gt; {
+    while (true) {
+        // Background task
+    }
+});
+daemonThread.setDaemon(true); // Mark the thread as a daemon
+daemonThread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What does the <code>Thread.join()</code> method do?</strong><br />
+    The <code>join()</code> method causes the current thread to wait until the thread on which it was called has finished executing. It allows one thread to wait for another thread to finish before proceeding.
+    <pre>
+Thread thread1 = new Thread(() -&gt; {
+    // Some task
+});
+thread1.start();
+thread1.join(); // Main thread waits for thread1 to finish
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How do you monitor the state of a thread?</strong><br />
+    You can monitor the state of a thread by calling <code>Thread.getState()</code>, which returns the current state of the thread, such as <code>NEW</code>, <code>RUNNABLE</code>, <code>WAITING</code>, etc.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Some task
+});
+thread.start();
+System.out.println(thread.getState()); // Prints the current state of the thread
+            </pre>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<h1>Thread States &amp; Lifecycle - Q&amp;A Set 4</h1>
+<ol>
+  <li> <strong>What is the difference between <code>Thread.sleep()</code> and <code>Object.wait()</code>?</strong><br />
+    - <code>Thread.sleep()</code> pauses the execution of the current thread for a specified period, but it does not release any locks.<br />
+    - <code>Object.wait()</code> releases the lock and causes the thread to enter the <code>Waiting</code> state until it is notified.
+    <pre>
+Thread.sleep(1000); // Current thread sleeps for 1 second
+synchronized (lock) {
+    lock.wait(); // Current thread waits and releases the lock
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>When does a thread enter the <code>Timed Waiting</code> state?</strong><br />
+    A thread enters the <code>Timed Waiting</code> state when it is waiting for a specific period of time to elapse, using methods like <code>Thread.sleep()</code>, <code>Thread.join()</code> with a timeout, or <code>Object.wait()</code> with a timeout.
+    <pre>
+Thread.sleep(2000); // Thread enters Timed Waiting state for 2 seconds
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How does <code>Thread.interrupt()</code> affect a thread in <code>sleep()</code> or <code>wait()</code>?</strong><br />
+    When a thread is sleeping or waiting, calling <code>interrupt()</code> will cause it to throw an <code>InterruptedException</code> and exit the sleeping or waiting state.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    try {
+        Thread.sleep(10000);
+    } catch (InterruptedException e) {
+        System.out.println(&quot;Thread was interrupted during sleep&quot;);
+    }
+});
+thread.start();
+thread.interrupt(); // Interrupts the thread during its sleep
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>NEW</code> state of a thread?</strong><br />
+    The <code>NEW</code> state indicates that the thread has been created but not yet started. The thread is not eligible for scheduling until <code>start()</code> is called.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Some task
+});
+System.out.println(thread.getState()); // Prints NEW because thread is not started yet
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What happens when a thread is in the <code>WAITING</code> state?</strong><br />
+    A thread in the <code>WAITING</code> state is waiting indefinitely for another thread to notify it using <code>notify()</code> or <code>notifyAll()</code>, or for a specific condition to occur.
+    <pre>
+synchronized (lock) {
+    lock.wait(); // Thread enters WAITING state
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>BLOCKED</code> state?</strong><br />
+    A thread is in the <code>BLOCKED</code> state when it is trying to acquire a lock but is unable to because another thread holds the lock.
+    <pre>
+synchronized (lock) {
+    // Thread is blocked if another thread is holding the lock
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How do you handle a <code>Deadlock</code> situation in Java?</strong><br />
+    A <code>Deadlock</code> occurs when two or more threads are blocked forever, waiting for each other to release a lock. To prevent deadlock, ensure that all threads acquire locks in the same order, and use timeouts or <code>tryLock()</code> methods where appropriate.
+    <pre>
+Lock lock1 = new ReentrantLock();
+Lock lock2 = new ReentrantLock();
+
+Thread thread1 = new Thread(() -&gt; {
+    lock1.lock();
+    try {
+        lock2.lock(); // Avoid deadlock by acquiring locks in a consistent order
+    } finally {
+        lock2.unlock();
+        lock1.unlock();
+    }
+});
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>RUNNABLE</code> state?</strong><br />
+    A thread is in the <code>RUNNABLE</code> state when it is eligible for running but may not be running at the moment. The thread scheduler decides when it will be executed.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Thread is in RUNNABLE state
+});
+thread.start(); // Thread becomes eligible for running
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is a <code>Daemon</code> thread, and how is it different from a normal thread?</strong><br />
+    A <code>Daemon</code> thread runs in the background and does not prevent the JVM from exiting when all user threads have finished. It can be created using <code>setDaemon(true)</code> on a thread.
+    <pre>
+Thread daemonThread = new Thread(() -&gt; {
+    // Background task
+});
+daemonThread.setDaemon(true); // Marks the thread as daemon
+daemonThread.start();
+            </pre>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<h1>Thread States &amp; Lifecycle - Q&amp;A Set 5</h1>
+<ol>
+  <li> <strong>What is the difference between <code>Thread.join()</code> and <code>Thread.sleep()</code>?</strong><br />
+    - <code>Thread.join()</code> allows the current thread to wait for the completion of the thread on which it was called.<br />
+    - <code>Thread.sleep()</code> causes the current thread to pause for a specified amount of time.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Some task
+});
+thread.start();
+thread.join(); // Main thread waits for thread to finish execution
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How can you prevent a thread from executing in Java?</strong><br />
+    You can prevent a thread from executing by calling <code>interrupt()</code> to interrupt its execution, or using a condition within the thread to stop it.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    while (!Thread.currentThread().isInterrupted()) {
+        // Perform task
+    }
+});
+thread.start();
+thread.interrupt(); // Interrupts the thread
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>terminated</code> state in thread lifecycle?</strong><br />
+    The <code>terminated</code> state indicates that the thread has finished its execution, either successfully or due to an exception, and cannot be restarted.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Some task
+});
+thread.start();
+System.out.println(thread.getState()); // Once thread completes, its state will be TERMINATED
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How do you make a thread wait for another thread to complete?</strong><br />
+    You can use the <code>Thread.join()</code> method to make one thread wait for another to complete.
+    <pre>
+Thread thread1 = new Thread(() -&gt; {
+    // Some task
+});
+Thread thread2 = new Thread(() -&gt; {
+    // Another task
+});
+thread1.start();
+thread2.start();
+thread1.join(); // Main thread waits for thread1 to complete
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>waiting</code> state in Java threads?</strong><br />
+    A thread enters the <code>waiting</code> state when it is waiting indefinitely for another thread to notify it using <code>notify()</code> or <code>notifyAll()</code>.
+    <pre>
+synchronized (lock) {
+    lock.wait(); // The thread enters the WAITING state
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How can you check the state of a thread in Java?</strong><br />
+    You can check the state of a thread using the <code>getState()</code> method of the <code>Thread</code> class.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Some task
+});
+thread.start();
+System.out.println(thread.getState()); // Prints the current state of the thread
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>Runnable</code> state in Java threads?</strong><br />
+    The <code>Runnable</code> state refers to a thread that is eligible to run but is not necessarily executing at the moment. The thread is ready to run when the CPU is available.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Some task
+});
+thread.start(); // Thread enters the RUNNABLE state
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>Daemon</code> thread lifecycle?</strong><br />
+    A <code>Daemon</code> thread is a special kind of thread that runs in the background and is not required to keep the JVM running. When all user threads finish, the JVM terminates the daemon threads as well.
+    <pre>
+Thread daemonThread = new Thread(() -&gt; {
+    // Background task
+});
+daemonThread.setDaemon(true); // Set the thread as a daemon thread
+daemonThread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>Can a thread be in multiple states simultaneously?</strong><br />
+    No, a thread can only be in one state at a time during its lifecycle. However, it can transition between different states, such as from <code>RUNNABLE</code> to <code>WAITING</code>, and from <code>WAITING</code> to <code>TERMINATED</code>.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Some task
+});
+thread.start();
+System.out.println(thread.getState()); // Prints RUNNABLE or other state during lifecycle
+            </pre>
+  </li>
+</ol>
+<h1>Thread States &amp; Lifecycle - Q&amp;A Set 6</h1>
+<ol>
+  <li> <strong>What is the <code>NEW</code> state in thread lifecycle?</strong><br />
+    The <code>NEW</code> state is the initial state of a thread before the <code>start()</code> method is invoked. In this state, the thread is not yet alive.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Some task
+});
+System.out.println(thread.getState()); // Prints NEW
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What does it mean when a thread is in the <code>BLOCKED</code> state?</strong><br />
+    A thread enters the <code>BLOCKED</code> state when it is waiting to acquire a lock in order to enter a synchronized block or method. It remains blocked until the lock becomes available.
+    <pre>
+synchronized (lock) {
+    // This code may block another thread from acquiring the lock
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How can you use <code>Thread.interrupt()</code> to stop a thread?</strong><br />
+    The <code>Thread.interrupt()</code> method is used to interrupt a thread that is currently executing. If the thread is sleeping or waiting, it will throw an <code>InterruptedException</code>.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    try {
+        Thread.sleep(10000);
+    } catch (InterruptedException e) {
+        System.out.println(&quot;Thread was interrupted&quot;);
+    }
+});
+thread.start();
+thread.interrupt(); // Interrupts the thread
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the significance of the <code>Thread.yield()</code> method?</strong><br />
+      <code>Thread.yield()</code> is used to hint to the thread scheduler that the current thread is willing to yield its current use of the CPU, allowing other threads to run. However, its behavior is not guaranteed.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    Thread.yield(); // The thread may yield its turn to the scheduler
+});
+thread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>Can a thread go from the <code>RUNNABLE</code> state to the <code>WAITING</code> state?</strong><br />
+    Yes, a thread can transition from the <code>RUNNABLE</code> state to the <code>WAITING</code> state if it is waiting for some condition to be met, such as waiting for a lock or waiting for another thread to notify it.
+    <pre>
+synchronized (lock) {
+    lock.wait(); // The thread moves to WAITING state
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What happens when you invoke <code>Thread.start()</code> more than once on the same thread?</strong><br />
+    Invoking <code>Thread.start()</code> more than once on the same thread will throw an <code>IllegalThreadStateException</code> because a thread can only be started once.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Some task
+});
+thread.start();
+thread.start(); // IllegalThreadStateException is thrown
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How does a <code>ThreadPoolExecutor</code> affect thread states?</strong><br />
+    A <code>ThreadPoolExecutor</code> manages a pool of worker threads that execute submitted tasks. The threads in the pool go through the usual lifecycle states but are reused to execute other tasks.
+    <pre>
+ExecutorService executor = Executors.newFixedThreadPool(5);
+executor.submit(() -&gt; {
+    // Task execution
+});
+executor.shutdown();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How can you create a thread and make it run in parallel with other threads?</strong><br />
+    You can create multiple threads and call their <code>start()</code> method to run them in parallel.
+    <pre>
+Thread thread1 = new Thread(() -&gt; {
+    // Task 1
+});
+Thread thread2 = new Thread(() -&gt; {
+    // Task 2
+});
+thread1.start();
+thread2.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between <code>Thread.sleep()</code> and <code>Object.wait()</code>?</strong><br />
+      <code>Thread.sleep()</code> is used to pause the execution of the current thread for a specific period of time. <code>Object.wait()</code> is used to make the current thread wait until another thread notifies it.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    try {
+        Thread.sleep(1000); // Pauses for 1 second
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+});
+thread.start();
+            </pre>
+  </li>
+</ol>
+<h1>Thread States &amp; Lifecycle - Q&amp;A Set 7</h1>
+<ol>
+  <li> <strong>What is the difference between <code>Thread.sleep()</code> and <code>Thread.join()</code>?</strong><br />
+      <code>Thread.sleep()</code> pauses the current thread for a specified duration, while <code>Thread.join()</code> makes the calling thread wait for the completion of another thread before proceeding.
+    <pre>
+Thread thread1 = new Thread(() -&gt; {
+    // Some task
+});
+Thread thread2 = new Thread(() -&gt; {
+    // Some task
+});
+thread1.start();
+thread2.start();
+thread1.join(); // Main thread waits for thread1 to finish
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What happens when a thread enters the <code>TIMED_WAITING</code> state?</strong><br />
+    A thread enters the <code>TIMED_WAITING</code> state when it is waiting for a specified amount of time to pass, such as when calling <code>Thread.sleep()</code>, <code>Object.wait()</code>, or <code>Thread.join()</code> with a timeout.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    try {
+        Thread.sleep(1000); // Thread enters TIMED_WAITING for 1 second
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+});
+thread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>WAITING</code> state in thread lifecycle?</strong><br />
+    The <code>WAITING</code> state occurs when a thread is waiting indefinitely for another thread to perform a particular action, such as calling <code>Object.wait()</code>, <code>Thread.join()</code>, or <code>Lock.lock()</code>.
+    <pre>
+synchronized (lock) {
+    lock.wait(); // The thread enters WAITING state
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>TERMINATED</code> state in thread lifecycle?</strong><br />
+    A thread enters the <code>TERMINATED</code> state when it has completed its execution or when it has been terminated due to an exception or being explicitly interrupted.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    System.out.println(&quot;Thread task completed&quot;);
+});
+thread.start();
+System.out.println(thread.getState()); // Prints TERMINATED after completion
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How can you make a thread wait indefinitely for another thread?</strong><br />
+    To make a thread wait indefinitely, you can use the <code>Object.wait()</code> method without a timeout, or <code>Thread.join()</code> without specifying a time.
+    <pre>
+synchronized (lock) {
+    lock.wait(); // Wait indefinitely until notified
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>Can you explain the lifecycle of a thread in detail?</strong><br />
+    The thread lifecycle consists of the following states: <code>NEW</code>, <code>RUNNABLE</code>, <code>BLOCKED</code>, <code>WAITING</code>, <code>TIMED_WAITING</code>, and <code>TERMINATED</code>. A thread begins in the <code>NEW</code> state, enters <code>RUNNABLE</code> when the <code>start()</code> method is invoked, may transition through other states based on its activities, and eventually reaches the <code>TERMINATED</code> state.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Task
+});
+thread.start(); // Enters RUNNABLE state
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between <code>wait()</code> and <code>notify()</code>?</strong><br />
+    The <code>wait()</code> method makes the current thread release the lock and enter the waiting state. The <code>notify()</code> method wakes up one thread that is waiting on the object's monitor.
+    <pre>
+synchronized (lock) {
+    lock.wait(); // Current thread waits
+    lock.notify(); // Wakes up one waiting thread
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What happens when you call <code>Thread.interrupt()</code> on a thread that is not blocked?</strong><br />
+    Calling <code>Thread.interrupt()</code> on a thread that is not blocked does not have an immediate effect. However, it will set the thread's interrupt flag, which can be checked using <code>Thread.interrupted()</code>.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    if (Thread.interrupted()) {
+        System.out.println(&quot;Thread was interrupted&quot;);
+    }
+});
+thread.start();
+thread.interrupt(); // Interrupt flag is set
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What does <code>Thread.isAlive()</code> method do?</strong><br />
+    The <code>Thread.isAlive()</code> method checks whether a thread is still alive (i.e., it has been started and has not yet completed or been terminated).
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Some task
+});
+thread.start();
+System.out.println(thread.isAlive()); // Returns true if the thread is still running
+            </pre>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<h1>Thread States &amp; Lifecycle - Q&amp;A Set 8</h1>
+<ol>
+  <li> <strong>What is the <code>BLOCKED</code> state in thread lifecycle?</strong><br />
+    A thread enters the <code>BLOCKED</code> state when it is trying to acquire a lock that another thread is currently holding. Once the lock becomes available, the thread moves back to the <code>RUNNABLE</code> state.
+    <pre>
+Thread thread1 = new Thread(() -&gt; {
+    synchronized (lock) {
+        // Perform task
+    }
+});
+Thread thread2 = new Thread(() -&gt; {
+    synchronized (lock) { // thread2 is blocked until thread1 releases the lock
+        // Perform task
+    }
+});
+thread1.start();
+thread2.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How do you force a thread to terminate?</strong><br />
+    There is no direct method to forcefully terminate a thread in Java. The recommended way is to use the <code>interrupt()</code> method, which sets the interrupt flag. The thread should then check the flag periodically and exit gracefully.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    while (!Thread.interrupted()) {
+        // Task
+    }
+});
+thread.start();
+thread.interrupt(); // Requests thread termination
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What happens if you call <code>Thread.sleep(0)</code>?</strong><br />
+    Calling <code>Thread.sleep(0)</code> causes the current thread to yield its execution time slice and allows other threads to execute, without any actual delay.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    try {
+        Thread.sleep(0); // Causes thread to yield its time slice
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+});
+thread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How do you get the current state of a thread?</strong><br />
+    You can use the <code>Thread.getState()</code> method to get the current state of a thread.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Task
+});
+thread.start();
+System.out.println(thread.getState()); // Prints the current state (RUNNABLE, WAITING, etc.)
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>Thread.daemon</code> property and how does it work?</strong><br />
+    A thread marked as a <code>daemon</code> thread runs in the background and does not prevent the JVM from exiting once all non-daemon threads have completed. You can set a thread as a daemon using <code>Thread.setDaemon(true)</code>.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Background task
+});
+thread.setDaemon(true); // Set thread as daemon
+thread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the purpose of <code>Thread.yield()</code>?</strong><br />
+    The <code>Thread.yield()</code> method causes the current thread to yield its remaining time slice and allows other threads of the same priority to execute. It does not guarantee immediate execution of other threads.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    Thread.yield(); // Yield execution to other threads
+});
+thread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between <code>Thread.sleep()</code> and <code>Thread.wait()</code>?</strong><br />
+      <code>Thread.sleep()</code> is a static method that pauses the current thread for a specific amount of time. On the other hand, <code>Thread.wait()</code> is used within synchronized blocks to make the current thread release the monitor and wait until another thread notifies it.
+    <pre>
+synchronized (lock) {
+    Thread.sleep(1000); // Thread sleeps for 1 second
+    lock.wait(); // Thread waits for notification
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>Thread.interrupted()</code> method used for?</strong><br />
+    The <code>Thread.interrupted()</code> method checks if the current thread has been interrupted and also clears the interrupt status flag.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    if (Thread.interrupted()) {
+        System.out.println(&quot;Thread was interrupted&quot;);
+    }
+});
+thread.start();
+thread.interrupt();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How do you handle a thread that is in the <code>WAITING</code> state?</strong><br />
+    A thread in the <code>WAITING</code> state can only be woken up by another thread calling <code>notify()</code> or <code>notifyAll()</code> on the object it is waiting on, assuming proper synchronization is in place.
+    <pre>
+synchronized (lock) {
+    lock.wait(); // Thread waits indefinitely
+    lock.notify(); // Another thread can wake it up
+}
+            </pre>
+  </li>
+</ol>
+<h1>Thread States &amp; Lifecycle - Q&amp;A Set 9</h1>
+<ol>
+  <li> <strong>What happens if you call <code>Thread.join()</code>?</strong><br />
+    The <code>join()</code> method allows one thread to wait for the completion of another thread. The calling thread will be blocked until the target thread finishes its execution.
+    <pre>
+Thread thread1 = new Thread(() -&gt; {
+    // Task
+});
+thread1.start();
+try {
+    thread1.join(); // Main thread waits until thread1 finishes
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>RUNNABLE</code> state in thread lifecycle?</strong><br />
+    A thread enters the <code>RUNNABLE</code> state when it is ready to run and the scheduler has assigned it a CPU time slice. It may still be waiting to be picked by the CPU if there are other threads competing for resources.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Task
+});
+thread.start();
+System.out.println(thread.getState()); // RUNNABLE if the thread is ready to execute
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the effect of <code>Thread.interrupt()</code>?</strong><br />
+    Calling <code>Thread.interrupt()</code> sets the interrupt flag of the thread, which is used to notify that the thread should stop its work. The thread must regularly check for this interrupt signal and exit appropriately.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    while (!Thread.interrupted()) {
+        // Task
+    }
+});
+thread.start();
+thread.interrupt(); // Requests thread to stop
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>TERMINATED</code> state?</strong><br />
+    The <code>TERMINATED</code> state is the final state of a thread, indicating that it has completed execution and is no longer running. A thread can never be moved back to any other state once it is terminated.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Task
+});
+thread.start();
+try {
+    thread.join(); // Wait for the thread to finish
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+System.out.println(thread.getState()); // TERMINATED after the thread finishes
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>WAITING</code> state?</strong><br />
+    A thread enters the <code>WAITING</code> state when it is waiting indefinitely for another thread to perform a specific action, such as notifying or interrupting it.
+    <pre>
+synchronized (lock) {
+    try {
+        lock.wait(); // The thread will wait indefinitely until notified
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How do you create a thread with a custom <code>ThreadFactory</code>?</strong><br />
+    A custom <code>ThreadFactory</code> allows you to customize thread creation. You can define how threads are named, whether they are daemon threads, and other properties.
+    <pre>
+ThreadFactory factory = new ThreadFactory() {
+    @Override
+    public Thread newThread(Runnable r) {
+        Thread thread = new Thread(r);
+        thread.setDaemon(true); // Set as daemon thread
+        return thread;
+    }
+};
+Thread thread = factory.newThread(() -&gt; {
+    // Task
+});
+thread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the role of <code>Thread.sleep()</code>?</strong><br />
+    The <code>Thread.sleep()</code> method is used to pause the current thread for a specified amount of time. This can be useful for controlling the execution flow or introducing delays in programs.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    try {
+        Thread.sleep(1000); // Pauses thread for 1 second
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+});
+thread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How do you check if a thread is alive?</strong><br />
+    You can use the <code>isAlive()</code> method to check if a thread is still executing. This returns <code>true</code> if the thread is alive and <code>false</code> otherwise.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Task
+});
+thread.start();
+System.out.println(thread.isAlive()); // Prints true if the thread is alive
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is a thread pool and how does it improve performance?</strong><br />
+    A thread pool manages a set of worker threads for performing tasks. Instead of creating a new thread for each task, threads are reused, which improves performance by avoiding overhead of thread creation and destruction.
+    <pre>
+ExecutorService executor = Executors.newFixedThreadPool(5); // Thread pool with 5 threads
+executor.submit(() -&gt; {
+    // Task
+});
+executor.shutdown(); // Shutdown the pool when done
+            </pre>
+  </li>
+</ol>
+<h1>Thread States &amp; Lifecycle - Q&amp;A Set 10</h1>
+<ol>
+  <li> <strong>What is a daemon thread?</strong><br />
+    A daemon thread is a background thread that does not prevent the JVM from exiting. It runs in the background and is automatically terminated when all non-daemon threads finish their execution.
+    <pre>
+Thread daemonThread = new Thread(() -&gt; {
+    // Task
+});
+daemonThread.setDaemon(true); // Set as a daemon thread
+daemonThread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>NEW</code> state in thread lifecycle?</strong><br />
+    A thread is in the <code>NEW</code> state when it is created but has not yet started. It will enter the <code>RUNNABLE</code> state when the <code>start()</code> method is called.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Task
+});
+System.out.println(thread.getState()); // NEW before calling start()
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>BLOCKED</code> state?</strong><br />
+    A thread enters the <code>BLOCKED</code> state when it is waiting to acquire a lock in a synchronized block or method. This state occurs when another thread holds the lock the current thread needs.
+    <pre>
+synchronized (lock) {
+    // Task
+}
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How do you forcefully stop a thread?</strong><br />
+    It is not recommended to forcefully stop a thread using <code>Thread.stop()</code> as it can leave resources in an inconsistent state. Instead, use the interrupt mechanism or check for interrupt flags.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    while (!Thread.interrupted()) {
+        // Task
+    }
+});
+thread.start();
+thread.interrupt(); // Gracefully stop the thread
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is <code>Thread.yield()</code> used for?</strong><br />
+    The <code>yield()</code> method is a hint to the thread scheduler that the current thread is willing to yield its current CPU time slice so that other threads of the same priority can execute.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    Thread.yield(); // Yield control to other threads of the same priority
+    // Task
+});
+thread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What happens when you call <code>Thread.sleep(0)</code>?</strong><br />
+    Calling <code>Thread.sleep(0)</code> effectively causes the current thread to yield its CPU time slice, similar to <code>Thread.yield()</code>, allowing other threads to execute.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    try {
+        Thread.sleep(0); // Yield thread's CPU time slice
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+});
+thread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>How do you check if a thread is interrupted?</strong><br />
+    You can use the <code>isInterrupted()</code> method to check if a thread has been interrupted. This method does not clear the interrupt flag, meaning the interrupt flag remains set.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Task
+});
+thread.start();
+System.out.println(thread.isInterrupted()); // Check if the thread is interrupted
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the <code>WAITING</code> state, and how does it differ from <code>TIMED_WAITING</code>?</strong><br />
+    The <code>WAITING</code> state occurs when a thread is waiting indefinitely for another thread to perform an action, while <code>TIMED_WAITING</code> occurs when a thread is waiting for a specified amount of time before proceeding.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    synchronized (lock) {
+        try {
+            lock.wait(); // Thread enters WAITING state
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+});
+thread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the effect of <code>Thread.interrupted()</code>?</strong><br />
+    The <code>Thread.interrupted()</code> method checks and clears the interrupt flag of the current thread. It returns <code>true</code> if the thread has been interrupted, otherwise <code>false</code>.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    if (Thread.interrupted()) {
+        System.out.println(&quot;Thread was interrupted&quot;);
+    }
+});
+thread.start();
+            </pre>
+  </li>
+  <br />
+  <li> <strong>What is the difference between <code>Thread.start()</code> and <code>Thread.run()</code>?</strong><br />
+    The <code>Thread.start()</code> method initiates the thread and calls the <code>run()</code> method in a new call stack. The <code>run()</code> method, when invoked directly, does not create a new thread but runs on the current thread.
+    <pre>
+Thread thread = new Thread(() -&gt; {
+    // Task
+});
+thread.start(); // Properly starts a new thread
+
+// Calling run() directly:
+thread.run(); // Does not create a new thread, executes in the current thread
+            </pre>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
