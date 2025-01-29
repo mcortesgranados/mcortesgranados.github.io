@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Advanced Questions - Set 1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>React Advanced Questions - Set 1</h2>
+
+    <p><b>1. What is React Fiber?</b><br>
+    React Fiber is the new reconciliation algorithm introduced in React 16 that improves rendering performance and enables features like concurrent mode, suspense, and priority-based updates.</p>
+
+    <p><b>2. How does concurrent mode work in React?</b><br>
+    Concurrent Mode allows React to interrupt rendering tasks to prioritize important updates, making applications feel more responsive and reducing UI blocking.</p>
+
+    <p><b>3. What is the difference between React 17 and React 18?</b><br>
+    React 18 introduces features like concurrent rendering, `useId`, automatic batching, and the new `startTransition` API, while React 17 focused on improving gradual adoption without breaking changes.</p>
+
+    <p><b>4. What are React server components?</b><br>
+    React Server Components (RSC) allow components to be rendered on the server, reducing client-side JavaScript bundle size and improving performance by streaming UI updates.</p>
+
+    <p><b>5. How does React handle rendering priority?</b><br>
+    React assigns different priority levels to updates using concurrent rendering. It uses mechanisms like `startTransition` for low-priority updates and `useDeferredValue` for delayed state updates.</p>
+
+    <p><b>6. What is React’s Diffing Algorithm?</b><br>
+    React’s diffing algorithm, also known as the Reconciliation algorithm, efficiently updates the UI by comparing the virtual DOM with the previous state and applying minimal updates to the real DOM.</p>
+
+    <p><b>7. What is hydration in server-side rendering?</b><br>
+    Hydration is the process where React attaches event listeners and client-side state to the pre-rendered HTML received from the server to make it fully interactive.</p>
+
+    <p><b>8. What is the role of `useDeferredValue`?</b><br>
+    `useDeferredValue` helps manage UI responsiveness by deferring the update of a state value until higher-priority renders have completed, improving user experience in slow updates.</p>
+
+    <p><b>9. What is `useSyncExternalStore`?</b><br>
+    `useSyncExternalStore` is a hook introduced in React 18 to efficiently subscribe to external data sources (e.g., Redux store) without unnecessary re-renders.</p>
+
+    <p><b>10. How do Suspense boundaries improve application performance?</b><br>
+    Suspense boundaries allow React to pause rendering and show fallback UI while waiting for asynchronous operations, reducing UI flickering and improving perceived performance.</p>
+    <p>&nbsp;</p>
+    <h2>React Advanced Questions - Set 2</h2>
+    <p><b>11. What is the `useTransition` hook in React?</b><br>
+      `useTransition` is a React hook that allows marking certain state updates as non-urgent, helping prevent UI blocking by keeping the interface responsive.</p>
+    <p><b>12. What is the difference between `useTransition` and `startTransition`?</b><br>
+      `useTransition` returns a state value indicating if a transition is pending, while `startTransition` is used to wrap low-priority updates inside an event handler.</p>
+    <p><b>13. How does React optimize large lists with virtualization?</b><br>
+      React uses list virtualization libraries like `react-window` and `react-virtualized` to render only visible items in a large list, improving performance and reducing memory usage.</p>
+    <p><b>14. What are React hooks factories?</b><br>
+      A hooks factory is a function that generates and returns a custom hook, allowing reusable logic while maintaining encapsulation.</p>
+    <p><b>15. What is React’s `unstable_useCacheRefresh` API?</b><br>
+      `unstable_useCacheRefresh` is an experimental API in React for refreshing cache data without requiring a full re-render, mainly used for server components.</p>
+    <p><b>16. How does React handle memory leaks?</b><br>
+      React prevents memory leaks by cleaning up event listeners, subscriptions, and timers inside `useEffect` using the cleanup function, and by correctly unmounting components.</p>
+    <p><b>17. What is the difference between `useMemo` and `useCallback`?</b><br>
+      `useMemo` memoizes the result of an expensive computation, while `useCallback` memoizes the function reference to prevent unnecessary re-renders of child components.</p>
+    <p><b>18. How does `React.lazy` work with `Suspense`?</b><br>
+      `React.lazy` enables dynamic imports of components, and `Suspense` wraps them to show a fallback UI while the component loads asynchronously.</p>
+    <p><b>19. What is progressive hydration?</b><br>
+      Progressive hydration is a technique where React hydrates parts of a server-rendered application in stages rather than all at once, improving load time and interactivity.</p>
+    <p><b>20. How does React manage batching updates?</b><br>
+      React batches multiple state updates into a single re-render to optimize performance. React 18 introduced automatic batching, which groups updates from different event handlers.</p>
+    <p>&nbsp;</p>
+    <h2>React Advanced Questions - Set 3</h2>
+    <p><b>21. What is the role of `useImperativeHandle` in React?</b><br>
+      `useImperativeHandle` allows customizing the instance value of a ref when using `forwardRef`, giving parent components more control over child component methods.</p>
+    <p><b>22. How does React’s `useDeferredValue` improve rendering performance?</b><br>
+      `useDeferredValue` delays the update of a value until higher-priority updates finish, improving responsiveness by avoiding unnecessary re-renders.</p>
+    <p><b>23. What is the difference between React’s synthetic events and native events?</b><br>
+      React synthetic events are wrapper objects around native browser events, providing cross-browser compatibility and optimized event pooling.</p>
+    <p><b>24. What is time slicing in React?</b><br>
+      Time slicing is a React optimization where rendering work is split into smaller chunks, allowing the browser to remain responsive by interleaving rendering with user interactions.</p>
+    <p><b>25. How do you optimize performance in React applications?</b><br>
+      React performance can be optimized using memoization (`useMemo`, `useCallback`), list virtualization, lazy loading, Suspense, and reducing unnecessary re-renders.</p>
+    <p><b>26. What is the purpose of the `Profiler` API in React?</b><br>
+      The `Profiler` API helps measure component render times and identify performance bottlenecks by tracking how often components render and how long they take.</p>
+    <p><b>27. What is the difference between shallow and deep comparison in React state updates?</b><br>
+      Shallow comparison checks only reference equality, while deep comparison checks nested object values. React uses shallow comparison for state updates to determine if a re-render is needed.</p>
+    <p><b>28. How does React handle reconciliation with keys in lists?</b><br>
+      React uses keys to uniquely identify list items, optimizing reconciliation by minimizing unnecessary re-renders and improving the efficiency of updates.</p>
+    <p><b>29. What are React portals, and when should they be used?</b><br>
+      React portals allow rendering a component’s children into a different part of the DOM, useful for modals, tooltips, and popups that need to break out of the parent hierarchy.</p>
+    <p><b>30. What is the `useId` hook introduced in React 18?</b><br>
+      `useId` generates stable unique IDs for accessibility and server-side rendering, ensuring IDs do not clash between client and server-rendered content.</p>
+    <p>&nbsp;</p>
+    <h2>React Advanced Questions - Set 4</h2>
+    <p><b>31. How does automatic batching improve performance in React 18?</b><br>
+      Automatic batching groups multiple state updates into a single re-render, reducing unnecessary renders and improving performance.</p>
+    <p><b>32. What are React’s Transition APIs, and how do they work?</b><br>
+      React’s Transition APIs (`useTransition` and `startTransition`) allow differentiating between urgent and non-urgent updates, improving responsiveness by deferring low-priority state updates.</p>
+    <p><b>33. What is the significance of React’s `act()` function in testing?</b><br>
+      The `act()` function ensures that all updates related to an interaction (e.g., event handling, state updates) are properly applied before assertions in React tests.</p>
+    <p><b>34. How does React handle context propagation efficiently?</b><br>
+      React optimizes context propagation by only re-rendering components that consume the context value, rather than re-rendering the entire tree.</p>
+    <p><b>35. What is React’s experimental `useMutableSource` hook?</b><br>
+      `useMutableSource` was an experimental hook designed to efficiently subscribe to external mutable sources, but it has been replaced by `useSyncExternalStore` in React 18.</p>
+    <p><b>36. How does `useEffect` handle dependencies when using objects or arrays?</b><br>
+      `useEffect` relies on reference equality, so objects and arrays should be memoized using `useMemo` or `useCallback` to avoid unnecessary re-renders.</p>
+    <p><b>37. What is the role of `useInsertionEffect` in React?</b><br>
+      `useInsertionEffect` is a React hook introduced in React 18 that allows inserting styles into the DOM before layout effects and paints, optimizing performance for CSS-in-JS libraries.</p>
+    <p><b>38. How does `Suspense` help with code splitting?</b><br>
+      `Suspense` defers rendering of components until their dependencies (e.g., lazy-loaded modules, fetched data) are ready, displaying fallback UI in the meantime.</p>
+    <p><b>39. What are React’s render phases?</b><br>
+      React has two render phases: the **render phase**, where it calculates th
+    <p>&nbsp;</p>
+    <h2>React Advanced Questions - Set 5</h2>
+    <p><b>41. What is hydration in React?</b><br>
+      Hydration is the process of attaching event listeners and state to server-rendered HTML, allowing the React application to become fully interactive.</p>
+    <p><b>42. What are React Server Components?</b><br>
+      React Server Components (RSC) allow rendering components on the server, reducing client-side JavaScript and improving performance.</p>
+    <p><b>43. How does React optimize rendering performance with selective hydration?</b><br>
+      Selective hydration prioritizes rendering and hydrating critical UI elements first while deferring non-essential components.</p>
+    <p><b>44. What are the key differences between SSR, CSR, and SSG in React?</b><br>
+      - **SSR (Server-Side Rendering):** Renders pages on the server before sending them to the client.<br>
+      - **CSR (Client-Side Rendering):** Loads an empty HTML shell and renders content using JavaScript.<br>
+      - **SSG (Static Site Generation):** Generates static HTML pages at build time, improving performance.</p>
+    <p><b>45. How does React handle error boundaries?</b><br>
+      Error boundaries are React components that catch JavaScript errors in child components and display fallback UI instead of crashing the application.</p>
+    <p><b>46. What is tree shaking in React applications?</b><br>
+      Tree shaking is a technique used in modern bundlers to remove unused JavaScript code from production builds, reducing bundle size.</p>
+    <p><b>47. What is the role of Web Workers in React applications?</b><br>
+      Web Workers allow running scripts in background threads, helping React applications handle expensive computations without blocking the main UI thread.</p>
+    <p><b>48. How does `useSyncExternalStore` improve state synchronization?</b><br>
+      `useSyncExternalStore` ensures that external store updates (e.g., Redux state) remain consistent between server and client renders.</p>
+    <p><b>49. What is priority-based rendering in React?</b><br>
+      Priority-based rendering allows React to prioritize certain updates over others, ensuring that critical UI updates render faster.</p>
+    <p><b>50. How does React’s concurrent mode improve performance?</b><br>
+      Concurrent mode enables React to work on multiple tasks simultaneously, pausing low-priority updates and keeping the UI responsive.</p>
+    <p>&nbsp;</p>
+    <h2>React Advanced Questions - Set 6</h2>
+    <p><b>51. What are React Fiber’s main advantages over the older reconciliation algorithm?</b><br>
+      React Fiber improves rendering by enabling incremental rendering, prioritization, and pausing of updates, making UI updates smoother.</p>
+    <p><b>52. How does `useLayoutEffect` differ from `useEffect`?</b><br>
+      `useLayoutEffect` fires synchronously after DOM mutations but before the browser repaints, whereas `useEffect` runs asynchronously after rendering.</p>
+    <p><b>53. What is suspense streaming in React?</b><br>
+      Suspense streaming enables sending parts of a page to the client as they become available, improving perceived performance for large applications.</p>
+    <p><b>54. How do you prevent unnecessary context re-renders in React?</b><br>
+      Use memoization (`React.memo`, `useMemo`), split context providers, and avoid passing objects/functions directly to context values.</p>
+    <p><b>55. What is the `unstable_useTransition` hook used for?</b><br>
+      `unstable_useTransition` (now `useTransition`) is used for marking updates as non-urgent, preventing UI blocking and improving performance.</p>
+    <p><b>56. How do you debug React performance issues?</b><br>
+      Use the React DevTools Profiler, measure render times with `Profiler` API, and analyze component re-renders with logging or memoization.</p>
+    <p><b>57. What is the purpose of `React.forwardRef`?</b><br>
+      `React.forwardRef` allows passing refs from a parent component to a child, enabling direct manipulation of child DOM elements or components.</p>
+    <p><b>58. How does React optimize large list rendering?</b><br>
+      React optimizes large lists with virtualization techniques using libraries like `react-window` or `react-virtualized`, rendering only visible items.</p>
+    <p><b>59. What is hydration mismatching in React?</b><br>
+      Hydration mismatching occurs when the server-rendered HTML differs from the client-rendered output, leading to UI inconsistencies.</p>
+    <p><b>60. What are module federation and micro-frontends in React?</b><br>
+      Module federation allows splitting large applications into smaller, independently deployable micro-frontends that share dependencies dynamically.</p>
+    <p>&nbsp;</p>
+    <h2>React Advanced Questions - Set 7</h2>
+    <p><b>61. How does React’s concurrent rendering improve user experience?</b><br>
+      Concurrent rendering enables React to prioritize urgent updates while pausing non-urgent ones, leading to smoother and faster UI responses.</p>
+    <p><b>62. What is the significance of `React.lazy` and `Suspense`?</b><br>
+      `React.lazy` enables code-splitting by dynamically importing components, while `Suspense` provides fallback UI while waiting for the components to load.</p>
+    <p><b>63. How do you implement a global state management system using React?</b><br>
+      Use context API along with `useReducer` for complex state logic or a third-party library like Redux, Recoil, or Zustand for better scalability.</p>
+    <p><b>64. What are “controlled” and “uncontrolled” components in React?</b><br>
+      Controlled components are those whose value is controlled by React state, while uncontrolled components store their own value in the DOM.</p>
+    <p><b>65. How does React handle form validation efficiently?</b><br>
+      React handles form validation through controlled components with event handlers, validating fields on change, submit, or blur events.</p>
+    <p><b>66. What are hooks rules in React?</b><br>
+      Hooks must be called at the top level of a function component or custom hook, and only within function components or other hooks.</p>
+    <p><b>67. How do you handle state changes across multiple components in React?</b><br>
+      Use lifting state up to a common ancestor or leverage global state solutions like Context API, Redux, or Zustand for cross-component state management.</p>
+    <p><b>68. What is the difference between React’s `useMemo` and `useCallback` hooks?</b><br>
+      `useMemo` memoizes values to avoid unnecessary calculations, while `useCallback` memoizes functions to prevent re-creating them on every render.</p>
+    <p><b>69. What is a “render prop” pattern in React?</b><br>
+      The render prop pattern involves passing a function as a prop to a component, which renders UI based on internal state or logic.</p>
+    <p><b>70. How do you handle side effects in React components?</b><br>
+      Use the `useEffect` hook to handle side effects like fetching data, interacting with the DOM, or subscribing to external data sources.</p>
+    <p>&nbsp;</p>
+    <h2>React Advanced Questions - Set 8</h2>
+    <p><b>71. What is the purpose of `React.memo`?</b><br>
+      `React.memo` is used to memoize functional components, preventing unnecessary re-renders if props haven't changed.</p>
+    <p><b>72. What is a higher-order component (HOC) in React?</b><br>
+      A higher-order component is a function that takes a component and returns a new component, enhancing the original one with additional functionality.</p>
+    <p><b>73. How can you manage side effects when working with asynchronous code in React?</b><br>
+      Use `useEffect` for handling side effects with asynchronous code. For API calls, ensure that the effect cleans up when the component unmounts to avoid memory leaks.</p>
+    <p><b>74. How can you improve the performance of React applications?</b><br>
+      Use memoization techniques (`React.memo`, `useMemo`, `useCallback`), code-splitting, lazy loading, virtualization of large lists, and efficient state management to optimize performance.</p>
+    <p><b>75. What is the significance of React’s Context API?</b><br>
+      The Context API provides a way to share state across the component tree without prop drilling, making it easier to manage global state in a React app.</p>
+    <p><b>76. How do you implement error boundaries in React?</b><br>
+      Error boundaries are implemented by creating components that catch JavaScript errors during rendering and lifecycle methods, displaying a fallback UI.</p>
+    <p><b>77. What are the benefits of using TypeScript with React?</b><br>
+      TypeScript improves type safety, enhances code completion, and helps detect bugs earlier by providing static typing and better tooling in React applications.</p>
+    <p><b>78. How does React handle performance optimizations in large-scale applications?</b><br>
+      React uses techniques like shouldComponentUpdate, React.memo, lazy loading, and code-splitting to optimize performance in large applications.</p>
+    <p><b>79. What is the difference between `useRef` and `createRef`?</b><br>
+      `useRef` is used in function components to persist values across renders without causing re-renders, while `createRef` is used in class components.</p>
+    <p><b>80. How do you handle code-splitting in React?</b><br>
+      Code-splitting can be done using `React.lazy` and `Suspense`, dynamically loading components only when needed, reducing the initial bundle size.</p>
+    <p>&nbsp;</p>
+    <h2>React Advanced Questions - Set 9</h2>
+    <p><b>81. What are React Portals and how are they used?</b><br>
+      React Portals provide a way to render children into a DOM node outside the parent component hierarchy, useful for modals or tooltips.</p>
+    <p><b>82. What is the purpose of `React.Fragment`?</b><br>
+      `React.Fragment` is used to group multiple elements without adding extra nodes to the DOM, improving performance and readability.</p>
+    <p><b>83. How does React’s context API handle performance issues?</b><br>
+      To mitigate performance issues, avoid overusing Context API for large datasets and opt for memoization techniques like `useMemo` and `React.memo`.</p>
+    <p><b>84. How does React manage the virtual DOM?</b><br>
+      React creates a virtual DOM, which is a lightweight in-memory representation of the actual DOM, and uses a diffing algorithm to efficiently update the real DOM.</p>
+    <p><b>85. What are synthetic events in React?</b><br>
+      Synthetic events are React’s normalized version of browser events, providing consistent behavior across different browsers and handling events efficiently.</p>
+    <p><b>86. How can you achieve dynamic routing in React?</b><br>
+      Dynamic routing in React can be achieved using libraries like `React Router`, where routes and components are mapped based on application state.</p>
+    <p><b>87. What is the difference between `componentDidMount` and `useEffect`?</b><br>
+      `componentDidMount` is a class component lifecycle method for running side effects after the component mounts, while `useEffect` serves a similar purpose in function components.</p>
+    <p><b>88. What are React's best practices for performance optimization?</b><br>
+      Best practices include avoiding unnecessary re-renders, using memoization, code splitting, lazy loading, and optimizing images and assets.</p>
+    <p><b>89. How do you handle concurrent rendering in React?</b><br>
+      Concurrent rendering allows React to pause and resume rendering work, using features like `useTransition` and `Suspense` to manage non-urgent updates.</p>
+    <p><b>90. How do you test React components effectively?</b><br>
+      Use testing libraries like `Jest` and `React Testing Library` to write unit and integration tests, mock API calls, and ensure components behave as expected.</p>
+    <p>&nbsp;</p>
+    <h2>React Advanced Questions - Set 10</h2>
+    <p><b>91. How does React handle reconciliation?</b><br>
+      React uses the reconciliation algorithm to compare the previous virtual DOM with the new one and updates the real DOM efficiently by minimizing changes.</p>
+    <p><b>92. How do you implement lazy loading of routes in React?</b><br>
+      Lazy loading of routes in React can be done using `React.lazy` combined with `Suspense`, allowing components to load only when needed.</p>
+    <p><b>93. What is the use of the `useReducer` hook?</b><br>
+      `useReducer` is used for managing more complex state logic in function components, offering a more predictable way of handling state changes compared to `useState`.</p>
+    <p><b>94. What is the purpose of the `useImperativeHandle` hook?</b><br>
+      `useImperativeHandle` is used in function components to customize the instance value that is exposed to parent components when using `ref`.</p>
+    <p><b>95. What is the `useContext` hook used for?</b><br>
+      The `useContext` hook is used to access values from the context without needing to explicitly pass props down the component tree.</p>
+    <p><b>96. What is the difference between `state` and `props` in React?</b><br>
+      `State` represents data managed by the component, while `props` are data passed from parent to child components that cannot be modified by the child.</p>
+    <p><b>97. What are React Suspense boundaries and how do they work?</b><br>
+      Suspense boundaries allow components to "wait" for something (like data or lazy-loaded components) before rendering, showing a fallback UI in the meantime.</p>
+    <p><b>98. How does React handle updating the DOM when multiple state changes occur?</b><br>
+      React batches state updates and updates the DOM only after all state changes have been processed, which optimizes re-renders and improves performance.</p>
+    <p><b>99. How do you avoid memory leaks in React components?</b><br>
+      To avoid memory leaks, clean up subscriptions, timers, or event listeners inside `useEffect`'s cleanup function when the component unmounts.</p>
+    <p><b>100. What is the role of keys in React lists?</b><br>
+      Keys help React identify which items in the list are changed, added, or removed, optimizing the rendering and preventing unnecessary re-renders.</p>
+    <p>&nbsp;</p>
+    <h2>React Advanced Questions - Set 11</h2>
+    <p><b>101. What are render props in React?</b><br>
+      Render props is a pattern where a component takes a function as a prop and uses it to dynamically decide what to render, enabling component reuse.</p>
+    <p><b>102. How can you pass a ref to a child component in React?</b><br>
+      You can use `forwardRef` to pass a `ref` from a parent component to a child component, allowing the child to directly access the DOM node.</p>
+    <p><b>103. What is React’s `useLayoutEffect` hook and how does it differ from `useEffect`?</b><br>
+      `useLayoutEffect` runs synchronously after DOM mutations, while `useEffect` runs asynchronously after rendering. It's useful for reading layout and making DOM mutations.</p>
+    <p><b>104. What is the purpose of `React.createContext`?</b><br>
+      `React.createContext` is used to create a Context object that provides a way to pass data through the component tree without having to manually pass props down each level.</p>
+    <p><b>105. How do you handle infinite scrolling in React?</b><br>
+      Infinite scrolling can be implemented by listening to scroll events and loading more data when the user scrolls to the bottom of the page. You can use libraries like `react-infinite-scroll-component` for easier implementation.</p>
+    <p><b>106. What is the significance of the `useEffect` dependency array?</b><br>
+      The dependency array of `useEffect` defines when the effect should run. If the dependencies change, the effect runs again. If it's empty, the effect runs only once after the initial render.</p>
+    <p><b>107. What is an `Error Boundary` in React and how does it work?</b><br>
+      An `Error Boundary` is a React component that catches JavaScript errors anywhere in its child component tree, logs the errors, and displays a fallback UI instead of crashing the app.</p>
+    <p><b>108. How do you implement server-side rendering (SSR) in React?</b><br>
+      SSR in React is implemented by rendering the React components on the server, sending the fully rendered HTML to the client, and allowing React to take over once the page loads. Tools like Next.js simplify SSR.</p>
+    <p><b>109. What is React’s `StrictMode` and when should you use it?</b><br>
+      `StrictMode` is a wrapper component that helps identify potential problems in an application, like unsafe lifecycle methods and deprecated APIs. It's useful during development to improve code quality.</p>
+    <p><b>110. How does React handle reconciliation in the context of list rendering?</b><br>
+      React uses a key property in lists to efficiently reconcile changes. It compares keys from the old and new virtual DOM and reorders or updates elements only when necessary.</p>
+    <p>&nbsp;</p>
+    <h2>React Advanced Questions - Set 12</h2>
+    <p><b>111. What is the purpose of `React.memo`?</b><br>
+      `React.memo` is a higher-order component that memoizes the rendering of a component, preventing unnecessary re-renders when the props have not changed.</p>
+    <p><b>112. What are higher-order components (HOCs) in React?</b><br>
+      HOCs are functions that take a component and return a new component with additional props or behavior. They allow for reusable logic across components.</p>
+    <p><b>113. What is a "controlled component" in React?</b><br>
+      A controlled component is a component whose value is controlled by React state, with changes triggered via `onChange` event handlers.</p>
+    <p><b>114. How do you optimize performance with large React applications?</b><br>
+      Performance can be optimized by using lazy loading, code splitting, memoization, `React.memo`, avoiding unnecessary re-renders, and optimizing state management.</p>
+    <p><b>115. What is the significance of the `key` prop in React?</b><br>
+      The `key` prop is used in lists to uniquely identify each element, which helps React efficiently update and reconcile the DOM during re-renders.</p>
+    <p><b>116. How do you handle state management in large-scale React applications?</b><br>
+      State management in large apps can be handled using tools like Redux, MobX, or React Context API, based on the complexity of the state and the need for global state management.</p>
+    <p><b>117. How does React handle component lifecycle in functional components?</b><br>
+      React handles component lifecycle in functional components through hooks like `useEffect`, `useLayoutEffect`, and `useState`, replacing lifecycle methods in class components.</p>
+    <p><b>118. What is `React.lazy` and how does it work?</b><br>
+      `React.lazy` is a function that allows you to dynamically import components, enabling code splitting and lazy loading of components when they are needed.</p>
+    <p><b>119. What is the difference between `React.Component` and `React.PureComponent`?</b><br>
+      `React.PureComponent` automatically implements `shouldComponentUpdate` with a shallow prop and state comparison, preventing unnecessary re-renders. `React.Component` does not include this optimization.</p>
+    <p><b>120. How do you prevent unnecessary re-renders in React?</b><br>
+      Unnecessary re-renders can be prevented by using `React.memo`, `useMemo`, `useCallback`, and by ensuring components only update when necessary using `shouldComponentUpdate` or hooks like `useEffect` with proper dependencies.</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+</body>
+</html>

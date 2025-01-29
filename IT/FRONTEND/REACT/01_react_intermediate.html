@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+</style>
+</head>
+
+<body>
+<h2 class="style1">React Intermediate Questions - Set 1</h2>
+<p class="style1"><b>1. What are higher-order components (HOCs) in React?</b><br />
+  A higher-order component is a function that takes a component and returns a new component with additional props or behavior. HOCs are used for code reuse and logic abstraction.</p>
+<p class="style1"><b>2. How do you manage forms with multiple inputs in React?</b><br />
+  Forms with multiple inputs can be managed by using controlled components, where each input’s value is bound to a piece of state and updated via event handlers.</p>
+<p class="style1"><b>3. What is the difference between useEffect and useLayoutEffect?</b><br />
+  `useEffect` runs asynchronously after the render, whereas `useLayoutEffect` runs synchronously before the browser repaints, useful for making DOM mutations.</p>
+<p class="style1"><b>4. What are React context and when would you use it?</b><br />
+  React Context provides a way to share values across components without passing them explicitly as props. It is useful for global data like themes, authentication status, etc.</p>
+<p class="style1"><b>5. What are render props in React?</b><br />
+  Render props is a technique for sharing code between components using a function prop that returns JSX. The function receives arguments from the component and is called during rendering.</p>
+<p class="style1"><b>6. How can you optimize performance in React?</b><br />
+  Performance in React can be optimized by memoizing components with `React.memo`, using the `useMemo` and `useCallback` hooks, lazy loading components, and avoiding unnecessary renders.</p>
+<p class="style1"><b>7. What is React's reconciliation algorithm?</b><br />
+  The reconciliation algorithm is responsible for comparing the Virtual DOM with the actual DOM and determining the most efficient way to update the actual DOM with minimal changes.</p>
+<p class="style1"><b>8. What is `React.memo`?</b><br />
+  `React.memo` is a higher-order component that optimizes the performance of functional components by memoizing them, preventing unnecessary re-renders when the props have not changed.</p>
+<p class="style1"><b>9. What is prop drilling and how can you avoid it?</b><br />
+  Prop drilling is the process of passing props through multiple levels of components, which can become cumbersome. It can be avoided using context or state management libraries like Redux or MobX.</p>
+<p class="style1"><b>10. How do you handle side effects in functional components?</b><br />
+  Side effects in functional components are handled by using the `useEffect` hook, which allows you to perform operations like fetching data, subscribing to events, or manually updating the DOM.</p>
+<h2>React Intermediate Questions - Set 2</h2>
+<p><b>11. What is the `useRef` hook in React and how is it used?</b><br />
+  `useRef` is a hook that allows you to persist values across renders without causing re-renders. It can be used for accessing DOM elements or storing mutable values.</p>
+<p><b>12. How do you handle conditional rendering in React?</b><br />
+  Conditional rendering in React can be handled using JavaScript operators like `if`, ternary operators, or logical `&amp;&amp;` to determine which components or elements should be rendered.</p>
+<p><b>13. What is the `useCallback` hook in React?</b><br />
+  `useCallback` is a hook that returns a memoized version of a function, preventing unnecessary re-creations of functions on every render, optimizing performance in certain scenarios.</p>
+<p><b>14. How do you handle errors in React applications?</b><br />
+  Errors in React applications can be handled using error boundaries, which catch JavaScript errors in the component tree and display a fallback UI. Alternatively, `try-catch` can be used in asynchronous operations.</p>
+<p><b>15. What is code splitting and how can you implement it in React?</b><br />
+  Code splitting is the practice of breaking down the code into smaller chunks, which can be loaded on demand to improve the application's performance. It can be implemented using `React.lazy()` and `Suspense`.</p>
+<p><b>16. How does React’s `useState` hook work?</b><br />
+  The `useState` hook allows functional components to hold and manage state by returning a state variable and a function to update it.</p>
+<p><b>17. What is the `useContext` hook in React and how is it used?</b><br />
+  `useContext` is a hook that allows you to access the value of a React context within a functional component, avoiding the need to pass props manually through the component tree.</p>
+<p><b>18. How can you implement dynamic routing in React?</b><br />
+  Dynamic routing in React can be implemented using `react-router-dom` by defining `Route` components with path parameters or query parameters and using `useParams` or `useLocation` hooks to access them.</p>
+<p><b>19. What are controlled and uncontrolled components in React?</b><br />
+  Controlled components are those where React state is used to manage the input values, whereas uncontrolled components manage their state internally using the DOM.</p>
+<p><b>20. How can you pass data between sibling components in React?</b><br />
+  Data between sibling components can be passed through a common parent component, which holds the state and passes it down to the children as props, or by using context for more complex scenarios.</p>
+<p>&nbsp;</p>
+<h2>React Intermediate Questions - Set 3</h2>
+<p><b>21. What is the purpose of `React.memo`?</b><br />
+  `React.memo` is a higher-order component that prevents unnecessary re-renders of a functional component by memoizing its output and re-rendering only when props change.</p>
+<p><b>22. What are fragments in React, and why would you use them?</b><br />
+  Fragments allow you to group a list of children without adding extra nodes to the DOM. They are useful when returning multiple elements from a component without wrapping them in a parent element.</p>
+<p><b>23. How do you implement lazy loading in React?</b><br />
+  Lazy loading in React can be implemented using `React.lazy()` to dynamically import components only when they are needed, often used with `Suspense` to display a loading indicator while the component is being loaded.</p>
+<p><b>24. What is the `useLayoutEffect` hook in React?</b><br />
+  `useLayoutEffect` is similar to `useEffect`, but it fires synchronously after all DOM mutations, making it useful for reading layout from the DOM and making updates before the browser paints.</p>
+<p><b>25. What is the purpose of keys in lists in React?</b><br />
+  Keys help React identify which items in a list have changed, been added, or been removed. They are important for optimizing rendering performance by minimizing re-renders.</p>
+<p><b>26. How do you use refs in React?</b><br />
+  Refs provide a way to access DOM nodes or React elements directly. You can create refs using `React.createRef()` for class components or `useRef()` for functional components.</p>
+<p><b>27. What is the difference between `useState` and `useReducer`?</b><br />
+  `useState` is used for managing simple state, while `useReducer` is ideal for more complex state logic, typically involving multiple sub-values or handling state transitions based on actions.</p>
+<p><b>28. How does React’s reconciliation process work?</b><br />
+  React’s reconciliation process compares the Virtual DOM with the actual DOM and computes the minimal set of changes required to update the actual DOM, improving performance.</p>
+<p><b>29. What are compound components in React?</b><br />
+  Compound components are components that work together by sharing state and behavior, allowing you to build more flexible and reusable components, often seen in form elements or UI libraries.</p>
+<p><b>30. What is the significance of `dangerouslySetInnerHTML` in React?</b><br />
+  `dangerouslySetInnerHTML` is used to set raw HTML content inside a component. It’s called “dangerous” because it exposes the app to cross-site scripting (XSS) attacks, and should be used with caution.</p>
+<p>&nbsp;</p>
+<h2>React Intermediate Questions - Set 4</h2>
+<p><b>31. What is server-side rendering (SSR) in React?</b><br />
+  Server-side rendering (SSR) is the process of rendering React components on the server, sending the fully rendered HTML to the client. This can improve initial load times and SEO.</p>
+<p><b>32. What is the difference between `componentDidMount` and `useEffect`?</b><br />
+  `componentDidMount` is a lifecycle method for class components that runs after the component has mounted. `useEffect` is a hook for functional components that can run after renders or be configured to run only once like `componentDidMount`.</p>
+<p><b>33. How do you handle asynchronous operations in React?</b><br />
+  Asynchronous operations can be handled using `useEffect` combined with `async`/`await` for data fetching, or by using Promises directly in event handlers and managing loading state.</p>
+<p><b>34. What is the purpose of `useReducer` in React?</b><br />
+  `useReducer` is a hook used for managing complex state logic. It is typically used when state depends on previous states or when you need to handle multiple sub-values in one state object.</p>
+<p><b>35. What is JSX and how is it different from HTML?</b><br />
+  JSX is a syntax extension for JavaScript that allows you to write HTML-like code inside JavaScript. It differs from HTML because it allows embedding expressions, JavaScript logic, and event handlers.</p>
+<p><b>36. How can you prevent a component from re-rendering in React?</b><br />
+  A component can be prevented from re-rendering by using `React.memo` for functional components or `shouldComponentUpdate` in class components. You can also use `useMemo` or `useCallback` to optimize performance.</p>
+<p><b>37. How do you handle authentication in a React application?</b><br />
+  Authentication in React is typically handled by maintaining a state or context to store the user’s authentication status and token, and using routing guards to prevent access to protected routes.</p>
+<p><b>38. What are controlled and uncontrolled forms in React?</b><br />
+  Controlled forms in React are those where form data is handled by React state. Uncontrolled forms let the DOM handle the form data and use refs to access the values.</p>
+<p><b>39. What is `React.StrictMode` and how is it used?</b><br />
+  `React.StrictMode` is a tool for highlighting potential problems in an application, like unsafe lifecycle methods, legacy API usage, or other common mistakes. It does not affect production builds.</p>
+<p><b>40. How do you handle component state in a Redux store?</b><br />
+  In Redux, component state is managed by dispatching actions to a store. A reducer listens for these actions and updates the store's state accordingly, allowing components to subscribe to the state.</p>
+<h2>React Intermediate Questions - Set 5</h2>
+<p><b>41. What is the purpose of `useEffect` in React?</b><br />
+  `useEffect` is used to perform side effects in functional components, such as fetching data, subscribing to external events, or directly manipulating the DOM after a render.</p>
+<p><b>42. How can you share state between components in React?</b><br />
+  State can be shared between components by lifting the state up to a common ancestor and passing it down as props, or by using React Context to provide global state.</p>
+<p><b>43. How can you optimize the performance of a React application?</b><br />
+  Performance can be optimized by using `React.memo` for functional components, `shouldComponentUpdate` in class components, lazy loading components, and reducing the number of re-renders.</p>
+<p><b>44. What is the difference between `useEffect` and `useLayoutEffect`?</b><br />
+  `useEffect` runs after the render and paint, while `useLayoutEffect` runs synchronously after all DOM mutations but before the paint, useful for layout calculations.</p>
+<p><b>45. What are Higher-Order Components (HOCs) in React?</b><br />
+  Higher-Order Components are functions that take a component and return a new component, allowing the reuse of component logic and behavior.</p>
+<p><b>46. How can you handle form validation in React?</b><br />
+  Form validation in React can be handled by controlling the form’s input state, using validation libraries like Formik or React Hook Form, or manually validating the data in an event handler.</p>
+<p><b>47. What is the `useImperativeHandle` hook in React?</b><br />
+  `useImperativeHandle` customizes the instance value that is exposed when using `ref` in functional components, allowing you to expose only specific methods or properties.</p>
+<p><b>48. How do you implement dynamic imports in React?</b><br />
+  Dynamic imports in React can be implemented using `React.lazy()` to import components only when they are needed, combined with `Suspense` to show a loading state during the import.</p>
+<p><b>49. What is the context API in React?</b><br />
+  The context API is used for sharing state or data across multiple components in the component tree without passing props down manually at every level.</p>
+<p><b>50. What are the differences between functional and class components in React?</b><br />
+  Functional components are simpler and use hooks for managing state and side effects, while class components use lifecycle methods and `this` to manage state and handle events.</p>
+<p>&nbsp;</p>
+<h2>React Intermediate Questions - Set 6</h2>
+<p><b>51. What is the `useContext` hook used for?</b><br />
+  The `useContext` hook allows you to consume values from a React context, making it easier to share global state across components without manually passing props.</p>
+<p><b>52. How do you handle error boundaries in React?</b><br />
+  Error boundaries are implemented as class components that use the `componentDidCatch` lifecycle method to catch JavaScript errors in their child components and display a fallback UI.</p>
+<p><b>53. What is the role of `useCallback` in React?</b><br />
+  `useCallback` is a hook that memoizes a function, preventing unnecessary re-creation of functions on every render, which helps in improving performance for components that rely on reference equality.</p>
+<p><b>54. What is the difference between `useMemo` and `useCallback`?</b><br />
+  `useMemo` memoizes the result of a computation (return value), while `useCallback` memoizes the function itself. Both help prevent unnecessary re-calculations and improve performance.</p>
+<p><b>55. How do you handle side effects with `useEffect`?</b><br />
+  Side effects with `useEffect` can be handled by performing actions such as fetching data, setting up event listeners, or manually updating the DOM after the render phase. Cleanup functions are also possible in `useEffect`.</p>
+<p><b>56. What is the difference between `map` and `forEach` in JavaScript?</b><br />
+  `map` returns a new array and is often used to transform elements, while `forEach` iterates over an array without returning a value, typically used for side effects.</p>
+<p><b>57. What is `React.StrictMode` and how does it help developers?</b><br />
+  `React.StrictMode` is a tool that helps developers identify potential problems in their React applications by highlighting deprecated API usage, unsafe lifecycle methods, and other issues in development.</p>
+<p><b>58. How do you handle nested routes in React?</b><br />
+  Nested routes can be handled using `react-router-dom` by creating routes within parent components. The child routes are rendered using `Route` components inside a `Switch` or `Routes` component.</p>
+<p><b>59. How do you pass props to a component in React?</b><br />
+  Props are passed to a component by including them as attributes in the JSX tag of the component, and can be accessed inside the component using `props` (in class components) or directly in function arguments (in functional components).</p>
+<p><b>60. What is React's Virtual DOM?</b><br />
+  The Virtual DOM is a lightweight copy of the actual DOM. React updates the Virtual DOM first, then calculates the minimal set of changes to apply to the actual DOM to optimize performance.</p>
+<p>&nbsp;</p>
+<h2>React Intermediate Questions - Set 7</h2>
+<p><b>61. What is the `useRef` hook used for in React?</b><br />
+  `useRef` is used to persist values across renders without causing re-renders. It can be used to access DOM elements or store mutable values that don't need to trigger a re-render.</p>
+<p><b>62. How can you handle dynamic routing in React?</b><br />
+  Dynamic routing in React can be achieved using `react-router-dom` by passing dynamic parameters in the route path (e.g., `/user/:id`) and accessing them via `useParams` hook or `match` object.</p>
+<p><b>63. How do you conditionally render elements in React?</b><br />
+  Conditional rendering in React can be done using JavaScript operators like `if`, `ternary`, or `&amp;&amp;` inside JSX to decide which component or element to display based on certain conditions.</p>
+<p><b>64. What is the purpose of keys in React lists?</b><br />
+  Keys are used in React to identify which items in the list are changed, added, or removed, helping React optimize the re-rendering process by improving the reconciliation algorithm.</p>
+<p><b>65. How can you handle forms in React?</b><br />
+  Forms in React can be handled by managing the state of form inputs using `useState`, and submitting the form by handling events like `onSubmit` and validating form data before submission.</p>
+<p><b>66. What is a “controlled” component in React?</b><br />
+  A controlled component is a form element where the React state controls the value of the input field, and the value is updated via state setters (e.g., `useState` hook) instead of directly modifying the DOM.</p>
+<p><b>67. What are render props in React?</b><br />
+  Render props are a pattern where a component receives a function as a prop, and this function is called to render dynamic content, allowing for greater reusability of components.</p>
+<p><b>68. What is React Router and why is it important?</b><br />
+  React Router is a library for handling routing in React applications, allowing navigation between views, handling dynamic URLs, and preserving application state across navigation without full page reloads.</p>
+<p><b>69. What is the `useLayoutEffect` hook in React?</b><br />
+  `useLayoutEffect` is similar to `useEffect`, but it runs synchronously after all DOM mutations. It is useful for reading or modifying the DOM before the browser repaints.</p>
+<p><b>70. What is the purpose of `React.Fragment`?</b><br />
+  `React.Fragment` is used to group multiple children elements without adding extra nodes to the DOM. It helps in returning multiple elements from a component without introducing unnecessary divs or wrappers.</p>
+<p>&nbsp;</p>
+<h2>React Intermediate Questions - Set 8</h2>
+<p><b>71. How can you prevent unnecessary re-renders in React?</b><br />
+  Unnecessary re-renders can be prevented by using `React.memo`, `shouldComponentUpdate`, and `useMemo` or `useCallback` hooks to memoize components or values, as well as optimizing state and props updates.</p>
+<p><b>72. What is the purpose of `useState` in React?</b><br />
+  `useState` is a React hook that allows functional components to manage and update local state. It returns an array with the current state value and a function to update it.</p>
+<p><b>73. What is the difference between `componentDidMount` and `useEffect`?</b><br />
+  `componentDidMount` is a lifecycle method in class components that runs once after the component mounts, while `useEffect` is a hook used in functional components to handle side effects and can be configured to run after mounting or on state/prop changes.</p>
+<p><b>74. What is `React.memo` and how does it work?</b><br />
+  `React.memo` is a higher-order component that memoizes a component, preventing re-renders unless its props change, optimizing performance for functional components.</p>
+<p><b>75. How do you handle async operations in React?</b><br />
+  Async operations in React can be handled using the `useEffect` hook or lifecycle methods in class components, along with promises or async/await syntax for handling data fetching, and updating state once the data is received.</p>
+<p><b>76. What is a “stateless” component in React?</b><br />
+  A stateless component is a component that does not manage any local state and simply receives props to render content. These are typically functional components.</p>
+<p><b>77. How can you pass data from a child component to a parent component in React?</b><br />
+  Data can be passed from a child component to a parent component using callbacks. The parent passes a function to the child as a prop, and the child invokes this function to send data back.</p>
+<p><b>78. What is the `useReducer` hook in React?</b><br />
+  The `useReducer` hook is used for managing more complex state logic in React, often replacing `useState` for handling state transitions based on actions, similar to how Redux works.</p>
+<p><b>79. What are controlled components in React forms?</b><br />
+  Controlled components in React are form elements whose value is controlled by React state, ensuring that input fields reflect and modify the state via event handlers such as `onChange`.</p>
+<p><b>80. How do you implement pagination in React?</b><br />
+  Pagination in React can be implemented by managing page state using `useState`, slicing the data array based on the current page, and rendering the data for the corresponding page.</p>
+<p>&nbsp;</p>
+<h2>React Intermediate Questions - Set 9</h2>
+<p><b>81. What is the purpose of `useEffect` in React?</b><br />
+  `useEffect` is a hook used for handling side effects in functional components. It allows you to perform tasks like fetching data, subscribing to external services, or directly manipulating the DOM.</p>
+<p><b>82. What are prop types in React?</b><br />
+  Prop types in React are used to validate the type and presence of props passed to components. This helps catch errors and ensures that components receive the expected data type for props.</p>
+<p><b>83. How do you handle state in class components?</b><br />
+  In class components, state is managed using `this.state` for storing the state and `this.setState` for updating the state. `this.setState` triggers a re-render of the component when the state changes.</p>
+<p><b>84. What is the purpose of `React.createElement`?</b><br />
+  `React.createElement` is a function used to create React elements, which are the building blocks of a React application. It is typically used internally by JSX to create elements based on the JSX syntax.</p>
+<p><b>85. What is the significance of the `key` prop in React?</b><br />
+  The `key` prop helps React identify which items in a list are changed, added, or removed, enabling efficient updates during re-renders by optimizing the reconciliation process.</p>
+<p><b>86. How do you update the state of a functional component in React?</b><br />
+  In functional components, state can be updated using the `useState` hook, which returns a state variable and a setter function. The setter function is used to update the state.</p>
+<p><b>87. What are the differences between React components and HTML elements?</b><br />
+  React components are custom, reusable building blocks that encapsulate logic and rendering behavior, whereas HTML elements represent static pieces of the DOM structure. React components are dynamic and can manage state and behavior.</p>
+<p><b>88. What is a “higher-order component” (HOC) in React?</b><br />
+  A higher-order component (HOC) is a function that takes a component and returns a new component with additional functionality or modifications, enabling component reuse and logic abstraction.</p>
+<p><b>89. What is `useCallback` in React?</b><br />
+  `useCallback` is a hook that memoizes a function and returns a memoized version of the callback function. This helps prevent unnecessary re-creations of functions during re-renders, optimizing performance.</p>
+<p><b>90. How do you handle event binding in React?</b><br />
+  In React, event handlers are typically bound using arrow functions or class method syntax. For class components, methods are often bound to the instance in the constructor using `.bind()`, while in functional components, arrow functions automatically bind the context.</p>
+<h2>React Intermediate Questions - Set 9</h2>
+<p><b>81. What is the purpose of `useEffect` in React?</b><br />
+  `useEffect` is a hook used for handling side effects in functional components. It allows you to perform tasks like fetching data, subscribing to external services, or directly manipulating the DOM.</p>
+<p><b>82. What are prop types in React?</b><br />
+  Prop types in React are used to validate the type and presence of props passed to components. This helps catch errors and ensures that components receive the expected data type for props.</p>
+<p><b>83. How do you handle state in class components?</b><br />
+  In class components, state is managed using `this.state` for storing the state and `this.setState` for updating the state. `this.setState` triggers a re-render of the component when the state changes.</p>
+<p><b>84. What is the purpose of `React.createElement`?</b><br />
+  `React.createElement` is a function used to create React elements, which are the building blocks of a React application. It is typically used internally by JSX to create elements based on the JSX syntax.</p>
+<p><b>85. What is the significance of the `key` prop in React?</b><br />
+  The `key` prop helps React identify which items in a list are changed, added, or removed, enabling efficient updates during re-renders by optimizing the reconciliation process.</p>
+<p><b>86. How do you update the state of a functional component in React?</b><br />
+  In functional components, state can be updated using the `useState` hook, which returns a state variable and a setter function. The setter function is used to update the state.</p>
+<p><b>87. What are the differences between React components and HTML elements?</b><br />
+  React components are custom, reusable building blocks that encapsulate logic and rendering behavior, whereas HTML elements represent static pieces of the DOM structure. React components are dynamic and can manage state and behavior.</p>
+<p><b>88. What is a “higher-order component” (HOC) in React?</b><br />
+  A higher-order component (HOC) is a function that takes a component and returns a new component with additional functionality or modifications, enabling component reuse and logic abstraction.</p>
+<p><b>89. What is `useCallback` in React?</b><br />
+  `useCallback` is a hook that memoizes a function and returns a memoized version of the callback function. This helps prevent unnecessary re-creations of functions during re-renders, optimizing performance.</p>
+<p><b>90. How do you handle event binding in React?</b><br />
+  In React, event handlers are typically bound using arrow functions or class method syntax. For class components, methods are often bound to the instance in the constructor using `.bind()`, while in functional components, arrow functions automatically bind the context.</p>
+<h2>React Intermediate Questions - Set 10</h2>
+<p><b>91. What is the difference between `useMemo` and `useCallback`?</b><br />
+  `useMemo` is used to memoize the result of a computation, while `useCallback` is used to memoize a function itself. `useMemo` helps prevent unnecessary recalculations, and `useCallback` prevents function recreation between renders.</p>
+<p><b>92. What is the virtual DOM in React?</b><br />
+  The virtual DOM is a lightweight JavaScript representation of the real DOM. React updates the virtual DOM first, compares changes using the diffing algorithm, and then updates only the necessary parts of the actual DOM.</p>
+<p><b>93. How can you implement error boundaries in React?</b><br />
+  Error boundaries are implemented using class components with lifecycle methods like `componentDidCatch` and `getDerivedStateFromError` to catch and handle errors in child components.</p>
+<p><b>94. What is the difference between `useEffect` and `useLayoutEffect`?</b><br />
+  `useEffect` runs asynchronously after rendering, while `useLayoutEffect` runs synchronously after all DOM mutations but before the browser paints. `useLayoutEffect` is useful for operations that require immediate DOM updates.</p>
+<p><b>95. What is the purpose of the `defaultProps` property in React?</b><br />
+  `defaultProps` allows you to set default values for props in case they are not provided when a component is rendered. This helps ensure components always have valid props.</p>
+<p><b>96. How do you implement lazy loading in React?</b><br />
+  Lazy loading in React is implemented using `React.lazy()` for dynamic component imports, and `Suspense` to display a fallback UI while the component is being loaded.</p>
+<p><b>97. What is `StrictMode` in React?</b><br />
+  `StrictMode` is a wrapper component that helps identify potential problems in an application by highlighting unsafe lifecycle methods, deprecated APIs, and unintended side effects in development mode.</p>
+<p><b>98. How can you use environment variables in a React project?</b><br />
+  Environment variables in React are stored in a `.env` file and can be accessed using `process.env.REACT_APP_
+    <VARIABLE_NAME>
+  `. They must start with `REACT_APP_` to be available in the client-side code.</p>
+<p><b>99. What are React portals?</b><br />
+  React portals allow rendering a component outside of its parent DOM hierarchy while preserving its React context. This is useful for modals, tooltips, and pop-ups.</p>
+<p><b>100. How can you optimize performance in a React application?</b><br />
+  Performance optimization in React can be achieved using techniques like memoization (`useMemo`, `React.memo`), lazy loading, code splitting, efficient state management, avoiding unnecessary re-renders, and using the production build of React.</p>
+<p>&nbsp;</p>
+<h2>React Intermediate Questions - Set 11</h2>
+<p><b>101. What is reconciliation in React?</b><br />
+  Reconciliation is the process by which React updates the virtual DOM and efficiently determines the minimal changes needed to update the real DOM.</p>
+<p><b>102. What are synthetic events in React?</b><br />
+  Synthetic events are wrapper objects around native browser events that ensure consistent event handling across different browsers.</p>
+<p><b>103. How can you dynamically import a component in React?</b><br />
+  A component can be dynamically imported using `React.lazy(() =&gt; import('./Component'))`, which enables code splitting and improves performance.</p>
+<p><b>104. What is `getDerivedStateFromProps`?</b><br />
+  `getDerivedStateFromProps` is a static lifecycle method in class components that updates state based on changes in props before rendering.</p>
+<p><b>105. How do you prevent a component from rendering?</b><br />
+  A component can be prevented from rendering by returning `null` from its render method or using conditional rendering with state or props.</p>
+<p><b>106. What is the difference between `React.Fragment` and div?</b><br />
+  `React.Fragment` allows grouping multiple elements without adding an extra DOM node, while `div` adds an additional wrapper element in the DOM.</p>
+<p><b>107. How does the `useRef` hook work?</b><br />
+  `useRef` creates a mutable reference that persists across renders without triggering a re-render, often used for accessing DOM elements directly.</p>
+<p><b>108. What is forwardRef in React?</b><br />
+  `forwardRef` allows passing a ref from a parent component to a child component, enabling direct manipulation of the child’s DOM element.</p>
+<p><b>109. How can you debounce a function in React?</b><br />
+  A function can be debounced using libraries like Lodash’s `_.debounce()` or by implementing a custom debounce function with `setTimeout` and `clearTimeout`.</p>
+<p><b>110. What is tree shaking in React applications?</b><br />
+  Tree shaking is a technique used to remove unused JavaScript code during bundling, helping reduce the final bundle size and improving performance.</p>
+<p>&nbsp;</p>
+<h2>React Intermediate Questions - Set 12</h2>
+<p><b>111. What is code splitting in React?</b><br />
+  Code splitting is a technique used to break a large JavaScript bundle into smaller chunks that are loaded dynamically, improving performance and reducing initial load time.</p>
+<p><b>112. How does `React.memo` improve performance?</b><br />
+  `React.memo` is a higher-order component that prevents unnecessary re-renders by memoizing the rendered output of a component and only updating it when props change.</p>
+<p><b>113. What is hydration in React?</b><br />
+  Hydration is the process of attaching event listeners and state to server-rendered HTML to make it fully interactive on the client side.</p>
+<p><b>114. How does `useReducer` differ from `useState`?</b><br />
+  `useReducer` is an alternative to `useState` that is better suited for managing complex state logic involving multiple sub-values and actions, similar to Redux reducers.</p>
+<p><b>115. What are controlled and uncontrolled components in React?</b><br />
+  Controlled components are form inputs whose value is managed by React state, while uncontrolled components use refs to access input values directly.</p>
+<p><b>116. What is suspense in React?</b><br />
+  `Suspense` is a component used for handling asynchronous operations like code splitting and data fetching, allowing React to show a fallback UI while waiting.</p>
+<p><b>117. How can you measure performance in a React application?</b><br />
+  React performance can be measured using the React Developer Tools Profiler, Chrome DevTools, or by manually logging render times with `performance.now()`.</p>
+<p><b>118. What is the difference between `props.children` and `React.cloneElement`?</b><br />
+  `props.children` allows passing elements as children of a component, while `React.cloneElement` creates a new element with modified props or behavior.</p>
+<p><b>119. What are hooks rules in React?</b><br />
+  Hooks must only be called at the top level of a function component and not inside loops, conditions, or nested functions. They must also be used in React functional components or custom hooks.</p>
+<p><b>120. What is the significance of the `displayName` property in React?</b><br />
+  The `displayName` property is used to define a human-readable name for a component in debugging tools like React Developer Tools.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+</body>
+</html>
