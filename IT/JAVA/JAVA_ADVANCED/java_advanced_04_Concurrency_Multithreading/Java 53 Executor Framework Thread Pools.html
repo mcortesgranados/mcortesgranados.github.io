@@ -7,6 +7,7 @@
 <!--
 .question {            margin-bottom: 20px;
 }
+.style1 {color: #0099CC}
 -->
 </style>
 </head>
@@ -14,11 +15,11 @@
 <body>
 <h1>Set 1: Executor Framework &amp; Thread Pools</h1>
 <div class="question">
-  <h2>1. What is the Executor Framework in Java?</h2>
+  <h2>1. What is the <span class="style1">Executor Framework</span> in Java?</h2>
   <p>The Executor Framework provides a high-level replacement for the traditional way of managing threads, allowing you to easily execute tasks asynchronously without directly managing the threads.</p>
 </div>
 <div class="question">
-  <h2>2. What is the difference between Executor, ExecutorService, and ThreadPoolExecutor?</h2>
+  <h2>2. What is the difference between <span class="style1">Executor</span>, <span class="style1">ExecutorService</span>, and <span class="style1">ThreadPoolExecutor</span>?</h2>
   <p> - <strong>Executor</strong>: A simple interface for executing tasks asynchronously. It has a method <code>execute()</code>.
     - <strong>ExecutorService</strong>: Extends Executor with lifecycle management methods like <code>submit()</code> and <code>shutdown()</code>.
     - <strong>ThreadPoolExecutor</strong>: A concrete implementation of ExecutorService that manages a pool of threads to execute tasks. </p>
@@ -34,11 +35,11 @@ executor.shutdown();
   </p>
 </div>
 <div class="question">
-  <h2>4. What is a FixedThreadPool and when should it be used?</h2>
+  <h2>4. What is a <span class="style1">FixedThreadPool</span> and when should it be used?</h2>
   <p>A FixedThreadPool is a thread pool with a fixed number of threads. It is useful when you have a known number of concurrent tasks that need to be executed.</p>
 </div>
 <div class="question">
-  <h2>5. What is the difference between newCachedThreadPool and newFixedThreadPool?</h2>
+  <h2>5. What is the difference between <span class="style1">newCachedThreadPool</span> and <span class="style1">newFixedThreadPool</span>?</h2>
   <p> - <strong>newCachedThreadPool</strong>: Creates a thread pool that creates new threads as needed but reuses previously constructed threads when available.
     - <strong>newFixedThreadPool</strong>: Creates a thread pool with a fixed number of threads, reusing them for tasks. </p>
 </div>
@@ -59,7 +60,7 @@ executorService.shutdown();
   <p>The <code>shutdownNow()</code> method attempts to stop all actively executing tasks, halts the processing of waiting tasks, and returns a list of the tasks that were waiting to be executed.</p>
 </div>
 <div class="question">
-  <h2>9. What is a ScheduledThreadPoolExecutor?</h2>
+  <h2>9. What is a <span class="style1">ScheduledThreadPoolExecutor</span>?</h2>
   <p>A <code>ScheduledThreadPoolExecutor</code> is an implementation of <code>ExecutorService</code> that can schedule commands to run after a delay or periodically.</p>
 </div>
 <div class="question">
@@ -77,24 +78,24 @@ scheduler.schedule(() -&gt; System.out.println(&quot;Task executed after delay&q
 </blockquote>
 <h1>Set 2: Executor Framework &amp; Thread Pools</h1>
 <div class="question">
-  <h2>11. What is the difference between execute() and submit() methods in ExecutorService?</h2>
+  <h2>11. What is the difference between execute() and submit() methods in <span class="style1">ExecutorService</span>?</h2>
   <p> - <strong>execute()</strong>: Runs the task but does not return any result or exception.
     - <strong>submit()</strong>: Returns a <code>Future</code> object, which can be used to retrieve the result or catch exceptions. </p>
 </div>
 <div class="question">
-  <h2>12. How can you check if all tasks in ExecutorService are completed?</h2>
+  <h2>12. How can you check if all tasks in <span class="style1">ExecutorService</span> are completed?</h2>
   <p>You can use <code>executorService.isTerminated()</code> to check if all tasks have finished executing.</p>
 </div>
 <div class="question">
-  <h2>13. What is the ForkJoinPool in Java?</h2>
+  <h2>13. What is the <span class="style1">ForkJoinPool</span> in Java?</h2>
   <p>ForkJoinPool is a specialized thread pool for parallel processing using the Fork/Join framework, particularly suited for recursive tasks.</p>
 </div>
 <div class="question">
-  <h2>14. How do you create a single-threaded executor?</h2>
+  <h2>14. How do you create a <span class="style1">single-threaded executor</span>?</h2>
   <p>Use <code>Executors.newSingleThreadExecutor()</code> to create an executor with a single worker thread.</p>
 </div>
 <div class="question">
-  <h2>15. What happens if a thread pool is exhausted?</h2>
+  <h2 class="style1">15. What happens if a thread pool is exhausted?</h2>
   <p>New tasks will be queued until a thread becomes available, or if the queue is full, the task may be rejected.</p>
 </div>
 <div class="question">

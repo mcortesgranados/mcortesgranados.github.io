@@ -7,6 +7,7 @@
 <style type="text/css">
 <!--
 .style1 {font-family: Arial, Helvetica, sans-serif}
+.style2 {color: #0066CC}
 -->
 </style>
 </head>
@@ -15,14 +16,14 @@
     <h2 class="style1">Set 1</h2>
     <ol class="style1">
         <li>
-            <strong>What is the difference between the Heap and Stack in Java memory management?</strong><br>
+            <strong>What is the difference between the <span class="style2">Heap</span> and <span class="style2">Stack</span> in Java memory management?</strong><br>
             <p><em>Answer:</em> The Stack is used for static memory allocation, storing local variables and method calls. It follows a LIFO (Last In, First Out) structure. The Heap, on the other hand, is used for dynamic memory allocation and stores objects, with memory allocated and freed by the garbage collector.</p>
-        </li>
-        <li>
-            <strong>What is the role of the Garbage Collector (GC) in Java?</strong><br>
+      </li>
+<li>
+            <strong>What is the role of the<span class="style2"> Garbage Collector (GC) </span>in Java?</strong><br>
             <p><em>Answer:</em> The Garbage Collector is responsible for automatically managing memory in Java by identifying and freeing up memory that is no longer being used, ensuring efficient memory management and avoiding memory leaks.</p>
-        </li>
-        <li>
+      </li>
+<li>
             <strong>How does the Stack memory differ from the Heap memory in terms of scope?</strong><br>
             <p><em>Answer:</em> Stack memory is used for method execution, storing local variables and function calls. Its scope is limited to the method or function in which it is defined. Heap memory is used for storing objects and can be accessed globally as long as there is a reference to the object.</p>
         </li>
@@ -57,30 +58,30 @@ public class HeapExample {
             <p><em>Answer:</em> The string `"Hello, World!"` is an object that is stored in the Heap, and the reference `str` is stored in the Stack.</p>
         </li>
         <li>
-            <strong>What is the role of the JVM's garbage collection process?</strong><br>
+<strong>What is the <span class="style2">role of the JVM's garbage collection process</span>?</strong><br>
             <p><em>Answer:</em> The JVM's garbage collection process automatically reclaims memory by removing objects that are no longer referenced, ensuring that unused memory is freed for reuse.</p>
         </li>
-        <li>
+<li>
             <strong>What is the process of identifying objects for garbage collection?</strong><br>
             <p><em>Answer:</em> The process involves identifying objects that are no longer reachable from any active references in the program. These objects are then considered eligible for garbage collection and are removed from the Heap to free up memory.</p>
         </li>
         <li>
-            <strong>How does the "Mark and Sweep" algorithm work in garbage collection?</strong><br>
+            <strong>How does the <span class="style2">"Mark and Sweep" algorithm</span> work in garbage collection?</strong><br>
             <p><em>Answer:</em> The "Mark and Sweep" algorithm works by first marking all reachable objects and then sweeping through the Heap to remove unmarked objects, reclaiming their memory. This process helps ensure that only objects that are no longer used are collected.</p>
-        </li>
-        <li>
-            <strong>Can you explain the concept of "Reference Counting" in memory management?</strong><br>
+      </li>
+<li>
+<strong>Can you explain the concept of "<span class="style2">Reference Counting</span>" in memory management?</strong><br>
             <p><em>Answer:</em> Reference counting is a technique where each object maintains a count of the number of references to it. When the reference count reaches zero, the object is eligible for garbage collection. However, it cannot handle circular references.</p>
         </li>
-    </ol>
+</ol>
     <p>&nbsp;</p>
     <h1 class="style1">Java Memory Management (Heap, Stack, GC) - Questions & Answers</h1>
     <h2 class="style1">Set 2</h2>
     <ol class="style1">
-      <li> <strong>What is the difference between a Strong Reference and a Soft Reference in Java?</strong><br>
+      <li> <strong>What is the difference between a <span class="style2">Strong Reference</span> and a <span class="style2">Soft Reference</span> in Java?</strong><br>
           <p><em>Answer:</em> A Strong Reference is the default reference type in Java. Objects referenced by strong references are not eligible for garbage collection. A Soft Reference, on the other hand, is used for objects that can be garbage collected when the JVM is low on memory, making it more memory-efficient for caching purposes.</p>
       </li>
-      <li> <strong>Can you provide an example of using SoftReference in Java?</strong><br>
+<li> <strong>Can you provide an example of using SoftReference in Java?</strong><br>
           <pre>
 import java.lang.ref.SoftReference;
 
@@ -96,10 +97,10 @@ public class SoftReferenceExample {
             </pre>
           <p><em>Answer:</em> The string object is wrapped in a `SoftReference`, and it may be garbage collected when the JVM is running low on memory.</p>
       </li>
-      <li> <strong>What is a Weak Reference in Java?</strong><br>
+      <li> <strong>What is a <span class="style2">Weak Reference</span> in Java?</strong><br>
           <p><em>Answer:</em> A Weak Reference is used for objects that are eligible for garbage collection as soon as they are no longer referenced strongly. Weak references are useful in cases like implementing memory-sensitive caches.</p>
       </li>
-      <li> <strong>Can you provide an example of using WeakReference in Java?</strong><br>
+<li> <strong>Can you provide an example of using WeakReference in Java?</strong><br>
           <pre>
 import java.lang.ref.WeakReference;
 
@@ -119,10 +120,10 @@ public class WeakReferenceExample {
             </pre>
           <p><em>Answer:</em> After dereferencing the object and suggesting garbage collection, the weakly referenced object is collected, and the `weakRef.get()` returns `null`.</p>
       </li>
-      <li> <strong>What is the concept of "finalization" in Java?</strong><br>
+      <li> <strong>What is the concept of "<span class="style2">finalization</span>" in Java?</strong><br>
           <p><em>Answer:</em> Finalization refers to the process where the `finalize()` method is called before an object is garbage collected. It allows the object to clean up any resources (e.g., closing file streams) before being collected. However, the `finalize()` method is unreliable and is generally discouraged in modern Java applications.</p>
       </li>
-      <li> <strong>Can you provide an example of using finalize() in Java?</strong><br>
+<li> <strong>Can you provide an example of using finalize() in Java?</strong><br>
           <pre>
 class MyClass {
     @Override
@@ -140,10 +141,10 @@ class MyClass {
             </pre>
           <p><em>Answer:</em> The `finalize()` method is called before the object is garbage collected, allowing for cleanup operations.</p>
       </li>
-      <li> <strong>What is the difference between shallow copy and deep copy in Java?</strong><br>
+      <li> <strong>What is the difference between <span class="style2">shallow copy</span> and <span class="style2">deep copy</span> in Java?</strong><br>
           <p><em>Answer:</em> A shallow copy in Java copies the values of the original object's fields, but if the fields are references to other objects, the references are copied, not the objects themselves. A deep copy creates a new object and also copies all the objects referenced by the original object recursively, ensuring that all referenced objects are also copied.</p>
       </li>
-      <li> <strong>Can you provide an example of shallow copy in Java?</strong><br>
+<li> <strong>Can you provide an example of shallow copy in Java?</strong><br>
           <pre>
 class Person {
     String name;
@@ -193,27 +194,27 @@ public class DeepCopyExample {
             </pre>
           <p><em>Answer:</em> The `deepCopy()` method creates a new `Person` object with a copy of the `name`, so changes to `deepCopy` do not affect the `original` object.</p>
       </li>
-      <li> <strong>What is the significance of the "young generation" in garbage collection?</strong><br>
+      <li> <strong>What is the significance of the "<span class="style2">young generation</span>" in garbage collection?</strong><br>
           <p><em>Answer:</em> The young generation is part of the Heap memory where newly created objects are allocated. It consists of the Eden space and two survivor spaces. Objects in the young generation are frequently garbage collected, as most objects tend to be short-lived.</p>
       </li>
-      <li> <strong>What is the "old generation" in Java memory management?</strong><br>
+<li> <strong>What is the "<span class="style2">old generation</span>" in Java memory management?</strong><br>
           <p><em>Answer:</em> The old generation (or tenured generation) is where long-lived objects are stored. Objects that survive multiple garbage collection cycles in the young generation are promoted to the old generation. Garbage collection in the old generation is less frequent than in the young generation.</p>
       </li>
-    </ol>
+</ol>
     <p>&nbsp;</p>
     <h1 class="style1">Java Memory Management (Heap, Stack, GC) - Questions & Answers</h1>
     <h2 class="style1">Set 3</h2>
     <ol class="style1">
-      <li> <strong>What is the purpose of the Stack in Java memory management?</strong><br>
+      <li> <strong>What is the purpose of the <span class="style2">Stack in Java memory management</span>?</strong><br>
           <p><em>Answer:</em> The Stack in Java is used for storing method calls, local variables, and references to objects. It follows a last-in, first-out (LIFO) order, and each thread has its own stack. The stack is where the memory for primitive types and references is allocated.</p>
       </li>
-      <li> <strong>What happens when the Stack memory is full in Java?</strong><br>
+<li> <strong>What happens when the Stack memory is full in Java?</strong><br>
           <p><em>Answer:</em> When the Stack memory is full, a `StackOverflowError` occurs. This happens typically when there is excessive recursion or too many local variables allocated in a method.</p>
       </li>
-      <li> <strong>How is memory managed in the Heap in Java?</strong><br>
+      <li> <strong>How is memory managed in the <span class="style2">Heap</span> in Java?</strong><br>
           <p><em>Answer:</em> The Heap in Java is used to store objects and arrays. Memory allocation in the Heap is managed by the Garbage Collector. Objects in the Heap are subject to garbage collection when they are no longer referenced.</p>
       </li>
-      <li> <strong>What is Garbage Collection (GC) in Java?</strong><br>
+<li> <strong>What is Garbage Collection (GC) in Java?</strong><br>
           <p><em>Answer:</em> Garbage Collection (GC) in Java is the process of automatically identifying and reclaiming memory that is no longer in use (i.e., objects that are no longer referenced). It helps in memory management and prevents memory leaks.</p>
       </li>
       <li> <strong>What are the different types of Garbage Collectors in Java?</strong><br>
@@ -229,16 +230,16 @@ public class DeepCopyExample {
       <li> <strong>What is the Serial Garbage Collector in Java?</strong><br>
           <p><em>Answer:</em> The Serial Garbage Collector is a simple GC that uses a single thread to perform garbage collection. It is designed for single-threaded applications and works well in small applications with limited resources.</p>
       </li>
-      <li> <strong>What is the Parallel Garbage Collector in Java?</strong><br>
+      <li> <strong>What is the <span class="style2">Parallel Garbage Collector in Java</span>?</strong><br>
           <p><em>Answer:</em> The Parallel Garbage Collector is designed for multi-threaded environments. It uses multiple threads for minor garbage collection to improve performance in applications with multiple processors or cores.</p>
       </li>
-      <li> <strong>What is the CMS (Concurrent Mark-Sweep) Garbage Collector in Java?</strong><br>
+<li> <strong>What is the <span class="style2">CMS (Concurrent Mark-Sweep) Garbage Collector</span> in Java?</strong><br>
           <p><em>Answer:</em> The CMS Garbage Collector performs garbage collection concurrently with the application threads. It is designed to minimize application pause times by performing most of the work concurrently with the application threads.</p>
       </li>
-      <li> <strong>What is the G1 (Garbage-First) Garbage Collector in Java?</strong><br>
+<li> <strong>What is the <span class="style2">G1 (Garbage-First)</span> Garbage Collector in Java?</strong><br>
           <p><em>Answer:</em> The G1 Garbage Collector is designed for large applications with large heaps. It divides the heap into regions and performs garbage collection in a way that tries to minimize pause times while still providing high throughput.</p>
       </li>
-      <li> <strong>Can you explain the process of garbage collection in Java?</strong><br>
+<li> <strong>Can you explain the process of garbage collection in Java?</strong><br>
           <p><em>Answer:</em> The garbage collection process in Java typically involves:
           <ul>
                       <li><strong>Marking:</strong> The garbage collector identifies which objects are still in use.</li>
@@ -251,10 +252,10 @@ public class DeepCopyExample {
     <h1 class="style1">Java Memory Management (Heap, Stack, GC) - Questions & Answers</h1>
     <h2 class="style1">Set 4</h2>
     <ol class="style1">
-      <li> <strong>What is a memory leak in Java?</strong><br>
+      <li> <strong>What is a <span class="style2">memory leak</span> in Java?</strong><br>
           <p><em>Answer:</em> A memory leak occurs when an application unintentionally retains references to objects that are no longer in use, preventing the garbage collector from reclaiming their memory. This can lead to increased memory usage and eventually cause the application to run out of memory.</p>
       </li>
-      <li> <strong>How can you prevent memory leaks in Java?</strong><br>
+<li> <strong>How can you prevent memory leaks in Java?</strong><br>
           <p><em>Answer:</em> To prevent memory leaks:
           <ul>
                       <li>Ensure that unused objects are dereferenced properly.</li>
@@ -267,7 +268,7 @@ public class DeepCopyExample {
       <li> <strong>What is the purpose of the "finalize()" method in Java?</strong><br>
           <p><em>Answer:</em> The `finalize()` method allows objects to clean up resources before they are garbage collected. It is called by the garbage collector when an object is about to be reclaimed, but it is not guaranteed to be called, and its use is discouraged due to its unpredictability.</p>
       </li>
-      <li> <strong>What is the difference between the Heap and the Stack in Java?</strong><br>
+      <li> <strong>What is the difference between the <span class="style2">Heap</span> and the <span class="style2">Stack</span> in Java?</strong><br>
           <p><em>Answer:</em>
           <ul>
             <li>The Heap is used for dynamic memory allocation of objects and arrays and is shared among all threads in a program.</li>
@@ -275,29 +276,29 @@ public class DeepCopyExample {
           </ul>
         </p>
       </li>
-      <li> <strong>What is the role of the Garbage Collector in Java memory management?</strong><br>
+<li> <strong>What is the role of the <span class="style2">Garbage Collector</span> in Java memory management?</strong><br>
           <p><em>Answer:</em> The Garbage Collector (GC) in Java automatically manages memory by identifying and collecting objects that are no longer in use, freeing up memory and preventing memory leaks. It helps in automatic memory management without manual intervention from the developer.</p>
       </li>
-      <li> <strong>What is the "young generation" in the context of garbage collection?</strong><br>
+<li> <strong>What is the "<span class="style2">young generation</span>" in the context of garbage collection?</strong><br>
           <p><em>Answer:</em> The young generation is the area of the heap where newly created objects are stored. It consists of three parts: Eden space, and two survivor spaces. Objects in the young generation are subject to frequent garbage collection (minor GC), and if they survive multiple collections, they are promoted to the old generation.</p>
       </li>
-      <li> <strong>What is the "old generation" in the context of garbage collection?</strong><br>
+<li> <strong>What is the "<span class="style2">old generation</span>" in the context of garbage collection?</strong><br>
           <p><em>Answer:</em> The old generation is where long-lived objects are stored after they survive multiple garbage collection cycles in the young generation. Objects in the old generation are less frequently garbage collected, but the collection process (major GC) can lead to longer pause times.</p>
       </li>
-      <li> <strong>What is the significance of the Eden space in the young generation?</strong><br>
+<li> <strong>What is the significance of the <span class="style2">Eden space</span> in the young generation?</strong><br>
           <p><em>Answer:</em> The Eden space is where all new objects are initially allocated in the young generation. During minor garbage collection, objects that survive in the Eden space are moved to one of the survivor spaces, and eventually, if they continue to survive, are promoted to the old generation.</p>
       </li>
-      <li> <strong>What is the purpose of the "survivor spaces" in garbage collection?</strong><br>
+<li> <strong>What is the purpose of the "<span class="style2">survivor spaces</span>" in garbage collection?</strong><br>
           <p><em>Answer:</em> Survivor spaces are used during minor garbage collection to store objects that survive the GC cycle in the Eden space. There are two survivor spaces: S0 and S1. Objects that are still alive after multiple GC cycles are eventually promoted to the old generation.</p>
       </li>
-      <li> <strong>What is the impact of large heap size on garbage collection performance?</strong><br>
+<li> <strong>What is the impact of large heap size on garbage collection performance?</strong><br>
           <p><em>Answer:</em> A larger heap size can increase the time it takes for garbage collection, especially in the old generation. However, it can reduce the frequency of garbage collections. It's important to find a balance between heap size and garbage collection performance to avoid long pause times.</p>
       </li>
     </ol>
     <h1 class="style1">Java Memory Management (Heap, Stack, GC) - Questions & Answers</h1>
     <h2 class="style1">Set 5</h2>
     <ol class="style1">
-      <li> <strong>What is the difference between "minor GC" and "major GC" in Java?</strong><br>
+      <li> <strong>What is the difference between "<span class="style2">minor GC</span>" and "<span class="style2">major GC</span>" in Java?</strong><br>
           <p><em>Answer:</em>
           <ul>
             <li>Minor GC is a garbage collection that occurs in the young generation (Eden and survivor spaces). It is typically faster and occurs more frequently.</li>
@@ -305,16 +306,16 @@ public class DeepCopyExample {
           </ul>
         </p>
       </li>
-      <li> <strong>What is the "Permanent Generation" in Java memory management?</strong><br>
+<li> <strong>What is the "<span class="style2">Permanent Generation</span>" in Java memory management?</strong><br>
           <p><em>Answer:</em> The Permanent Generation (PermGen) was an area of the heap that stored class metadata, method information, and other static data. In Java 8 and later, the PermGen space was replaced by Metaspace, which dynamically resizes based on the application's needs.</p>
       </li>
-      <li> <strong>What is "Metaspace" in Java, and how does it differ from "PermGen"?</strong><br>
+<li> <strong>What is "<span class="style2">Metaspace</span>" in Java, and how does it differ from "<span class="style2">PermGen</span>"?</strong><br>
           <p><em>Answer:</em> Metaspace is the memory area in Java that replaced the Permanent Generation (PermGen) in Java 8. Unlike PermGen, which had a fixed size, Metaspace dynamically expands based on the class metadata, reducing the risk of `OutOfMemoryError` related to class loading.</p>
       </li>
-      <li> <strong>What is the "GC pause" in Java?</strong><br>
+<li> <strong>What is the "<span class="style2">GC pause</span>" in Java?</strong><br>
           <p><em>Answer:</em> A GC pause is the time during which the application is paused for garbage collection to take place. During this time, the application’s execution is suspended while the garbage collector reclaims unused memory.</p>
       </li>
-      <li> <strong>What is the role of the JVM (Java Virtual Machine) in memory management?</strong><br>
+<li> <strong>What is the role of the JVM (Java Virtual Machine) in memory management?</strong><br>
           <p><em>Answer:</em> The JVM manages memory allocation and deallocation for Java programs. It controls memory in the heap (for objects) and stack (for method calls), as well as performing garbage collection to reclaim unused objects.</p>
       </li>
       <li> <strong>How does the JVM decide when to perform garbage collection?</strong><br>
@@ -336,13 +337,13 @@ public class DeepCopyExample {
     <h1 class="style1">Java Memory Management (Heap, Stack, GC) - Questions & Answers</h1>
     <h2 class="style1">Set 6</h2>
     <ol class="style1">
-      <li> <strong>What is the "stack overflow" error in Java?</strong><br>
+      <li> <strong>What is the "<span class="style2">stack overflow</span>" error in Java?</strong><br>
           <p><em>Answer:</em> A stack overflow error occurs when the call stack (where method calls and local variables are stored) exceeds its allocated limit. This often happens due to deep or infinite recursion, where methods call themselves indefinitely without an exit condition.</p>
       </li>
-      <li> <strong>How does the garbage collector decide which objects to collect?</strong><br>
+<li> <strong>How does the garbage collector decide which objects to collect?</strong><br>
           <p><em>Answer:</em> The garbage collector identifies objects that are no longer reachable from any live threads (i.e., objects that are not referenced by any active part of the application). These objects are considered garbage and can be reclaimed to free memory.</p>
       </li>
-      <li> <strong>What is "mark-and-sweep" garbage collection algorithm in Java?</strong><br>
+      <li> <strong>What is "<span class="style2">mark-and-sweep</span>" garbage collection algorithm in Java?</strong><br>
           <p><em>Answer:</em> The "mark-and-sweep" algorithm is a garbage collection technique that works in two phases:
           <ul>
                       <li>Mark phase: It traverses the object graph, starting from root references, and marks all reachable objects.</li>
@@ -350,7 +351,7 @@ public class DeepCopyExample {
           </ul>
         </p>
       </li>
-      <li> <strong>What are the different types of garbage collectors available in Java?</strong><br>
+<li> <strong>What are the different types of garbage collectors available in Java?</strong><br>
           <p><em>Answer:</em> Java provides several types of garbage collectors, including:
           <ul>
                       <li>Serial GC</li>
