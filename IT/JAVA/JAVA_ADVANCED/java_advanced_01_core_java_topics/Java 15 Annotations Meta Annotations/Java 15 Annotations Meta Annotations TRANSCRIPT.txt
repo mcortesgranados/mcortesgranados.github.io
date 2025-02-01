@@ -1,0 +1,289 @@
+1. What is an annotation in Java?
+An annotation is a form of metadata that provides information about the code but does not affect its execution.
+
+2. How do you define a custom annotation in Java?
+You can define a custom annotation using @interface keyword:
+                 
+3. What are Java's built-in annotations?
+Some built-in annotations are:
+
+@Override - Ensures a method overrides a superclass method.
+@Deprecated - Marks a method or class as deprecated.
+@SuppressWarnings - Suppresses compiler warnings.
+4. What is a meta-annotation in Java?
+A meta-annotation is an annotation that is used to annotate other annotations.
+
+5. What are the five meta-annotations in Java?
+The five meta-annotations are:
+
+@Target - Specifies where the annotation can be applied.
+@Retention - Specifies how long the annotation is retained.
+@Documented - Includes annotation in Javadoc.
+@Inherited - Allows annotation inheritance.
+@Repeatable - Allows multiple annotations of the same type.
+
+6. What does the @Target annotation do?
+The @Target annotation restricts where an annotation can be applied. Example:
+        
+7. What are the possible values of ElementType in @Target?
+Some values include:
+
+ElementType.METHOD - Applicable to methods.
+ElementType.FIELD - Applicable to fields.
+ElementType.TYPE - Applicable to classes and interfaces.
+ElementType.PARAMETER - Applicable to parameters.
+
+8. What does the @Retention annotation do?
+It specifies how long an annotation is retained. Example:
+
+        
+9. What are the possible values of RetentionPolicy?
+The values are:
+
+RetentionPolicy.SOURCE - Annotation is discarded after compilation.
+RetentionPolicy.CLASS - Annotation is stored in class files but not available at runtime.
+RetentionPolicy.RUNTIME - Annotation is available at runtime.
+
+10. What does the @Inherited annotation do?
+It allows an annotation to be inherited by subclasses. Example:
+
+11. What does the @Documented annotation do?
+The @Documented annotation ensures that an annotation is included in Javadoc documentation.
+
+12. What does the @Repeatable annotation do?
+It allows multiple instances of the same annotation to be used on a single element.
+                    
+13. How do you create a container annotation for @Repeatable?
+You must define a container annotation that holds an array of the repeatable annotation:
+        
+14. How do you apply multiple instances of a repeatable annotation?
+                    
+15. How can you retrieve annotations at runtime using reflection?
+Use getAnnotationsByType:
+        
+16. Can annotations have default values?
+Yes, annotations can have default values:
+        
+17. What is an annotation processor?
+An annotation processor is a tool that processes annotations at compile-time and can generate new source code.
+
+18. What is javax.annotation.processing?
+It is a package that provides tools for annotation processing, including the Processor interface.
+
+19. What is the difference between @Inherited and @Repeatable?
+Answer:
+
+@Inherited allows an annotation to be inherited by subclasses.
+@Repeatable allows multiple annotations of the same type to be applied to a single element.
+
+20. How do you check if a class has a specific annotation at runtime?
+Use isAnnotationPresent:
+
+21. What is the difference between getAnnotation and getAnnotations?
+getAnnotation retrieves a single annotation, while getAnnotations retrieves all annotations on an element.
+
+25. Can annotation elements be other annotations?
+Yes, annotations can contain other annotations.
+        
+26. How do you define a default value for an annotation parameter?
+        
+27. What happens if you don't specify a required annotation parameter?
+A compilation error will occur because required parameters must be explicitly provided.
+
+28. How do you use an annotation inside an interface?
+        
+29. What is the purpose of the @Native annotation?
+It indicates that a constant value is intended for native code interoperability.
+
+30. How do you prevent annotation inheritance?
+Do not use @Inherited, as annotations are not inherited by default.
+
+31. What is the difference between @Retention and @Documented?
+@Retention controls where the annotation is available (runtime, compile-time, etc.), while @Documented ensures the annotation appears in Javadoc.
+
+33. Can you use an annotation inside a lambda expression?
+No, annotations apply to declarations, not lambda expressions.
+
+34. How do you apply annotations to generic types?
+        
+35. What is the purpose of the @SafeVarargs annotation?
+It suppresses warnings for varargs methods that use generics.
+        
+36. Can annotations be applied to method return types?
+Yes, example:
+        
+37. What is the purpose of @FunctionalInterface?
+It ensures that an interface has only one abstract method.
+
+39. What happens if an annotation is applied multiple times?
+If the annotation is not repeatable, a compilation error occurs.
+
+40. How do you define a repeatable annotation?
+
+41. What is the purpose of the @Inherited annotation?
+It allows an annotation to be inherited by subclasses.
+        
+43. What is the use of @Native in Java?
+It indicates that a constant is a valid Java API constant and should be used in tools.
+
+45. Can an annotation extend another annotation?
+No, annotations cannot extend other annotations.
+
+46. What happens if you apply an annotation to an incompatible target?
+A compilation error occurs.
+
+48. Can an annotation parameter be another annotation?
+Yes
+
+49. What is the @Generated annotation used for?
+It marks generated code to indicate it should not be manually modified.
+
+51. What is the @Documented annotation?
+It ensures the annotation appears in the Javadoc of the annotated element.
+        
+52. What is the default retention policy for annotations?
+RetentionPolicy.CLASS, meaning the annotation is stored in the class file but not available at runtime.
+
+53. How can you process annotations at runtime?
+Using reflection.
+
+54. What is the difference between @Inherited and @Repeatable?
+@Inherited allows annotations to be inherited by subclasses.
+@Repeatable allows the same annotation to be used multiple times on an element.
+
+55. How do you create a repeatable annotation?
+Use @Repeatable and a containing annotation.
+
+56. What are marker annotations?
+Annotations without any methods.
+        
+57. What is an annotation processor?
+A tool that processes annotations at compile time, often used for code generation.
+
+58. Can annotations have arrays as elements?
+Yes.
+
+59. What happens if an annotation method has no default value and is not specified?
+A compilation error occurs.
+
+60. How do you use annotations with Java Streams?
+
+61. Can annotations be inherited by interfaces?
+Yes, annotations can be inherited by interfaces, but this only works if the annotation is marked with @Inherited.
+
+62. How can annotations be used to enforce design patterns?
+Annotations can be used to mark methods or classes that must conform to certain design patterns like Singleton, Factory, etc.
+
+63. How do you access the values of an annotation at runtime?
+Using reflection to access the annotation and its values.
+        
+64. How do you combine multiple annotations on the same element?
+You can use multiple annotations on the same element by placing them above the element one after another.
+
+65. What is @SuppressWarnings used for?
+It tells the compiler to suppress specific warnings.
+
+66. Can an annotation be applied to a type parameter?
+Yes, an annotation can be applied to a type parameter.
+
+67. What are the different RetentionPolicy values?
+There are three retention policies: SOURCE, CLASS, and RUNTIME.
+
+68. How do annotations affect code generation tools like Lombok?
+Annotations like @Getter, @Setter, and others in Lombok are used to generate boilerplate code at compile-time.
+
+69. What is @FunctionalInterface used for?
+It is used to mark an interface as a functional interface, meaning it has exactly one abstract method.
+
+70. Can you apply annotations to parameters?
+Yes, annotations can be applied to parameters in methods.
+
+71. What is the @Target annotation used for?
+It defines where the annotation can be applied (e.g., class, method, field, etc.).
+
+72. What is the purpose of the @Retention annotation?
+It defines how long annotations are retained. The possible values are SOURCE, CLASS, and RUNTIME.
+
+73. What does @Override do?
+It indicates that a method is overriding a method in its superclass. It helps in avoiding mistakes, like incorrect method signatures.
+
+74. How can annotations help in code documentation?
+Annotations like @Deprecated and @Documented provide documentation or mark code that is deprecated.
+
+75. What is the use of @Retention(RetentionPolicy.RUNTIME)?
+It means the annotation will be available at runtime for reflection-based processing.
+
+76. Can annotations contain methods?
+Yes, annotations can have methods, but they must have default values, or they must be implemented when the annotation is used.
+
+77. What is @PostConstruct used for?
+It is used to specify a method that should be executed after the bean’s properties are set in a Spring application.
+
+78. What is @PreDestroy used for?
+It is used to specify a method that should be executed before the bean is destroyed in a Spring application.
+
+79. What is the purpose of @Inherited?
+It marks an annotation so that it can be inherited by subclasses.
+
+80. How can you make annotations available to the compiler?
+Use @Retention(RetentionPolicy.SOURCE) to ensure annotations are only used for compile-time processing and discarded at runtime.
+
+81. What is @Target(ElementType.FIELD) used for?
+It indicates that an annotation can only be applied to fields, not methods or classes.
+
+82. Can you create custom annotations with parameters?
+Yes, you can create custom annotations with parameters by defining methods inside the annotation.
+
+83. What does the @Documented annotation indicate?
+It indicates that an annotation should be included in the Javadoc output.
+
+84. How do annotations improve code readability?
+Annotations make the code more declarative, helping developers quickly understand the behavior of classes, methods, and fields without needing to inspect the actual code logic.
+
+85. How can annotations be used with reflection to alter behavior at runtime?
+Annotations can be processed at runtime using reflection to modify the behavior of classes or methods based on the presence of certain annotations.
+
+86. What is the use of @FunctionalInterface?
+It marks an interface as functional, indicating it can be used with lambda expressions or method references. It should have exactly one abstract method.
+
+87. How does @Entity relate to annotations in JPA?
+The @Entity annotation marks a class as a JPA entity, meaning it represents a table in a relational database.
+
+88. What is the @PrimaryKey annotation used for in JPA?
+It indicates the field that acts as the primary key in a JPA entity.
+
+89. Can annotations be used to influence compile-time processing?
+Yes, annotations can be used in compile-time processing tools like apt (annotation processing tool), which can generate code, files, or validate annotations during the build process.
+
+90. What is the role of @NotNull in annotations?
+It marks a field or parameter as not allowing null values. It is commonly used in frameworks like Spring or Hibernate for validation.
+
+91. What is the @Target(ElementType.PARAMETER) annotation used for?
+It indicates that an annotation can only be applied to method parameters.
+
+92. What is the @Inherited meta-annotation used for?
+It is used to mark annotations that can be inherited by subclasses.
+
+93. How does the @RetentionPolicy impact annotation processing?
+The retention policy determines how long annotations are kept. RUNTIME allows them to be available at runtime, while CLASS and SOURCE discard them earlier.
+
+94. Can custom annotations have default values for their elements?
+Yes, custom annotations can define default values for their elements, making them optional when using the annotation.
+
+95. What is the @Documented meta-annotation used for?
+It is used to indicate that annotations should be included in the Javadoc output when the annotation is applied to a class, method, or field.
+
+96. What are the advantages of using annotations over XML configuration in Java?
+Annotations provide a more concise, type-safe, and easier-to-read configuration compared to XML files. They also eliminate the need for parsing external files.
+
+97. What is the difference between @Retention(RetentionPolicy.CLASS) and @Retention(RetentionPolicy.RUNTIME)?
+@Retention(RetentionPolicy.CLASS) retains the annotation until the class is compiled, while @Retention(RetentionPolicy.RUNTIME) keeps it at runtime, allowing reflection-based processing.
+
+98. How does @Override improve code quality?
+@Override ensures that the method correctly overrides a superclass method, helping to catch errors like incorrect method signatures or missing overrides.
+
+99. How can annotations be used for validation in frameworks like Hibernate Validator?
+Annotations like @NotNull, @Size, and @Email are used to enforce validation rules on fields, parameters, and return values in the application.
+
+100. What is @Entity used for in the context of Java Persistence API (JPA)?
+@Entity marks a class as an entity that corresponds to a table in a database, allowing it to be managed by JPA.

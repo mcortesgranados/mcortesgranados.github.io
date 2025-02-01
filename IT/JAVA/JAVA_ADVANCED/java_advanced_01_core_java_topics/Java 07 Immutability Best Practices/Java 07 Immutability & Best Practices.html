@@ -3,12 +3,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+</style>
 </head>
 
 <body>
-<h1>Immutability &amp; Best Practices - Questions &amp; Answers</h1>
-<h2>Set 1</h2>
-<ol>
+<h1 class="style1">Immutability &amp; Best Practices - Questions &amp; Answers</h1>
+<h2 class="style1">Set 1</h2>
+<ol class="style1">
   <li> <strong>What is immutability in Java?</strong><br />
       <p><em>Answer:</em> Immutability refers to the concept where once an object is created, its state cannot be modified. In Java, immutable objects are typically used to ensure thread safety and to maintain integrity by preventing modifications after the object’s creation.</p>
   </li>
@@ -40,10 +45,10 @@
       <p><em>Answer:</em> Immutability can have both positive and negative impacts on performance. On the positive side, immutable objects can be cached and reused, which may improve performance. However, defensive copying and the need for additional memory allocation may introduce overhead.</p>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Immutability &amp; Best Practices - Questions &amp; Answers</h1>
-<h2>Set 2</h2>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Immutability &amp; Best Practices - Questions &amp; Answers</h1>
+<h2 class="style1">Set 2</h2>
+<ol class="style1">
   <li> <strong>What is a best practice for designing immutable classes?</strong><br />
       <p><em>Answer:</em> A best practice for designing immutable classes includes making the class `final`, declaring fields as `final`, providing a constructor that initializes all fields, and not providing setter methods.</p>
   </li>
@@ -75,11 +80,11 @@
       <p><em>Answer:</em> It is generally a good practice to avoid `null` values in immutable objects. If a field can be `null`, it’s better to use an `Optional` to make it explicit and avoid potential `NullPointerExceptions`.</p>
   </li>
 </ol>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1>Immutability &amp; Best Practices - Questions &amp; Answers</h1>
-<h2>Set 3</h2>
-<ol>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Immutability &amp; Best Practices - Questions &amp; Answers</h1>
+<h2 class="style1">Set 3</h2>
+<ol class="style1">
   <li> <strong>How can you make a `List` immutable in Java?</strong><br />
       <p><em>Answer:</em> You can make a `List` immutable in Java by using methods like `Collections.unmodifiableList()` or using the `List.of()` method (introduced in Java 9), which returns an unmodifiable list.</p>
   </li>
@@ -111,10 +116,10 @@
       <p><em>Answer:</em> Immutability simplifies debugging since immutable objects are not modified after their creation, which eliminates many potential sources of bugs, such as side effects and unexpected state changes.</p>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Immutability &amp; Best Practices - Questions &amp; Answers</h1>
-<h2>Set 4</h2>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Immutability &amp; Best Practices - Questions &amp; Answers</h1>
+<h2 class="style1">Set 4</h2>
+<ol class="style1">
   <li> <strong>How do you prevent subclassing of an immutable class?</strong><br />
       <p><em>Answer:</em> To prevent subclassing of an immutable class, declare the class as `final`. This ensures that no other class can extend it and potentially override its behavior.</p>
   </li>
@@ -146,9 +151,9 @@
       <p><em>Answer:</em> Immutability is a key concept in functional programming because it helps avoid side effects, which makes the functions predictable and testable. Functional programming promotes the use of immutable data structures, enabling safer concurrent execution and easier reasoning about code.</p>
   </li>
 </ol>
-<h1>Immutability &amp; Best Practices - Questions &amp; Answers</h1>
-<h2>Set 5</h2>
-<ol>
+<h1 class="style1">Immutability &amp; Best Practices - Questions &amp; Answers</h1>
+<h2 class="style1">Set 5</h2>
+<ol class="style1">
   <li> <strong>How does immutability impact garbage collection?</strong><br />
       <p><em>Answer:</em> Immutability can make garbage collection more efficient by enabling shared use of objects without the need for synchronization. Once an immutable object is no longer referenced, it can be safely garbage collected without concerns of being altered in another thread.</p>
   </li>
@@ -180,10 +185,10 @@
       <p><em>Answer:</em> To handle mutable fields in an immutable class, you should make a defensive copy of the mutable object during construction and when returning the object in any getter methods. This ensures that the mutable object cannot be modified externally.</p>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Immutability &amp; Best Practices - Questions &amp; Answers</h1>
-<h2>Set 6</h2>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Immutability &amp; Best Practices - Questions &amp; Answers</h1>
+<h2 class="style1">Set 6</h2>
+<ol class="style1">
   <li> <strong>What are the advantages of using `final` in immutability?</strong><br />
       <p><em>Answer:</em> The `final` keyword ensures that once a reference is assigned, it cannot be reassigned to another object. This is essential for immutability as it prevents the object reference from being changed after the object is constructed.</p>
   </li>
@@ -215,10 +220,10 @@
       <p><em>Answer:</em> To ensure an immutable class can be safely used with serialization, you should implement `Serializable` and handle object deserialization properly. You must ensure that the class cannot be modified after deserialization by using `readObject` to enforce immutability.</p>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Immutability &amp; Best Practices - Questions &amp; Answers</h1>
-<h2>Set 7</h2>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Immutability &amp; Best Practices - Questions &amp; Answers</h1>
+<h2 class="style1">Set 7</h2>
+<ol class="style1">
   <li> <strong>How do you define an immutable class in Java?</strong><br />
       <p><em>Answer:</em> To define an immutable class in Java, you need to ensure the following: </p>
     <ul>
@@ -257,10 +262,10 @@
       <p><em>Answer:</em> No, an immutable object should not have mutable fields. If a mutable field is necessary, it should either be final and not change after construction or be defensively copied during the object creation to prevent external modifications.</p>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Immutability &amp; Best Practices - Questions &amp; Answers</h1>
-<h2>Set 8</h2>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Immutability &amp; Best Practices - Questions &amp; Answers</h1>
+<h2 class="style1">Set 8</h2>
+<ol class="style1">
   <li> <strong>What is the benefit of immutability in multi-threaded applications?</strong><br />
       <p><em>Answer:</em> In multi-threaded applications, immutability eliminates the need for synchronization because immutable objects cannot be modified. This leads to safer code with fewer chances for race conditions, as multiple threads can safely access the same object without the need for locks.</p>
   </li>
@@ -292,10 +297,10 @@
       <p><em>Answer:</em> Returning `Collections.unmodifiableList()` ensures that the list cannot be modified from outside the immutable class. If you return the actual list, external code could change the list's contents, which would violate the immutability of the class.</p>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Immutability &amp; Best Practices - Questions &amp; Answers</h1>
-<h2>Set 9</h2>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Immutability &amp; Best Practices - Questions &amp; Answers</h1>
+<h2 class="style1">Set 9</h2>
+<ol class="style1">
   <li> <strong>Can an immutable class have static fields?</strong><br />
       <p><em>Answer:</em> Yes, an immutable class can have static fields, but those fields should also be immutable or final to ensure that they cannot be modified.</p>
   </li>
@@ -327,10 +332,10 @@
       <p><em>Answer:</em> You should create unmodifiable views using `Collections.unmodifiableList()`, `Collections.unmodifiableSet()`, etc., or use defensive copies when returning or accepting collections.</p>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Immutability &amp; Best Practices - Questions &amp; Answers</h1>
-<h2>Set 10</h2>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Immutability &amp; Best Practices - Questions &amp; Answers</h1>
+<h2 class="style1">Set 10</h2>
+<ol class="style1">
   <li> <strong>How does immutability help in functional programming?</strong><br />
       <p><em>Answer:</em> Immutability is a core principle of functional programming as it prevents side effects, making functions pure and predictable, which simplifies debugging and testing.</p>
   </li>
@@ -362,17 +367,17 @@
       <p><em>Answer:</em> Immutability prevents malicious code from altering objects unexpectedly, making it a useful practice for securing sensitive data and configurations.</p>
   </li>
 </ol>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
 </body>
 </html>

@@ -1,0 +1,299 @@
+What is the purpose of the `Executor` framework in Java?
+The `Executor` framework simplifies the management of threads and provides an abstraction for thread management. It decouples task submission from the details of how each task will be executed, typically using a pool of worker threads.
+
+What is the difference between `ExecutorService` and `Executor`?
+`Executor` is a simple interface for executing tasks asynchronously, whereas `ExecutorService` is a more specialized interface that includes methods for managing and controlling the lifecycle of tasks, such as `shutdown()` and `submit()`.
+
+What is the purpose of `ForkJoinPool` in Java?
+`ForkJoinPool` is designed for tasks that can be recursively split into smaller tasks, allowing for parallel execution. It is optimized for applications that perform many small tasks and need to work efficiently with the underlying hardware.
+
+How do you submit a task to an `ExecutorService`?
+You can submit a task to an `ExecutorService` using the `submit()` method, which returns a `Future` object that can be used to retrieve the result of the task.
+
+What is the difference between `synchronized` and `Lock` in Java?
+`synchronized`: A keyword that allows a method or block to be executed by only one thread at a time.
+`Lock`: A more flexible and advanced interface that allows for explicit locking and unlocking, offering greater control over the synchronization process.
+What is the purpose of `ReentrantLock`?
+`ReentrantLock` is an implementation of the `Lock` interface that allows a thread to re-enter a lock it already holds. It provides additional methods like `tryLock()` and `lockInterruptibly()` for better control over locking.
+
+What is `CountDownLatch` used for in multithreading?
+`CountDownLatch` is a synchronization aid that allows one or more threads to wait until a set of operations being performed by other threads completes. It is initialized with a count and threads can call `countDown()` to decrement it.
+
+What does the `ExecutorCompletionService` do?
+`ExecutorCompletionService` is used to manage a pool of tasks and allows you to retrieve the results of completed tasks in the order they finish, rather than the order they were submitted.
+
+What is the purpose of `Semaphore` in Java?
+`Semaphore` is a concurrency utility that controls access to a particular resource by multiple threads. It maintains a set of permits, and a thread must acquire a permit before accessing the resource. It helps manage resource pooling and rate limiting.
+
+What is the difference between `ThreadPoolExecutor` and `ForkJoinPool`?
+
+
+`ThreadPoolExecutor`: Optimized for executing tasks that don't need to be recursively split into smaller tasks.
+`ForkJoinPool`: Designed for recursive tasks that can be divided into smaller tasks, enabling parallel processing for divide-and-conquer algorithms.
+
+What does the `CyclicBarrier` class do in Java?
+`CyclicBarrier` is a synchronization aid that allows a set of threads to all wait for each other to reach a common barrier point. Once all threads reach the barrier, they can all proceed simultaneously.
+
+What is the `Future.get()` method used for?
+The `Future.get()` method is used to retrieve the result of a task that has been submitted to an `ExecutorService`. It blocks the calling thread until the task completes and returns the result.
+
+What is the purpose of the `ThreadLocal` class?
+`ThreadLocal` provides thread-local variables. Each thread accessing the variable has its own independent copy, which is not shared with other threads, making it useful for maintaining thread-specific state.
+
+What is a "deadlock" in multithreading?
+A deadlock occurs when two or more threads are blocked forever, each waiting on the other to release resources. This results in a situation where no thread can proceed.
+
+What is the difference between `synchronized` blocks and `ReentrantLock`?
+`synchronized`: Implicit locking, limited to methods or blocks of code, and cannot be interrupted.
+`ReentrantLock`: Explicit locking with more control, including features like try-lock, timed-lock, and interruptible lock acquisition.
+How does the `ForkJoinPool` work in Java?
+`ForkJoinPool` works by recursively breaking down tasks into smaller sub-tasks (forking), processing them in parallel, and then combining the results (joining). It is designed for divide-and-conquer algorithms that require recursive task splitting.
+
+What is the `join()` method in the context of threads?
+The `join()` method allows one thread to wait for the completion of another. It blocks the calling thread until the thread whose `join()` method is invoked has finished its execution.
+
+What is the `Lock.tryLock()` method used for?
+The `tryLock()` method attempts to acquire a lock without blocking the thread. If the lock is not available, it immediately returns `false`, allowing the thread to continue with other tasks. It can be used with a timeout option as well.
+
+What is a `CountDownLatch` in Java?
+`CountDownLatch` is a synchronization aid that allows one or more threads to wait until a set of operations in other threads completes. It is initialized with a count, and each thread calls `countDown()` when it completes an operation. The main thread can call `await()` to wait until the count reaches zero.
+
+How does `ExecutorService.submit()` differ from `ExecutorService.execute()`?
+`submit()` returns a `Future` object which can be used to retrieve the result or exception of a task, whereas `execute()` is a void method that does not return a result or handle exceptions. `submit()` is useful when you need to get the result of the task.
+
+What is the `Semaphore` class used for in Java concurrency?
+`Semaphore` is a counting semaphore that controls access to a shared resource by a set of threads. It maintains a set of permits, and threads acquire permits before proceeding with execution. If no permits are available, threads are blocked until permits are released.
+
+What is the purpose of `ReentrantReadWriteLock` in Java?
+`ReentrantReadWriteLock` is a lock that allows multiple threads to read a resource concurrently but only one thread to write to it. It provides separate read and write locks to improve performance by allowing multiple readers.
+
+What is the difference between `synchronized` keyword and `ReentrantLock`?
+`synchronized`: Implicit lock, simpler to use but lacks features such as try-lock and interruptible lock acquisition.
+`ReentrantLock`: Explicit lock, provides additional features such as try-lock, timed lock, and interruptible lock acquisition.
+
+What is the difference between `ForkJoinTask` and `Future`?
+`ForkJoinTask` is a special subclass of `Future` designed for tasks that can be recursively split into smaller tasks (i.e., divide-and-conquer tasks). `Future` is a general-purpose interface used to represent the result of any asynchronous computation.
+
+What is the purpose of the `Object.wait()` method in multithreading?
+`wait()` is used to pause the execution of the current thread until another thread sends a notification via `notify()` or `notifyAll()`. It is typically used in synchronized blocks to facilitate inter-thread communication.
+
+How does `ExecutorService.invokeAll()` differ from `ExecutorService.invokeAny()`?
+
+`invokeAll()`: Executes all tasks and returns a list of `Future` objects, blocking until all tasks are completed.
+`invokeAny()`: Executes the tasks and returns the result of the first completed task, ignoring other tasks once one completes.
+What is the `ThreadPoolExecutor` class used for?
+`ThreadPoolExecutor` is an implementation of the `ExecutorService` interface that provides a pool of worker threads for executing tasks. It allows you to manage the number of threads dynamically based on the load, improving performance by reusing threads.
+
+What is the `Lock` interface used for?
+The `Lock` interface provides a more flexible locking mechanism than `synchronized` blocks, allowing features such as try-lock, timed lock, and interruptible lock acquisition. It is part of the `java.util.concurrent.locks` package.
+
+What is `ExecutorService` in Java?
+`ExecutorService` is an interface in the `java.util.concurrent` package that represents an asynchronous execution mechanism, allowing you to submit tasks for execution without manually managing threads. Common implementations include `ThreadPoolExecutor` and `ScheduledThreadPoolExecutor`.
+
+How does `CyclicBarrier` work in Java?
+`CyclicBarrier` is a synchronization aid that allows a set of threads to all wait for each other to reach a common barrier point. Once all threads reach the barrier, they can continue execution. It can be reused once the barrier is tripped.
+
+What is the `ForkJoinPool` in Java and when is it used?
+`ForkJoinPool` is a special kind of `ExecutorService` designed to efficiently process tasks that can be recursively split into smaller tasks. It uses a work-stealing algorithm to minimize the time spent on idle threads, making it ideal for divide-and-conquer tasks.
+
+What is the purpose of `volatile` keyword in multithreading?
+The `volatile` keyword in Java ensures that a variable is directly read from and written to the main memory, rather than from the local thread cache. This helps ensure visibility of changes across all threads, although it does not guarantee atomicity.
+
+What is the difference between `Thread.sleep()` and `Object.wait()`?
+`Thread.sleep()`: Pauses the execution of the current thread for a specified time, without releasing any locks.
+`Object.wait()`: Pauses the execution of the current thread until another thread sends a notification via `notify()` or `notifyAll()`. It must be called inside a synchronized block.
+What are the main methods of `ReentrantLock` in Java?
+The main methods of `ReentrantLock` include:
+
+`lock()`: Acquires the lock.
+`unlock()`: Releases the lock.
+`tryLock()`: Attempts to acquire the lock without blocking.
+`lockInterruptibly()`: Acquires the lock, but can be interrupted.
+
+What does `ExecutorService.invokeAll()` return?
+`invokeAll()` returns a list of `Future` objects, each representing the result of one task. It waits for all tasks to complete before returning, and guarantees that all tasks are executed.
+
+What is `CompletableFuture` in Java?
+`CompletableFuture` is a class in Java that represents a future result of an asynchronous computation. It provides methods to explicitly complete the future, combine multiple futures, and handle errors in a more flexible way than `Future`.
+
+How do `notify()` and `notifyAll()` differ in multithreading?
+
+
+`notify()`: Wakes up a single thread that is waiting on the object's monitor.
+`notifyAll()`: Wakes up all threads that are waiting on the object's monitor.
+What is the significance of `ThreadLocal` in Java?
+`ThreadLocal` provides thread-local variables, meaning each thread has its own independent copy of the variable. This can be useful for storing data that is unique to the thread, such as user sessions or database connections.
+
+What is `ExecutorService` in Java?
+`ExecutorService` is an interface in the `java.util.concurrent` package that represents an asynchronous execution mechanism, allowing you to submit tasks for execution without manually managing threads. Common implementations include `ThreadPoolExecutor` and `ScheduledThreadPoolExecutor`.
+
+How does `CyclicBarrier` work in Java?
+`CyclicBarrier` is a synchronization aid that allows a set of threads to all wait for each other to reach a common barrier point. Once all threads reach the barrier, they can continue execution. It can be reused once the barrier is tripped.
+            
+What is the `ForkJoinPool` in Java and when is it used?
+`ForkJoinPool` is a special kind of `ExecutorService` designed to efficiently process tasks that can be recursively split into smaller tasks. It uses a work-stealing algorithm to minimize the time spent on idle threads, making it ideal for divide-and-conquer tasks.
+
+What is the purpose of `volatile` keyword in multithreading?
+The `volatile` keyword in Java ensures that a variable is directly read from and written to the main memory, rather than from the local thread cache. This helps ensure visibility of changes across all threads, although it does not guarantee atomicity.
+
+What is the difference between `Thread.sleep()` and `Object.wait()`?
+
+
+`Thread.sleep()`: Pauses the execution of the current thread for a specified time, without releasing any locks.
+`Object.wait()`: Pauses the execution of the current thread until another thread sends a notification via `notify()` or `notifyAll()`. It must be called inside a synchronized block.
+
+What are the main methods of `ReentrantLock` in Java?
+The main methods of `ReentrantLock` include:
+
+`lock()`: Acquires the lock.
+`unlock()`: Releases the lock.
+`tryLock()`: Attempts to acquire the lock without blocking.
+`lockInterruptibly()`: Acquires the lock, but can be interrupted.
+
+What does `ExecutorService.invokeAll()` return?
+`invokeAll()` returns a list of `Future` objects, each representing the result of one task. It waits for all tasks to complete before returning, and guarantees that all tasks are executed.
+
+What is `CompletableFuture` in Java?
+`CompletableFuture` is a class in Java that represents a future result of an asynchronous computation. It provides methods to explicitly complete the future, combine multiple futures, and handle errors in a more flexible way than `Future`.
+            
+How do `notify()` and `notifyAll()` differ in multithreading?
+
+
+`notify()`: Wakes up a single thread that is waiting on the object's monitor.
+`notifyAll()`: Wakes up all threads that are waiting on the object's monitor.
+
+What is the significance of `ThreadLocal` in Java?
+`ThreadLocal` provides thread-local variables, meaning each thread has its own independent copy of the variable. This can be useful for storing data that is unique to the thread, such as user sessions or database connections.
+
+What is the use of `ExecutorService.submit()` method in Java?
+The `submit()` method submits a task for execution and returns a `Future` object, which can be used to retrieve the result of the computation or check if the task has been completed.
+
+What does `CountDownLatch` do in Java?
+`CountDownLatch` is a synchronization aid that allows one or more threads to wait until a set of operations being performed in other threads completes. It maintains a count, and threads can wait until the count reaches zero.
+            
+What is the difference between `synchronized` block and `ReentrantLock` in Java?
+
+`synchronized`: A keyword that can be used to lock a method or a block of code, ensuring only one thread can execute it at a time. However, it lacks flexibility and cannot be interrupted or timed out.
+`ReentrantLock`: A more flexible lock that allows you to acquire a lock, attempt to acquire it without blocking, and handle interruptions. It provides more control over locking mechanisms.
+What does `Semaphore` do in Java?
+
+What is the use of `ExecutorService.shutdownNow()` in Java?
+`shutdownNow()` attempts to stop all actively executing tasks, halts the processing of waiting tasks, and returns a list of the tasks that were waiting to be executed. It does not forcibly terminate the threads.
+
+Explain the concept of the Fork/Join framework in Java.
+The Fork/Join framework in Java is used to break down tasks into smaller sub-tasks recursively, which are then executed in parallel. Afterward, the results of the sub-tasks are combined to produce the final result.
+            
+What is the difference between `Thread.sleep()` and `Object.wait()`?
+
+`Thread.sleep()`: Puts the current thread to sleep for a specified period. It does not release any locks held by the thread.
+`Object.wait()`: Causes the current thread to release the lock and enter the waiting state until it is notified by another thread.
+What is the use of `ExecutorService.invokeAll()` method in Java?
+`invokeAll()` accepts a collection of tasks and returns a list of `Future` objects. It waits for all tasks to complete and blocks until all tasks are finished.
+
+What is the purpose of `ThreadPoolExecutor.getActiveCount()`?
+`getActiveCount()` returns the approximate number of threads that are actively executing tasks in the thread pool. It helps monitor the current load of the executor.
+
+How does `ReentrantLock` help avoid deadlock?
+`ReentrantLock` helps avoid deadlock by allowing a thread to acquire a lock multiple times, preventing the situation where a thread waits forever to acquire a lock that it already holds.
+
+What is the significance of `Thread.yield()` method?
+`Thread.yield()` is a static method that causes the current thread to yield its remaining time slice and allows other threads to run. It's a hint to the scheduler to give up the CPU.
+
+What does `CyclicBarrier` do in Java?
+`CyclicBarrier` is used to make threads wait until a certain number of threads reach a common barrier point. Once all threads reach the barrier, they are released to continue execution.
+
+What is the `AtomicInteger` class used for?
+`AtomicInteger` is a class in Java that provides a way to perform atomic operations (such as increment, decrement) on integers, ensuring thread safety without the need for synchronization.
+
+What is the purpose of `Lock.tryLock()` method in Java?
+`tryLock()` is a non-blocking method that attempts to acquire the lock. If the lock is available, it acquires it and returns `true`; otherwise, it returns `false` without blocking the thread.
+
+What is the difference between `CountDownLatch` and `CyclicBarrier`?
+`CountDownLatch` is used to make threads wait for a certain number of events to occur before they proceed. Once the count reaches zero, all waiting threads are released. `CyclicBarrier`, on the other hand, allows a fixed number of threads to wait for each other to reach a common barrier point, and once all threads reach the barrier, they continue execution.
+
+How does `ExecutorService.submit()` differ from `ExecutorService.execute()`?
+`submit()` allows for returning a `Future` object, which can be used to monitor the status of the task and retrieve the result. `execute()` does not return any result and is typically used for tasks that do not need any feedback.
+
+What is the use of `Semaphore` in Java?
+`Semaphore` is a synchronization primitive that controls access to a shared resource by multiple threads. It allows a set number of threads to acquire permits and access the resource. Once the permits are exhausted, other threads must wait until a permit is released.
+
+What is the difference between `ReentrantLock` and `Synchronized` in Java?
+`ReentrantLock` is more flexible than `synchronized` blocks because it allows for features like timed locking, interruptible lock waits, and the ability to check lock status. `Synchronized` is simpler but lacks these features.
+
+Explain the purpose of `Future.get()` method in Java.
+`Future.get()` retrieves the result of the computation when it is done. If the computation is not completed, it blocks the calling thread until the computation finishes.
+
+What is `ThreadPoolExecutor` and how is it different from `ExecutorService`?
+`ThreadPoolExecutor` is an implementation of the `ExecutorService` interface that provides a flexible thread pool management system. It allows fine-tuning of thread pool parameters like core pool size, maximum pool size, and keep-alive time for idle threads.
+
+How can you create a thread-safe collection in Java?
+You can create a thread-safe collection in Java by using collections from the `java.util.concurrent` package, such as `CopyOnWriteArrayList`, `ConcurrentHashMap`, or by using synchronized wrappers like `Collections.synchronizedList()` or `Collections.synchronizedMap()`.
+
+What is the use of `ReentrantLock.lockInterruptibly()` method?
+`lockInterruptibly()` allows a thread to attempt to acquire a lock, but it can be interrupted if the lock is not immediately available. This is useful in scenarios where a thread might need to stop waiting for the lock and proceed with other tasks.
+
+What is a `ThreadLocal` variable in Java?
+A `ThreadLocal` variable in Java is a variable that is local to each thread. Each thread accessing the variable has its own independent copy, ensuring that the value is not shared between threads.
+
+What does the `Lock.newCondition()` method do?
+`newCondition()` creates a new `Condition` object, which can be used for thread communication (such as waiting or signaling) within a `Lock`. It provides more control over thread synchronization compared to using `Object.wait()` and `Object.notify()`.
+
+What is the role of `ExecutorService` in Java?
+`ExecutorService` is a higher-level replacement for the traditional approach of managing threads manually. It provides a framework for executing tasks asynchronously in a thread pool, handling thread creation, execution, and management of completion.
+
+How does `ForkJoinPool` differ from a normal thread pool?
+`ForkJoinPool` is designed for parallelism in divide-and-conquer algorithms. It works efficiently for tasks that can be recursively divided into smaller sub-tasks. A normal thread pool (like `ThreadPoolExecutor`) is designed to handle tasks that are independent and do not need recursive decomposition.
+
+What is `CompletableFuture` and how is it different from `Future`?
+`CompletableFuture` is a more powerful and flexible version of `Future`. It allows asynchronous tasks to be combined and chained, supports non-blocking operations, and enables actions to be triggered once a task is completed.
+
+What does `ReentrantLock.tryLock()` do?
+`tryLock()` attempts to acquire the lock without blocking. If the lock is available, it acquires the lock and returns `true`; otherwise, it returns `false` immediately.
+
+How does the `Callable` interface differ from `Runnable`?
+`Callable` is similar to `Runnable`, but it allows the task to return a result and throw exceptions. `Runnable` does not return any result and cannot throw checked exceptions.
+
+What are the advantages of using `ExecutorService` over manually creating threads?
+`ExecutorService` simplifies thread management by reusing a pool of threads, avoiding the overhead of creating new threads repeatedly. It also handles the execution and termination of tasks, error handling, and can be shut down gracefully.
+
+What is the difference between `synchronized` blocks and `Lock` objects?
+`synchronized` is a language feature that provides an implicit lock for a method or block of code, whereas `Lock` is a more flexible API that provides additional methods for acquiring, releasing, and checking locks, such as timed locking and interruptible lock waits.
+
+What is a `CountDownLatch` used for in Java concurrency?
+`CountDownLatch` is used to block a thread until a specified number of events have occurred. It is often used for waiting for multiple threads to finish their tasks before proceeding.
+
+Explain how `ReentrantLock` works in Java.
+`ReentrantLock` is a lock that allows a thread to acquire the same lock multiple times without causing deadlock. It is reentrant because the thread that holds the lock can enter into the synchronized block or method again without being blocked.
+
+What is `Thread.join()` used for?
+`Thread.join()` is used to make the calling thread wait until the thread on which `join()` was called has finished its execution. It ensures that one thread waits for the completion of another before continuing.
+
+What is the difference between `ExecutorService.submit()` and `ExecutorService.execute()`?
+`submit()` returns a `Future` object that can be used to retrieve the result or handle exceptions, while `execute()` does not return any result and is used for tasks that do not require a result or exception handling.
+
+What is the purpose of `ForkJoinTask`?
+`ForkJoinTask` is the base class for tasks that can be executed in a `ForkJoinPool`. It allows tasks to be recursively split into smaller sub-tasks and joined together to compute a result.
+
+What does `synchronized` in Java prevent?
+`synchronized` ensures that only one thread can access a critical section of code at a time, preventing race conditions and ensuring thread safety.
+
+How does `Semaphore` work in Java concurrency?
+`Semaphore` controls access to a shared resource by maintaining a set of permits. Threads acquire a permit before proceeding and release it after finishing their task. It is often used to limit the number of threads that can access a resource simultaneously.
+
+What is the role of `ExecutorService.shutdown()` method?
+The `shutdown()` method in `ExecutorService` initiates an orderly shutdown of the executor, where previously submitted tasks are executed, but no new tasks will be accepted.
+
+What is the purpose of `CyclicBarrier` in Java concurrency?
+`CyclicBarrier` allows a set of threads to wait for each other to reach a common barrier point. Once all threads reach the barrier, they are released to continue execution. It is often used in scenarios where threads need to synchronize their progress.
+
+What is `AtomicInteger` in Java and how does it work?
+`AtomicInteger` is a class that provides atomic operations on integers. It ensures that updates to the integer value are done atomically, avoiding race conditions without using synchronization.
+
+What is `Lock`'s `lockInterruptibly()` method used for?
+The `lockInterruptibly()` method allows a thread to acquire a lock unless it is interrupted. If the thread is interrupted while trying to acquire the lock, it throws an `InterruptedException`, which gives more control over thread interruption handling compared to `lock()`.
+
+What is the `ThreadPoolExecutor` class used for?
+`ThreadPoolExecutor` is a flexible and powerful implementation of the `ExecutorService` interface. It manages a pool of worker threads to execute tasks concurrently, providing features like core and maximum pool size, task queue, and thread factory.
+
+What is the difference between `wait()` and `sleep()` in Java?
+`wait()` is used for inter-thread communication and requires the thread to hold a lock on the object, releasing it when the thread is put into a waiting state. `sleep()` simply pauses the thread for a specified amount of time without releasing any locks.

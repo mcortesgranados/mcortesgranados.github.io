@@ -3,11 +3,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+</style>
 </head>
 
 <body>
-<h1>Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 1</h1>
-<ol>
+<h1 class="style1">Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 1</h1>
+<ol class="style1">
   <li> <strong>What is the purpose of the <code>equals()</code> method in Java?</strong><br />
     The <code>equals()</code> method is used to compare the equality of two objects. It checks if the contents of two objects are the same, based on their attributes. </li>
   <br />
@@ -35,9 +40,9 @@
   <li> <strong>What is the benefit of overriding <code>equals()</code> and <code>hashCode()</code> in Java?</strong><br />
     Overriding <code>equals()</code> and <code>hashCode()</code> ensures that objects are compared based on their content and that hash-based collections function correctly for storing and retrieving objects. </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 2</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 2</h1>
+<ol class="style1">
   <li> <strong>What is the general rule when implementing <code>equals()</code> and <code>hashCode()</code>?</strong><br />
     If two objects are considered equal according to <code>equals()</code>, they must have the same hash code. This ensures the correct behavior of hash-based collections such as <code>HashMap</code> and <code>HashSet</code>. </li>
   <br />
@@ -71,9 +76,9 @@
     </ul>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 3</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 3</h1>
+<ol class="style1">
   <li> <strong>How do you ensure that two objects are equal when implementing <code>equals()</code>?</strong><br />
     When implementing <code>equals()</code>, ensure that you check all significant fields in the objects that determine equality. Typically, use <code>instanceof</code> to check the object type and then compare the fields using <code>Objects.equals()</code> to avoid <code>NullPointerException</code>. </li>
   <br />
@@ -101,9 +106,9 @@
   <li> <strong>How does <code>Comparator</code> allow for reverse order sorting?</strong><br />
       <code>Comparator</code> provides the <code>reversed()</code> method, which returns a comparator that imposes the reverse order of the original comparator. This is useful for sorting in descending order. </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 4</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 4</h1>
+<ol class="style1">
   <li> <strong>How do you implement <code>equals()</code> in a class?</strong><br />
     When implementing <code>equals()</code>, you should follow these steps:
     <ol>
@@ -222,10 +227,10 @@ people.sort(new PersonComparator());
   <li> <strong>What is the effect of using <code>compareTo()</code> when sorting collections?</strong><br />
     The <code>compareTo()</code> method is used to define the natural ordering of objects. It helps in sorting collections like <code>TreeSet</code> and <code>TreeMap</code> automatically. </li>
 </ol>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1>Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 5</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 5</h1>
+<ol class="style1">
   <li> <strong>What happens if <code>compareTo()</code> returns 0?</strong><br />
     If <code>compareTo()</code> returns 0, it indicates that the two objects being compared are considered equal according to the natural ordering. </li>
   <br />
@@ -304,9 +309,9 @@ people.stream().sorted(Comparator.comparing(Person::getAge)).forEach(person -&gt
             </pre>
   </li>
 </ol>
-<p>&nbsp;	</p>
-<h1>Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 6</h1>
-<ol>
+<p class="style1">&nbsp;	</p>
+<h1 class="style1">Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 6</h1>
+<ol class="style1">
   <li> <strong>How do you compare objects using <code>compareTo()</code>?</strong><br />
     The <code>compareTo()</code> method is used to compare the current object with another object to determine their relative order. It returns a negative integer, zero, or a positive integer if the current object is less than, equal to, or greater than the other object, respectively.
     <pre>
@@ -380,8 +385,8 @@ public int compareTo(Person other) {
             </pre>
   </li>
 </ol>
-<h1>Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 7</h1>
-<ol>
+<h1 class="style1">Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 7</h1>
+<ol class="style1">
   <li> <strong>What is the difference between <code>compareTo()</code> and <code>compare()</code>?</strong><br />
       <code>compareTo()</code> is used when implementing <code>Comparable</code> within the object class itself, whereas <code>compare()</code> is used with an external comparator implementing the <code>Comparator</code> interface. </li>
   <br />
@@ -463,9 +468,9 @@ people.sort(Comparator.comparing(Person::getName).thenComparing(Person::getAge))
   <li> <strong>What is the return value of <code>compareTo()</code> when two objects are equal?</strong><br />
     The return value is 0 when two objects are considered equal according to the <code>compareTo()</code> method. </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 8</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 8</h1>
+<ol class="style1">
   <li> <strong>What is the <code>compareTo()</code> method used for in Java?</strong><br />
       <code>compareTo()</code> is used to compare two objects for ordering. It is part of the <code>Comparable</code> interface and is used in sorting algorithms or when a natural order is required. </li>
   <br />
@@ -527,9 +532,9 @@ people.sort(Comparator.comparing(Person::getName).thenComparing(Person::getAge))
   <li> <strong>What should the <code>hashCode()</code> method return when two objects are equal?</strong><br />
     The <code>hashCode()</code> method should return the same hash code for two objects that are considered equal by the <code>equals()</code> method. </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 9</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 9</h1>
+<ol class="style1">
   <li> <strong>What is the default behavior of <code>equals()</code> if it is not overridden?</strong><br />
     By default, <code>equals()</code> compares object references, meaning it checks if two references point to the same memory location (i.e., if they are the exact same object). </li>
   <br />
@@ -598,9 +603,9 @@ public int compareTo(Person other) {
             </pre>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 10</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Comparing Objects, equals, hashCode, Comparable, Comparator - Q&amp;A Set 10</h1>
+<ol class="style1">
   <li> <strong>What happens when you override <code>equals()</code> but do not override <code>hashCode()</code>?</strong><br />
     If you override <code>equals()</code> but not <code>hashCode()</code>, it can lead to issues in hash-based collections like <code>HashMap</code> or <code>HashSet</code>, where the equality check might fail, resulting in incorrect behavior. </li>
   <br />
@@ -672,17 +677,17 @@ public int compareTo(Person other) {
             </pre>
   </li>
 </ol>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
 </body>
 </html>

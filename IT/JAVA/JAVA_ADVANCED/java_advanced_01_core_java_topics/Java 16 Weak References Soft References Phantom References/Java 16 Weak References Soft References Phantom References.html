@@ -3,11 +3,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+</style>
 </head>
 
 <body>
-<h1>Weak References, Soft References, Phantom References - Q&amp;A Set 1</h1>
-<ol>
+<h1 class="style1">Weak References, Soft References, Phantom References - Q&amp;A Set 1</h1>
+<ol class="style1">
   <li> <strong>What is a Weak Reference in Java?</strong><br />
     A <code>WeakReference</code> in Java is a reference type that allows objects to be garbage collected when no strong references exist. It is commonly used for memory-sensitive caches.<br />
     Example:<br />
@@ -124,9 +129,9 @@
   <li> <strong>Which reference type is best suited for implementing caching mechanisms?</strong><br />
       <code>SoftReference</code> is best suited for caching mechanisms because the object is retained until memory pressure forces its removal. </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Weak References, Soft References, Phantom References - Q&amp;A Set 2</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Weak References, Soft References, Phantom References - Q&amp;A Set 2</h1>
+<ol class="style1">
   <li> <strong>What is the purpose of a ReferenceQueue in Java?</strong><br />
     A <code>ReferenceQueue</code> is used to track references that have been cleared by the garbage collector. It allows you to perform post-collection cleanup operations.<br />
     Example:<br />
@@ -247,9 +252,9 @@
   <li> <strong>What happens if you don't use a ReferenceQueue with a PhantomReference?</strong><br />
     Without a <code>ReferenceQueue</code>, you can't detect when the phantom-referenced object has been collected, which limits the usefulness of PhantomReferences for cleanup operations. </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Weak References, Soft References, Phantom References - Q&amp;A Set 3</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Weak References, Soft References, Phantom References - Q&amp;A Set 3</h1>
+<ol class="style1">
   <li> <strong>What is the main use case of WeakReferences?</strong><br />
     They are used when you want to allow objects to be garbage collected while still holding a reference to them. </li>
   <br />
@@ -299,10 +304,10 @@
   <li> <strong>How can SoftReferences reduce memory pressure?</strong><br />
     They allow the garbage collector to reclaim memory only when it is necessary, reducing memory footprint. </li>
 </ol>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1>Weak References, Soft References, Phantom References - Q&amp;A Set 4</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Weak References, Soft References, Phantom References - Q&amp;A Set 4</h1>
+<ol class="style1">
   <li> <strong>How can you differentiate between Weak, Soft, and Phantom References in Java?</strong><br />
     - WeakReference: Collected as soon as no strong references exist.<br />
     - SoftReference: Retained until memory is low.<br />
@@ -350,10 +355,10 @@
   <li> <strong>Why is it recommended to use ReferenceQueue with PhantomReferences?</strong><br />
     Because it allows handling cleanup tasks right before the object is fully removed. </li>
 </ol>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1>Weak References, Soft References, Phantom References - Q&amp;A Set 5</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Weak References, Soft References, Phantom References - Q&amp;A Set 5</h1>
+<ol class="style1">
   <li> <strong>What is the main advantage of using SoftReferences in a caching system?</strong><br />
     SoftReferences allow objects to remain in memory as long as there is sufficient space, improving cache efficiency. </li>
   <br />
@@ -399,9 +404,9 @@
   <li> <strong>Can a SoftReference hold a large object indefinitely?</strong><br />
     No, it remains available only until the JVM determines memory is low and needs to reclaim space. </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Weak References, Soft References, Phantom References - Q&amp;A Set 6</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Weak References, Soft References, Phantom References - Q&amp;A Set 6</h1>
+<ol class="style1">
   <li> <strong>What happens when a SoftReference's referent is garbage collected?</strong><br />
     The referent is cleared only when the JVM needs more memory, and the <code>get()</code> method returns <code>null</code>. </li>
   <br />
@@ -450,9 +455,9 @@
   <li> <strong>Why is <code>WeakHashMap</code> better than a regular HashMap for caching?</strong><br />
     It prevents memory leaks by automatically removing entries whose keys are no longer strongly referenced. </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Weak References, Soft References, Phantom References - Q&amp;A Set 7</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Weak References, Soft References, Phantom References - Q&amp;A Set 7</h1>
+<ol class="style1">
   <li> <strong>What is the main advantage of using SoftReference over WeakReference?</strong><br />
     SoftReferences are cleared only when the JVM is low on memory, making them better suited for caching. </li>
   <br />
@@ -499,10 +504,10 @@
   <li> <strong>How does ReferenceQueue work with SoftReferences?</strong><br />
     A ReferenceQueue can be used to detect when a SoftReference has been cleared by the garbage collector. </li>
 </ol>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1>Weak References, Soft References, Phantom References - Q&amp;A Set 8</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Weak References, Soft References, Phantom References - Q&amp;A Set 8</h1>
+<ol class="style1">
   <li> <strong>What is the primary purpose of PhantomReference?</strong><br />
     The primary purpose is to perform cleanup actions on objects before they are removed from memory. </li>
   <br />
@@ -550,9 +555,9 @@
   <li> <strong>How do SoftReferences and WeakReferences differ in their effect on garbage collection?</strong><br />
     SoftReferences are cleared only when the JVM is low on memory, whereas WeakReferences are cleared as soon as there are no strong references to the object. </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Weak References, Soft References, Phantom References - Q&amp;A Set 9</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Weak References, Soft References, Phantom References - Q&amp;A Set 9</h1>
+<ol class="style1">
   <li> <strong>What happens when you use a SoftReference in a caching mechanism?</strong><br />
     SoftReferences allow the cached objects to remain in memory unless the JVM is under memory pressure, at which point they are eligible for garbage collection. </li>
   <br />
@@ -583,9 +588,9 @@
   <li> <strong>How do PhantomReferences differ from WeakReferences in terms of access to the object?</strong><br />
     PhantomReferences never allow access to the referenced object, whereas WeakReferences allow access to the object as long as it has not been garbage collected. </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Weak References, Soft References, Phantom References - Q&amp;A Set 10</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Weak References, Soft References, Phantom References - Q&amp;A Set 10</h1>
+<ol class="style1">
   <li> <strong>How can you implement a cache using SoftReferences in Java?</strong><br />
     A simple cache can be implemented using SoftReferences by wrapping cached objects in SoftReference. When memory is low, the garbage collector will automatically clear the cache entries. </li>
   <br />
@@ -616,12 +621,12 @@
   <li> <strong>What is the key advantage of using SoftReferences for caching compared to regular references?</strong><br />
     SoftReferences provide the advantage of allowing the garbage collector to reclaim memory when the system is under memory pressure, making them ideal for caching without worrying about memory overflow. </li>
 </ol>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
 </body>
 </html>
