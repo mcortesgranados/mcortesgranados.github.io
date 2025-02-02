@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database per Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #0275d8;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .step {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #status {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Database per Service</h1>
+
+        <h2>What is the Database per Service Pattern?</h2>
+        <p><strong>Database per Service</strong> is a pattern where each microservice manages its own database, ensuring that it is loosely coupled with other services. This pattern is particularly useful in a microservices architecture where each service has its own specific requirements and needs its own storage to avoid creating tight dependencies between services.</p>
+
+        <h2>Key Benefits:</h2>
+        <ul style="text-align: left;">
+            <li>🔒 **Loose Coupling** – Prevents direct coupling between services, allowing them to evolve independently.</li>
+            <li>⚡ **Autonomy** – Each service can choose the database type (e.g., SQL, NoSQL) that best suits its needs.</li>
+            <li>🔧 **Optimized Performance** – Services can tune their databases to perform better based on the specific use case.</li>
+            <li>🛠️ **Improved Scalability** – Independent scaling of services, as each service handles its own database load.</li>
+        </ul>
+
+        <h2>How Does It Work?</h2>
+        <p>In the Database per Service pattern, the architecture follows these steps:</p>
+
+        <div class="step">1. **Service Definition**: Each microservice is responsible for its own bounded context and business logic.</div>
+        <div class="step">2. **Database Assignment**: Every microservice gets its own database, either SQL or NoSQL, depending on its requirements.</div>
+        <div class="step">3. **Data Consistency**: Services are designed to handle eventual consistency between them, often using events and messaging to synchronize data when necessary.</div>
+        <div class="step">4. **Autonomy in Scaling**: The services and their databases can scale independently, depending on demand.</div>
+        
+        <h2>Example:</h2>
+        <p>Consider an e-commerce platform with microservices for order processing, payment, and inventory management. Each of these microservices could have its own database:</p>
+        <ul style="text-align: left;">
+            <li>Order Service – Stores customer orders and related data in an SQL database.</li>
+            <li>Payment Service – Stores payment transactions in a NoSQL database for flexibility.</li>
+            <li>Inventory Service – Stores inventory information in a relational database optimized for querying product availability.</li>
+        </ul>
+
+        <h2>Visual Representation:</h2>
+        <img class="image" src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Database_per_Service_pattern.png" alt="Database per Service Example">
+
+        <h2>Live Demo: Simulate Database per Service</h2>
+        <p>Click the button below to simulate the process of handling data consistency between different services with separate databases.</p>
+        <button onclick="simulateDatabasePerService()">Simulate Data Handling</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function simulateDatabasePerService() {
+            const statusDiv = document.getElementById("status");
+            statusDiv.innerHTML = "🚀 Simulating database separation between services...";
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "🔄 Handling data synchronization between microservices...";
+            }, 2000); // Simulating a 2-second process
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "✅ Data consistency achieved across all services!";
+            }, 4000); // Complete simulation after 4 seconds
+        }
+    </script>
+
+</body>
+</html>

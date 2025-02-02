@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CQRS - Command Query Responsibility Segregation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #0275d8;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .step {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #status {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>CQRS - Command Query Responsibility Segregation</h1>
+
+        <h2>What is CQRS?</h2>
+        <p><strong>CQRS</strong> is a design pattern that separates the handling of commands (write operations) from queries (read operations). This pattern is used to optimize performance, scalability, and security in systems where read and write operations have different requirements.</p>
+
+        <h2>Key Benefits of CQRS:</h2>
+        <ul style="text-align: left;">
+            <li>⚡ **Optimized Performance** – Queries and commands can be optimized independently for better performance.</li>
+            <li>🔒 **Security** – The segregation allows for stricter control over read and write operations.</li>
+            <li>🔧 **Scalability** – Independent scaling for read and write workloads based on their demands.</li>
+            <li>🔀 **Flexibility** – Different models for reading and writing data allow for specialized designs tailored to the use cases.</li>
+        </ul>
+
+        <h2>How Does CQRS Work?</h2>
+        <p>In a CQRS pattern, the system is divided into two main parts:</p>
+        <div class="step">1. **Command Side (Write)**: Handles requests that modify data (e.g., create, update, delete).</div>
+        <div class="step">2. **Query Side (Read)**: Handles requests that retrieve data without modifying it.</div>
+
+        <p>This separation allows you to scale each side independently. The command side often uses a write-optimized database, while the query side might use a read-optimized database, ensuring both read and write operations perform optimally.</p>
+
+        <h2>Example:</h2>
+        <p>In a banking system, you can have a CQRS approach like this:</p>
+        <ul style="text-align: left;">
+            <li>**Command Side**: A user initiates a transaction (e.g., deposit or withdrawal). This triggers a command to update the balance in the system.</li>
+            <li>**Query Side**: A user queries their current balance. This uses a fast, optimized read model to return the current state of their account without having to perform complex logic.</li>
+        </ul>
+
+        <h2>Visual Representation:</h2>
+        <img class="image" src="https://upload.wikimedia.org/wikipedia/commons/4/45/CQRS.png" alt="CQRS Example">
+
+        <h2>Live Demo: Simulate CQRS Operations</h2>
+        <p>Click the button below to simulate the write and read operations separately for better performance.</p>
+        <button onclick="simulateCQRS()">Simulate CQRS Operations</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function simulateCQRS() {
+            const statusDiv = document.getElementById("status");
+            statusDiv.innerHTML = "🚀 Simulating command (write) operation...";
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "💾 Command side: Transaction recorded successfully!";
+            }, 2000); // Simulate 2-second write operation
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "🔍 Simulating query (read) operation...";
+            }, 4000); // Simulate 2-second wait for read operation
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "📊 Query side: Current balance retrieved successfully!";
+            }, 6000); // Complete simulation after 6 seconds
+        }
+    </script>
+
+</body>
+</html>

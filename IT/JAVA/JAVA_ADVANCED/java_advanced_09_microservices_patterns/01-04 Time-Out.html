@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time-Out Pattern Explanation & Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #FF5733;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: left;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #status {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .log {
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+            background: #eef;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Time-Out Pattern Explanation & Demo</h1>
+        
+        <h2>What is the Time-Out Pattern?</h2>
+        <p>The Time-Out Pattern prevents the system from waiting indefinitely for a slow service to respond, ensuring system resources are not blocked.</p>
+
+        <h2>How It Works:</h2>
+        <ul style="text-align: left;">
+            <li>⏳ If a service takes too long to respond, the request is **canceled**.</li>
+            <li>🚀 This avoids **resource exhaustion** and **prevents cascading failures**.</li>
+            <li>⚡ Typically used with **Circuit Breaker** or **Retry mechanisms**.</li>
+        </ul>
+
+        <h2>Example Implementation</h2>
+        <div class="code-block">
+            <code>
+                function withTimeout(promise, timeout) {<br>
+                &nbsp;&nbsp;return new Promise((resolve, reject) => {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;const timer = setTimeout(() => reject("⏳ Time-out exceeded!"), timeout);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;promise.then(response => {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clearTimeout(timer);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resolve(response);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}).catch(error => {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clearTimeout(timer);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reject(error);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                &nbsp;&nbsp;});<br>
+                }
+            </code>
+        </div>
+
+        <h2>Live Demo</h2>
+        <p>Click the button below to simulate API requests with a 2-second timeout.</p>
+        <button onclick="simulateRequests()">Simulate API Requests</button>
+        <div id="status"></div>
+        <div class="log" id="log"></div>
+    </div>
+
+    <script>
+        function withTimeout(promise, timeout) {
+            return new Promise((resolve, reject) => {
+                const timer = setTimeout(() => reject("⏳ Time-out exceeded! Request canceled."), timeout);
+                
+                promise.then(response => {
+                    clearTimeout(timer);
+                    resolve(response);
+                }).catch(error => {
+                    clearTimeout(timer);
+                    reject(error);
+                });
+            });
+        }
+
+        async function mockApiCall(id) {
+            const delay = Math.random() * 5000; // Random delay between 0 and 5 seconds
+            return new Promise((resolve) => {
+                setTimeout(() => resolve(`✅ Request ${id} succeeded in ${Math.round(delay)}ms`), delay);
+            });
+        }
+
+        async function simulateRequests() {
+            document.getElementById("log").innerHTML = "🔄 Sending API requests with a 2-second timeout...";
+
+            let promises = [];
+            for (let i = 1; i <= 5; i++) {
+                promises.push(
+                    withTimeout(mockApiCall(i), 2000) // 2-second timeout
+                        .then(result => logMessage(result))
+                        .catch(error => logMessage(error))
+                );
+            }
+
+            await Promise.allSettled(promises);
+            logMessage("✅ All requests processed.");
+        }
+
+        function logMessage(message) {
+            const logDiv = document.getElementById("log");
+            logDiv.innerHTML += `<p>${message}</p>`;
+        }
+    </script>
+
+</body>
+</html>

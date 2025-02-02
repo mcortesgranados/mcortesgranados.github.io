@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue-Green Deployment Pattern</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #0275d8;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .image {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+        }
+        .step {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #status {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Blue-Green Deployment Pattern</h1>
+
+        <h2>What is Blue-Green Deployment?</h2>
+        <p><strong>Blue-Green Deployment</strong> is a software release management strategy where two environments (Blue and Green) are maintained. The "Blue" environment is the current production version, while the "Green" environment holds the new version. When the new version in the Green environment is ready and tested, the traffic is switched to the Green environment. This allows for minimal downtime and easy rollback if needed.</p>
+
+        <h2>Key Benefits:</h2>
+        <ul style="text-align: left;">
+            <li>⚡ **Zero Downtime** – Switch from Blue to Green without impacting users.</li>
+            <li>🛡️ **Easy Rollback** – If something goes wrong in the Green environment, switch back to Blue instantly.</li>
+            <li>🔄 **Seamless Updates** – Gradual deployment of the new version ensures stability.</li>
+            <li>🔧 **A/B Testing** – Can be used for testing new features by routing traffic to both environments.</li>
+        </ul>
+
+        <h2>How Does It Work?</h2>
+        <p>In Blue-Green Deployment, you maintain two identical environments: one live ("Blue") and one staging ("Green"). Here's how it works:</p>
+
+        <div class="step">1. **Set up Blue environment**: The Blue environment holds the current version of the application that is live and serving traffic.</div>
+        <div class="step">2. **Deploy new version to Green environment**: The new version of the application is deployed in the Green environment. This is isolated from live traffic.</div>
+        <div class="step">3. **Test the Green environment**: The new version is tested in the Green environment without affecting production users.</div>
+        <div class="step">4. **Switch traffic**: Once the Green environment is verified, the traffic is switched from Blue to Green, making the Green environment live.</div>
+        <div class="step">5. **Rollback (if necessary)**: If issues arise in Green, traffic can be quickly routed back to Blue.</div>
+
+        <h2>Visual Representation:</h2>
+        <img class="image" src="https://upload.wikimedia.org/wikipedia/commons/1/12/Blue-Green_Deployment_Example.svg" alt="Blue-Green Deployment Example">
+
+        <h2>Live Demo: Simulate Deployment</h2>
+        <p>Click the button below to simulate the process of switching from the Blue environment to the Green environment.</p>
+        <button onclick="simulateDeployment()">Simulate Blue-Green Deployment</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function simulateDeployment() {
+            const statusDiv = document.getElementById("status");
+            statusDiv.innerHTML = "🚀 Switching to Green environment...";
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "✅ Green environment is live! All traffic is now routed to the new version.";
+            }, 3000); // Simulating a 3-second deployment switch
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strangler Fig Pattern</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #0275d8;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .image {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+        }
+        .step {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #status {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Strangler Fig Pattern</h1>
+
+        <h2>What is the Strangler Fig Pattern?</h2>
+        <p><strong>Strangler Fig Pattern</strong> is a technique for gradually replacing a monolithic application with microservices. The idea is to incrementally replace the legacy system with a new system, without requiring a complete rewrite or downtime. The term comes from the strangler fig tree, which grows around its host tree while gradually replacing it.</p>
+
+        <h2>Key Benefits:</h2>
+        <ul style="text-align: left;">
+            <li>🌱 **Incremental Transition** – Allows gradual migration without needing to shut down the existing system.</li>
+            <li>⚡ **Risk Reduction** – Reduces the risk of large-scale failure by focusing on small, manageable changes.</li>
+            <li>🔄 **Parallel Operation** – Legacy systems and microservices can run in parallel, allowing for testing and verification of the new system.</li>
+            <li>📈 **Continuous Improvement** – Enables continuous progress with measurable milestones, avoiding a "big bang" approach.</li>
+        </ul>
+
+        <h2>How Does It Work?</h2>
+        <p>In the Strangler Fig Pattern, the process works as follows:</p>
+
+        <div class="step">1. **Identify Legacy Components**: The first step is to identify components of the monolithic application that can be replaced with microservices.</div>
+        <div class="step">2. **Build Microservices**: New microservices are created to handle specific business logic or components.</div>
+        <div class="step">3. **Integrate Microservices**: The newly created microservices are integrated into the existing monolithic application, ensuring that they handle a subset of the original functionality.</div>
+        <div class="step">4. **Redirect Traffic**: Over time, more and more traffic is routed to the new microservices while gradually phasing out the legacy system's responsibilities.</div>
+        <div class="step">5. **Decommission Legacy System**: Once all functionality has been moved to microservices, the monolithic application is retired.</div>
+
+        <h2>Visual Representation:</h2>
+        <img class="image" src="https://upload.wikimedia.org/wikipedia/commons/4/46/Strangler_Fig_Pattern.png" alt="Strangler Fig Pattern Example">
+
+        <h2>Live Demo: Simulate Strangler Fig Migration</h2>
+        <p>Click the button below to simulate the gradual migration process of replacing a monolithic system with microservices.</p>
+        <button onclick="simulateStranglerFig()">Simulate Migration</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function simulateStranglerFig() {
+            const statusDiv = document.getElementById("status");
+            statusDiv.innerHTML = "🚧 Starting migration to microservices...";
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "🔄 Gradually redirecting traffic to microservices...";
+            }, 2000); // Simulating a 2-second process
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "✅ Migration successful! The monolithic system has been replaced.";
+            }, 4000); // Complete migration after 4 seconds
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth2 / JWT Authentication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #0275d8;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .step {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .example {
+            font-size: 16px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .benefits, .steps {
+            margin-top: 20px;
+            text-align: left;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>OAuth2 / JWT Authentication</h1>
+
+        <h2>What is OAuth2 / JWT Authentication?</h2>
+        <p><strong>OAuth2</strong> is an authorization framework that allows third-party services to access user resources without exposing user credentials. It provides a secure and standardized way for applications to authenticate users, enabling token-based authentication.</p>
+        <p><strong>JWT (JSON Web Tokens)</strong> is a compact and self-contained way to represent information securely between two parties. It is often used in conjunction with OAuth2 to authenticate users and pass claims between services in a secure manner.</p>
+
+        <h2>How OAuth2 / JWT Authentication Works:</h2>
+        <div class="steps">
+            <div class="step">1. **Authorization Request**: A client requests access to resources from an OAuth2 authorization server by redirecting the user to an authentication endpoint.</div>
+            <div class="step">2. **Authentication**: The user authenticates themselves, usually by providing their credentials (username/password or multi-factor authentication).</div>
+            <div class="step">3. **Token Issuance**: If the authentication is successful, the OAuth2 server issues an access token (JWT) to the client.</div>
+            <div class="step">4. **Resource Access**: The client includes the access token in the authorization header of subsequent requests to access protected resources on the resource server.</div>
+            <div class="step">5. **Token Validation**: The resource server validates the access token (JWT) and, if valid, grants access to the requested resource.</div>
+        </div>
+
+        <h2>Benefits of OAuth2 / JWT Authentication:</h2>
+        <div class="benefits">
+            <ul>
+                <li>🔐 **Security** – The user’s credentials are never shared, and tokens can be encrypted or signed to ensure integrity and confidentiality.</li>
+                <li>🔑 **Token-based Authentication** – Stateless and scalable, as the server does not need to store session information.</li>
+                <li>🚀 **Single Sign-On (SSO)** – Users can authenticate once and access multiple services or applications without needing to log in repeatedly.</li>
+                <li>⚙️ **Delegated Access** – OAuth2 allows services to request access to specific resources on behalf of users, minimizing security risks.</li>
+                <li>📅 **Token Expiry** – JWTs can be set to expire, reducing the risk of long-lived access tokens being compromised.</li>
+            </ul>
+        </div>
+
+        <h2>Example Use Case:</h2>
+        <p class="example">In a **social media app**, a user can log in through a third-party service (like Google or Facebook) using OAuth2. The app receives a JWT that authorizes the app to access the user’s profile information. This token can then be used to make authenticated API calls to the app’s back-end services without needing to expose the user’s password.</p>
+
+        <h2>Visual Example:</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/OAuth2_Protocol_Flow.svg" alt="OAuth2 Flow" width="100%">
+
+        <h2>Simulate OAuth2 / JWT Authentication</h2>
+        <p>Click below to simulate an OAuth2 authentication flow:</p>
+        <button onclick="simulateOAuth2()">Simulate OAuth2 Authentication</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function simulateOAuth2() {
+            const statusDiv = document.getElementById("status");
+            statusDiv.innerHTML = "🔄 Authenticating...";
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "✅ Authentication Successful!";
+            }, 2000); // Simulate authentication success
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "🔑 Access Token (JWT) Issued!";
+            }, 4000); // Simulate issuing of JWT
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "🚀 Accessing Resources with JWT...";
+            }, 6000); // Simulate resource access with JWT
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "✅ Access Granted!";
+            }, 8000); // Simulate access granted
+        }
+    </script>
+
+</body>
+</html>

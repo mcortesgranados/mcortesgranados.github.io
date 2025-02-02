@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulkhead Pattern Explanation & Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: left;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #status {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .log {
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+            background: #eef;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Bulkhead Pattern Explanation & Demo</h1>
+        
+        <h2>What is the Bulkhead Pattern?</h2>
+        <p>The Bulkhead Pattern is a fault-isolation strategy that limits the impact of failures by segmenting system resources into separate pools.</p>
+
+        <h2>How It Works:</h2>
+        <ul style="text-align: left;">
+            <li>✅ System is divided into **independent compartments**.</li>
+            <li>🔄 If one component fails, others continue to function normally.</li>
+            <li>🚫 Prevents **cascading failures** in microservices.</li>
+        </ul>
+
+        <h2>Example Implementation</h2>
+        <div class="code-block">
+            <code>
+                class Bulkhead {<br>
+                &nbsp;&nbsp;constructor(limit) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;this.limit = limit;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;this.activeRequests = 0;<br>
+                &nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;async execute(task) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if (this.activeRequests >= this.limit) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error("Bulkhead limit reached!");<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;this.activeRequests++;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return await task();<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;} finally {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.activeRequests--;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;}<br>
+                }
+            </code>
+        </div>
+
+        <h2>Live Demo</h2>
+        <p>Click the button below to simulate API requests using the Bulkhead Pattern.</p>
+        <button onclick="simulateRequests()">Simulate API Requests</button>
+        <div id="status"></div>
+        <div class="log" id="log"></div>
+    </div>
+
+    <script>
+        class Bulkhead {
+            constructor(limit) {
+                this.limit = limit;
+                this.activeRequests = 0;
+            }
+
+            async execute(task) {
+                if (this.activeRequests >= this.limit) {
+                    throw new Error("🚫 Bulkhead limit reached! Request denied.");
+                }
+
+                this.activeRequests++;
+                try {
+                    return await task();
+                } finally {
+                    this.activeRequests--;
+                }
+            }
+        }
+
+        const bulkhead = new Bulkhead(3); // Limit to 3 concurrent requests
+
+        async function mockApiCall(id) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (Math.random() > 0.2) {
+                        resolve(`✅ Request ${id} succeeded!`);
+                    } else {
+                        reject(`❌ Request ${id} failed!`);
+                    }
+                }, Math.random() * 3000);
+            });
+        }
+
+        async function simulateRequests() {
+            document.getElementById("log").innerHTML = "🔄 Sending API requests...";
+
+            let promises = [];
+            for (let i = 1; i <= 5; i++) {
+                promises.push(
+                    bulkhead.execute(() => mockApiCall(i))
+                        .then(result => logMessage(result))
+                        .catch(error => logMessage(error))
+                );
+            }
+
+            await Promise.allSettled(promises);
+            logMessage("✅ All requests processed.");
+        }
+
+        function logMessage(message) {
+            const logDiv = document.getElementById("log");
+            logDiv.innerHTML += `<p>${message}</p>`;
+        }
+    </script>
+
+</body>
+</html>

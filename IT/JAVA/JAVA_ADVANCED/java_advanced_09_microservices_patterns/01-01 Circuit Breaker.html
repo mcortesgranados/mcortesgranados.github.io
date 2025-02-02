@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit Breaker Pattern</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .state {
+            width: 250px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .closed { background-color: #4CAF50; color: white; }
+        .open { background-color: #F44336; color: white; }
+        .half-open { background-color: #FFC107; color: black; }
+    </style>
+</head>
+<body>
+
+    <h1>Circuit Breaker Pattern</h1>
+    <p>Prevents cascading failures by stopping calls to a failing service.</p>
+
+    <div class="container">
+        <div class="state closed">
+            <h2>Closed State</h2>
+            <p>✅ Requests flow normally.</p>
+            <p>✅ Failures are counted.</p>
+            <p>🚨 If failures exceed a threshold, circuit opens.</p>
+        </div>
+        <div class="state open">
+            <h2>Open State</h2>
+            <p>🚫 Requests are blocked.</p>
+            <p>🕒 A timeout period starts.</p>
+            <p>🔄 Returns fallback or error.</p>
+        </div>
+        <div class="state half-open">
+            <h2>Half-Open State</h2>
+            <p>🔄 Allows limited test requests.</p>
+            <p>✅ If successful, circuit resets to Closed.</p>
+            <p>❌ If failures persist, it goes back to Open.</p>
+        </div>
+    </div>
+
+</body>
+</html>

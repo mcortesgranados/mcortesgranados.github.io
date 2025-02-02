@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saga Pattern</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #0275d8;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .step {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .example {
+            font-size: 16px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .benefits, .steps {
+            margin-top: 20px;
+            text-align: left;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Saga Pattern</h1>
+
+        <h2>What is the Saga Pattern?</h2>
+        <p><strong>The Saga Pattern</strong> is a design pattern used to manage long-running distributed transactions. In a microservices architecture, each service may have its own database, and a single transaction might span multiple services. The Saga Pattern helps ensure data consistency and fault tolerance in such scenarios by breaking the transaction into smaller, isolated operations that are managed as a sequence of events.</p>
+
+        <h2>How Does Saga Pattern Work?</h2>
+        <p>The Saga pattern breaks a distributed transaction into multiple local transactions, where each service performs its part of the transaction. If any service fails, compensating transactions are executed to roll back the changes made by previous services, ensuring the system remains in a consistent state.</p>
+
+        <h2>Two Approaches to Saga Pattern:</h2>
+        <div class="steps">
+            <div class="step"><strong>Choreography:</strong> Each service in the saga knows how to proceed with the next step. Services communicate with each other using events to coordinate the saga's flow.</div>
+            <div class="step"><strong>Orchestration:</strong> A central orchestrator service is responsible for directing the saga's flow. It makes decisions on which services should perform their tasks and how to handle failures.</div>
+        </div>
+
+        <h2>Benefits of the Saga Pattern:</h2>
+        <div class="benefits">
+            <ul>
+                <li>⚖️ **Data Consistency** – Ensures that all services involved in a distributed transaction maintain consistency even in the event of a failure.</li>
+                <li>🔄 **Fault Tolerance** – By introducing compensating transactions, the system can recover from failures and maintain a consistent state.</li>
+                <li>⚡ **Scalability** – Allows for the decoupling of services, making the system more scalable as each service can operate independently.</li>
+                <li>🔀 **Flexibility** – The Saga Pattern can be implemented using either choreography or orchestration, depending on the use case.</li>
+            </ul>
+        </div>
+
+        <h2>Example Use Case:</h2>
+        <p class="example">In an **e-commerce application**, a customer purchases an item. The transaction involves multiple steps, including updating the inventory, charging the customer's account, and generating an order confirmation. If the payment service fails after the inventory is updated, a compensating action (e.g., reverting inventory) is triggered to ensure consistency.</p>
+
+        <h2>Visual Example:</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/SagaPattern.png/300px-SagaPattern.png" alt="Saga Pattern Diagram" width="100%">
+
+        <h2>Simulate Saga Pattern</h2>
+        <p>Click below to simulate the process of executing a distributed transaction with the Saga Pattern:</p>
+        <button onclick="simulateSagaPattern()">Simulate Saga Pattern</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function simulateSagaPattern() {
+            const statusDiv = document.getElementById("status");
+            statusDiv.innerHTML = "📝 Initiating transaction...";
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "🔄 Service 1: Inventory updated!";
+            }, 2000); // Simulate first service success
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "💳 Service 2: Payment processed!";
+            }, 4000); // Simulate second service success
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "❌ Service 3: Shipment failed. Compensating transaction triggered!";
+            }, 6000); // Simulate third service failure and compensating transaction
+        }
+    </script>
+
+</body>
+</html>

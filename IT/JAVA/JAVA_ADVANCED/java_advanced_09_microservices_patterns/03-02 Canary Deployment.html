@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canary Deployment Pattern</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #0275d8;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .image {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+        }
+        .step {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #status {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Canary Deployment Pattern</h1>
+
+        <h2>What is Canary Deployment?</h2>
+        <p><strong>Canary Deployment</strong> is a software release management pattern where a new version of an application is gradually rolled out to a small group of users (the "canaries") before being made available to the entire user base. This allows teams to monitor the new version for potential issues and to verify its stability before a full-scale deployment.</p>
+
+        <h2>Key Benefits:</h2>
+        <ul style="text-align: left;">
+            <li>🐦 **Early Detection of Issues** – Detect issues early by exposing only a small group of users to the new version.</li>
+            <li>⚡ **Minimized Risk** – If a problem is detected, it can be mitigated without affecting all users.</li>
+            <li>🔄 **Gradual Rollout** – The new version can be rolled out in phases, ensuring smooth deployment.</li>
+            <li>🧪 **A/B Testing** – Canary deployments enable A/B testing and comparison of new features before full release.</li>
+        </ul>
+
+        <h2>How Does It Work?</h2>
+        <p>In a Canary Deployment, the process works as follows:</p>
+
+        <div class="step">1. **Deploy to Canary Group**: The new version is deployed to a small subset of users (the "canary" group).</div>
+        <div class="step">2. **Monitor Performance**: The performance and behavior of the new version are closely monitored for errors or failures.</div>
+        <div class="step">3. **Evaluate Feedback**: The feedback from the canary users is used to evaluate the success of the release.</div>
+        <div class="step">4. **Gradual Rollout**: If the canary release is successful, the deployment is gradually expanded to more users until the full rollout is achieved.</div>
+        <div class="step">5. **Rollback (if necessary)**: If issues are detected during the canary phase, the new version can be rolled back without affecting the majority of users.</div>
+
+        <h2>Visual Representation:</h2>
+        <img class="image" src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Canary_Deployment_Example.svg" alt="Canary Deployment Example">
+
+        <h2>Live Demo: Simulate Canary Deployment</h2>
+        <p>Click the button below to simulate the process of deploying to a small group of users and monitoring the results.</p>
+        <button onclick="simulateCanaryDeployment()">Simulate Canary Deployment</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function simulateCanaryDeployment() {
+            const statusDiv = document.getElementById("status");
+            statusDiv.innerHTML = "🚀 Deploying to Canary group...";
+
+            setTimeout(() => {
+                statusDiv.innerHTML = "✅ Canary deployment successful! Gradually expanding to more users.";
+            }, 3000); // Simulating a 3-second deployment to the Canary group
+        }
+    </script>
+
+</body>
+</html>

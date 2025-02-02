@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidecar Pattern Explanation & Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #0275d8;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: left;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #status {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .log {
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+            background: #eef;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Sidecar Pattern Explanation & Demo</h1>
+        
+        <h2>What is the Sidecar Pattern?</h2>
+        <p>The **Sidecar Pattern** is a design pattern that involves attaching a helper component (such as a logging, monitoring, or configuration service) alongside a **main service** to augment its functionality without modifying the service itself.</p>
+
+        <h2>Key Features:</h2>
+        <ul style="text-align: left;">
+            <li>📊 **Logging & Monitoring** – Provides centralized logging and monitoring.</li>
+            <li>🔒 **Security** – Adds authentication, encryption, or security checks.</li>
+            <li>🔄 **Configuration Management** – Handles external configuration or service discovery.</li>
+            <li>📈 **Traffic Management** – Handles retries, timeouts, and rate limiting.</li>
+        </ul>
+
+        <h2>Example Implementation</h2>
+        <div class="code-block">
+            <code>
+                function sidecarService(serviceName, logMessage) {<br>
+                &nbsp;&nbsp;console.log(`[Sidecar] ${serviceName}: ${logMessage}`);<br>
+                &nbsp;&nbsp;return new Promise((resolve) => {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;setTimeout(() => resolve(`${serviceName} processed request`), 1000);<br>
+                &nbsp;&nbsp;});<br>
+                }
+            </code>
+        </div>
+
+        <h2>Live Demo</h2>
+        <p>Select a main service and provide a log message to see how the Sidecar pattern works in action.</p>
+        <select id="mainService">
+            <option value="User Service">User Service</option>
+            <option value="Order Service">Order Service</option>
+            <option value="Payment Service">Payment Service</option>
+        </select>
+        <input type="text" id="logMessage" placeholder="Enter log message" />
+        <button onclick="simulateSidecarCommunication()">Send Request</button>
+        <div id="status"></div>
+        <div class="log" id="log"></div>
+    </div>
+
+    <script>
+        function sidecarService(serviceName, logMessage) {
+            console.log(`[Sidecar] ${serviceName}: ${logMessage}`);
+            return new Promise((resolve) => {
+                setTimeout(() => resolve(`${serviceName} processed request`), 1000);
+            });
+        }
+
+        async function simulateSidecarCommunication() {
+            const mainService = document.getElementById("mainService").value;
+            const logMessage = document.getElementById("logMessage").value;
+            
+            document.getElementById("log").innerHTML += `<p>📡 Sending request from <strong>${mainService}</strong> with log: <strong>${logMessage}</strong></p>`;
+            
+            try {
+                const result = await sidecarService(mainService, logMessage);
+                logMessageToSidecar(result);
+            } catch (error) {
+                logMessageToSidecar(`❌ Error: ${error}`);
+            }
+        }
+
+        function logMessageToSidecar(message) {
+            const logDiv = document.getElementById("log");
+            logDiv.innerHTML += `<p>${message}</p>`;
+        }
+    </script>
+
+</body>
+</html>
