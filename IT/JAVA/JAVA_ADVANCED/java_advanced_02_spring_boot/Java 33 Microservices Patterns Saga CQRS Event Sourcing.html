@@ -2,494 +2,496 @@
 <!--
 .question {            margin-bottom: 20px;
 }
+.style1 {font-family: Arial, Helvetica, sans-serif}
+.style2 {margin-bottom: 20px; font-family: Arial, Helvetica, sans-serif; }
 -->
 </style>
-<h1>Set 1: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
-<div class="question">
+<h1 class="style1">Set 1: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
+<div class="style2">
   <h2>1. What is the Saga pattern in microservices?</h2>
   <p>The Saga pattern is a sequence of transactions that updates each microservice and publishes events to trigger the next transaction. If any step fails, a compensating transaction is executed.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>2. What are the two types of Saga implementations?</h2>
   <p>The two types of Saga implementations are:<br>
     - **Choreography**: Each service listens for events and decides the next action.<br>
     - **Orchestration**: A centralized orchestrator manages the Saga flow.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>3. How does CQRS help in microservices?</h2>
   <p>CQRS (Command Query Responsibility Segregation) separates read and write operations, improving performance, scalability, and security by using different models for querying and updating data.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>4. What is Event Sourcing?</h2>
   <p>Event Sourcing is a pattern where the state of an application is stored as a sequence of events instead of the current state. The state is rebuilt by replaying these events.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>5. How does Spring Boot support the Saga pattern?</h2>
   <p>Spring Boot supports Saga through frameworks like **Axon Framework**, **Camunda**, and **Spring Cloud Data Flow**, which help in orchestrating and managing distributed transactions.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>6. What are the advantages of using CQRS?</h2>
   <p>- Improves system scalability by separating read and write models.<br>
     - Optimizes query performance.<br>
     - Allows using different databases for read and write operations.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>7. What challenges arise with Event Sourcing?</h2>
   <p>- Increased complexity in managing events.<br>
     - Eventual consistency issues.<br>
     - Higher storage requirements due to event persistence.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>8. How does the Outbox Pattern solve data consistency issues in Event Sourcing?</h2>
   <p>The Outbox Pattern ensures reliable event publishing by storing events in an "outbox" table within the same database transaction as the main update, avoiding inconsistent states.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>9. What is a compensating transaction in Saga?</h2>
   <p>A compensating transaction reverses the effects of a previous transaction if a failure occurs, ensuring data consistency across microservices.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>10. How does Kafka help in implementing CQRS?</h2>
   <p>Kafka enables event-driven CQRS by storing events in topics, allowing different services to consume and process them separately for read and write models.</p>
 </div>
-<h1>Set 2: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
-<div class="question">
+<h1 class="style1">Set 2: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
+<div class="style2">
   <h2>11. How does Spring Cloud Stream help in implementing Saga?</h2>
   <p>Spring Cloud Stream provides message-driven communication using brokers like Kafka and RabbitMQ, enabling event-based coordination in Saga workflows.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>12. What is an Event Store in Event Sourcing?</h2>
   <p>An Event Store is a database or system that persists events in an append-only manner, allowing microservices to retrieve and replay events to reconstruct system state.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>13. How does Axon Framework support Event Sourcing?</h2>
   <p>Axon Framework provides built-in support for Event Sourcing by handling event storage, replay, and dispatching, making it easier to implement CQRS and Saga.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>14. What are the main components of CQRS in Spring Boot?</h2>
   <p>- **Command Side**: Handles data modification operations.<br>
     - **Query Side**: Optimized for read operations.<br>
     - **Event Bus**: Transfers events between components.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>15. How does the Choreography-based Saga pattern work?</h2>
   <p>In a Choreography-based Saga, microservices listen for events and react to them independently, eliminating the need for a central orchestrator.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>16. What are the disadvantages of Choreography-based Saga?</h2>
   <p>- Difficult to track and debug due to distributed nature.<br>
     - Increases event complexity as the number of services grows.<br>
     - Harder to maintain consistency across services.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>17. How does the Orchestration-based Saga pattern work?</h2>
   <p>In an Orchestration-based Saga, a central service (Saga Orchestrator) coordinates transaction steps, calling each microservice and handling compensations if needed.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>18. What are the advantages of Orchestration-based Saga?</h2>
   <p>- Centralized control improves tracking and debugging.<br>
     - Clear transaction flow.<br>
     - Easier to implement compensating transactions.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>19. How does Spring Boot implement CQRS with Event Sourcing?</h2>
   <p>Spring Boot can use Axon Framework, Kafka, or RabbitMQ to separate command and query models, leveraging event sourcing to persist changes in an event log.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>20. What are the challenges of implementing CQRS?</h2>
   <p>- Increased complexity due to separate models.<br>
     - Eventual consistency issues.<br>
     - Requires additional infrastructure for event storage.</p>
 </div>
-<p>&nbsp;</p>
-<h1>Set 3: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Set 3: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
+<div class="style2">
   <h2>21. How does Kafka help in implementing Event Sourcing?</h2>
   <p>Kafka acts as an event store, where each event is stored as a message in a topic. Consumers can replay events to reconstruct application state.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>22. What is the difference between a traditional database and an Event Store?</h2>
   <p>A traditional database stores the latest state of an entity, while an Event Store keeps a log of all changes as immutable events.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>23. How can you implement CQRS with Spring Boot and Axon?</h2>
   <p>- Define command and query models separately.<br>
     - Use Axon Framework for event handling.<br>
     - Store events in an event store like Axon Server.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>24. What is the role of an Event Handler in Event Sourcing?</h2>
   <p>An Event Handler processes stored events and applies changes to the read model, ensuring eventual consistency.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>25. What is a Snapshot in Event Sourcing?</h2>
   <p>A snapshot is a periodic checkpoint of an entity’s state to improve performance by avoiding replaying all events from the beginning.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>26. How does a microservice consume events in a Saga pattern?</h2>
   <p>A microservice listens to a message broker like Kafka or RabbitMQ, processes the event, and emits new events or executes a compensating transaction.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>27. What is the importance of an Event Bus in CQRS?</h2>
   <p>An Event Bus is responsible for delivering events to various services, ensuring message-driven architecture.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>28. How do you handle failures in an Event Sourcing system?</h2>
   <p>- Use retries with exponential backoff.<br>
     - Implement dead-letter queues.<br>
     - Use compensating transactions for failed operations.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>29. What is the importance of idempotency in microservices?</h2>
   <p>Idempotency ensures that reprocessing the same request multiple times does not change the system state incorrectly.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>30. How do you design a resilient CQRS system?</h2>
   <p>- Use event replay for recovery.<br>
     - Implement circuit breakers and retries.<br>
     - Maintain separate read and write databases for scalability.</p>
 </div>
-<p>&nbsp;</p>
-<h1>Set 4: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Set 4: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
+<div class="style2">
   <h2>31. How does Spring Boot handle distributed transactions in Saga?</h2>
   <p>Spring Boot integrates with frameworks like Axon and Spring Cloud Stream to coordinate Saga transactions using event-driven mechanisms.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>32. What is the difference between command-side and query-side databases in CQRS?</h2>
   <p>- **Command-side**: Stores transactional data and enforces business rules.<br>
     - **Query-side**: Optimized for fast read operations, often using denormalized views.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>33. How can you ensure eventual consistency in an Event Sourcing system?</h2>
   <p>By designing event consumers to process events asynchronously and retry failed events until successful.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>34. What is the role of Kafka in an event-driven microservices architecture?</h2>
   <p>Kafka acts as a distributed event log, allowing services to publish, consume, and replay events in an ordered and durable manner.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>35. What are compensating transactions in a Saga pattern?</h2>
   <p>Compensating transactions are rollback actions triggered when a step in a distributed transaction fails, ensuring consistency.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>36. How does Spring Boot integrate with Axon Framework for event-driven development?</h2>
   <p>Spring Boot provides Axon starters that enable event storage, command handling, and event publishing out-of-the-box.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>37. How can you implement a query-side projection in CQRS?</h2>
   <p>By creating a separate read model that listens to domain events and updates a database optimized for queries.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>38. What is a Dead Letter Queue (DLQ) in event-driven microservices?</h2>
   <p>A DLQ is a special queue where failed messages are sent for later inspection and retrying.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>39. How do you secure event-driven microservices?</h2>
   <p>- Encrypt sensitive event data.<br>
     - Use authentication and authorization for message consumers.<br>
     - Implement message signing to prevent tampering.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>40. What is the importance of idempotency in event-driven systems?</h2>
   <p>Idempotency ensures that reprocessing the same event multiple times does not cause unintended side effects.</p>
 </div>
-<h1>Set 5: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
-<div class="question">
+<h1 class="style1">Set 5: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
+<div class="style2">
   <h2>41. How does Saga pattern improve microservices reliability?</h2>
   <p>By breaking down distributed transactions into a sequence of smaller, independent transactions with compensation mechanisms.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>42. What are the two main types of Saga implementations?</h2>
   <p>- **Choreography-based Saga**: Uses events for communication.<br>
     - **Orchestration-based Saga**: Uses a central coordinator to manage transactions.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>43. How can you handle failures in CQRS read-side updates?</h2>
   <p>- Implement retries with exponential backoff.<br>
     - Use event versioning to ensure data consistency.<br>
     - Maintain an audit log for debugging.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>44. What is an Aggregate in Event Sourcing?</h2>
   <p>An Aggregate is a group of domain objects that should be treated as a single unit, ensuring consistency within its boundary.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>45. How does Kafka ensure event ordering in Event Sourcing?</h2>
   <p>Kafka partitions messages based on keys, ensuring events related to the same entity are processed in order.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>46. What is the purpose of an Event Store in CQRS?</h2>
   <p>An Event Store persists all changes as a sequence of immutable events, allowing reconstruction of the system state.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>47. How can you implement eventual consistency in microservices?</h2>
   <p>- Use event-driven architecture.<br>
     - Implement compensating transactions in Saga.<br>
     - Utilize message queues for asynchronous processing.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>48. What are the benefits of using Axon Framework in Spring Boot?</h2>
   <p>- Simplifies Event Sourcing implementation.<br>
     - Provides built-in support for CQRS.<br>
     - Manages event handlers and message routing efficiently.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>49. How can you optimize performance in CQRS?</h2>
   <p>- Use caching for read-side queries.<br>
     - Implement read replicas for scalability.<br>
     - Use denormalized views for faster retrieval.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>50. What is the purpose of a Compensation Action in a Saga pattern?</h2>
   <p>A Compensation Action reverses the effect of a failed step to maintain system consistency.</p>
 </div>
-<p>&nbsp;</p>
-<h1>Set 6: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Set 6: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
+<div class="style2">
   <h2>51. How does the Outbox Pattern help in distributed transactions?</h2>
   <p>It ensures that events are stored in a database table as part of a transaction, then reliably published to an event broker.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>52. What is a Sidecar Pattern in microservices architecture?</h2>
   <p>A Sidecar is an auxiliary service deployed alongside a microservice to handle cross-cutting concerns like logging and security.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>53. What challenges does Event Sourcing introduce?</h2>
   <p>- Increased storage requirements.<br>
     - Complexity in event versioning.<br>
     - Need for event replay mechanisms.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>54. How can you implement a Retry mechanism in Saga?</h2>
   <p>By using message queues like RabbitMQ or Kafka with exponential backoff and dead-letter queues.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>55. What is the role of a Command Bus in CQRS?</h2>
   <p>A Command Bus routes commands to the appropriate handlers, ensuring decoupling between senders and receivers.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>56. How do you manage schema evolution in Event Sourcing?</h2>
   <p>- Introduce versioned events.<br>
     - Implement upcasters to transform old events.<br>
     - Use backward-compatible changes.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>57. What is the difference between a Process Manager and a Saga Orchestrator?</h2>
   <p>- **Process Manager** tracks business workflows and state.<br>
     - **Saga Orchestrator** manages distributed transactions and compensations.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>58. How can you achieve traceability in event-driven microservices?</h2>
   <p>- Use Correlation IDs in events.<br>
     - Store audit logs.<br>
     - Implement distributed tracing with tools like OpenTelemetry.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>59. How does Command Query Responsibility Segregation (CQRS) improve performance?</h2>
   <p>By separating read and write models, optimizing queries, and reducing transactional load.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>60. What are Snapshot Events in Event Sourcing?</h2>
   <p>Snapshots store the latest aggregate state to speed up event replay.</p>
 </div>
-<p>&nbsp;</p>
-<h1>Set 7: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Set 7: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
+<div class="style2">
   <h2>61. What is the purpose of an Event Handler in an Event Sourcing system?</h2>
   <p>An Event Handler listens for domain events and updates read models or triggers other actions.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>62. How does Kafka ensure message durability in Event Sourcing?</h2>
   <p>Kafka persists messages to disk and replicates them across brokers for fault tolerance.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>63. What is a Command Model in CQRS?</h2>
   <p>A Command Model handles write operations and enforces business rules before persisting data.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>64. How does the API Gateway pattern help in microservices?</h2>
   <p>An API Gateway acts as a single entry point, handling authentication, routing, and aggregation of microservice responses.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>65. What are Idempotent Consumers in Event-Driven Architecture?</h2>
   <p>Consumers that can process the same message multiple times without side effects, ensuring consistency.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>66. How can you implement a Dead Letter Queue in RabbitMQ for Saga failures?</h2>
   <p>By configuring a DLX (Dead Letter Exchange) that routes failed messages to a separate queue for later processing.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>67. What is an Eventual Consistency model in microservices?</h2>
   <p>A model where data consistency is achieved over time through asynchronous messaging and retries.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>68. How does Axon Framework simplify Event Sourcing?</h2>
   <p>Axon provides built-in support for event storage, CQRS, and message handling, reducing boilerplate code.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>69. How can you prevent event loss in a distributed system?</h2>
   <p>- Use durable messaging systems (Kafka, RabbitMQ).<br>
     - Implement retries and acknowledgments.<br>
     - Store events persistently before publishing.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>70. What is the role of a Projection in CQRS?</h2>
   <p>A Projection transforms and stores event data in a read-optimized format for queries.</p>
 </div>
-<p>&nbsp;</p>
-<h1>Set 8: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Set 8: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
+<div class="style2">
   <h2>71. How do you implement a Compensation Transaction in a Choreographed Saga?</h2>
   <p>Each microservice listens for rollback events and triggers a compensating action to undo changes.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>72. What are the drawbacks of using a Centralized Orchestrator in Saga?</h2>
   <p>- Increased complexity in managing service dependencies.<br>
     - Potential single point of failure.<br>
     - Limited scalability.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>73. How do you ensure exactly-once processing in Kafka for event-driven microservices?</h2>
   <p>- Enable Kafka Idempotence.<br>
     - Use transactional producers and consumers.<br>
     - Implement deduplication strategies.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>74. What is an Aggregate in Domain-Driven Design (DDD)?</h2>
   <p>An Aggregate is a cluster of related objects treated as a single unit for consistency.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>75. How does CQRS improve security in microservices?</h2>
   <p>By separating read and write concerns, access to critical data can be restricted at different levels.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>76. What are Event Carried State Transfer patterns?</h2>
   <p>A pattern where an event contains the latest state of an entity, reducing the need for queries.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>77. How can you reduce the number of events replayed in Event Sourcing?</h2>
   <p>By implementing snapshots that store the latest aggregate state periodically.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>78. What is a Read Model in CQRS?</h2>
   <p>A read-optimized data store that holds denormalized data for fast queries.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>79. How does a Circuit Breaker pattern improve resiliency in microservices?</h2>
   <p>By preventing repeated failures and allowing the system to recover before retrying requests.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>80. How do you synchronize data between read and write models in CQRS?</h2>
   <p>By using event-driven mechanisms like Kafka or RabbitMQ to propagate updates.</p>
 </div>
-<p>&nbsp;</p>
-<h1>Set 9: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Set 9: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
+<div class="style2">
   <h2>81. How do you ensure idempotency in a Saga pattern?</h2>
   <p>- Use unique transaction IDs.<br>
     - Store processed event IDs to avoid duplicate execution.<br>
     - Implement compensating transactions where applicable.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>82. What are the advantages of using a Message Broker for Event-Driven Architecture?</h2>
   <p>- Decouples microservices.<br>
     - Ensures reliable event delivery.<br>
     - Supports scalability and fault tolerance.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>83. How does Axon Framework support Saga pattern?</h2>
   <p>Axon provides built-in support for event sourcing, command handling, and Saga lifecycle management.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>84. What is an Event Store, and how does it work?</h2>
   <p>An Event Store is a database designed to persist events, allowing event replay and reconstruction of entity state.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>85. What are the main differences between Choreography and Orchestration in Saga?</h2>
   <p>- Choreography: Decentralized event-driven flow where each service reacts to events.<br>
     - Orchestration: Centralized coordinator manages workflow execution.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>86. How do you handle versioning of events in Event Sourcing?</h2>
   <p>- Use event upcasters to transform older events to newer versions.<br>
     - Maintain backward compatibility in event schema.<br>
     - Implement versioning strategies at the event payload level.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>87. How does CQRS enhance performance in microservices?</h2>
   <p>By separating read and write concerns, allowing optimized databases for queries and transactions.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>88. What is a Projection in Event Sourcing?</h2>
   <p>A Projection is a read model derived from stored events, optimized for query performance.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>89. How does Apache Kafka improve Event Sourcing implementations?</h2>
   <p>- Provides durable, scalable, and distributed event storage.<br>
     - Supports event replay for rebuilding state.<br>
     - Enables real-time event processing.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>90. What is a Snapshot in Event Sourcing?</h2>
   <p>A Snapshot stores the latest state of an entity, reducing the need to replay all past events for state reconstruction.</p>
 </div>
-<p>&nbsp;</p>
-<h1>Set 10: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Set 10: Spring Boot Microservices Patterns (Saga, CQRS, Event Sourcing)</h1>
+<div class="style2">
   <h2>91. How does event sourcing help in auditing and compliance?</h2>
   <p>Since all state changes are recorded as events, it provides a full history of actions for auditing.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>92. What are the challenges of implementing Event Sourcing?</h2>
   <p>- Increased storage and retrieval complexity.<br>
     - Requires efficient event versioning.<br>
     - Querying data can be complex.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>93. How can you optimize event replay performance?</h2>
   <p>- Use snapshots to store recent state.<br>
     - Implement caching strategies.<br>
     - Use parallel event processing.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>94. What is the role of a Command Handler in CQRS?</h2>
   <p>It processes incoming commands, validates business rules, and updates the write model.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>95. What is the difference between a Command and an Event in CQRS?</h2>
   <p>- Command: A request to perform an action that may change the state.<br>
     - Event: A fact that represents a state change and is immutable.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>96. How do you implement Eventual Consistency in Saga?</h2>
   <p>By ensuring that all microservices react to events asynchronously and retry failed operations.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>97. What is the Outbox Pattern in Event-Driven Microservices?</h2>
   <p>It ensures atomicity by storing events in a database table before publishing them to a message broker.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>98. How do you prevent event duplication in Kafka-based Event Sourcing?</h2>
   <p>- Use idempotent consumers.<br>
     - Store event processing logs.<br>
     - Enable Kafka transactional messaging.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>99. What are the benefits of using Event-Driven Architecture in microservices?</h2>
   <p>- Improves scalability and decoupling.<br>
     - Enhances real-time data processing.<br>
     - Supports eventual consistency in distributed systems.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h2>100. What tools can be used to implement CQRS and Event Sourcing in Spring Boot?</h2>
   <p>- Axon Framework.<br>
     - Apache Kafka.<br>
     - Spring Cloud Stream.</p>
 </div>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>

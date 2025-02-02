@@ -1,0 +1,300 @@
+1. What is Spring Data JPA?
+Spring Data JPA is a part of the Spring Data project that makes it easier to implement JPA-based data access layers. It provides repositories for common database operations like saving, finding, and deleting entities without writing boilerplate code.
+
+2. What is the purpose of a JpaRepository?
+JpaRepository is an interface provided by Spring Data JPA that simplifies CRUD operations by extending PagingAndSortingRepository and CrudRepository. It provides methods like save(), findAll(), findById(), and others for accessing and modifying data in the database.
+
+3. How do you define custom query methods in Spring Data JPA?
+Custom query methods can be defined by adding method names following Spring Data JPA's conventions, such as findBy, countBy, etc. You can also use the @Query annotation for more complex queries.
+
+4. What is the purpose of the @Query annotation in Spring Data JPA?
+The @Query annotation is used to define custom queries using JPQL (Java Persistence Query Language) or SQL. It allows you to write queries that are not easily expressed through method names.
+
+5. How do you define a One-to-Many relationship in Spring Data JPA?
+A One-to-Many relationship is defined by using the @OneToMany annotation on the "one" side of the relationship and @ManyToOne on the "many" side.
+
+6. What is the difference between save() and saveAll() in Spring Data JPA?
+save() is used to save a single entity, while saveAll() is used to save a collection of entities.
+
+7. How can you fetch a lazy-loaded relationship in Spring Data JPA?
+Lazy-loaded relationships can be fetched by accessing the relationship property in the service layer, or by using JOIN FETCH in a @Query annotation to eagerly load the relationship.
+
+8. What is the @ManyToOne annotation used for?
+The @ManyToOne annotation is used to define a many-to-one relationship between entities. It is placed on the "many" side of the relationship.
+
+9. How do you define a Many-to-Many relationship in Spring Data JPA?
+A Many-to-Many relationship is defined using the @ManyToMany annotation on both sides of the relationship, often with a joining table.
+
+10. What is the purpose of the @Id annotation in Spring Data JPA?
+The @Id annotation is used to specify the primary key field of an entity class in JPA.
+
+1. What is the @GeneratedValue annotation in Spring Data JPA?
+The @GeneratedValue annotation is used to specify the strategy for generating primary key values. It can be used with strategies like IDENTITY, SEQUENCE, or AUTO to automatically generate a primary key.
+
+2. What is the difference between fetch = FetchType.LAZY and fetch = FetchType.EAGER?
+FetchType.LAZY means that the related entities are fetched only when accessed, whereas FetchType.EAGER fetches the related entities immediately along with the parent entity.
+
+3. What does the mappedBy attribute do in a relationship annotation?
+The mappedBy attribute specifies the field in the other entity that owns the relationship. It is used in a bidirectional relationship to indicate the inverse side of the relationship.
+
+4. What is the role of the @JoinColumn annotation?
+The @JoinColumn annotation is used to specify the column in the table that is used to join two entities in a relationship. It is typically used in the "many" side of a relationship.
+
+5. How can you prevent a specific field from being persisted in Spring Data JPA?
+You can use the @Transient annotation to mark a field that should not be persisted in the database.
+
+6. What is the @OneToOne annotation used for in Spring Data JPA?
+The @OneToOne annotation defines a one-to-one relationship between two entities. It is used when one entity is associated with exactly one instance of another entity.
+
+7. What is the purpose of the @EntityGraph annotation?
+The @EntityGraph annotation is used to define an entity graph, allowing you to fetch certain attributes of an entity eagerly without changing the default fetching behavior.
+
+8. How do you perform paging and sorting with Spring Data JPA?
+You can use the Pageable and Sort interfaces provided by Spring Data JPA to handle pagination and sorting in your repository methods.
+
+9. How do you update an entity in Spring Data JPA?
+You can update an entity by retrieving it from the database, making changes to its fields, and then saving it back using the save() method. If the entity already exists, the save() method performs an update.
+
+10. How do you handle cascading operations in Spring Data JPA?
+You can use the cascade attribute of the relationship annotations to specify which operations should be propagated to related entities. For example, CascadeType.ALL will propagate all operations (persist, merge, remove, etc.) to the related entity.
+
+1. What is the @Query annotation used for in Spring Data JPA?
+The @Query annotation allows you to define custom JPQL (Java Persistence Query Language) queries in repository methods. This can be useful for complex queries that cannot be easily generated using method names.
+
+2. How do you define a custom query with named parameters in Spring Data JPA?
+Named parameters can be defined using the :paramName syntax in the @Query annotation. You can then use the @Param annotation in the method signature to bind the parameters.
+
+3. What is the @Modifying annotation used for?
+The @Modifying annotation is used to indicate that a query is an update, delete, or insert operation, and not a SELECT query. This is typically used with @Query when modifying data in the database.
+
+4. What is the flush() method used for in Spring Data JPA?
+The flush() method is used to synchronize the persistence context with the database. It forces any pending changes in the persistence context to be written to the database.
+
+5. How can you use Spring Data JPA to delete entities?
+You can delete entities using the deleteById(), delete(), or custom delete queries. The deleteById() method removes an entity by its primary key.
+
+6. What is the purpose of the @EntityListeners annotation in Spring Data JPA?
+The @EntityListeners annotation allows you to specify a class that listens for lifecycle events of the entity, such as @PrePersist, @PostPersist, etc.
+
+7. How do you use Querydsl with Spring Data JPA?
+Querydsl can be integrated with Spring Data JPA to create type-safe queries. It allows for building dynamic queries in a fluent style.
+
+8. What is the Specification interface used for?
+The Specification interface is used to create dynamic, reusable predicates for queries in Spring Data JPA. It is particularly useful when combining multiple criteria in a type-safe way.
+
+9. How do you perform pagination in Spring Data JPA?
+You can use the Pageable interface to request paginated results. The Page object returned will contain the data and pagination information.
+
+10. What is the purpose of the @QueryHints annotation?
+The @QueryHints annotation allows you to specify query hints, which can be used to optimize the query execution, such as setting the javax.persistence.query.timeout hint to control the query timeout.
+
+1. How do you implement an entity relationship in Spring Data JPA?
+You can implement entity relationships in Spring Data JPA using annotations like @OneToOne, @OneToMany, @ManyToOne, and @ManyToMany. These annotations are used to define the cardinality of relationships between entities.
+
+2. What does the @JoinColumn annotation do?
+The @JoinColumn annotation is used to specify the column that joins the current entity to the related entity in a relationship. It is typically used in @ManyToOne or @OneToOne relationships.
+
+3. How do you configure a @ManyToMany relationship in Spring Data JPA?
+You can configure a @ManyToMany relationship by using the @ManyToMany annotation on both sides of the relationship. The join table is automatically created by JPA if not explicitly defined.
+
+4. How do you perform a query using a NamedQuery?
+You can define a NamedQuery in the entity class using the @NamedQuery annotation. Then, you can use it in your repository methods by specifying the named query.
+
+5. How can you use @Transactional with Spring Data JPA?
+The @Transactional annotation is used to define transactional boundaries for methods. It ensures that all operations within the method are executed within a transaction. If any operation fails, the transaction is rolled back.
+
+6. How do you use QueryByExampleExecutor in Spring Data JPA?
+The QueryByExampleExecutor interface allows you to find entities by example. You can create an example object with the properties you want to match and then execute the query using that example.
+
+7. How do you use Spring Data JPA to implement pagination with sorting?
+You can use the Pageable interface with sorting options by passing a PageRequest object with sorting criteria to your repository method.
+
+8. What is the @Version annotation used for?
+The @Version annotation is used to implement optimistic locking. It ensures that updates to the entity are only made if the version value has not changed since the entity was last fetched.
+
+9. How do you fetch related entities in Spring Data JPA using fetch joins?
+You can use fetch joins in @Query annotations to eagerly fetch related entities in a single query. This reduces the number of database queries needed for retrieving related entities.
+
+10. How do you avoid N+1 problems in Spring Data JPA?
+You can avoid N+1 problems by using fetch joins in your queries or by specifying the fetch strategy for relationships in your entity mappings, such as @OneToMany(fetch = FetchType.LAZY).
+
+1. What is the difference between fetch = FetchType.LAZY and fetch = FetchType.EAGER?
+LAZY loading means that related entities are loaded only when they are accessed for the first time, whereas EAGER loading means that related entities are loaded immediately along with the parent entity. LAZY loading helps to avoid unnecessary database queries, but might lead to N+1 problems.
+
+2. How do you use Spring Data JPA’s @Query annotation?
+You can use the @Query annotation to define custom queries for repository methods. The query can be JPQL (Java Persistence Query Language) or SQL, and you can also use parameters within the query.
+
+3. What is the role of @Repository annotation in Spring Data JPA?
+The @Repository annotation marks the interface as a Spring Data repository, enabling automatic implementation by Spring Data JPA. It also enables exception translation, converting database-related exceptions into Spring’s DataAccessException.
+
+4. How do you implement soft deletes in Spring Data JPA?
+You can implement soft deletes by adding a deleted field (usually a boolean or a date) to your entity. Instead of removing the entity from the database, you update the field to mark the entity as deleted.
+
+5. How do you write a custom query to update a field in Spring Data JPA?
+You can use the @Modifying annotation along with the @Query annotation to create a custom update query. You also need to ensure that the query is run within a transaction, which @Transactional can help with.
+
+6. How do you create a derived query in Spring Data JPA?
+You can create derived queries by defining method names in the repository interface that match the entity attributes and actions you want to query. Spring Data JPA automatically generates the SQL based on the method name.
+
+7. What is the purpose of @QueryHints in Spring Data JPA?
+The @QueryHints annotation is used to provide additional query hints to the underlying JPA provider, such as specifying the fetch size, timeouts, or locking behavior.
+
+8. How do you configure cascade operations in Spring Data JPA?
+Cascade operations are configured using the @OneToMany, @OneToOne, @ManyToOne, or @ManyToMany annotations. You can specify cascade types such as CascadeType.ALL, CascadeType.PERSIST, or CascadeType.MERGE.
+
+9. How do you implement custom pagination in Spring Data JPA?
+You can implement custom pagination using the Pageable interface. You pass a Pageable object with page number, size, and sorting criteria to the repository method.
+
+10. How can you query using native SQL in Spring Data JPA?
+You can query using native SQL by setting the nativeQuery attribute to true in the @Query annotation. This allows you to write queries in SQL instead of JPQL.
+
+1. How do you prevent N+1 query problems in Spring Data JPA?
+To avoid N+1 query issues, you can use fetch = FetchType.EAGER cautiously, or prefer fetch = FetchType.LAZY with @EntityGraph or JOIN FETCH in JPQL queries to eagerly load associations when needed.
+
+2. What is the difference between save() and saveAndFlush() in Spring Data JPA?
+save() persists an entity in the database, and the entity is synchronized with the database at a later point. saveAndFlush() persists the entity and immediately synchronizes the changes with the database.
+
+3. How can you use @ManyToMany relationships in Spring Data JPA?
+A @ManyToMany relationship is used when two entities have a many-to-many relationship, and a join table is typically used to store the associations between the entities.
+
+4. How do you use @OneToMany with a mappedBy attribute?
+The mappedBy attribute is used on the non-owning side of a relationship (in this case, @OneToMany) to define the owner of the relationship. It prevents the creation of an extra join table.
+
+5. How do you implement optimistic locking in Spring Data JPA?
+You can implement optimistic locking by adding a version field annotated with @Version. This ensures that no one modifies the entity concurrently while it is being updated.
+
+6. How do you handle custom native SQL queries with named parameters?
+In Spring Data JPA, you can create a native SQL query using @Query with named parameters. Named parameters are referenced by the parameter name prefixed with a colon.
+
+7. What is a Specification in Spring Data JPA?
+Specification is a way to create reusable, type-safe queries in Spring Data JPA by using the Specification interface. It provides a flexible approach to build dynamic queries based on business needs.
+
+8. How do you implement a custom delete query in Spring Data JPA?
+To implement a custom delete query, use the @Modifying annotation along with @Query. Ensure that you have the @Transactional annotation to manage the transaction.
+
+9. How do you handle pagination with dynamic sorting in Spring Data JPA?
+To handle dynamic sorting with pagination, use the Pageable interface. You can specify both the page number, size, and sort criteria dynamically.
+
+10. What is the purpose of @EntityGraph in Spring Data JPA?
+@EntityGraph is used to define a graph of entities to be eagerly loaded. It helps to avoid N+1 query problems by specifying which associations should be fetched eagerly in a query.
+
+Spring Data JPA - Set 7
+1. What is the purpose of the @Query annotation in Spring Data JPA?
+The @Query annotation allows you to define custom JPQL or native SQL queries for repository methods. It provides a way to write queries that can't be automatically generated by Spring Data JPA.
+
+2. How do you create a custom repository method using @Query?
+You can define a custom repository method by annotating the method with @Query and providing a JPQL or SQL query. The method parameters are mapped to the query parameters using @Param.
+
+3. What is the role of Spring Data JPA in handling database operations?
+Spring Data JPA simplifies database operations by providing repository interfaces that extend JpaRepository or CrudRepository. These interfaces come with predefined methods for common CRUD operations, reducing boilerplate code.
+
+4. How do you define a one-to-one relationship in Spring Data JPA?
+A @OneToOne relationship is defined between two entities where each entity is associated with exactly one instance of the other. You can also define cascading behaviors and fetch strategies.
+
+5. How do you prevent SQL injection when using native queries in Spring Data JPA?
+To prevent SQL injection, always use parameterized queries in Spring Data JPA by binding variables using @Param and never concatenating user input directly into queries.
+
+6. What is the difference between findAll() and findAll(Sort sort) methods in Spring Data JPA?
+The findAll() method retrieves all entities from the database without any sorting. The findAll(Sort sort) method retrieves all entities but allows sorting based on the specified criteria.
+
+7. How do you use the @ElementCollection annotation in Spring Data JPA?
+The @ElementCollection is used to store a collection of basic types or embeddable objects in a separate table. It is typically used when the collection is not a full-fledged entity.
+
+8. What is the difference between @Query and @Modifying annotations?
+The @Query annotation is used to define custom queries, while @Modifying is used to indicate that the query will modify the database (e.g., DELETE, UPDATE, etc.). @Modifying should be used with @Transactional to ensure the changes are committed.
+
+9. How do you implement pagination using Spring Data JPA?
+Pagination in Spring Data JPA can be done by using the Pageable interface, which allows you to specify the page size, page number, and sort criteria. The repository method will return a Page object containing the results.
+
+10. How do you create a custom query method in Spring Data JPA based on field names?
+Spring Data JPA allows you to define query methods based on field names using the repository's method naming convention. It automatically generates queries by interpreting the method name.
+
+1. What is the purpose of the JpaRepository interface?
+The JpaRepository interface is part of Spring Data JPA and provides several methods for CRUD operations, pagination, and sorting on entities. It simplifies database interactions by eliminating boilerplate code for common tasks.
+
+2. How do you implement a custom query using Spring Data JPA?
+You can create a custom query by using the @Query annotation. This allows you to define a JPQL or native SQL query in the repository interface.
+
+3. How do you use @Transactional with Spring Data JPA?
+The @Transactional annotation ensures that the method runs within a transactional context. It can be used to control the transaction boundaries for write operations in the repository.
+
+4. How do you handle multiple entities in a relationship using Spring Data JPA?
+You define the relationships using annotations like @OneToMany, @ManyToOne, or @ManyToMany. You can also specify cascading operations and fetch strategies.
+
+5. What is the use of @JoinColumn in entity relationships?
+The @JoinColumn annotation is used to specify the column that will be used to join two tables in a relationship. It helps define the foreign key in the database schema.
+
+6. How do you use Pageable to handle pagination in Spring Data JPA?
+You can pass a Pageable object to repository methods to handle pagination. The Pageable defines the page number, size, and sorting criteria.
+
+7. What is the difference between save() and saveAll() in Spring Data JPA?
+The save() method is used to save a single entity, while saveAll() is used to save multiple entities in a batch operation.
+
+8. How do you implement a many-to-many relationship in Spring Data JPA?
+A many-to-many relationship is defined using @ManyToMany annotation on both sides of the relationship. The join table is typically automatically created unless explicitly defined.
+
+9. How do you map a one-to-many relationship in Spring Data JPA?
+You use the @OneToMany annotation on the parent entity and the @ManyToOne annotation on the child entity.
+
+10. What is the purpose of the @Entity annotation in Spring Data JPA?
+The @Entity annotation is used to mark a Java class as a JPA entity, which means it will be mapped to a table in the database. The class must have a no-argument constructor and a primary key.
+
+1. How can you define a custom query with pagination in Spring Data JPA?
+You can define a custom query in the repository using the @Query annotation and return a Page object to support pagination.
+
+2. How do you map a unidirectional one-to-many relationship?
+A unidirectional one-to-many relationship is mapped by using @OneToMany on the parent entity and specifying the mappedBy attribute.
+
+3. How do you handle cascading operations in Spring Data JPA?
+Cascading operations can be handled using the @Cascade annotation or by specifying cascade = CascadeType in the relationship annotations like @OneToMany, @ManyToOne.
+
+4. What is the @QueryHint annotation used for in Spring Data JPA?
+The @QueryHint annotation is used to provide additional hints to the JPA provider when executing a query. It is mainly used for optimization and tuning purposes.
+
+5. How do you define a native SQL query in Spring Data JPA?
+You can define a native SQL query by using the @Query annotation and setting nativeQuery = true.
+
+6. How do you perform a batch insert in Spring Data JPA?
+A batch insert can be achieved by setting hibernate.jdbc.batch_size and using @Modifying with @Query for custom insert queries.
+
+7. How do you implement custom repository methods with Spring Data JPA?
+Custom repository methods can be implemented by creating an interface that extends JpaRepository and defining your custom methods with the @Query annotation or custom logic in the implementation class.
+
+8. What is the difference between findAll and findById methods in Spring Data JPA?
+The findAll method retrieves all records from the database, whereas findById is used to retrieve a single record based on its primary key.
+
+9. How do you implement a custom query method with parameters in Spring Data JPA?
+You define a custom method in the repository interface and use the @Query annotation to specify the query with named or positional parameters.
+
+10. What is the purpose of the @EntityGraph annotation?
+The @EntityGraph annotation is used to define a graph of entity attributes to be fetched eagerly when performing a query. It helps optimize fetching strategies for related entities.
+
+1. How can you define a projection in Spring Data JPA?
+A projection is defined by using an interface or DTO class with getter methods that match the names of the entity's properties you wish to retrieve.
+
+2. How do you implement the "one-to-one" relationship in Spring Data JPA?
+The @OneToOne annotation is used to define the "one-to-one" relationship between two entities, and the mappedBy attribute is used to specify the inverse side of the relationship.
+
+3. What is the purpose of the @ManyToMany annotation in Spring Data JPA?
+The @ManyToMany annotation defines a "many-to-many" relationship between two entities, where both sides can have multiple associated entities.
+
+4. What is the difference between fetch and lazy loading in Spring Data JPA?
+fetch is an attribute in @ManyToOne, @OneToMany, or @OneToOne to control whether related entities are fetched eagerly (FetchType.EAGER) or lazily (FetchType.LAZY).
+
+5. What is the role of the @JoinColumn annotation?
+The @JoinColumn annotation is used to specify the column that will be used to join an association between two entities in a relationship mapping (e.g., @ManyToOne, @OneToMany).
+
+6. How do you create a derived query method for finding entities by a specific field?
+You create a method in the repository interface where the name follows a specific convention, such as findBy followed by the field name (capitalized).
+
+7. What is a DTO (Data Transfer Object) and how do you use it with Spring Data JPA?
+A DTO is an object that carries data between processes. In Spring Data JPA, you can return DTOs instead of entities for custom queries to optimize performance and reduce unnecessary data exposure.
+
+8. How do you fetch a related entity in the same query?
+You can fetch related entities in the same query by using fetch in a JOIN clause or using @EntityGraph to specify which attributes to eagerly load.
+
+9. How do you specify an alias in a JPQL query?
+You can specify an alias for an entity in JPQL by using the AS keyword in the query, which allows you to reference the entity by its alias.
+
+10. What is the function of the @EnableJpaRepositories annotation?
+The @EnableJpaRepositories annotation is used to enable the scanning of Spring Data JPA repositories in the application, allowing Spring to create implementations for repository interfaces.

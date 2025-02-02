@@ -7,251 +7,253 @@
 <!--
 .question {            margin-bottom: 20px;
 }
+.style1 {font-family: Arial, Helvetica, sans-serif}
+.style2 {margin-bottom: 20px; font-family: Arial, Helvetica, sans-serif; }
 -->
 </style>
 </head>
 
 <body>
-<h2>Spring Transactions &amp; @Transactional - Set 1</h2>
-<div class="question">
+<h2 class="style1">Spring Transactions &amp; @Transactional - Set 1</h2>
+<div class="style2">
   <h3>1. What is a transaction in the context of Spring?</h3>
   <p><strong>Answer:</strong> In the context of Spring, a transaction is a set of operations that are executed as a single unit of work. A transaction ensures that either all operations are successfully completed, or none of them are, maintaining the integrity of the data.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is the role of the @Transactional annotation in Spring?</h3>
   <p><strong>Answer:</strong> The @Transactional annotation is used to define a method or class that should be executed within a transaction context. It ensures that the operations within the method are atomic, consistent, isolated, and durable (ACID properties).</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. What are the default propagation and isolation levels in Spring's @Transactional?</h3>
   <p><strong>Answer:</strong> By default, the propagation level in Spring's @Transactional is PROPAGATION_REQUIRED, meaning it will join an existing transaction if one exists or create a new one if necessary. The isolation level is set to ISOLATION_DEFAULT, which uses the database's default isolation level.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What is the difference between PROPAGATION_REQUIRED and PROPAGATION_REQUIRES_NEW?</h3>
   <p><strong>Answer:</strong> PROPAGATION_REQUIRED means the method will join an existing transaction if one exists, or a new transaction will be started if none exists. PROPAGATION_REQUIRES_NEW, on the other hand, always creates a new transaction and suspends any existing transaction.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. How do isolation levels affect transactions in Spring?</h3>
   <p><strong>Answer:</strong> Isolation levels define the degree of visibility one transaction has to the data being modified by other concurrent transactions. Higher isolation levels reduce concurrency but ensure greater consistency, while lower isolation levels improve performance but risk dirty reads or non-repeatable reads. Common isolation levels include READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, and SERIALIZABLE.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is the default rollback behavior in Spring’s @Transactional?</h3>
   <p><strong>Answer:</strong> By default, Spring rolls back a transaction only on unchecked exceptions (i.e., subclasses of RuntimeException) or errors (e.g., Throwable). To customize this behavior, you can use the <code>rollbackFor</code> attribute of @Transactional to specify the exceptions that should trigger a rollback.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. What is the difference between @Transactional on a method and @Transactional on a class?</h3>
   <p><strong>Answer:</strong> When @Transactional is applied at the method level, it applies only to that specific method. When applied at the class level, all methods within the class inherit the transaction behavior unless overridden at the method level.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. How can you prevent a rollback in Spring if a specific exception occurs?</h3>
   <p><strong>Answer:</strong> You can prevent rollback by using the <code>noRollbackFor</code> attribute in the @Transactional annotation. This attribute specifies the exceptions for which no rollback should occur, even if they are unchecked exceptions.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. What is the difference between @Transactional and manual transaction management?</h3>
   <p><strong>Answer:</strong> @Transactional automates transaction management using AOP (Aspect-Oriented Programming), whereas manual transaction management requires explicitly starting, committing, or rolling back transactions in the code using PlatformTransactionManager.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What is the use of <code>@Transactional(readOnly = true)</code>?</h3>
   <p><strong>Answer:</strong> The <code>@Transactional(readOnly = true)</code> annotation is used to mark a method as read-only, which indicates that no changes will be made to the database during the transaction. This can be used to optimize the performance of queries, as some databases might be able to use specific optimizations when no updates are being performed.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Spring Transactions &amp; @Transactional - Set 2</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Transactions &amp; @Transactional - Set 2</h2>
+<div class="style2">
   <h3>1. What happens when a method annotated with @Transactional throws an exception?</h3>
   <p><strong>Answer:</strong> When a method annotated with @Transactional throws an exception, the transaction is automatically rolled back. By default, this happens for unchecked exceptions (subclasses of RuntimeException) or errors, but can be customized using <code>rollbackFor</code> or <code>noRollbackFor</code> attributes.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is the purpose of the <code>timeout</code> attribute in the @Transactional annotation?</h3>
   <p><strong>Answer:</strong> The <code>timeout</code> attribute defines the maximum time (in seconds) that a transaction can run. If the transaction exceeds this time, it will be automatically rolled back. This can be useful for preventing long-running transactions from blocking other operations.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. Can @Transactional be used in a read-only method with Spring Data JPA?</h3>
   <p><strong>Answer:</strong> Yes, @Transactional can be used with Spring Data JPA in a read-only method. When <code>@Transactional(readOnly = true)</code> is applied, it tells Spring that no changes will be made to the database, and it may optimize the underlying query execution for better performance.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What is the impact of using the @Transactional annotation with a non-transactional method?</h3>
   <p><strong>Answer:</strong> If @Transactional is applied to a non-transactional method, it will not initiate a new transaction. Spring will attempt to join an existing transaction if one exists, or no transaction will be created if none exists. This might lead to unexpected behavior if the method performs actions that require a transaction.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. How do you handle transaction propagation in Spring?</h3>
   <p><strong>Answer:</strong> In Spring, transaction propagation determines how transactions behave when calling a method that is also annotated with @Transactional. Propagation options include <code>PROPAGATION_REQUIRED</code>, <code>PROPAGATION_REQUIRES_NEW</code>, <code>PROPAGATION_SUPPORTS</code>, etc., allowing you to control whether to join an existing transaction or create a new one.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is the use of <code>@Transactional(propagation = Propagation.NOT_SUPPORTED)</code>?</h3>
   <p><strong>Answer:</strong> The <code>PROPAGATION_NOT_SUPPORTED</code> setting tells Spring to suspend any existing transaction and execute the method outside of a transaction. This is useful for methods that do not need transactional support, and it can improve performance by avoiding unnecessary transaction management.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. How can you test a method annotated with @Transactional?</h3>
   <p><strong>Answer:</strong> To test a method annotated with @Transactional, you can use Spring's testing support. Typically, you would use @Transactional in a test class and configure your test database to allow rollback after each test method. This ensures that database changes made during tests do not persist after the test completes.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. What is the difference between @Transactional and @EnableTransactionManagement?</h3>
   <p><strong>Answer:</strong> @Transactional is used to mark methods that should be run within a transaction, whereas @EnableTransactionManagement is a class-level annotation that enables Spring’s annotation-driven transaction management. The latter is typically used in configuration classes to enable transaction management.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. Can @Transactional be used with multiple data sources?</h3>
   <p><strong>Answer:</strong> Yes, @Transactional can be used with multiple data sources by using the <code>@Transactional</code> annotation along with specific configuration to handle each data source's transaction separately or within a single, distributed transaction (if using technologies like Atomikos or Spring's JTA support).</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. How do you configure the isolation level in @Transactional?</h3>
   <p><strong>Answer:</strong> The isolation level in @Transactional can be configured using the <code>isolation</code> attribute. Common isolation levels include <code>ISOLATION_DEFAULT</code>, <code>ISOLATION_READ_UNCOMMITTED</code>, <code>ISOLATION_READ_COMMITTED</code>, <code>ISOLATION_REPEATABLE_READ</code>, and <code>ISOLATION_SERIALIZABLE</code>, which define how transactions are isolated from each other to prevent concurrency issues.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Spring Transactions &amp; @Transactional - Set 3</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Transactions &amp; @Transactional - Set 3</h2>
+<div class="style2">
   <h3>1. What happens when a method annotated with @Transactional is called from within the same class?</h3>
   <p><strong>Answer:</strong> If a method annotated with @Transactional is called from within the same class, the transactional behavior does not apply. This is because Spring’s AOP proxy mechanism only applies to method calls from external clients. To make it work, you need to call the method from a different instance, or use a separate class for the transactional methods.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is the default behavior for transaction rollback in Spring?</h3>
   <p><strong>Answer:</strong> By default, Spring rolls back transactions only for unchecked exceptions (subclasses of <code>RuntimeException</code>) and errors. To roll back for checked exceptions, you need to specify the <code>rollbackFor</code> attribute in the @Transactional annotation.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. Can the @Transactional annotation be applied to private methods?</h3>
   <p><strong>Answer:</strong> No, the @Transactional annotation cannot be applied to private methods because Spring's proxy-based mechanism requires the method to be visible to the proxy. If a method is private, it is not accessible to the proxy, and the transaction management will not work.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. How does Spring handle transaction commit and rollback?</h3>
   <p><strong>Answer:</strong> Spring handles transaction commit and rollback automatically. If a method annotated with @Transactional completes without errors, the transaction is committed. If an exception is thrown, the transaction is rolled back. You can customize this behavior using the <code>rollbackFor</code> or <code>noRollbackFor</code> attributes in @Transactional.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What is the difference between <code>PROPAGATION_REQUIRED</code> and <code>PROPAGATION_REQUIRES_NEW</code>?</h3>
   <p><strong>Answer:</strong> <code>PROPAGATION_REQUIRED</code> is the default propagation type. It means the method must run within a transaction; if there is no existing transaction, it creates a new one. On the other hand, <code>PROPAGATION_REQUIRES_NEW</code> suspends any existing transaction and creates a new, independent transaction.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is <code>readOnly</code> attribute in @Transactional?</h3>
   <p><strong>Answer:</strong> The <code>readOnly</code> attribute in @Transactional is used to specify that a method will not modify the database. It helps to optimize database operations for read-only transactions, improving performance by preventing unnecessary locks and enabling certain optimizations in the database.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. What is the difference between <code>PROPAGATION_SUPPORTS</code> and <code>PROPAGATION_NOT_SUPPORTED</code>?</h3>
   <p><strong>Answer:</strong> <code>PROPAGATION_SUPPORTS</code> allows the method to run within a transaction if one exists, but does not require a transaction. <code>PROPAGATION_NOT_SUPPORTED</code> suspends any existing transaction and runs the method outside of a transaction, ensuring that no transaction is active during the method execution.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. What does the <code>@Transactional</code> annotation do in a multi-threaded environment?</h3>
   <p><strong>Answer:</strong> In a multi-threaded environment, each thread has its own transaction context. Spring manages transactions on a per-thread basis, ensuring that each thread has a separate transaction. This is important to prevent conflicts and ensure data consistency across multiple threads.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. Can <code>@Transactional</code> be used with methods that are part of a service layer?</h3>
   <p><strong>Answer:</strong> Yes, @Transactional is commonly used in service layer methods to ensure that the operations within the service are performed within a transaction. It helps to abstract the transaction management from the controller and repository layers, simplifying the codebase.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What is the purpose of <code>@EnableTransactionManagement</code> in Spring?</h3>
   <p><strong>Answer:</strong> The <code>@EnableTransactionManagement</code> annotation is used to enable annotation-driven transaction management in Spring. It allows Spring to automatically manage transactions based on the <code>@Transactional</code> annotation and other related settings in the application context configuration.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Spring Transactions &amp; @Transactional - Set 4</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Transactions &amp; @Transactional - Set 4</h2>
+<div class="style2">
   <h3>1. What happens when a method annotated with @Transactional throws a checked exception?</h3>
   <p><strong>Answer:</strong> By default, Spring does not roll back a transaction when a checked exception is thrown. You can configure Spring to roll back for checked exceptions using the <code>rollbackFor</code> attribute of the @Transactional annotation.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is the <code>timeout</code> attribute in @Transactional used for?</h3>
   <p><strong>Answer:</strong> The <code>timeout</code> attribute specifies the maximum amount of time (in seconds) that a transaction is allowed to run before it is automatically rolled back. If the transaction exceeds the specified timeout, a <code>TransactionTimedOutException</code> is thrown, and the transaction is rolled back.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. How does Spring manage database connections in a transaction?</h3>
   <p><strong>Answer:</strong> Spring manages database connections through a <code>DataSource</code> and uses a <code>Connection</code> object to execute database operations within a transaction. The connection is automatically bound to the current transaction, and it is either committed or rolled back based on the outcome of the transaction.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. Can <code>@Transactional</code> be used on a constructor?</h3>
   <p><strong>Answer:</strong> No, the <code>@Transactional</code> annotation cannot be used on a constructor. Spring only supports annotation-based transaction management on methods, not constructors, because transaction management is tied to method invocation.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What is the <code>isolation</code> attribute in @Transactional used for?</h3>
   <p><strong>Answer:</strong> The <code>isolation</code> attribute specifies the isolation level of a transaction. Isolation levels determine how data is locked and accessed by concurrent transactions. Common isolation levels include <code>READ_COMMITTED</code>, <code>REPEATABLE_READ</code>, and <code>SERIALIZABLE</code>, with <code>READ_COMMITTED</code> being the default.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is the difference between <code>PROPAGATION_REQUIRED</code> and <code>PROPAGATION_MANDATORY</code>?</h3>
   <p><strong>Answer:</strong> <code>PROPAGATION_REQUIRED</code> means that the method must run within a transaction, and if no transaction exists, a new one is created. <code>PROPAGATION_MANDATORY</code> means that the method must run within an existing transaction; if no transaction exists, an exception is thrown.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. What does <code>@Transactional</code> do when a transaction is rolled back?</h3>
   <p><strong>Answer:</strong> When a transaction is rolled back, all the changes made during the transaction are undone, ensuring that the database remains consistent. Any changes made to the database are discarded, and the transaction state is reverted to what it was before the method execution started.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. How can you handle nested transactions in Spring?</h3>
   <p><strong>Answer:</strong> You can handle nested transactions in Spring by using the <code>PROPAGATION_REQUIRES_NEW</code> propagation type. This ensures that each nested transaction runs in its own independent transaction, which can either commit or roll back without affecting the parent transaction.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. Can <code>@Transactional</code> be used in a read-only database context?</h3>
   <p><strong>Answer:</strong> Yes, <code>@Transactional</code> can be used in a read-only database context. You can set the <code>readOnly</code> attribute of the annotation to <code>true</code> to indicate that the method will only read data and will not modify the database. This helps optimize database operations for read-only transactions.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What is a transaction manager in Spring?</h3>
   <p><strong>Answer:</strong> A transaction manager in Spring is responsible for managing the lifecycle of transactions. It coordinates transaction boundaries (begin, commit, and rollback) and integrates with the underlying database or transactional system. Examples include <code>DataSourceTransactionManager</code> for JDBC transactions and <code>JpaTransactionManager</code> for JPA-based transactions.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Spring Transactions &amp; @Transactional - Set 5</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Transactions &amp; @Transactional - Set 5</h2>
+<div class="style2">
   <h3>1. What is the default transaction propagation setting in Spring?</h3>
   <p><strong>Answer:</strong> The default propagation setting in Spring is <code>PROPAGATION_REQUIRED</code>. This means that if a transaction exists, the method will participate in that transaction; if no transaction exists, a new one will be created.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. How does Spring manage transactions in case of a rollback?</h3>
   <p><strong>Answer:</strong> When a transaction is rolled back, Spring automatically undoes all changes made during the transaction by invoking the <code>rollback</code> on the underlying transactional resources (such as JDBC or JPA). It ensures that the system remains in a consistent state.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. Can we use @Transactional with a method that does not return any value?</h3>
   <p><strong>Answer:</strong> Yes, <code>@Transactional</code> can be used with a method that does not return any value. The annotation is focused on managing the transaction itself, not the return type of the method.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What is the difference between <code>PROPAGATION_NESTED</code> and <code>PROPAGATION_REQUIRES_NEW</code>?</h3>
   <p><strong>Answer:</strong> <code>PROPAGATION_NESTED</code> allows for nested transactions, where the inner transaction can be rolled back independently of the outer transaction. <code>PROPAGATION_REQUIRES_NEW</code>, on the other hand, creates a completely new transaction that suspends any existing transaction.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What happens if a method annotated with @Transactional throws a runtime exception?</h3>
   <p><strong>Answer:</strong> By default, Spring will roll back the transaction when a runtime exception (unchecked exception) is thrown. If the exception is not a runtime exception, the transaction will not be rolled back unless explicitly configured with the <code>rollbackFor</code> attribute.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. How can you configure Spring to roll back on specific exceptions?</h3>
   <p><strong>Answer:</strong> You can use the <code>rollbackFor</code> attribute of the <code>@Transactional</code> annotation to specify which exceptions should trigger a rollback. For example, <code>@Transactional(rollbackFor = MyException.class)</code> will roll back the transaction if <code>MyException</code> is thrown.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. How do you define the isolation level for a Spring transaction?</h3>
   <p><strong>Answer:</strong> You can define the isolation level for a Spring transaction using the <code>isolation</code> attribute of the <code>@Transactional</code> annotation. The common isolation levels are <code>READ_UNCOMMITTED</code>, <code>READ_COMMITTED</code>, <code>REPEATABLE_READ</code>, and <code>SERIALIZABLE</code>.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. How can we prevent Spring from rolling back a transaction for specific exceptions?</h3>
   <p><strong>Answer:</strong> You can prevent Spring from rolling back for specific exceptions using the <code>noRollbackFor</code> attribute of the <code>@Transactional</code> annotation. For example, <code>@Transactional(noRollbackFor = MyException.class)</code> will ensure that the transaction is not rolled back for <code>MyException</code>.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. Can we use @Transactional for multiple methods in the same class?</h3>
   <p><strong>Answer:</strong> Yes, <code>@Transactional</code> can be applied to multiple methods within the same class. Each method will inherit the transactional behavior as specified by the annotation.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. How does Spring's transaction management support declarative transactions?</h3>
   <p><strong>Answer:</strong> Spring's transaction management supports declarative transactions by using the <code>@Transactional</code> annotation or XML configuration. The framework creates a proxy that manages the transaction boundaries (begin, commit, rollback) for the annotated methods, allowing for automatic transaction management without the need for explicit code.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Spring Transactions &amp; @Transactional - Set 6</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Transactions &amp; @Transactional - Set 6</h2>
+<div class="style2">
   <h3>1. What is the significance of the <code>@Transactional</code> annotation?</h3>
   <p><strong>Answer:</strong> The <code>@Transactional</code> annotation in Spring is used to define transaction boundaries. It automatically manages transactions, ensuring that methods run within a transaction, and can roll back the transaction in case of a failure.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. Can the <code>@Transactional</code> annotation be applied to classes?</h3>
   <p><strong>Answer:</strong> Yes, <code>@Transactional</code> can be applied to classes as well. If applied at the class level, it affects all the methods within that class unless overridden at the method level.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. What does the <code>isolation</code> attribute in the <code>@Transactional</code> annotation do?</h3>
   <p><strong>Answer:</strong> The <code>isolation</code> attribute in <code>@Transactional</code> specifies the isolation level of the transaction, which determines how transaction modifications are isolated from other concurrent transactions. Common values include <code>READ_COMMITTED</code>, <code>READ_UNCOMMITTED</code>, <code>REPEATABLE_READ</code>, and <code>SERIALIZABLE</code>.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What are the default rollback behavior and conditions for Spring transactions?</h3>
   <p><strong>Answer:</strong> By default, Spring only rolls back a transaction for unchecked exceptions (i.e., <code>RuntimeException</code> and <code>Error</code>). For checked exceptions, you must explicitly configure rollback behavior using the <code>rollbackFor</code> attribute.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What is the <code>PROPAGATION_REQUIRES_NEW</code> propagation level in Spring transactions?</h3>
   <p><strong>Answer:</strong> <code>PROPAGATION_REQUIRES_NEW</code> ensures that a new transaction is created for the method, and any existing transaction will be suspended while the new transaction runs. After the new transaction completes, the original transaction will resume.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. How can we apply @Transactional to non-public methods?</h3>
   <p><strong>Answer:</strong> You can apply <code>@Transactional</code> to non-public methods (such as <code>private</code> or <code>protected</code>) as long as the method is accessed through a proxy (i.e., it is called from another method within the same class or externally). However, Spring will only create proxies for public methods by default.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. What does the <code>readOnly</code> attribute in <code>@Transactional</code> do?</h3>
   <p><strong>Answer:</strong> The <code>readOnly</code> attribute in <code>@Transactional</code> is used to mark a transaction as read-only. This informs the transaction manager that no modifications will be made to the database during the transaction, which may optimize performance for read-only operations.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. What are the different transaction propagation levels in Spring?</h3>
   <p><strong>Answer:</strong> Spring provides several transaction propagation levels: </p>
   <ul>
@@ -265,191 +267,191 @@
   </ul>
   </p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. Can we use <code>@Transactional</code> in a multi-threaded environment?</h3>
   <p><strong>Answer:</strong> Yes, <code>@Transactional</code> can be used in a multi-threaded environment, but it requires careful management to ensure that each thread has its own transaction. Spring creates separate transactions for each thread based on the execution context.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What is the purpose of the <code>@EnableTransactionManagement</code> annotation in Spring?</h3>
   <p><strong>Answer:</strong> The <code>@EnableTransactionManagement</code> annotation is used to enable annotation-driven transaction management in Spring. It allows the use of <code>@Transactional</code> and ensures that the appropriate proxy is created to manage the transaction lifecycle.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Spring Transactions &amp; @Transactional - Set 7</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Transactions &amp; @Transactional - Set 7</h2>
+<div class="style2">
   <h3>1. What is the <code>timeout</code> attribute in <code>@Transactional</code> used for?</h3>
   <p><strong>Answer:</strong> The <code>timeout</code> attribute in <code>@Transactional</code> defines the maximum time (in seconds) a transaction can run before it times out. If the transaction exceeds this time, it will be automatically rolled back.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. How does Spring handle nested transactions with the <code>@Transactional</code> annotation?</h3>
   <p><strong>Answer:</strong> Spring supports nested transactions using the <code>PROPAGATION_NESTED</code> propagation level. A nested transaction allows you to commit or roll back changes within a part of a transaction without affecting the outer transaction.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. What is the difference between <code>@Transactional</code> on a method and on a class?</h3>
   <p><strong>Answer:</strong> Applying <code>@Transactional</code> to a method means that only that method will be wrapped in a transaction. When applied to a class, it applies the transaction management to all methods in the class unless overridden at the method level. Method-level annotations take precedence.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. Can you control the rollback behavior in Spring for different exceptions?</h3>
   <p><strong>Answer:</strong> Yes, you can control rollback behavior in Spring by using the <code>rollbackFor</code> and <code>noRollbackFor</code> attributes in the <code>@Transactional</code> annotation. You can specify which exceptions should trigger a rollback and which ones should not.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. How can Spring Transaction management handle database connections in a clustered environment?</h3>
   <p><strong>Answer:</strong> In a clustered environment, Spring Transaction management ensures that database connections are handled correctly using appropriate transaction managers for the specific database configuration. It can manage transactions in a distributed system by using JTA (Java Transaction API) for coordination across multiple resources.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is the <code>readOnly</code> flag in <code>@Transactional</code> and when should it be used?</h3>
   <p><strong>Answer:</strong> The <code>readOnly</code> flag in <code>@Transactional</code> is set to <code>true</code> when you know that a transaction will only be reading from the database and not performing any updates. It helps optimize the transaction, especially for database connections, as certain database systems may optimize read-only transactions for better performance.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. What is the behavior when a method annotated with <code>@Transactional</code> calls another method that is also annotated with <code>@Transactional</code>?</h3>
   <p><strong>Answer:</strong> By default, when a method annotated with <code>@Transactional</code> calls another method that is also annotated with <code>@Transactional</code>, the caller method will use the same transaction. If the propagation setting is set to <code>PROPAGATION_REQUIRES_NEW</code> in the second method, it will start a new transaction.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. What is <code>@Transactional</code>'s behavior with respect to exception handling?</h3>
   <p><strong>Answer:</strong> By default, Spring will only roll back a transaction for unchecked exceptions (i.e., <code>RuntimeException</code>) and errors. For checked exceptions, you need to explicitly specify that you want a rollback using the <code>rollbackFor</code> attribute of the <code>@Transactional</code> annotation.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. Can <code>@Transactional</code> be used in Spring Boot applications?</h3>
   <p><strong>Answer:</strong> Yes, <code>@Transactional</code> can be used in Spring Boot applications. Spring Boot automatically configures transaction management if the <code>@EnableTransactionManagement</code> annotation is added (which is typically done automatically in most cases). You can use <code>@Transactional</code> on methods to manage transactions.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. How can you prevent a transaction from rolling back in certain cases in Spring?</h3>
   <p><strong>Answer:</strong> You can use the <code>noRollbackFor</code> attribute in <code>@Transactional</code> to specify exceptions that should not trigger a rollback. This allows you to prevent the transaction from being rolled back for certain types of exceptions.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Spring Transactions &amp; @Transactional - Set 8</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Transactions &amp; @Transactional - Set 8</h2>
+<div class="style2">
   <h3>1. What is the difference between <code>PROPAGATION_REQUIRED</code> and <code>PROPAGATION_REQUIRES_NEW</code>?</h3>
   <p><strong>Answer:</strong> <code>PROPAGATION_REQUIRED</code> means that the method must run within an existing transaction. If there is no current transaction, a new one will be created. <code>PROPAGATION_REQUIRES_NEW</code> forces the method to always run in a new transaction, suspending any existing transaction.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. How can you ensure that a transaction is rolled back only on specific exceptions?</h3>
   <p><strong>Answer:</strong> You can control the rollback behavior using the <code>rollbackFor</code> and <code>noRollbackFor</code> attributes of the <code>@Transactional</code> annotation. <code>rollbackFor</code> specifies exceptions that should trigger a rollback, while <code>noRollbackFor</code> specifies exceptions that should not trigger a rollback.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. What is <code>@EnableTransactionManagement</code> and why is it used?</h3>
   <p><strong>Answer:</strong> <code>@EnableTransactionManagement</code> is an annotation that enables annotation-driven transaction management in Spring. It allows you to use <code>@Transactional</code> in your code, and it configures a transaction manager for managing transactions. In Spring Boot, it is enabled by default.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What is the default behavior of Spring’s transaction management in terms of commit and rollback?</h3>
   <p><strong>Answer:</strong> By default, Spring will commit a transaction if no runtime exception (unchecked exception) occurs. If an unchecked exception occurs, Spring will automatically roll back the transaction. For checked exceptions, you need to specify explicitly if you want a rollback using <code>rollbackFor</code>.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What is the <code>isolation</code> attribute in <code>@Transactional</code>?</h3>
   <p><strong>Answer:</strong> The <code>isolation</code> attribute in <code>@Transactional</code> defines the level of isolation for a transaction. It controls how the transaction interacts with other concurrent transactions. The options are <code>READ_UNCOMMITTED</code>, <code>READ_COMMITTED</code>, <code>REPEATABLE_READ</code>, and <code>SERIALIZABLE</code>.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What are some potential issues when using <code>@Transactional</code> with multiple database resources?</h3>
   <p><strong>Answer:</strong> When using <code>@Transactional</code> with multiple databases, you may encounter issues with distributed transactions, such as managing consistency and handling failures across different data sources. Using JTA (Java Transaction API) or other distributed transaction managers can help mitigate these issues.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. How does Spring handle the transaction commit process?</h3>
   <p><strong>Answer:</strong> Spring handles the commit process automatically after the method annotated with <code>@Transactional</code> successfully completes. If the method executes without throwing a rollback exception, Spring commits the transaction. If an exception occurs, the transaction is rolled back.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. How does the <code>readOnly</code> flag in <code>@Transactional</code> improve performance?</h3>
   <p><strong>Answer:</strong> Setting the <code>readOnly</code> flag to <code>true</code> tells Spring that the transaction will only perform read operations. This allows Spring to optimize the transaction by skipping certain operations like locking and flushing the persistence context, improving performance in read-heavy transactions.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. Can you use <code>@Transactional</code> for both read-only and read-write transactions?</h3>
   <p><strong>Answer:</strong> Yes, you can use <code>@Transactional</code> for both read-only and read-write transactions. For read-only transactions, you can set the <code>readOnly</code> attribute to <code>true</code>. For read-write transactions, the default is <code>false</code>, which allows modifying data in the transaction.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What is the role of the <code>TransactionManager</code> in Spring’s transaction management?</h3>
   <p><strong>Answer:</strong> The <code>TransactionManager</code> in Spring is responsible for managing the transaction lifecycle. It coordinates the transaction, including starting, committing, or rolling back the transaction based on the outcome of the operation. The <code>PlatformTransactionManager</code> is the main interface used by Spring for transaction management.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Spring Transactions &amp; @Transactional - Set 9</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Transactions &amp; @Transactional - Set 9</h2>
+<div class="style2">
   <h3>1. What are the main types of transaction propagation in Spring?</h3>
   <p><strong>Answer:</strong> The main types of transaction propagation in Spring are: <code>PROPAGATION_REQUIRED</code>, <code>PROPAGATION_REQUIRES_NEW</code>, <code>PROPAGATION_NESTED</code>, <code>PROPAGATION_SUPPORTS</code>, <code>PROPAGATION_MANDATORY</code>, <code>PROPAGATION_NOT_SUPPORTED</code>, and <code>PROPAGATION_NEVER</code>.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is the significance of the <code>@Transactional</code> annotation in Spring?</h3>
   <p><strong>Answer:</strong> The <code>@Transactional</code> annotation is used to define transaction boundaries for methods in Spring. It provides declarative transaction management, ensuring that the method runs within a transaction, and handles commit or rollback based on the outcome of the method.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. How do you define a read-only transaction in Spring?</h3>
   <p><strong>Answer:</strong> You can define a read-only transaction by setting the <code>readOnly</code> attribute in the <code>@Transactional</code> annotation to <code>true</code>. This optimizes performance for transactions that only involve read operations and prevents accidental data modifications.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What happens if you mark a method as <code>@Transactional</code> and it throws an exception?</h3>
   <p><strong>Answer:</strong> By default, if a method marked with <code>@Transactional</code> throws a runtime exception (unchecked exception), the transaction will be rolled back. If it throws a checked exception, the transaction will not be rolled back unless explicitly specified using the <code>rollbackFor</code> attribute.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. Can you use multiple <code>@Transactional</code> annotations on different methods in a single class?</h3>
   <p><strong>Answer:</strong> Yes, you can use multiple <code>@Transactional</code> annotations on different methods in a class. Each method will have its own transaction boundary, with the properties defined in the annotation applying to that method.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. How does Spring handle the rollback of a transaction in case of an exception?</h3>
   <p><strong>Answer:</strong> Spring will automatically roll back the transaction if a runtime exception is thrown, unless explicitly specified not to do so. For checked exceptions, you need to specify the rollback behavior using the <code>rollbackFor</code> attribute in the <code>@Transactional</code> annotation.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. How can you configure transaction management programmatically in Spring?</h3>
   <p><strong>Answer:</strong> Transaction management can be configured programmatically by creating a <code>PlatformTransactionManager</code> bean and using it with the <code>TransactionTemplate</code> to manage transactions in your code manually.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. What is the role of <code>TransactionSynchronization</code> in Spring transactions?</h3>
   <p><strong>Answer:</strong> <code>TransactionSynchronization</code> allows you to register synchronization callbacks with the transaction. These callbacks can be executed during transaction commit or rollback, giving you more control over transaction-related actions.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. What is the difference between <code>PROPAGATION_REQUIRED</code> and <code>PROPAGATION_NESTED</code>?</h3>
   <p><strong>Answer:</strong> <code>PROPAGATION_REQUIRED</code> ensures that a new transaction is created only if no existing transaction is present. If an existing transaction exists, it participates in it. On the other hand, <code>PROPAGATION_NESTED</code> allows the current method to execute within a nested transaction, meaning it can roll back independently from the outer transaction.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. How does <code>@Transactional</code> interact with Spring AOP?</h3>
   <p><strong>Answer:</strong> Spring uses AOP (Aspect-Oriented Programming) to apply the <code>@Transactional</code> annotation. It creates a proxy for the target method and intercepts the method calls to manage transactions. The proxy handles transaction start, commit, and rollback based on method execution.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Spring Transactions &amp; @Transactional - Set 10</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Transactions &amp; @Transactional - Set 10</h2>
+<div class="style2">
   <h3>1. What is the difference between programmatic and declarative transaction management in Spring?</h3>
   <p><strong>Answer:</strong> Programmatic transaction management involves explicitly managing the transaction in your code by using the <code>PlatformTransactionManager</code>. In contrast, declarative transaction management uses annotations like <code>@Transactional</code> or XML configurations, allowing Spring to automatically manage the transaction boundaries based on method execution.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What are the implications of using <code>@Transactional</code> with <code>Propagation.REQUIRES_NEW</code>?</h3>
   <p><strong>Answer:</strong> When using <code>PROPAGATION_REQUIRES_NEW</code>, a new transaction will always be created, regardless of whether an existing transaction is already in progress. If there is an ongoing transaction, it will be suspended, and the new transaction will run independently. After the new transaction completes, the suspended transaction will resume.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. How does Spring handle the rollback of transactions for different types of exceptions?</h3>
   <p><strong>Answer:</strong> By default, Spring only rolls back transactions for runtime (unchecked) exceptions. However, you can configure the rollback behavior for checked (or any other) exceptions by specifying the <code>rollbackFor</code> attribute in the <code>@Transactional</code> annotation. For example, <code>@Transactional(rollbackFor = Exception.class)</code> will roll back the transaction for any exception.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What is the default behavior of Spring's transaction management regarding rollback?</h3>
   <p><strong>Answer:</strong> By default, Spring only rolls back transactions for unchecked exceptions (i.e., subclasses of <code>RuntimeException</code>) and errors (i.e., subclasses of <code>Error</code>). If a checked exception is thrown, the transaction will not be rolled back unless the rollback behavior is explicitly configured using the <code>rollbackFor</code> or <code>noRollbackFor</code> attributes in the <code>@Transactional</code> annotation.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. Can you specify rollback behavior for specific exceptions using <code>@Transactional</code>?</h3>
   <p><strong>Answer:</strong> Yes, you can specify the rollback behavior for specific exceptions by using the <code>rollbackFor</code> attribute in the <code>@Transactional</code> annotation. You can list one or more exception classes that should trigger a rollback, e.g., <code>@Transactional(rollbackFor = SQLException.class)</code>.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is a nested transaction, and how does <code>PROPAGATION_NESTED</code> work?</h3>
   <p><strong>Answer:</strong> A nested transaction is a transaction within another transaction, which allows the inner transaction to commit or roll back independently of the outer transaction. With <code>PROPAGATION_NESTED</code>, Spring starts a new savepoint within the existing transaction. If the nested transaction fails, the changes made by the inner transaction can be rolled back, but the outer transaction can still proceed.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. How do you handle transaction isolation in Spring?</h3>
   <p><strong>Answer:</strong> Transaction isolation can be configured using the <code>isolation</code> attribute of the <code>@Transactional</code> annotation. You can specify one of the following isolation levels: <code>ISOLATION_DEFAULT</code>, <code>ISOLATION_READ_COMMITTED</code>, <code>ISOLATION_READ_UNCOMMITTED</code>, <code>ISOLATION_REPEATABLE_READ</code>, or <code>ISOLATION_SERIALIZABLE</code>. The isolation level defines how concurrent transactions interact with each other.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. What is the <code>@Transactional</code> propagation behavior for <code>PROPAGATION_SUPPORTS</code>?</h3>
   <p><strong>Answer:</strong> With <code>PROPAGATION_SUPPORTS</code>, the method will run within the context of an existing transaction if one exists. If no transaction exists, the method will execute without a transaction. This propagation is typically used when the method does not require a transaction, but should participate in one if available.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. How do you prevent a transaction from being rolled back in Spring?</h3>
   <p><strong>Answer:</strong> You can prevent a transaction from being rolled back by using the <code>@Transactional</code> annotation's <code>noRollbackFor</code> attribute. For example, <code>@Transactional(noRollbackFor = SQLException.class)</code> will prevent rollback for <code>SQLException</code> even if it's thrown during the method execution.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What are the advantages of using declarative transaction management in Spring?</h3>
   <p><strong>Answer:</strong> The advantages of declarative transaction management include separation of business logic and transaction management, ease of configuration, better readability, and less boilerplate code. It allows you to focus on the core logic without worrying about transaction management details, making your code more maintainable and modular.</p>
 </div>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
 </body>
 </html>
