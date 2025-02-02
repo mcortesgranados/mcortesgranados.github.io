@@ -1,10 +1,1066 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLID Principles - Questions and Answers</title>
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+</style>
 </head>
-
 <body>
+    <h1 class="style1">SOLID Principles - Questions and Answers</h1>
+
+<div class="style1" id="questions">
+
+        <h2>1. What is the Single Responsibility Principle (SRP)?</h2>
+        <p><strong>Answer:</strong> The Single Responsibility Principle states that a class should have only one reason to change, meaning it should only have one job or responsibility.</p>
+
+        <h2>2. Can you provide an example of a class violating SRP?</h2>
+        <p><strong>Answer:</strong> Yes, a class that handles both user authentication and sending email notifications violates SRP because it has more than one responsibility.</p>
+        <pre><code>class UserManager {
+    public void authenticateUser(String username, String password) {
+        // authentication logic
+    }
+
+    public void sendEmail(String userEmail) {
+        // email logic
+    }
+}</code></pre>
+
+        <h2>3. How can you refactor the code above to follow SRP?</h2>
+        <p><strong>Answer:</strong> We can separate the user authentication and email logic into two different classes, so each class handles a single responsibility.</p>
+        <pre><code>class UserAuthenticator {
+    public void authenticateUser(String username, String password) {
+        // authentication logic
+    }
+}
+
+class EmailService {
+    public void sendEmail(String userEmail) {
+        // email logic
+    }
+}</code></pre>
+
+        <h2>4. What is the Open/Closed Principle (OCP)?</h2>
+        <p><strong>Answer:</strong> The Open/Closed Principle states that a class should be open for extension, but closed for modification. This means that we should be able to add new functionality to a class without modifying its existing code.</p>
+
+        <h2>5. Can you provide an example of a class violating OCP?</h2>
+        <p><strong>Answer:</strong> A class that needs to be modified every time we add a new shape type violates OCP.</p>
+        <pre><code>class AreaCalculator {
+    public double calculateArea(Rectangle rectangle) {
+        return rectangle.getWidth() * rectangle.getHeight();
+    }
+
+    public double calculateArea(Circle circle) {
+        return Math.PI * circle.getRadius() * circle.getRadius();
+    }
+}</code></pre>
+
+        <h2>6. How can you refactor the code above to follow OCP?</h2>
+        <p><strong>Answer:</strong> We can create an interface for shapes and allow each shape to implement its own area calculation, so new shapes can be added without modifying the AreaCalculator class.</p>
+        <pre><code>interface Shape {
+    double calculateArea();
+}
+
+class Rectangle implements Shape {
+    private double width;
+    private double height;
+
+    public double calculateArea() {
+        return width * height;
+    }
+}
+
+class Circle implements Shape {
+    private double radius;
+
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+}
+
+class AreaCalculator {
+    public double calculateArea(Shape shape) {
+        return shape.calculateArea();
+    }
+}</code></pre>
+
+        <h2>7. What is the Liskov Substitution Principle (LSP)?</h2>
+        <p><strong>Answer:</strong> The Liskov Substitution Principle states that objects of a superclass should be replaceable with objects of its subclasses without affecting the correctness of the program.</p>
+
+        <h2>8. Can you provide an example of a class violating LSP?</h2>
+        <p><strong>Answer:</strong> A class that changes the expected behavior of a subclass method violates LSP.</p>
+        <pre><code>class Bird {
+    public void fly() {
+        // flying logic
+    }
+}
+
+class Ostrich extends Bird {
+    @Override
+    public void fly() {
+        // ostriches can't fly, so this violates LSP
+    }
+}</code></pre>
+
+        <h2>9. How can you refactor the code above to follow LSP?</h2>
+        <p><strong>Answer:</strong> We can create an interface for flying birds and ensure that only birds that can fly implement it, so ostriches don't have to implement fly.</p>
+        <pre><code>interface Flyable {
+    void fly();
+}
+
+class Bird {}
+
+class Sparrow extends Bird implements Flyable {
+    @Override
+    public void fly() {
+        // flying logic
+    }
+}
+
+class Ostrich extends Bird {
+    // ostrich doesn't implement fly
+}</code></pre>
+
+        <h2>10. What is the Interface Segregation Principle (ISP)?</h2>
+        <p><strong>Answer:</strong> The Interface Segregation Principle states that clients should not be forced to depend on interfaces they do not use. In other words, it is better to have multiple smaller, specific interfaces than a large, general-purpose one.</p>
+</div>
+    <p class="style1">&nbsp;</p>
+    <h2 class="style1">11. What is the Dependency Inversion Principle (DIP)?</h2>
+    <p class="style1"><strong>Answer:</strong> The Dependency Inversion Principle states that high-level modules should not depend on low-level modules. Both should depend on abstractions. Furthermore, abstractions should not depend on details. Details should depend on abstractions.</p>
+    <h2 class="style1">12. Can you provide an example of a class violating DIP?</h2>
+    <p class="style1"><strong>Answer:</strong> A class that directly instantiates low-level modules violates DIP because the high-level module is tightly coupled with the low-level module.</p>
+    <pre class="style1"><code>class OrderProcessor {
+    private PaymentGateway paymentGateway;
+
+    public OrderProcessor() {
+        paymentGateway = new PaymentGateway(); // direct dependency, violates DIP
+    }
+
+    public void processOrder(Order order) {
+        paymentGateway.processPayment(order.getAmount());
+    }
+}
+
+class PaymentGateway {
+    public void processPayment(double amount) {
+        // payment logic
+    }
+}</code></pre>
+    <h2 class="style1">13. How can you refactor the code above to follow DIP?</h2>
+    <p class="style1"><strong>Answer:</strong> We can introduce an interface for the payment gateway and pass it to the constructor of the OrderProcessor class, allowing for dependency injection and reducing the coupling between high- and low-level modules.</p>
+    <pre class="style1"><code>interface PaymentGateway {
+    void processPayment(double amount);
+}
+
+class StripePaymentGateway implements PaymentGateway {
+    public void processPayment(double amount) {
+        // Stripe payment logic
+    }
+}
+
+class OrderProcessor {
+    private PaymentGateway paymentGateway;
+
+    public OrderProcessor(PaymentGateway paymentGateway) {
+        this.paymentGateway = paymentGateway;
+    }
+
+    public void processOrder(Order order) {
+        paymentGateway.processPayment(order.getAmount());
+    }
+}</code></pre>
+    <h2 class="style1">14. How does Dependency Injection help with DIP?</h2>
+    <p class="style1"><strong>Answer:</strong> Dependency Injection helps by providing the necessary dependencies to a class from the outside, rather than the class creating its own dependencies, thus following DIP.</p>
+    <h2 class="style1">15. What are the benefits of applying SOLID principles in software design?</h2>
+    <p class="style1"><strong>Answer:</strong> Applying SOLID principles leads to more maintainable, flexible, and testable code, and promotes loose coupling and high cohesion, making it easier to extend and modify the system without breaking existing functionality.</p>
+    <h2 class="style1">16. How does SRP affect code readability and maintainability?</h2>
+    <p class="style1"><strong>Answer:</strong> SRP improves code readability and maintainability by ensuring that each class is focused on a single responsibility, making it easier to understand and modify without affecting other parts of the system.</p>
+    <h2 class="style1">17. How does OCP promote extensibility in software design?</h2>
+    <p class="style1"><strong>Answer:</strong> OCP promotes extensibility by allowing new functionality to be added without modifying existing code. This ensures that the software can evolve without introducing regressions or breaking existing features.</p>
+    <h2 class="style1">18. Can you give an example of a violation of LSP when using inheritance?</h2>
+    <p class="style1"><strong>Answer:</strong> A subclass that does not behave as expected when substituted for its superclass violates LSP. For example, a Rectangle class with a setWidth and setHeight method and a Square subclass that overrides these methods incorrectly.</p>
+    <pre class="style1"><code>class Rectangle {
+    private double width;
+    private double height;
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+}
+
+class Square extends Rectangle {
+    @Override
+    public void setWidth(double width) {
+        super.setWidth(width);
+        super.setHeight(width); // violates LSP, since a square requires width == height
+    }
+
+    @Override
+    public void setHeight(double height) {
+        super.setHeight(height);
+        super.setWidth(height); // violates LSP
+    }
+}</code></pre>
+    <h2 class="style1">19. How can you refactor the LSP violation example above?</h2>
+    <p class="style1"><strong>Answer:</strong> Instead of using inheritance, you can create separate classes for Rectangle and Square that do not rely on a shared interface with conflicting behavior.</p>
+    <pre class="style1"><code>interface Shape {
+    void setWidth(double width);
+    void setHeight(double height);
+}
+
+class Rectangle implements Shape {
+    private double width;
+    private double height;
+
+    @Override
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    @Override
+    public void setHeight(double height) {
+        this.height = height;
+    }
+}
+
+class Square implements Shape {
+    private double side;
+
+    @Override
+    public void setWidth(double width) {
+        this.side = width;
+    }
+
+    @Override
+    public void setHeight(double height) {
+        this.side = height;
+    }
+}</code></pre>
+    <h2 class="style1">20. Why is it important to avoid bloated interfaces in a system?</h2>
+    <p class="style1"><strong>Answer:</strong> Bloated interfaces lead to unnecessary dependencies and violate ISP. Clients that implement or depend on a large interface are forced to implement methods they don't need, increasing complexity and reducing flexibility.</p>
+    <h2 class="style1">21. How can SOLID principles help when dealing with legacy code?</h2>
+    <p class="style1"><strong>Answer:</strong> SOLID principles help refactor legacy code by improving its structure, making it easier to extend, modify, and maintain. By applying principles like SRP, OCP, and DIP, we can reduce the risk of introducing bugs and improve testability.</p>
+    <h2 class="style1">22. How does applying SRP help in unit testing?</h2>
+    <p class="style1"><strong>Answer:</strong> SRP helps in unit testing by ensuring that each class has only one responsibility, which makes it easier to write focused, small, and independent test cases for each class without needing to mock or test unrelated functionality.</p>
+    <h2 class="style1">23. Can you provide an example of how OCP benefits a system when adding new features?</h2>
+    <p class="style1"><strong>Answer:</strong> OCP allows new features to be added as new classes or modules, avoiding modifications to existing code. For example, adding a new payment method would only require creating a new class that implements an interface, leaving the existing system intact.</p>
+    <pre class="style1"><code>interface PaymentMethod {
+    void processPayment(double amount);
+}
+
+class PayPalPayment implements PaymentMethod {
+    public void processPayment(double amount) {
+        // PayPal logic
+    }
+}
+
+class OrderProcessor {
+    private PaymentMethod paymentMethod;
+
+    public OrderProcessor(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public void processOrder(double amount) {
+        paymentMethod.processPayment(amount);
+    }
+}
+</code></pre>
+    <h2 class="style1">24. How does applying LSP help in reducing bugs in a software system?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP helps by ensuring that subclasses can be substituted for their parent classes without causing unexpected behavior. By adhering to LSP, you avoid introducing bugs related to improper inheritance hierarchies.</p>
+    <h2 class="style1">25. Can you explain how ISP affects performance?</h2>
+    <p class="style1"><strong>Answer:</strong> ISP can improve performance by ensuring that clients only implement the methods they need. This reduces the overhead of unnecessary method implementations and makes the system more focused on specific functionalities, thus improving efficiency.</p>
+    <h2 class="style1">26. How can DIP improve the testability of an application?</h2>
+    <p class="style1"><strong>Answer:</strong> DIP improves testability by decoupling high-level modules from low-level ones. By depending on abstractions (interfaces), we can easily mock or stub dependencies in unit tests, leading to more isolated and focused tests.</p>
+    <h2 class="style1">27. What is a concrete example of how the DIP is implemented in a Spring Boot application?</h2>
+    <p class="style1"><strong>Answer:</strong> In a Spring Boot application, DIP is implemented using dependency injection. Services and repositories are injected into controllers or other components via constructor or field injection, allowing for easier testing and reducing tight coupling.</p>
+    <pre class="style1"><code>@Service
+public class UserService {
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+}</code></pre>
+    <h2 class="style1">28. How does applying SOLID principles help in maintaining a large codebase?</h2>
+    <p class="style1"><strong>Answer:</strong> SOLID principles help maintain a large codebase by ensuring that the system remains flexible, modular, and easier to extend. With SOLID, new features can be added without breaking existing functionality, and bugs are easier to isolate and fix.</p>
+    <h2 class="style1">29. Can you give an example of how OCP benefits the extension of a class without modifying it?</h2>
+    <p class="style1"><strong>Answer:</strong> OCP benefits extension by allowing new functionality to be added through subclassing or composition. For example, adding a discount feature to a pricing system could be done by creating a new class that extends an existing class without altering the original pricing logic.</p>
+    <pre class="style1"><code>abstract class PriceCalculator {
+    public abstract double calculatePrice(Order order);
+}
+
+class RegularPriceCalculator extends PriceCalculator {
+    public double calculatePrice(Order order) {
+        return order.getAmount();
+    }
+}
+
+class DiscountPriceCalculator extends PriceCalculator {
+    private final double discount;
+
+    public DiscountPriceCalculator(double discount) {
+        this.discount = discount;
+    }
+
+    public double calculatePrice(Order order) {
+        return order.getAmount() - discount;
+    }
+}
+</code></pre>
+    <h2 class="style1">30. How can following SRP improve collaboration among developers?</h2>
+    <p class="style1"><strong>Answer:</strong> Following SRP improves collaboration by ensuring that each class is focused on a single responsibility, making it easier for different developers to work on separate modules without conflicting or stepping on each other's work.</p>
+    <h2 class="style1">31. What does the term "high cohesion" mean in the context of SOLID?</h2>
+    <p class="style1"><strong>Answer:</strong> High cohesion means that the elements within a class or module are closely related in terms of functionality. In the context of SOLID, high cohesion ensures that a class is focused on a single responsibility (SRP), which makes it easier to maintain and test.</p>
+    <h2 class="style1">32. How can SOLID principles help in reducing technical debt?</h2>
+    <p class="style1"><strong>Answer:</strong> By adhering to SOLID principles, developers can create cleaner, more maintainable code, which reduces the risk of accumulating technical debt. SOLID helps ensure that code is easier to extend, refactor, and modify without breaking existing functionality.</p>
+    <h2 class="style1">33. Can you explain why it's important to avoid tight coupling between classes?</h2>
+    <p class="style1"><strong>Answer:</strong> Tight coupling makes code difficult to maintain, test, and extend. By avoiding tight coupling, we can make the system more modular, flexible, and easier to modify without affecting other parts of the codebase. DIP is a key principle to reduce tight coupling.</p>
+    <h2 class="style1">34. How does the Liskov Substitution Principle (LSP) help with polymorphism?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP ensures that subclasses can be substituted for their parent classes without altering the correctness of the program. This allows polymorphism to work correctly, where objects of different types can be treated uniformly while maintaining expected behavior.</p>
+    <h2 class="style1">35. What role does inheritance play in violating LSP?</h2>
+    <p class="style1"><strong>Answer:</strong> Inheritance can violate LSP when a subclass alters or overrides behaviors in a way that breaks the expectations of the parent class. For example, if a method in the subclass behaves differently than the parent class method, it can lead to unexpected results when the subclass is substituted for the parent.</p>
+    <h2 class="style1">36. Can you provide an example of a class that adheres to ISP?</h2>
+    <p class="style1"><strong>Answer:</strong> A class adhering to ISP will only implement the methods that are relevant to its clients, ensuring that clients do not depend on unnecessary functionality. For example, a Printer interface that has methods for both color and black-and-white printing might be split into two separate interfaces.</p>
+    <pre class="style1"><code>interface ColorPrinter {
+    void printColor(String document);
+}
+
+interface BlackWhitePrinter {
+    void printBlackAndWhite(String document);
+}
+
+class LaserPrinter implements ColorPrinter, BlackWhitePrinter {
+    public void printColor(String document) {
+        // color printing logic
+    }
+
+    public void printBlackAndWhite(String document) {
+        // black-and-white printing logic
+    }
+}
+
+class InkjetPrinter implements ColorPrinter {
+    public void printColor(String document) {
+        // color printing logic
+    }
+}</code></pre>
+    <h2 class="style1">37. How can using dependency injection help in maintaining OCP?</h2>
+    <p class="style1"><strong>Answer:</strong> Dependency injection allows new functionality to be added to a system without changing existing code. By injecting dependencies at runtime, new behavior can be provided without modifying the core logic, thus adhering to OCP.</p>
+    <h2 class="style1">38. How does SOLID promote loose coupling in object-oriented design?</h2>
+    <p class="style1"><strong>Answer:</strong> SOLID principles promote loose coupling by ensuring that classes and modules have clear, focused responsibilities and depend on abstractions rather than concrete implementations. This reduces interdependencies between components and allows them to evolve independently.</p>
+    <h2 class="style1">39. What is the impact of not following LSP in an inheritance-based design?</h2>
+    <p class="style1"><strong>Answer:</strong> Not following LSP in an inheritance-based design can lead to unexpected behavior and bugs, as subclasses might not fulfill the contract established by the parent class. This can break polymorphism and lead to runtime errors when objects are substituted.</p>
+    <h2 class="style1">40. How can the Open/Closed Principle (OCP) be applied in a payment processing system?</h2>
+    <p class="style1"><strong>Answer:</strong> OCP can be applied in a payment processing system by defining a base class or interface for payment methods. New payment methods can be added by creating new classes that implement the payment interface, rather than modifying the existing code.</p>
+    <pre class="style1"><code>interface PaymentMethod {
+    void processPayment(double amount);
+}
+
+class CreditCardPayment implements PaymentMethod {
+    public void processPayment(double amount) {
+        // Credit card payment processing logic
+    }
+}
+
+class PayPalPayment implements PaymentMethod {
+    public void processPayment(double amount) {
+        // PayPal payment processing logic
+    }
+}
+
+class PaymentProcessor {
+    private PaymentMethod paymentMethod;
+
+    public PaymentProcessor(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public void process(double amount) {
+        paymentMethod.processPayment(amount);
+    }
+}</code></pre>
+    <p class="style1">&nbsp;</p>
+    <h2 class="style1">41. How does applying DIP allow for easier testing of a class?</h2>
+    <p class="style1"><strong>Answer:</strong> By depending on abstractions rather than concrete implementations, DIP makes it easier to mock or stub dependencies in unit tests. This allows classes to be tested in isolation, ensuring that tests are focused and more reliable.</p>
+    <h2 class="style1">42. What is an example of a violation of the Single Responsibility Principle (SRP)?</h2>
+    <p class="style1"><strong>Answer:</strong> A violation of SRP occurs when a class has multiple responsibilities. For example, a class that handles both user authentication and database operations is violating SRP because it has more than one reason to change.</p>
+    <pre class="style1"><code>class UserService {
+    public void authenticateUser(User user) {
+        // Authentication logic
+    }
+
+    public void saveUser(User user) {
+        // Database logic
+    }
+}</code></pre>
+    <p class="style1">To adhere to SRP, the responsibilities should be split into separate classes: one for authentication and another for database operations.</p>
+    <h2 class="style1">43. How can the Open/Closed Principle (OCP) be used to extend a shipping system?</h2>
+    <p class="style1"><strong>Answer:</strong> OCP can be used by defining a common interface for shipping methods and extending it with new classes. When new shipping methods are introduced, new classes can be added without modifying the existing shipping system.</p>
+    <pre class="style1"><code>interface ShippingMethod {
+    double calculateShippingCost(Order order);
+}
+
+class GroundShipping implements ShippingMethod {
+    public double calculateShippingCost(Order order) {
+        return 5.0; // Fixed cost for ground shipping
+    }
+}
+
+class AirShipping implements ShippingMethod {
+    public double calculateShippingCost(Order order) {
+        return 15.0; // Fixed cost for air shipping
+    }
+}</code></pre>
+    <h2 class="style1">44. How can SOLID principles help in creating a more scalable system?</h2>
+    <p class="style1"><strong>Answer:</strong> SOLID principles help create more scalable systems by ensuring that the code is modular, maintainable, and flexible. By following SOLID, we can easily add new features, change implementations, and scale the system without disrupting existing functionality.</p>
+    <h2 class="style1">45. How does the Liskov Substitution Principle (LSP) support inheritance in object-oriented programming?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP supports inheritance by ensuring that subclasses can replace their base class without altering the expected behavior of the system. It ensures that subclasses do not violate the contract of the parent class, maintaining the integrity of the object-oriented design.</p>
+    <h2 class="style1">46. Can you give an example of a scenario where DIP helps in decoupling components?</h2>
+    <p class="style1"><strong>Answer:</strong> DIP helps in decoupling components by ensuring that high-level modules depend on abstractions instead of low-level modules. For example, in a messaging system, the high-level notification service can depend on an abstraction for sending messages, while the low-level implementation can vary (e.g., email, SMS, push notifications).</p>
+    <pre class="style1"><code>interface MessageService {
+    void sendMessage(String message);
+}
+
+class EmailService implements MessageService {
+    public void sendMessage(String message) {
+        // Email sending logic
+    }
+}
+
+class SmsService implements MessageService {
+    public void sendMessage(String message) {
+        // SMS sending logic
+    }
+}
+
+class NotificationService {
+    private final MessageService messageService;
+
+    public NotificationService(MessageService messageService) {
+        this.messageService = messageService;
+    }
+
+    public void sendNotification(String message) {
+        messageService.sendMessage(message);
+    }
+}</code></pre>
+    <h2 class="style1">47. How can adhering to SRP improve code readability?</h2>
+    <p class="style1"><strong>Answer:</strong> By ensuring that each class has only one responsibility, the code becomes easier to read and understand. Developers can quickly grasp the purpose of a class and how it fits into the overall system, leading to better collaboration and easier maintenance.</p>
+    <h2 class="style1">48. How does OCP help in reducing the risk of introducing bugs when adding new features?</h2>
+    <p class="style1"><strong>Answer:</strong> OCP helps reduce the risk of bugs by allowing new features to be added without modifying existing code. This means that existing functionality remains intact, and changes are made in new, separate classes or modules, reducing the risk of unintended side effects.</p>
+    <h2 class="style1">49. How does applying LSP promote code reuse in object-oriented systems?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP promotes code reuse by ensuring that subclasses can be used interchangeably with their parent classes without breaking functionality. This allows for more general-purpose code and reusable components, improving the maintainability and scalability of the system.</p>
+    <h2 class="style1">50. How can DIP be used to decouple database access from business logic?</h2>
+    <p class="style1"><strong>Answer:</strong> DIP can decouple database access from business logic by using interfaces or abstract classes. The business logic can depend on an abstraction for database operations, while the actual database implementation (e.g., SQL, NoSQL) is injected at runtime. This allows for easier testing and modification of the database layer without affecting the business logic.</p>
+    <pre class="style1"><code>interface UserRepository {
+    void save(User user);
+}
+
+class JdbcUserRepository implements UserRepository {
+    public void save(User user) {
+        // JDBC logic to save user to database
+    }
+}
+
+class UserService {
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public void createUser(User user) {
+        userRepository.save(user);
+    }
+}</code></pre>
+    <p class="style1">&nbsp;</p>
+    <h2 class="style1">51. How does the Dependency Inversion Principle (DIP) contribute to creating a flexible architecture?</h2>
+    <p class="style1"><strong>Answer:</strong> DIP contributes to flexibility by ensuring that high-level modules do not depend on low-level modules but both depend on abstractions. This allows you to easily swap out implementations of dependencies without affecting the high-level logic, thus promoting a more adaptable and modular system.</p>
+    <h2 class="style1">52. Why is the Interface Segregation Principle (ISP) crucial for preventing feature bloat?</h2>
+    <p class="style1"><strong>Answer:</strong> ISP helps prevent feature bloat by ensuring that clients only depend on interfaces that are relevant to them. By splitting large interfaces into smaller ones, classes are only forced to implement the methods they need, leading to simpler and more focused designs.</p>
+    <h2 class="style1">53. Can you provide an example where applying SRP leads to a better design?</h2>
+    <p class="style1"><strong>Answer:</strong> By separating concerns into distinct classes, SRP leads to more maintainable code. For example, in a reporting system, separating data fetching, report formatting, and report generation into different classes ensures that each class has a single responsibility and can be modified independently.</p>
+    <pre class="style1"><code>class DataFetcher {
+    public List<Data> fetchData() {
+        // Logic to fetch data
+        return new ArrayList<>();
+    }
+}
+
+class ReportFormatter {
+    public String formatReport(List<Data> data) {
+        // Logic to format data into a report
+        return "Formatted Report";
+    }
+}
+
+class ReportGenerator {
+    private final DataFetcher dataFetcher;
+    private final ReportFormatter reportFormatter;
+
+    public ReportGenerator(DataFetcher dataFetcher, ReportFormatter reportFormatter) {
+        this.dataFetcher = dataFetcher;
+        this.reportFormatter = reportFormatter;
+    }
+
+    public void generateReport() {
+        List<Data> data = dataFetcher.fetchData();
+        String report = reportFormatter.formatReport(data);
+        System.out.println(report);
+    }
+}</code></pre>
+    <h2 class="style1">54. What is the difference between OCP and DIP in terms of code modification?</h2>
+    <p class="style1"><strong>Answer:</strong> OCP is about allowing code to be extended without modification, while DIP focuses on ensuring that high-level modules depend on abstractions rather than concrete classes. Both principles work together to allow systems to evolve without breaking existing functionality, but OCP is more about extending code, and DIP is about decoupling dependencies.</p>
+    <h2 class="style1">55. How does adhering to SOLID principles improve code reusability?</h2>
+    <p class="style1"><strong>Answer:</strong> SOLID principles promote the creation of smaller, more focused, and decoupled classes that can be reused in different contexts. By adhering to SOLID, classes and modules are designed to have well-defined responsibilities, making them more easily adaptable and reusable across different parts of the system.</p>
+    <h2 class="style1">56. Can you give an example of applying DIP to a payment processing system?</h2>
+    <p class="style1"><strong>Answer:</strong> DIP can be applied to a payment processing system by defining a payment gateway abstraction and allowing different payment processors to implement that abstraction. This allows the system to switch between different payment processors (e.g., Stripe, PayPal) without changing the core payment logic.</p>
+    <pre class="style1"><code>interface PaymentGateway {
+    void processPayment(double amount);
+}
+
+class StripePaymentGateway implements PaymentGateway {
+    public void processPayment(double amount) {
+        // Stripe payment logic
+    }
+}
+
+class PayPalPaymentGateway implements PaymentGateway {
+    public void processPayment(double amount) {
+        // PayPal payment logic
+    }
+}
+
+class PaymentProcessor {
+    private final PaymentGateway paymentGateway;
+
+    public PaymentProcessor(PaymentGateway paymentGateway) {
+        this.paymentGateway = paymentGateway;
+    }
+
+    public void process(double amount) {
+        paymentGateway.processPayment(amount);
+    }
+}</code></pre>
+    <h2 class="style1">57. How can you ensure that a system is open for extension but closed for modification in a reporting system?</h2>
+    <p class="style1"><strong>Answer:</strong> To make the system open for extension but closed for modification, you can define a base class or interface for report generation and allow new report types to be added through subclasses or implementations. This way, new report types can be introduced without modifying existing code.</p>
+    <pre class="style1"><code>interface Report {
+    void generateReport();
+}
+
+class SalesReport implements Report {
+    public void generateReport() {
+        // Logic to generate sales report
+    }
+}
+
+class InventoryReport implements Report {
+    public void generateReport() {
+        // Logic to generate inventory report
+    }
+}
+
+class ReportGenerator {
+    private final Report report;
+
+    public ReportGenerator(Report report) {
+        this.report = report;
+    }
+
+    public void generate() {
+        report.generateReport();
+    }
+}</code></pre>
+    <h2 class="style1">58. How does SRP help in minimizing the impact of changes in a system?</h2>
+    <p class="style1"><strong>Answer:</strong> By ensuring that each class has only one responsibility, SRP minimizes the impact of changes by confining the changes to a specific part of the system. This makes it easier to modify and extend the system without unintended consequences.</p>
+    <h2 class="style1">59. Can you provide an example of violating ISP and its consequences?</h2>
+    <p class="style1"><strong>Answer:</strong> Violating ISP occurs when a class is forced to implement methods that are not relevant to it. For example, a class implementing a `Document` interface might also be required to implement a `Print` method, even though it doesn’t need it. This forces unnecessary code into the class and violates the principle of focusing only on relevant behavior.</p>
+    <pre class="style1"><code>interface Document {
+    void save();
+    void print();
+}
+
+class TextDocument implements Document {
+    public void save() {
+        // Save document logic
+    }
+
+    public void print() {
+        // Printing logic
+    }
+}
+
+class ImageDocument implements Document {
+    public void save() {
+        // Save image logic
+    }
+
+    // Violates ISP by forcing an image document to implement a print method
+    public void print() {
+        throw new UnsupportedOperationException();
+    }
+}</code></pre>
+    <h2 class="style1">60. How does LSP ensure that subclasses maintain the behavior of their parent classes?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP ensures that subclasses can be used as replacements for their parent classes without changing the expected behavior. This means that any method or functionality that uses the parent class can continue to work correctly with any subclass, promoting safe substitution and preventing unintended side effects.</p>
+    <p class="style1">&nbsp;</p>
+    <h2 class="style1">61. How do SOLID principles help in improving maintainability of the codebase?</h2>
+    <p class="style1"><strong>Answer:</strong> SOLID principles improve maintainability by promoting separation of concerns, reducing dependencies, and ensuring that classes and modules are responsible for only one thing. This makes it easier to understand, test, modify, and extend the codebase with fewer side effects.</p>
+    <h2 class="style1">62. How can applying DIP lead to decoupling in a system?</h2>
+    <p class="style1"><strong>Answer:</strong> By depending on abstractions rather than concrete implementations, DIP decouples high-level modules from low-level modules. This allows developers to replace or modify low-level components without changing the high-level logic, thus decoupling the system's various parts.</p>
+    <h2 class="style1">63. Can you give an example where LSP would fail in a payment system?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP would fail if a subclass, say `CreditCardPayment`, overrides a method from a parent `Payment` class in a way that breaks its expected behavior. For instance, if the parent `Payment` class expects a method to process payments and the subclass throws an exception for certain inputs, it would violate LSP because the subclass would no longer be substitutable for the parent class.</p>
+    <pre class="style1"><code>class Payment {
+    public void processPayment(double amount) {
+        // Logic to process payment
+    }
+}
+
+class CreditCardPayment extends Payment {
+    @Override
+    public void processPayment(double amount) {
+        if (amount < 0) throw new IllegalArgumentException("Amount cannot be negative");
+        // Credit card processing logic
+    }
+}
+
+// This violates LSP because CreditCardPayment throws an exception for negative amounts while Payment does not</code></pre>
+    <h2 class="style1">64. How does the Open/Closed Principle (OCP) relate to polymorphism?</h2>
+    <p class="style1"><strong>Answer:</strong> OCP encourages the use of polymorphism by enabling you to extend behavior through inheritance or interfaces without changing existing code. This allows you to introduce new behavior through new subclasses or implementations without modifying existing code, following the open for extension, closed for modification concept.</p>
+    <h2 class="style1">65. What are the key benefits of adhering to the SOLID principles in large-scale enterprise systems?</h2>
+    <p class="style1"><strong>Answer:</strong> The key benefits include better scalability, easier maintenance, flexibility in extending features, reduced risk of introducing bugs, and more testable and modular components. Adhering to SOLID allows large-scale systems to grow and evolve with fewer issues over time.</p>
+    <h2 class="style1">66. How does ISP help in reducing unnecessary dependencies between classes?</h2>
+    <p class="style1"><strong>Answer:</strong> ISP helps reduce unnecessary dependencies by ensuring that classes are only forced to implement methods relevant to them. This prevents classes from being dependent on methods they don't use and minimizes coupling, leading to a more efficient and maintainable system.</p>
+    <h2 class="style1">67. Can you explain how applying OCP can make a system more scalable?</h2>
+    <p class="style1"><strong>Answer:</strong> By following OCP, new functionality can be added to a system without modifying existing code. This makes it easier to scale the system by introducing new features or behaviors via extensions or new subclasses, avoiding the risk of breaking existing functionality.</p>
+    <h2 class="style1">68. How does SRP ensure that changes are isolated to a specific part of the code?</h2>
+    <p class="style1"><strong>Answer:</strong> SRP ensures that each class is responsible for only one aspect of the system's functionality, meaning that changes to one responsibility will not affect other parts of the system. This isolation of concerns makes changes easier to manage and reduces the risk of unintended side effects.</p>
+    <h2 class="style1">69. How does applying the Open/Closed Principle (OCP) to a notification system improve its extensibility?</h2>
+    <p class="style1"><strong>Answer:</strong> In a notification system, OCP allows you to add new types of notifications (e.g., email, SMS, push notifications) by creating new subclasses or implementing new classes that extend the base notification functionality. Existing notification types and the overall system remain unchanged, making it easy to add new features without modifying the core system.</p>
+    <pre class="style1"><code>interface Notification {
+    void send(String message);
+}
+
+class EmailNotification implements Notification {
+    public void send(String message) {
+        // Logic to send email
+    }
+}
+
+class SMSNotification implements Notification {
+    public void send(String message) {
+        // Logic to send SMS
+    }
+}
+
+class NotificationService {
+    private final Notification notification;
+
+    public NotificationService(Notification notification) {
+        this.notification = notification;
+    }
+
+    public void sendNotification(String message) {
+        notification.send(message);
+    }
+}</code></pre>
+    <h2 class="style1">70. Can you provide an example of violating DIP in a simple calculator system?</h2>
+    <p class="style1"><strong>Answer:</strong> Violating DIP would mean that a high-level class, such as `Calculator`, directly depends on low-level classes like `Addition` or `Subtraction` rather than depending on abstractions (interfaces). This would result in tight coupling and make it difficult to extend or change the calculator's functionality.</p>
+    <pre class="style1"><code>class Calculator {
+    private Addition addition;
+    private Subtraction subtraction;
+
+    public Calculator() {
+        this.addition = new Addition();
+        this.subtraction = new Subtraction();
+    }
+
+    public int calculate(String operation, int a, int b) {
+        if ("add".equals(operation)) {
+            return addition.add(a, b);
+        } else if ("subtract".equals(operation)) {
+            return subtraction.subtract(a, b);
+        }
+        return 0;
+    }
+}
+
+class Addition {
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+
+class Subtraction {
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+}</code></pre>
+    <p class="style1">&nbsp;</p>
+    <h2 class="style1">71. How can applying the SOLID principles improve the testing process?</h2>
+    <p class="style1"><strong>Answer:</strong> By adhering to SOLID principles, the system becomes more modular, making it easier to isolate and test individual components. Each class and method becomes more focused on a single responsibility, and dependencies are minimized, allowing for more straightforward unit testing and better test coverage.</p>
+    <h2 class="style1">72. What is an example of breaking LSP in an inventory system?</h2>
+    <p class="style1"><strong>Answer:</strong> In an inventory system, breaking LSP could occur if a subclass of `Product` overrides a method in such a way that it doesn't adhere to the expected behavior. For example, if `Product` has a `getPrice()` method that returns a positive value, but a subclass overrides it to return a negative value in some cases, this would violate LSP.</p>
+    <pre class="style1"><code>class Product {
+    public double getPrice() {
+        return 100.0;
+    }
+}
+
+class DiscountedProduct extends Product {
+    @Override
+    public double getPrice() {
+        return -50.0; // This breaks LSP
+    }
+}</code></pre>
+    <h2 class="style1">73. Can you explain how to apply the Open/Closed Principle in a logging system?</h2>
+    <p class="style1"><strong>Answer:</strong> In a logging system, OCP can be applied by creating an abstract `Logger` class or interface and extending it for different types of logging (e.g., `FileLogger`, `ConsoleLogger`, `DatabaseLogger`). This allows new loggers to be added without modifying the existing system.</p>
+    <pre class="style1"><code>interface Logger {
+    void log(String message);
+}
+
+class FileLogger implements Logger {
+    public void log(String message) {
+        // Write message to a file
+    }
+}
+
+class ConsoleLogger implements Logger {
+    public void log(String message) {
+        // Print message to console
+    }
+}</code></pre>
+    <h2 class="style1">74. How does SRP relate to refactoring code?</h2>
+    <p class="style1"><strong>Answer:</strong> SRP helps identify areas in the code that have more than one responsibility, which can be refactored into separate classes or modules. By doing so, it reduces the complexity of individual components and makes them easier to maintain and extend.</p>
+    <h2 class="style1">75. What is an example of violating ISP in a system with different types of payment methods?</h2>
+    <p class="style1"><strong>Answer:</strong> Violating ISP would occur if a payment interface forces classes that implement it to provide methods that they don't need. For instance, if the `PaymentMethod` interface includes methods like `refund()` for credit card payments, but a `PayPalPayment` class doesn't require a refund method, it would violate ISP.</p>
+    <pre class="style1"><code>interface PaymentMethod {
+    void processPayment(double amount);
+    void refund(); // Violates ISP for PayPalPayment
+}
+
+class CreditCardPayment implements PaymentMethod {
+    public void processPayment(double amount) {
+        // Process payment
+    }
+
+    public void refund() {
+        // Process refund
+    }
+}
+
+class PayPalPayment implements PaymentMethod {
+    public void processPayment(double amount) {
+        // Process payment
+    }
+
+    public void refund() {
+        throw new UnsupportedOperationException("Refund not supported");
+    }
+}</code></pre>
+    <h2 class="style1">76. How can LSP help ensure that a subclass can replace its parent class in a car rental system?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP ensures that a subclass can replace its parent class without affecting the expected behavior. In a car rental system, if a `Car` class has a method `getFuelEfficiency()`, and a subclass `ElectricCar` overrides it, it should return a valid result (e.g., `getElectricEfficiency()`) and not break the expected behavior of `Car` objects.</p>
+    <h2 class="style1">77. How can the Dependency Inversion Principle help in improving the flexibility of a system?</h2>
+    <p class="style1"><strong>Answer:</strong> DIP improves flexibility by ensuring that high-level modules don't depend on low-level modules but instead depend on abstractions (interfaces). This allows for easier swapping of implementations without changing high-level logic, making it easier to adapt to new requirements or technologies.</p>
+    <h2 class="style1">78. What is the relationship between OCP and inheritance in object-oriented design?</h2>
+    <p class="style1"><strong>Answer:</strong> OCP and inheritance are closely related. Inheritance allows you to extend the behavior of a class without modifying it, which is the essence of OCP. By creating subclasses, you can extend functionality without modifying the base class, ensuring the system remains open for extension but closed for modification.</p>
+    <h2 class="style1">79. Can you provide an example of violating SRP in a logging system?</h2>
+    <p class="style1"><strong>Answer:</strong> Violating SRP in a logging system would occur if a `Logger` class is responsible not only for logging messages but also for managing user authentication. This would violate SRP because the class has more than one responsibility.</p>
+    <pre class="style1"><code>class Logger {
+    public void log(String message) {
+        // Log message
+    }
+
+    public void authenticateUser(String username, String password) {
+        // Authenticate user (violates SRP)
+    }
+}</code></pre>
+    <h2 class="style1">80. How does applying the Open/Closed Principle make it easier to add new features to an application?</h2>
+    <p class="style1"><strong>Answer:</strong> By following OCP, new features can be added through the extension of existing classes or creation of new subclasses, rather than altering existing code. This reduces the risk of breaking existing functionality and makes the system more adaptable to change.</p>
+    <h2 class="style1">81. How does SOLID help in creating code that is easier to refactor?</h2>
+    <p class="style1"><strong>Answer:</strong> SOLID principles help by ensuring that each component of the system has a single responsibility, is open for extension but closed for modification, and depends on abstractions. This makes it easier to refactor because the code is modular, flexible, and less interdependent.</p>
+    <h2 class="style1">82. How would you refactor a system violating SRP by combining multiple responsibilities into one class?</h2>
+    <p class="style1"><strong>Answer:</strong> To refactor a system violating SRP, you would separate the concerns by creating different classes for each responsibility. For instance, if a `UserService` class is handling both user registration and notification sending, you could create separate `UserRegistrationService` and `NotificationService` classes to handle these responsibilities.</p>
+    <pre class="style1"><code>class UserService {
+    private NotificationService notificationService;
+
+    public void registerUser(String username, String password) {
+        // Register user logic
+        notificationService.sendWelcomeEmail(username);
+    }
+}
+
+class NotificationService {
+    public void sendWelcomeEmail(String username) {
+        // Logic to send email
+    }
+}</code></pre>
+    <h2 class="style1">83. How does LSP help ensure that subclasses adhere to the same contract as their parent classes?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP ensures that subclasses adhere to the same contract as their parent classes by guaranteeing that any subclass can be used interchangeably with the parent class without changing the expected behavior of the program. This ensures that the subclass does not break or alter any functionality defined by the parent class.</p>
+    <h2 class="style1">84. Can you provide an example of a class that violates OCP in a reporting system?</h2>
+    <p class="style1"><strong>Answer:</strong> A class violates OCP in a reporting system if it needs to be modified to add new report types instead of allowing for extension. For example, a `ReportGenerator` class that requires changes to add new report formats would violate OCP. Instead, you should create separate classes that extend a base `Report` interface.</p>
+    <pre class="style1"><code>class ReportGenerator {
+    public String generateReport(String type) {
+        if ("pdf".equals(type)) {
+            // Generate PDF report
+        } else if ("html".equals(type)) {
+            // Generate HTML report
+        }
+        return "Report generated";
+    }
+}
+
+// Instead, use OCP by creating subclasses of a Report interface:</code></pre>
+    <h2 class="style1">85. How would applying DIP solve the problem of tightly coupled code?</h2>
+    <p class="style1"><strong>Answer:</strong> Applying DIP would solve the problem of tightly coupled code by ensuring that high-level modules depend on abstractions, not on concrete implementations. This allows low-level modules to change or be replaced without affecting the high-level modules, improving flexibility and reducing coupling.</p>
+    <h2 class="style1">86. How does ISP help improve code by allowing better use of interfaces?</h2>
+    <p class="style1"><strong>Answer:</strong> ISP improves code by ensuring that classes implement only the methods they need. This reduces the number of unused methods in an interface, leading to cleaner, more efficient, and maintainable code, as classes are not forced to depend on methods they don’t need.</p>
+    <h2 class="style1">87. What is a real-world example of violating LSP in a shipping system?</h2>
+    <p class="style1"><strong>Answer:</strong> A real-world example of violating LSP in a shipping system would occur if a `ShippingMethod` class has a `calculateShippingCost()` method, and a subclass `ExpressShipping` overrides this method to return an invalid result (e.g., a negative cost) in certain cases. This would violate LSP because the subclass does not guarantee the same behavior as the parent class.</p>
+    <pre class="style1"><code>class ShippingMethod {
+    public double calculateShippingCost() {
+        return 10.0;
+    }
+}
+
+class ExpressShipping extends ShippingMethod {
+    @Override
+    public double calculateShippingCost() {
+        return -5.0; // This breaks LSP
+    }
+}</code></pre>
+    <h2 class="style1">88. How would you apply OCP in an e-commerce application to add new payment methods?</h2>
+    <p class="style1"><strong>Answer:</strong> To apply OCP in an e-commerce application for new payment methods, you could define a `PaymentMethod` interface with a `processPayment()` method. Then, you can create subclasses for each new payment method (e.g., `CreditCardPayment`, `PayPalPayment`) without modifying the existing payment logic, allowing for easy extension of payment methods.</p>
+    <pre class="style1"><code>interface PaymentMethod {
+    void processPayment(double amount);
+}
+
+class CreditCardPayment implements PaymentMethod {
+    public void processPayment(double amount) {
+        // Process credit card payment
+    }
+}
+
+class PayPalPayment implements PaymentMethod {
+    public void processPayment(double amount) {
+        // Process PayPal payment
+    }
+}</code></pre>
+    <h2 class="style1">89. Can you provide an example of a system where DIP helps in reducing dependencies?</h2>
+    <p class="style1"><strong>Answer:</strong> DIP helps in reducing dependencies in a notification system by ensuring that the `NotificationService` class depends on an abstraction (`Notification` interface) rather than on concrete implementations like `EmailNotification` or `SMSNotification`. This allows the system to easily introduce new notification types without modifying the existing logic.</p>
+    <pre class="style1"><code>interface Notification {
+    void send(String message);
+}
+
+class EmailNotification implements Notification {
+    public void send(String message) {
+        // Send email
+    }
+}
+
+class SMSNotification implements Notification {
+    public void send(String message) {
+        // Send SMS
+    }
+}
+
+class NotificationService {
+    private final Notification notification;
+
+    public NotificationService(Notification notification) {
+        this.notification = notification;
+    }
+
+    public void notify(String message) {
+        notification.send(message);
+    }
+}</code></pre>
+    <h2 class="style1">90. How does SOLID contribute to better system scalability?</h2>
+    <p class="style1"><strong>Answer:</strong> SOLID contributes to system scalability by allowing the system to be more modular, flexible, and easier to extend. By adhering to SOLID principles, you can add new features or components without breaking existing functionality. This promotes the ability to scale the system as new requirements emerge while maintaining its overall stability.</p>
+    <p class="style1">&nbsp;</p>
+    <h2 class="style1">91. How can SRP prevent the modification of unrelated functionality?</h2>
+    <p class="style1"><strong>Answer:</strong> SRP prevents the modification of unrelated functionality by ensuring that a class has only one reason to change. This makes it easier to maintain and extend the system, as changes to one responsibility do not affect others.</p>
+    <h2 class="style1">92. Can you explain how DIP affects code reusability?</h2>
+    <p class="style1"><strong>Answer:</strong> DIP improves code reusability by decoupling high-level modules from low-level modules, allowing for easy swapping of implementations without affecting the entire system. This leads to reusable components that can be mixed and matched based on different requirements.</p>
+    <h2 class="style1">93. How does OCP allow for the addition of new features without breaking existing code?</h2>
+    <p class="style1"><strong>Answer:</strong> OCP allows for the addition of new features by ensuring that the existing code remains closed for modification but open for extension. This means that you can add new functionality through inheritance or composition, without altering the original code.</p>
+    <h2 class="style1">94. What’s an example of violating ISP in an e-commerce application?</h2>
+    <p class="style1"><strong>Answer:</strong> A violation of ISP in an e-commerce application could occur if a `PaymentService` interface forces all implementing classes to support methods that they don’t need. For example, if `CreditCardPayment` is forced to implement `refundPayment()` even though it doesn’t handle refunds.</p>
+    <pre class="style1"><code>interface PaymentService {
+    void processPayment(double amount);
+    void refundPayment(double amount);
+}
+
+class CreditCardPayment implements PaymentService {
+    public void processPayment(double amount) {
+        // Process credit card payment
+    }
+
+    public void refundPayment(double amount) {
+        // Not applicable for credit card, breaks ISP
+    }
+}</code></pre>
+    <h2 class="style1">95. Can you describe how SRP benefits debugging and testing?</h2>
+    <p class="style1"><strong>Answer:</strong> SRP benefits debugging and testing by reducing the complexity of each class. Since each class is responsible for only one thing, it is easier to isolate issues during debugging and testing, and tests are more focused and less prone to side effects.</p>
+    <h2 class="style1">96. How does LSP relate to inheritance and polymorphism in Java?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP is closely related to inheritance and polymorphism in Java because it ensures that subclasses can be used interchangeably with their parent classes without altering the expected behavior. This guarantees that polymorphic behavior is consistent and reliable across the class hierarchy.</p>
+    <h2 class="style1">97. How would you apply OCP to add new shipping methods in a logistics system?</h2>
+    <p class="style1"><strong>Answer:</strong> To apply OCP in a logistics system for new shipping methods, you can define an abstract `ShippingMethod` class or interface and create subclasses for each shipping method (e.g., `GroundShipping`, `AirShipping`). Each new shipping method can then be added without modifying the existing system.</p>
+    <pre class="style1"><code>abstract class ShippingMethod {
+    abstract double calculateShippingCost();
+}
+
+class GroundShipping extends ShippingMethod {
+    double calculateShippingCost() {
+        return 5.0;
+    }
+}
+
+class AirShipping extends ShippingMethod {
+    double calculateShippingCost() {
+        return 15.0;
+    }
+}</code></pre>
+    <h2 class="style1">98. How does SOLID impact code maintainability?</h2>
+    <p class="style1"><strong>Answer:</strong> SOLID impacts code maintainability by encouraging modular, reusable, and easily extendable code. By following SOLID principles, developers can make changes without fear of breaking other parts of the code, ensuring that the system remains adaptable and easy to maintain.</p>
+    <h2 class="style1">99. Can you explain how LSP can be violated in a system with a `Rectangle` class and a `Square` subclass?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP can be violated in a system with a `Rectangle` class and a `Square` subclass if the `Square` class overrides methods in such a way that it does not behave like a `Rectangle`. For example, if `Square` restricts the setting of width and height to be equal, it breaks the substitution principle since a `Square` can no longer be used as a `Rectangle` in polymorphic contexts.</p>
+    <pre class="style1"><code>class Rectangle {
+    protected double width;
+    protected double height;
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getArea() {
+        return width * height;
+    }
+}
+
+class Square extends Rectangle {
+    @Override
+    public void setWidth(double width) {
+        this.width = this.height = width;
+    }
+
+    @Override
+    public void setHeight(double height) {
+        this.width = this.height = height;
+    }
+}</code></pre>
+    <h2 class="style1">100. How does DIP improve testing in Java?</h2>
+    <p class="style1"><strong>Answer:</strong> DIP improves testing in Java by making it easier to mock dependencies in unit tests. Since high-level modules depend on abstractions rather than concrete implementations, you can inject mock dependencies into the system, making it simpler to isolate and test individual components.</p>
+    <p class="style1">&nbsp;</p>
+    <h2 class="style1">101. How does OCP help in reducing regression testing efforts?</h2>
+    <p class="style1"><strong>Answer:</strong> OCP helps reduce regression testing efforts by ensuring that new features are added through extensions, rather than modifications to existing code. This ensures that previously tested code remains untouched, reducing the need for extensive regression tests.</p>
+    <h2 class="style1">102. How would you apply the ISP to a user management system?</h2>
+    <p class="style1"><strong>Answer:</strong> To apply ISP to a user management system, you would design smaller, more specific interfaces for each type of user functionality. For example, instead of having a single `UserActions` interface with methods for both managing users and handling authentication, you could separate them into `UserManagement` and `Authentication` interfaces.</p>
+    <pre class="style1"><code>interface UserManagement {
+    void createUser();
+    void deleteUser();
+}
+
+interface Authentication {
+    void login();
+    void logout();
+}</code></pre>
+    <h2 class="style1">103. Can you explain the relation between SOLID principles and refactoring?</h2>
+    <p class="style1"><strong>Answer:</strong> SOLID principles encourage clean, modular, and flexible code, which makes refactoring easier. Refactoring is the process of improving the internal structure of code without changing its external behavior. SOLID principles provide a clear structure, which reduces the risk of introducing bugs during refactoring.</p>
+    <h2 class="style1">104. How does SRP relate to the concept of "high cohesion" in classes?</h2>
+    <p class="style1"><strong>Answer:</strong> SRP encourages high cohesion in classes by ensuring that each class has only one reason to change. This leads to better organization, with all methods and properties within a class being closely related, improving maintainability and readability.</p>
+    <h2 class="style1">105. What are some challenges you might face when implementing DIP in a legacy codebase?</h2>
+    <p class="style1"><strong>Answer:</strong> Implementing DIP in a legacy codebase can be challenging due to tight coupling between high-level and low-level modules. You may need to refactor large portions of the code to introduce abstractions and interfaces, which can be time-consuming and error-prone. Additionally, there may be resistance from developers who are used to the existing design.</p>
+    <h2 class="style1">106. Can you describe a situation where violating OCP leads to maintenance problems?</h2>
+    <p class="style1"><strong>Answer:</strong> Violating OCP can lead to maintenance problems when a change in a single requirement forces modifications to multiple parts of the code. For instance, if you need to add a new discount method in a billing system, and the existing code forces you to modify multiple classes directly, it becomes error-prone and difficult to maintain.</p>
+    <h2 class="style1">107. What’s the difference between an interface and an abstract class in relation to DIP?</h2>
+    <p class="style1"><strong>Answer:</strong> The difference lies in the level of abstraction. An interface provides a contract for behavior without any implementation, allowing for more flexibility when applying DIP. An abstract class can provide partial implementation but may limit flexibility compared to interfaces, especially if you need to change the implementation in the future.</p>
+    <h2 class="style1">108. How can LSP ensure correct behavior when extending classes?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP ensures correct behavior when extending classes by making sure that the subclass can be substituted for the parent class without altering the expected behavior. This means that the subclass should fulfill the same contract as the parent class, ensuring that it behaves correctly when used in polymorphic contexts.</p>
+    <h2 class="style1">109. How does applying SOLID principles improve collaboration among developers?</h2>
+    <p class="style1"><strong>Answer:</strong> Applying SOLID principles improves collaboration by making code more modular and understandable. When classes follow SOLID principles, it’s easier for multiple developers to work on different parts of the system without stepping on each other’s toes. It also becomes easier to review, test, and extend the code.</p>
+    <h2 class="style1">110. How can SRP help avoid the "god class" anti-pattern?</h2>
+    <p class="style1"><strong>Answer:</strong> SRP helps avoid the "god class" anti-pattern by ensuring that a class has a single responsibility, making it focused and manageable. This reduces the risk of a class becoming overly complex and taking on multiple unrelated responsibilities, which can make the code difficult to maintain and understand.</p>
+    <h2 class="style1">111. How can the Dependency Injection pattern be used to follow DIP?</h2>
+    <p class="style1"><strong>Answer:</strong> The Dependency Injection (DI) pattern follows DIP by decoupling the class dependencies from the class itself. Instead of a class creating its own dependencies, the dependencies are provided (injected) from the outside, usually via constructors, setters, or interfaces, which ensures high-level modules are not dependent on low-level modules.</p>
+    <h2 class="style1">112. Can you explain how a factory method can be used to respect OCP?</h2>
+    <p class="style1"><strong>Answer:</strong> A factory method respects OCP by allowing new product types to be introduced without modifying existing code. By using a factory method, the creation of new objects is centralized, and subclasses can define new products without altering the client code, adhering to the open/closed principle.</p>
+    <pre class="style1"><code>interface Product {
+    void doSomething();
+}
+
+class ConcreteProductA implements Product {
+    public void doSomething() {
+        System.out.println("Product A");
+    }
+}
+
+class ConcreteProductB implements Product {
+    public void doSomething() {
+        System.out.println("Product B");
+    }
+}
+
+class ProductFactory {
+    public static Product createProduct(String type) {
+        if (type.equals("A")) {
+            return new ConcreteProductA();
+        } else {
+            return new ConcreteProductB();
+        }
+    }
+}</code></pre>
+    <h2 class="style1">113. How can LSP be violated in a class hierarchy?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP can be violated if a subclass changes or overrides the behavior of a superclass in a way that breaks the expected functionality. For example, if a `Bird` class has a method `fly()`, and a `Penguin` subclass overrides it by throwing an exception instead of implementing a valid `fly()` behavior, this would violate LSP.</p>
+    <pre class="style1"><code>class Bird {
+    void fly() {
+        System.out.println("Flying");
+    }
+}
+
+class Penguin extends Bird {
+    @Override
+    void fly() {
+        throw new UnsupportedOperationException("Penguins can't fly!");
+    }
+}</code></pre>
+    <h2 class="style1">114. What is the impact of applying SOLID principles on performance?</h2>
+    <p class="style1"><strong>Answer:</strong> Applying SOLID principles can lead to a more maintainable and scalable codebase, but it may introduce a slight overhead due to the use of interfaces, abstraction layers, or additional classes. However, the benefits in terms of readability, flexibility, and testability typically outweigh any performance trade-offs in most applications.</p>
+    <h2 class="style1">115. How does DIP affect the ease of unit testing?</h2>
+    <p class="style1"><strong>Answer:</strong> DIP makes unit testing easier by ensuring that high-level modules depend on abstractions, which can be easily mocked or stubbed in tests. This allows for isolated testing of components without the need for complex real-world dependencies.</p>
+    <h2 class="style1">116. How can ISP be applied to a payment system that handles credit card and PayPal transactions?</h2>
+    <p class="style1"><strong>Answer:</strong> ISP can be applied by creating separate interfaces for credit card and PayPal payment processing. Each interface would include only the methods relevant to the specific payment method, ensuring that classes do not have to implement methods they don’t need.</p>
+    <pre class="style1"><code>interface CreditCardPayment {
+    void processCreditCardPayment(double amount);
+}
+
+interface PayPalPayment {
+    void processPayPalPayment(double amount);
+}</code></pre>
+    <h2 class="style1">117. How would you handle changes in business logic without violating OCP?</h2>
+    <p class="style1"><strong>Answer:</strong> To handle changes in business logic without violating OCP, you can introduce new classes or modules to extend the existing functionality. For example, if a discount rule changes, instead of modifying the existing discount calculation logic, create new subclasses or strategy classes that implement the new rules.</p>
+    <h2 class="style1">118. Can you explain how LSP can improve code robustness?</h2>
+    <p class="style1"><strong>Answer:</strong> LSP improves code robustness by ensuring that subclasses can replace base classes without introducing unexpected behavior. This ensures that polymorphic code behaves as expected, making the system more predictable and reducing the risk of errors when new subclasses are introduced.</p>
+    <h2 class="style1">119. What is the role of SRP in reducing the risk of breaking changes?</h2>
+    <p class="style1"><strong>Answer:</strong> SRP reduces the risk of breaking changes by ensuring that classes have a single responsibility and thus only one reason to change. When a class only handles one aspect of the system, changes in other areas of the system are less likely to affect it, reducing the risk of introducing bugs.</p>
+    <h2 class="style1">120. How does following SOLID principles help in long-term software maintenance?</h2>
+    <p class="style1"><strong>Answer:</strong> Following SOLID principles helps in long-term software maintenance by creating a flexible, modular, and easy-to-understand codebase. As requirements change or new features are added, SOLID principles make it easier to extend or modify the system without causing disruptions, leading to reduced maintenance costs over time.</p>
 </body>
 </html>

@@ -3,11 +3,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Untitled Document</title>
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+-->
+</style>
 </head>
 
 <body>
-<h1>Thread States &amp; Lifecycle - Q&amp;A Set 1</h1>
-<ol>
+<h1 class="style1">Thread States &amp; Lifecycle - Q&amp;A Set 1</h1>
+<ol class="style1">
   <li> <strong>What are the different states of a thread in Java?</strong><br />
     A thread in Java can be in one of the following states:<br />
     <ul>
@@ -89,9 +94,9 @@ myThread.join(); // The main thread waits for myThread to finish
             </pre>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Thread States &amp; Lifecycle - Q&amp;A Set 2</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Thread States &amp; Lifecycle - Q&amp;A Set 2</h1>
+<ol class="style1">
   <li> <strong>What is the initial state of a thread when created?</strong><br />
     When a thread is created but not yet started, it is in the <code>New</code> state. It remains in this state until the <code>start()</code> method is invoked.
     <pre>
@@ -159,10 +164,10 @@ Thread.sleep(3000); // Puts the thread into Timed Waiting for 3 seconds
   <li> <strong>How does a thread move to the <code>Terminated</code> state?</strong><br />
     A thread reaches the <code>Terminated</code> state when its <code>run()</code> method completes or when it is terminated by an external interruption. </li>
 </ol>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1>Thread States &amp; Lifecycle - Q&amp;A Set 3</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Thread States &amp; Lifecycle - Q&amp;A Set 3</h1>
+<ol class="style1">
   <li> <strong>What is the difference between <code>sleep()</code> and <code>wait()</code> in Java?</strong><br />
     - <code>sleep()</code>: Causes the current thread to pause for a specified time, releasing the CPU but not the lock.<br />
     - <code>wait()</code>: Causes the current thread to release the lock and enter the <code>Waiting</code> state, waiting for another thread to call <code>notify()</code> or <code>notifyAll()</code>.
@@ -267,9 +272,9 @@ System.out.println(thread.getState()); // Prints the current state of the thread
             </pre>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Thread States &amp; Lifecycle - Q&amp;A Set 4</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Thread States &amp; Lifecycle - Q&amp;A Set 4</h1>
+<ol class="style1">
   <li> <strong>What is the difference between <code>Thread.sleep()</code> and <code>Object.wait()</code>?</strong><br />
     - <code>Thread.sleep()</code> pauses the execution of the current thread for a specified period, but it does not release any locks.<br />
     - <code>Object.wait()</code> releases the lock and causes the thread to enter the <code>Waiting</code> state until it is notified.
@@ -370,9 +375,9 @@ daemonThread.start();
             </pre>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Thread States &amp; Lifecycle - Q&amp;A Set 5</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Thread States &amp; Lifecycle - Q&amp;A Set 5</h1>
+<ol class="style1">
   <li> <strong>What is the difference between <code>Thread.join()</code> and <code>Thread.sleep()</code>?</strong><br />
     - <code>Thread.join()</code> allows the current thread to wait for the completion of the thread on which it was called.<br />
     - <code>Thread.sleep()</code> causes the current thread to pause for a specified amount of time.
@@ -476,8 +481,8 @@ System.out.println(thread.getState()); // Prints RUNNABLE or other state during 
             </pre>
   </li>
 </ol>
-<h1>Thread States &amp; Lifecycle - Q&amp;A Set 6</h1>
-<ol>
+<h1 class="style1">Thread States &amp; Lifecycle - Q&amp;A Set 6</h1>
+<ol class="style1">
   <li> <strong>What is the <code>NEW</code> state in thread lifecycle?</strong><br />
     The <code>NEW</code> state is the initial state of a thread before the <code>start()</code> method is invoked. In this state, the thread is not yet alive.
     <pre>
@@ -581,8 +586,8 @@ thread.start();
             </pre>
   </li>
 </ol>
-<h1>Thread States &amp; Lifecycle - Q&amp;A Set 7</h1>
-<ol>
+<h1 class="style1">Thread States &amp; Lifecycle - Q&amp;A Set 7</h1>
+<ol class="style1">
   <li> <strong>What is the difference between <code>Thread.sleep()</code> and <code>Thread.join()</code>?</strong><br />
       <code>Thread.sleep()</code> pauses the current thread for a specified duration, while <code>Thread.join()</code> makes the calling thread wait for the completion of another thread before proceeding.
     <pre>
@@ -685,9 +690,9 @@ System.out.println(thread.isAlive()); // Returns true if the thread is still run
             </pre>
   </li>
 </ol>
-<p>&nbsp;</p>
-<h1>Thread States &amp; Lifecycle - Q&amp;A Set 8</h1>
-<ol>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Thread States &amp; Lifecycle - Q&amp;A Set 8</h1>
+<ol class="style1">
   <li> <strong>What is the <code>BLOCKED</code> state in thread lifecycle?</strong><br />
     A thread enters the <code>BLOCKED</code> state when it is trying to acquire a lock that another thread is currently holding. Once the lock becomes available, the thread moves back to the <code>RUNNABLE</code> state.
     <pre>
@@ -798,8 +803,8 @@ synchronized (lock) {
             </pre>
   </li>
 </ol>
-<h1>Thread States &amp; Lifecycle - Q&amp;A Set 9</h1>
-<ol>
+<h1 class="style1">Thread States &amp; Lifecycle - Q&amp;A Set 9</h1>
+<ol class="style1">
   <li> <strong>What happens if you call <code>Thread.join()</code>?</strong><br />
     The <code>join()</code> method allows one thread to wait for the completion of another thread. The calling thread will be blocked until the target thread finishes its execution.
     <pre>
@@ -922,8 +927,8 @@ executor.shutdown(); // Shutdown the pool when done
             </pre>
   </li>
 </ol>
-<h1>Thread States &amp; Lifecycle - Q&amp;A Set 10</h1>
-<ol>
+<h1 class="style1">Thread States &amp; Lifecycle - Q&amp;A Set 10</h1>
+<ol class="style1">
   <li> <strong>What is a daemon thread?</strong><br />
     A daemon thread is a background thread that does not prevent the JVM from exiting. It runs in the background and is automatically terminated when all non-daemon threads finish their execution.
     <pre>
@@ -1044,20 +1049,20 @@ thread.run(); // Does not create a new thread, executes in the current thread
             </pre>
   </li>
 </ol>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
 </body>
 </html>

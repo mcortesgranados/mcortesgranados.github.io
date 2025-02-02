@@ -24,65 +24,63 @@
             font-family: monospace;
             border-radius: 5px;
         }
+    .style1 {font-family: Arial, Helvetica, sans-serif}
+.style2 {margin-bottom: 30px; font-family: Arial, Helvetica, sans-serif; }
+.style3 {padding: 10px; border-radius: 5px; background-color: #f4f4f4;}
+.style4 {padding: 10px; border-radius: 5px; background-color: #f4f4f4;}
+.style5 {padding: 10px; border-radius: 5px; background-color: #f4f4f4;}
+.style6 {padding: 10px; border-radius: 5px; background-color: #f4f4f4;}
+.style7 {padding: 10px; border-radius: 5px; background-color: #f4f4f4;}
+.style8 {padding: 10px; border-radius: 5px; background-color: #f4f4f4;}
+.style9 {padding: 10px; border-radius: 5px; background-color: #f4f4f4;}
+.style10 {padding: 10px; border-radius: 5px; background-color: #f4f4f4;}
+.style11 {padding: 10px; border-radius: 5px; background-color: #f4f4f4;}
     </style>
 </head>
 <body>
-<h1>Hibernate & Lazy/Eager Loading - Questions and Answers</h1>
+<h1 class="style1">Hibernate & Lazy/Eager Loading - Questions and Answers</h1>
 
-    <div class="question-set">
+    <div class="style2">
       <h2>Set 1</h2>
         <div class="question">
-            1. What is Hibernate and how does it relate to Lazy and Eager Loading?
-      </div>
+            1. What is Hibernate and how does it relate to Lazy and Eager Loading?      </div>
         <div class="answer">
-            Hibernate is an ORM (Object-Relational Mapping) framework that facilitates the conversion between Java objects and relational database tables. Lazy and Eager Loading are strategies used to control the fetching of related entities in Hibernate.
-      </div>
+            Hibernate is an ORM (Object-Relational Mapping) framework that facilitates the conversion between Java objects and relational database tables. Lazy and Eager Loading are strategies used to control the fetching of related entities in Hibernate.      </div>
 
         <div class="question">
-            2. What is Lazy Loading in Hibernate?
-      </div>
+            2. What is Lazy Loading in Hibernate?      </div>
         <div class="answer">
-            Lazy Loading in Hibernate means that related entities are fetched only when they are accessed for the first time. This improves performance by avoiding unnecessary database queries.
-      </div>
+            Lazy Loading in Hibernate means that related entities are fetched only when they are accessed for the first time. This improves performance by avoiding unnecessary database queries.      </div>
 
         <div class="question">
-            3. What is Eager Loading in Hibernate?
-      </div>
+            3. What is Eager Loading in Hibernate?      </div>
         <div class="answer">
-            Eager Loading in Hibernate means that related entities are fetched immediately when the parent entity is loaded. This may lead to multiple database queries but ensures that related data is available.
-      </div>
+            Eager Loading in Hibernate means that related entities are fetched immediately when the parent entity is loaded. This may lead to multiple database queries but ensures that related data is available.      </div>
 
         <div class="question">
-            4. How do you implement Lazy Loading in Hibernate?
-      </div>
+            4. How do you implement Lazy Loading in Hibernate?      </div>
         <div class="answer">
-            Lazy Loading is implemented using the `@OneToMany(fetch = FetchType.LAZY)` annotation on the relationship, meaning the related entities are fetched only when explicitly accessed.
-      </div>
-        <div class="code">
+            Lazy Loading is implemented using the `@OneToMany(fetch = FetchType.LAZY)` annotation on the relationship, meaning the related entities are fetched only when explicitly accessed.      </div>
+        <div class="style3">
             @Entity
             public class ParentEntity {
                 @OneToMany(fetch = FetchType.LAZY)
                 private Set<ChildEntity> children;
-            }
-      </div>
+            }      </div>
 
         <div class="question">
-            5. How do you implement Eager Loading in Hibernate?
-      </div>
+            5. How do you implement Eager Loading in Hibernate?      </div>
         <div class="answer">
-            Eager Loading is implemented using the `@OneToMany(fetch = FetchType.EAGER)` annotation, causing related entities to be loaded immediately when the parent entity is fetched.
-        </div>
-        <div class="code">
+            Eager Loading is implemented using the `@OneToMany(fetch = FetchType.EAGER)` annotation, causing related entities to be loaded immediately when the parent entity is fetched.        </div>
+        <div class="style4">
             @Entity
             public class ParentEntity {
                 @OneToMany(fetch = FetchType.EAGER)
                 private Set<ChildEntity> children;
-            }
-        </div>
+            }        </div>
 
         <div class="question">
-            6. What are the pros and cons of Lazy Loading?
-        </div>
+            6. What are the pros and cons of Lazy Loading?        </div>
         <div class="answer">
             Pros of Lazy Loading:
             <ul>
@@ -97,8 +95,7 @@
         </div>
 
         <div class="question">
-            7. What are the pros and cons of Eager Loading?
-        </div>
+            7. What are the pros and cons of Eager Loading?        </div>
         <div class="answer">
             Pros of Eager Loading:
             <ul>
@@ -113,843 +110,614 @@
         </div>
 
         <div class="question">
-            8. What is the "N+1 select problem" in Hibernate?
-        </div>
+            8. What is the "N+1 select problem" in Hibernate?        </div>
         <div class="answer">
-            The "N+1 select problem" occurs when Hibernate performs one query to load the parent entity and one query per related entity. This can result in many unnecessary database queries and performance issues.
-        </div>
+            The "N+1 select problem" occurs when Hibernate performs one query to load the parent entity and one query per related entity. This can result in many unnecessary database queries and performance issues.        </div>
 
         <div class="question">
-            9. How can you prevent the "N+1 select problem" in Hibernate?
-        </div>
+            9. How can you prevent the "N+1 select problem" in Hibernate?        </div>
         <div class="answer">
-            The "N+1 select problem" can be avoided by using Eager Loading (`FetchType.EAGER`), or more commonly by using `@ManyToOne(fetch = FetchType.LAZY)` and then using `JOIN FETCH` in the query.
-        </div>
-        <div class="code">
+            The "N+1 select problem" can be avoided by using Eager Loading (`FetchType.EAGER`), or more commonly by using `@ManyToOne(fetch = FetchType.LAZY)` and then using `JOIN FETCH` in the query.        </div>
+        <div class="style5">
             @Query("SELECT p FROM ParentEntity p JOIN FETCH p.children")
-            List<ParentEntity> findAllWithChildren();
-        </div>
+            List<ParentEntity> findAllWithChildren();        </div>
 
         <div class="question">
-            10. What is the `@Fetch` annotation in Hibernate, and how does it help with Lazy/Eager loading?
-        </div>
+            10. What is the `@Fetch` annotation in Hibernate, and how does it help with Lazy/Eager loading?        </div>
         <div class="answer">
-            The `@Fetch` annotation allows you to define how associations are fetched, for example, `FetchMode.JOIN` can be used to fetch associations eagerly in a single query, while `FetchMode.SELECT` can be used to fetch them lazily.
-        </div>
-        <div class="code">
+            The `@Fetch` annotation allows you to define how associations are fetched, for example, `FetchMode.JOIN` can be used to fetch associations eagerly in a single query, while `FetchMode.SELECT` can be used to fetch them lazily.        </div>
+        <div class="style6">
             @Entity
             public class ParentEntity {
                 @OneToMany(fetch = FetchType.LAZY)
                 @Fetch(FetchMode.JOIN)
                 private Set<ChildEntity> children;
-            }
-        </div>
+            }        </div>
 </div>
-<div class="question-set">
+<div class="style2">
     <h2>Set 2</h2>
     <div class="question">
-        11. How does Lazy Loading affect performance in Hibernate applications?
-    </div>
+        11. How does Lazy Loading affect performance in Hibernate applications?    </div>
     <div class="answer">
-        Lazy Loading can improve performance by loading related entities only when accessed, reducing the number of database queries and the amount of data fetched. However, it can lead to performance issues if entities are accessed multiple times.
-    </div>
+        Lazy Loading can improve performance by loading related entities only when accessed, reducing the number of database queries and the amount of data fetched. However, it can lead to performance issues if entities are accessed multiple times.    </div>
 
     <div class="question">
-        12. Can you change the default fetching strategy in Hibernate?
-    </div>
+        12. Can you change the default fetching strategy in Hibernate?    </div>
     <div class="answer">
-        Yes, the fetching strategy can be changed using annotations like `@ManyToOne(fetch = FetchType.LAZY)` for Lazy Loading or `@OneToMany(fetch = FetchType.EAGER)` for Eager Loading.
-    </div>
+        Yes, the fetching strategy can be changed using annotations like `@ManyToOne(fetch = FetchType.LAZY)` for Lazy Loading or `@OneToMany(fetch = FetchType.EAGER)` for Eager Loading.    </div>
 
     <div class="question">
-        13. How does Hibernate handle the session when using Lazy Loading?
-    </div>
+        13. How does Hibernate handle the session when using Lazy Loading?    </div>
     <div class="answer">
-        Hibernate keeps the session open while lazily loading data. If the session is closed before accessing the lazy-loaded entity, a `LazyInitializationException` occurs.
-    </div>
+        Hibernate keeps the session open while lazily loading data. If the session is closed before accessing the lazy-loaded entity, a `LazyInitializationException` occurs.    </div>
 
     <div class="question">
-        14. How can you solve the `LazyInitializationException` in Hibernate?
-    </div>
+        14. How can you solve the `LazyInitializationException` in Hibernate?    </div>
     <div class="answer">
-        You can solve the `LazyInitializationException` by ensuring that the session remains open when accessing lazy-loaded entities or by using `@Transactional` to manage session handling in Spring.
-    </div>
-    <div class="code">
+        You can solve the `LazyInitializationException` by ensuring that the session remains open when accessing lazy-loaded entities or by using `@Transactional` to manage session handling in Spring.    </div>
+    <div class="style7">
         @Transactional
         public void fetchData() {
             ParentEntity parent = parentRepository.findById(1L);
             Set<ChildEntity> children = parent.getChildren(); // No LazyInitializationException
-        }
-    </div>
+        }    </div>
 
     <div class="question">
-        15. What is the effect of `FetchType.LAZY` on relationships in Hibernate?
-    </div>
+        15. What is the effect of `FetchType.LAZY` on relationships in Hibernate?    </div>
     <div class="answer">
-        `FetchType.LAZY` delays the loading of related entities until they are explicitly accessed. It helps to avoid unnecessary database queries but can result in additional queries when the related entities are accessed.
-    </div>
+        `FetchType.LAZY` delays the loading of related entities until they are explicitly accessed. It helps to avoid unnecessary database queries but can result in additional queries when the related entities are accessed.    </div>
 
     <div class="question">
-        16. What is the default fetch type for `@ManyToOne` relationships in Hibernate?
-    </div>
+        16. What is the default fetch type for `@ManyToOne` relationships in Hibernate?    </div>
     <div class="answer">
-        The default fetch type for `@ManyToOne` relationships in Hibernate is `FetchType.EAGER`, meaning that related entities are fetched immediately with the parent entity.
-    </div>
+        The default fetch type for `@ManyToOne` relationships in Hibernate is `FetchType.EAGER`, meaning that related entities are fetched immediately with the parent entity.    </div>
 
     <div class="question">
-        17. What is the `FetchMode` in Hibernate and how does it work with Lazy/Eager loading?
-    </div>
+        17. What is the `FetchMode` in Hibernate and how does it work with Lazy/Eager loading?    </div>
     <div class="answer">
-        `FetchMode` in Hibernate defines how associated entities are fetched. `FetchMode.JOIN` fetches the related entity eagerly in a single query, while `FetchMode.SELECT` uses separate queries for each related entity (Lazy Loading).
-    </div>
+        `FetchMode` in Hibernate defines how associated entities are fetched. `FetchMode.JOIN` fetches the related entity eagerly in a single query, while `FetchMode.SELECT` uses separate queries for each related entity (Lazy Loading).    </div>
 
     <div class="question">
-        18. How does Hibernate decide which fetch strategy to use by default?
-    </div>
+        18. How does Hibernate decide which fetch strategy to use by default?    </div>
     <div class="answer">
-        Hibernate decides the default fetch strategy based on the annotation or mapping configuration. For example, `@ManyToOne` defaults to `FetchType.EAGER`, and `@OneToMany` defaults to `FetchType.LAZY`.
-    </div>
+        Hibernate decides the default fetch strategy based on the annotation or mapping configuration. For example, `@ManyToOne` defaults to `FetchType.EAGER`, and `@OneToMany` defaults to `FetchType.LAZY`.    </div>
 
     <div class="question">
-        19. How can you optimize performance when using Lazy Loading with Hibernate?
-    </div>
+        19. How can you optimize performance when using Lazy Loading with Hibernate?    </div>
     <div class="answer">
-        Performance can be optimized by minimizing the number of queries (e.g., using `JOIN FETCH`), eagerly loading only the necessary entities, and using batch fetching strategies to load multiple entities at once.
-    </div>
-    <div class="code">
+        Performance can be optimized by minimizing the number of queries (e.g., using `JOIN FETCH`), eagerly loading only the necessary entities, and using batch fetching strategies to load multiple entities at once.    </div>
+    <div class="style8">
         @Query("SELECT p FROM ParentEntity p JOIN FETCH p.children")
-        List<ParentEntity> findAllWithChildren();
-    </div>
+        List<ParentEntity> findAllWithChildren();    </div>
 
     <div class="question">
-        20. How does Hibernate handle the fetching of collections in Lazy Loading?
-    </div>
+        20. How does Hibernate handle the fetching of collections in Lazy Loading?    </div>
     <div class="answer">
-        In Lazy Loading, Hibernate fetches collections (e.g., `List`, `Set`) when they are accessed for the first time. If not accessed, the collection will not be loaded, which can help reduce memory usage.
-    </div>
+        In Lazy Loading, Hibernate fetches collections (e.g., `List`, `Set`) when they are accessed for the first time. If not accessed, the collection will not be loaded, which can help reduce memory usage.    </div>
 </div>
-    <div class="question-set">
+    <div class="style2">
         <h2>Set 3</h2>
         <div class="question">
-            21. How can you specify Eager Loading in Hibernate?
-        </div>
+            21. How can you specify Eager Loading in Hibernate?        </div>
         <div class="answer">
-            Eager Loading can be specified using `@ManyToOne(fetch = FetchType.EAGER)` or `@OneToMany(fetch = FetchType.EAGER)` annotations, causing related entities to be fetched immediately.
-        </div>
+            Eager Loading can be specified using `@ManyToOne(fetch = FetchType.EAGER)` or `@OneToMany(fetch = FetchType.EAGER)` annotations, causing related entities to be fetched immediately.        </div>
 
         <div class="question">
-            22. What is the default fetching strategy for `@OneToMany` in Hibernate?
-        </div>
+            22. What is the default fetching strategy for `@OneToMany` in Hibernate?        </div>
         <div class="answer">
-            The default fetching strategy for `@OneToMany` relationships in Hibernate is `FetchType.LAZY`, meaning the associated entities will not be fetched unless explicitly accessed.
-        </div>
+            The default fetching strategy for `@OneToMany` relationships in Hibernate is `FetchType.LAZY`, meaning the associated entities will not be fetched unless explicitly accessed.        </div>
 
         <div class="question">
-            23. How can you override the default fetch type in Hibernate?
-        </div>
+            23. How can you override the default fetch type in Hibernate?        </div>
         <div class="answer">
-            You can override the default fetch type by using the `fetch` attribute in the annotation. For example, `@OneToMany(fetch = FetchType.EAGER)` to eagerly fetch related entities.
-        </div>
+            You can override the default fetch type by using the `fetch` attribute in the annotation. For example, `@OneToMany(fetch = FetchType.EAGER)` to eagerly fetch related entities.        </div>
 
         <div class="question">
-            24. What is the difference between Lazy Loading and Eager Loading in terms of database queries?
-        </div>
+            24. What is the difference between Lazy Loading and Eager Loading in terms of database queries?        </div>
         <div class="answer">
-            Lazy Loading results in fewer database queries since related entities are loaded only when accessed, whereas Eager Loading fetches all related entities in a single query, which might increase the number of queries.
-        </div>
+            Lazy Loading results in fewer database queries since related entities are loaded only when accessed, whereas Eager Loading fetches all related entities in a single query, which might increase the number of queries.        </div>
 
         <div class="question">
-            25. How do you handle LazyInitializationException in Hibernate?
-        </div>
+            25. How do you handle LazyInitializationException in Hibernate?        </div>
         <div class="answer">
-            LazyInitializationException occurs when you try to access a lazily loaded entity outside the scope of the session. You can solve this by ensuring the session is open or by using `@Transactional`.
-        </div>
+            LazyInitializationException occurs when you try to access a lazily loaded entity outside the scope of the session. You can solve this by ensuring the session is open or by using `@Transactional`.        </div>
 
         <div class="question">
-            26. Can Lazy Loading be used with collections in Hibernate?
-        </div>
+            26. Can Lazy Loading be used with collections in Hibernate?        </div>
         <div class="answer">
-            Yes, Lazy Loading can be used with collections (e.g., `@OneToMany`). The collection is loaded only when it is accessed for the first time.
-        </div>
+            Yes, Lazy Loading can be used with collections (e.g., `@OneToMany`). The collection is loaded only when it is accessed for the first time.        </div>
 
         <div class="question">
-            27. What is `JOIN FETCH` in Hibernate and how does it relate to Lazy Loading?
-        </div>
+            27. What is `JOIN FETCH` in Hibernate and how does it relate to Lazy Loading?        </div>
         <div class="answer">
-            `JOIN FETCH` is used in Hibernate queries to eagerly load associated entities in a single query. It overrides Lazy Loading and fetches related entities immediately, reducing the number of queries.
-        </div>
-        <div class="code">
+            `JOIN FETCH` is used in Hibernate queries to eagerly load associated entities in a single query. It overrides Lazy Loading and fetches related entities immediately, reducing the number of queries.        </div>
+        <div class="style9">
             @Query("SELECT p FROM ParentEntity p JOIN FETCH p.children")
-            List<ParentEntity> findAllWithChildren();
-        </div>
+            List<ParentEntity> findAllWithChildren();        </div>
 
         <div class="question">
-            28. What is the impact of using Lazy Loading on performance?
-        </div>
+            28. What is the impact of using Lazy Loading on performance?        </div>
         <div class="answer">
-            Lazy Loading can improve performance by reducing unnecessary database queries, but it may cause additional queries if related entities are frequently accessed after the initial loading.
-        </div>
+            Lazy Loading can improve performance by reducing unnecessary database queries, but it may cause additional queries if related entities are frequently accessed after the initial loading.        </div>
 
         <div class="question">
-            29. How can you change the fetch type for `@OneToMany` relationships in Hibernate?
-        </div>
+            29. How can you change the fetch type for `@OneToMany` relationships in Hibernate?        </div>
         <div class="answer">
-            You can change the fetch type for `@OneToMany` by specifying the `fetch` attribute in the annotation: `@OneToMany(fetch = FetchType.EAGER)` or `@OneToMany(fetch = FetchType.LAZY)`.
-        </div>
+            You can change the fetch type for `@OneToMany` by specifying the `fetch` attribute in the annotation: `@OneToMany(fetch = FetchType.EAGER)` or `@OneToMany(fetch = FetchType.LAZY)`.        </div>
 
         <div class="question">
-            30. How can you prevent Lazy Loading from causing N+1 query problems in Hibernate?
-        </div>
+            30. How can you prevent Lazy Loading from causing N+1 query problems in Hibernate?        </div>
         <div class="answer">
-            You can prevent N+1 query problems by using `JOIN FETCH` in HQL or JPQL to fetch related entities in a single query. Additionally, batch fetching can be enabled to fetch multiple entities at once.
-        </div>
+            You can prevent N+1 query problems by using `JOIN FETCH` in HQL or JPQL to fetch related entities in a single query. Additionally, batch fetching can be enabled to fetch multiple entities at once.        </div>
 </div>
-    <div class="question-set">
+    <div class="style2">
         <h2>Set 4</h2>
         <div class="question">
-            31. What is the purpose of `@Transactional` in Hibernate when dealing with Lazy Loading?
-        </div>
+            31. What is the purpose of `@Transactional` in Hibernate when dealing with Lazy Loading?        </div>
         <div class="answer">
-            `@Transactional` ensures that the session is open during the transaction, which allows Lazy Loading to fetch related entities without causing a `LazyInitializationException` after the session is closed.
-        </div>
+            `@Transactional` ensures that the session is open during the transaction, which allows Lazy Loading to fetch related entities without causing a `LazyInitializationException` after the session is closed.        </div>
 
         <div class="question">
-            32. How can you fetch data eagerly using a query in Hibernate?
-        </div>
+            32. How can you fetch data eagerly using a query in Hibernate?        </div>
         <div class="answer">
-            You can fetch data eagerly by using a `JOIN FETCH` clause in your HQL or JPQL query to load related entities immediately.
-        </div>
-        <div class="code">
+            You can fetch data eagerly by using a `JOIN FETCH` clause in your HQL or JPQL query to load related entities immediately.        </div>
+        <div class="style10">
             @Query("SELECT p FROM ParentEntity p JOIN FETCH p.children")
-            List<ParentEntity> findAllWithChildren();
-        </div>
+            List<ParentEntity> findAllWithChildren();        </div>
 
         <div class="question">
-            33. What is the effect of `FetchType.LAZY` on `@ManyToOne` relationships?
-        </div>
+            33. What is the effect of `FetchType.LAZY` on `@ManyToOne` relationships?        </div>
         <div class="answer">
-            `FetchType.LAZY` on `@ManyToOne` means that the related entity will not be fetched when the parent entity is loaded. It will only be fetched when explicitly accessed.
-        </div>
+            `FetchType.LAZY` on `@ManyToOne` means that the related entity will not be fetched when the parent entity is loaded. It will only be fetched when explicitly accessed.        </div>
 
         <div class="question">
-            34. Can you force Eager Loading for collections in Hibernate?
-        </div>
+            34. Can you force Eager Loading for collections in Hibernate?        </div>
         <div class="answer">
-            Yes, you can force Eager Loading for collections by using `@OneToMany(fetch = FetchType.EAGER)` or by using `JOIN FETCH` in your queries.
-        </div>
+            Yes, you can force Eager Loading for collections by using `@OneToMany(fetch = FetchType.EAGER)` or by using `JOIN FETCH` in your queries.        </div>
 
         <div class="question">
-            35. What is the `LazyCollection` annotation used for in Hibernate?
-        </div>
+            35. What is the `LazyCollection` annotation used for in Hibernate?        </div>
         <div class="answer">
-            The `LazyCollection` annotation is used to specify how collections are fetched. It is used with `@OneToMany` and `@ManyToMany` to indicate whether the collection should be fetched lazily or eagerly.
-        </div>
+            The `LazyCollection` annotation is used to specify how collections are fetched. It is used with `@OneToMany` and `@ManyToMany` to indicate whether the collection should be fetched lazily or eagerly.        </div>
 
         <div class="question">
-            36. How does Hibernate optimize Lazy Loading with `batch-fetching`?
-        </div>
+            36. How does Hibernate optimize Lazy Loading with `batch-fetching`?        </div>
         <div class="answer">
-            Batch-fetching in Hibernate allows you to load related entities in batches instead of one by one, thus reducing the number of SQL queries when accessing multiple related entities.
-        </div>
+            Batch-fetching in Hibernate allows you to load related entities in batches instead of one by one, thus reducing the number of SQL queries when accessing multiple related entities.        </div>
 
         <div class="question">
-            37. How can you configure batch-fetching in Hibernate?
-        </div>
+            37. How can you configure batch-fetching in Hibernate?        </div>
         <div class="answer">
-            Batch-fetching can be configured in the `hibernate.cfg.xml` file or in annotations by setting `hibernate.jdbc.batch_size` property.
-        </div>
-        <div class="code">
-            hibernate.jdbc.batch_size=10
-        </div>
+            Batch-fetching can be configured in the `hibernate.cfg.xml` file or in annotations by setting `hibernate.jdbc.batch_size` property.        </div>
+        <div class="style11">
+            hibernate.jdbc.batch_size=10        </div>
 
         <div class="question">
-            38. What are the drawbacks of using Eager Loading in Hibernate?
-        </div>
+            38. What are the drawbacks of using Eager Loading in Hibernate?        </div>
         <div class="answer">
-            Eager Loading can lead to performance issues by loading unnecessary data, especially in large datasets. It may cause a high memory load or increased database query times.
-        </div>
+            Eager Loading can lead to performance issues by loading unnecessary data, especially in large datasets. It may cause a high memory load or increased database query times.        </div>
 
         <div class="question">
-            39. What is the difference between `FetchType.EAGER` and `FetchType.LAZY` in terms of query execution?
-        </div>
+            39. What is the difference between `FetchType.EAGER` and `FetchType.LAZY` in terms of query execution?        </div>
         <div class="answer">
-            `FetchType.EAGER` causes the related entities to be fetched in the same query as the parent entity, whereas `FetchType.LAZY` only loads related entities when accessed, potentially requiring additional queries.
-        </div>
+            `FetchType.EAGER` causes the related entities to be fetched in the same query as the parent entity, whereas `FetchType.LAZY` only loads related entities when accessed, potentially requiring additional queries.        </div>
 
         <div class="question">
-            40. Can Hibernate automatically choose between Lazy and Eager loading based on usage patterns?
-        </div>
+            40. Can Hibernate automatically choose between Lazy and Eager loading based on usage patterns?        </div>
         <div class="answer">
-            No, Hibernate does not automatically choose between Lazy and Eager loading. The fetch strategy needs to be specified explicitly using annotations or configurations.
-        </div>
+            No, Hibernate does not automatically choose between Lazy and Eager loading. The fetch strategy needs to be specified explicitly using annotations or configurations.        </div>
 </div>
 
-    <div class="question-set">
+    <div class="style2">
         <h2>Set 5</h2>
         <div class="question">
-            41. What happens if you try to access a lazily-loaded entity outside the session in Hibernate?
-        </div>
+            41. What happens if you try to access a lazily-loaded entity outside the session in Hibernate?        </div>
         <div class="answer">
-            If you try to access a lazily-loaded entity outside of the session, a `LazyInitializationException` is thrown because the session is closed and the entity cannot be fetched.
-        </div>
+            If you try to access a lazily-loaded entity outside of the session, a `LazyInitializationException` is thrown because the session is closed and the entity cannot be fetched.        </div>
 
         <div class="question">
-            42. What is the impact of using `FetchType.LAZY` on performance?
-        </div>
+            42. What is the impact of using `FetchType.LAZY` on performance?        </div>
         <div class="answer">
-            `FetchType.LAZY` can improve performance by delaying the loading of related entities until they are actually needed. However, it can cause performance issues if entities are accessed frequently, resulting in multiple database queries.
-        </div>
+            `FetchType.LAZY` can improve performance by delaying the loading of related entities until they are actually needed. However, it can cause performance issues if entities are accessed frequently, resulting in multiple database queries.        </div>
 
         <div class="question">
-            43. How does Hibernate manage the session when using Lazy Loading?
-        </div>
+            43. How does Hibernate manage the session when using Lazy Loading?        </div>
         <div class="answer">
-            Hibernate uses the session to fetch lazily-loaded entities. As long as the session is open, lazy-loaded associations can be fetched. If the session is closed, accessing lazy-loaded entities will trigger a `LazyInitializationException`.
-        </div>
+            Hibernate uses the session to fetch lazily-loaded entities. As long as the session is open, lazy-loaded associations can be fetched. If the session is closed, accessing lazy-loaded entities will trigger a `LazyInitializationException`.        </div>
 
         <div class="question">
-            44. What is `FetchType.EAGER` and how does it affect performance?
-        </div>
+            44. What is `FetchType.EAGER` and how does it affect performance?        </div>
         <div class="answer">
-            `FetchType.EAGER` causes Hibernate to fetch related entities immediately with the parent entity. While this can reduce the number of queries, it may negatively impact performance by loading unnecessary data.
-        </div>
+            `FetchType.EAGER` causes Hibernate to fetch related entities immediately with the parent entity. While this can reduce the number of queries, it may negatively impact performance by loading unnecessary data.        </div>
 
         <div class="question">
-            45. What is the difference between eager and lazy fetching in terms of the SQL query generated?
-        </div>
+            45. What is the difference between eager and lazy fetching in terms of the SQL query generated?        </div>
         <div class="answer">
-            In eager fetching, a `JOIN` is used in the SQL query to load both the parent and related entities in a single query. In lazy fetching, separate SQL queries are executed for the parent entity and its related entities when accessed.
-        </div>
+            In eager fetching, a `JOIN` is used in the SQL query to load both the parent and related entities in a single query. In lazy fetching, separate SQL queries are executed for the parent entity and its related entities when accessed.        </div>
 
         <div class="question">
-            46. How can you prevent LazyInitializationException in Hibernate when using Lazy Loading?
-        </div>
+            46. How can you prevent LazyInitializationException in Hibernate when using Lazy Loading?        </div>
         <div class="answer">
-            You can prevent `LazyInitializationException` by ensuring that the session remains open when accessing lazily-loaded entities or by fetching related entities eagerly using `JOIN FETCH`.
-        </div>
+            You can prevent `LazyInitializationException` by ensuring that the session remains open when accessing lazily-loaded entities or by fetching related entities eagerly using `JOIN FETCH`.        </div>
 
         <div class="question">
-            47. How can you use `@Fetch` in Hibernate to control the loading behavior of collections?
-        </div>
+            47. How can you use `@Fetch` in Hibernate to control the loading behavior of collections?        </div>
         <div class="answer">
-            `@Fetch` is used to specify the fetching strategy for collections, such as `@Fetch(FetchMode.SELECT)` or `@Fetch(FetchMode.JOIN)`, to control how related entities are loaded.
-        </div>
+            `@Fetch` is used to specify the fetching strategy for collections, such as `@Fetch(FetchMode.SELECT)` or `@Fetch(FetchMode.JOIN)`, to control how related entities are loaded.        </div>
 
         <div class="question">
-            48. How does Hibernate manage the fetch strategy for `@OneToMany` associations?
-        </div>
+            48. How does Hibernate manage the fetch strategy for `@OneToMany` associations?        </div>
         <div class="answer">
-            By default, `@OneToMany` relationships use `FetchType.LAZY`, but the fetch strategy can be changed to `FetchType.EAGER` or controlled using query-based `JOIN FETCH` to load related entities.
-        </div>
+            By default, `@OneToMany` relationships use `FetchType.LAZY`, but the fetch strategy can be changed to `FetchType.EAGER` or controlled using query-based `JOIN FETCH` to load related entities.        </div>
 
         <div class="question">
-            49. What is the effect of `@ManyToOne(fetch = FetchType.LAZY)` on database queries?
-        </div>
+            49. What is the effect of `@ManyToOne(fetch = FetchType.LAZY)` on database queries?        </div>
         <div class="answer">
-            `@ManyToOne(fetch = FetchType.LAZY)` means that the associated entity is not loaded immediately with the parent entity, and a separate query will be executed when the relationship is accessed for the first time.
-        </div>
+            `@ManyToOne(fetch = FetchType.LAZY)` means that the associated entity is not loaded immediately with the parent entity, and a separate query will be executed when the relationship is accessed for the first time.        </div>
 
         <div class="question">
-            50. How does Hibernate handle the fetch strategy for `@ManyToMany` relationships?
-        </div>
+            50. How does Hibernate handle the fetch strategy for `@ManyToMany` relationships?        </div>
         <div class="answer">
-            Hibernate can use either `FetchType.LAZY` or `FetchType.EAGER` for `@ManyToMany` relationships. By default, it uses lazy loading, but you can specify eager loading using annotations or queries.
-        </div>
+            Hibernate can use either `FetchType.LAZY` or `FetchType.EAGER` for `@ManyToMany` relationships. By default, it uses lazy loading, but you can specify eager loading using annotations or queries.        </div>
 </div>
-        <div class="question-set">
+        <div class="style2">
         <h2>Set 6</h2>
         <div class="question">
-            51. How can you configure fetch type for relationships in Hibernate via XML configuration?
-        </div>
+            51. How can you configure fetch type for relationships in Hibernate via XML configuration?        </div>
         <div class="answer">
-            In XML configuration, you can set the fetch type using the `fetch` attribute in the `<many-to-one>`, `<one-to-many>`, `<one-to-one>`, and `<many-to-many>` elements, like this: `<many-to-one fetch="lazy">`.
-        </div>
+            In XML configuration, you can set the fetch type using the `fetch` attribute in the `<many-to-one>`, `<one-to-many>`, `<one-to-one>`, and `<many-to-many>` elements, like this: `<many-to-one fetch="lazy">`.        </div>
 
         <div class="question">
-            52. What are the potential downsides of using `FetchType.EAGER` for large collections?
-        </div>
+            52. What are the potential downsides of using `FetchType.EAGER` for large collections?        </div>
         <div class="answer">
-            Using `FetchType.EAGER` for large collections can result in performance issues due to loading a large number of related entities in a single query, leading to increased memory usage and slower response times.
-        </div>
+            Using `FetchType.EAGER` for large collections can result in performance issues due to loading a large number of related entities in a single query, leading to increased memory usage and slower response times.        </div>
 
         <div class="question">
-            53. How does Hibernate handle fetching strategies for unidirectional associations?
-        </div>
+            53. How does Hibernate handle fetching strategies for unidirectional associations?        </div>
         <div class="answer">
-            Hibernate handles fetching strategies for unidirectional associations in the same way as bidirectional associations. You can specify the fetch type using annotations (`@OneToMany(fetch = FetchType.LAZY)`) or queries.
-        </div>
+            Hibernate handles fetching strategies for unidirectional associations in the same way as bidirectional associations. You can specify the fetch type using annotations (`@OneToMany(fetch = FetchType.LAZY)`) or queries.        </div>
 
         <div class="question">
-            54. How can you use the `@BatchSize` annotation to optimize Lazy Loading in Hibernate?
-        </div>
+            54. How can you use the `@BatchSize` annotation to optimize Lazy Loading in Hibernate?        </div>
         <div class="answer">
-            The `@BatchSize` annotation can be used to control the number of entities fetched in one query during Lazy Loading. It can reduce the number of queries by fetching entities in batches instead of individually.
-        </div>
+            The `@BatchSize` annotation can be used to control the number of entities fetched in one query during Lazy Loading. It can reduce the number of queries by fetching entities in batches instead of individually.        </div>
 
         <div class="question">
-            55. What is the impact of Lazy Loading when working with a large dataset in Hibernate?
-        </div>
+            55. What is the impact of Lazy Loading when working with a large dataset in Hibernate?        </div>
         <div class="answer">
-            Lazy Loading can improve performance by loading only the required entities when accessed. However, if many related entities are accessed frequently, it can result in multiple queries, which may degrade performance for large datasets.
-        </div>
+            Lazy Loading can improve performance by loading only the required entities when accessed. However, if many related entities are accessed frequently, it can result in multiple queries, which may degrade performance for large datasets.        </div>
 
         <div class="question">
-            56. What does `hibernate.enable_lazy_load_no_trans` configuration option do in Hibernate?
-        </div>
+            56. What does `hibernate.enable_lazy_load_no_trans` configuration option do in Hibernate?        </div>
         <div class="answer">
-            The `hibernate.enable_lazy_load_no_trans` option allows lazy loading of associations even when there is no active Hibernate transaction. This can help avoid `LazyInitializationException` when accessing lazily-loaded entities outside a transaction.
-        </div>
+            The `hibernate.enable_lazy_load_no_trans` option allows lazy loading of associations even when there is no active Hibernate transaction. This can help avoid `LazyInitializationException` when accessing lazily-loaded entities outside a transaction.        </div>
 
         <div class="question">
-            57. How do you configure fetch type using the `@ManyToMany` annotation?
-        </div>
+            57. How do you configure fetch type using the `@ManyToMany` annotation?        </div>
         <div class="answer">
-            You can configure the fetch type using the `fetch` attribute in the `@ManyToMany` annotation, like this: `@ManyToMany(fetch = FetchType.LAZY)`.
-        </div>
+            You can configure the fetch type using the `fetch` attribute in the `@ManyToMany` annotation, like this: `@ManyToMany(fetch = FetchType.LAZY)`.        </div>
 
         <div class="question">
-            58. What is the relationship between Lazy Loading and the Open Session in View pattern in Hibernate?
-        </div>
+            58. What is the relationship between Lazy Loading and the Open Session in View pattern in Hibernate?        </div>
         <div class="answer">
-            The Open Session in View pattern ensures that the Hibernate session is kept open during the entire request, which allows Lazy Loading to work properly even after the initial entity is loaded and the transaction is closed.
-        </div>
+            The Open Session in View pattern ensures that the Hibernate session is kept open during the entire request, which allows Lazy Loading to work properly even after the initial entity is loaded and the transaction is closed.        </div>
 
         <div class="question">
-            59. How can you handle Lazy Loading when using `@OneToOne` associations in Hibernate?
-        </div>
+            59. How can you handle Lazy Loading when using `@OneToOne` associations in Hibernate?        </div>
         <div class="answer">
-            For `@OneToOne` associations, you can specify the fetch type as `FetchType.LAZY` or `FetchType.EAGER`. By default, `@OneToOne` uses `FetchType.EAGER`, but you can change this using annotations or in queries.
-        </div>
+            For `@OneToOne` associations, you can specify the fetch type as `FetchType.LAZY` or `FetchType.EAGER`. By default, `@OneToOne` uses `FetchType.EAGER`, but you can change this using annotations or in queries.        </div>
 
         <div class="question">
-            60. What is the significance of `@ManyToOne(fetch = FetchType.LAZY)` in terms of query execution?
-        </div>
+            60. What is the significance of `@ManyToOne(fetch = FetchType.LAZY)` in terms of query execution?        </div>
         <div class="answer">
-            `@ManyToOne(fetch = FetchType.LAZY)` means that the related entity will not be fetched initially with the parent entity. Instead, a separate query will be executed when the associated entity is accessed.
-        </div>
+            `@ManyToOne(fetch = FetchType.LAZY)` means that the related entity will not be fetched initially with the parent entity. Instead, a separate query will be executed when the associated entity is accessed.        </div>
 </div>
-    <div class="question-set">
+    <div class="style2">
         <h2>Set 7</h2>
         <div class="question">
-            61. How does `@OneToMany(fetch = FetchType.LAZY)` work in Hibernate when accessing the related collection?
-        </div>
+            61. How does `@OneToMany(fetch = FetchType.LAZY)` work in Hibernate when accessing the related collection?        </div>
         <div class="answer">
-            With `FetchType.LAZY`, the related collection is not fetched immediately. A separate query is issued only when the collection is accessed for the first time within an active session.
-        </div>
+            With `FetchType.LAZY`, the related collection is not fetched immediately. A separate query is issued only when the collection is accessed for the first time within an active session.        </div>
 
         <div class="question">
-            62. What is the difference between `@ManyToOne` and `@OneToMany` in terms of Lazy/Eager fetching?
-        </div>
+            62. What is the difference between `@ManyToOne` and `@OneToMany` in terms of Lazy/Eager fetching?        </div>
         <div class="answer">
-            `@ManyToOne` typically uses `FetchType.LAZY` by default, while `@OneToMany` defaults to `FetchType.LAZY` but can be configured to `EAGER`. In `@ManyToOne`, the associated entity is fetched lazily when accessed, while `@OneToMany` may trigger additional queries to fetch collections.
-        </div>
+            `@ManyToOne` typically uses `FetchType.LAZY` by default, while `@OneToMany` defaults to `FetchType.LAZY` but can be configured to `EAGER`. In `@ManyToOne`, the associated entity is fetched lazily when accessed, while `@OneToMany` may trigger additional queries to fetch collections.        </div>
 
         <div class="question">
-            63. How do you fetch collections lazily in Hibernate when using the `@ManyToMany` annotation?
-        </div>
+            63. How do you fetch collections lazily in Hibernate when using the `@ManyToMany` annotation?        </div>
         <div class="answer">
-            You can specify lazy loading for `@ManyToMany` by using `fetch = FetchType.LAZY`, which will load the related entities only when accessed, without fetching them immediately during the initial query.
-        </div>
+            You can specify lazy loading for `@ManyToMany` by using `fetch = FetchType.LAZY`, which will load the related entities only when accessed, without fetching them immediately during the initial query.        </div>
 
         <div class="question">
-            64. What are some strategies to avoid the N+1 problem in Hibernate when using Lazy Loading?
-        </div>
+            64. What are some strategies to avoid the N+1 problem in Hibernate when using Lazy Loading?        </div>
         <div class="answer">
-            Strategies to avoid the N+1 problem include using `JOIN FETCH` in HQL or JPQL queries to load related entities in a single query, or configuring batch fetching using `@BatchSize` to fetch multiple entities at once.
-        </div>
+            Strategies to avoid the N+1 problem include using `JOIN FETCH` in HQL or JPQL queries to load related entities in a single query, or configuring batch fetching using `@BatchSize` to fetch multiple entities at once.        </div>
 
         <div class="question">
-            65. What is the `@Fetch` annotation used for in Hibernate?
-        </div>
+            65. What is the `@Fetch` annotation used for in Hibernate?        </div>
         <div class="answer">
-            The `@Fetch` annotation controls how Hibernate fetches a collection or association. It allows you to specify whether to use `FetchMode.JOIN` or `FetchMode.SELECT`, thus impacting the strategy for loading the related entities.
-        </div>
+            The `@Fetch` annotation controls how Hibernate fetches a collection or association. It allows you to specify whether to use `FetchMode.JOIN` or `FetchMode.SELECT`, thus impacting the strategy for loading the related entities.        </div>
 
         <div class="question">
-            66. What does the `hibernate.default_batch_fetch_size` configuration property do in Hibernate?
-        </div>
+            66. What does the `hibernate.default_batch_fetch_size` configuration property do in Hibernate?        </div>
         <div class="answer">
-            The `hibernate.default_batch_fetch_size` property specifies the batch size for fetching entities when batch-fetching is enabled. It controls the number of entities that are loaded in each query during Lazy Loading.
-        </div>
+            The `hibernate.default_batch_fetch_size` property specifies the batch size for fetching entities when batch-fetching is enabled. It controls the number of entities that are loaded in each query during Lazy Loading.        </div>
 
         <div class="question">
-            67. How can you configure eager loading for all `@OneToMany` associations globally in Hibernate?
-        </div>
+            67. How can you configure eager loading for all `@OneToMany` associations globally in Hibernate?        </div>
         <div class="answer">
-            You can globally configure eager loading for `@OneToMany` associations by using the `hibernate.fetch_size` property in the configuration file or by setting `FetchType.EAGER` on each `@OneToMany` annotation.
-        </div>
+            You can globally configure eager loading for `@OneToMany` associations by using the `hibernate.fetch_size` property in the configuration file or by setting `FetchType.EAGER` on each `@OneToMany` annotation.        </div>
 
         <div class="question">
-            68. What is the effect of enabling `hibernate.use_outer_join` in Hibernate configuration?
-        </div>
+            68. What is the effect of enabling `hibernate.use_outer_join` in Hibernate configuration?        </div>
         <div class="answer">
-            Enabling `hibernate.use_outer_join` forces Hibernate to use outer joins instead of inner joins for fetching associated entities. This can help in certain cases with `FetchType.LAZY`, as it ensures all entities are loaded in one query, even with missing associations.
-        </div>
+            Enabling `hibernate.use_outer_join` forces Hibernate to use outer joins instead of inner joins for fetching associated entities. This can help in certain cases with `FetchType.LAZY`, as it ensures all entities are loaded in one query, even with missing associations.        </div>
 
         <div class="question">
-            69. Can you use a custom fetch strategy in Hibernate? How?
-        </div>
+            69. Can you use a custom fetch strategy in Hibernate? How?        </div>
         <div class="answer">
-            Yes, you can use a custom fetch strategy in Hibernate by overriding the default fetch type with `@Fetch` or by using `JOIN FETCH` in HQL/JPQL queries to customize how related entities are fetched.
-        </div>
+            Yes, you can use a custom fetch strategy in Hibernate by overriding the default fetch type with `@Fetch` or by using `JOIN FETCH` in HQL/JPQL queries to customize how related entities are fetched.        </div>
 
         <div class="question">
-            70. What is the potential downside of using Lazy Loading in a web application?
-        </div>
+            70. What is the potential downside of using Lazy Loading in a web application?        </div>
         <div class="answer">
-            The potential downside of Lazy Loading in a web application is that it can result in multiple database queries if related entities are accessed frequently. This may degrade performance due to excessive round trips to the database.
-        </div>
+            The potential downside of Lazy Loading in a web application is that it can result in multiple database queries if related entities are accessed frequently. This may degrade performance due to excessive round trips to the database.        </div>
 </div>
-    <div class="question-set">
+    <div class="style2">
         <h2>Set 8</h2>
         <div class="question">
-            71. What is the purpose of the `@LazyCollection` annotation in Hibernate?
-        </div>
+            71. What is the purpose of the `@LazyCollection` annotation in Hibernate?        </div>
         <div class="answer">
-            The `@LazyCollection` annotation in Hibernate is used to configure the fetch strategy for collections. It allows you to specify whether the collection should be loaded lazily or eagerly, overriding the default behavior set by `FetchType`.
-        </div>
+            The `@LazyCollection` annotation in Hibernate is used to configure the fetch strategy for collections. It allows you to specify whether the collection should be loaded lazily or eagerly, overriding the default behavior set by `FetchType`.        </div>
 
         <div class="question">
-            72. How can you prevent LazyInitializationException in Hibernate when accessing a lazy-loaded collection outside a session?
-        </div>
+            72. How can you prevent LazyInitializationException in Hibernate when accessing a lazy-loaded collection outside a session?        </div>
         <div class="answer">
-            To prevent `LazyInitializationException`, you can either fetch the collection eagerly, keep the session open when accessing the collection, or initialize the collection explicitly before closing the session using methods like `Hibernate.initialize()`.
-        </div>
+            To prevent `LazyInitializationException`, you can either fetch the collection eagerly, keep the session open when accessing the collection, or initialize the collection explicitly before closing the session using methods like `Hibernate.initialize()`.        </div>
 
         <div class="question">
-            73. How can you use Hibernate’s `@Query` annotation to optimize fetching strategies?
-        </div>
+            73. How can you use Hibernate’s `@Query` annotation to optimize fetching strategies?        </div>
         <div class="answer">
-            The `@Query` annotation allows you to write custom queries (HQL or JPQL) and use `JOIN FETCH` to optimize fetching strategies. This enables eager fetching for specific associations within the query itself.
-        </div>
+            The `@Query` annotation allows you to write custom queries (HQL or JPQL) and use `JOIN FETCH` to optimize fetching strategies. This enables eager fetching for specific associations within the query itself.        </div>
 
         <div class="question">
-            74. What is the role of `FetchMode` in Hibernate's `@Fetch` annotation?
-        </div>
+            74. What is the role of `FetchMode` in Hibernate's `@Fetch` annotation?        </div>
         <div class="answer">
-            The `FetchMode` in the `@Fetch` annotation controls how the related entities are fetched. It can be set to `FetchMode.JOIN` (using SQL JOINs to fetch the related entities) or `FetchMode.SELECT` (performing separate queries for related entities).
-        </div>
+            The `FetchMode` in the `@Fetch` annotation controls how the related entities are fetched. It can be set to `FetchMode.JOIN` (using SQL JOINs to fetch the related entities) or `FetchMode.SELECT` (performing separate queries for related entities).        </div>
 
         <div class="question">
-            75. How do you use the `@OneToOne(fetch = FetchType.LAZY)` annotation in Hibernate, and what are its implications?
-        </div>
+            75. How do you use the `@OneToOne(fetch = FetchType.LAZY)` annotation in Hibernate, and what are its implications?        </div>
         <div class="answer">
-            The `@OneToOne(fetch = FetchType.LAZY)` annotation tells Hibernate to lazily load the associated entity, meaning the related entity will only be fetched when it is accessed for the first time within an active session. This helps optimize performance by avoiding unnecessary data loading.
-        </div>
+            The `@OneToOne(fetch = FetchType.LAZY)` annotation tells Hibernate to lazily load the associated entity, meaning the related entity will only be fetched when it is accessed for the first time within an active session. This helps optimize performance by avoiding unnecessary data loading.        </div>
 
         <div class="question">
-            76. How can Hibernate’s `@ManyToOne(fetch = FetchType.LAZY)` be used with a collection of entities in a parent-child relationship?
-        </div>
+            76. How can Hibernate’s `@ManyToOne(fetch = FetchType.LAZY)` be used with a collection of entities in a parent-child relationship?        </div>
         <div class="answer">
-            When using `@ManyToOne(fetch = FetchType.LAZY)`, the child entity is loaded lazily. If the parent entity has a collection of such child entities, you can configure the collection fetch type separately using `FetchType.LAZY` or `FetchType.EAGER`.
-        </div>
+            When using `@ManyToOne(fetch = FetchType.LAZY)`, the child entity is loaded lazily. If the parent entity has a collection of such child entities, you can configure the collection fetch type separately using `FetchType.LAZY` or `FetchType.EAGER`.        </div>
 
         <div class="question">
-            77. What is the impact of using Lazy Loading with a large number of records in a database?
-        </div>
+            77. What is the impact of using Lazy Loading with a large number of records in a database?        </div>
         <div class="answer">
-            Lazy Loading can result in multiple database queries, each one fetching related records. This can lead to performance degradation when dealing with a large number of records, causing excessive database round trips and increased memory usage.
-        </div>
+            Lazy Loading can result in multiple database queries, each one fetching related records. This can lead to performance degradation when dealing with a large number of records, causing excessive database round trips and increased memory usage.        </div>
 
         <div class="question">
-            78. How does Hibernate handle fetching strategies in a polymorphic association (e.g., inheritance)?
-        </div>
+            78. How does Hibernate handle fetching strategies in a polymorphic association (e.g., inheritance)?        </div>
         <div class="answer">
-            Hibernate handles fetching strategies in polymorphic associations by using the fetch type defined in the association mapping. You can specify lazy or eager loading for the parent or child entities, and Hibernate will load the related entities accordingly.
-        </div>
+            Hibernate handles fetching strategies in polymorphic associations by using the fetch type defined in the association mapping. You can specify lazy or eager loading for the parent or child entities, and Hibernate will load the related entities accordingly.        </div>
 
         <div class="question">
-            79. What is the difference between lazy loading and batch fetching in Hibernate?
-        </div>
+            79. What is the difference between lazy loading and batch fetching in Hibernate?        </div>
         <div class="answer">
-            Lazy loading loads associations on demand when accessed, while batch fetching allows Hibernate to load multiple entities at once in one query. Batch fetching can help optimize performance by reducing the number of queries issued for related entities.
-        </div>
+            Lazy loading loads associations on demand when accessed, while batch fetching allows Hibernate to load multiple entities at once in one query. Batch fetching can help optimize performance by reducing the number of queries issued for related entities.        </div>
 
         <div class="question">
-            80. Can you use `@ManyToOne(fetch = FetchType.LAZY)` and `@OneToMany(fetch = FetchType.EAGER)` together in Hibernate? What would be the result?
-        </div>
+            80. Can you use `@ManyToOne(fetch = FetchType.LAZY)` and `@OneToMany(fetch = FetchType.EAGER)` together in Hibernate? What would be the result?        </div>
         <div class="answer">
-            Yes, you can use `@ManyToOne(fetch = FetchType.LAZY)` and `@OneToMany(fetch = FetchType.EAGER)` together. This setup means the `@ManyToOne` relationship will be lazily loaded, while the `@OneToMany` collection will be eagerly loaded when accessed.
-        </div>
+            Yes, you can use `@ManyToOne(fetch = FetchType.LAZY)` and `@OneToMany(fetch = FetchType.EAGER)` together. This setup means the `@ManyToOne` relationship will be lazily loaded, while the `@OneToMany` collection will be eagerly loaded when accessed.        </div>
 </div>
 
-    <div class="question-set">
+    <div class="style2">
         <h2>Set 9</h2>
         <div class="question">
-            81. How does `@Fetch(FetchMode.SUBSELECT)` work in Hibernate?
-        </div>
+            81. How does `@Fetch(FetchMode.SUBSELECT)` work in Hibernate?        </div>
         <div class="answer">
-            `@Fetch(FetchMode.SUBSELECT)` allows Hibernate to fetch collections in a batch using a single SQL query for all entities, as opposed to executing separate queries for each collection. This approach can reduce the number of queries when dealing with multiple collections.
-        </div>
+            `@Fetch(FetchMode.SUBSELECT)` allows Hibernate to fetch collections in a batch using a single SQL query for all entities, as opposed to executing separate queries for each collection. This approach can reduce the number of queries when dealing with multiple collections.        </div>
 
         <div class="question">
-            82. How can Hibernate’s `@ManyToOne` annotation be configured to load associated entities lazily?
-        </div>
+            82. How can Hibernate’s `@ManyToOne` annotation be configured to load associated entities lazily?        </div>
         <div class="answer">
-            By setting `fetch = FetchType.LAZY` in the `@ManyToOne` annotation, you instruct Hibernate to load the associated entity lazily. The entity will only be fetched when accessed, rather than immediately upon the parent entity’s retrieval.
-        </div>
+            By setting `fetch = FetchType.LAZY` in the `@ManyToOne` annotation, you instruct Hibernate to load the associated entity lazily. The entity will only be fetched when accessed, rather than immediately upon the parent entity’s retrieval.        </div>
 
         <div class="question">
-            83. How can you enable Lazy Loading for a `@ManyToMany` relationship in Hibernate?
-        </div>
+            83. How can you enable Lazy Loading for a `@ManyToMany` relationship in Hibernate?        </div>
         <div class="answer">
-            You can enable Lazy Loading for a `@ManyToMany` relationship by setting `fetch = FetchType.LAZY` in the `@ManyToMany` annotation. This will cause the related entities to be fetched lazily when accessed within an active session.
-        </div>
+            You can enable Lazy Loading for a `@ManyToMany` relationship by setting `fetch = FetchType.LAZY` in the `@ManyToMany` annotation. This will cause the related entities to be fetched lazily when accessed within an active session.        </div>
 
         <div class="question">
-            84. How does Hibernate’s `@OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)` behave?
-        </div>
+            84. How does Hibernate’s `@OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)` behave?        </div>
         <div class="answer">
-            With `@OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)`, Hibernate eagerly loads the collection of associated entities. The related entities are loaded immediately, together with the parent entity, in a single query.
-        </div>
+            With `@OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)`, Hibernate eagerly loads the collection of associated entities. The related entities are loaded immediately, together with the parent entity, in a single query.        </div>
 
         <div class="question">
-            85. How can you handle the LazyInitializationException in Hibernate when working with a detached entity?
-        </div>
+            85. How can you handle the LazyInitializationException in Hibernate when working with a detached entity?        </div>
         <div class="answer">
-            To handle `LazyInitializationException`, you can either reattach the entity to a session using `Session.merge()` or `Session.update()`, or use `Hibernate.initialize()` to initialize the lazy-loaded associations before the session is closed.
-        </div>
+            To handle `LazyInitializationException`, you can either reattach the entity to a session using `Session.merge()` or `Session.update()`, or use `Hibernate.initialize()` to initialize the lazy-loaded associations before the session is closed.        </div>
 
         <div class="question">
-            86. What is the impact of using `FetchType.LAZY` on performance in a Hibernate application?
-        </div>
+            86. What is the impact of using `FetchType.LAZY` on performance in a Hibernate application?        </div>
         <div class="answer">
-            Using `FetchType.LAZY` improves performance by loading only the required associations when accessed, rather than eagerly loading all related entities. This reduces the amount of data fetched initially and prevents unnecessary database queries.
-        </div>
+            Using `FetchType.LAZY` improves performance by loading only the required associations when accessed, rather than eagerly loading all related entities. This reduces the amount of data fetched initially and prevents unnecessary database queries.        </div>
 
         <div class="question">
-            87. What does the `@OneToOne(fetch = FetchType.LAZY)` annotation do in terms of fetching behavior?
-        </div>
+            87. What does the `@OneToOne(fetch = FetchType.LAZY)` annotation do in terms of fetching behavior?        </div>
         <div class="answer">
-            The `@OneToOne(fetch = FetchType.LAZY)` annotation tells Hibernate to lazily load the associated entity. The related entity will not be fetched when the parent entity is retrieved, but instead, only when the association is accessed within an active session.
-        </div>
+            The `@OneToOne(fetch = FetchType.LAZY)` annotation tells Hibernate to lazily load the associated entity. The related entity will not be fetched when the parent entity is retrieved, but instead, only when the association is accessed within an active session.        </div>
 
         <div class="question">
-            88. How can Hibernate be configured to use a custom fetch strategy for a specific association?
-        </div>
+            88. How can Hibernate be configured to use a custom fetch strategy for a specific association?        </div>
         <div class="answer">
-            Hibernate can be configured to use a custom fetch strategy by using `@Fetch(FetchMode)` to specify either `JOIN` or `SELECT` fetching, or by writing custom HQL/JPQL queries with `JOIN FETCH` for specific associations.
-        </div>
+            Hibernate can be configured to use a custom fetch strategy by using `@Fetch(FetchMode)` to specify either `JOIN` or `SELECT` fetching, or by writing custom HQL/JPQL queries with `JOIN FETCH` for specific associations.        </div>
 
         <div class="question">
-            89. What is the difference between `@ManyToOne(fetch = FetchType.EAGER)` and `@ManyToOne(fetch = FetchType.LAZY)`?
-        </div>
+            89. What is the difference between `@ManyToOne(fetch = FetchType.EAGER)` and `@ManyToOne(fetch = FetchType.LAZY)`?        </div>
         <div class="answer">
-            `@ManyToOne(fetch = FetchType.EAGER)` fetches the associated entity immediately along with the parent entity, while `@ManyToOne(fetch = FetchType.LAZY)` defers the fetching of the associated entity until it is accessed, improving performance in certain scenarios.
-        </div>
+            `@ManyToOne(fetch = FetchType.EAGER)` fetches the associated entity immediately along with the parent entity, while `@ManyToOne(fetch = FetchType.LAZY)` defers the fetching of the associated entity until it is accessed, improving performance in certain scenarios.        </div>
 
         <div class="question">
-            90. What is the purpose of using `JOIN FETCH` in Hibernate queries?
-        </div>
+            90. What is the purpose of using `JOIN FETCH` in Hibernate queries?        </div>
         <div class="answer">
-            `JOIN FETCH` is used in Hibernate queries (HQL or JPQL) to force eager fetching of associations. This can help avoid the N+1 problem by loading associated entities in a single query, rather than issuing separate queries for each association.
-        </div>
+            `JOIN FETCH` is used in Hibernate queries (HQL or JPQL) to force eager fetching of associations. This can help avoid the N+1 problem by loading associated entities in a single query, rather than issuing separate queries for each association.        </div>
 </div>
 
-    <div class="question-set">
+    <div class="style2">
         <h2>Set 10</h2>
         <div class="question">
-            91. How can you use the `@ManyToOne(fetch = FetchType.EAGER)` annotation to load a related entity eagerly in Hibernate?
-        </div>
+            91. How can you use the `@ManyToOne(fetch = FetchType.EAGER)` annotation to load a related entity eagerly in Hibernate?        </div>
         <div class="answer">
-            Using `@ManyToOne(fetch = FetchType.EAGER)` tells Hibernate to eagerly load the associated entity when the parent entity is loaded. This means that both the parent and the related entity will be fetched in the same query, reducing the number of database round trips.
-        </div>
+            Using `@ManyToOne(fetch = FetchType.EAGER)` tells Hibernate to eagerly load the associated entity when the parent entity is loaded. This means that both the parent and the related entity will be fetched in the same query, reducing the number of database round trips.        </div>
 
         <div class="question">
-            92. What is the difference between `@ManyToOne` and `@OneToMany` associations in terms of fetch strategies?
-        </div>
+            92. What is the difference between `@ManyToOne` and `@OneToMany` associations in terms of fetch strategies?        </div>
         <div class="answer">
-            In a `@ManyToOne` association, the associated entity is often loaded eagerly or lazily based on the fetch type configuration. In contrast, `@OneToMany` associations typically use lazy loading by default, unless explicitly set to eager loading, due to the potential overhead of loading large collections.
-        </div>
+            In a `@ManyToOne` association, the associated entity is often loaded eagerly or lazily based on the fetch type configuration. In contrast, `@OneToMany` associations typically use lazy loading by default, unless explicitly set to eager loading, due to the potential overhead of loading large collections.        </div>
 
         <div class="question">
-            93. How do you use `@ManyToOne` with `fetch = FetchType.LAZY` to improve performance?
-        </div>
+            93. How do you use `@ManyToOne` with `fetch = FetchType.LAZY` to improve performance?        </div>
         <div class="answer">
-            By using `fetch = FetchType.LAZY`, you instruct Hibernate to defer the loading of the associated entity until it is actually accessed. This helps improve performance by reducing the amount of data fetched when loading the parent entity, particularly when the associated entity may not be needed.
-        </div>
+            By using `fetch = FetchType.LAZY`, you instruct Hibernate to defer the loading of the associated entity until it is actually accessed. This helps improve performance by reducing the amount of data fetched when loading the parent entity, particularly when the associated entity may not be needed.        </div>
 
         <div class="question">
-            94. How can Hibernate’s `@OneToOne(fetch = FetchType.LAZY)` annotation affect your application's performance?
-        </div>
+            94. How can Hibernate’s `@OneToOne(fetch = FetchType.LAZY)` annotation affect your application's performance?        </div>
         <div class="answer">
-            The `@OneToOne(fetch = FetchType.LAZY)` annotation can improve performance by only loading the associated entity when it is accessed. This helps avoid unnecessary database queries for related entities that may not be needed immediately.
-        </div>
+            The `@OneToOne(fetch = FetchType.LAZY)` annotation can improve performance by only loading the associated entity when it is accessed. This helps avoid unnecessary database queries for related entities that may not be needed immediately.        </div>
 
         <div class="question">
-            95. Can Hibernate’s Lazy Loading be configured globally, and if so, how?
-        </div>
+            95. Can Hibernate’s Lazy Loading be configured globally, and if so, how?        </div>
         <div class="answer">
-            Yes, Hibernate’s Lazy Loading can be configured globally by setting the default fetch type to lazy in the Hibernate configuration file (`hibernate.cfg.xml`) or by setting properties in your persistence context. This will apply lazy loading to all associations unless overridden by specific annotations or queries.
-        </div>
+            Yes, Hibernate’s Lazy Loading can be configured globally by setting the default fetch type to lazy in the Hibernate configuration file (`hibernate.cfg.xml`) or by setting properties in your persistence context. This will apply lazy loading to all associations unless overridden by specific annotations or queries.        </div>
 
         <div class="question">
-            96. How does Hibernate handle Lazy Loading in a `@OneToMany` relationship when using `FetchType.LAZY`?
-        </div>
+            96. How does Hibernate handle Lazy Loading in a `@OneToMany` relationship when using `FetchType.LAZY`?        </div>
         <div class="answer">
-            In a `@OneToMany` relationship, when `FetchType.LAZY` is used, Hibernate does not load the associated collection immediately when the parent entity is loaded. Instead, the collection is only loaded when it is accessed within an active session, reducing unnecessary data loading.
-        </div>
+            In a `@OneToMany` relationship, when `FetchType.LAZY` is used, Hibernate does not load the associated collection immediately when the parent entity is loaded. Instead, the collection is only loaded when it is accessed within an active session, reducing unnecessary data loading.        </div>
 
         <div class="question">
-            97. What are the possible issues you might encounter when using Lazy Loading in Hibernate with large datasets?
-        </div>
+            97. What are the possible issues you might encounter when using Lazy Loading in Hibernate with large datasets?        </div>
         <div class="answer">
-            Issues that can arise with Lazy Loading include the N+1 query problem (multiple queries being executed for each lazy-loaded association), performance degradation due to excessive queries, and potential `LazyInitializationException` when the session is closed before accessing the lazy-loaded association.
-        </div>
+            Issues that can arise with Lazy Loading include the N+1 query problem (multiple queries being executed for each lazy-loaded association), performance degradation due to excessive queries, and potential `LazyInitializationException` when the session is closed before accessing the lazy-loaded association.        </div>
 
         <div class="question">
-            98. How can you prevent Hibernate from issuing multiple queries in a Lazy Loaded collection?
-        </div>
+            98. How can you prevent Hibernate from issuing multiple queries in a Lazy Loaded collection?        </div>
         <div class="answer">
-            To prevent multiple queries, you can use strategies like `@Fetch(FetchMode.JOIN)` or `@Fetch(FetchMode.SUBSELECT)` to optimize fetching. These strategies ensure that the collection is fetched in a single query rather than issuing separate queries for each association.
-        </div>
+            To prevent multiple queries, you can use strategies like `@Fetch(FetchMode.JOIN)` or `@Fetch(FetchMode.SUBSELECT)` to optimize fetching. These strategies ensure that the collection is fetched in a single query rather than issuing separate queries for each association.        </div>
 
         <div class="question">
-            99. What is the role of `@Lazy` in Hibernate, and how is it different from `fetch = FetchType.LAZY`?
-        </div>
+            99. What is the role of `@Lazy` in Hibernate, and how is it different from `fetch = FetchType.LAZY`?        </div>
         <div class="answer">
-            The `@Lazy` annotation in Hibernate is used to define lazy loading behavior explicitly on a collection or association. It is similar to `fetch = FetchType.LAZY`, but `@Lazy` provides more fine-grained control over how the loading is performed, including specifying whether it should be lazy or eagerly loaded for a specific field or collection.
-        </div>
+            The `@Lazy` annotation in Hibernate is used to define lazy loading behavior explicitly on a collection or association. It is similar to `fetch = FetchType.LAZY`, but `@Lazy` provides more fine-grained control over how the loading is performed, including specifying whether it should be lazy or eagerly loaded for a specific field or collection.        </div>
 
         <div class="question">
-            100. How do you handle `LazyInitializationException` in a Spring-based application when using Hibernate?
-        </div>
+            100. How do you handle `LazyInitializationException` in a Spring-based application when using Hibernate?        </div>
         <div class="answer">
-            To handle `LazyInitializationException`, you can either ensure the session is open when accessing the lazy-loaded association, use `@Transactional` to keep the session open, or initialize the collection manually using `Hibernate.initialize()` before the session is closed.
-        </div>
+            To handle `LazyInitializationException`, you can either ensure the session is open when accessing the lazy-loaded association, use `@Transactional` to keep the session open, or initialize the collection manually using `Hibernate.initialize()` before the session is closed.        </div>
 </div>
-    <div class="question-set">
+    <div class="style2">
         <h2>Set 11</h2>
         <div class="question">
-            101. How do you configure Hibernate to use `FetchType.LAZY` for a `@OneToMany` relationship?
-        </div>
+            101. How do you configure Hibernate to use `FetchType.LAZY` for a `@OneToMany` relationship?        </div>
         <div class="answer">
-            You can configure `FetchType.LAZY` by annotating the `@OneToMany` relationship with `fetch = FetchType.LAZY`. This ensures that the associated collection is only loaded when accessed, rather than being loaded immediately when the parent entity is retrieved.
-        </div>
+            You can configure `FetchType.LAZY` by annotating the `@OneToMany` relationship with `fetch = FetchType.LAZY`. This ensures that the associated collection is only loaded when accessed, rather than being loaded immediately when the parent entity is retrieved.        </div>
 
         <div class="question">
-            102. How does `@OneToOne(fetch = FetchType.EAGER)` behave in Hibernate?
-        </div>
+            102. How does `@OneToOne(fetch = FetchType.EAGER)` behave in Hibernate?        </div>
         <div class="answer">
-            When `@OneToOne(fetch = FetchType.EAGER)` is used, Hibernate loads the associated entity immediately along with the parent entity. This results in a single query fetching both entities, even if the associated entity is not needed in the current context.
-        </div>
+            When `@OneToOne(fetch = FetchType.EAGER)` is used, Hibernate loads the associated entity immediately along with the parent entity. This results in a single query fetching both entities, even if the associated entity is not needed in the current context.        </div>
 
         <div class="question">
-            103. What is the role of `@Fetch(FetchMode.SELECT)` in Hibernate?
-        </div>
+            103. What is the role of `@Fetch(FetchMode.SELECT)` in Hibernate?        </div>
         <div class="answer">
-            `@Fetch(FetchMode.SELECT)` configures Hibernate to fetch associated entities in separate queries, one for each association. This mode is useful when dealing with large collections and helps avoid the N+1 query problem by issuing optimized queries.
-        </div>
+            `@Fetch(FetchMode.SELECT)` configures Hibernate to fetch associated entities in separate queries, one for each association. This mode is useful when dealing with large collections and helps avoid the N+1 query problem by issuing optimized queries.        </div>
 
         <div class="question">
-            104. What is the difference between `FetchType.LAZY` and `FetchType.EAGER` in Hibernate?
-        </div>
+            104. What is the difference between `FetchType.LAZY` and `FetchType.EAGER` in Hibernate?        </div>
         <div class="answer">
-            `FetchType.LAZY` defers the loading of the associated entity or collection until it is accessed, while `FetchType.EAGER` loads the associated entity or collection immediately when the parent entity is loaded, which can impact performance when dealing with large datasets.
-        </div>
+            `FetchType.LAZY` defers the loading of the associated entity or collection until it is accessed, while `FetchType.EAGER` loads the associated entity or collection immediately when the parent entity is loaded, which can impact performance when dealing with large datasets.        </div>
 
         <div class="question">
-            105. How does Hibernate's `@OneToMany` annotation with `fetch = FetchType.LAZY` help with performance optimization?
-        </div>
+            105. How does Hibernate's `@OneToMany` annotation with `fetch = FetchType.LAZY` help with performance optimization?        </div>
         <div class="answer">
-            `fetch = FetchType.LAZY` helps with performance by deferring the loading of associated collections until they are explicitly accessed, reducing the number of database queries and preventing unnecessary data from being fetched.
-        </div>
+            `fetch = FetchType.LAZY` helps with performance by deferring the loading of associated collections until they are explicitly accessed, reducing the number of database queries and preventing unnecessary data from being fetched.        </div>
 
         <div class="question">
-            106. What are the possible causes of the `LazyInitializationException` in Hibernate?
-        </div>
+            106. What are the possible causes of the `LazyInitializationException` in Hibernate?        </div>
         <div class="answer">
-            `LazyInitializationException` occurs when a lazy-loaded association is accessed outside the scope of an open Hibernate session. This typically happens when the session is closed before the associated entity is accessed, or when the entity is detached.
-        </div>
+            `LazyInitializationException` occurs when a lazy-loaded association is accessed outside the scope of an open Hibernate session. This typically happens when the session is closed before the associated entity is accessed, or when the entity is detached.        </div>
 
         <div class="question">
-            107. How can you prevent the `LazyInitializationException` from occurring in a Spring application?
-        </div>
+            107. How can you prevent the `LazyInitializationException` from occurring in a Spring application?        </div>
         <div class="answer">
-            You can prevent `LazyInitializationException` by using the `@Transactional` annotation, which ensures that the session remains open while the entity is accessed. Alternatively, you can initialize lazy-loaded collections explicitly using `Hibernate.initialize()` before closing the session.
-        </div>
+            You can prevent `LazyInitializationException` by using the `@Transactional` annotation, which ensures that the session remains open while the entity is accessed. Alternatively, you can initialize lazy-loaded collections explicitly using `Hibernate.initialize()` before closing the session.        </div>
 
         <div class="question">
-            108. What is the impact of using `FetchType.EAGER` in terms of database performance?
-        </div>
+            108. What is the impact of using `FetchType.EAGER` in terms of database performance?        </div>
         <div class="answer">
-            Using `FetchType.EAGER` can impact database performance by loading all associated entities or collections immediately, which can lead to large, inefficient queries and unnecessary data retrieval. It is best used when the associated entities are always required.
-        </div>
+            Using `FetchType.EAGER` can impact database performance by loading all associated entities or collections immediately, which can lead to large, inefficient queries and unnecessary data retrieval. It is best used when the associated entities are always required.        </div>
 
         <div class="question">
-            109. How can you customize the fetch strategy in Hibernate using HQL or JPQL?
-        </div>
+            109. How can you customize the fetch strategy in Hibernate using HQL or JPQL?        </div>
         <div class="answer">
-            You can customize the fetch strategy in HQL or JPQL using `JOIN FETCH` to eagerly fetch associated entities, or by using `LEFT JOIN FETCH` to include associations in the result set while avoiding N+1 query issues. These strategies help control how associations are loaded.
-        </div>
+            You can customize the fetch strategy in HQL or JPQL using `JOIN FETCH` to eagerly fetch associated entities, or by using `LEFT JOIN FETCH` to include associations in the result set while avoiding N+1 query issues. These strategies help control how associations are loaded.        </div>
     </div>
-    <div class="question-set">
+    <div class="style2">
         <h2>Set 12</h2>
         <div class="question">
-            110. How can you use `@ManyToMany` with `fetch = FetchType.LAZY` to reduce memory consumption in Hibernate?
-        </div>
+            110. How can you use `@ManyToMany` with `fetch = FetchType.LAZY` to reduce memory consumption in Hibernate?        </div>
         <div class="answer">
-            By using `fetch = FetchType.LAZY`, Hibernate will only load the related entities in a `@ManyToMany` relationship when they are actually accessed, reducing memory consumption and avoiding unnecessary data retrieval when the associated entities are not required.
-        </div>
+            By using `fetch = FetchType.LAZY`, Hibernate will only load the related entities in a `@ManyToMany` relationship when they are actually accessed, reducing memory consumption and avoiding unnecessary data retrieval when the associated entities are not required.        </div>
 
         <div class="question">
-            111. What happens when you use `fetch = FetchType.EAGER` with `@ManyToOne` in Hibernate?
-        </div>
+            111. What happens when you use `fetch = FetchType.EAGER` with `@ManyToOne` in Hibernate?        </div>
         <div class="answer">
-            When you use `fetch = FetchType.EAGER` with `@ManyToOne`, Hibernate will fetch the associated entity immediately when the parent entity is loaded, which can lead to performance issues if the associated entity is not needed in all cases.
-        </div>
+            When you use `fetch = FetchType.EAGER` with `@ManyToOne`, Hibernate will fetch the associated entity immediately when the parent entity is loaded, which can lead to performance issues if the associated entity is not needed in all cases.        </div>
 
         <div class="question">
-            112. Can you switch between `FetchType.LAZY` and `FetchType.EAGER` dynamically in Hibernate? How?
-        </div>
+            112. Can you switch between `FetchType.LAZY` and `FetchType.EAGER` dynamically in Hibernate? How?        </div>
         <div class="answer">
-            You cannot directly switch between `FetchType.LAZY` and `FetchType.EAGER` dynamically using annotations. However, you can control the fetch strategy at runtime by using `Criteria` or `JPQL` with `JOIN FETCH` to customize fetching behavior based on specific use cases.
-        </div>
+            You cannot directly switch between `FetchType.LAZY` and `FetchType.EAGER` dynamically using annotations. However, you can control the fetch strategy at runtime by using `Criteria` or `JPQL` with `JOIN FETCH` to customize fetching behavior based on specific use cases.        </div>
 
         <div class="question">
-            113. How does Hibernate optimize fetch strategies with `@ManyToOne` and `@OneToMany` relationships?
-        </div>
+            113. How does Hibernate optimize fetch strategies with `@ManyToOne` and `@OneToMany` relationships?        </div>
         <div class="answer">
-            Hibernate optimizes fetch strategies by deferring the loading of associated entities in `@ManyToOne` (with `FetchType.LAZY`) and `@OneToMany` (with `FetchType.LAZY`), preventing unnecessary queries. Additionally, you can use `@Fetch(FetchMode.JOIN)` to optimize fetch strategies and reduce the number of queries.
-        </div>
+            Hibernate optimizes fetch strategies by deferring the loading of associated entities in `@ManyToOne` (with `FetchType.LAZY`) and `@OneToMany` (with `FetchType.LAZY`), preventing unnecessary queries. Additionally, you can use `@Fetch(FetchMode.JOIN)` to optimize fetch strategies and reduce the number of queries.        </div>
 
         <div class="question">
-            114. What is the purpose of `@BatchSize` in Hibernate, and how does it relate to lazy loading?
-        </div>
+            114. What is the purpose of `@BatchSize` in Hibernate, and how does it relate to lazy loading?        </div>
         <div class="answer">
-            The `@BatchSize` annotation in Hibernate allows you to specify the number of entities to load in a single batch when fetching associations lazily. This helps optimize performance by reducing the number of database round trips when loading collections or associations.
-        </div>
+            The `@BatchSize` annotation in Hibernate allows you to specify the number of entities to load in a single batch when fetching associations lazily. This helps optimize performance by reducing the number of database round trips when loading collections or associations.        </div>
 
         <div class="question">
-            115. How can you configure lazy loading for collections in Hibernate using `@OneToMany` and `@ManyToOne` associations?
-        </div>
+            115. How can you configure lazy loading for collections in Hibernate using `@OneToMany` and `@ManyToOne` associations?        </div>
         <div class="answer">
-            You can configure lazy loading for collections in Hibernate by using `fetch = FetchType.LAZY` in `@OneToMany` and `@ManyToOne` annotations. This ensures that associated collections are only loaded when accessed, reducing the number of queries and improving performance.
-        </div>
+            You can configure lazy loading for collections in Hibernate by using `fetch = FetchType.LAZY` in `@OneToMany` and `@ManyToOne` annotations. This ensures that associated collections are only loaded when accessed, reducing the number of queries and improving performance.        </div>
 
         <div class="question">
-            116. How can you optimize lazy loading in Hibernate for large collections using `@OneToMany` relationships?
-        </div>
+            116. How can you optimize lazy loading in Hibernate for large collections using `@OneToMany` relationships?        </div>
         <div class="answer">
-            To optimize lazy loading for large collections, you can use `@BatchSize` to load multiple associations in a single batch or configure `@Fetch(FetchMode.SUBSELECT)` to minimize the number of queries. These strategies reduce overhead and optimize performance when working with large datasets.
-        </div>
+            To optimize lazy loading for large collections, you can use `@BatchSize` to load multiple associations in a single batch or configure `@Fetch(FetchMode.SUBSELECT)` to minimize the number of queries. These strategies reduce overhead and optimize performance when working with large datasets.        </div>
 
         <div class="question">
-            117. What is the `@LazyCollection` annotation in Hibernate, and how does it help with lazy loading?
-        </div>
+            117. What is the `@LazyCollection` annotation in Hibernate, and how does it help with lazy loading?        </div>
         <div class="answer">
-            The `@LazyCollection` annotation in Hibernate allows you to control the lazy loading behavior of collections, specifying whether the collection should be loaded lazily using a proxy or eagerly. This annotation is useful when you want fine-grained control over the fetching strategy for collections.
-        </div>
+            The `@LazyCollection` annotation in Hibernate allows you to control the lazy loading behavior of collections, specifying whether the collection should be loaded lazily using a proxy or eagerly. This annotation is useful when you want fine-grained control over the fetching strategy for collections.        </div>
 
         <div class="question">
-            118. What are some common mistakes when using lazy loading in Hibernate?
-        </div>
+            118. What are some common mistakes when using lazy loading in Hibernate?        </div>
         <div class="answer">
-            Common mistakes include not managing session scope correctly (leading to `LazyInitializationException`), not using `@Transactional` to keep sessions open, or overusing `FetchType.EAGER` leading to inefficient queries and unnecessary data loading.
-        </div>
+            Common mistakes include not managing session scope correctly (leading to `LazyInitializationException`), not using `@Transactional` to keep sessions open, or overusing `FetchType.EAGER` leading to inefficient queries and unnecessary data loading.        </div>
     </div>
 
 
-    <p>&nbsp;	</p>
+    <p class="style1">&nbsp;	</p>
 </body>
 </html>

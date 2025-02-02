@@ -7,21 +7,23 @@
 <!--
 .question {            margin-bottom: 20px;
 }
+.style1 {font-family: Arial, Helvetica, sans-serif}
+.style2 {margin-bottom: 20px; font-family: Arial, Helvetica, sans-serif; }
 -->
 </style>
 </head>
 
 <body>
-<h2>Dependency Injection &amp; Inversion of Control - Set 1</h2>
-<div class="question">
+<h2 class="style1">Dependency Injection &amp; Inversion of Control - Set 1</h2>
+<div class="style2">
   <h3>1. What is Dependency Injection (DI)?</h3>
   <p><strong>Answer:</strong> Dependency Injection (DI) is a design pattern used to implement Inversion of Control (IoC). It involves passing dependencies (objects or services) to a class rather than the class creating the dependencies itself. This promotes loose coupling and enhances testability by allowing easier substitution of dependencies during unit testing.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is Inversion of Control (IoC)?</h3>
   <p><strong>Answer:</strong> Inversion of Control (IoC) is a design principle where the control over the flow of the program is inverted. In traditional programming, the programmer controls the flow of execution. With IoC, the control is handed over to a framework or external mechanism, such as a DI container, to manage object creation and dependencies.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. What are the benefits of Dependency Injection?</h3>
   <p><strong>Answer:</strong> The benefits of Dependency Injection include:</p>
   <ul>
@@ -31,7 +33,7 @@
     <li><strong>Flexibility:</strong> DI allows for easy swapping of implementations at runtime.</li>
   </ul>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What are the types of Dependency Injection?</h3>
   <p><strong>Answer:</strong> There are three main types of Dependency Injection:</p>
   <ul>
@@ -40,23 +42,23 @@
     <li><strong>Interface Injection:</strong> Dependencies are provided through an interface that the class implements.</li>
   </ul>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What is the difference between Dependency Injection and Service Locator pattern?</h3>
   <p><strong>Answer:</strong> The main difference is that Dependency Injection provides dependencies to a class externally, usually via a constructor or setter, making it more explicit. The Service Locator pattern, on the other hand, allows a class to request its dependencies from a central registry (the service locator), which can make it harder to detect dependencies and decouple code.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is a Dependency Injection container?</h3>
   <p><strong>Answer:</strong> A Dependency Injection container (also known as an IoC container) is a framework component that is responsible for managing the lifecycle and configuration of objects and their dependencies. It automatically provides dependencies to classes when they are needed, based on the configuration provided by the developer.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. Can you explain the concept of &quot;loose coupling&quot; in the context of Dependency Injection?</h3>
   <p><strong>Answer:</strong> Loose coupling refers to reducing the interdependencies between components in a system. In the context of Dependency Injection, loose coupling is achieved because classes do not create or manage their dependencies directly. Instead, dependencies are injected, making it easier to change, test, or replace the components without affecting the rest of the system.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. What is the role of annotations in Dependency Injection in frameworks like Spring?</h3>
   <p><strong>Answer:</strong> In frameworks like Spring, annotations simplify the process of configuring Dependency Injection. Annotations like `@Autowired` or `@Inject` allow developers to mark fields, constructors, or methods where dependencies should be injected, reducing the need for explicit XML or Java configuration.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. What are some common problems that Dependency Injection solves?</h3>
   <p><strong>Answer:</strong> Some common problems that Dependency Injection solves include:</p>
   <ul>
@@ -65,41 +67,41 @@
     <li><strong>Configuration Management:</strong> DI helps manage complex object graphs and dependencies in large applications.</li>
   </ul>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. How do you define a Bean in Spring for Dependency Injection?</h3>
   <p><strong>Answer:</strong> In Spring, a Bean can be defined in multiple ways: through XML configuration, Java configuration (using `@Bean`), or through annotations like `@Component`, `@Service`, `@Repository`, or `@Controller`. These annotations mark classes as beans, which Spring will automatically register and manage for Dependency Injection.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Dependency Injection &amp; Inversion of Control - Set 2</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Dependency Injection &amp; Inversion of Control - Set 2</h2>
+<div class="style2">
   <h3>1. What is the difference between `@Autowired` and `@Inject` in Spring?</h3>
   <p><strong>Answer:</strong> Both `@Autowired` and `@Inject` are used to inject dependencies in Spring, but `@Autowired` is Spring-specific, while `@Inject` is part of the Java Dependency Injection (JSR-330) specification. `@Autowired` has additional Spring-specific features like `required=false` to make the injection optional, which `@Inject` doesn't have.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. How does Constructor Injection work in Spring?</h3>
   <p><strong>Answer:</strong> In Constructor Injection, the required dependencies are provided through the constructor of the class. Spring identifies the constructor with the most parameters (or annotated with `@Autowired` if multiple constructors exist) and injects the appropriate beans. This ensures that the dependencies are provided when the object is created.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. Can Dependency Injection be used in Java without Spring?</h3>
   <p><strong>Answer:</strong> Yes, Dependency Injection can be implemented in Java without Spring. It can be done manually using techniques like Service Locator, or by implementing a custom DI container. However, using frameworks like Spring provides a more robust and scalable solution for DI.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. How does Setter Injection work in Spring?</h3>
   <p><strong>Answer:</strong> In Setter Injection, dependencies are provided through setter methods after the object has been created. Spring uses reflection to identify the appropriate setter methods and inject the dependencies into those methods. This allows for optional dependencies or the ability to change dependencies after object creation.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What is the `@Bean` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Bean` annotation in Spring is used to define a bean within a Java configuration class. It tells Spring that the method will return an object that should be managed as a Spring Bean and made available for dependency injection into other beans. It is typically used when you want to provide more configuration control over the bean creation.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is the purpose of the `@Qualifier` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Qualifier` annotation is used in conjunction with `@Autowired` to specify which bean to inject when there are multiple candidates of the same type. It helps to avoid ambiguity by explicitly specifying the name of the bean to be injected into a particular field, method, or constructor.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. What is the `@Primary` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Primary` annotation in Spring is used to give a preference to one bean when there are multiple candidates for injection. When `@Autowired` is used without `@Qualifier`, Spring will inject the bean marked with `@Primary` by default if there are multiple beans of the same type.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. What is the difference between `@Component`, `@Service`, `@Repository`, and `@Controller` annotations in Spring?</h3>
   <p><strong>Answer:</strong> These annotations are used to mark different types of beans in Spring: </p>
   <ul>
@@ -110,33 +112,33 @@
   </ul>
   </p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. What is the role of Dependency Injection in Unit Testing?</h3>
   <p><strong>Answer:</strong> Dependency Injection plays a critical role in unit testing by allowing mock or stub dependencies to be injected into classes. This isolates the class under test from external dependencies, enabling more controlled and isolated unit tests. DI frameworks like Spring make it easy to inject mocks for testing purposes.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What is the `@Scope` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Scope` annotation is used in Spring to define the scope of a bean, i.e., how long the bean will exist and how it will be created. Common scopes include `singleton` (default, one instance for the entire Spring container), `prototype` (a new instance every time it is requested), `request` (one instance per HTTP request), and `session` (one instance per HTTP session).</p>
 </div>
-<p>&nbsp;</p>
-<h2>Dependency Injection &amp; Inversion of Control - Set 3</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Dependency Injection &amp; Inversion of Control - Set 3</h2>
+<div class="style2">
   <h3>1. What is the main advantage of Dependency Injection?</h3>
   <p><strong>Answer:</strong> The main advantage of Dependency Injection is the decoupling of components. It allows components to focus on their logic and not on managing their dependencies. This leads to easier testing, better maintainability, and flexibility in swapping out implementations.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is Inversion of Control (IoC)?</h3>
   <p><strong>Answer:</strong> Inversion of Control (IoC) refers to the reversal of the flow of control in a program. Instead of the program controlling the flow of execution, the control is inverted and handed to an external component or framework, such as a DI container, to manage the application's flow and object creation.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. Can you explain the concept of a &quot;bean&quot; in Spring?</h3>
   <p><strong>Answer:</strong> In Spring, a &quot;bean&quot; is simply an object that is managed by the Spring container. Beans are created, configured, and managed by Spring's IoC container. Beans are typically defined in configuration files or annotated with `@Component`, `@Service`, `@Repository`, or `@Controller` in Java classes.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What is the difference between `@Autowired` and `@Resource`?</h3>
   <p><strong>Answer:</strong> `@Autowired` is a Spring-specific annotation for Dependency Injection, whereas `@Resource` is a JSR-250 annotation, part of the Java specification. `@Autowired` can inject dependencies by type, and `@Resource` injects dependencies by name, with the option to fall back to type if no name is specified.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What are the possible scopes for beans in Spring?</h3>
   <p><strong>Answer:</strong> The possible scopes for beans in Spring are: </p>
   <ul>
@@ -148,23 +150,23 @@
   </ul>
   </p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. How does Spring handle circular dependencies?</h3>
   <p><strong>Answer:</strong> Spring resolves circular dependencies by using setter injection instead of constructor injection. If two beans depend on each other, Spring can inject the dependencies through setters after the beans are created, avoiding infinite loops during bean creation.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. How do you implement DI manually without using a framework like Spring?</h3>
   <p><strong>Answer:</strong> To implement DI manually without using a framework, you can create a custom container that holds and manages your dependencies. This container is responsible for creating objects and resolving their dependencies. You can inject dependencies through constructor or setter methods, and the container would handle the instantiation of objects and their dependencies.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. What is the role of the `ApplicationContext` in Spring?</h3>
   <p><strong>Answer:</strong> The `ApplicationContext` is the central interface for Spring's IoC container. It is responsible for managing beans, handling bean lifecycle, and providing features like event propagation, declarative mechanisms, and AOP. It is an extension of the `BeanFactory` and provides additional enterprise-specific functionality.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. What is `@Lazy` annotation used for in Spring?</h3>
   <p><strong>Answer:</strong> The `@Lazy` annotation in Spring is used to delay the initialization of a bean until it is actually needed. This is useful for improving application startup time, especially when there are expensive beans that are not immediately required.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What are the advantages of using Dependency Injection in Spring?</h3>
   <p><strong>Answer:</strong> The main advantages of Dependency Injection in Spring are: </p>
   <ul>
@@ -175,33 +177,33 @@
   </ul>
   </p>
 </div>
-<p>&nbsp;</p>
-<h2>Dependency Injection &amp; Inversion of Control - Set 4</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Dependency Injection &amp; Inversion of Control - Set 4</h2>
+<div class="style2">
   <h3>1. What is Constructor Injection in Spring?</h3>
   <p><strong>Answer:</strong> Constructor Injection is a method of providing dependencies to a class through its constructor. The dependencies are passed as parameters when creating an object of the class. This ensures that the object is fully initialized before being used, and it makes the class immutable.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is Setter Injection in Spring?</h3>
   <p><strong>Answer:</strong> Setter Injection is a method of providing dependencies through setter methods. The dependencies are injected after the object is created, allowing for more flexibility, but it may lead to partially initialized objects if not properly managed.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. What is the role of `@Component` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Component` annotation in Spring is used to define a class as a Spring bean. It marks the class for auto-detection when Spring performs classpath scanning for bean definitions. Any class annotated with `@Component` will be managed by the Spring IoC container.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. How do you make Spring manage the lifecycle of a bean?</h3>
   <p><strong>Answer:</strong> Spring manages the lifecycle of a bean by creating and initializing it during the application context startup. The container is responsible for invoking lifecycle methods such as `@PostConstruct` for initialization and `@PreDestroy` for cleanup before bean destruction. Additionally, custom lifecycle callbacks can be defined using the `InitializingBean` and `DisposableBean` interfaces.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What is the difference between BeanFactory and ApplicationContext in Spring?</h3>
   <p><strong>Answer:</strong> `BeanFactory` is the simplest container in Spring, providing basic functionality for bean creation. `ApplicationContext` is an extension of `BeanFactory` and adds more features such as event propagation, declarative mechanisms, and integration with AOP. `ApplicationContext` is more commonly used in modern Spring applications due to its richer functionality.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is `@Qualifier` used for in Spring?</h3>
   <p><strong>Answer:</strong> The `@Qualifier` annotation is used in combination with `@Autowired` to specify which bean should be injected when multiple candidates are available. It is used to resolve ambiguity when more than one bean of the same type exists in the Spring context.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. How would you implement DI in a multi-tiered application?</h3>
   <p><strong>Answer:</strong> In a multi-tiered application, Dependency Injection is typically implemented at each layer. For example: </p>
   <ul>
@@ -212,25 +214,25 @@
   Spring's IoC container ensures that dependencies are injected as needed, promoting loose coupling across layers.
   </p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. How does Spring Boot help with Dependency Injection?</h3>
   <p><strong>Answer:</strong> Spring Boot simplifies Dependency Injection by automatically configuring beans based on the application's requirements. It uses `@SpringBootApplication` to enable component scanning and bean registration, reducing the need for XML configurations. Spring Boot also integrates with Spring's IoC container to automatically inject dependencies into the application’s components.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. What is the use of `@Value` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Value` annotation in Spring is used to inject values into fields, methods, or constructor parameters from property files, environment variables, or expressions. This allows you to externalize configuration values and inject them into your beans at runtime.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. How would you handle dependency injection in a Spring Boot microservice architecture?</h3>
   <p><strong>Answer:</strong> In a Spring Boot microservice architecture, Dependency Injection is used across services and components, ensuring that each microservice is loosely coupled. You can define service beans using `@Service` or `@Component` and inject them into other services via `@Autowired`. Additionally, Spring Cloud provides tools for service discovery and externalized configuration, which helps manage dependencies across distributed services in a microservices environment.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Dependency Injection &amp; Inversion of Control - Set 5</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Dependency Injection &amp; Inversion of Control - Set 5</h2>
+<div class="style2">
   <h3>1. How does `@Autowired` work in Spring?</h3>
   <p><strong>Answer:</strong> The `@Autowired` annotation in Spring is used to automatically inject dependencies into a class. It can be applied to fields, constructors, or setter methods. When Spring’s IoC container starts, it looks for classes marked with `@Component`, `@Service`, `@Repository`, etc., and injects the dependencies defined with `@Autowired` into those classes.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is the difference between `@Component`, `@Service`, and `@Repository` annotations in Spring?</h3>
   <p><strong>Answer:</strong> All three annotations (`@Component`, `@Service`, and `@Repository`) are used to define beans in Spring, but they have different roles: </p>
   <ul>
@@ -240,35 +242,35 @@
   </ul>
   </p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. What is the purpose of the `@Primary` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Primary` annotation is used to indicate that a specific bean should be given preference when multiple beans of the same type are present in the Spring container. When Spring encounters ambiguity in bean injection, it selects the bean marked with `@Primary` by default.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. How can you inject multiple dependencies of the same type in Spring?</h3>
   <p><strong>Answer:</strong> In Spring, if you have multiple beans of the same type, you can inject them using the `@Qualifier` annotation in conjunction with `@Autowired` to resolve the ambiguity. You can also use collections (like `List` or `Map`) to inject multiple beans of the same type.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What is the difference between `@Bean` and `@Component` annotations in Spring?</h3>
   <p><strong>Answer:</strong> `@Bean` is used to define beans explicitly within a configuration class (`@Configuration`), while `@Component` is used to mark a class as a Spring-managed bean. `@Bean` is typically used when you want to configure beans programmatically, while `@Component` is used for classpath scanning where Spring automatically detects and registers beans.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is `@Scope` annotation in Spring, and how is it used?</h3>
   <p><strong>Answer:</strong> The `@Scope` annotation in Spring is used to define the scope of a bean. The default scope is singleton, meaning a single instance of the bean is created. Other available scopes include `prototype` (one instance per injection), `request` (one instance per HTTP request), `session` (one instance per HTTP session), and `application` (one instance per ServletContext).</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. What is the difference between Singleton and Prototype bean scopes?</h3>
   <p><strong>Answer:</strong> A Singleton bean is created once and shared across the entire Spring container, meaning all references to the bean will use the same instance. A Prototype bean, on the other hand, is created each time it is requested, resulting in a new instance on each injection or use.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. How does Spring handle circular dependencies?</h3>
   <p><strong>Answer:</strong> Spring handles circular dependencies by using setter injection or method injection. If two beans depend on each other, Spring can resolve the dependency by creating one bean first and then injecting the other one later. However, circular dependencies with constructor injection will cause an exception unless explicitly resolved.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. How would you use Dependency Injection in a Spring Boot application?</h3>
   <p><strong>Answer:</strong> In a Spring Boot application, Dependency Injection is used by annotating classes with `@Service`, `@Repository`, `@Controller`, etc., and injecting dependencies into them via constructor injection or field injection using `@Autowired`. Spring Boot will automatically detect the beans and inject dependencies during application startup.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What are the benefits of using Dependency Injection in an application?</h3>
   <p><strong>Answer:</strong> Dependency Injection provides several benefits: </p>
   <ul>
@@ -279,13 +281,13 @@
   </ul>
   </p>
 </div>
-<p>&nbsp;</p>
-<h2>Dependency Injection &amp; Inversion of Control - Set 6</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Dependency Injection &amp; Inversion of Control - Set 6</h2>
+<div class="style2">
   <h3>1. What is constructor injection in Spring?</h3>
   <p><strong>Answer:</strong> Constructor injection is a way of injecting dependencies into a class by providing them through the constructor. Spring resolves the dependencies at the time of object creation by invoking the constructor with the required parameters. It ensures that the dependencies are immutable and fully initialized.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What are the benefits of using constructor injection?</h3>
   <p><strong>Answer:</strong> The main benefits of constructor injection are: </p>
   <ul>
@@ -295,11 +297,11 @@
   </ul>
   </p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. How does setter injection differ from constructor injection?</h3>
   <p><strong>Answer:</strong> Setter injection provides dependencies through setter methods, while constructor injection uses the constructor to pass dependencies. The key difference is that setter injection allows dependencies to be modified after the object is created, making it more flexible but less immutable than constructor injection.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. When should you use setter injection over constructor injection?</h3>
   <p><strong>Answer:</strong> Setter injection is preferred when: </p>
   <ul>
@@ -309,7 +311,7 @@
   </ul>
   </p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. How can you use the `@Autowired` annotation with constructor injection?</h3>
   <p><strong>Answer:</strong> With constructor injection, the `@Autowired` annotation is placed on the constructor. Spring automatically detects the constructor and injects the required dependencies when creating the bean. Example: </p>
   <pre>
@@ -320,7 +322,7 @@
             </pre>
   </p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is `@Value` annotation used for in Spring?</h3>
   <p><strong>Answer:</strong> The `@Value` annotation is used to inject values into Spring beans. You can use it to inject literal values, property values from `.properties` files, or values from environment variables into fields or method parameters. Example: </p>
   <pre>
@@ -329,37 +331,37 @@
             </pre>
   </p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. How do you manage the lifecycle of beans in Spring?</h3>
   <p><strong>Answer:</strong> In Spring, the lifecycle of beans is managed by the IoC container. You can define initialization and destruction methods for beans using `@PostConstruct` and `@PreDestroy` annotations, respectively. These methods are invoked after the bean's properties have been set and before the bean is destroyed, respectively.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. How does Spring manage the dependency injection process?</h3>
   <p><strong>Answer:</strong> Spring manages dependency injection by using its IoC (Inversion of Control) container. When a Spring application starts, it scans the defined beans, resolves their dependencies, and injects them automatically into the beans where required, either through constructor injection, setter injection, or field injection.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. What is a `BeanFactory` in Spring?</h3>
   <p><strong>Answer:</strong> A `BeanFactory` is the simplest container in Spring, responsible for managing beans and their dependencies. It lazily loads beans and initializes them when required. `ApplicationContext` extends `BeanFactory`, offering more features such as event propagation and AOP integration.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What is the `@Configuration` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Configuration` annotation in Spring marks a class as a source of bean definitions. It indicates that the class contains one or more `@Bean` annotated methods, which define beans to be managed by the Spring container. It is equivalent to XML-based configuration.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Dependency Injection &amp; Inversion of Control - Set 7</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Dependency Injection &amp; Inversion of Control - Set 7</h2>
+<div class="style2">
   <h3>1. What is the role of `@Autowired` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Autowired` annotation is used to automatically inject dependencies into Spring beans. It can be applied to constructors, fields, or setter methods to let Spring resolve and inject the required beans into the marked location.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is a circular dependency in Spring, and how can it be resolved?</h3>
   <p><strong>Answer:</strong> A circular dependency occurs when two or more beans depend on each other, either directly or indirectly. Spring can resolve circular dependencies by using setter injection instead of constructor injection, as constructor injection cannot be used for circular dependencies.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. Can Spring inject primitives and strings using `@Autowired`?</h3>
   <p><strong>Answer:</strong> Yes, Spring can inject primitive values and strings using `@Autowired`, but it requires a matching bean in the Spring context or property files for primitive types. For example, a `String` can be injected with the `@Value` annotation.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What is the difference between `@Component`, `@Service`, `@Repository`, and `@Controller` in Spring?</h3>
   <p><strong>Answer:</strong> These annotations all define Spring beans, but they are used for different purposes: </p>
   <ul>
@@ -370,19 +372,19 @@
   </ul>
   </p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What is a `@Qualifier` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Qualifier` annotation is used along with `@Autowired` to specify which bean to inject when multiple beans of the same type are available. It helps Spring distinguish between beans and select the correct one for injection.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is the purpose of `@PostConstruct` and `@PreDestroy` annotations?</h3>
   <p><strong>Answer:</strong> `@PostConstruct` is used to mark a method that should be called after the bean has been fully initialized, and `@PreDestroy` is used to mark a method to be called just before the bean is destroyed. These annotations are useful for initialization and cleanup tasks.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. What is the `@Bean` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Bean` annotation is used to define a bean in a Java configuration class. It indicates that the return value of the method should be registered as a bean in the Spring application context. This annotation can be used alongside `@Configuration` to define beans.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. How do you define bean scopes in Spring?</h3>
   <p><strong>Answer:</strong> In Spring, bean scopes define the lifecycle and visibility of a bean. The most commonly used scopes are: </p>
   <ul>
@@ -393,146 +395,146 @@
   </ul>
   </p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. What is a `@Scope` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Scope` annotation in Spring is used to specify the scope of a bean, determining how long the bean will live and when it will be created. Common scopes include `singleton`, `prototype`, `request`, `session`, and `application`.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What is the purpose of `@Primary` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Primary` annotation is used to mark one of the beans as the preferred choice when multiple beans of the same type are available. Spring will inject the bean marked with `@Primary` when a specific bean is not specified using `@Qualifier`.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Dependency Injection &amp; Inversion of Control - Set 8</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Dependency Injection &amp; Inversion of Control - Set 8</h2>
+<div class="style2">
   <h3>1. What are the advantages of using dependency injection in Java?</h3>
   <p><strong>Answer:</strong> Dependency Injection (DI) allows for loose coupling, easier unit testing, better scalability, and enhanced maintainability. It promotes separation of concerns by decoupling the creation and management of objects from the business logic.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. How does Inversion of Control (IoC) relate to Dependency Injection (DI)?</h3>
   <p><strong>Answer:</strong> Inversion of Control (IoC) is a design principle that reverses the flow of control in a program. Dependency Injection (DI) is a form of IoC where objects or dependencies are injected into a class rather than the class creating them. DI is a specific technique to achieve IoC.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. Can a Spring bean be injected into another bean without using `@Autowired`?</h3>
   <p><strong>Answer:</strong> Yes, a Spring bean can be injected into another bean without using `@Autowired` by using Java configuration with the `@Bean` annotation in a configuration class or by using XML-based configuration for wiring beans.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What does `@Value` annotation do in Spring?</h3>
   <p><strong>Answer:</strong> The `@Value` annotation is used to inject values into Spring beans from property files, system properties, or even expressions. It is commonly used to inject configuration values or literals into fields.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What is the difference between `@ComponentScan` and `@EnableAutoConfiguration`?</h3>
   <p><strong>Answer:</strong> `@ComponentScan` tells Spring where to search for annotated components like `@Component`, `@Service`, and `@Repository`. `@EnableAutoConfiguration` is used to enable Spring Boot's auto-configuration feature, which automatically configures Spring beans based on the project's dependencies.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. How does Spring handle bean lifecycle management?</h3>
   <p><strong>Answer:</strong> Spring manages the lifecycle of beans by handling their creation, initialization, and destruction. The lifecycle is managed through the use of annotations like `@PostConstruct` for initialization and `@PreDestroy` for cleanup. Spring also provides interfaces like `InitializingBean` and `DisposableBean` for lifecycle hooks.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. What is the use of `@Configuration` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Configuration` annotation is used to define a class as a configuration class in Spring. It indicates that the class contains `@Bean` definitions, which are used to configure Spring beans, similar to how an XML configuration file would work.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. How do you inject a list of beans in Spring?</h3>
   <p><strong>Answer:</strong> In Spring, you can inject a list of beans by using the `@Autowired` annotation along with a collection type, such as `List
       <T>
     `, where `T` is the type of the bean. Spring will inject all matching beans of that type into the list.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. What is the purpose of `@Import` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Import` annotation is used to import additional configuration classes or component scans into a Spring configuration class. It helps in modularizing and organizing configuration classes for complex applications.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. How does Spring handle dependency injection for abstract classes or interfaces?</h3>
   <p><strong>Answer:</strong> Spring can inject dependencies into abstract classes or interfaces by providing concrete implementations. For example, if you have an interface or an abstract class, Spring can inject an instance of a class that implements the interface or extends the abstract class.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Dependency Injection &amp; Inversion of Control - Set 9</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Dependency Injection &amp; Inversion of Control - Set 9</h2>
+<div class="style2">
   <h3>1. How do you define a primary bean in Spring?</h3>
   <p><strong>Answer:</strong> You can define a primary bean in Spring using the `@Primary` annotation. This is helpful when you have multiple beans of the same type and want Spring to use one as the default bean when autowiring.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is the difference between constructor injection and setter injection in Spring?</h3>
   <p><strong>Answer:</strong> Constructor injection injects dependencies through the constructor of a class, while setter injection uses setter methods. Constructor injection is preferred for mandatory dependencies, while setter injection is used for optional dependencies.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. What is `@Qualifier` used for in Spring?</h3>
   <p><strong>Answer:</strong> The `@Qualifier` annotation is used to specify which bean to inject when there are multiple candidates of the same type. It helps Spring resolve ambiguity by referring to the bean name or qualifier.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What is the role of the `@Bean` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Bean` annotation is used in Spring configuration classes to define a method that returns an object that should be registered as a Spring bean. This annotation is typically used in a `@Configuration` class to manually configure beans.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. How can you define a scope for a Spring bean?</h3>
   <p><strong>Answer:</strong> In Spring, you can define the scope of a bean using the `@Scope` annotation. Common scopes include `singleton` (default), `prototype`, `request`, `session`, and `application`.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What are the advantages of using annotations over XML configuration for DI?</h3>
   <p><strong>Answer:</strong> Annotations provide a more concise and readable configuration, reducing boilerplate code. They also make it easier to understand the dependencies and reduce the complexity associated with XML configuration files.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. How does Spring handle circular dependencies in beans?</h3>
   <p><strong>Answer:</strong> Spring resolves circular dependencies by using setter injection. It allows Spring to create a proxy object for one of the beans, break the circular reference, and inject dependencies once all the beans are created.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. What is `@Lazy` annotation used for in Spring?</h3>
   <p><strong>Answer:</strong> The `@Lazy` annotation is used to delay the initialization of a bean until it is required. It can be applied to a bean or to a dependency injection point to improve startup performance in applications with many beans.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. What is the `@Component` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Component` annotation is used to define a Spring-managed bean. It is a general-purpose annotation for any type of component that should be registered with the Spring context. Other specialized annotations like `@Service`, `@Repository`, and `@Controller` are built on top of `@Component`.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. How do you prevent a bean from being created in Spring?</h3>
   <p><strong>Answer:</strong> You can prevent a bean from being created by using the `@Profile` annotation. By specifying a profile, you can control which beans should be created based on the active profiles in the environment.</p>
 </div>
-<p>&nbsp;</p>
-<h2>Dependency Injection &amp; Inversion of Control - Set 10</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Dependency Injection &amp; Inversion of Control - Set 10</h2>
+<div class="style2">
   <h3>1. What is the difference between `@Autowired` and `@Inject` in Spring?</h3>
   <p><strong>Answer:</strong> Both `@Autowired` (Spring) and `@Inject` (Java) are used for dependency injection. However, `@Autowired` is specific to Spring and provides more functionality (like optional injection), while `@Inject` is part of Java’s Dependency Injection standard (JSR-330) and is more limited.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is `@PostConstruct` used for in Spring?</h3>
   <p><strong>Answer:</strong> The `@PostConstruct` annotation is used to indicate a method that should be executed immediately after the bean’s properties have been set and the bean is fully initialized.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. Can we use constructor injection with `@Autowired` in Spring?</h3>
   <p><strong>Answer:</strong> Yes, Spring allows constructor injection with `@Autowired`. By annotating a constructor with `@Autowired`, Spring will inject the required dependencies when creating the bean.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What is `@Value` used for in Spring?</h3>
   <p><strong>Answer:</strong> The `@Value` annotation is used to inject values into fields from property files, environment variables, or even expressions. It is commonly used for injecting configuration properties into Spring beans.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. How does Spring resolve multiple beans of the same type?</h3>
   <p><strong>Answer:</strong> Spring resolves multiple beans of the same type using the `@Qualifier` annotation. By specifying the name of the bean, you can tell Spring which bean to inject when there is ambiguity.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What are some examples of bean scopes in Spring?</h3>
   <p><strong>Answer:</strong> The common bean scopes in Spring are `singleton`, `prototype`, `request`, `session`, and `application`. `Singleton` is the default scope, meaning only one instance of the bean will be created, whereas `prototype` creates a new instance each time.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. What is the use of `@Scope` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@Scope` annotation in Spring is used to specify the scope of a bean. It can be used with `@Component` or other stereotype annotations to define if a bean should be singleton, prototype, etc.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. What is the role of Spring's `@Configuration` annotation?</h3>
   <p><strong>Answer:</strong> The `@Configuration` annotation indicates that a class provides Spring configuration. It is used to declare beans through the `@Bean` annotation and can be considered a replacement for XML configuration in Spring applications.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. What is the purpose of `@ComponentScan` annotation in Spring?</h3>
   <p><strong>Answer:</strong> The `@ComponentScan` annotation is used to specify the packages that Spring should scan for annotated components, such as `@Component`, `@Service`, `@Repository`, and `@Controller` beans. This helps Spring automatically detect and register beans.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What is Spring’s Inversion of Control (IoC)?</h3>
   <p><strong>Answer:</strong> Inversion of Control (IoC) refers to the process in which the control of object creation and dependency management is transferred from the application code to the Spring framework. This allows for more flexible and loosely coupled applications.</p>
 </div>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
 </body>
 </html>
