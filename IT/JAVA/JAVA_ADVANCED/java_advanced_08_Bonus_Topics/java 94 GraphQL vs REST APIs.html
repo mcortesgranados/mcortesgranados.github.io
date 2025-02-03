@@ -7,412 +7,414 @@
 <!--
 .question {            margin-bottom: 20px;
 }
+.style1 {font-family: Arial, Helvetica, sans-serif}
+.style2 {margin-bottom: 20px; font-family: Arial, Helvetica, sans-serif; }
 -->
 </style>
 </head>
 
 <body>
-<h2>GraphQL vs REST APIs - Set 1</h2>
-<div class="question">
+<h2 class="style1">GraphQL vs REST APIs - Set 1</h2>
+<div class="style2">
   <h3>1. What is the main difference between GraphQL and REST APIs?</h3>
   <p><strong>Answer:</strong> The main difference is that REST APIs have multiple endpoints for different resources (e.g., /users, /posts), while GraphQL exposes a single endpoint that can handle multiple queries and allows the client to specify which fields it wants.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. How does data fetching differ in GraphQL compared to REST?</h3>
   <p><strong>Answer:</strong> In REST, you fetch predefined data from different endpoints. With GraphQL, you can request exactly the data you need in a single query, reducing the number of requests and over-fetching.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. How does GraphQL handle versioning?</h3>
   <p><strong>Answer:</strong> GraphQL does not require versioning because clients can request exactly the data they need, regardless of changes to the API. Older queries continue to work unless a breaking change is introduced in the schema.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. Can GraphQL be used with REST APIs?</h3>
   <p><strong>Answer:</strong> Yes, GraphQL can be used as a layer on top of existing REST APIs. It can aggregate data from multiple REST endpoints into a single GraphQL query, offering flexibility and reducing the need for multiple requests.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. Which approach is more efficient: GraphQL or REST?</h3>
   <p><strong>Answer:</strong> GraphQL is generally more efficient because it reduces over-fetching and under-fetching of data by allowing clients to request exactly what they need. REST can require multiple requests to different endpoints, leading to inefficiency.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is the advantage of using REST APIs?</h3>
   <p><strong>Answer:</strong> REST APIs are simpler to implement, use standard HTTP methods (GET, POST, PUT, DELETE), and are widely adopted. They also work well for simple CRUD operations and are stateless, making them easier to scale.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. What is the advantage of using GraphQL?</h3>
   <p><strong>Answer:</strong> GraphQL provides more flexibility by allowing clients to request specific fields and combine data from multiple sources in a single request. This makes it more suitable for complex applications with dynamic and changing data requirements.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. How do REST APIs handle authentication compared to GraphQL?</h3>
   <p><strong>Answer:</strong> Both GraphQL and REST APIs can use the same authentication methods, such as OAuth, JWT, or API keys. However, REST often uses authentication at each endpoint, while in GraphQL, the authentication logic is typically implemented at the server level and can be shared across all queries and mutations.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. How does error handling differ between REST and GraphQL?</h3>
   <p><strong>Answer:</strong> In REST, errors are typically returned as HTTP status codes, while in GraphQL, errors are returned within the response as part of the payload. This allows GraphQL to continue processing and return partial data along with error messages.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What are the challenges when implementing GraphQL over REST?</h3>
   <p><strong>Answer:</strong> Some challenges when implementing GraphQL over REST include managing complex queries, preventing over-fetching, ensuring efficient database access, and handling caching since GraphQL doesn’t cache as easily as REST APIs with fixed endpoints.</p>
 </div>
-<p>&nbsp;</p>
-<h2>GraphQL vs REST APIs - Set 2</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">GraphQL vs REST APIs - Set 2</h2>
+<div class="style2">
   <h3>11. How do you handle pagination in GraphQL?</h3>
   <p><strong>Answer:</strong> Pagination in GraphQL can be handled using the `limit` and `offset` arguments or by using a cursor-based approach with `startCursor` and `endCursor` to retrieve a subset of data in each query.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>12. How do REST APIs handle pagination?</h3>
   <p><strong>Answer:</strong> REST APIs typically handle pagination by using query parameters like `page` and `size`, or `limit` and `offset`, to specify the range of records to fetch in each request.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>13. Can you use GraphQL for real-time updates?</h3>
   <p><strong>Answer:</strong> Yes, GraphQL supports real-time updates through subscriptions. Subscriptions allow clients to listen for updates and receive new data when it changes on the server.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>14. Can REST APIs support real-time updates?</h3>
   <p><strong>Answer:</strong> REST APIs do not have native support for real-time updates, but they can implement real-time communication using WebSockets or Server-Sent Events (SSE) to push updates to the client.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>15. How does caching work in REST APIs?</h3>
   <p><strong>Answer:</strong> Caching in REST APIs is typically handled using HTTP headers like `Cache-Control`, `ETag`, or `Last-Modified`. These headers instruct clients and intermediate proxies on how to cache responses and when to check for fresh data.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>16. How does caching work in GraphQL?</h3>
   <p><strong>Answer:</strong> Caching in GraphQL is more complex because of its flexibility. The caching strategy can depend on the specific client or server implementation, and it often involves caching query results or using tools like Apollo Client for caching at the client level.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>17. How do you handle complex queries in GraphQL?</h3>
   <p><strong>Answer:</strong> Complex queries in GraphQL are handled by breaking them down into smaller, more manageable fields. Additionally, developers can optimize these queries by using batching, caching, and minimizing unnecessary fields in the request.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>18. How do you handle complex queries in REST?</h3>
   <p><strong>Answer:</strong> Complex queries in REST are usually handled by breaking them down into multiple endpoints or by using query parameters to refine the request. However, handling deeply nested or complex data relationships can require additional endpoints or data manipulation on the server.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>19. How is authorization handled in GraphQL?</h3>
   <p><strong>Answer:</strong> Authorization in GraphQL is usually handled at the field level within the resolver functions. Each field can check whether the user has the necessary permissions before returning data, allowing for fine-grained access control.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>20. How is authorization handled in REST APIs?</h3>
   <p><strong>Answer:</strong> Authorization in REST APIs is typically handled using OAuth tokens, API keys, or JWT tokens passed in request headers. Permissions are checked on each resource or endpoint, and responses are returned based on the user's privileges.</p>
 </div>
-<p>&nbsp;</p>
-<h2>GraphQL vs REST APIs - Set 3</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">GraphQL vs REST APIs - Set 3</h2>
+<div class="style2">
   <h3>21. What is a key benefit of using GraphQL for mobile apps?</h3>
   <p><strong>Answer:</strong> GraphQL allows mobile apps to request only the data they need, which can significantly reduce data usage and improve performance, especially on slower networks.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>22. What is a key disadvantage of using GraphQL for mobile apps?</h3>
   <p><strong>Answer:</strong> One disadvantage is that GraphQL queries can become more complex, leading to potential performance issues when dealing with large data sets or deeply nested queries, especially on mobile devices.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>23. How does REST handle versioning?</h3>
   <p><strong>Answer:</strong> REST APIs typically handle versioning by including the version number in the URL (e.g., /v1/users) or through headers. This allows the server to differentiate between different versions of the API.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>24. How does GraphQL handle breaking changes?</h3>
   <p><strong>Answer:</strong> GraphQL allows non-breaking changes, as clients can request only the data they need. If a field is deprecated, clients that don't request it will not be affected. However, breaking changes like removing a required field can still cause issues for clients.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>25. Can GraphQL be used for file uploads?</h3>
   <p><strong>Answer:</strong> Yes, GraphQL can be used for file uploads. While GraphQL does not natively support file uploads, it can be extended with custom logic to handle file transfers, often using a multipart form or external libraries.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>26. How do REST APIs handle file uploads?</h3>
   <p><strong>Answer:</strong> REST APIs handle file uploads using the `multipart/form-data` content type, where files are sent as part of a POST request with additional metadata about the file (e.g., filename, MIME type).</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>27. What is the typical structure of a REST API response?</h3>
   <p><strong>Answer:</strong> A typical REST API response is a JSON object (or XML, depending on the API) that contains the requested data along with metadata, such as status codes, message headers, and other relevant information.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>28. What is the typical structure of a GraphQL response?</h3>
   <p><strong>Answer:</strong> A typical GraphQL response is a JSON object that contains the requested data in a structure matching the query, with a `data` field containing the results and an optional `errors` field for any issues encountered during execution.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>29. Can GraphQL return multiple types of data in one request?</h3>
   <p><strong>Answer:</strong> Yes, GraphQL allows you to request multiple types of data in a single query by specifying different fields that return different types of objects, all within the same request.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>30. Can REST APIs return multiple types of data in one request?</h3>
   <p><strong>Answer:</strong> Typically, REST APIs return one type of data per endpoint. To return multiple types of data, a REST API would require multiple endpoints or need to aggregate data at the server level before returning it to the client.</p>
 </div>
-<p>&nbsp;</p>
-<h2>GraphQL vs REST APIs - Set 4</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">GraphQL vs REST APIs - Set 4</h2>
+<div class="style2">
   <h3>31. How does GraphQL improve over REST in terms of over-fetching and under-fetching data?</h3>
   <p><strong>Answer:</strong> GraphQL improves over REST by allowing clients to request exactly the data they need, preventing over-fetching (retrieving unnecessary data) and under-fetching (not retrieving enough data) that can occur with REST API endpoints.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>32. What is a common issue when using REST APIs with mobile apps?</h3>
   <p><strong>Answer:</strong> A common issue with REST APIs in mobile apps is over-fetching data, where the mobile app retrieves more data than needed because REST APIs return predefined responses, which can increase bandwidth usage and processing time.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>33. What is a common challenge with REST APIs in terms of server load?</h3>
   <p><strong>Answer:</strong> REST APIs can increase server load when multiple endpoints are called to fetch related data, as each endpoint might result in additional queries or requests, leading to inefficient data retrieval.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>34. How does GraphQL help reduce server load?</h3>
   <p><strong>Answer:</strong> GraphQL helps reduce server load by allowing clients to request only the specific data they need in one query, which minimizes the number of server-side operations and data transfers.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>35. How does error handling differ in GraphQL compared to REST?</h3>
   <p><strong>Answer:</strong> In GraphQL, errors are returned in an `errors` field in the response, while valid data is returned in the `data` field. In REST, errors are typically returned via HTTP status codes and an error message in the response body.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>36. What are the advantages of using REST APIs for simple CRUD operations?</h3>
   <p><strong>Answer:</strong> REST APIs are easy to implement and maintain for simple CRUD operations, as they map directly to HTTP methods like GET, POST, PUT, and DELETE, making them intuitive and standard for these operations.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>37. What are the advantages of using GraphQL for complex data queries?</h3>
   <p><strong>Answer:</strong> GraphQL is more suitable for complex data queries because it allows clients to request only the required data in a flexible, efficient way, even when dealing with deeply nested relationships and varying data structures.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>38. Can GraphQL be used as a replacement for REST APIs?</h3>
   <p><strong>Answer:</strong> While GraphQL can be used as an alternative to REST APIs, it’s not always a direct replacement. For simple APIs, REST might be more efficient, but for complex data requirements and flexibility, GraphQL offers significant advantages.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>39. Can REST APIs be used alongside GraphQL in the same application?</h3>
   <p><strong>Answer:</strong> Yes, REST APIs can be used alongside GraphQL in the same application. Some applications implement a hybrid approach where REST handles certain functionalities, and GraphQL handles more complex queries and relationships.</p>
 </div>
-<p>&nbsp;</p>
-<h2>GraphQL vs REST APIs - Set 5</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">GraphQL vs REST APIs - Set 5</h2>
+<div class="style2">
   <h3>40. How does GraphQL handle pagination?</h3>
   <p><strong>Answer:</strong> GraphQL handles pagination by using `cursor-based` pagination, where each result contains a cursor to indicate the next page of results. This is more flexible and efficient compared to traditional `offset-based` pagination in REST APIs.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>41. How does REST handle pagination?</h3>
   <p><strong>Answer:</strong> REST typically handles pagination using `offset-based` pagination, where the client sends parameters like `page` or `limit` to control the number of items per response, and the server returns data accordingly.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>42. Can GraphQL handle real-time data updates?</h3>
   <p><strong>Answer:</strong> Yes, GraphQL can handle real-time data updates through subscriptions. Subscriptions allow clients to listen for changes in data and automatically update when the data changes on the server.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>43. Can REST handle real-time data updates?</h3>
   <p><strong>Answer:</strong> REST does not natively support real-time data updates. However, it can achieve real-time functionality through additional technologies like WebSockets or long polling, but this requires extra implementation outside of standard REST principles.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>44. What is a use case where REST might be preferred over GraphQL?</h3>
   <p><strong>Answer:</strong> REST is preferred in simpler applications where the data requirements are fixed and straightforward, such as CRUD operations that don’t require complex relationships or extensive flexibility in queries.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>45. What is a use case where GraphQL might be preferred over REST?</h3>
   <p><strong>Answer:</strong> GraphQL is preferred when the client requires flexible and efficient querying of complex and related data structures, such as in mobile applications where minimizing data transfer and over-fetching is crucial.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>46. How do you handle authentication in REST APIs?</h3>
   <p><strong>Answer:</strong> Authentication in REST APIs is typically handled using mechanisms like OAuth, API keys, or JSON Web Tokens (JWT), where tokens or credentials are sent in the request headers to verify the user’s identity.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>47. How do you handle authentication in GraphQL?</h3>
   <p><strong>Answer:</strong> Authentication in GraphQL is handled similarly to REST, using tokens or credentials like OAuth, API keys, or JWT, which are sent in the request headers. Authentication is typically done before resolving queries or mutations.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>48. Does GraphQL have built-in support for file uploads?</h3>
   <p><strong>Answer:</strong> No, GraphQL does not have native support for file uploads. However, it can be extended to handle file uploads through multipart forms or external libraries like Apollo Server or GraphQL Upload.</p>
 </div>
-<p>&nbsp;</p>
-<h2>GraphQL vs REST APIs - Set 6</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">GraphQL vs REST APIs - Set 6</h2>
+<div class="style2">
   <h3>49. How does GraphQL improve versioning compared to REST?</h3>
   <p><strong>Answer:</strong> GraphQL eliminates the need for versioning because clients can request the exact data they need, regardless of changes in the server-side schema. This flexibility allows for non-breaking changes without versioning endpoints.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>50. How does REST handle versioning?</h3>
   <p><strong>Answer:</strong> REST typically handles versioning by adding a version number to the URL, such as `/v1/resource` or `/v2/resource`. This approach requires creating and maintaining different versions of the API as it evolves.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>51. How do caching strategies differ between REST and GraphQL?</h3>
   <p><strong>Answer:</strong> REST caching is typically done by caching entire responses based on URL, while GraphQL caching is more complex due to the dynamic nature of the queries. With GraphQL, caching can be performed at the field level using libraries like Apollo Client, but it requires more configuration.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>52. What is the typical response format of a REST API?</h3>
   <p><strong>Answer:</strong> A REST API typically returns data in a standard format such as JSON or XML. The response format is fixed and defined by the endpoint, and each endpoint usually returns a complete resource or entity.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>53. What is the typical response format of a GraphQL API?</h3>
   <p><strong>Answer:</strong> GraphQL APIs always return data in JSON format, with two main fields: `data` (containing the requested data) and `errors` (if any issues occurred). The shape of the response matches the structure of the query made by the client.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>54. How does the request-response cycle differ between REST and GraphQL?</h3>
   <p><strong>Answer:</strong> In REST, each endpoint corresponds to a fixed resource, and multiple requests may be needed to fetch related data. In GraphQL, a single request can fetch all related data as defined by the client’s query, reducing the number of requests.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>55. Can GraphQL be used with multiple data sources?</h3>
   <p><strong>Answer:</strong> Yes, GraphQL can aggregate data from multiple data sources, such as databases, REST APIs, and other services, and expose them through a unified API, allowing clients to query them together.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>56. Can REST be used with multiple data sources?</h3>
   <p><strong>Answer:</strong> Yes, REST APIs can aggregate data from multiple sources, but this typically requires additional complexity, such as combining data from various microservices, databases, or third-party APIs within the server-side logic.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>57. What tools are commonly used for testing GraphQL APIs?</h3>
   <p><strong>Answer:</strong> Tools like Apollo Client, Postman, and GraphiQL are commonly used to test GraphQL APIs. These tools allow developers to interactively write queries and mutations and explore the schema.</p>
 </div>
-<p>&nbsp;</p>
-<h2>GraphQL vs REST APIs - Set 7</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">GraphQL vs REST APIs - Set 7</h2>
+<div class="style2">
   <h3>58. What is the role of schema in GraphQL?</h3>
   <p><strong>Answer:</strong> In GraphQL, the schema defines the structure of the data that can be queried. It specifies types, queries, mutations, and subscriptions, acting as a contract between the client and the server.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>59. Does REST require a schema?</h3>
   <p><strong>Answer:</strong> No, REST does not have a built-in schema. It relies on the server-side API documentation and conventions to define the structure of the response and expected request parameters.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>60. How does GraphQL handle errors?</h3>
   <p><strong>Answer:</strong> GraphQL handles errors by returning them in the `errors` field of the response. The `data` field is still included, but it will contain `null` for the parts of the query that failed.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>61. How does REST handle errors?</h3>
   <p><strong>Answer:</strong> REST handles errors by returning an HTTP status code (such as 404 for not found or 500 for server error) and optionally including an error message in the response body, typically in JSON format.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>62. Can you request only a subset of data in a REST API?</h3>
   <p><strong>Answer:</strong> In REST APIs, the data returned is usually fixed per endpoint, so clients often get more data than they need. To filter the data, additional query parameters are used, but this may not be as efficient or flexible as GraphQL's approach.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>63. Can you request only a subset of data in GraphQL?</h3>
   <p><strong>Answer:</strong> Yes, GraphQL allows clients to request only the exact data they need, by specifying fields within the query. This helps avoid over-fetching and reduces the amount of data transferred over the network.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>64. What is the difference between a query and a mutation in GraphQL?</h3>
   <p><strong>Answer:</strong> In GraphQL, a `query` is used to retrieve data, while a `mutation` is used to modify data on the server. Mutations may also return data, but unlike queries, they can cause changes to the data.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>65. Can REST support real-time functionality?</h3>
   <p><strong>Answer:</strong> REST does not natively support real-time functionality. However, real-time updates can be implemented with additional protocols like WebSockets or Server-Sent Events (SSE), but this requires extra configuration outside of REST.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>66. How does GraphQL ensure efficiency with nested queries?</h3>
   <p><strong>Answer:</strong> GraphQL allows clients to define nested queries that return only the necessary data, which minimizes the number of requests and optimizes the data fetching process. It also enables clients to request related data in a single query, reducing the need for multiple round trips to the server.</p>
 </div>
-<p>&nbsp;</p>
-<h2>GraphQL vs REST APIs - Set 8</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">GraphQL vs REST APIs - Set 8</h2>
+<div class="style2">
   <h3>67. What are the benefits of using GraphQL over REST?</h3>
   <p><strong>Answer:</strong> The benefits of GraphQL include more efficient data fetching by allowing clients to request exactly the data they need, flexibility in handling related data, and the ability to evolve APIs without breaking existing clients.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>68. What are the main drawbacks of GraphQL compared to REST?</h3>
   <p><strong>Answer:</strong> GraphQL can be more complex to implement, requiring a schema and resolver logic, and it can be harder to manage permissions due to its flexible querying nature. Also, it may lead to over-fetching or complex queries if not carefully structured.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>69. How does the client interact with a REST API?</h3>
   <p><strong>Answer:</strong> The client interacts with a REST API by making HTTP requests to specific endpoints (e.g., `GET`, `POST`, `PUT`, `DELETE`) and receiving data in a fixed format (usually JSON) based on the resource at that endpoint.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>70. How does the client interact with a GraphQL API?</h3>
   <p><strong>Answer:</strong> The client interacts with a GraphQL API by sending a single HTTP request containing a query or mutation that specifies the exact fields of data needed. The response returns only the requested data in a structured format.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>71. Can GraphQL be used with REST APIs?</h3>
   <p><strong>Answer:</strong> Yes, GraphQL can be used alongside or on top of REST APIs to combine multiple REST endpoints into a unified GraphQL API. This is often done using a GraphQL gateway or a service that acts as a proxy to RESTful services.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>72. How does GraphQL handle pagination?</h3>
   <p><strong>Answer:</strong> GraphQL typically uses cursor-based pagination, where the client requests a specific page of results using a `cursor` (pointer to the current position in the result set) and a `limit` (number of results). This approach is more efficient than traditional offset-based pagination.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>73. How does REST handle pagination?</h3>
   <p><strong>Answer:</strong> REST typically handles pagination by including query parameters like `page` and `limit` or `offset` in the request. The server returns a subset of results along with metadata like total count and next page links.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>74. How does caching work in GraphQL?</h3>
   <p><strong>Answer:</strong> Caching in GraphQL can be done at various levels, such as query response caching or field-level caching. Tools like Apollo Client or Relay can be used to manage caching in the client-side, and server-side caching can also be applied using techniques like data loader.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>75. How does caching work in REST?</h3>
   <p><strong>Answer:</strong> Caching in REST is typically done at the HTTP level, using headers such as `Cache-Control` and `ETag`. The server can specify whether a resource can be cached and for how long, and clients can cache responses to reduce redundant requests.</p>
 </div>
-<p>&nbsp;</p>
-<h2>GraphQL vs REST APIs - Set 9</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">GraphQL vs REST APIs - Set 9</h2>
+<div class="style2">
   <h3>76. What is a resolver in GraphQL?</h3>
   <p><strong>Answer:</strong> A resolver in GraphQL is a function responsible for returning the value of a field in the query. Resolvers are used to fetch the appropriate data for each field, either from databases, APIs, or other sources.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>77. What is a controller in REST?</h3>
   <p><strong>Answer:</strong> In REST, a controller is a part of the server-side application that handles incoming HTTP requests, processes them, and returns an appropriate HTTP response. Controllers are responsible for routing and business logic execution.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>78. Can REST APIs be versioned?</h3>
   <p><strong>Answer:</strong> Yes, REST APIs can be versioned by including the version number in the URL path (e.g., `/api/v1/`). Another method is using request headers to specify the version.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>79. How does versioning work in GraphQL?</h3>
   <p><strong>Answer:</strong> GraphQL typically does not require versioning. Instead, clients can request only the fields they need, and the server can evolve by adding new fields and deprecating old ones without breaking existing clients. This is a key advantage of GraphQL over REST.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>80. How does GraphQL handle relationships between entities?</h3>
   <p><strong>Answer:</strong> In GraphQL, relationships between entities are modeled as fields that reference other types. These fields can be queried in a nested manner, allowing clients to request related data in a single query.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>81. How does REST handle relationships between entities?</h3>
   <p><strong>Answer:</strong> In REST, relationships between entities are typically handled by using related resources. For example, an API for a blog might have separate endpoints for `posts` and `comments`, and the client has to make multiple requests to get related data.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>82. What is the N+1 problem in GraphQL?</h3>
   <p><strong>Answer:</strong> The N+1 problem in GraphQL occurs when multiple queries are made to retrieve related data for each individual item. This leads to inefficiency, as it results in multiple database queries (one per item), instead of fetching related data in bulk. This can be mitigated with tools like DataLoader.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>83. What is the N+1 problem in REST?</h3>
   <p><strong>Answer:</strong> The N+1 problem in REST occurs when a client makes a request to a resource and then needs to make additional requests to related resources for each item in the result. This leads to a large number of requests, affecting performance. To solve this, data can be pre-joined or aggregated into a single response.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>84. How does authentication work in REST?</h3>
   <p><strong>Answer:</strong> Authentication in REST is typically done using tokens (e.g., JWT) or session cookies. The client sends an authentication token or cookie with each request, and the server verifies it to grant access to protected resources.</p>
 </div>
-<p>&nbsp;</p>
-<h2>GraphQL vs REST APIs - Set 10</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">GraphQL vs REST APIs - Set 10</h2>
+<div class="style2">
   <h3>85. How does GraphQL handle errors?</h3>
   <p><strong>Answer:</strong> In GraphQL, errors are returned in the response under the `errors` key. The response also includes the `data` field, which may be partial if some parts of the query succeed while others fail. This allows clients to handle errors gracefully.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>86. How does REST handle errors?</h3>
   <p><strong>Answer:</strong> In REST, errors are typically indicated by the HTTP status code (e.g., 404 for not found, 500 for server errors). The response body often contains a message or additional details about the error, which clients can use for debugging or error handling.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>87. Can GraphQL be used with REST for data fetching?</h3>
   <p><strong>Answer:</strong> Yes, GraphQL can be used as a wrapper around existing REST APIs to aggregate multiple REST endpoints into a single GraphQL endpoint. This allows clients to make more efficient requests by combining data from multiple sources into one query.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>88. How does GraphQL manage authentication and authorization?</h3>
   <p><strong>Answer:</strong> GraphQL manages authentication and authorization using middleware or server-side resolvers that check the request for valid tokens (e.g., JWT) or other credentials. Fine-grained access control can be implemented at the field level or operation level.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>89. How does REST manage authentication and authorization?</h3>
   <p><strong>Answer:</strong> REST manages authentication and authorization using mechanisms like API keys, OAuth, or JWT tokens. These are typically sent as headers in the request, and the server validates the tokens before granting access to resources.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>90. What is the role of middleware in GraphQL?</h3>
   <p><strong>Answer:</strong> Middleware in GraphQL can be used for tasks such as logging, authentication, authorization, error handling, or modifying the request or response. Middleware runs before the resolver functions and can intercept or transform the request/response flow.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>91. What is the role of middleware in REST?</h3>
   <p><strong>Answer:</strong> Middleware in REST is used for various tasks, including logging, security checks, request validation, and modifying request/response headers. It is generally implemented as part of the HTTP server or framework handling the REST API.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>92. What is the impact of a large payload in REST APIs?</h3>
   <p><strong>Answer:</strong> A large payload in REST APIs can lead to performance issues, such as slow response times, higher memory consumption, and inefficient network usage. To mitigate this, REST APIs can use pagination or compression techniques to reduce payload size.</p>
 </div>
-<div class="question">
+<div class="style2">
   <h3>93. What is the impact of a large payload in GraphQL?</h3>
   <p><strong>Answer:</strong> In GraphQL, a large payload can occur if the client requests too many fields or unnecessary data, leading to slower response times and higher server load. Clients should be careful to request only the data they need, and server-side limits can be applied to mitigate this issue.</p>
 </div>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
 </body>
 </html>

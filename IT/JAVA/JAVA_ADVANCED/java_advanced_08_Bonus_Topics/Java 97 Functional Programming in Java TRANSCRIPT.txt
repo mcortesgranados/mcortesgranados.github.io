@@ -1,0 +1,473 @@
+1. What is functional programming in Java?
+
+Functional programming in Java is a programming paradigm that treats computation as the evaluation of mathematical functions and avoids changing state or mutable data. Java supports functional programming through features like lambda expressions, streams, and functional interfaces.
+
+2. What are lambda expressions in Java?
+
+Lambda expressions are a feature in Java introduced in Java 8, allowing you to express instances of functional interfaces (interfaces with a single abstract method) in a more concise and readable way. The syntax of a lambda expression is `(parameters) -> expression`.
+
+3. What is a functional interface in Java?
+
+A functional interface is an interface that contains exactly one abstract method, and it can have multiple default or static methods. These interfaces are used as the target types for lambda expressions and method references in Java.
+
+4. How do you use the Stream API in Java?
+
+The Stream API in Java allows you to process sequences of elements (like collections) in a functional style. You can use methods like `map()`, `filter()`, `reduce()`, `collect()`, etc., to process elements in a pipeline fashion.
+            
+5. What is the difference between `map()` and `flatMap()` in Java Streams?
+
+The `map()` function transforms each element of the stream into another element, while `flatMap()` is used to flatten nested structures like lists within lists, transforming each element of the stream into a stream and then flattening them into a single stream.
+
+6. What is the purpose of the `Optional` class in Java?
+
+The `Optional` class is used to represent a value that may or may not be present. It is often used to avoid null pointer exceptions and provide a way to handle missing values more functionally, using methods like `ifPresent()`, `map()`, and `orElse()`.
+
+7. How do you use method references in Java?
+
+Method references in Java provide a shorthand way of writing lambda expressions that call a specific method. The syntax for method references is `ClassName::methodName`, and it can be used in place of lambda expressions where a method is directly invoked.
+
+8. What is the `reduce()` function in Java Streams?
+
+The `reduce()` function in Java Streams is used to combine elements of the stream into a single result, typically by performing some kind of aggregation or accumulation operation, such as sum, multiplication, etc.
+
+9. How do you filter elements in a stream in Java?
+
+You can filter elements in a stream using the `filter()` method, which takes a predicate as an argument. It returns a new stream that only contains the elements that match the predicate.
+            
+10. What are the key benefits of functional programming in Java?
+
+The key benefits of functional programming in Java include improved readability, less boilerplate code, easier parallelism, more declarative code, and better handling of side effects. It also promotes immutability and safer handling of state.
+
+11. What is a higher-order function in Java?
+
+A higher-order function is a function that takes one or more functions as parameters, returns a function as a result, or both. Java’s functional interfaces, lambda expressions, and method references allow for higher-order functions.
+
+12. How does immutability work in functional programming in Java?
+
+In functional programming, immutability refers to the idea that objects cannot be modified after they are created. In Java, this can be achieved by using final variables, making fields of objects final, and returning new objects rather than modifying existing ones.
+
+13. What is the difference between `collect()` and `toList()` in Java Streams?
+
+`collect()` is a terminal operation that transforms the elements of the stream into a different form, such as a collection. `toList()` is a collector that collects the stream elements into a `List`. While `toList()` is a specific collector, `collect()` is more general and can be used with any collector.
+
+14. What does the `peek()` method do in Java Streams?
+
+The `peek()` method in Java Streams is an intermediate operation that allows you to see the elements of the stream as they are processed. It is mainly used for debugging purposes or logging, as it does not modify the stream.
+
+15. What are default methods in Java interfaces?
+
+Default methods are methods in interfaces that have a body. They allow interfaces to provide default implementations of methods, which helps maintain backward compatibility when new methods are added to interfaces.
+
+16. How does Java handle side effects in functional programming?
+
+In functional programming, side effects are discouraged. Java handles side effects by encouraging immutability, stateless functions, and the use of pure functions, which don’t change any state outside of their scope or rely on external state.
+
+17. How can you create a stream from an array in Java?
+
+You can create a stream from an array in Java using the `Arrays.stream()` method. This method returns a stream for the given array.
+
+18. What is a `UnaryOperator` in Java?
+
+A `UnaryOperator` is a functional interface in Java that represents a function that takes one argument of a specific type and returns a result of the same type. It is a specialization of the `Function` interface for cases where the input and output types are the same.
+            
+19. What is a `BiFunction` in Java?
+
+A `BiFunction` is a functional interface in Java that represents a function that takes two arguments of possibly different types and returns a result of another type. It is often used to combine or transform two input values into one output value.
+
+20. How do you chain multiple operations in Java Streams?
+
+In Java Streams, multiple operations can be chained together to form a pipeline. The intermediate operations (such as `map()`, `filter()`, etc.) are applied to the stream and the final result is produced by a terminal operation (like `collect()` or `forEach()`). Each operation returns a new stream.
+
+21. What is a `Supplier` in Java?
+
+A `Supplier` is a functional interface in Java that represents a function that takes no arguments and returns a result. It is often used when you need to supply a value but don't need to provide input data.
+
+22. How can you use `Optional` to handle null values in Java?
+
+`Optional` is a container object which may or may not contain a value. It is used to avoid `NullPointerException`. You can use methods like `isPresent()`, `ifPresent()`, or `orElse()` to handle values safely.
+
+23. What is the `reduce()` method in Java Streams?
+
+The `reduce()` method in Java Streams is a terminal operation that combines the elements of a stream into a single result. It takes an associative binary operator and can be used to accumulate values, such as summing or multiplying numbers.
+
+24. What is a `Stream` in Java?
+
+A `Stream` in Java is a sequence of elements supporting sequential and parallel aggregate operations. Streams are not data structures, but they provide a functional approach to processing data in a declarative manner.
+
+25. How can you create an empty stream in Java?
+
+You can create an empty stream in Java using the `Stream.empty()` method. This returns an empty stream with no elements.
+            
+26. What is a `Consumer` in Java?
+
+A `Consumer` is a functional interface that represents a function that takes one argument and returns no result. It is commonly used to perform operations like printing, modifying, or logging data.
+
+27. What does the `map()` method do in Java Streams?
+
+The `map()` method is an intermediate operation that transforms the elements of the stream by applying a function to each element. It produces a new stream consisting of the transformed elements.
+
+28. What is the difference between `filter()` and `map()` in Java Streams?
+
+`filter()` is used to remove elements from the stream based on a condition, whereas `map()` transforms the elements of the stream using a provided function. `filter()` returns a new stream with elements that match the condition, while `map()` changes each element of the stream.
+
+29. How do you handle parallel streams in Java?
+
+Parallel streams in Java are created by calling the `parallel()` method on a stream. This allows operations on the stream to be executed concurrently, which can improve performance on large datasets. However, you should use parallel streams with caution, as they may not always improve performance due to overhead or issues with thread safety.
+
+30. What is the significance of `forEach()` in Java Streams?
+
+The `forEach()` method is a terminal operation that performs an action for each element of the stream. It is typically used for operations like printing or logging the elements of the stream. It cannot be used after a terminal operation as it consumes the stream.
+
+31. What is the `flatMap()` method in Java Streams?
+
+The `flatMap()` method is an intermediate operation that maps each element of the stream to another stream and flattens the resulting streams into a single stream. It is used when the transformation results in multiple elements per original element.
+
+32. What is the difference between `collect()` and `toList()` in Java Streams?
+
+`collect()` is a terminal operation that transforms a stream into a different form, typically a collection. `toList()` is a specific collector that collects the elements of the stream into a `List`. While `collect()` is a more general operation, `toList()` is a predefined collector for lists.
+
+33. How can you find the maximum value in a stream in Java?
+
+To find the maximum value in a stream, you can use the `max()` method with a comparator. This returns an `Optional` that contains the maximum value, or is empty if the stream is empty.
+
+34. What is method reference in Java and how is it used with streams?
+
+A method reference in Java is a shorthand for lambda expressions that call a method. It is used to refer to a method of an object or class without executing it. In streams, method references can replace lambda expressions for invoking methods directly on elements of the stream.
+
+35. What does the `allMatch()` method do in Java Streams?
+
+The `allMatch()` method is a short-circuiting terminal operation that checks if all elements in the stream satisfy a given predicate. It returns `true` if all elements match the predicate, or `false` otherwise.
+
+36. How do you handle exceptions in lambda expressions in Java?
+
+Lambda expressions in Java do not allow checked exceptions directly. However, you can handle exceptions within a lambda by either catching them or using a custom wrapper method that handles the exception.
+
+37. What is the `forEachOrdered()` method in Java Streams?
+
+The `forEachOrdered()` method is similar to `forEach()`, but it guarantees that the elements will be processed in the encounter order, even if the stream is processed in parallel. This is useful when the order of processing is important.
+
+38. How can you convert a stream into an array in Java?
+
+To convert a stream into an array, you can use the `toArray()` method. This method returns an array containing the elements of the stream.
+
+39. What is the purpose of the `peek()` method in Java Streams?
+
+The `peek()` method is an intermediate operation that allows you to inspect the elements of the stream as they are processed. It is typically used for debugging or logging purposes. Note that it does not modify the elements of the stream.
+
+\40. What is `toMap()` in Java Streams?
+
+The `toMap()` method is a collector in Java Streams that allows you to transform the elements of the stream into a map. You need to provide a key and a value for the map. The method returns a `Map` containing the elements of the stream.
+
+41. How does the `reduce()` method work in Java Streams?
+
+The `reduce()` method is a terminal operation that combines the elements of the stream using an associative accumulation function. It produces a single result based on the stream elements.
+            
+42. What is the purpose of the `Optional` class in Java Streams?
+
+The `Optional` class is a container object which may or may not contain a value. It is used to avoid `NullPointerException` and to provide a way to handle missing values more gracefully. Many stream operations return `Optional` objects.
+
+43. What is the `sorted()` method used for in Java Streams?
+
+The `sorted()` method is an intermediate operation in Java Streams that returns a stream with the elements sorted according to their natural order or according to a provided comparator.
+
+44. How do you handle multiple conditions using `filter()` in Java Streams?
+
+You can combine multiple conditions in the `filter()` method using logical operators (`&&`, `||`, etc.) within a lambda expression.
+
+45. How do you use the `distinct()` method in Java Streams?
+
+The `distinct()` method is an intermediate operation that eliminates duplicate elements from the stream.
+
+46. What is the `anyMatch()` method used for in Java Streams?
+
+The `anyMatch()` method is a short-circuiting terminal operation that checks if any element in the stream matches a given predicate. It returns `true` if at least one element matches, otherwise `false`.
+
+47. How can you check if a stream is empty in Java?
+
+You can check if a stream is empty using the `findAny()` method combined with `isPresent()` to see if any element is present in the stream. If no element is found, the stream is empty.
+
+48. What is the difference between `count()` and `anyMatch()` in Java Streams?
+
+The `count()` method returns the number of elements in the stream that match a given condition, while `anyMatch()` returns a boolean value indicating whether at least one element matches the condition.
+
+49. How do you chain multiple operations in Java Streams?
+
+You can chain multiple operations in Java Streams by calling stream methods consecutively. The stream is processed step by step in the order of method calls, and intermediate operations are lazily evaluated.
+
+50. What is the purpose of the `skip()` method in Java Streams?
+
+The `skip()` method is an intermediate operation that skips the first `n` elements of the stream and returns a new stream with the remaining elements.
+
+51. What is the `peek()` method in Java Streams used for?
+
+The `peek()` method is an intermediate operation that allows you to inspect the elements of the stream as they are processed. It is often used for debugging purposes and does not alter the stream.
+
+52. What is the `flatMap()` method in Java Streams?
+
+The `flatMap()` method is an intermediate operation that allows you to transform each element into a stream and then flatten the resulting streams into a single stream.
+
+53. How do you handle multiple streams concurrently in Java?
+
+In Java, you can use the `parallel()` method to enable parallel processing of streams, which can improve performance for large datasets.
+
+54. What is the difference between `map()` and `flatMap()` in Java Streams?
+
+The `map()` method transforms each element of the stream into a new element, while `flatMap()` transforms each element into a stream and then flattens the resulting streams into a single stream.
+
+55. What is the `collect()` method in Java Streams?
+
+The `collect()` method is a terminal operation that transforms the elements of a stream into a different form, such as a collection (e.g., List, Set, Map). It is typically used with `Collectors` utility methods.
+
+56. How do you use the `groupingBy()` collector in Java Streams?
+
+The `groupingBy()` collector is a convenient way to group elements of a stream based on a classifier function. It returns a Map where the key is the result of applying the classifier function to each element.
+
+57. What is the `toMap()` collector used for in Java Streams?
+
+58. How do you handle null values in Java Streams?
+
+59. What does the `findFirst()` method do in Java Streams?
+
+60. How do you perform an operation on each element in a stream without modifying the stream?
+
+61. What is the `reduce()` method in Java Streams?
+
+The `reduce()` method is a terminal operation that performs a reduction on the elements of the stream using an associative accumulation function. It produces a single result.
+
+62. What is a `Supplier` in Java Functional Interfaces?
+
+A `Supplier` is a functional interface that represents a supplier of results. It does not take any arguments but returns a result.
+
+63. What is a `Consumer` in Java Functional Interfaces?
+
+A `Consumer` is a functional interface that represents an operation that takes a single input argument and returns no result. It is used to perform an action on an input.
+
+64. How does the `mapToInt()` method work in Java Streams?
+
+The `mapToInt()` method is an intermediate operation that converts a stream of objects to an `IntStream`. It applies a function to each element and returns an integer value.
+
+65. What is the `anyMatch()` method in Java Streams?
+
+The `anyMatch()` method is a terminal operation that checks whether any elements in the stream satisfy the given predicate. It returns `true` if any element matches the condition, otherwise `false`.
+
+66. What is the `allMatch()` method in Java Streams?
+
+The `allMatch()` method is a terminal operation that checks whether all elements in the stream satisfy the given predicate. It returns `true` if all elements match the condition, otherwise `false`.
+
+67. How does the `noneMatch()` method work in Java Streams?
+
+The `noneMatch()` method is a terminal operation that checks whether no elements in the stream satisfy the given predicate. It returns `true` if no elements match the condition, otherwise `false`.
+
+68. What is the `forEachOrdered()` method in Java Streams?
+
+The `forEachOrdered()` method is a terminal operation that performs an action for each element in the stream in the encounter order. It is used when you want to preserve the order of elements while processing them in parallel streams.
+
+69. What is the `skip()` method used for in Java Streams?
+
+The `skip()` method is an intermediate operation that skips the first `n` elements of the stream and returns a new stream with the remaining elements.
+
+70. How do you use the `limit()` method in Java Streams?
+
+The `limit()` method is an intermediate operation that returns a new stream containing the first `n` elements from the original stream. It is useful for restricting the number of elements in a stream.
+
+71. What is the `flatMap()` method in Java Streams?
+
+The `flatMap()` method is an intermediate operation that transforms each element of the stream into a new stream and then flattens the result into a single stream.
+
+72. What is a `Predicate` in Java Functional Interfaces?
+
+A `Predicate` is a functional interface that represents a boolean-valued function of one argument. It is typically used to test whether a condition is true or false for an object.
+
+73. How does the `distinct()` method work in Java Streams?
+
+The `distinct()` method is an intermediate operation that removes duplicate elements from a stream based on the `equals()` method.
+
+74. What is the `toArray()` method used for in Java Streams?
+
+The `toArray()` method is a terminal operation that converts a stream into an array. You can pass a function that returns an array of the correct type.
+
+75. What is a `Function` in Java Functional Interfaces?
+
+A `Function` is a functional interface that represents a function that takes one argument and produces a result. It is typically used for mapping one type to another.
+
+76. How does the `sorted()` method work in Java Streams?
+
+The `sorted()` method is an intermediate operation that sorts the elements of a stream in natural order or using a comparator.
+
+77. What is the `peek()` method used for in Java Streams?
+
+The `peek()` method is an intermediate operation that allows you to perform a side-effect operation on each element of the stream without consuming it. It is often used for debugging.
+
+78. What is the difference between `map()` and `flatMap()` in Java Streams?
+
+The `map()` method transforms each element of the stream into a new value, while `flatMap()` transforms each element into a stream and then flattens the resulting streams into a single stream.
+
+79. How do you use the `forEach()` method in Java Streams?
+
+The `forEach()` method is a terminal operation that iterates over each element of the stream and performs a specified action.
+
+80. What is a `UnaryOperator` in Java Functional Interfaces?
+
+A `UnaryOperator` is a functional interface that represents an operation on a single operand that produces a result of the same type as the operand.
+
+81. What is the `collect()` method in Java Streams?
+
+The `collect()` method is a terminal operation that transforms the elements of a stream into a different form, usually a collection like a List, Set, or Map.
+
+82. What is the difference between `findFirst()` and `findAny()` in Java Streams?
+
+The `findFirst()` method returns the first element in the stream, while `findAny()` can return any element from the stream. `findAny()` is typically used in parallel streams.
+
+83. What is `Optional` in Java and how is it used in functional programming?
+
+`Optional` is a container object that may or may not contain a non-null value. It is used to represent a value that may be absent, allowing safe handling of null values.
+
+84. What is the `anyMatch()` method in Java Streams?
+
+The `anyMatch()` method is a terminal operation that checks whether at least one element of the stream matches the given predicate.
+
+85. How do you use the `reduce()` method in Java Streams?
+
+The `reduce()` method is a terminal operation that performs a reduction on the elements of the stream using an associative accumulation function and returns an `Optional` containing the result.
+
+86. What is the `IntStream` in Java Streams?
+
+`IntStream` is a specialized stream for working with primitive `int` values. It provides methods that are optimized for working with primitive values, reducing the overhead of autoboxing.
+
+IntStream.range(1, 5).forEach(System.out::println);  // Output: 1, 2, 3, 4
+            
+87. How does the `skip()` method work in Java Streams?
+
+The `skip()` method is an intermediate operation that skips the first `n` elements of the stream and returns a stream with the remaining elements.
+
+88. What is the `limit()` method in Java Streams?
+
+The `limit()` method is an intermediate operation that returns a stream with at most the specified number of elements, truncating the stream if it is larger.
+
+89. How do you use the `mapToInt()` method in Java Streams?
+
+The `mapToInt()` method is used to convert a stream of objects to a stream of primitive `int` values. It is commonly used when you need to perform numeric operations on the stream elements.
+
+90. What is a `BiFunction` in Java Functional Interfaces?
+
+A `BiFunction` is a functional interface that takes two arguments of different types and produces a result. It is commonly used for functions that take two inputs and return a result.
+
+91. What is the difference between `map()` and `flatMap()` in Java Streams?
+
+The `map()` method transforms each element of the stream into a new form, while `flatMap()` flattens the result into a single stream when the mapping produces multiple elements per input.
+
+92. What is the `UnaryOperator` functional interface in Java?
+
+A `UnaryOperator` is a functional interface that takes one argument and returns a result of the same type. It is used for functions that perform operations on a single input and return the same type.
+
+94. What is the `Function` interface in Java?
+
+`Function` is a functional interface that takes one argument and returns a result. It is commonly used for mapping functions or operations that transform data.
+
+95. How does the `forEach()` method work in Java Streams?
+
+The `forEach()` method is a terminal operation that performs an action for each element in the stream. It is often used to iterate over elements in a stream.
+
+96. What is the `Comparator` interface in Java?
+
+`Comparator` is a functional interface used for comparing two objects. It is often used for sorting elements in a stream or a collection.
+
+97. What is `reduce()` used for in Java Streams?
+
+`reduce()` is a terminal operation used to combine all elements in a stream into a single result. It uses an associative accumulation function.
+
+98. What is the `IntStream` in Java?
+
+`IntStream` is a specialized stream for working with primitive `int` values. It provides methods that reduce overhead and improve performance when working with primitive data types.
+
+
+IntStream.range(1, 5).forEach(System.out::println);  // Output: 1, 2, 3, 4
+            
+99. How can you create a Stream from an array in Java?
+
+You can use `Arrays.stream()` to create a stream from an array.
+
+100. How do you use `Stream.generate()` in Java?
+
+`Stream.generate()` is a method that generates an infinite stream based on a provided `Supplier`. You can limit the size of the stream using `limit()` to prevent it from running indefinitely.
+
+101. What is the `Supplier` functional interface in Java?
+
+The `Supplier` functional interface represents a supplier of results. It has a method `get()` that doesn't take any input parameters and returns a value.
+
+102. How does `Stream.filter()` work in Java?
+
+`Stream.filter()` is a method that returns a new stream containing only elements that match the specified predicate. It is often used to filter out unwanted elements.
+
+103. What is the `Optional` class in Java?
+
+`Optional` is a container object which may or may not contain a value. It is used to represent the possibility of a null value and helps avoid `NullPointerException`.
+
+104. How can you create an immutable collection in Java?
+
+Java provides the `Collections.unmodifiableList()`, `unmodifiableSet()`, and `unmodifiableMap()` methods to create immutable collections. In addition, you can use `List.of()` and `Set.of()` in Java 9 and later.
+
+105. What is the use of `Stream.peek()` in Java?
+
+`Stream.peek()` is an intermediate operation that allows you to perform a side effect on each element of the stream as it is processed. It is primarily used for debugging purposes.
+
+106. How does `Stream.concat()` work in Java?
+
+`Stream.concat()` is a method that merges two streams into a single stream. It takes two streams as parameters and returns a new stream that contains the elements of both.
+
+107. How do you use `Stream.collect()` in Java?
+
+`Stream.collect()` is a terminal operation that transforms the elements of the stream into a different form, typically a collection, such as a list, set, or map.
+
+108. What is `Stream.allMatch()` in Java?
+
+`Stream.allMatch()` is a terminal operation that checks if all elements in the stream satisfy the given predicate.
+
+109. What is the difference between `limit()` and `skip()` in Java Streams?
+
+`limit()` is an operation that truncates the stream to a specified size, while `skip()` is used to skip a specified number of elements from the beginning of the stream.
+
+110. How does `Stream.forEachOrdered()` work in Java?
+
+`Stream.forEachOrdered()` is similar to `forEach()`, but it guarantees the elements are processed in the encounter order if the stream has an encounter order.
+
+111. What is the `Consumer` functional interface in Java?
+
+`Consumer` is a functional interface that represents an operation that accepts a single input argument and returns no result. It has the method `accept()`.
+
+112. How do you use `Stream.reduce()` in Java?
+
+`Stream.reduce()` is a terminal operation that performs a reduction on the elements of the stream using an associative accumulation function and returns an `Optional` result.
+
+113. What is `Stream.flatMap()` used for in Java?
+
+`Stream.flatMap()` is an intermediate operation that replaces each element of the stream with a stream of new values, then flattens the resulting streams into a single stream.
+
+114. What is the difference between `map()` and `flatMap()` in Java Streams?
+
+`map()` transforms each element into one element, while `flatMap()` can transform each element into zero, one, or more elements and flattens the result into a single stream.
+
+115. How does `Stream.distinct()` work in Java?
+
+`Stream.distinct()` is an intermediate operation that returns a stream with distinct elements (removes duplicates) according to the `equals()` method.
+
+116. What is `Stream.anyMatch()` in Java?
+
+`Stream.anyMatch()` is a terminal operation that checks whether any element in the stream matches the provided predicate. It returns `true` if at least one element satisfies the condition.
+
+117. How does `Stream.noneMatch()` work in Java?
+
+`Stream.noneMatch()` is a terminal operation that checks if no elements in the stream match the given predicate. It returns `true` if none of the elements satisfy the condition.
+
+118. What is the purpose of `Stream.sorted()` in Java?
+
+`Stream.sorted()` is an intermediate operation that returns a stream with elements sorted according to the natural order or using a custom comparator.
+
+119. What is the `Function` functional interface in Java?
+
+`Function` is a functional interface that represents a function that accepts one argument and produces a result. It has the method `apply()`.
+
+120. How do you use `Stream.toList()` in Java?
+
+`Stream.toList()` is a terminal operation that collects the elements of a stream into a new list. This method was introduced in Java 16.
+ 

@@ -1,0 +1,485 @@
+1. What is secure coding?
+
+Secure coding is the practice of writing software that is resistant to vulnerabilities and cyber threats. It involves following security best practices to prevent attacks such as SQL injection, cross-site scripting (XSS), and buffer overflows.
+
+2. Why is secure coding important?
+
+Secure coding is essential to protect applications from security vulnerabilities, data breaches, and cyber-attacks. It ensures the confidentiality, integrity, and availability of software systems.
+
+3. What are the top OWASP security risks?
+
+The OWASP Top 10 is a list of the most critical web application security risks, including:
+
+Injection (SQL, NoSQL, Command Injection)
+Broken Authentication
+Sensitive Data Exposure
+XML External Entities (XXE)
+Broken Access Control
+Security Misconfiguration
+Cross-Site Scripting (XSS)
+Insecure Deserialization
+Using Components with Known Vulnerabilities
+Insufficient Logging and Monitoring
+
+4. How can SQL injection be prevented?
+
+SQL injection can be prevented using:
+
+Parameterized queries
+Prepared statements
+ORM frameworks (e.g., Hibernate, JPA)
+Input validation
+Example in Java using PreparedStatement:
+        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+        PreparedStatement stmt = connection.prepareStatement(query);
+        stmt.setString(1, username);
+        stmt.setString(2, password);
+        ResultSet rs = stmt.executeQuery();
+        
+5. How do you prevent cross-site scripting (XSS)?
+
+XSS can be prevented by:
+
+Validating and escaping user input
+Using Content Security Policy (CSP)
+Encoding output
+Using security libraries like OWASP Java Encoder
+Example in Java:
+        import org.owasp.encoder.Encode;
+        String safeOutput = Encode.forHtml(userInput);
+        
+6. What is input validation, and why is it important?
+
+Input validation ensures that user input meets predefined criteria before being processed. It helps prevent security issues such as SQL injection, XSS, and buffer overflows.
+
+7. How do you securely store passwords in Java?
+
+Passwords should be stored using strong hashing algorithms like BCrypt, PBKDF2, or Argon2. Example using BCrypt:
+
+8. What is Cross-Site Request Forgery (CSRF), and how can it be prevented?
+
+CSRF is an attack where unauthorized commands are transmitted from a user that the web application trusts. It can be prevented using:
+
+9. How do you handle sensitive information in configuration files?
+
+Sensitive information should never be stored in configuration files in plain text. Best practices include:
+
+Using environment variables
+Using secrets management tools (e.g., AWS Secrets Manager, HashiCorp Vault)
+Encrypting sensitive data
+
+10. How do you securely handle exceptions in Java?
+
+Secure exception handling includes:
+
+Not exposing stack traces in production
+Using generic error messages
+Logging exceptions securely without exposing sensitive data
+
+11. What is the principle of least privilege?
+
+The principle of least privilege states that a user, process, or system component should only have the minimum privileges necessary to perform its function. This reduces the risk of unauthorized access and privilege escalation.
+
+12. How do you prevent directory traversal attacks in Java?
+
+Directory traversal attacks can be prevented by:
+
+Validating and sanitizing user input
+Using canonical paths
+Restricting file access to allowed directories
+
+13. What are secure logging best practices?
+
+Secure logging includes:
+
+Never logging sensitive information like passwords
+Using structured logging
+Ensuring logs are tamper-proof
+Using log rotation to prevent log file growth issues
+
+14. What is an insecure deserialization attack?
+
+Insecure deserialization occurs when untrusted data is used to manipulate application logic or execute arbitrary code. It can be prevented by:
+
+Validating and sanitizing input data
+Avoiding deserialization of untrusted data
+Using JSON or other safer formats instead of Java serialization
+
+15. How do you securely deserialize objects in Java?
+
+Use a safe approach like whitelisting allowed classes:
+
+16. What is a security token and how is it used?
+
+A security token is a string used to authenticate and authorize users securely. Common types include JWT (JSON Web Token) and OAuth tokens.
+
+17. How do you securely generate random numbers in Java?
+
+Use `SecureRandom` instead of `java.util.Random` for cryptographic purposes.
+
+18. What is Clickjacking, and how do you prevent it?
+
+Clickjacking is an attack where a malicious website overlays an invisible iframe over a legitimate website to trick users into clicking on hidden elements. It can be prevented using:
+
+Setting `X-Frame-Options` to `DENY` or `SAMEORIGIN`
+Using Content Security Policy (CSP)
+
+19. What are the best practices for API security?
+
+Best practices include:
+
+Using HTTPS
+Implementing authentication (OAuth, JWT)
+Validating and sanitizing inputs
+Implementing rate limiting and logging
+
+20. How do you prevent brute force attacks?
+
+Brute force attacks can be mitigated using:
+
+Account lockout after multiple failed login attempts
+Using CAPTCHAs
+Implementing rate limiting
+Using strong password policies
+
+21. What is SQL Injection, and how do you prevent it?
+
+SQL Injection is a vulnerability that allows attackers to execute arbitrary SQL commands. Prevention methods include:
+
+Using prepared statements and parameterized queries
+Validating and sanitizing inputs
+Restricting database privileges
+
+22. How do you protect sensitive data in Java applications?
+
+Sensitive data can be protected by:
+
+Encrypting sensitive data at rest and in transit
+Using secure storage mechanisms
+Masking or hashing sensitive information in logs
+
+23. What are the OWASP Top 10 vulnerabilities?
+
+The OWASP Top 10 is a list of critical security risks for web applications:
+
+Broken Access Control
+Cryptographic Failures
+Injection
+Insecure Design
+Security Misconfiguration
+Vulnerable and Outdated Components
+Identification and Authentication Failures
+Software and Data Integrity Failures
+Security Logging and Monitoring Failures
+Server-Side Request Forgery (SSRF)
+
+24. What is Cross-Site Scripting (XSS) and how can it be mitigated?
+
+XSS is a vulnerability that allows attackers to inject malicious scripts into web pages. Mitigation strategies include:
+
+Encoding user inputs
+Using Content Security Policy (CSP)
+Validating and sanitizing inputs
+
+25. What is a race condition, and how do you prevent it?
+
+A race condition occurs when two threads access shared data and attempt to change it at the same time. Prevention methods include:
+
+Using synchronization
+Employing thread-safe classes
+Using atomic variables
+
+26. What are the security best practices for file uploads?
+
+Best practices include:
+
+Validating file types and sizes
+Scanning files for malware
+Storing uploaded files in a separate directory
+Using random file names
+
+27. What is the importance of secure password storage?
+
+Secure password storage prevents attackers from easily accessing user credentials if the database is compromised. Use hashing algorithms like BCrypt, PBKDF2, or Argon2.
+
+28. How do you handle exceptions securely in Java?
+
+Secure exception handling practices include:
+
+Logging exceptions without exposing sensitive data
+Providing user-friendly error messages
+Avoiding stack trace exposure in production
+
+29. How do you prevent open redirects in web applications?
+
+Validate and whitelist redirect URLs before redirecting users.
+
+30. What is CSRF, and how do you prevent it?
+
+Cross-Site Request Forgery (CSRF) tricks a user into executing unwanted actions on a web application. Prevent it using:
+
+CSRF tokens
+SameSite cookies
+
+31. What are some best practices for logging securely?
+
+Best practices for secure logging include:
+
+Avoid logging sensitive information like passwords or credit card numbers.
+Use secure logging libraries such as Logback or SLF4J.
+Implement log rotation and access controls to prevent unauthorized access.
+
+32. How do you validate user input in Java applications?
+
+Use proper validation techniques:
+
+Whitelist valid inputs.
+Use built-in validation frameworks like Java Bean Validation (JSR 380).
+Regular expressions for specific formats (e.g., email).
+
+33. What is principle of least privilege in secure coding?
+
+The principle of least privilege ensures that a user, process, or application is granted only the minimum access necessary to perform its tasks. This reduces the potential impact of security breaches.
+
+34. How can you secure API keys in Java applications?
+
+To secure API keys:
+
+Store them in environment variables or secure vaults.
+Avoid hardcoding keys in source code.
+Use encrypted configuration files.
+
+35. What are some secure coding practices for dependency management?
+
+Secure dependency management practices include:
+
+Regularly updating dependencies to patch vulnerabilities.
+Using tools like OWASP Dependency-Check or Snyk to scan for vulnerabilities.
+Restricting the use of untrusted or outdated libraries.
+
+36. How do you ensure secure configuration in Java applications?
+
+Use secure configuration practices such as:
+
+Externalizing configuration (e.g., using environment variables).
+Using encrypted configuration files.
+Setting strict permissions for configuration files.
+
+37. What is the role of code reviews in secure coding?
+
+Code reviews help identify security vulnerabilities early in the development process by:
+
+Ensuring compliance with secure coding standards.
+Providing an additional layer of oversight.
+Fostering knowledge sharing among team members.
+
+38. How do you prevent Denial of Service (DoS) attacks in Java applications?
+
+Prevent DoS attacks by:
+
+Using rate limiting with tools like Spring Boot Rate Limiter.
+Validating and sanitizing all incoming data to prevent large payload attacks.
+Implementing timeouts on database queries and API requests.
+
+39. Why is parameterized SQL important for security?
+
+Parameterized SQL helps prevent SQL injection by separating SQL logic from user input.
+
+40. What is Cross-Site Request Forgery (CSRF), and how can you prevent it in Java applications?
+
+CSRF is an attack where an unauthorized command is transmitted from a user that a web application trusts.
+
+Prevention:
+
+Use CSRF tokens in forms and validate them server-side.
+Restrict cookie-based authentication to same-site requests.
+Enable Spring Security’s built-in CSRF protection.
+
+41. What is the importance of secure session management?
+
+Secure session management ensures that user sessions are protected against attacks such as session hijacking and fixation. Best practices include:
+
+Setting session expiration and automatic logout.
+Using secure and HttpOnly flags for session cookies.
+Regenerating session IDs after authentication.
+            
+42. How can you secure REST APIs in Java?
+
+Secure REST APIs by:
+
+Using HTTPS for encrypted communication.
+Implementing authentication (JWT, OAuth2).
+Applying input validation and rate limiting.
+            
+43. What is input sanitization, and why is it important?
+
+Input sanitization removes malicious or unexpected data from user inputs to prevent attacks like XSS and SQL injection.
+
+            
+44. How do you enforce strong password policies in Java applications?
+
+Enforce strong passwords by:
+
+Setting a minimum length (e.g., 12 characters).
+Requiring a mix of uppercase, lowercase, numbers, and symbols.
+Using password hashing algorithms like BCrypt.
+
+            
+45. How do you prevent XML External Entity (XXE) attacks in Java?
+
+Disable external entity processing when parsing XML.
+
+            
+46. What are secure file upload best practices?
+
+Secure file uploads by:
+
+Validating file types and sizes.
+Storing files outside the web root.
+Scanning uploaded files for malware.
+            
+47. How can you protect Java applications from deserialization attacks?
+
+Prevent deserialization attacks by:
+
+Avoiding Java serialization whenever possible.
+Using whitelisting for deserialized classes.
+Implementing look-ahead object validation.
+            
+48. Why is secure random number generation important?
+
+Using secure random numbers prevents predictable values that attackers can exploit.
+
+49. How do you securely store secrets in Java applications?
+
+Store secrets securely by:
+
+Using secret management tools like AWS Secrets Manager or HashiCorp Vault.
+Encrypting secrets at rest.
+Loading secrets from environment variables instead of hardcoding them.
+Example:
+        String dbPassword = System.getenv("DB_PASSWORD");
+            
+50. What is the importance of HTTP security headers?
+
+HTTP security headers help mitigate attacks like XSS, clickjacking, and MIME sniffing.
+
+51. What is Cross-Origin Resource Sharing (CORS) and how do you secure it?
+
+CORS is a security feature that controls how resources on a server can be requested from different domains. Secure it by restricting origins, methods, and headers.
+
+52. Why should you disable directory listing on a web server?
+
+Directory listing exposes file structures, making it easier for attackers to find sensitive files.
+
+53. How can you prevent clickjacking in Java web applications?
+
+Clickjacking can be prevented using the `X-Frame-Options` header.
+
+54. How do you securely log sensitive data?
+
+Avoid logging sensitive information such as passwords, credit card numbers, and API keys.
+
+55. What is CSRF and how do you protect against it in Java?
+
+Cross-Site Request Forgery (CSRF) tricks users into making unwanted actions. Protect against it using CSRF tokens.
+
+56. Why should you validate all user inputs?
+
+User input validation prevents security risks like SQL injection and XSS.
+
+57. How can you prevent IDOR (Insecure Direct Object References) vulnerabilities?
+
+Implement proper authorization checks before granting access to resources.
+
+58. What is the principle of least privilege in Java security?
+
+The principle of least privilege means granting only the minimum necessary permissions to users and applications.
+
+59. How do you securely store API keys in Java?
+
+Store API keys in environment variables or secret management tools instead of hardcoding them.
+
+60. What is an HTTP-only cookie and why is it important?
+
+HTTP-only cookies prevent client-side JavaScript from accessing sensitive cookie data.
+
+61. What is SQL Injection and how do you prevent it?
+
+SQL Injection occurs when an attacker manipulates an SQL query via user input. Prevent it by using prepared statements.
+
+62. What are some secure password storage practices in Java?
+
+Store passwords using strong hashing algorithms like BCrypt.
+
+63. How do you securely generate random tokens in Java?
+
+Use `SecureRandom` instead of `Random` for cryptographic operations.
+
+64. What is a security misconfiguration and how do you prevent it?
+
+Security misconfigurations happen when default settings are not changed. Prevent it by disabling unused features and enforcing strong security settings.
+
+65. How do you implement rate limiting to prevent abuse?
+
+Use a rate limiter like `Bucket4j` to restrict excessive requests.
+
+66. How can you detect and prevent brute force attacks?
+
+Implement account lockout after multiple failed login attempts.
+
+67. What is HTTP Strict Transport Security (HSTS) and how do you implement it?
+
+HSTS forces browsers to use HTTPS, preventing downgrade attacks.
+
+68. How do you prevent XML External Entity (XXE) attacks in Java?
+
+Disable external entity processing in XML parsers.
+
+69. Why should you use Content Security Policy (CSP) headers?
+
+CSP headers help mitigate Cross-Site Scripting (XSS) attacks by restricting allowed sources for scripts.
+
+70. How can you secure REST APIs using API keys?
+
+Validate API keys before processing requests.
+
+71. How can you prevent Cross-Site Request Forgery (CSRF) in Spring Boot?
+
+Enable CSRF protection in Spring Security.
+
+72. How do you securely handle user authentication tokens?
+
+Store tokens securely using HttpOnly cookies.
+
+73. What is Clickjacking and how do you prevent it?
+
+Clickjacking tricks users into clicking elements they don’t intend to. Prevent it using X-Frame-Options.
+
+74. How do you validate user input to prevent injection attacks?
+
+Use input validation techniques such as allowlists and regular expressions.
+
+75. How do you encrypt sensitive data in Java?
+
+Use AES encryption for secure data storage.
+
+76. How can you secure API endpoints from unauthorized access?
+
+Use authentication and authorization mechanisms like JWT.
+
+77. What is a secure way to store API keys in Java applications?
+
+Store API keys in environment variables or secure vaults.
+
+78. How do you prevent sensitive data exposure in error messages?
+
+Customize error handling to prevent stack traces from leaking information.
+
+79. Why should you use a security-focused logging framework?
+
+Prevent logging sensitive information and use structured logging.
+            
+80. How do you prevent Directory Traversal attacks?
+
+Sanitize file paths and restrict file access.
