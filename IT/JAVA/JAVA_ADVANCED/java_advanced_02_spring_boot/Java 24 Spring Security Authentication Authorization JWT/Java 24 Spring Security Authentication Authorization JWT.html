@@ -1,0 +1,1297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+<!--
+.question {            margin-bottom: 20px;
+}
+.style1 {font-family: Arial, Helvetica, sans-serif}
+.style2 {margin-bottom: 20px; font-family: Arial, Helvetica, sans-serif; }
+-->
+</style>
+</head>
+
+<body>
+<h2 class="style1">Spring Security - Set 1</h2>
+<h2 class="style1"><a href="Java 24 Spring Security Authentication Authorization JWT 01.mp3" target="_blank">Audio 1</a> - <a href="Java 24 Spring Security Authentication Authorization JWT 02.mp3" target="_blank">Audio 2</a></h2>
+<div class="style2">
+  <h3>1. What is Spring Security and why is it used?</h3>
+  <p><strong>Answer:</strong> Spring Security is a powerful and customizable authentication and access control framework for Java applications. It is used to secure applications by providing features such as authentication, authorization, protection against attacks, and more.</p>
+</div>
+<div class="style2">
+  <h3>2. What is authentication in Spring Security?</h3>
+  <p><strong>Answer:</strong> Authentication is the process of verifying a user's identity. In Spring Security, this is typically done through login forms or via token-based authentication like JWT.</p>
+</div>
+<div class="style2">
+  <h3>3. What is authorization in Spring Security?</h3>
+  <p><strong>Answer:</strong> Authorization is the process of determining if an authenticated user has the appropriate permissions to perform an action. Spring Security uses roles and authorities to authorize access to resources.</p>
+</div>
+<div class="style2">
+  <h3>4. How does JWT authentication work in Spring Security?</h3>
+  <p><strong>Answer:</strong> JWT (JSON Web Token) authentication involves sending a token in the HTTP header, which is then validated on each request to authenticate the user. In Spring Security, the JWT token can be used to authorize access to specific endpoints after the initial authentication.</p>
+  <pre>
+            <code>
+                // JWT filter example
+                @Override
+                protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+                    String token = request.getHeader(&quot;Authorization&quot;);
+                    if (token != null &amp;&amp; token.startsWith(&quot;Bearer &quot;)) {
+                        String jwt = token.substring(7);
+                        // Validate JWT and set authentication
+                    }
+                    filterChain.doFilter(request, response);
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>5. What is the role of <code>HttpSecurity</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>HttpSecurity</code> is used to configure HTTP request-based security in Spring Security. It allows developers to configure things like URL patterns, authorization rules, form login, CSRF protection, and more.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                        .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;)
+                        .antMatchers(&quot;/user/**&quot;).hasRole(&quot;USER&quot;)
+                        .anyRequest().authenticated()
+                    .and()
+                    .formLogin();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>6. How can you configure a custom authentication provider in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can configure a custom authentication provider by implementing the <code>AuthenticationProvider</code> interface and overriding the <code>authenticate</code> method to perform custom authentication logic.</p>
+  <pre>
+            <code>
+                @Component
+                public class CustomAuthenticationProvider implements AuthenticationProvider {
+                    @Override
+                    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+                        // Custom authentication logic
+                    }
+                    
+                    @Override
+                    public boolean supports(Class authentication) {
+                        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+                    }
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>7. What is the difference between <code>@PreAuthorize</code> and <code>@Secured</code> annotations in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>@Secured</code> is a simple annotation that restricts access based on roles, while <code>@PreAuthorize</code> is more flexible and can be used to define access rules based on expressions, including method arguments and other complex conditions.</p>
+  <pre>
+            <code>
+                @PreAuthorize(&quot;hasRole('ADMIN')&quot;)
+                public void performAdminAction() { }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>8. How do you configure JWT token expiration in Spring Security?</h3>
+  <p><strong>Answer:</strong> JWT token expiration is configured when generating the token. You specify the expiration time (in milliseconds) while creating the JWT. The expiration is then checked on each request when the token is validated.</p>
+  <pre>
+            <code>
+                String token = Jwts.builder()
+                    .setSubject(username)
+                    .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION_TIME))
+                    .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+                    .compact();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>9. What is CSRF protection and how does Spring Security handle it?</h3>
+  <p><strong>Answer:</strong> CSRF (Cross-Site Request Forgery) is an attack where a malicious actor tricks a user into performing an action on a website without their knowledge. Spring Security provides built-in CSRF protection, but it can be disabled if needed for certain use cases like RESTful APIs or single-page applications (SPAs).</p>
+  <pre>
+            <code>
+                http.csrf().disable(); // Disables CSRF protection
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>10. How do you configure form-based login in Spring Security?</h3>
+  <p><strong>Answer:</strong> Form-based login can be configured in Spring Security using the <code>formLogin</code> method in <code>HttpSecurity</code>. You can specify login page URL, authentication failure URL, and other properties.</p>
+  <pre>
+            <code>
+                http
+                    .formLogin()
+                    .loginPage(&quot;/login&quot;)
+                    .loginProcessingUrl(&quot;/authenticate&quot;)
+                    .failureUrl(&quot;/login?error=true&quot;);
+            </code>
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Security - Set 2</h2>
+<div class="style2">
+  <h3>1. How can you implement JWT token validation in Spring Security?</h3>
+  <p><strong>Answer:</strong> JWT token validation can be done by creating a custom filter that extracts the token from the HTTP request and verifies it using the secret key. If the token is valid, the user is authenticated and granted access.</p>
+  <pre>
+            <code>
+                public class JWTAuthenticationFilter extends OncePerRequestFilter {
+                    @Override
+                    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+                        String token = request.getHeader(&quot;Authorization&quot;);
+                        if (token != null &amp;&amp; token.startsWith(&quot;Bearer &quot;)) {
+                            String jwt = token.substring(7);
+                            Claims claims = Jwts.parser()
+                                                .setSigningKey(SECRET_KEY)
+                                                .parseClaimsJws(jwt)
+                                                .getBody();
+                            Authentication auth = new UsernamePasswordAuthenticationToken(claims.getSubject(), null, new ArrayList&lt;&gt;());
+                            SecurityContextHolder.getContext().setAuthentication(auth);
+                        }
+                        filterChain.doFilter(request, response);
+                    }
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>2. How can you configure Spring Security to use in-memory authentication?</h3>
+  <p><strong>Answer:</strong> In-memory authentication is configured in Spring Security by using the <code>inMemoryAuthentication()</code> method. You can define users, roles, and passwords within the configuration.</p>
+  <pre>
+            <code>
+                @Override
+                protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+                    auth.inMemoryAuthentication()
+                        .withUser(&quot;user&quot;).password(passwordEncoder().encode(&quot;password&quot;)).roles(&quot;USER&quot;)
+                        .and()
+                        .withUser(&quot;admin&quot;).password(passwordEncoder().encode(&quot;admin&quot;)).roles(&quot;ADMIN&quot;);
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>3. What is the purpose of the <code>SecurityContextHolder</code> class?</h3>
+  <p><strong>Answer:</strong> <code>SecurityContextHolder</code> is used to hold the authentication details of the currently authenticated user. It is typically used to retrieve the authentication object and other security-related information throughout the application.</p>
+  <pre>
+            <code>
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                String username = authentication.getName();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>4. How do you secure REST APIs using Spring Security?</h3>
+  <p><strong>Answer:</strong> To secure REST APIs, you can configure Spring Security to use JWT authentication, disable session management, and restrict access to certain endpoints based on roles or authorities.</p>
+  <pre>
+            <code>
+                http
+                    .csrf().disable()
+                    .authorizeRequests()
+                        .antMatchers(&quot;/public/**&quot;).permitAll()
+                        .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;)
+                        .anyRequest().authenticated();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>5. How can you define custom access control for specific URLs in Spring Security?</h3>
+  <p><strong>Answer:</strong> Custom access control can be defined using <code>HttpSecurity</code> and the <code>antMatchers()</code> method. This allows you to define URL patterns and the roles or authorities required to access them.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                        .antMatchers(&quot;/user/**&quot;).hasRole(&quot;USER&quot;)
+                        .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;)
+                        .anyRequest().authenticated();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>6. What are the different types of authentication mechanisms available in Spring Security?</h3>
+  <p><strong>Answer:</strong> Spring Security provides various authentication mechanisms, including form-based login, HTTP basic authentication, JWT token-based authentication, LDAP authentication, and OAuth2 authentication.</p>
+</div>
+<div class="style2">
+  <h3>7. What is the role of <code>GrantedAuthority</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>GrantedAuthority</code> represents an authority granted to an authenticated user, typically a role or permission. It is used to define access control rules in Spring Security.</p>
+  <pre>
+            <code>
+                List<GrantedAuthority> authorities = new ArrayList&lt;&gt;();
+                authorities.add(new SimpleGrantedAuthority(&quot;ROLE_USER&quot;));
+                Authentication authentication = new UsernamePasswordAuthenticationToken(&quot;user&quot;, &quot;password&quot;, authorities);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>8. What is <code>@EnableWebSecurity</code> annotation used for in Spring Security?</h3>
+  <p><strong>Answer:</strong> The <code>@EnableWebSecurity</code> annotation is used to enable Spring Security's web security support and configuration. It is typically applied to a configuration class to initialize the security configuration.</p>
+</div>
+<div class="style2">
+  <h3>9. How do you configure session management in Spring Security?</h3>
+  <p><strong>Answer:</strong> Session management can be configured using the <code>sessionManagement()</code> method, where you can define how Spring Security handles sessions, such as session fixation protection and maximum sessions allowed.</p>
+  <pre>
+            <code>
+                http
+                    .sessionManagement()
+                    .maximumSessions(1)
+                    .expiredUrl(&quot;/login?expired=true&quot;);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>10. What is the significance of <code>AuthenticationManager</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> The <code>AuthenticationManager</code> is responsible for authenticating a user's credentials. It is typically used to process login requests, and in the case of JWT authentication, it is used to validate the JWT token.</p>
+  <pre>
+            <code>
+                @Bean
+                public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+                    return http.getSharedObject(AuthenticationManagerBuilder.class).build();
+                }
+            </code>
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Security - Set 3</h2>
+<div class="style2">
+  <h3>1. How can you configure JWT authentication in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can configure JWT authentication by creating a custom filter for token validation and adding it to the Spring Security filter chain. You also need a service to generate and validate the JWT token.</p>
+  <pre>
+            <code>
+                @Override
+                protected void configure(HttpSecurity http) throws Exception {
+                    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                }
+
+                public JWTAuthenticationFilter jwtAuthenticationFilter() {
+                    return new JWTAuthenticationFilter(authenticationManager());
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>2. What is the difference between <code>hasRole()</code> and <code>hasAuthority()</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>hasRole()</code> checks if a user has a specific role, while <code>hasAuthority()</code> checks if the user has a specific authority. Internally, roles are prefixed with &quot;ROLE_&quot; while authorities are not.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;)  // uses hasRole
+                    .antMatchers(&quot;/user/**&quot;).hasAuthority(&quot;USER&quot;); // uses hasAuthority
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>3. What is the role of <code>AuthenticationProvider</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>AuthenticationProvider</code> is responsible for validating user credentials. It is used to authenticate a user when a login request is made, checking the user's credentials and returning an <code>Authentication</code> object.</p>
+  <pre>
+            <code>
+                @Bean
+                public AuthenticationProvider authenticationProvider() {
+                    return new CustomAuthenticationProvider();
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>4. How do you configure method security using Spring Security?</h3>
+  <p><strong>Answer:</strong> You can enable method-level security in Spring Security by adding <code>@EnableGlobalMethodSecurity</code> to your configuration class and using annotations such as <code>@PreAuthorize</code> and <code>@Secured</code> on methods.</p>
+  <pre>
+            <code>
+                @EnableGlobalMethodSecurity(prePostEnabled = true)
+                public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
+                }
+
+                @PreAuthorize(&quot;hasRole('ADMIN')&quot;)
+                public void someMethod() {
+                    // Only accessible to admins
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>5. What is <code>@PreAuthorize</code> annotation in Spring Security?</h3>
+  <p><strong>Answer:</strong> The <code>@PreAuthorize</code> annotation is used to specify method-level security by enforcing authorization checks before a method is invoked. It uses Spring Expression Language (SpEL) to specify roles or permissions.</p>
+  <pre>
+            <code>
+                @PreAuthorize(&quot;hasRole('ADMIN')&quot;)
+                public void adminMethod() {
+                    // Only accessible by users with the ADMIN role
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>6. What is the purpose of <code>HttpSecurity</code> in Spring Security configuration?</h3>
+  <p><strong>Answer:</strong> <code>HttpSecurity</code> is used to configure HTTP-specific security, such as authentication, authorization, session management, and CSRF protection. It is the primary class used to secure endpoints in Spring Security.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/public/**&quot;).permitAll()
+                    .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;)
+                    .anyRequest().authenticated();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>7. How do you handle user login and authentication in Spring Security?</h3>
+  <p><strong>Answer:</strong> Spring Security handles user login by using a form-based login system where user credentials are submitted via an HTTP POST request. It validates credentials using an <code>AuthenticationManager</code> and creates a session or token for authenticated users.</p>
+  <pre>
+            <code>
+                http
+                    .formLogin()
+                    .loginPage(&quot;/login&quot;)
+                    .loginProcessingUrl(&quot;/authenticate&quot;)
+                    .defaultSuccessUrl(&quot;/home&quot;, true)
+                    .permitAll();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>8. How can you store user sessions in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can configure Spring Security to store sessions in a variety of ways, such as in-memory, in a database, or using a distributed session store like Redis. This is typically done through <code>sessionManagement()</code>.</p>
+  <pre>
+            <code>
+                http
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                    .maximumSessions(1);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>9. How can you customize the login page in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can customize the login page by providing a custom URL for the login form and using Spring MVC to render the page with a custom HTML view. The login form can be mapped using <code>loginPage()</code>.</p>
+  <pre>
+            <code>
+                http
+                    .formLogin()
+                    .loginPage(&quot;/custom-login&quot;)
+                    .permitAll();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>10. What is the difference between <code>anonymous()</code> and <code>permitAll()</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>anonymous()</code> allows access to unauthenticated users, while <code>permitAll()</code> allows access to all users, including both authenticated and unauthenticated users. Typically, <code>permitAll()</code> is used for public resources.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/public/**&quot;).permitAll()
+                    .antMatchers(&quot;/user/**&quot;).authenticated()
+                    .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;);
+            </code>
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Security - Set 4</h2>
+<div class="style2">
+  <h3>1. How do you use <code>@Secured</code> annotation in Spring Security?</h3>
+  <p><strong>Answer:</strong> The <code>@Secured</code> annotation is used to specify that a method can only be invoked by users with a certain role. It is a simpler alternative to <code>@PreAuthorize</code> but only supports roles and does not support more complex SpEL expressions.</p>
+  <pre>
+            <code>
+                @Secured(&quot;ROLE_ADMIN&quot;)
+                public void adminMethod() {
+                    // Only accessible by users with the ADMIN role
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>2. How do you implement JWT token generation in Spring Security?</h3>
+  <p><strong>Answer:</strong> To implement JWT token generation, you can create a utility class that generates the token using a secret key, subject, and expiration date. The token is typically generated when a user logs in and is then included in subsequent requests for authentication.</p>
+  <pre>
+            <code>
+                public String generateToken(String username) {
+                    return Jwts.builder()
+                        .setSubject(username)
+                        .setIssuedAt(new Date())
+                        .setExpiration(new Date(System.currentTimeMillis() + 864_000_000))
+                        .signWith(SignatureAlgorithm.HS512, &quot;secretkey&quot;)
+                        .compact();
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>3. What is the difference between <code>formLogin()</code> and <code>httpBasic()</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>formLogin()</code> configures form-based login, where the user submits a username and password through a custom login page. <code>httpBasic()</code> configures HTTP Basic authentication, which sends the credentials in the HTTP headers for every request.</p>
+  <pre>
+            <code>
+                http
+                    .formLogin().loginPage(&quot;/login&quot;) // form-based login
+                    .and()
+                    .httpBasic(); // HTTP basic authentication
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>4. How do you manage CSRF protection in Spring Security?</h3>
+  <p><strong>Answer:</strong> CSRF protection is enabled by default in Spring Security. You can customize CSRF settings by using <code>csrf()</code> to disable it for specific endpoints or configure it to use a custom token.</p>
+  <pre>
+            <code>
+                http
+                    .csrf()
+                    .ignoringAntMatchers(&quot;/public/**&quot;); // Disable CSRF for specific endpoints
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>5. What is the purpose of <code>SecurityContextHolder</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>SecurityContextHolder</code> is used to store the <code>SecurityContext</code>, which contains details about the currently authenticated user, such as their roles and authentication information. It is typically used to access the current user's information in various layers of the application.</p>
+  <pre>
+            <code>
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                String username = authentication.getName();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>6. How do you configure user roles in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can configure user roles by using <code>GrantedAuthority</code> objects in the <code>Authentication</code> object. These authorities represent the roles that the user has been granted, and they are checked during authorization.</p>
+  <pre>
+            <code>
+                List<GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(&quot;ROLE_USER&quot;));
+                Authentication authentication = new UsernamePasswordAuthenticationToken(&quot;user&quot;, &quot;password&quot;, authorities);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>7. How do you enable JWT authentication filter in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can enable the JWT authentication filter by creating a custom filter that extends <code>OncePerRequestFilter</code>, which checks for the JWT token in the request header, validates it, and sets the authentication in the context.</p>
+  <pre>
+            <code>
+                public class JWTAuthenticationFilter extends OncePerRequestFilter {
+                    @Override
+                    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+                        String token = request.getHeader(&quot;Authorization&quot;);
+                        if (token != null &amp;&amp; token.startsWith(&quot;Bearer &quot;)) {
+                            // Validate token and set authentication
+                        }
+                        filterChain.doFilter(request, response);
+                    }
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>8. How do you configure HTTP security to require authentication for all requests?</h3>
+  <p><strong>Answer:</strong> You can configure HTTP security to require authentication for all requests by using <code>http.authorizeRequests()</code> and requiring the user to be authenticated for any endpoint with <code>authenticated()</code>.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .anyRequest().authenticated();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>9. What is the role of <code>UsernamePasswordAuthenticationToken</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>UsernamePasswordAuthenticationToken</code> is a class that represents a user's authentication credentials, specifically their username and password. It is used to authenticate the user in the authentication manager.</p>
+  <pre>
+            <code>
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, password);
+                Authentication authenticated = authenticationManager.authenticate(authentication);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>10. How can you configure Spring Security to support multiple authentication methods?</h3>
+  <p><strong>Answer:</strong> You can configure multiple authentication methods by chaining different authentication configurations using <code>http.formLogin()</code>, <code>http.httpBasic()</code>, and other authentication methods as required.</p>
+  <pre>
+            <code>
+                http
+                    .formLogin()
+                    .and()
+                    .httpBasic()
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;);
+            </code>
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Security - Set 5</h2>
+<div class="style2">
+  <h3>1. How do you configure Spring Security to allow users to log in using JWT?</h3>
+  <p><strong>Answer:</strong> To configure Spring Security for JWT login, you need to create a custom <code>AuthenticationFilter</code> that intercepts the login requests, validates the credentials, and generates a JWT token. The token is then returned to the client for further authentication.</p>
+  <pre>
+            <code>
+                public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+                    @Override
+                    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+                        // Validate credentials and generate JWT token
+                    }
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>2. How do you configure Spring Security to require different roles for different endpoints?</h3>
+  <p><strong>Answer:</strong> You can configure role-based authorization using <code>http.authorizeRequests()</code>, specifying the roles required for different endpoints. For example, use <code>hasRole()</code> to restrict access to specific roles.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;)
+                    .antMatchers(&quot;/user/**&quot;).hasRole(&quot;USER&quot;)
+                    .anyRequest().authenticated();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>3. What is the purpose of the <code>filterChain</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> The <code>filterChain</code> in Spring Security defines the sequence of filters that are applied to incoming HTTP requests. Each filter in the chain performs a specific task, such as authentication, authorization, or logging, before passing the request to the next filter.</p>
+  <pre>
+            <code>
+                @Bean
+                public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                    return http
+                        .authorizeRequests()
+                        .antMatchers(&quot;/public/**&quot;).permitAll()
+                        .anyRequest().authenticated()
+                        .and()
+                        .build();
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>4. How can you use <code>@PreAuthorize</code> annotation for method-level security?</h3>
+  <p><strong>Answer:</strong> The <code>@PreAuthorize</code> annotation allows you to apply security rules at the method level by using SpEL (Spring Expression Language) expressions. It can be used to define roles or permissions required to access a specific method.</p>
+  <pre>
+            <code>
+                @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+                public void adminOnlyMethod() {
+                    // Accessible only to ADMIN role
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>5. What is the difference between <code>@Secured</code> and <code>@PreAuthorize</code>?</h3>
+  <p><strong>Answer:</strong> <code>@Secured</code> is a simpler way of restricting access to a method based on roles, while <code>@PreAuthorize</code> allows more complex expressions using SpEL. <code>@PreAuthorize</code> can support conditions like method arguments and is more flexible than <code>@Secured</code>.</p>
+  <pre>
+            <code>
+                @Secured(&quot;ROLE_USER&quot;)
+                public void userMethod() { }
+
+                @PreAuthorize(&quot;hasRole('ROLE_USER') &amp;&amp; #id == authentication.name&quot;)
+                public void userMethod(String id) { }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>6. How do you configure Spring Security to use custom authentication providers?</h3>
+  <p><strong>Answer:</strong> To use custom authentication providers, you can create a class that implements <code>AuthenticationProvider</code> and override the <code>authenticate()</code> method. Then, register the provider in the <code>AuthenticationManager</code> configuration.</p>
+  <pre>
+            <code>
+                public class CustomAuthenticationProvider implements AuthenticationProvider {
+                    @Override
+                    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+                        // Custom authentication logic
+                    }
+
+                    @Override
+                    public boolean supports(Class authentication) {
+                        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+                    }
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>7. What is the role of <code>SecurityContext</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>SecurityContext</code> stores the authentication information of the current user. It is used by Spring Security to retrieve the principal (user details) and authorities (roles/permissions) associated with the current request.</p>
+  <pre>
+            <code>
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                String username = authentication.getName();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>8. How do you configure Spring Security to use JWT for authorization in every request?</h3>
+  <p><strong>Answer:</strong> To configure JWT for authorization, you need to create a custom filter that intercepts each request, retrieves the JWT token from the header, and validates it. If the token is valid, it sets the authentication in the security context.</p>
+  <pre>
+            <code>
+                public class JWTAuthorizationFilter extends OncePerRequestFilter {
+                    @Override
+                    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+                        String token = request.getHeader(&quot;Authorization&quot;);
+                        if (token != null &amp;&amp; token.startsWith(&quot;Bearer &quot;)) {
+                            // Validate token and set authentication
+                        }
+                        filterChain.doFilter(request, response);
+                    }
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>9. How do you prevent session fixation attacks in Spring Security?</h3>
+  <p><strong>Answer:</strong> Spring Security provides protection against session fixation attacks by default. It automatically invalidates the session and creates a new one when the user logs in, thus preventing the attacker from using an existing session.</p>
+  <pre>
+            <code>
+                http
+                    .sessionManagement()
+                    .sessionFixation().migrateSession(); // Default behavior
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>10. How can you configure Spring Security to handle CORS (Cross-Origin Resource Sharing) issues?</h3>
+  <p><strong>Answer:</strong> To handle CORS, you can configure Spring Security to allow cross-origin requests by using <code>cors()</code> method and specifying allowed origins, methods, and headers.</p>
+  <pre>
+            <code>
+                http
+                    .cors()
+                    .and()
+                    .authorizeRequests()
+                    .anyRequest().authenticated();
+            </code>
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Security - Set 6</h2>
+<div class="style2">
+  <h3>1. How can you implement role-based access control (RBAC) in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can implement RBAC in Spring Security by defining roles for different user types and then using <code>hasRole()</code> or <code>hasAuthority()</code> in <code>http.authorizeRequests()</code> to restrict access based on these roles.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;)
+                    .antMatchers(&quot;/user/**&quot;).hasRole(&quot;USER&quot;)
+                    .anyRequest().authenticated();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>2. How do you configure Spring Security for HTTP Basic authentication?</h3>
+  <p><strong>Answer:</strong> To configure HTTP Basic authentication, you can use <code>httpBasic()</code> method in your Spring Security configuration. This sets up a basic authentication mechanism where users provide their credentials in the request header.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .anyRequest().authenticated()
+                    .and()
+                    .httpBasic();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>3. What is the use of <code>remember-me</code> functionality in Spring Security?</h3>
+  <p><strong>Answer:</strong> The <code>remember-me</code> functionality allows users to stay logged in between sessions. It works by storing a token in a cookie, which is used to authenticate the user automatically after their session expires.</p>
+  <pre>
+            <code>
+                http
+                    .rememberMe()
+                    .tokenValiditySeconds(86400); // 24 hours
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>4. How do you handle authentication failure in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can handle authentication failure by configuring an <code>AuthenticationFailureHandler</code> that defines the behavior when authentication fails. This can redirect the user to a custom error page or send an error response.</p>
+  <pre>
+            <code>
+                http
+                    .formLogin()
+                    .failureHandler(new SimpleUrlAuthenticationFailureHandler(&quot;/login?error&quot;));
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>5. How do you enable custom login and logout functionality in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can enable custom login and logout by configuring the <code>formLogin()</code> and <code>logout()</code> methods in Spring Security configuration. You can specify custom login and logout URLs as well as failure and success handlers.</p>
+  <pre>
+            <code>
+                http
+                    .formLogin()
+                    .loginPage(&quot;/login&quot;)
+                    .loginProcessingUrl(&quot;/login&quot;)
+                    .permitAll()
+                    .and()
+                    .logout()
+                    .logoutUrl(&quot;/logout&quot;)
+                    .logoutSuccessUrl(&quot;/login?logout&quot;);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>6. What is a <code>GrantedAuthority</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> A <code>GrantedAuthority</code> is a representation of an authority (usually a role or permission) granted to an authenticated user. It is used by Spring Security to determine if a user has the necessary permissions to access a specific resource.</p>
+  <pre>
+            <code>
+                GrantedAuthority authority = new SimpleGrantedAuthority(&quot;ROLE_USER&quot;);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>7. How do you configure Spring Security to support OAuth2 login?</h3>
+  <p><strong>Answer:</strong> To configure Spring Security for OAuth2 login, you need to configure OAuth2 login providers (such as Google, Facebook, etc.) and specify the client registration details in the application configuration.</p>
+  <pre>
+            <code>
+                http
+                    .oauth2Login()
+                    .loginPage(&quot;/login&quot;)
+                    .clientRegistrationRepository(clientRegistrationRepository);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>8. What is the difference between <code>hasRole()</code> and <code>hasAuthority()</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>hasRole()</code> checks for roles prefixed with <code>ROLE_</code>, while <code>hasAuthority()</code> checks for any authority (role or permission) without the prefix. Both methods are used for authorization, but <code>hasAuthority()</code> is more flexible as it works with both roles and permissions.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;)
+                    .antMatchers(&quot;/user/**&quot;).hasAuthority(&quot;ROLE_USER&quot;);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>9. How do you disable CSRF protection in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can disable CSRF protection in Spring Security by calling the <code>csrf().disable()</code> method in the configuration, although this should be done with caution, as it reduces security.</p>
+  <pre>
+            <code>
+                http
+                    .csrf().disable();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>10. How do you protect sensitive data like passwords in Spring Security?</h3>
+  <p><strong>Answer:</strong> You should hash passwords before storing them using a password encoder, such as <code>BCryptPasswordEncoder</code>. Spring Security provides several password encoders to securely hash and verify passwords during authentication.</p>
+  <pre>
+            <code>
+                @Bean
+                public PasswordEncoder passwordEncoder() {
+                    return new BCryptPasswordEncoder();
+                }
+            </code>
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Security - Set 7</h2>
+<div class="style2">
+  <h3>1. How can you implement JWT-based authentication in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can implement JWT-based authentication by creating a filter to process the JWT token on every request. The filter will extract the token, validate it, and set the authentication in the SecurityContext.</p>
+  <pre>
+            <code>
+                public class JwtAuthenticationFilter extends OncePerRequestFilter {
+                    // Extract token and validate it here
+                }
+                http.addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>2. What is the difference between Stateless and Stateful authentication in Spring Security?</h3>
+  <p><strong>Answer:</strong> Stateless authentication (e.g., JWT) does not store user session information on the server. Every request contains all the necessary authentication details. Stateful authentication stores session information on the server (e.g., using HTTP sessions).</p>
+  <pre>
+            <code>
+                // Stateless authentication does not use HTTP sessions
+                http
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>3. How do you configure Spring Security to allow access to certain endpoints without authentication?</h3>
+  <p><strong>Answer:</strong> You can use <code>permitAll()</code> in your security configuration to allow access to certain endpoints without requiring authentication.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/public/**&quot;).permitAll()
+                    .anyRequest().authenticated();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>4. What is <code>SecurityContextHolder</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>SecurityContextHolder</code> is a class that holds the security context for the current thread, which includes the authentication details of the user. It is used to retrieve the currently authenticated user.</p>
+  <pre>
+            <code>
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                String username = authentication.getName();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>5. How do you implement custom authentication in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can implement custom authentication by creating a custom <code>AuthenticationProvider</code> that performs the authentication logic. The provider is then registered in the security configuration.</p>
+  <pre>
+            <code>
+                @Bean
+                public AuthenticationManager customAuthenticationManager() throws Exception {
+                    return authenticationManagerBuilder()
+                        .authenticationProvider(new CustomAuthenticationProvider())
+                        .build();
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>6. How do you integrate Spring Security with LDAP for authentication?</h3>
+  <p><strong>Answer:</strong> You can integrate Spring Security with LDAP by configuring the <code>LdapAuthenticationProvider</code> and providing LDAP server details in the security configuration.</p>
+  <pre>
+            <code>
+                http
+                    .ldapAuthentication()
+                    .userDnPatterns(&quot;uid={0},ou=people&quot;)
+                    .groupSearchBase(&quot;ou=groups&quot;)
+                    .contextSource()
+                    .url(&quot;ldap://localhost:8389/dc=springframework,dc=org&quot;);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>7. How do you implement role-based authorization using JWT in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can implement role-based authorization in JWT by including roles or authorities as claims in the JWT token and then using <code>hasRole()</code> or <code>hasAuthority()</code> in your security configuration to restrict access to endpoints.</p>
+  <pre>
+            <code>
+                // Extract roles from JWT and set in authentication
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;)
+                    .antMatchers(&quot;/user/**&quot;).hasRole(&quot;USER&quot;);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>8. How do you secure REST API endpoints using Spring Security?</h3>
+  <p><strong>Answer:</strong> You can secure REST API endpoints by using <code>http.authorizeRequests()</code> and defining the authorization rules for each endpoint. You can also use JWT for stateless authentication.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/api/public/**&quot;).permitAll()
+                    .antMatchers(&quot;/api/admin/**&quot;).hasRole(&quot;ADMIN&quot;)
+                    .anyRequest().authenticated();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>9. How can you ensure a user is logged out when JWT expires?</h3>
+  <p><strong>Answer:</strong> You can configure a filter to handle token expiration and logout the user by invalidating the session or returning an unauthorized response when the token is expired.</p>
+  <pre>
+            <code>
+                public class JwtAuthenticationFilter extends OncePerRequestFilter {
+                    @Override
+                    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
+                        String token = jwtUtil.getTokenFromRequest(request);
+                        if (jwtUtil.isExpired(token)) {
+                            // Handle token expiration logic here
+                        }
+                    }
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>10. How do you implement method-level security in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can implement method-level security using annotations like <code>@PreAuthorize</code>, <code>@Secured</code>, or <code>@RolesAllowed</code>. These annotations can be used to secure methods based on the user's roles or permissions.</p>
+  <pre>
+            <code>
+                @PreAuthorize(&quot;hasRole('ADMIN')&quot;)
+                public void deleteUser(String username) {
+                    // Method logic here
+                }
+            </code>
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Security - Set 8</h2>
+<div class="style2">
+  <h3>1. How do you configure Spring Security to use JWT for authentication and authorization?</h3>
+  <p><strong>Answer:</strong> You configure JWT authentication by creating a custom filter for extracting and validating the JWT token. The filter is added before the default authentication filter.</p>
+  <pre>
+            <code>
+                public class JwtAuthenticationFilter extends OncePerRequestFilter {
+                    // Token extraction and validation logic
+                }
+                http.addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>2. How do you configure Spring Security to allow CORS (Cross-Origin Resource Sharing)?</h3>
+  <p><strong>Answer:</strong> You can allow CORS by configuring a <code>CorsConfigurationSource</code> bean and registering it in the HTTP security configuration.</p>
+  <pre>
+            <code>
+                @Bean
+                public CorsConfigurationSource corsConfigurationSource() {
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.setAllowedOrigins(Arrays.asList(&quot;http://localhost:3000&quot;));
+                    configuration.setAllowedMethods(Arrays.asList(&quot;GET&quot;, &quot;POST&quot;));
+                    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                    source.registerCorsConfiguration(&quot;/**&quot;, configuration);
+                    return source;
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>3. How do you implement two-factor authentication (2FA) in Spring Security?</h3>
+  <p><strong>Answer:</strong> To implement 2FA, you can create a custom authentication filter that checks for the second factor (e.g., a code sent via SMS) after the user enters their username and password. This filter is applied after the standard authentication process.</p>
+  <pre>
+            <code>
+                public class TwoFactorAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+                    // Second-factor validation logic here
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>4. How do you store user credentials securely in Spring Security?</h3>
+  <p><strong>Answer:</strong> You should never store plain-text passwords. Use the <code>BCryptPasswordEncoder</code> for hashing passwords before storing them in the database.</p>
+  <pre>
+            <code>
+                @Bean
+                public PasswordEncoder passwordEncoder() {
+                    return new BCryptPasswordEncoder();
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>5. How do you handle password resets in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can handle password resets by creating an endpoint for password reset requests. After validating the user's identity, you can send an email with a unique token to reset the password.</p>
+  <pre>
+            <code>
+                @PostMapping(&quot;/reset-password&quot;)
+                public ResponseEntity resetPassword(@RequestBody PasswordResetRequest request) {
+                    // Generate reset token and send email
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>6. How can you configure Spring Security to log failed authentication attempts?</h3>
+  <p><strong>Answer:</strong> You can configure Spring Security to log failed authentication attempts by using a custom <code>AuthenticationFailureHandler</code>.</p>
+  <pre>
+            <code>
+                @Bean
+                public AuthenticationFailureHandler failureHandler() {
+                    return new SimpleUrlAuthenticationFailureHandler() {
+                        @Override
+                        public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+                            logger.warn(&quot;Authentication failed for user: &quot; + request.getParameter(&quot;username&quot;));
+                        }
+                    };
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>7. How do you secure a Spring Boot REST API using JWT and a filter?</h3>
+  <p><strong>Answer:</strong> You can secure the API by creating a custom filter to validate the JWT token, adding it before the default <code>UsernamePasswordAuthenticationFilter</code>.</p>
+  <pre>
+            <code>
+                public class JwtAuthorizationFilter extends OncePerRequestFilter {
+                    // Token validation logic here
+                }
+                http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>8. How do you set up Spring Security for form-based login?</h3>
+  <p><strong>Answer:</strong> You can configure Spring Security for form-based login by using <code>formLogin()</code> and specifying login page details.</p>
+  <pre>
+            <code>
+                http
+                    .formLogin()
+                    .loginPage(&quot;/login&quot;)
+                    .permitAll();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>9. How do you disable Spring Security for certain URLs?</h3>
+  <p><strong>Answer:</strong> You can disable Spring Security for specific URLs by configuring <code>antMatchers()</code> with <code>permitAll()</code> in your security configuration.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/public/**&quot;).permitAll()
+                    .anyRequest().authenticated();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>10. What is the role of <code>AuthenticationManager</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>AuthenticationManager</code> is responsible for processing the authentication request. It delegates the authentication to one or more <code>AuthenticationProvider</code> instances.</p>
+  <pre>
+            <code>
+                @Bean
+                public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+                    return http.getSharedObject(AuthenticationManagerBuilder.class)
+                               .build();
+                }
+            </code>
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Security - Set 9</h2>
+<div class="style2">
+  <h3>1. How do you implement role-based access control in Spring Security?</h3>
+  <p><strong>Answer:</strong> Role-based access control is implemented by using <code>hasRole()</code> or <code>hasAuthority()</code> in the security configuration for different URL patterns.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/admin/**&quot;).hasRole(&quot;ADMIN&quot;)
+                    .antMatchers(&quot;/user/**&quot;).hasRole(&quot;USER&quot;)
+                    .anyRequest().authenticated();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>2. How can you configure Spring Security to automatically log out a user after a certain period of inactivity?</h3>
+  <p><strong>Answer:</strong> You can configure session timeout by setting <code>sessionManagement()</code> with a <code>maximumSessions()</code> method.</p>
+  <pre>
+            <code>
+                http
+                    .sessionManagement()
+                    .maximumSessions(1)
+                    .expiredUrl(&quot;/session-expired&quot;);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>3. What is the significance of <code>@PreAuthorize</code> annotation in Spring Security?</h3>
+  <p><strong>Answer:</strong> <code>@PreAuthorize</code> allows method-level security by enabling access control using expressions like <code>hasRole('ROLE_ADMIN')</code> directly in service methods.</p>
+  <pre>
+            <code>
+                @PreAuthorize(&quot;hasRole('ADMIN')&quot;)
+                public void deleteUser(Long id) {
+                    // Method logic
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>4. How do you implement custom authentication in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can implement custom authentication by creating a custom <code>AuthenticationProvider</code> and overriding its <code>authenticate</code> method.</p>
+  <pre>
+            <code>
+                public class CustomAuthenticationProvider implements AuthenticationProvider {
+                    @Override
+                    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+                        // Custom authentication logic
+                    }
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>5. How do you create a custom login page in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can create a custom login page by specifying a custom <code>loginPage</code> in the Spring Security configuration.</p>
+  <pre>
+            <code>
+                http
+                    .formLogin()
+                    .loginPage(&quot;/custom-login&quot;)
+                    .permitAll();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>6. How can you secure sensitive endpoints in Spring Security using method security?</h3>
+  <p><strong>Answer:</strong> You can use method-level security annotations like <code>@Secured</code>, <code>@PreAuthorize</code>, or <code>@RolesAllowed</code> to secure sensitive methods in the service layer.</p>
+  <pre>
+            <code>
+                @Secured(&quot;ROLE_ADMIN&quot;)
+                public void secureMethod() {
+                    // Method logic
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>7. How do you configure Spring Security to use a custom filter for authentication?</h3>
+  <p><strong>Answer:</strong> You can configure a custom filter by extending <code>OncePerRequestFilter</code> and adding it to the Spring Security filter chain using <code>addFilterBefore()</code> or <code>addFilterAfter()</code>.</p>
+  <pre>
+            <code>
+                public class CustomAuthenticationFilter extends OncePerRequestFilter {
+                    // Custom authentication logic
+                }
+                http.addFilterBefore(new CustomAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>8. How do you implement OAuth2 login with Spring Security?</h3>
+  <p><strong>Answer:</strong> You can enable OAuth2 login by configuring Spring Security to use OAuth2 client credentials, like client ID and secret, and specifying the authorization server details in the configuration.</p>
+  <pre>
+            <code>
+                http
+                    .oauth2Login()
+                    .loginPage(&quot;/login&quot;)
+                    .permitAll();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>9. How do you handle JWT token expiration in Spring Security?</h3>
+  <p><strong>Answer:</strong> You can handle JWT expiration by checking the token's expiration date and rejecting the request if it has expired, usually in the custom filter.</p>
+  <pre>
+            <code>
+                public class JwtTokenProvider {
+                    public boolean isTokenExpired(String token) {
+                        // Token expiration check
+                    }
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>10. How can you configure Spring Security to allow access to an endpoint only for authenticated users?</h3>
+  <p><strong>Answer:</strong> You can configure access to only authenticated users by using <code>authenticated()</code> in the HTTP security configuration for the desired URL patterns.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/protected/**&quot;).authenticated()
+                    .anyRequest().permitAll();
+            </code>
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h2 class="style1">Spring Security - Set 10</h2>
+<div class="style2">
+  <h3>1. How can you implement CSRF protection in Spring Security?</h3>
+  <p><strong>Answer:</strong> CSRF protection is enabled by default in Spring Security, but you can customize it by configuring <code>csrf()</code> in the security configuration.</p>
+  <pre>
+            <code>
+                http
+                    .csrf()
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>2. How do you configure Spring Security for JWT authentication?</h3>
+  <p><strong>Answer:</strong> JWT authentication is configured by using a <code>JwtAuthenticationFilter</code> to parse the JWT token from the request, validate it, and set the authentication context.</p>
+  <pre>
+            <code>
+                http
+                    .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>3. What is the purpose of <code>UsernamePasswordAuthenticationFilter</code> in Spring Security?</h3>
+  <p><strong>Answer:</strong> The <code>UsernamePasswordAuthenticationFilter</code> handles user authentication by checking the username and password in the request and generating an authentication token.</p>
+  <pre>
+            <code>
+                public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+                    @Override
+                    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
+                        // Custom authentication logic
+                    }
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>4. How do you enable HTTP Basic authentication in Spring Security?</h3>
+  <p><strong>Answer:</strong> HTTP Basic authentication is enabled by configuring <code>http.basic()</code> in the Spring Security configuration.</p>
+  <pre>
+            <code>
+                http
+                    .httpBasic()
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers(&quot;/api/**&quot;).authenticated();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>5. How do you configure Spring Security for multiple authentication methods (e.g., JWT and Basic Auth)?</h3>
+  <p><strong>Answer:</strong> You can configure multiple authentication methods by adding different filters and custom logic to handle each authentication type.</p>
+  <pre>
+            <code>
+                http
+                    .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                    .httpBasic();
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>6. How can you configure Spring Security to allow multiple roles for an endpoint?</h3>
+  <p><strong>Answer:</strong> You can configure multiple roles for an endpoint by using <code>hasAnyRole()</code> in the authorization configuration.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/admin/**&quot;).hasAnyRole(&quot;ADMIN&quot;, &quot;SUPER_ADMIN&quot;);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>7. How do you set up Spring Security to allow access to a specific URL for users with certain authorities?</h3>
+  <p><strong>Answer:</strong> You can specify authorities for a URL by using <code>hasAuthority()</code> in the security configuration.</p>
+  <pre>
+            <code>
+                http
+                    .authorizeRequests()
+                    .antMatchers(&quot;/manage/**&quot;).hasAuthority(&quot;ROLE_ADMIN&quot;);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>8. How do you configure Spring Security to work with OAuth2 and JWT?</h3>
+  <p><strong>Answer:</strong> You can configure OAuth2 with JWT by enabling OAuth2 login and using JWT for token validation within Spring Security.</p>
+  <pre>
+            <code>
+                http
+                    .oauth2Login()
+                    .loginPage(&quot;/login&quot;)
+                    .and()
+                    .addFilterBefore(new JwtAuthenticationFilter(), OAuth2LoginAuthenticationFilter.class);
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>9. How do you handle token-based authentication with JWT in Spring Security?</h3>
+  <p><strong>Answer:</strong> Token-based authentication is handled by extracting the JWT from the request header, validating the token, and setting the authentication context in Spring Security.</p>
+  <pre>
+            <code>
+                public class JwtTokenFilter extends OncePerRequestFilter {
+                    @Override
+                    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+                        String token = request.getHeader(&quot;Authorization&quot;);
+                        // Validate and authenticate JWT token
+                    }
+                }
+            </code>
+        </pre>
+</div>
+<div class="style2">
+  <h3>10. How do you ensure secure password storage in Spring Security?</h3>
+  <p><strong>Answer:</strong> Secure password storage is achieved by using <code>BCryptPasswordEncoder</code> or another password encoder to hash passwords before storing them in the database.</p>
+  <pre>
+            <code>
+                @Bean
+                public PasswordEncoder passwordEncoder() {
+                    return new BCryptPasswordEncoder();
+                }
+            </code>
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+<!--
+.question {            margin-bottom: 20px;
+}
+.style1 {font-family: Arial, Helvetica, sans-serif}
+.style2 {margin-bottom: 20px; font-family: Arial, Helvetica, sans-serif; }
+-->
+</style>
+</head>
+
+<body>
+<h1 class="style1">Database Schema Design Normalization - Set 1</h1>
+<div class="style2"> <strong>1. What is Database Normalization?</strong>
+    <p>Database normalization is the process of structuring a relational database to minimize redundancy and dependency by organizing fields and table relations.</p>
+</div>
+<div class="style2"> <strong>2. What are the different Normal Forms?</strong>
+    <p>The normal forms are:</p>
+  <ul>
+      <li>First Normal Form (1NF)</li>
+    <li>Second Normal Form (2NF)</li>
+    <li>Third Normal Form (3NF)</li>
+    <li>Boyce-Codd Normal Form (BCNF)</li>
+    <li>Fourth Normal Form (4NF)</li>
+    <li>Fifth Normal Form (5NF)</li>
+  </ul>
+</div>
+<div class="style2"> <strong>3. Explain First Normal Form (1NF) with an example.</strong>
+    <p>1NF ensures that all attributes contain only atomic values and each column contains values of a single type.</p>
+  <pre>
+            CREATE TABLE Student (
+                StudentID INT PRIMARY KEY,
+                Name VARCHAR(100),
+                Subjects VARCHAR(255) -- Not in 1NF if multiple subjects stored in one column
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>4. How does Second Normal Form (2NF) improve database structure?</strong>
+    <p>2NF removes partial dependencies, ensuring that non-key attributes are fully functionally dependent on the primary key.</p>
+</div>
+<div class="style2"> <strong>5. Provide an example of a table violating 2NF and how to correct it.</strong>
+    <p>Example of a table violating 2NF:</p>
+  <pre>
+            CREATE TABLE Orders (
+                OrderID INT,
+                ProductID INT,
+                ProductName VARCHAR(100),
+                PRIMARY KEY (OrderID, ProductID)
+            );
+        </pre>
+    <p>To correct it, split into two tables:</p>
+  <pre>
+            CREATE TABLE Orders (
+                OrderID INT PRIMARY KEY
+            );
+            CREATE TABLE OrderDetails (
+                OrderID INT,
+                ProductID INT,
+                ProductName VARCHAR(100),
+                PRIMARY KEY (OrderID, ProductID),
+                FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>6. Explain Third Normal Form (3NF) with an example.</strong>
+    <p>3NF eliminates transitive dependencies, meaning that non-key attributes should not depend on other non-key attributes.</p>
+</div>
+<div class="style2"> <strong>7. What is Boyce-Codd Normal Form (BCNF)?</strong>
+    <p>BCNF is a stricter version of 3NF where every determinant is a candidate key.</p>
+</div>
+<div class="style2"> <strong>8. How does normalization affect database performance?</strong>
+    <p>Normalization reduces redundancy, improving data integrity, but may require more joins, potentially impacting query performance.</p>
+</div>
+<div class="style2"> <strong>9. When should you denormalize a database?</strong>
+    <p>Denormalization is useful when read performance is critical, reducing joins at the cost of redundancy.</p>
+</div>
+<div class="style2"> <strong>10. Provide a Java example for executing a normalized database query.</strong>
+    <pre>
+            import java.sql.Connection;
+            import java.sql.DriverManager;
+            import java.sql.PreparedStatement;
+            import java.sql.ResultSet;
+
+            public class DatabaseQueryExample {
+                public static void main(String[] args) {
+                    try {
+                        Connection conn = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/school&quot;, &quot;root&quot;, &quot;password&quot;);
+                        PreparedStatement stmt = conn.prepareStatement(&quot;SELECT * FROM Students WHERE StudentID = ?&quot;);
+                        stmt.setInt(1, 1);
+                        ResultSet rs = stmt.executeQuery();
+                        while (rs.next()) {
+                            System.out.println(rs.getString(&quot;Name&quot;));
+                        }
+                        conn.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Database Schema Design Normalization - Set 2</h1>
+<div class="style2"> <strong>11. What is the primary purpose of normalization?</strong>
+    <p>Normalization primarily aims to reduce redundancy and improve data integrity.</p>
+</div>
+<div class="style2"> <strong>12. Can a table be in 2NF but not in 1NF?</strong>
+    <p>No, a table must be in 1NF before it can be considered for 2NF.</p>
+</div>
+<div class="style2"> <strong>13. How do you handle many-to-many relationships in database design?</strong>
+    <p>Many-to-many relationships are handled using a junction table.</p>
+  <pre>
+            CREATE TABLE StudentCourse (
+                StudentID INT,
+                CourseID INT,
+                PRIMARY KEY (StudentID, CourseID),
+                FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
+                FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>14. What is the difference between 3NF and BCNF?</strong>
+    <p>BCNF is stricter than 3NF as it requires that every determinant is a candidate key.</p>
+</div>
+<div class="style2"> <strong>15. Why is BCNF not always desirable?</strong>
+    <p>BCNF can lead to complex schemas with more tables, increasing the number of joins required for queries.</p>
+</div>
+<div class="style2"> <strong>16. What is an example of a table violating BCNF?</strong>
+    <p>A table where a non-primary attribute functionally determines another key violates BCNF.</p>
+</div>
+<div class="style2"> <strong>17. What is Fourth Normal Form (4NF)?</strong>
+    <p>4NF eliminates multi-valued dependencies to prevent redundancy.</p>
+</div>
+<div class="style2"> <strong>18. How does 4NF improve database design?</strong>
+    <p>It ensures that each multi-valued attribute is stored in a separate table.</p>
+</div>
+<div class="style2"> <strong>19. What is a multi-valued dependency?</strong>
+    <p>A multi-valued dependency occurs when one attribute depends on another, independent of other attributes.</p>
+</div>
+<div class="style2"> <strong>20. Provide a Java example for handling database normalization in an ORM framework.</strong>
+    <pre>
+            @Entity
+            @Table(name = &quot;students&quot;)
+            public class Student {
+                @Id
+                @GeneratedValue(strategy = GenerationType.IDENTITY)
+                private Long id;
+                private String name;
+                
+                @OneToMany(mappedBy = &quot;student&quot;)
+                private List<Enrollment> enrollments;
+            }
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Database Schema Design Normalization - Set 3</h1>
+<div class="style2"> <strong>21. What is Fifth Normal Form (5NF)?</strong>
+    <p>5NF deals with join dependencies and ensures that the decomposition of relations does not result in data loss.</p>
+</div>
+<div class="style2"> <strong>22. What is the importance of 5NF in database normalization?</strong>
+    <p>5NF helps in removing redundancy caused by join dependencies that are not implied by candidate keys.</p>
+</div>
+<div class="style2"> <strong>23. What is Domain-Key Normal Form (DKNF)?</strong>
+    <p>DKNF ensures that all constraints and dependencies are enforced by domain and key constraints.</p>
+</div>
+<div class="style2"> <strong>24. How does denormalization differ from normalization?</strong>
+    <p>Denormalization is the process of merging tables to optimize query performance at the cost of redundancy.</p>
+</div>
+<div class="style2"> <strong>25. When should denormalization be used?</strong>
+    <p>Denormalization should be used when database performance is more critical than eliminating redundancy.</p>
+</div>
+<div class="style2"> <strong>26. Can you provide an example of a denormalized table?</strong>
+    <pre>
+            CREATE TABLE Orders (
+                OrderID INT PRIMARY KEY,
+                CustomerName VARCHAR(255),
+                ProductName VARCHAR(255),
+                Quantity INT
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>27. How do indexes help in query performance for normalized tables?</strong>
+    <p>Indexes speed up searches and retrieval by providing quick lookup mechanisms.</p>
+</div>
+<div class="style2"> <strong>28. How can you create an index in SQL?</strong>
+    <pre>
+            CREATE INDEX idx_customer_name ON Customers(CustomerName);
+        </pre>
+</div>
+<div class="style2"> <strong>29. What is a foreign key constraint?</strong>
+    <p>A foreign key constraint ensures referential integrity between two tables.</p>
+</div>
+<div class="style2"> <strong>30. Provide a Java example of defining a foreign key using JPA.</strong>
+    <pre>
+            @Entity
+            @Table(name = &quot;orders&quot;)
+            public class Order {
+                @Id
+                @GeneratedValue(strategy = GenerationType.IDENTITY)
+                private Long id;
+                
+                @ManyToOne
+                @JoinColumn(name = &quot;customer_id&quot;, nullable = false)
+                private Customer customer;
+            }
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Database Schema Design Normalization - Set 4</h1>
+<div class="style2"> <strong>31. What is the difference between star and snowflake schema?</strong>
+    <p>Star schema has denormalized dimensions, while snowflake schema normalizes dimensions to reduce redundancy.</p>
+</div>
+<div class="style2"> <strong>32. What are the advantages of a star schema?</strong>
+    <p>Star schema offers simpler queries and faster retrieval due to fewer joins.</p>
+</div>
+<div class="style2"> <strong>33. What is a surrogate key in database design?</strong>
+    <p>A surrogate key is a unique, system-generated key used as a primary key instead of a natural key.</p>
+</div>
+<div class="style2"> <strong>34. How does normalization affect indexing?</strong>
+    <p>Normalization increases the number of tables, requiring careful indexing strategies to maintain performance.</p>
+</div>
+<div class="style2"> <strong>35. What is a composite key?</strong>
+    <p>A composite key is a primary key that consists of two or more columns.</p>
+</div>
+<div class="style2"> <strong>36. Provide an SQL example of a composite key.</strong>
+    <pre>
+            CREATE TABLE Enrollment (
+                StudentID INT,
+                CourseID INT,
+                PRIMARY KEY (StudentID, CourseID)
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>37. What is the purpose of a unique constraint?</strong>
+    <p>A unique constraint ensures that all values in a column or set of columns are distinct.</p>
+</div>
+<div class="style2"> <strong>38. How do you define a unique constraint in SQL?</strong>
+    <pre>
+            CREATE TABLE Employees (
+                EmployeeID INT PRIMARY KEY,
+                Email VARCHAR(255) UNIQUE
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>39. What is the role of a normalization tool?</strong>
+    <p>Normalization tools help automate database schema optimization to achieve normalization levels.</p>
+</div>
+<div class="style2"> <strong>40. Provide a Java example using JPA with a composite key.</strong>
+    <pre>
+            @Embeddable
+            public class EnrollmentId implements Serializable {
+                private Long studentId;
+                private Long courseId;
+            }
+
+            @Entity
+            @Table(name = &quot;enrollment&quot;)
+            public class Enrollment {
+                @EmbeddedId
+                private EnrollmentId id;
+            }
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Database Schema Design Normalization - Set 5</h1>
+<div class="style2"> <strong>41. What is a natural key in database design?</strong>
+    <p>A natural key is a key that has a real-world meaning, such as a Social Security Number or email address.</p>
+</div>
+<div class="style2"> <strong>42. What is a candidate key?</strong>
+    <p>A candidate key is a column, or set of columns, that can uniquely identify a record in a table.</p>
+</div>
+<div class="style2"> <strong>43. How is a foreign key different from a primary key?</strong>
+    <p>A primary key uniquely identifies records in its own table, while a foreign key references a primary key in another table.</p>
+</div>
+<div class="style2"> <strong>44. Provide an SQL example of defining a foreign key.</strong>
+    <pre>
+            CREATE TABLE Orders (
+                OrderID INT PRIMARY KEY,
+                CustomerID INT,
+                FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>45. What is a transitive dependency?</strong>
+    <p>A transitive dependency occurs when a non-key attribute depends on another non-key attribute, violating 3NF.</p>
+</div>
+<div class="style2"> <strong>46. How does Boyce-Codd Normal Form (BCNF) differ from 3NF?</strong>
+    <p>BCNF is a stricter form of 3NF that removes any remaining functional dependencies where non-key attributes determine part of the key.</p>
+</div>
+<div class="style2"> <strong>47. What is the role of denormalization in database design?</strong>
+    <p>Denormalization reduces joins and improves performance by reintroducing redundancy into a normalized schema.</p>
+</div>
+<div class="style2"> <strong>48. Provide an SQL example of denormalization.</strong>
+    <pre>
+            CREATE TABLE Orders (
+                OrderID INT PRIMARY KEY,
+                CustomerName VARCHAR(255),
+                ProductName VARCHAR(255)
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>49. What is 4th Normal Form (4NF)?</strong>
+    <p>4NF eliminates multi-valued dependencies, ensuring that each record represents a single fact.</p>
+</div>
+<div class="style2"> <strong>50. Provide a Java JPA example for handling a foreign key relationship.</strong>
+    <pre>
+            @Entity
+            public class Order {
+                @Id
+                @GeneratedValue(strategy = GenerationType.IDENTITY)
+                private Long orderId;
+                
+                @ManyToOne
+                @JoinColumn(name = &quot;customer_id&quot;)
+                private Customer customer;
+            }
+        </pre>
+</div>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Database Schema Design Normalization - Set 6</h1>
+<div class="style2"> <strong>51. What is the difference between normalization and denormalization?</strong>
+    <p>Normalization reduces redundancy and ensures data integrity, while denormalization improves read performance by reducing joins.</p>
+</div>
+<div class="style2"> <strong>52. How does 5th Normal Form (5NF) differ from 4NF?</strong>
+    <p>5NF ensures that all join dependencies are lossless and eliminates redundancy due to multi-join relationships.</p>
+</div>
+<div class="style2"> <strong>53. What is a surrogate key?</strong>
+    <p>A surrogate key is an artificially generated unique identifier, such as an auto-incremented ID.</p>
+</div>
+<div class="style2"> <strong>54. Provide an example of using a surrogate key in SQL.</strong>
+    <pre>
+            CREATE TABLE Customers (
+                CustomerID SERIAL PRIMARY KEY,
+                Name VARCHAR(255) NOT NULL
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>55. What is domain-key normal form (DKNF)?</strong>
+    <p>DKNF ensures that every constraint on the database is a logical consequence of domain and key constraints.</p>
+</div>
+<div class="style2"> <strong>56. How do indexing and normalization relate?</strong>
+    <p>Indexes improve query performance, while normalization optimizes storage and data integrity.</p>
+</div>
+<div class="style2"> <strong>57. Provide a Java JPA example for using a composite key.</strong>
+    <pre>
+            @Embeddable
+            public class OrderKey implements Serializable {
+                private Long orderId;
+                private Long productId;
+            }
+            
+            @Entity
+            public class Order {
+                @EmbeddedId
+                private OrderKey id;
+            }
+        </pre>
+</div>
+<div class="style2"> <strong>58. What is a functional dependency?</strong>
+    <p>A functional dependency occurs when one attribute uniquely determines another attribute in a relation.</p>
+</div>
+<div class="style2"> <strong>59. Provide an SQL example of creating an index.</strong>
+    <pre>
+            CREATE INDEX idx_customer_name ON Customers(Name);
+        </pre>
+</div>
+<div class="style2"> <strong>60. What is the difference between a clustered and a non-clustered index?</strong>
+    <p>A clustered index determines the physical order of data in a table, while a non-clustered index maintains a separate structure for lookups.</p>
+</div>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Database Schema Design Normalization - Set 7</h1>
+<div class="style2"> <strong>61. What is a transitive dependency?</strong>
+    <p>A transitive dependency exists when a non-key attribute depends on another non-key attribute instead of the primary key.</p>
+</div>
+<div class="style2"> <strong>62. Provide an SQL example to remove transitive dependencies.</strong>
+    <pre>
+            CREATE TABLE Employees (
+                EmployeeID INT PRIMARY KEY,
+                DepartmentID INT,
+                DepartmentName VARCHAR(255)
+            );
+            
+            -- Normalize by creating a separate Department table
+            CREATE TABLE Departments (
+                DepartmentID INT PRIMARY KEY,
+                DepartmentName VARCHAR(255)
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>63. What is the difference between 2NF and 3NF?</strong>
+    <p>2NF removes partial dependencies, while 3NF removes transitive dependencies.</p>
+</div>
+<div class="style2"> <strong>64. How does BCNF improve on 3NF?</strong>
+    <p>BCNF ensures that every determinant is a candidate key, further reducing redundancy.</p>
+</div>
+<div class="style2"> <strong>65. Provide a Java JPA example for a normalized entity relationship.</strong>
+    <pre>
+            @Entity
+            public class Employee {
+                @Id
+                @GeneratedValue
+                private Long id;
+                
+                @ManyToOne
+                @JoinColumn(name = &quot;department_id&quot;)
+                private Department department;
+            }
+            
+            @Entity
+            public class Department {
+                @Id
+                @GeneratedValue
+                private Long id;
+                private String name;
+            }
+        </pre>
+</div>
+<div class="style2"> <strong>66. What is a superkey?</strong>
+    <p>A superkey is a set of attributes that uniquely identifies a tuple in a relation.</p>
+</div>
+<div class="style2"> <strong>67. How does a superkey differ from a candidate key?</strong>
+    <p>A candidate key is a minimal superkey that contains no unnecessary attributes.</p>
+</div>
+<div class="style2"> <strong>68. Provide an SQL example for defining a composite primary key.</strong>
+    <pre>
+            CREATE TABLE OrderDetails (
+                OrderID INT,
+                ProductID INT,
+                Quantity INT,
+                PRIMARY KEY (OrderID, ProductID)
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>69. What is the purpose of 6th Normal Form (6NF)?</strong>
+    <p>6NF deals with temporal databases by eliminating non-trivial join dependencies.</p>
+</div>
+<div class="style2"> <strong>70. How can normalization impact performance?</strong>
+    <p>Normalization improves data integrity but may require additional joins, potentially impacting query performance.</p>
+</div>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Database Schema Design Normalization - Set 8</h1>
+<div class="style2"> <strong>71. What is the main goal of 4th Normal Form (4NF)?</strong>
+    <p>4NF eliminates multi-valued dependencies to prevent redundancy in multi-valued fields.</p>
+</div>
+<div class="style2"> <strong>72. Provide an example of a multi-valued dependency.</strong>
+    <pre>
+            CREATE TABLE EmployeeSkills (
+                EmployeeID INT,
+                Skill VARCHAR(255),
+                Certification VARCHAR(255)
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>73. How do you normalize a table to 4NF?</strong>
+    <p>By splitting multi-valued attributes into separate tables.</p>
+  <pre>
+            CREATE TABLE EmployeeSkills (
+                EmployeeID INT,
+                Skill VARCHAR(255),
+                PRIMARY KEY (EmployeeID, Skill)
+            );
+            
+            CREATE TABLE EmployeeCertifications (
+                EmployeeID INT,
+                Certification VARCHAR(255),
+                PRIMARY KEY (EmployeeID, Certification)
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>74. What is 5th Normal Form (5NF)?</strong>
+    <p>5NF eliminates join dependencies by ensuring all data is represented without redundant decomposition.</p>
+</div>
+<div class="style2"> <strong>75. Provide a Java Hibernate example to implement 4NF.</strong>
+    <pre>
+            @Entity
+            public class EmployeeSkill {
+                @Id
+                @GeneratedValue
+                private Long id;
+                
+                private String skill;
+                
+                @ManyToOne
+                @JoinColumn(name = &quot;employee_id&quot;)
+                private Employee employee;
+            }
+        </pre>
+</div>
+<div class="style2"> <strong>76. What is a multi-valued dependency?</strong>
+    <p>It occurs when one attribute determines multiple independent attributes.</p>
+</div>
+<div class="style2"> <strong>77. How does 5NF improve database integrity?</strong>
+    <p>It removes redundancy from complex join dependencies.</p>
+</div>
+<div class="style2"> <strong>78. Provide an SQL example of a table violating 5NF.</strong>
+    <pre>
+            CREATE TABLE Projects (
+                EmployeeID INT,
+                ProjectID INT,
+                Role VARCHAR(255),
+                PRIMARY KEY (EmployeeID, ProjectID, Role)
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>79. How do you normalize a table to 5NF?</strong>
+    <p>By decomposing the table into smaller tables that eliminate redundancy.</p>
+</div>
+<div class="style2"> <strong>80. Why is 5NF rarely implemented in practice?</strong>
+    <p>Because most real-world databases do not require this level of normalization due to performance concerns.</p>
+</div>
+<p class="style1">&nbsp;</p>
+<h1 class="style1">Database Schema Design Normalization - Set 9</h1>
+<div class="style2"> <strong>81. What is 6th Normal Form (6NF)?</strong>
+    <p>6NF deals with temporal data and ensures that no redundancy exists by breaking down data into the smallest possible parts.</p>
+</div>
+<div class="style2"> <strong>82. Provide an example of a table in 6NF.</strong>
+    <pre>
+            CREATE TABLE EmployeeHistory (
+                EmployeeID INT,
+                StartDate DATE,
+                EndDate DATE,
+                Department VARCHAR(255),
+                PRIMARY KEY (EmployeeID, StartDate)
+            );
+        </pre>
+</div>
+<div class="style2"> <strong>83. How does 6NF improve data consistency?</strong>
+    <p>By ensuring that data changes over time are tracked precisely without redundancy.</p>
+</div>
+<div class="style2"> <strong>84. What is the main difference between 5NF and 6NF?</strong>
+    <p>5NF eliminates join dependencies, while 6NF focuses on temporal dependencies.</p>
+</div>
+<div class="style2"> <strong>85. Provide a Java Hibernate example handling temporal data in 6NF.</strong>
+    <pre>
+            @Entity
+            public class EmployeeHistory {
+                @Id
+                @GeneratedValue
+                private Long id;
+                
+                private LocalDate startDate;
+                private LocalDate endDate;
+                private String department;
+            }
+        </pre>
+</div>
+<div class="style2"> <strong>86. What are the performance considerations when using 6NF?</strong>
+    <p>6NF can lead to a high number of joins and may impact query performance negatively.</p>
+</div>
+<div class="style2"> <strong>87. How can indexes improve performance in highly normalized databases?</strong>
+    <p>Indexes help optimize search queries by speeding up lookups in highly decomposed tables.</p>
+</div>
+<div class="style2"> <strong>88. Provide an SQL example creating an index in a normalized table.</strong>
+    <pre>
+            CREATE INDEX idx_employee_history ON EmployeeHistory (EmployeeID, StartDate);
+        </pre>
+</div>
+<div class="style2"> <strong>89. When is normalization not recommended?</strong>
+    <p>Normalization is not recommended when performance is a priority over data integrity, such as in read-heavy applications.</p>
+</div>
+<div class="style2"> <strong>90. What is denormalization, and why is it used?</strong>
+    <p>Denormalization is the process of combining tables to reduce joins and improve read performance at the cost of redundancy.</p>
+</div>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+</body>
+</html>

@@ -262,9 +262,6 @@ compareTo() compares strings lexicographically. It returns a negative integer if
 Can you use compare() to sort objects by more than one field?
 Yes, Comparator allows chaining multiple comparisons using methods like thenComparing() to compare objects by more than one field.
 
-List people = Arrays.asList(new Person("Alice", 30), new Person("Bob", 25), new Person("Alice", 25));
-people.sort(Comparator.comparing(Person::getName).thenComparing(Person::getAge)); // Sort by name, then age
-            
 How do you prevent compareTo() from throwing an exception when comparing null values?
 You should handle null values explicitly in compareTo() by returning appropriate values when comparing to null (typically using Objects.compare() or adding null checks manually).
 

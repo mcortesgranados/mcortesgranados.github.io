@@ -1,0 +1,305 @@
+Q1: How do you configure a transaction in JPA?
+In JPA, you typically configure transactions using the @Transactional annotation provided by Spring. This annotation ensures that the methods in which it's applied are executed within a transactional context.
+
+Q2: How do isolation levels affect transactions in JPA?
+Isolation levels in JPA can be controlled using the @Transactional annotation with the isolation attribute. Different isolation levels help manage how data is shared between transactions, ensuring the consistency of the data.
+
+Q3: What is the default isolation level in JPA?
+The default isolation level in JPA (through Hibernate) is typically READ_COMMITTED, which ensures that no dirty reads occur but still allows non-repeatable reads and phantom reads.
+
+Q4: Can you configure a custom isolation level for a JPA method?
+Yes, you can specify a custom isolation level for a JPA method by using the @Transactional annotation and setting the isolation attribute.
+
+Q5: What is the difference between READ_COMMITTED and SERIALIZABLE isolation levels in JPA?
+READ_COMMITTED allows reading committed data, preventing dirty reads but still allowing non-repeatable reads and phantom reads. On the other hand, SERIALIZABLE prevents dirty reads, non-repeatable reads, and phantom reads, ensuring complete isolation between transactions.
+
+Q6: What is the purpose of the @Transactional annotation in JPA?
+The @Transactional annotation in JPA is used to define the boundaries of a transaction. It manages transaction boundaries (begin, commit, rollback) automatically and ensures that the method executes within a transactional context.
+
+Q7: How can you set the propagation behavior in JPA?
+Propagation behavior in JPA can be configured using the @Transactional annotation with the propagation attribute. It defines how transactions are handled when a method is called within an existing transaction.
+
+Q8: How can you ensure that a transaction is rolled back in case of a runtime exception in JPA?
+By default, JPA will automatically roll back a transaction if a RuntimeException or its subclass is thrown. You can also explicitly specify rollback behavior using the @Transactional annotation.
+
+Q9: What is the flush() method in JPA?
+The flush() method in JPA synchronizes the in-memory state of the persistence context with the underlying database. It ensures that all changes made to entities are persisted to the database, although the transaction may not yet be committed.
+
+Q10: How can you handle concurrency issues in JPA?
+JPA provides optimistic and pessimistic locking mechanisms to handle concurrency issues. Optimistic locking uses version fields to detect conflicting changes, while pessimistic locking locks the data for exclusive access.
+
+Q1: What is optimistic locking in JPA?
+Optimistic locking in JPA is a mechanism to handle concurrent access to an entity by using a version field. It prevents lost updates by checking if the entity has been modified since it was last read. If a conflict is detected, a OptimisticLockException is thrown.
+
+Q2: What is pessimistic locking in JPA?
+Pessimistic locking in JPA is a mechanism to prevent concurrent modifications by explicitly locking the entity. The lock can either be shared or exclusive, ensuring that no other transaction can modify the data during the transaction.
+
+Q3: What is the LockModeType.PESSIMISTIC_READ in JPA?
+LockModeType.PESSIMISTIC_READ is used to acquire a shared lock on an entity. This prevents other transactions from writing to the entity but allows reading.
+
+Q4: What is the LockModeType.PESSIMISTIC_WRITE in JPA?
+LockModeType.PESSIMISTIC_WRITE is used to acquire an exclusive lock on an entity, preventing other transactions from modifying the entity during the transaction.
+
+Q5: How do you handle transaction timeouts in JPA?
+In JPA, you can set a timeout for a transaction by using the @Transactional annotation with the timeout attribute. This defines the time (in seconds) after which a transaction will be rolled back if not completed.
+
+Q6: How do you ensure that a method is executed within a new transaction in JPA?
+To ensure a method executes within a new transaction, you can use the @Transactional annotation with propagation = Propagation.REQUIRES_NEW. This starts a new transaction, suspending any existing transaction.
+
+Q7: What is the difference between REQUIRED and REQUIRES_NEW propagation types in JPA?
+REQUIRED will use the existing transaction if one is already active, while REQUIRES_NEW will always start a new transaction, even if one is already active. The latter will suspend the current transaction temporarily.
+
+Q8: How do you roll back a transaction manually in JPA?
+In JPA, you can manually roll back a transaction by calling the rollback() method on the EntityTransaction object. This can be done inside a catch block if an exception occurs.
+
+Q9: How does Spring manage transaction boundaries in JPA?
+Spring manages transaction boundaries in JPA using the @Transactional annotation. This ensures that the transaction is automatically started before the method execution and committed after, or rolled back in case of an exception.
+
+Q10: What are some common exceptions that trigger a rollback in JPA?
+Some common exceptions that trigger a rollback in JPA include:
+
+Q1: What is the default isolation level in JPA?
+The default isolation level in JPA is Isolation.DEFAULT, which depends on the underlying database's default isolation level. It usually corresponds to READ_COMMITTED in most databases.
+
+Q2: How do you configure isolation levels in JPA?
+You can configure the isolation level in JPA by using the @Transactional annotation's isolation attribute, specifying an isolation level like Isolation.READ_COMMITTED, Isolation.SERIALIZABLE, or Isolation.READ_UNCOMMITTED.
+
+Q3: What is the Isolation.READ_COMMITTED isolation level in JPA?
+Isolation.READ_COMMITTED ensures that any data read by a transaction is committed at the moment it is read. It prevents dirty reads but allows non-repeatable reads and phantom reads.
+
+Q4: What is the Isolation.READ_UNCOMMITTED isolation level in JPA?
+Isolation.READ_UNCOMMITTED allows dirty reads, meaning transactions can read data that has been modified but not yet committed by another transaction. This isolation level is generally not recommended due to the risk of reading inconsistent data.
+
+Q5: What is the Isolation.SERIALIZABLE isolation level in JPA?
+Isolation.SERIALIZABLE is the strictest isolation level. It ensures that transactions are executed in such a way that the results are as if they were executed sequentially, one after the other. This level prevents dirty reads, non-repeatable reads, and phantom reads, but it can lead to performance issues due to locking.
+
+Q6: What is the Isolation.REPEATABLE_READ isolation level in JPA?
+Isolation.REPEATABLE_READ ensures that if a transaction reads a value, it will see the same value each time it reads it during the duration of the transaction. It prevents dirty reads and non-repeatable reads but still allows phantom reads.
+
+Q7: How does the @Version annotation help with concurrency control in JPA?
+The @Version annotation is used to implement optimistic locking in JPA. It marks a version field in the entity, and every time an update is made, the version number is incremented. If another transaction modifies the entity between reads and writes, an OptimisticLockException is thrown.
+
+Q8: What is an OptimisticLockException in JPA?
+OptimisticLockException is thrown when an update to an entity fails due to a version mismatch. This happens in optimistic locking scenarios when two transactions try to update the same entity concurrently, and one of them detects that the entity was modified by the other.
+
+Q9: How can you handle an OptimisticLockException in JPA?
+You can handle an OptimisticLockException in JPA by catching it in a try-catch block and deciding how to respond, such as prompting the user to reload the data or retrying the operation.
+
+Q10: What is the javax.persistence.TransactionRequiredException in JPA?
+TransactionRequiredException is thrown when an operation requiring a transaction is executed without an active transaction. This is common when you attempt to use the EntityManager outside the context of a transaction, like a non-transactional method.
+
+Q1: How can you set the isolation level in a Spring Data JPA repository?
+In Spring Data JPA, you can set the isolation level using the @Transactional annotation with the isolation attribute, specifying the desired isolation level for methods in your repository.
+
+Q2: What happens if a transaction is not marked with @Transactional in a JPA application?
+If a transaction is not marked with @Transactional, the method will run without transactional support. Any changes to the entity will not be committed, and no rollback will occur in case of errors.
+
+Q3: How can you ensure that a JPA method is executed in a single transaction?
+You can ensure that a JPA method is executed in a single transaction by annotating the method with @Transactional. This ensures that all operations within the method are performed within the same transactional context.
+
+Q4: What is the effect of PROPAGATION_REQUIRES_NEW on transactions in JPA?
+PROPAGATION_REQUIRES_NEW causes a new transaction to be started, suspending any existing transaction. This ensures that the current method operates in isolation from any existing transactions.
+
+Q5: How do you manage nested transactions in JPA?
+In JPA, nested transactions can be managed using @Transactional with different propagation settings. By using PROPAGATION_NESTED, a nested transaction will be created. However, this is typically supported only by databases that support savepoints.
+
+Q6: What is the difference between PROPAGATION_REQUIRED and PROPAGATION_SUPPORTS in JPA?
+PROPAGATION_REQUIRED ensures that a new transaction is started if there isn't one already. If a transaction is already in progress, the existing transaction will be used. On the other hand, PROPAGATION_SUPPORTS allows the method to run with or without a transaction. If a transaction exists, it will be used; if not, no transaction is started.
+
+Q7: What is the purpose of the @Transactional annotation in Spring?
+The @Transactional annotation in Spring is used to define the boundaries of a transaction. It ensures that a method runs within the scope of a transaction, handling commit and rollback automatically based on the outcome.
+
+Q8: What does the @Transactional(readOnly = true) annotation do in JPA?
+The @Transactional(readOnly = true) annotation indicates that the method will not modify any entities, allowing for optimizations such as using a read-only database connection. It also prevents accidental modifications to the database within the scope of the transaction.
+
+Q9: What is the role of a TransactionManager in JPA?
+A TransactionManager is responsible for managing the lifecycle of transactions in JPA. It coordinates the commit or rollback of a transaction, ensuring data consistency and integrity. In Spring, the JpaTransactionManager is commonly used.
+
+Q10: What is the flush() method used for in JPA?
+The flush() method in JPA is used to synchronize the persistence context with the database. It forces any changes made to entities within the current persistence context to be persisted to the database, but it doesn't commit the transaction.
+
+Q1: How can you define the transaction isolation level in JPA?
+In JPA, you can define the transaction isolation level using the @Transactional annotation by setting the isolation attribute to the desired isolation level, such as Isolation.READ_COMMITTED or Isolation.SERIALIZABLE.
+
+Q2: What are the different types of isolation levels in JPA?
+There are four standard isolation levels in JPA:
+
+Isolation.DEFAULT: The default isolation level, typically READ_COMMITTED in most databases.
+Isolation.READ_UNCOMMITTED: Allows dirty reads, where a transaction can read data that has not yet been committed by another transaction.
+Isolation.READ_COMMITTED: Ensures that only committed data can be read by transactions, preventing dirty reads.
+Isolation.REPEATABLE_READ: Ensures that data read by a transaction cannot be modified by another transaction before the first transaction is complete.
+Isolation.SERIALIZABLE: The highest isolation level, where transactions are executed sequentially, ensuring complete isolation but potentially causing performance issues.
+
+Q3: How can you ensure that a method runs outside the scope of an existing transaction in JPA?
+To ensure that a method runs outside the scope of an existing transaction, you can use PROPAGATION_REQUIRES_NEW in the @Transactional annotation. This creates a new transaction, suspending any existing transaction.
+
+Q4: What is the difference between PROPAGATION_REQUIRED and PROPAGATION_REQUIRES_NEW?
+PROPAGATION_REQUIRED ensures that a new transaction is started if there isn't one already. If an existing transaction exists, the method will participate in it. On the other hand, PROPAGATION_REQUIRES_NEW suspends the current transaction and starts a new one, ensuring complete isolation.
+
+Q5: What happens when you have multiple @Transactional annotations on the same method in JPA?
+Having multiple @Transactional annotations on the same method will result in a conflict, and only the outermost annotation will be effective. The configuration from the innermost annotations will be ignored.
+
+Q6: What is the purpose of TransactionSynchronizationManager in JPA?
+TransactionSynchronizationManager is used to manage transaction synchronization in Spring. It allows you to check if there is an active transaction, bind resources to the current transaction, and register synchronization callbacks that will be executed when the transaction is committed or rolled back.
+
+Q7: How do you handle transaction rollback in JPA?
+In JPA, a transaction is rolled back automatically if a runtime exception occurs. You can also manually trigger a rollback by setting @Transactional(rollbackFor = Exception.class) to specify which exceptions should trigger a rollback.
+
+Q8: Can you nest transactions in JPA?
+JPA does not support true nested transactions, but you can simulate them using savepoints with PROPAGATION_NESTED. However, this requires a database that supports savepoints. If the nested transaction fails, the parent transaction can be rolled back to the savepoint.
+
+Q9: How can you control the rollback behavior for specific exceptions in JPA?
+In JPA, you can control the rollback behavior for specific exceptions using the @Transactional annotation's rollbackFor or noRollbackFor attributes. For example, to roll back only on RuntimeException, you can specify @Transactional(rollbackFor = RuntimeException.class).
+
+Q10: What is the effect of setting readOnly = true in a @Transactional annotation in JPA?
+Setting readOnly = true in a @Transactional annotation indicates that the transaction will not modify any data, which can lead to performance optimizations. The underlying database may avoid acquiring locks or performing other write-related operations.
+
+Q1: What is the role of the @Transactional annotation in JPA?
+The @Transactional annotation is used to define the boundaries of a transaction in JPA. It ensures that a method is executed within a transaction context, automatically handling commit and rollback operations based on the outcome of the method.
+
+Q2: How can you control transaction timeouts in JPA?
+Transaction timeouts can be set using the @Transactional annotation by specifying the timeout attribute. This defines the maximum time a transaction is allowed to run before it is automatically rolled back.
+
+Q3: How do you handle optimistic locking in JPA?
+Optimistic locking is handled in JPA using the @Version annotation. The version field ensures that the entity is not concurrently modified by multiple transactions. When an entity is updated, the version value is checked to detect conflicts.
+
+Q4: How does JPA handle pessimistic locking?
+Pessimistic locking in JPA can be achieved using LockModeType.PESSIMISTIC_WRITE or LockModeType.PESSIMISTIC_READ when executing queries. This prevents other transactions from modifying the data until the transaction completes.
+
+Q5: Can you override the default isolation level of a JPA provider?
+Yes, the default isolation level can be overridden in JPA by specifying the desired isolation level in the @Transactional annotation. This setting is supported by most JPA providers like Hibernate.
+
+Q6: What happens if a transaction is rolled back in JPA?
+If a transaction is rolled back, any changes made during the transaction are discarded, and the database returns to the state it was in before the transaction began. The rollback can be triggered by an exception or manually using setRollbackOnly().
+
+Q7: What is the purpose of setRollbackOnly() in JPA?
+The setRollbackOnly() method is used to mark a transaction for rollback, meaning that no matter what happens, the transaction will be rolled back when it ends. This is typically used when an exception occurs, but the transaction has already been partially executed.
+
+Q8: How can you prevent a transaction from rolling back on a specific exception in JPA?
+To prevent a transaction from rolling back on a specific exception, you can use the noRollbackFor attribute in the @Transactional annotation, specifying the exception type that should not trigger a rollback.
+
+Q9: Can you configure JPA to automatically roll back a transaction on checked exceptions?
+By default, JPA only rolls back transactions on unchecked exceptions (i.e., RuntimeException and its subclasses). To roll back on checked exceptions, you can use the rollbackFor attribute in the @Transactional annotation.
+
+Q10: What is the effect of using readOnly=true in the @Transactional annotation?
+Setting readOnly=true in the @Transactional annotation informs the persistence provider that the transaction will only read data and will not perform any write operations. This can optimize performance, as the provider can skip certain database optimizations for writes.
+
+Q1: What are the different transaction propagation behaviors in JPA?
+JPA provides several transaction propagation behaviors, such as REQUIRED, REQUIRES_NEW, SUPPORTS, MANDATORY, NEVER, and NOSUPPORT. These define how transactions are handled when a method is called inside an existing transaction or when no transaction exists.
+
+Q2: How do you configure isolation levels in JPA?
+Isolation levels can be configured in JPA by specifying the desired level in the @Transactional annotation's isolation attribute. Common isolation levels include READ_COMMITTED, READ_UNCOMMITTED, REPEATABLE_READ, and SERIALIZABLE.
+
+Q3: What is the difference between REQUIRED and REQUIRES_NEW propagation in JPA?
+REQUIRED propagation behavior means that if a transaction already exists, the method will join that transaction. If no transaction exists, a new one is started. REQUIRES_NEW creates a new transaction, suspending any existing transaction, and commits or rolls back independently of the outer transaction.
+
+Q4: What is the TransactionSynchronizationManager in JPA?
+The TransactionSynchronizationManager is a utility class in Spring that allows you to retrieve and manage resources tied to a transaction, such as transaction attributes or data bound to the current transaction.
+
+Q5: What is the default isolation level in JPA?
+The default isolation level in JPA depends on the underlying database, but it is typically set to READ_COMMITTED, which allows dirty reads to be avoided while allowing non-repeatable reads and phantom reads.
+
+Q6: Can you use optimistic locking with JPA?
+Yes, optimistic locking can be used in JPA by annotating a version field with @Version. This ensures that when an entity is updated, its version is checked, and an exception is thrown if another transaction has modified the entity in the meantime.
+
+Q7: How can you handle concurrency control in JPA?
+Concurrency control in JPA can be handled by using either optimistic locking or pessimistic locking. Optimistic locking uses a version column to check for data consistency, while pessimistic locking uses database locks to prevent concurrent access to the data.
+
+Q8: What happens if two transactions update the same entity with optimistic locking?
+If two transactions attempt to update the same entity with optimistic locking, the second transaction will throw a javax.persistence.OptimisticLockException when it tries to commit, indicating that the version check has failed.
+
+Q9: How can you use LockModeType.PESSIMISTIC_WRITE in JPA?
+LockModeType.PESSIMISTIC_WRITE is used to acquire a write lock on an entity, preventing other transactions from accessing the entity for updates. This is useful in scenarios where you need exclusive access to the data.
+
+Q10: What is the effect of setting rollbackFor in @Transactional?
+Setting the rollbackFor attribute in @Transactional allows you to specify which exceptions should trigger a rollback. By default, JPA rolls back on unchecked exceptions, but you can configure it to roll back on specific checked exceptions as well.
+
+Q1: What is the purpose of the @Transactional annotation in JPA?
+The @Transactional annotation in JPA is used to define the transactional boundaries for a method or class. It ensures that all database operations within the scope of the annotated method are executed as a single unit of work, with automatic commit or rollback depending on the outcome.
+
+Q2: How do you configure transaction management in a Spring-based JPA application?
+In a Spring-based JPA application, transaction management can be configured by enabling annotation-driven transaction management using @EnableTransactionManagement in a configuration class. Additionally, a DataSource, EntityManagerFactory, and PlatformTransactionManager need to be set up in the Spring context.
+
+Q3: What is the propagation attribute in the @Transactional annotation?
+The propagation attribute in the @Transactional annotation specifies how transactions should behave in relation to existing transactions. For example, Propagation.REQUIRED means that the method will join an existing transaction or create a new one if none exists.
+
+Q4: How can you enable nested transactions in JPA?
+Nested transactions can be achieved using Propagation.NESTED in the @Transactional annotation. This allows the inner transaction to be committed or rolled back independently of the outer transaction, providing finer control over the transaction boundaries.
+
+Q5: What is the difference between REPEATABLE_READ and SERIALIZABLE isolation levels?
+REPEATABLE_READ ensures that if a transaction reads a value, that value will remain the same throughout the transaction, but phantom reads can still occur. In contrast, SERIALIZABLE is the highest isolation level, ensuring that no other transactions can read or write to the data being accessed, thus preventing phantom reads as well.
+
+Q6: What happens if you use LockModeType.PESSIMISTIC_READ in JPA?
+LockModeType.PESSIMISTIC_READ acquires a shared lock on the entity, meaning other transactions can read the entity but cannot update or delete it. This prevents dirty reads and ensures the data is consistent during the transaction, though other transactions can still read the data.
+
+Q7: How do you handle transactions in a JPA repository?
+Transactions in a JPA repository are typically handled by using the @Transactional annotation at the service layer. The repository methods do not directly handle transactions, but they participate in transactions defined by the service layer. The transaction is automatically committed or rolled back based on the outcome.
+
+Q8: What is the Isolation.DEFAULT setting in JPA?
+Isolation.DEFAULT indicates that the transaction will use the default isolation level of the underlying database. Most databases default to READ_COMMITTED, but this may vary depending on the database's configuration.
+
+Q9: How do you set up pessimistic locking in JPA?
+Pessimistic locking can be set up in JPA using LockModeType.PESSIMISTIC_WRITE or LockModeType.PESSIMISTIC_READ in the EntityManager.lock() method to acquire a lock on an entity. This prevents other transactions from accessing the entity until the lock is released.
+
+Q10: What is the difference between optimistic and pessimistic locking in JPA?
+Optimistic locking assumes that conflicts are rare and allows multiple transactions to read and update the same entity. It uses a version column to detect conflicts. Pessimistic locking, on the other hand, locks the entity to prevent other transactions from reading or modifying it, ensuring exclusive access.
+
+Q1: What is the role of the Version field in JPA?
+The Version field in JPA is used for optimistic locking. It ensures that if a concurrent transaction modifies an entity, the version number will be incremented, and a conflict will be detected during the transaction. If the version numbers do not match, an OptimisticLockException is thrown.
+
+Q2: How do you configure a version field for optimistic locking in JPA?
+You configure a version field in JPA by using the @Version annotation on a field in the entity. This field is automatically managed by JPA to track the version of the entity and help detect conflicts in concurrent updates.
+
+Q3: What happens if two transactions try to update the same entity with optimistic locking?
+If two transactions try to update the same entity, the second transaction will fail if it attempts to update the entity after the first transaction has committed. JPA will throw an OptimisticLockException to indicate a version conflict, preventing the second transaction from overwriting the changes made by the first.
+
+Q4: What is the rollbackFor attribute in the @Transactional annotation?
+The rollbackFor attribute in the @Transactional annotation specifies which exceptions should trigger a rollback of the transaction. By default, only unchecked exceptions (RuntimeException) cause a rollback, but you can specify additional exceptions to trigger a rollback.
+
+Q5: What is the timeout attribute in the @Transactional annotation?
+The timeout attribute in the @Transactional annotation defines the maximum time (in seconds) a transaction is allowed to run. If the transaction exceeds this time limit, it is automatically rolled back.
+
+Q6: What is a TransactionRequiredException in JPA?
+A TransactionRequiredException is thrown when an operation that requires an active transaction is performed, but no transaction is available. This exception typically occurs when a method that requires transaction management is called outside of a transactional context.
+
+Q7: How do you manually begin, commit, and roll back a transaction in JPA?
+In JPA, you can manually manage transactions using the EntityTransaction interface. Use the begin() method to start a transaction, commit() to commit it, and rollback() to roll back the transaction if an error occurs.
+
+Q8: How do you configure a custom isolation level for a transaction in JPA?
+JPA allows you to set a custom isolation level using the @Transactional annotation with the isolation attribute. For example, you can set Isolation.READ_COMMITTED or Isolation.SERIALIZABLE to control the transaction isolation behavior.
+
+Q9: How does the flush method work in JPA?
+The flush method in JPA forces the synchronization of the persistence context with the underlying database. It ensures that any changes made to entities are written to the database, but it does not commit the transaction. A flush can be invoked manually to ensure that pending changes are persisted.
+
+Q10: How do you handle transaction propagation for a service layer in JPA?
+Transaction propagation in JPA can be handled using the @Transactional annotation at the service layer. The propagation attribute can control how a transaction behaves when an existing transaction is present. Common values include REQUIRED (join an existing transaction or create a new one) and REQUIRES_NEW (suspend the current transaction and start a new one).
+
+Q1: What is the purpose of using @Transactional in Spring JPA?
+The @Transactional annotation is used to manage transaction boundaries in Spring JPA. It ensures that a method is executed within a transactional context, and it automatically handles transaction commit or rollback depending on whether an exception is thrown.
+
+Q2: What happens when a method annotated with @Transactional throws a runtime exception?
+If a method annotated with @Transactional throws a runtime exception, the transaction will automatically be rolled back. This is the default behavior of Spring's transaction management.
+
+Q3: Can @Transactional be applied to multiple methods in the same class?
+Yes, @Transactional can be applied to multiple methods in the same class. It will ensure that each method has its own transactional boundary, and the transactions will behave independently unless combined within a larger context.
+
+Q4: What is the default isolation level in JPA when using @Transactional?
+The default isolation level in JPA when using @Transactional is Isolation.DEFAULT, which means that the underlying database's default isolation level will be used. In most databases, this is typically READ_COMMITTED.
+
+Q5: What does the Isolation.READ_UNCOMMITTED isolation level do?
+The Isolation.READ_UNCOMMITTED isolation level allows dirty reads, meaning that a transaction can read data that has been modified by another transaction but not yet committed. This can lead to inconsistencies, so it is rarely used in practice.
+
+Q6: How do you use @Transactional with a custom propagation setting?
+You can specify a custom propagation behavior in the @Transactional annotation by using the propagation attribute. Common propagation types include REQUIRED, REQUIRES_NEW, and SUPPORTS.
+
+Q7: What does PROPAGATION_REQUIRES_NEW do?
+PROPAGATION_REQUIRES_NEW creates a new transaction, suspending any existing transaction. This ensures that the current method runs in a new transaction, independent of any previous transactions that may be in progress.
+
+Q8: What is the difference between READ_COMMITTED and READ_UNCOMMITTED isolation levels?
+READ_COMMITTED prevents dirty reads, meaning that a transaction cannot read data that has been modified by another uncommitted transaction. In contrast, READ_UNCOMMITTED allows dirty reads, where one transaction can read uncommitted data from another transaction, which can lead to inconsistencies.
+
+Q9: Can you nest transactions in JPA?
+Yes, you can nest transactions in JPA, but the behavior depends on the transaction propagation settings. By default, nested transactions will share the same transaction unless you explicitly specify a different propagation setting like REQUIRES_NEW.
+
+Q10: What is the @TransactionAttribute annotation used for in JPA?
+@TransactionAttribute is used in EJB (Enterprise JavaBeans) for specifying the transaction behavior for a method. It is similar to the @Transactional annotation in Spring, allowing you to configure the isolation level, propagation, and other transaction-related attributes for EJB methods.
