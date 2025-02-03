@@ -34,10 +34,6 @@ The interrupt() method is used to interrupt a thread. When a thread is interrupt
             
 How can a thread move from Runnable to Blocked state?
 A thread moves from Runnable to Blocked when it is waiting to acquire a lock (for example, during synchronized method calls). It will stay in the Blocked state until it acquires the lock.
-synchronized (lock) {
-    // Thread will be blocked if another thread is holding the lock
-}
-            
 
 Can a thread move directly from Runnable to Terminated state?
 Yes, a thread can move directly from the Runnable state to the Terminated state if its run() method completes its execution or if it is interrupted.
@@ -313,34 +309,4 @@ What is the difference between Thread.start() and Thread.run()?
 The Thread.start() method initiates the thread and calls the run() method in a new call stack. The run() method, when invoked directly, does not create a new thread but runs on the current thread.
 
 // Calling run() directly:
-thread.run(); // Does not create a new thread, executes in the current thread
-            
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
+thread.run(); // Does not create a new thread, executes in the current thread 
