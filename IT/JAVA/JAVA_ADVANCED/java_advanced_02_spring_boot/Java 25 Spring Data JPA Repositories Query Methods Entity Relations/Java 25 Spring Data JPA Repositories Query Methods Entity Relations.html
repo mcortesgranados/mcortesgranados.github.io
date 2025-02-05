@@ -15,6 +15,120 @@
 
 <body>
 <h2 class="style1">Spring Data JPA - Set 1</h2>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+    <h2>Comparison of Java JPA Features</h2>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>Description</th>
+            <th>Key Focus</th>
+            <th>Goal</th>
+            <th>Benefits</th>
+            <th>Real-World Application</th>
+        </tr>
+        <tr>
+            <td><strong>Entity Mapping</strong></td>
+            <td>Mapping Java classes to database tables using annotations like `@Entity`, `@Table`, and `@Id`.</td>
+            <td>Object-Relational Mapping (ORM)</td>
+            <td>To establish a clear mapping between Java objects and database tables, simplifying database interaction.</td>
+            <td>Improves developer productivity by automatically mapping Java objects to database tables.</td>
+            <td>In an e-commerce platform, mapping an `Order` class to a `orders` table in the database simplifies creating and retrieving order records.</td>
+        </tr>
+        <tr>
+            <td><strong>Persistence Context</strong></td>
+            <td>A context where entities are managed by the JPA provider, typically using the `EntityManager`.</td>
+            <td>State Management</td>
+            <td>To manage entity instances and their lifecycle within a defined scope, such as a transaction.</td>
+            <td>Ensures that all entities in the persistence context are synchronized with the database.</td>
+            <td>In a financial application, keeping the state of bank account balances in sync during a transaction ensures consistency.</td>
+        </tr>
+        <tr>
+            <td><strong>Lazy vs Eager Loading</strong></td>
+            <td>Defines how related entities are fetched from the database, either lazily (on demand) or eagerly (immediately).</td>
+            <td>Data Fetching</td>
+            <td>To optimize performance and memory usage by controlling when related data is fetched.</td>
+            <td>Helps in improving performance by delaying the loading of data until it is actually needed.</td>
+            <td>In a blogging platform, eagerly loading author details alongside an article might be efficient, but lazily loading comments only when requested can save resources.</td>
+        </tr>
+        <tr>
+            <td><strong>Query Language (JPQL)</strong></td>
+            <td>Java Persistence Query Language (JPQL) allows you to write queries using Java object-oriented syntax.</td>
+            <td>Querying</td>
+            <td>To provide a platform-independent way to query database entities, resembling SQL but based on Java classes.</td>
+            <td>Improves readability and maintainability by using Java object models directly in queries.</td>
+            <td>In an inventory system, using JPQL to query products based on category and availability is more natural than writing raw SQL.</td>
+        </tr>
+        <tr>
+            <td><strong>Entity Lifecycle</strong></td>
+            <td>Defines the different states an entity goes through, such as new, managed, detached, and removed.</td>
+            <td>Entity Management</td>
+            <td>To track and manage the state of entities as they undergo various operations like saving, updating, and deleting.</td>
+            <td>Allows for better control of how entities are handled during CRUD operations.</td>
+            <td>In a CRM system, managing the lifecycle of customer entities ensures that customer data is properly inserted, updated, and deleted based on business rules.</td>
+        </tr>
+        <tr>
+            <td><strong>Transaction Management</strong></td>
+            <td>Provides support for managing transactions using `@Transactional` annotations or `EntityTransaction` in code.</td>
+            <td>Transaction Control</td>
+            <td>To ensure that operations like data insertion, update, and deletion are handled atomically and consistently.</td>
+            <td>Ensures that changes to the database are rolled back if any part of the transaction fails, maintaining data integrity.</td>
+            <td>In an order processing system, transactions are used to ensure that inventory updates, payment processing, and order creation either all succeed or all fail.</td>
+        </tr>
+        <tr>
+            <td><strong>Named Queries</strong></td>
+            <td>Predefined queries in the `@NamedQuery` annotation that can be reused across the application.</td>
+            <td>Query Reusability</td>
+            <td>To avoid repetitive code and centralize query definitions for better maintainability.</td>
+            <td>Enhances performance and readability by allowing queries to be reused without rewriting them each time.</td>
+            <td>In a payroll system, using named queries for recurring reports (e.g., employee salary data) allows for easier maintenance and consistency.</td>
+        </tr>
+        <tr>
+            <td><strong>Criteria API</strong></td>
+            <td>A programmatic API for creating dynamic, type-safe queries in Java.</td>
+            <td>Dynamic Query Construction</td>
+            <td>To allow developers to create flexible, type-safe queries without directly writing JPQL strings.</td>
+            <td>Provides a more flexible, dynamic way to build queries based on runtime conditions.</td>
+            <td>In an e-commerce site, using the Criteria API to create dynamic product searches based on various user inputs such as price range, category, and rating.</td>
+        </tr>
+        <tr>
+            <td><strong>Many-to-One/One-to-Many Mapping</strong></td>
+            <td>Defines the relationships between entities using annotations like `@ManyToOne`, `@OneToMany`, etc.</td>
+            <td>Relationship Mapping</td>
+            <td>To model and maintain relationships between entities in the database efficiently.</td>
+            <td>Reduces redundancy and ensures that relationships are maintained correctly across entities.</td>
+            <td>In a library system, mapping books to authors (many-to-one) and authors to multiple books (one-to-many) ensures accurate data integrity.</td>
+        </tr>
+        <tr>
+            <td><strong>Bidirectional Relationships</strong></td>
+            <td>Allow for relationships to be navigated in both directions, e.g., `@OneToMany` and `@ManyToOne` relationships.</td>
+            <td>Navigation Flexibility</td>
+            <td>To allow easy access to both sides of a relationship, making data retrieval more flexible.</td>
+            <td>Improves data consistency and makes it easier to work with related entities in both directions.</td>
+            <td>In a social media application, allowing a `User` to have many `Posts` (one-to-many) and also letting each `Post` know the `User` who created it (many-to-one) ensures easy navigation between user posts and author information.</td>
+        </tr>
+    </table><p class="style1">&nbsp;</p>
 <h2 class="style1"><a href="Java 25 Spring Data JPA Repositories Query Methods Entity Relations 01.mp3" target="_blank">Audio 1</a> - <a href="Java 25 Spring Data JPA Repositories Query Methods Entity Relations 02.mp3" target="_blank">Audio 2</a></h2>
 <div class="style2">
   <h3>1. What is Spring Data JPA?</h3>

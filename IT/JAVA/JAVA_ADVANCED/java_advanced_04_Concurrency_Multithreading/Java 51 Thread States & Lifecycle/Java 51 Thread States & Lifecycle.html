@@ -12,8 +12,335 @@
 
 <body>
 <h1 class="style1">Thread States &amp; Lifecycle - Q&amp;A Set 1</h1>
-<h2 class="style1"><a href="Java 51 Thread States &amp; Lifecycle 01.mp3" target="_blank">Audio 1</a> - <a href="Java 51 Thread States &amp; Lifecycle 02.mp3" target="_blank">Audio 2</a></h2>
-<ol class="style1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+    <h2>Comparison of Java Thread Features</h2>
+
+<table>
+        <tr>
+            <th>Feature</th>
+            <th>Thread Class (`Thread`)</th>
+            <th>Runnable Interface (`Runnable`)</th>
+            <th>Callable Interface (`Callable<T>`)</th>
+            <th>Executor Framework (`ExecutorService`)</th>
+        </tr>
+        <tr>
+            <td><strong>Implementation</strong></td>
+            <td>Extends `Thread` class</td>
+            <td>Implements `Runnable`</td>
+            <td>Implements `Callable<T>`</td>
+            <td>Uses `ExecutorService` or `ForkJoinPool`</td>
+        </tr>
+        <tr>
+            <td><strong>Return Value</strong></td>
+            <td>No return value (`void`)</td>
+            <td>No return value (`void`)</td>
+            <td>Returns a value (`T`) via `Future<T>`</td>
+            <td>Returns `Future<T>` for async execution</td>
+        </tr>
+        <tr>
+            <td><strong>Exception Handling</strong></td>
+            <td>Cannot throw checked exceptions</td>
+            <td>Cannot throw checked exceptions</td>
+            <td>Can throw checked exceptions</td>
+            <td>Handled via `Future.get()`</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Management</strong></td>
+            <td>Manual thread creation & start</td>
+            <td>Manual thread creation & start</td>
+            <td>Uses `FutureTask` & `ExecutorService`</td>
+            <td>Manages thread pools & lifecycle</td>
+        </tr>
+        <tr>
+            <td><strong>Usage Complexity</strong></td>
+            <td>Simple to use but less flexible</td>
+            <td>More flexible, reusable</td>
+            <td>More powerful, requires `ExecutorService`</td>
+            <td>Complex, but efficient thread management</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Reusability</strong></td>
+            <td>Not reusable, new thread needed</td>
+            <td>Reusable, can run multiple times</td>
+            <td>Reusable with `FutureTask`</td>
+            <td>Highly reusable via thread pooling</td>
+        </tr>
+        <tr>
+            <td><strong>Performance</strong></td>
+            <td>Poor, new thread every time</td>
+            <td>Better than `Thread`, no pooling</td>
+            <td>Good for tasks needing results</td>
+            <td>Best, due to pooling & scheduling</td>
+        </tr>
+        <tr>
+            <td><strong>Synchronization</strong></td>
+            <td>Uses `synchronized`, `volatile`</td>
+            <td>Uses `synchronized`, `volatile`</td>
+            <td>Uses `synchronized`, `volatile`, `Future`</td>
+            <td>Uses concurrency utilities</td>
+        </tr>
+        <tr>
+            <td><strong>Best Used For</strong></td>
+            <td>Simple threading tasks</td>
+            <td>General-purpose threading</td>
+            <td>Tasks needing return values</td>
+            <td>Large-scale thread management</td>
+        </tr>
+</table>
+    <h2>Features of Java Thread Class (`java.lang.Thread`)</h2>
+
+<table>
+        <tr>
+            <th>Feature</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>Class Type</strong></td>
+            <td>`java.lang.Thread` (a subclass of `java.lang.Object`)</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Creation</strong></td>
+            <td>Extend `Thread` class and override the `run()` method.</td>
+        </tr>
+        <tr>
+            <td><strong>Start a Thread</strong></td>
+            <td>Use `start()` method to begin the thread execution. This invokes `run()` method.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Execution</strong></td>
+            <td>The `run()` method contains the code that the thread will execute.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread States</strong></td>
+            <td>A thread can be in one of several states: `NEW`, `RUNNABLE`, `WAITING`, `TIMED_WAITING`, or `TERMINATED`.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Priority</strong></td>
+            <td>The priority of a thread can be set using `setPriority(int)` (values between `Thread.MIN_PRIORITY` and `Thread.MAX_PRIORITY`).</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Name</strong></td>
+            <td>Set the thread name using `setName(String)` or access it using `getName()`.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Sleep</strong></td>
+            <td>`Thread.sleep(long millis)` pauses the thread for a specified time in milliseconds.</td>
+        </tr>
+        <tr>
+            <td><strong>Interrupting a Thread</strong></td>
+            <td>`interrupt()` method is used to interrupt the thread if it is waiting, sleeping, or blocked.</td>
+        </tr>
+        <tr>
+            <td><strong>Joining a Thread</strong></td>
+            <td>`join()` method causes the current thread to wait until the specified thread finishes executing.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Daemon</strong></td>
+            <td>Threads can be marked as daemon threads using `setDaemon(boolean)`; daemon threads are terminated when the program exits.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Yielding</strong></td>
+            <td>`Thread.yield()` can be used to pause the current thread and allow other threads to run.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Grouping</strong></td>
+            <td>Threads belong to a thread group and can be managed accordingly (e.g., `ThreadGroup` class).</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Synchronization</strong></td>
+            <td>Use synchronized blocks or methods to avoid thread interference when accessing shared resources.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Termination</strong></td>
+            <td>A thread terminates when its `run()` method finishes or if it is interrupted.</td>
+        </tr>
+</table>
+    <h2>Features of Java Runnable Interface (`java.lang.Runnable`)</h2>
+
+<table>
+        <tr>
+            <th>Feature</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>Interface Type</strong></td>
+            <td>`java.lang.Runnable` (an interface, not a class)</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Creation</strong></td>
+            <td>Implement `Runnable` interface and override the `run()` method.</td>
+        </tr>
+        <tr>
+            <td><strong>Starting a Runnable</strong></td>
+            <td>To execute a `Runnable`, pass it to a `Thread` object and call the `start()` method of the thread.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Execution</strong></td>
+            <td>The `run()` method contains the code that the thread will execute.</td>
+        </tr>
+        <tr>
+            <td><strong>Reusability</strong></td>
+            <td>Runnable can be reused by multiple threads, unlike `Thread` where a thread can only run once.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread States</strong></td>
+            <td>Works with the same thread states as `Thread`: `NEW`, `RUNNABLE`, `WAITING`, `TIMED_WAITING`, and `TERMINATED`.</td>
+        </tr>
+        <tr>
+            <td><strong>Return Value</strong></td>
+            <td>Runnable does not return a value and cannot throw checked exceptions. For return values, use `Callable`.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Priority</strong></td>
+            <td>Thread created with `Runnable` can have a priority set via `Thread.setPriority(int)`.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Synchronization</strong></td>
+            <td>Synchronize code within `run()` using `synchronized` to manage concurrency issues when accessing shared resources.</td>
+        </tr>
+        <tr>
+            <td><strong>Performance</strong></td>
+            <td>More flexible and efficient compared to directly extending `Thread`, as multiple threads can share the same `Runnable` instance.</td>
+        </tr>
+        <tr>
+            <td><strong>Best Used For</strong></td>
+            <td>Suitable for general-purpose threading tasks that do not require returning values or throwing checked exceptions.</td>
+        </tr>
+    </table>    
+    <h2>Features of Java Callable Interface (`java.util.concurrent.Callable`)</h2>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>Interface Type</strong></td>
+            <td>`java.util.concurrent.Callable` (an interface in the `java.util.concurrent` package)</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Creation</strong></td>
+            <td>Implement the `Callable` interface and override the `call()` method to define the task.</td>
+        </tr>
+        <tr>
+            <td><strong>Starting a Callable</strong></td>
+            <td>To execute a `Callable`, pass it to an `ExecutorService` (such as `ExecutorService.submit()`) rather than a `Thread` object.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Execution</strong></td>
+            <td>The `call()` method contains the code that the thread will execute, and it can return a result.</td>
+        </tr>
+        <tr>
+            <td><strong>Return Value</strong></td>
+            <td>Unlike `Runnable`, the `call()` method can return a result (of type `T`) or throw a checked exception.</td>
+        </tr>
+        <tr>
+            <td><strong>Exception Handling</strong></td>
+            <td>The `call()` method can throw checked exceptions, unlike `run()` in `Runnable`, which cannot.</td>
+        </tr>
+        <tr>
+            <td><strong>Concurrent Execution</strong></td>
+            <td>Callable tasks are often used in conjunction with the `ExecutorService` to allow multiple concurrent threads and manage their results more efficiently.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread States</strong></td>
+            <td>Callable tasks operate with the same thread states as `Thread`: `NEW`, `RUNNABLE`, `WAITING`, `TIMED_WAITING`, and `TERMINATED`.</td>
+        </tr>
+        <tr>
+            <td><strong>Result Handling</strong></td>
+            <td>The result from `call()` can be handled via `Future.get()` to retrieve the result or handle exceptions.</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Synchronization</strong></td>
+            <td>Callable tasks can be synchronized to avoid concurrency issues, similar to `Runnable`.</td>
+        </tr>
+        <tr>
+            <td><strong>Best Used For</strong></td>
+            <td>Callable is ideal when you need a task to return a result or throw a checked exception. It's often used with `ExecutorService`.</td>
+        </tr>
+    </table>
+    <h2>Features of Java ExecutorService Interface (`java.util.concurrent.ExecutorService`)</h2>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><strong>Interface Type</strong></td>
+            <td>`java.util.concurrent.ExecutorService` (an interface that manages a pool of worker threads)</td>
+        </tr>
+        <tr>
+            <td><strong>Thread Management</strong></td>
+            <td>Used to manage and control the execution of tasks asynchronously in a thread pool.</td>
+        </tr>
+        <tr>
+            <td><strong>Task Submission</strong></td>
+            <td>Tasks can be submitted via `submit()` or `invokeAll()` methods, and it returns a `Future` object for result handling.</td>
+        </tr>
+        <tr>
+            <td><strong>Task Execution</strong></td>
+            <td>ExecutorService executes `Runnable` and `Callable` tasks in the background using a thread pool.</td>
+        </tr>
+        <tr>
+            <td><strong>Graceful Shutdown</strong></td>
+            <td>ExecutorService can be shut down gracefully using `shutdown()` (non-blocking) or `shutdownNow()` (interrupts tasks).</td>
+        </tr>
+        <tr>
+            <td><strong>Concurrency Handling</strong></td>
+            <td>Manages concurrent execution of tasks, ensuring thread safety and efficient resource usage.</td>
+        </tr>
+        <tr>
+            <td><strong>Task Scheduling</strong></td>
+            <td>Use `schedule()` and related methods (in `ScheduledExecutorService`) for scheduling tasks with fixed-rate or fixed-delay execution.</td>
+        </tr>
+        <tr>
+            <td><strong>Flexible Thread Pools</strong></td>
+            <td>Supports different thread pool implementations like `FixedThreadPool`, `CachedThreadPool`, and `SingleThreadExecutor`.</td>
+        </tr>
+        <tr>
+            <td><strong>Future Interface</strong></td>
+            <td>Methods such as `submit()` and `invokeAll()` return a `Future` object, allowing you to track the result and cancel the task if needed.</td>
+        </tr>
+        <tr>
+            <td><strong>Handling Exceptions</strong></td>
+            <td>Exceptions thrown by tasks can be caught using `Future.get()`. ExecutorService also provides `submit()` method which handles exceptions within the task.</td>
+        </tr>
+        <tr>
+            <td><strong>Performance</strong></td>
+            <td>ExecutorService improves performance by reusing threads, reducing the overhead of creating new threads repeatedly.</td>
+        </tr>
+        <tr>
+            <td><strong>Completion Service</strong></td>
+            <td>Use `ExecutorCompletionService` for handling and managing the completion of multiple tasks in an easier way.</td>
+        </tr>
+        <tr>
+            <td><strong>Best Used For</strong></td>
+            <td>ExecutorService is best for managing thread pools and handling asynchronous task execution, especially in environments with heavy concurrency.</td>
+        </tr>
+    </table>    <h2 class="style1"><a href="Java 51 Thread States &amp; Lifecycle 01.mp3" target="_blank">Audio 1</a> - <a href="Java 51 Thread States &amp; Lifecycle 02.mp3" target="_blank">Audio 2</a></h2>
+    <ol class="style1">
   <li> <strong>What are the different states of a thread in Java?</strong><br />
     A thread in Java can be in one of the following states:<br />
     <ul>

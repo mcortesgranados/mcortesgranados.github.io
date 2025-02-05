@@ -13,7 +13,116 @@
 </head>
 <body>
     <h1 class="style1">SOLID Principles - Questions and Answers</h1>
-    <p class="style2"><a href="Java 61 SOLID Principles 01.mp3" target="_blank">Audio 1</a> - <a href="Java 61 SOLID Principles 02.mp3" target="_blank">Audio 2</a> - <a href="Java 61 SOLID Principles 03.mp3" target="_blank">Audio 3</a></p>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Expanded Comparison of Features Regarding SOLID Principles</h2>
+
+    <table>
+        <tr>
+            <th>Principle</th>
+            <th>Description</th>
+            <th>Key Focus</th>
+            <th>Goal</th>
+            <th>Benefits</th>
+            <th>Example</th>
+            <th>Real Case Scenario</th>
+        </tr>
+        <tr>
+            <td><strong>S: Single Responsibility Principle</strong></td>
+            <td>A class should have only one reason to change, meaning it should have only one job or responsibility.</td>
+            <td>Encapsulation and Cohesion</td>
+            <td>To reduce complexity and ensure that each class has a specific responsibility, making it easier to maintain and modify.</td>
+            <td>Improved maintainability, easier debugging, and better testing.</td>
+            <td>A `UserService` class handles user-related operations, and a `NotificationService` class handles notifications. If user behavior changes, only `UserService` needs modification.</td>
+            <td>In a financial app, a `TransactionProcessor` class handles transaction-related logic, while an `AuditLogger` class handles logging. They evolve independently when transaction or logging mechanisms change.</td>
+        </tr>
+        <tr>
+            <td><strong>O: Open/Closed Principle</strong></td>
+            <td>A class should be open for extension but closed for modification. You should be able to add new functionality without changing existing code.</td>
+            <td>Extensibility</td>
+            <td>To allow software systems to adapt to new requirements while preserving existing code, making the system more flexible and scalable.</td>
+            <td>Reduced risk of introducing bugs, easier scalability.</td>
+            <td>You could add a new `EmailNotificationService` class by extending a base `NotificationService` class without modifying the existing code in the base class.</td>
+            <td>In an e-commerce system, new payment methods like `PayPal` or `Stripe` can be added without altering the existing payment processing system, just by extending an interface.</td>
+        </tr>
+        <tr>
+            <td><strong>L: Liskov Substitution Principle</strong></td>
+            <td>Objects of a superclass should be replaceable with objects of a subclass without affecting the correctness of the program.</td>
+            <td>Substitution and Inheritance</td>
+            <td>To ensure that subclasses extend the behavior of the parent class without altering its intended functionality, promoting maintainability and reusability.</td>
+            <td>Promotes safer code through inheritance.</td>
+            <td>A `Rectangle` class and a `Square` subclass should both work in a function that expects a `Rectangle`, without breaking the functionality.</td>
+            <td>In a geometry-based application, a `Shape` class is used with subclasses like `Circle` and `Square`. A method that calculates area will function correctly, whether the object is a `Circle` or `Square`.</td>
+        </tr>
+        <tr>
+            <td><strong>I: Interface Segregation Principle</strong></td>
+            <td>A client should not be forced to implement interfaces it does not use. This encourages splitting large interfaces into smaller, more specific ones.</td>
+            <td>Modularity and Flexibility</td>
+            <td>To ensure that clients only depend on methods that are relevant to them, reducing unnecessary dependencies and improving flexibility.</td>
+            <td>Reduces the size of interfaces, increases ease of implementation.</td>
+            <td>Instead of one large `Worker` interface, split it into multiple smaller interfaces like `DataWorker`, `ReportWorker`, etc.</td>
+            <td>In an app that handles both video processing and audio processing, instead of one large interface `MediaProcessor`, you could have `VideoProcessor` and `AudioProcessor` interfaces, so each client only implements what it needs.</td>
+        </tr>
+        <tr>
+            <td><strong>D: Dependency Inversion Principle</strong></td>
+            <td>High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend on details. Details should depend on abstractions.</td>
+            <td>Decoupling and Abstraction</td>
+            <td>To reduce the coupling between high-level and low-level modules, making the system more flexible and easier to modify without affecting other parts.</td>
+            <td>Improved flexibility and easier maintenance.</td>
+            <td>Using interfaces like `Database` for persistence and having classes like `MySQLDatabase` or `PostgresDatabase` implement it.</td>
+            <td>In a logistics application, a `ShippingService` class might depend on an abstraction like `ShippingProvider`, which can be implemented by specific providers such as `FedEx` or `UPS`, allowing easy switching without changing the high-level business logic.</td>
+        </tr>
+        <tr>
+            <td><strong>1. Better Maintainability</strong></td>
+            <td>SOLID principles make the code easier to maintain by ensuring better separation of concerns and reducing tightly coupled components.</td>
+            <td>Maintainability</td>
+            <td>Ensures that the system can be more easily extended and modified without breaking existing functionality.</td>
+            <td>Improved long-term stability and fewer bugs during maintenance.</td>
+            <td>For example, refactoring large monolithic classes into smaller, cohesive classes using SOLID principles.</td>
+            <td>In a large enterprise app, a system split into smaller modules (following SOLID) allows isolated bug fixes in one module without disrupting the entire application.</td>
+        </tr>
+        <tr>
+            <td><strong>2. Enhanced Flexibility</strong></td>
+            <td>The SOLID principles allow developers to extend functionality without making changes to the existing system.</td>
+            <td>Flexibility and Extensibility</td>
+            <td>Reduces the need for refactoring and rewrites by enabling system extensions.</td>
+            <td>Increased ability to adapt the system to new requirements without breaking existing functionality.</td>
+            <td>For example, adding new payment methods in an e-commerce system without affecting existing ones.</td>
+            <td>In an IoT system, adding new sensor types (e.g., temperature or humidity sensors) doesn't require changes to core logic, thanks to interface segregation and dependency inversion.</td>
+        </tr>
+        <tr>
+            <td><strong>3. Testability</strong></td>
+            <td>SOLID principles encourage the writing of smaller, well-defined classes that are easier to test independently.</td>
+            <td>Testability</td>
+            <td>Ensures that unit tests can be more effective by reducing dependencies and focusing on small, isolated functionality.</td>
+            <td>Easier writing of unit tests and quicker feedback loops during development.</td>
+            <td>Breaking up a `Car` class into smaller classes such as `Engine` and `Transmission` makes it easier to test each component individually.</td>
+            <td>In a web application, a service responsible for payment processing can be tested independently of the entire e-commerce system by mocking out external dependencies.</td>
+        </tr>
+    </table><p class="style2"><a href="Java 61 SOLID Principles 01.mp3" target="_blank">Audio 1</a> - <a href="Java 61 SOLID Principles 02.mp3" target="_blank">Audio 2</a> - <a href="Java 61 SOLID Principles 03.mp3" target="_blank">Audio 3</a></p>
 <div class="style1" id="questions">
 
         <h2>1. What is the Single Responsibility Principle (SRP)?</h2>

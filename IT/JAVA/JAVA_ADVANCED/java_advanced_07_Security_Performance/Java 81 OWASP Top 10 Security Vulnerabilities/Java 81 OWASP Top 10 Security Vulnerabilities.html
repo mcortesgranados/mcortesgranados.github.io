@@ -7,13 +7,118 @@
 <!--
 .question {            margin-bottom: 20px;
 }
+.style1 {font-family: Arial, Helvetica, sans-serif}
+.style2 {margin-bottom: 20px; font-family: Arial, Helvetica, sans-serif; }
 -->
 </style>
 </head>
 
 <body>
-<h2>OWASP Top 10 Security Vulnerabilities - Set 1</h2>
-<div class="question">
+<h2 class="style1">OWASP Top 10 Security Vulnerabilities - Set 1</h2>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+
+    <h2>OWASP Security Features in Java</h2>
+
+    <table>
+        <tr>
+          <th>&nbsp;</th>
+            <th>OWASP Feature</th>
+            <th>Description</th>
+            <th>Java Implementation</th>
+        </tr>
+        <tr>
+          <td><div align="center">1</div></td>
+            <td>Injection Prevention</td>
+            <td>Prevent SQL, LDAP, and other injection attacks.</td>
+            <td>Use <code>PreparedStatement</code>, parameterized queries, and <code>Spring Data JPA</code>.</td>
+        </tr>
+        <tr>
+          <td><div align="center">2</div></td>
+            <td>Broken Authentication</td>
+            <td>Secure authentication mechanisms to prevent credential theft.</td>
+            <td>Use <code>Spring Security</code>, enforce strong password policies, and enable Multi-Factor Authentication (MFA).</td>
+        </tr>
+        <tr>
+          <td><div align="center">3</div></td>
+            <td>Sensitive Data Exposure</td>
+            <td>Protect sensitive data such as passwords and PII.</td>
+            <td>Encrypt data using <code>AES/GCM</code>, <code>BCrypt</code> for password hashing, and enforce TLS 1.2/1.3.</td>
+        </tr>
+        <tr>
+          <td><div align="center">4</div></td>
+            <td>XML External Entities (XXE)</td>
+            <td>Prevent XML injection vulnerabilities.</td>
+            <td>Use <code>Jackson</code>, <code>StAX</code>, or disable <code>DOCTYPE</code> in XML parsers.</td>
+        </tr>
+        <tr>
+          <td><div align="center">5</div></td>
+            <td>Broken Access Control</td>
+            <td>Ensure proper role-based access control (RBAC).</td>
+            <td>Implement <code>Spring Security</code>, use <code>@PreAuthorize</code>, <code>@Secured</code>, and JWT-based authentication.</td>
+        </tr>
+        <tr>
+          <td><div align="center">6</div></td>
+            <td>Security Misconfiguration</td>
+            <td>Secure default configurations and avoid exposing sensitive data.</td>
+            <td>Disable directory listing, set secure headers using <code>Spring Security HttpSecurity</code>, and restrict CORS.</td>
+        </tr>
+        <tr>
+          <td><div align="center">7</div></td>
+            <td>Cross-Site Scripting (XSS)</td>
+            <td>Prevent injection of malicious scripts.</td>
+            <td>Use <code>ESAPI.encoder().encodeForHTML()</code>, Spring Boot’s <code>@SafeHtml</code>, and Content Security Policy (CSP).</td>
+        </tr>
+        <tr>
+          <td><div align="center">8</div></td>
+            <td>Insecure Deserialization</td>
+            <td>Prevent unsafe object deserialization.</td>
+            <td>Use <code>GSON</code>, <code>Jackson</code> (with <code>@JsonIgnore</code> for sensitive fields), and avoid <code>ObjectInputStream</code>.</td>
+        </tr>
+        <tr>
+          <td><div align="center">9</div></td>
+            <td>Using Components with Known Vulnerabilities</td>
+            <td>Avoid outdated or vulnerable dependencies.</td>
+            <td>Use <code>OWASP Dependency-Check</code>, update <code>Maven/Gradle</code> dependencies, and monitor <code>Spring Boot</code> versions.</td>
+        </tr>
+        <tr>
+          <td><div align="center">10</div></td>
+            <td>Insufficient Logging & Monitoring</td>
+            <td>Detect and log security incidents properly.</td>
+            <td>Use <code>SLF4J</code>/<code>Logback</code>, <code>Spring Boot Actuator</code>, and integrate with SIEM tools like Splunk or ELK Stack.</td>
+        </tr>
+        <tr>
+          <td><div align="center">11</div></td>
+            <td>Server-Side Request Forgery (SSRF)</td>
+            <td>Prevent unauthorized access to internal resources.</td>
+            <td>Disable unnecessary internal endpoints, use URL validation, and allowlist domains in HTTP clients like <code>HttpClient</code> or <code>RestTemplate</code>.</td>
+        </tr>
+    </table>
+<p class="style1">&nbsp;</p>
+<div class="style2">
   <h3>1. What is Injection in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Injection vulnerabilities occur when an attacker sends untrusted data to an interpreter as part of a command or query. This can allow attackers to execute unintended commands or access data. To prevent injection, use prepared statements and parameterized queries, never concatenate user input directly into queries. Example:</p>
   <pre>
@@ -24,7 +129,7 @@
         ResultSet rs = stmt.executeQuery();
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>2. What is Broken Authentication in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Broken Authentication vulnerabilities occur when an attacker can compromise authentication mechanisms, such as weak passwords or poor session management. To prevent it, enforce strong password policies, use multi-factor authentication (MFA), and securely manage session cookies. Example:</p>
   <pre>
@@ -35,7 +140,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>3. What is Sensitive Data Exposure in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Sensitive Data Exposure occurs when sensitive information (like credit card numbers, personal data, or passwords) is not adequately protected, either in transit or at rest. To prevent this, use strong encryption (e.g., AES, RSA), and ensure data is encrypted in transit using HTTPS. Example:</p>
   <pre>
@@ -43,7 +148,7 @@
         String encryptedData = encryptData(dataToEncrypt, secretKey);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>4. What is XML External Entities (XXE) in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> XXE vulnerabilities occur when an XML parser processes malicious XML input that contains external entity references. To prevent XXE, disable external entities in the XML parser and validate input thoroughly. Example:</p>
   <pre>
@@ -54,7 +159,7 @@
         factory.setFeature(&quot;http://xml.org/sax/features/external-parameter-entities&quot;, false);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>5. What is Broken Access Control in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Broken Access Control occurs when users can gain unauthorized access to resources or perform actions they should not be able to. To prevent this, implement proper access control checks on every request, especially for sensitive resources. Example:</p>
   <pre>
@@ -66,7 +171,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>6. What is Security Misconfiguration in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Security Misconfiguration happens when systems are set up insecurely, leaving vulnerable defaults, incomplete setups, or unnecessary features enabled. To prevent it, regularly review security settings, disable unnecessary features, and keep configurations minimal. Example:</p>
   <pre>
@@ -74,7 +179,7 @@
         Options -Indexes
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>7. What is Cross-Site Scripting (XSS) in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> XSS vulnerabilities occur when an attacker injects malicious scripts into web pages viewed by other users. To prevent XSS, use proper encoding/escaping of user inputs and output, and implement Content Security Policy (CSP). Example:</p>
   <pre>
@@ -82,7 +187,7 @@
         String safeInput = StringEscapeUtils.escapeHtml4(userInput);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>8. What is Insecure Deserialization in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Insecure Deserialization vulnerabilities occur when attackers manipulate serialized data to execute malicious code or bypass authentication. To prevent this, avoid deserializing data from untrusted sources, and implement integrity checks. Example:</p>
   <pre>
@@ -93,7 +198,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>9. What is Using Components with Known Vulnerabilities in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> This vulnerability occurs when applications use outdated or insecure components (e.g., libraries or frameworks). To prevent it, regularly update components to their latest versions and track known vulnerabilities. Example:</p>
   <pre>
@@ -101,7 +206,7 @@
         mvn org.owasp:dependency-check-maven:check
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>10. What is Insufficient Logging and Monitoring in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Insufficient Logging and Monitoring occurs when an application does not log or monitor sufficient security events, making it difficult to detect attacks. To prevent this, ensure that logs are comprehensive and that security events are monitored in real-time. Example:</p>
   <pre>
@@ -110,9 +215,9 @@
         logger.error(&quot;Unauthorized access attempt detected&quot;);
         </pre>
 </div>
-<p>&nbsp;</p>
-<h2>OWASP Top 10 Security Vulnerabilities - Set 2</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">OWASP Top 10 Security Vulnerabilities - Set 2</h2>
+<div class="style2">
   <h3>11. What is Cross-Site Request Forgery (CSRF) in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> CSRF occurs when an attacker tricks a user into executing unwanted actions on a website where they are authenticated. To prevent it, use anti-CSRF tokens in forms, check the Referer header, and ensure that state-changing actions require proper authentication. Example:</p>
   <pre>
@@ -126,7 +231,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>12. What is Missing Function Level Access Control in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> This vulnerability occurs when an application does not properly check whether the user has permission to access certain functions or resources. To prevent it, enforce access controls at every function and validate user roles and permissions. Example:</p>
   <pre>
@@ -137,7 +242,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>13. What is Insufficient Cryptography in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Insufficient Cryptography happens when weak or deprecated cryptographic algorithms are used for securing data. To prevent it, use strong algorithms like AES-256 and RSA-2048, and avoid using weak hashing algorithms like MD5 or SHA-1. Example:</p>
   <pre>
@@ -147,7 +252,7 @@
         byte[] encryptedData = cipher.doFinal(data);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>14. What is Unvalidated Redirects and Forwards in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> This vulnerability occurs when attackers can manipulate URLs to redirect users to malicious sites. To prevent it, validate and sanitize all user input and restrict the list of acceptable URLs for redirects. Example:</p>
   <pre>
@@ -160,7 +265,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>15. What is Improper Input Validation in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Improper Input Validation occurs when an application fails to properly validate and sanitize user input. To prevent it, use strong input validation, allow only expected input formats, and perform sanitization on all user inputs. Example:</p>
   <pre>
@@ -172,7 +277,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>16. What is Lack of Rate Limiting in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Lack of Rate Limiting allows attackers to brute force login attempts or overload services with requests. To prevent it, implement rate limiting with tools like Spring's `@RequestMapping` annotation or API gateways to throttle the number of requests per user. Example:</p>
   <pre>
@@ -184,7 +289,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>17. What is Failure to Restrict URL Access in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> This vulnerability occurs when a user can directly access a restricted URL without proper access controls. To prevent it, implement proper access control checks and restrict URL access based on user roles. Example:</p>
   <pre>
@@ -196,7 +301,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>18. What is Insufficient Session Expiration in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Insufficient Session Expiration happens when sessions do not expire after a certain time or when users log out. To prevent it, set session timeouts and invalidate sessions after logout or after inactivity. Example:</p>
   <pre>
@@ -210,7 +315,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>19. What is Command Injection in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Command Injection occurs when attackers inject malicious commands into an application, which are executed by the system. To prevent it, avoid using dynamic command execution with user input. Instead, use parameterized API calls or execute commands with strict validation. Example:</p>
   <pre>
@@ -218,7 +323,7 @@
         Process process = new ProcessBuilder(&quot;ls&quot;, &quot;-l&quot;).start();
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>20. What is Insufficient Logging in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Insufficient logging occurs when an application fails to record enough details about security events, making it difficult to detect breaches. To prevent it, ensure that all critical actions and security-relevant events are logged and monitored. Example:</p>
   <pre>
@@ -228,9 +333,9 @@
         </logger>
         </pre>
 </div>
-<p>&nbsp;</p>
-<h2>OWASP Top 10 Security Vulnerabilities - Set 3</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">OWASP Top 10 Security Vulnerabilities - Set 3</h2>
+<div class="style2">
   <h3>21. What is Insecure Deserialization in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Insecure deserialization occurs when untrusted data is deserialized, which could lead to remote code execution or data tampering. To prevent it, avoid deserializing untrusted data, and use safe serialization libraries. Example:</p>
   <pre>
@@ -240,7 +345,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>22. What is Insufficient Security Configurations in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Insufficient security configurations occur when security-related settings in the application are not properly configured. To prevent it, ensure security headers are configured, such as Content Security Policy (CSP), X-Content-Type-Options, and Strict-Transport-Security (HSTS). Example:</p>
   <pre>
@@ -256,7 +361,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>23. What is Broken Authentication in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Broken authentication occurs when attackers exploit flaws in authentication mechanisms, like weak passwords or session management. To prevent it, use multi-factor authentication (MFA), secure password storage with bcrypt or PBKDF2, and enforce secure session management. Example:</p>
   <pre>
@@ -269,7 +374,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>24. What is Cross-Site Scripting (XSS) in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> XSS occurs when an attacker injects malicious scripts into web pages. To prevent it, ensure proper input validation and output encoding, and use security libraries like OWASP Java Encoder. Example:</p>
   <pre>
@@ -278,7 +383,7 @@
         response.getWriter().write(safeOutput);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>25. What is Broken Access Control in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Broken access control occurs when an attacker can gain unauthorized access to restricted resources. To prevent it, use role-based access control (RBAC), validate user authorization at each resource, and deny by default. Example:</p>
   <pre>
@@ -290,7 +395,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>26. What is Security Misconfiguration in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Security misconfiguration occurs when security settings are not properly configured, leaving the system vulnerable. To prevent it, perform regular security audits, configure default settings securely, and disable unnecessary features. Example:</p>
   <pre>
@@ -304,7 +409,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>27. What is Insufficient Logging &amp; Monitoring in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Insufficient logging and monitoring happen when security-relevant events are not logged, making it difficult to detect malicious activity. To prevent it, enable comprehensive logging, store logs securely, and set up real-time monitoring. Example:</p>
   <pre>
@@ -319,7 +424,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>28. What is XML External Entities (XXE) in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> XXE occurs when an XML parser processes malicious XML input containing external references to local or remote resources. To prevent it, disable external entity processing and use secure XML parsers. Example:</p>
   <pre>
@@ -330,7 +435,7 @@
         dbf.setFeature(&quot;http://xml.org/sax/features/namespace-prefixes&quot;, false);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>29. What is Server-Side Request Forgery (SSRF) in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> SSRF occurs when an attacker can make a server perform unintended requests to internal or external resources. To prevent it, validate user-supplied URLs and restrict server access to internal systems. Example:</p>
   <pre>
@@ -342,7 +447,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>30. What is Cross-Site Script Inclusion (XSSI) in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> XSSI is a type of attack where an attacker can steal sensitive information from a script response by exploiting cross-site scripting techniques. To prevent it, ensure proper content security policies and avoid exposing sensitive data in JavaScript files. Example:</p>
   <pre>
@@ -354,9 +459,9 @@
         }
         </pre>
 </div>
-<p>&nbsp;</p>
-<h2>OWASP Top 10 Security Vulnerabilities - Set 4</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">OWASP Top 10 Security Vulnerabilities - Set 4</h2>
+<div class="style2">
   <h3>31. What is Information Disclosure in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Information disclosure occurs when sensitive information, such as server details or database structures, is exposed to attackers. To prevent it, disable unnecessary error messages, ensure proper access control, and avoid exposing sensitive information in URLs or error logs. Example:</p>
   <pre>
@@ -370,7 +475,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>32. What is Cross-Site Request Forgery (CSRF) in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> CSRF occurs when an attacker tricks a user into performing actions without their consent. To prevent it, use anti-CSRF tokens, ensure that state-changing requests are only made with POST, and validate requests. Example:</p>
   <pre>
@@ -381,7 +486,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>33. What is Improper Asset Management in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Improper asset management occurs when critical files or resources are left exposed or are improperly secured. To prevent it, ensure sensitive files are not included in the public-facing application, manage versions securely, and regularly audit assets. Example:</p>
   <pre>
@@ -392,7 +497,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>34. What is Insecure Dependencies in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Insecure dependencies occur when an application uses outdated or vulnerable libraries. To prevent it, use a dependency management tool, keep libraries up to date, and monitor vulnerabilities. Example:</p>
   <pre>
@@ -408,7 +513,7 @@
         </dependencyManagement>
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>35. What is Improper Input Validation in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Improper input validation occurs when user input is not properly validated before being processed. To prevent it, always validate and sanitize user input using white-listing, regular expressions, and built-in validation tools. Example:</p>
   <pre>
@@ -418,7 +523,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>36. What is Insufficient Authorization in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Insufficient authorization occurs when a user gains access to resources they shouldn't have access to. To prevent it, use role-based access control (RBAC), implement fine-grained access checks, and enforce least privilege. Example:</p>
   <pre>
@@ -430,7 +535,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>37. What is Insecure Communication in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Insecure communication occurs when sensitive data is transmitted over unencrypted channels. To prevent it, always use HTTPS (SSL/TLS), ensure proper certificate management, and avoid sending sensitive data in URLs. Example:</p>
   <pre>
@@ -447,7 +552,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>38. What is Unrestricted File Upload in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Unrestricted file upload occurs when a user is allowed to upload files without sufficient restrictions, leading to malicious files being uploaded. To prevent it, validate file types, use content inspection, and set file size limits. Example:</p>
   <pre>
@@ -457,7 +562,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>39. What is Excessive Data Exposure in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Excessive data exposure occurs when an application sends more data than necessary, which may contain sensitive information. To prevent it, ensure that only necessary data is sent and apply filtering and redaction when necessary. Example:</p>
   <pre>
@@ -470,7 +575,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>40. What is Lack of Proper Error Handling in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Lack of proper error handling occurs when errors are not handled gracefully, leading to uninformative messages or potential exposure of sensitive data. To prevent it, provide generic error messages to users and log detailed errors for administrators. Example:</p>
   <pre>
@@ -483,9 +588,9 @@
         }
         </pre>
 </div>
-<p>&nbsp;</p>
-<h2>OWASP Top 10 Security Vulnerabilities - Set 5</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">OWASP Top 10 Security Vulnerabilities - Set 5</h2>
+<div class="style2">
   <h3>41. What is Insufficient Logging &amp; Monitoring in OWASP Top 10, and how do you prevent it?</h3>
   <p><strong>Answer:</strong> Insufficient logging and monitoring occur when an application doesn't adequately log security-relevant events or monitor them effectively, allowing attacks to go undetected. To prevent it, implement detailed logging of security events and ensure the logs are reviewed and monitored regularly. Example:</p>
   <pre>
@@ -501,7 +606,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>42. How does OWASP suggest mitigating Security Misconfiguration?</h3>
   <p><strong>Answer:</strong> Security misconfiguration occurs when security settings are not implemented or are misconfigured, leading to vulnerabilities. To mitigate it, ensure default settings are changed, unnecessary services are disabled, and sensitive configurations are stored securely. Example:</p>
   <pre>
@@ -519,7 +624,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>43. What is the OWASP Top 10 vulnerability related to Cross-Site Scripting (XSS), and how is it mitigated?</h3>
   <p><strong>Answer:</strong> Cross-Site Scripting (XSS) occurs when attackers inject malicious scripts into web applications, which are then executed by other users' browsers. To mitigate it, use output encoding, validate user inputs, and implement Content Security Policy (CSP). Example:</p>
   <pre>
@@ -530,7 +635,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>44. What is Broken Authentication, and how can it be prevented according to OWASP?</h3>
   <p><strong>Answer:</strong> Broken authentication occurs when an application does not properly authenticate users, which can lead to unauthorized access. To prevent it, implement multi-factor authentication, use secure password storage, and avoid poor session management. Example:</p>
   <pre>
@@ -545,7 +650,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>45. What is the OWASP Top 10 vulnerability related to Sensitive Data Exposure, and how is it mitigated?</h3>
   <p><strong>Answer:</strong> Sensitive data exposure occurs when sensitive data is exposed to unauthorized users. To mitigate it, use strong encryption for data in transit and at rest, avoid storing sensitive data unnecessarily, and use tokenization when applicable. Example:</p>
   <pre>
@@ -554,7 +659,7 @@
         String encryptedPassword = new BCryptPasswordEncoder().encode(password);  // Encrypting password
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>46. How can you prevent Broken Access Control in OWASP?</h3>
   <p><strong>Answer:</strong> Broken access control occurs when unauthorized users can access restricted resources. To prevent it, implement role-based access control (RBAC), enforce least privilege, and properly configure access controls for resources. Example:</p>
   <pre>
@@ -566,7 +671,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>47. What is the OWASP vulnerability called Server-Side Request Forgery (SSRF), and how is it mitigated?</h3>
   <p><strong>Answer:</strong> SSRF occurs when an attacker is able to send unauthorized requests from the server to internal or external resources. To mitigate it, validate user-supplied URLs, block external connections, and whitelist allowed destinations. Example:</p>
   <pre>
@@ -576,7 +681,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>48. How can you mitigate Cross-Site Request Forgery (CSRF) according to OWASP?</h3>
   <p><strong>Answer:</strong> CSRF occurs when a malicious actor tricks a user into performing unwanted actions. To mitigate it, implement anti-CSRF tokens, use SameSite cookies, and require authentication for state-changing requests. Example:</p>
   <pre>
@@ -587,7 +692,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>49. What is the importance of securing third-party libraries and components in OWASP Top 10?</h3>
   <p><strong>Answer:</strong> Securing third-party libraries is crucial as they may introduce vulnerabilities. To mitigate risks, use trusted libraries, monitor for security updates, and regularly audit dependencies. Example:</p>
   <pre>
@@ -599,7 +704,7 @@
         </dependency>
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>50. How does OWASP recommend mitigating improper input validation vulnerabilities?</h3>
   <p><strong>Answer:</strong> Improper input validation occurs when an application does not adequately validate user inputs. To mitigate it, ensure input is properly sanitized, validate against a whitelist, and use strict input constraints. Example:</p>
   <pre>
@@ -609,9 +714,9 @@
         }
         </pre>
 </div>
-<p>&nbsp;</p>
-<h2>OWASP Top 10 Security Vulnerabilities - Set 6</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">OWASP Top 10 Security Vulnerabilities - Set 6</h2>
+<div class="style2">
   <h3>51. What is Insecure Deserialization, and how can you prevent it?</h3>
   <p><strong>Answer:</strong> Insecure deserialization occurs when untrusted data is deserialized, leading to remote code execution or other malicious actions. To prevent it, validate and sanitize input before deserialization, and avoid using insecure serialization mechanisms. Example:</p>
   <pre>
@@ -623,7 +728,7 @@
         throw new SecurityException(&quot;Unsafe deserialization attempt&quot;);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>52. How can you secure API endpoints from unauthorized access in OWASP?</h3>
   <p><strong>Answer:</strong> To secure API endpoints, implement proper authentication and authorization mechanisms, use secure tokens like JWT, and validate API requests rigorously. Example:</p>
   <pre>
@@ -635,7 +740,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>53. How can you prevent Sensitive Information Disclosure in OWASP?</h3>
   <p><strong>Answer:</strong> Sensitive information disclosure occurs when sensitive data is exposed unintentionally. To prevent it, ensure that sensitive data is never logged, properly encrypt data, and avoid revealing sensitive information in error messages. Example:</p>
   <pre>
@@ -646,7 +751,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>54. What is the importance of Input Validation in OWASP, and how can you implement it?</h3>
   <p><strong>Answer:</strong> Input validation ensures that user input is safe and follows expected formats. It is important to prevent injection attacks, XSS, and other vulnerabilities. Implement input validation by checking for allowed characters and rejecting any inputs that don't match the expected pattern. Example:</p>
   <pre>
@@ -659,7 +764,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>55. How does OWASP recommend mitigating XML External Entity (XXE) attacks?</h3>
   <p><strong>Answer:</strong> XXE attacks occur when XML input contains a reference to an external entity, which can lead to arbitrary file access or denial of service. To mitigate XXE, disable external entity processing in XML parsers, and use secure XML libraries. Example:</p>
   <pre>
@@ -669,7 +774,7 @@
         DocumentBuilder db = dbf.newDocumentBuilder();
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>56. What is the purpose of using encryption to protect sensitive data?</h3>
   <p><strong>Answer:</strong> Encryption ensures that sensitive data is unreadable to unauthorized users. By encrypting data at rest and in transit, you reduce the risk of data breaches. Use strong algorithms like AES and RSA to ensure data security. Example:</p>
   <pre>
@@ -679,7 +784,7 @@
         byte[] encryptedData = cipher.doFinal(data.getBytes());
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>57. How can you prevent Directory Traversal attacks?</h3>
   <p><strong>Answer:</strong> Directory traversal attacks allow attackers to access files outside the intended directory. To prevent it, sanitize input paths, and avoid allowing user-controlled paths in sensitive file access functions. Example:</p>
   <pre>
@@ -690,7 +795,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>58. What is the OWASP recommendation for securing third-party APIs?</h3>
   <p><strong>Answer:</strong> Secure third-party APIs by using strong authentication mechanisms (such as OAuth), limiting the scope of API access, and monitoring usage for suspicious activity. Always review and verify the security practices of third-party vendors. Example:</p>
   <pre>
@@ -699,7 +804,7 @@
         apiClient.setAccessToken(accessToken.getValue());
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>59. What is the role of Secure Headers in preventing web vulnerabilities?</h3>
   <p><strong>Answer:</strong> Secure headers help to mitigate various web vulnerabilities, such as XSS, clickjacking, and content injection. Common secure headers include Content Security Policy (CSP), X-Content-Type-Options, and X-Frame-Options. Example:</p>
   <pre>
@@ -717,7 +822,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>60. How can you prevent Cross-Site Scripting (XSS) attacks?</h3>
   <p><strong>Answer:</strong> To prevent XSS, escape output, use input validation, and implement a Content Security Policy (CSP). Avoid executing untrusted data as code, and sanitize user input before rendering it in the browser. Example:</p>
   <pre>
@@ -728,9 +833,9 @@
         }
         </pre>
 </div>
-<p>&nbsp;</p>
-<h2>OWASP Top 10 Security Vulnerabilities - Set 7</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">OWASP Top 10 Security Vulnerabilities - Set 7</h2>
+<div class="style2">
   <h3>61. How can you prevent Cross-Site Request Forgery (CSRF) attacks?</h3>
   <p><strong>Answer:</strong> To prevent CSRF, use anti-CSRF tokens, validate the origin of requests, and implement SameSite cookies. By requiring a unique token in each request, you can ensure that requests are intentional and coming from trusted sources. Example:</p>
   <pre>
@@ -744,7 +849,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>62. What is the significance of proper error handling in preventing information disclosure?</h3>
   <p><strong>Answer:</strong> Proper error handling prevents sensitive information from being exposed to end-users. Avoid displaying stack traces, database error messages, or other technical details in production environments. Example:</p>
   <pre>
@@ -758,7 +863,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>63. How can you mitigate Broken Authentication vulnerabilities?</h3>
   <p><strong>Answer:</strong> To mitigate broken authentication, use multi-factor authentication (MFA), secure password storage (hashing), and proper session management. Avoid using predictable session IDs and ensure login attempts are properly limited. Example:</p>
   <pre>
@@ -771,7 +876,7 @@
             .tokenValiditySeconds(86400);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>64. What are the best practices for securing sensitive data in databases?</h3>
   <p><strong>Answer:</strong> Use encryption at rest and in transit for sensitive data, employ database access controls, and apply principle of least privilege for database access. Example:</p>
   <pre>
@@ -783,7 +888,7 @@
         // Use encryption at insert and retrieve time
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>65. What are the common attack vectors for XML-based attacks, and how can you mitigate them?</h3>
   <p><strong>Answer:</strong> XML-based attacks include XML injection, XML External Entity (XXE), and XPath injection. To mitigate these, disable external entity processing, validate XML data, and use secure XML parsers. Example:</p>
   <pre>
@@ -793,7 +898,7 @@
         DocumentBuilder builder = factory.newDocumentBuilder();
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>66. How do you secure a web application from clickjacking attacks?</h3>
   <p><strong>Answer:</strong> Clickjacking can be prevented by using the X-Frame-Options header and setting it to 'DENY' or 'SAMEORIGIN'. This prevents your application from being embedded in an iframe from another domain. Example:</p>
   <pre>
@@ -808,7 +913,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>67. What is the role of logging in detecting security incidents?</h3>
   <p><strong>Answer:</strong> Logging is crucial for detecting, diagnosing, and mitigating security incidents. Ensure that sensitive data is not logged, use centralized logging, and monitor logs for abnormal activity. Example:</p>
   <pre>
@@ -823,7 +928,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>68. How do you protect against unauthorized access to APIs in OWASP?</h3>
   <p><strong>Answer:</strong> Protect APIs by using proper authentication (such as OAuth2 or JWT), and ensure that sensitive endpoints are accessible only to authorized users. Example:</p>
   <pre>
@@ -840,7 +945,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>69. What are the challenges in preventing Insecure Cryptographic Storage?</h3>
   <p><strong>Answer:</strong> Challenges include using weak encryption algorithms or improperly handling cryptographic keys. To mitigate, use strong encryption algorithms (e.g., AES) and securely store encryption keys using HSM (Hardware Security Modules). Example:</p>
   <pre>
@@ -850,7 +955,7 @@
         byte[] encryptedData = cipher.doFinal(data.getBytes());
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>70. How can you ensure that your application follows secure coding practices?</h3>
   <p><strong>Answer:</strong> Ensure secure coding by following established guidelines like OWASP's Secure Coding Practices, conducting code reviews, and using automated tools to detect vulnerabilities. Example:</p>
   <pre>
@@ -862,9 +967,9 @@
         // Ensure that passwords are hashed and not stored in plain text
         </pre>
 </div>
-<p>&nbsp;</p>
-<h2>OWASP Top 10 Security Vulnerabilities - Set 8</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">OWASP Top 10 Security Vulnerabilities - Set 8</h2>
+<div class="style2">
   <h3>71. How can you prevent Sensitive Data Exposure vulnerabilities?</h3>
   <p><strong>Answer:</strong> To prevent sensitive data exposure, encrypt sensitive data both in transit and at rest, ensure proper access control mechanisms, and limit data retention. Example:</p>
   <pre>
@@ -880,7 +985,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>72. What are the key principles of the Least Privilege security model?</h3>
   <p><strong>Answer:</strong> The Least Privilege principle dictates that users and systems should have only the minimum level of access required to perform their tasks. Implement access control and role-based permissions to enforce this principle. Example:</p>
   <pre>
@@ -891,7 +996,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>73. How can you secure your application against command injection attacks?</h3>
   <p><strong>Answer:</strong> Prevent command injection by validating and sanitizing user input, avoiding direct execution of system commands, and using parameterized queries. Example:</p>
   <pre>
@@ -900,7 +1005,7 @@
         Process process = Runtime.getRuntime().exec(command);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>74. What is the role of secure password storage in preventing security vulnerabilities?</h3>
   <p><strong>Answer:</strong> Secure password storage involves hashing passwords with a strong cryptographic algorithm (e.g., bcrypt, PBKDF2, Argon2) and storing the hash, not the plain-text password. Example:</p>
   <pre>
@@ -908,7 +1013,7 @@
         String hashedPassword = BCrypt.hashpw(plainPassword, BCrypt.gensalt());
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>75. What are the best practices for securing APIs against unauthorized access?</h3>
   <p><strong>Answer:</strong> Secure APIs using authentication mechanisms such as OAuth2, JWT, and API keys. Ensure access control is applied, and input validation is implemented. Example:</p>
   <pre>
@@ -925,7 +1030,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>76. How do you mitigate Cross-Site Scripting (XSS) attacks?</h3>
   <p><strong>Answer:</strong> Mitigate XSS by sanitizing and escaping user input, using Content Security Policy (CSP), and avoiding inline JavaScript. Example:</p>
   <pre>
@@ -934,7 +1039,7 @@
             .contentSecurityPolicy(&quot;default-src 'self'; script-src 'self' https://apis.example.com;&quot;);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>77. How can you prevent Broken Object Level Authorization vulnerabilities?</h3>
   <p><strong>Answer:</strong> Prevent Broken Object Level Authorization by ensuring that user access is properly validated for every object request, using secure authorization checks and role-based access control. Example:</p>
   <pre>
@@ -945,7 +1050,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>78. How do you mitigate Server-Side Request Forgery (SSRF) vulnerabilities?</h3>
   <p><strong>Answer:</strong> Mitigate SSRF by validating and sanitizing user-provided URLs, limiting outbound requests, and implementing proper access controls for internal services. Example:</p>
   <pre>
@@ -956,7 +1061,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>79. How can you prevent privilege escalation attacks?</h3>
   <p><strong>Answer:</strong> Prevent privilege escalation by enforcing strict access control policies, using multi-factor authentication (MFA), and regularly auditing roles and permissions. Example:</p>
   <pre>
@@ -967,7 +1072,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>80. How can you implement proper session management to prevent session fixation attacks?</h3>
   <p><strong>Answer:</strong> Implement proper session management by regenerating session IDs on login, using secure cookies, and ensuring sessions expire after a set time or inactivity. Example:</p>
   <pre>
@@ -977,9 +1082,9 @@
             .invalidSessionUrl(&quot;/session-invalid&quot;);
         </pre>
 </div>
-<p>&nbsp;</p>
-<h2>OWASP Top 10 Security Vulnerabilities - Set 9</h2>
-<div class="question">
+<p class="style1">&nbsp;</p>
+<h2 class="style1">OWASP Top 10 Security Vulnerabilities - Set 9</h2>
+<div class="style2">
   <h3>81. What are the key measures to prevent Cross-Site Request Forgery (CSRF) attacks?</h3>
   <p><strong>Answer:</strong> Prevent CSRF by implementing anti-CSRF tokens, ensuring that state-changing requests require authentication, and using SameSite cookie attributes. Example:</p>
   <pre>
@@ -987,7 +1092,7 @@
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>82. How can you protect against Insecure Deserialization vulnerabilities?</h3>
   <p><strong>Answer:</strong> Prevent insecure deserialization by validating and sanitizing input, using secure deserialization libraries, and avoiding object manipulation from untrusted sources. Example:</p>
   <pre>
@@ -996,7 +1101,7 @@
         objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>83. How can you ensure secure communications over the network?</h3>
   <p><strong>Answer:</strong> Ensure secure communication by using encryption protocols such as TLS/SSL, enforcing HTTPS, and ensuring strong cipher suites. Example:</p>
   <pre>
@@ -1012,7 +1117,7 @@
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>84. What is an example of a vulnerability caused by weak session management?</h3>
   <p><strong>Answer:</strong> A common vulnerability due to weak session management is session fixation, where an attacker can set a valid session ID for a user. This can be mitigated by regenerating session IDs after authentication. Example:</p>
   <pre>
@@ -1022,7 +1127,7 @@
             .invalidSessionUrl(&quot;/session-invalid&quot;);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>85. What steps can you take to avoid security misconfigurations?</h3>
   <p><strong>Answer:</strong> Avoid security misconfigurations by regularly reviewing and updating security settings, disabling unnecessary features, and using secure defaults for all configurations. Example:</p>
   <pre>
@@ -1030,7 +1135,7 @@
         spring.h2.console.enabled=false
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>86. How do you prevent clickjacking attacks?</h3>
   <p><strong>Answer:</strong> Prevent clickjacking by using X-Frame-Options HTTP headers or Content Security Policy (CSP) to disallow your site from being embedded in frames. Example:</p>
   <pre>
@@ -1039,10 +1144,10 @@
         </pre>
 </div>
 <div class="question">
-<h3>87. How do you secure RESTful APIs against vulnerabilities?</h3>
-<p><strong>Answer:</strong> Secure REST APIs by using strong authentication methods (JWT, OAuth), implementing access control, validating inputs, and ensuring the use of HTTPS. Example:</p>
+<h3 class="style1">87. How do you secure RESTful APIs against vulnerabilities?</h3>
+<p class="style1"><strong>Answer:</strong> Secure REST APIs by using strong authentication methods (JWT, OAuth), implementing access control, validating inputs, and ensuring the use of HTTPS. Example:</p>
 <pre>
-// Example of securing API with JWT in Spring Boot
+<span class="style1"> // Example of securing API with JWT in Spring Boot
         @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
         public ResponseEntity
         <Object>
@@ -1051,7 +1156,8 @@ getUserData() {
         }
 </pre>
 </div>
-<div class="question">
+</span>
+<div class="style2">
   <h3>88. What are the best practices for securing a database?</h3>
   <p><strong>Answer:</strong> Secure a database by implementing strong authentication, encrypting sensitive data, using parameterized queries to prevent SQL injection, and regularly auditing access. Example:</p>
   <pre>
@@ -1061,7 +1167,7 @@ getUserData() {
         ResultSet rs = stmt.executeQuery();
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>89. What is the importance of proper logging and monitoring in security?</h3>
   <p><strong>Answer:</strong> Proper logging and monitoring help detect and respond to security incidents, identify vulnerabilities, and track potential abuse of privileges. Example:</p>
   <pre>
@@ -1070,10 +1176,11 @@ getUserData() {
         </pre>
 </div>
 <div class="question">
-<h3>90. How can you prevent unauthorized access in multi-tenant applications?</h3>
-<p><strong>Answer:</strong> Prevent unauthorized access in multi-tenant applications by isolating tenants’ data, applying strict access controls, and using tenant-specific authentication mechanisms. Example:</p>
+<h3 class="style1">90. How can you prevent unauthorized access in multi-tenant applications?</h3>
+<p class="style1"><strong>Answer:</strong> Prevent unauthorized access in multi-tenant applications by isolating tenants’ data, applying strict access controls, and using tenant-specific authentication mechanisms. Example:</p>
 <pre>
-<p>// Example of tenant-specific authentication in Spring Security
+<p>
+<span class="style1">// Example of tenant-specific authentication in Spring Security
         @PreAuthorize(&quot;hasRole('ROLE_TENANT_1')&quot;)
         public ResponseEntity
         <Object>
@@ -1083,9 +1190,10 @@ getTenant1Data() {
 </pre>
 </div>
 </p>
-<p>&nbsp;</p>
-<h2>OWASP Top 10 Security Vulnerabilities - Set 10</h2>
-<div class="question">
+</span>
+<p class="style1">&nbsp;</p>
+<h2 class="style1">OWASP Top 10 Security Vulnerabilities - Set 10</h2>
+<div class="style2">
   <h3>91. How can you prevent improper error handling and disclosure of sensitive information?</h3>
   <p><strong>Answer:</strong> Prevent improper error handling by not revealing stack traces or internal information in production environments, using custom error messages, and logging errors without exposing sensitive data. Example:</p>
   <pre>
@@ -1099,7 +1207,7 @@ getTenant1Data() {
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>92. What are the best practices for securing third-party dependencies?</h3>
   <p><strong>Answer:</strong> Secure third-party dependencies by using trusted sources, regularly updating libraries, and scanning dependencies for vulnerabilities. Example:</p>
   <pre>
@@ -1111,7 +1219,7 @@ getTenant1Data() {
         </dependency>
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>93. What is the importance of input validation in preventing security vulnerabilities?</h3>
   <p><strong>Answer:</strong> Input validation helps ensure that only valid, expected data is processed, preventing attacks such as SQL injection and cross-site scripting. Example:</p>
   <pre>
@@ -1121,7 +1229,7 @@ getTenant1Data() {
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>94. How can you secure APIs from injection attacks?</h3>
   <p><strong>Answer:</strong> Prevent injection attacks by using parameterized queries, prepared statements, and ORM frameworks. Example:</p>
   <pre>
@@ -1133,7 +1241,7 @@ getTenant1Data() {
         }
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>95. What are some common weaknesses in web application architecture?</h3>
   <p><strong>Answer:</strong> Common weaknesses in web applications include improper session management, weak authentication, and poor data handling. Best practices include using strong encryption and proper session expiration. Example:</p>
   <pre>
@@ -1145,10 +1253,10 @@ getTenant1Data() {
         </pre>
 </div>
 <div class="question">
-<h3>96. How can you prevent unauthorized access to sensitive information?</h3>
-<p><strong>Answer:</strong> Prevent unauthorized access by implementing proper authentication and authorization checks, encrypting sensitive data, and enforcing the principle of least privilege. Example:</p>
+<h3 class="style1">96. How can you prevent unauthorized access to sensitive information?</h3>
+<p class="style1"><strong>Answer:</strong> Prevent unauthorized access by implementing proper authentication and authorization checks, encrypting sensitive data, and enforcing the principle of least privilege. Example:</p>
 <pre>
-// Example of implementing role-based access control in Spring Security
+<span class="style1"> // Example of implementing role-based access control in Spring Security
         @PreAuthorize(&quot;hasRole('ADMIN')&quot;)
         public ResponseEntity
         <Object>
@@ -1158,10 +1266,11 @@ getAdminData() {
 </pre>
 </div>
 <div class="question">
-<h3>97. What is an example of preventing privilege escalation vulnerabilities?</h3>
-<p><strong>Answer:</strong> Prevent privilege escalation by enforcing strict access controls and validating user roles before granting access to sensitive operations. Example:</p>
+</span>
+<h3 class="style1">97. What is an example of preventing privilege escalation vulnerabilities?</h3>
+<p class="style1"><strong>Answer:</strong> Prevent privilege escalation by enforcing strict access controls and validating user roles before granting access to sensitive operations. Example:</p>
 <pre>
-// Example of preventing privilege escalation in Spring Security
+<span class="style1"> // Example of preventing privilege escalation in Spring Security
         @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
         public ResponseEntity
         <Object>
@@ -1170,7 +1279,8 @@ performAdminTask() {
         }
 </pre>
 </div>
-<div class="question">
+</span>
+<div class="style2">
   <h3>98. What are the key principles of securing cloud infrastructure?</h3>
   <p><strong>Answer:</strong> Secure cloud infrastructure by following the principles of defense in depth, using strong access control mechanisms, encrypting data, and regularly auditing resources. Example:</p>
   <pre>
@@ -1178,7 +1288,7 @@ performAdminTask() {
         iam.createRole(new CreateRoleRequest().roleName(&quot;MyRole&quot;).assumeRolePolicyDocument(&quot;...&quot;));
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>99. How do you mitigate the risk of cross-site scripting (XSS) attacks?</h3>
   <p><strong>Answer:</strong> Mitigate XSS by encoding user inputs, using a content security policy (CSP), and validating inputs to prevent malicious code execution. Example:</p>
   <pre>
@@ -1186,7 +1296,7 @@ performAdminTask() {
         http.headers().contentSecurityPolicy(&quot;default-src 'self'; script-src 'self';&quot;);
         </pre>
 </div>
-<div class="question">
+<div class="style2">
   <h3>100. What are the best practices for securing mobile applications?</h3>
   <p><strong>Answer:</strong> Best practices for securing mobile apps include using secure coding practices, encrypting sensitive data, enabling strong authentication, and securing API communications. Example:</p>
   <pre>
@@ -1196,9 +1306,9 @@ performAdminTask() {
             .build();
         </pre>
 </div>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
+<p class="style1">&nbsp;</p>
 </body>
 </html>

@@ -10,10 +10,95 @@
 .style2 {color: #0066CC}
 -->
 </style>
+<link href="../../../../../ESTILOS.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <h1 class="style1">Java Memory Management (Heap, Stack, GC) - Questions & Answers</h1>
 <h2 class="style1"><a href="Java 02 Java Memory Management  Heap Stack GC QA 01.mp3" target="_blank">Audio 1</a> - <a href="Java 02 Java Memory Management  Heap Stack GC QA 02.mp3" target="_blank">Audio 2</a></h2>
+<p class="style1">&nbsp;</p>
+    <p>
+      <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h2, h3 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+    </style>
+<h3>Java Memory Management: Heap, Stack, Garbage Collection</h3>
+
+    <table>
+<tr>
+            <th class="texto2CopyGrande">Memory Area</th>
+          <th class="texto2CopyGrande">Description</th>
+    <th class="texto2CopyGrande">Example</th>
+      </tr>
+        <tr>
+            <td class="texto7Copy">Heap</td>
+            <td>Memory used for dynamic memory allocation, used by Java objects at runtime. The size is controlled by the JVM's heap size settings.</td>
+            <td>
+                <pre>
+class Person {
+    String name;
+    Person(String name) {
+        this.name = name; // Memory allocated in the Heap for 'name'
+    }
+}
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="texto7Copy">Stack</td>
+            <td>Memory used for method execution and local variables. When a method is called, a new stack frame is created for that method.</td>
+            <td>
+                <pre>
+public void printName() {
+    String name = "John"; // Local variable 'name' is stored in the Stack
+    System.out.println(name);
+}
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="texto7Copy">Garbage Collection (GC)</td>
+            <td>Automatic process in Java that cleans up memory by removing objects that are no longer referenced. It helps avoid memory leaks.</td>
+            <td>
+                <pre>
+Person p = new Person("John");
+p = null; // The object is no longer referenced and will be collected by GC
+System.gc(); // Request garbage collection (not guaranteed to run immediately)
+                </pre>
+            </td>
+        </tr>
+</table>
+    
+    </p>
+<p>&nbsp;</p>
 <h2 class="style1">Set 1</h2>
 <ol class="style1">
         <li>

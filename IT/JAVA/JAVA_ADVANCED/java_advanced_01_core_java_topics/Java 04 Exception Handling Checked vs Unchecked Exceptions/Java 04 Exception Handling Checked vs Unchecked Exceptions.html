@@ -9,11 +9,139 @@
 .style1 {font-family: Arial, Helvetica, sans-serif}
 -->
 </style>
+<link href="../../../../ESTILOS.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <h1 class="style1">Java Exception Handling (Checked vs Unchecked) - Questions & Answers</h1>
     <h2 class="style1"><a href="Java 04 Exception Handling Checked vs Unchecked Exceptions 01.mp3" target="_blank">Audio 1</a> - <a href="Java 04 Exception Handling Checked vs Unchecked Exceptions 02.mp3" target="_blank">Audio 2</a></h2>
-    <h2 class="style1">Set 1</h2>
+</style>
+</head>
+<body>
+<table border="0">
+<thead>
+        <tr>
+            <th class="texto2CopyGrande">Feature</th>
+          <th class="texto2CopyGrande">Question</th>
+          <th class="texto2CopyGrande">Answer</th>
+          <th class="texto2CopyGrande">Advantages</th>
+          <th class="texto2CopyGrande">Disadvantages</th>
+          <th class="texto2CopyGrande">Use Cases</th>
+          <th class="texto2CopyGrande">Java Code Example</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="texto7Copy"><b>Checked Exceptions</b></td>
+            <td class="texto2">What is a checked exception?</td>
+          <td>A checked exception is an exception that must be either caught or declared in the method signature using the `throws` keyword.</td>
+            <td>Requires explicit handling, ensuring the programmer is aware of potential exceptions.</td>
+            <td>Can lead to excessive boilerplate code and decreased readability if overused.</td>
+            <td>Handling errors like file not found, network connectivity issues, etc.</td>
+            <td><pre>try {<br>    FileInputStream file = new FileInputStream("file.txt");<br>} catch (FileNotFoundException e) {<br>    e.printStackTrace();<br>}</pre></td>
+        </tr>
+        <tr>
+            <td class="texto7Copy"><b>Checked Exceptions</b></td>
+            <td class="texto2">Why are checked exceptions used?</td>
+          <td>Checked exceptions are used to handle errors that are anticipated and recoverable, like IO exceptions or SQL exceptions.</td>
+            <td>Ensures robustness by forcing the handling of errors that are expected to occur.</td>
+            <td>Can clutter method signatures and force the caller to handle exceptions that may not occur.</td>
+            <td>Exceptions when accessing external resources like files or databases, where errors are likely but can be handled.</td>
+            <td><pre>public void readFile() throws IOException {<br>    BufferedReader reader = new BufferedReader(new FileReader("file.txt"));<br>    String line = reader.readLine();<br>}</pre></td>
+        </tr>
+        <tr>
+            <td class="texto7Copy"><b>Unchecked Exceptions</b></td>
+            <td class="texto2">What is an unchecked exception?</td>
+          <td>An unchecked exception is a subclass of `RuntimeException` and does not require explicit handling in the code (i.e., no need to use `throws` or `try-catch`).</td>
+            <td>Offers more flexibility, as it doesn't force the programmer to handle exceptions explicitly.</td>
+            <td>Can lead to unexpected program crashes if not properly handled, as they're often ignored.</td>
+            <td>Exceptions due to programming bugs such as `NullPointerException` or `ArrayIndexOutOfBoundsException`.</td>
+            <td><pre>int[] arr = new int[5];<br>arr[10] = 5; // ArrayIndexOutOfBoundsException</pre></td>
+        </tr>
+        <tr>
+            <td class="texto7Copy"><b>Unchecked Exceptions</b></td>
+            <td class="texto2">Why are unchecked exceptions used?</td>
+          <td>Unchecked exceptions are typically used for errors that reflect programming issues, such as logical mistakes, and should not be handled explicitly.</td>
+            <td>Simplifies code by not requiring exception handling for programming errors.</td>
+            <td>May result in issues that are harder to detect, as the exceptions are not explicitly handled.</td>
+            <td>For example, trying to access an invalid index in an array or dereferencing a null object.</td>
+            <td><pre>public void process() {<br>    String s = null;<br>    System.out.println(s.length()); // NullPointerException<br>}</pre></td>
+        </tr>
+        <tr>
+            <td class="texto7Copy"><b>Difference between Checked and Unchecked</b></td>
+            <td class="texto2">What is the difference between checked and unchecked exceptions?</td>
+          <td>Checked exceptions are exceptions that the compiler forces the programmer to handle, while unchecked exceptions are runtime exceptions that the programmer is not required to handle.</td>
+            <td>Checked exceptions force more robust error handling. Unchecked exceptions make code cleaner by not requiring handling for common errors.</td>
+            <td>Checked exceptions lead to more boilerplate code, while unchecked exceptions can result in unhandled runtime errors.</td>
+            <td>Use checked exceptions for recoverable errors, and unchecked exceptions for programming errors.</td>
+            <td><pre>// Checked<br>try {<br>    throw new IOException();<br>} catch (IOException e) {<br>    e.printStackTrace();<br>}<br><br>// Unchecked<br>throw new NullPointerException();</pre></td>
+        </tr>
+        <tr>
+            <td class="texto7Copy"><b>Handling Checked Exceptions</b></td>
+            <td class="texto2">How should checked exceptions be handled?</td>
+          <td>Checked exceptions should be either caught using a try-catch block or declared in the method signature using `throws`.</td>
+            <td>Encourages developers to anticipate potential failures, improving the stability of the application.</td>
+            <td>If not handled properly, they can result in code that is harder to maintain.</td>
+            <td>Use try-catch to handle scenarios where recoverable exceptions are expected, such as reading from a file or network.</td>
+            <td><pre>try {<br>    FileInputStream file = new FileInputStream("file.txt");<br>} catch (IOException e) {<br>    e.printStackTrace();<br>}</pre></td>
+        </tr>
+        <tr>
+            <td class="texto7Copy"><b>Handling Unchecked Exceptions</b></td>
+            <td class="texto2">How should unchecked exceptions be handled?</td>
+          <td>Unchecked exceptions are usually handled through debugging or logging, but they are not typically caught unless necessary.</td>
+            <td>By not forcing the programmer to handle them, code remains cleaner and more readable.</td>
+            <td>If unchecked exceptions are not addressed, they can cause the application to crash unexpectedly.</td>
+            <td>For programming errors like `NullPointerException` or `ArrayIndexOutOfBoundsException`, which often indicate bugs in the code.</td>
+            <td><pre>try {<br>    String s = null;<br>    s.length();<br>} catch (NullPointerException e) {<br>    e.printStackTrace();<br>}</pre></td>
+        </tr>
+        <tr>
+            <td class="texto7Copy"><b>Creating Custom Exceptions</b></td>
+          <td class="texto2">How do you create custom exceptions in Java?</td>
+          <td>To create a custom exception, extend either `Exception` (for checked exceptions) or `RuntimeException` (for unchecked exceptions).</td>
+            <td>Custom exceptions provide more specific error handling, making your code more understandable.</td>
+            <td>Overuse of custom exceptions can clutter your code and introduce unnecessary complexity.</td>
+            <td>Creating domain-specific exceptions, such as `InvalidTransactionException` or `DataNotFoundException`.</td>
+            <td><pre>public class InvalidTransactionException extends Exception {<br>    public InvalidTransactionException(String message) {<br>        super(message);<br>    }<br>}</pre></td>
+        </tr>
+    </tbody>
+</table>    <h1 class="style1">Java 8+ Features (Streams, Lambda, Functional Interfaces, Optional) - Questions & Answers</h1>
+    <h2 class="style1"><a href="Java 03 Java 8 Features Streams Lambda Functional Interfaces 01.mp3" target="_blank">Audio 1</a> - <a href="Java 03 Java 8 Features Streams Lambda Functional Interfaces 02.mp3" target="_blank">Audio 2</a></h2>
+<p>
+      <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h2, h3 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+    </style>
+    
+    
+<h2 class="style1">Set 1</h2>
 <ol class="style1">
         <li>
             <strong>What is the difference between checked and unchecked exceptions in Java?</strong><br>

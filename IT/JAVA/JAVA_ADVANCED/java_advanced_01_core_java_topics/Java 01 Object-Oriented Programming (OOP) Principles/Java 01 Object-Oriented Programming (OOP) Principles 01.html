@@ -10,10 +10,257 @@
 .style2 {color: #0099CC}
 -->
     </style>
-</head>
+    <link href="../../../../ESTILOS.css" rel="stylesheet" type="text/css">
 <body>
-    <h1 class="style1"><a href="Java 01 Object-Oriented Programming (OOP) Principles.mp3" target="_blank">Audio File</a></h1>
+<h1 class="style1"><a href="Java 01 Object-Oriented Programming (OOP) Principles.mp3" target="_blank">Audio File</a></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java OOP Principles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h2 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+    </style>
+    
+
+    <h2>Java Object-Oriented Programming (OOP) Principles</h2>
+
+    <table>
+        <tr>
+            <th class="texto2CopyGrande">Principle</th>
+            <th class="texto2CopyGrande">Description</th>
+            <th class="texto2CopyGrande">Key Features in Java</th>
+            <th class="texto2CopyGrande">Advantages</th>
+            <th class="texto2CopyGrande">Example</th>
+        </tr>
+        <tr>
+            <td class="texto7Copy">Encapsulation</td>
+            <td>Hiding internal details and exposing only necessary functionality.</td>
+            <td>Private fields, getters/setters, access modifiers</td>
+            <td>Improves security, prevents direct data manipulation</td>
+            <td>
+                <pre>
+class Person {
+    private String name;
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+}
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="texto7Copy">Abstraction</td>
+            <td>Hiding complex implementation and exposing only essential details.</td>
+            <td>Abstract classes, interfaces, method overriding</td>
+            <td>Reduces code complexity, promotes reuse</td>
+            <td>
+                <pre>
+abstract class Animal {
+    abstract void makeSound();
+}
+class Dog extends Animal {
+    void makeSound() { System.out.println("Bark"); }
+}
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="texto7Copy">Inheritance</td>
+            <td>Allowing a class to inherit fields and methods from another class.</td>
+            <td>Extends keyword, super keyword, method overriding</td>
+            <td>Encourages code reuse, supports hierarchical relationships</td>
+            <td>
+                <pre>
+class Animal {
+    void eat() { System.out.println("Eating..."); }
+}
+class Dog extends Animal {
+    void bark() { System.out.println("Barking..."); }
+}
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="texto7Copy">Polymorphism</td>
+            <td>Allowing objects to take multiple forms based on context.</td>
+            <td>Method Overloading, Method Overriding, Interfaces</td>
+            <td>Enhances flexibility, reduces duplication</td>
+            <td>
+                <pre>
+class Animal {
+    void makeSound() { System.out.println("Animal sound"); }
+}
+class Dog extends Animal {
+    void makeSound() { System.out.println("Bark"); }
+}
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="texto7Copy">Composition</td>
+            <td>Defining relationships where a class contains another class as a field.</td>
+            <td>Has-a relationship, object references</td>
+            <td>Increases flexibility, avoids tight coupling</td>
+            <td>
+                <pre>
+class Engine {
+    void start() { System.out.println("Engine starting..."); }
+}
+class Car {
+    private Engine engine = new Engine();
+    void start() { engine.start(); }
+}
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="texto7Copy">Aggregation</td>
+            <td>Objects are associated but can exist independently.</td>
+            <td>Weak relationship, object references</td>
+            <td>Reduces dependency, increases modularity</td>
+            <td>
+                <pre>
+class Department {
+    private String name;
+    public Department(String name) { this.name = name; }
+}
+class University {
+    private List&lt;Department&gt; departments;
+}
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="texto7Copy">Dependency Injection</td>
+            <td>Injecting dependencies instead of instantiating them inside a class.</td>
+            <td>Constructor Injection, Setter Injection, @Autowired</td>
+            <td>Enhances testability, reduces coupling</td>
+            <td>
+                <pre>
+@Service
+class UserService {
+    private UserRepository repo;
+    @Autowired
+    public UserService(UserRepository repo) { this.repo = repo; }
+}
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="texto7Copy">SOLID Principles</td>
+            <td>Design principles for writing maintainable software.</td>
+            <td>Single Responsibility, Open/Closed, Liskov, Interface Segregation, Dependency Inversion</td>
+            <td>Improves scalability, reduces complexity</td>
+            <td>
+                <pre>
+// Example: Single Responsibility Principle
+class UserRepository {
+    void save(User user) { /* database operations */ }
+}
+                </pre>
+            </td>
+        </tr>
+</table>
+
 <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
+    <h3>Difference Between Abstract Classes and Interfaces</h3>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th class="texto7Copy">Abstract Class</th>
+            <th class="texto7Copy">Interface</th>
+        </tr>
+        <tr>
+            <td class="texto2CopyGrande">Definition</td>
+            <td>A class that can have both abstract and concrete methods.</td>
+            <td>A blueprint that defines only abstract methods (until Java 8).</td>
+        </tr>
+        <tr>
+            <td class="texto2CopyGrande">Methods</td>
+            <td>Can have abstract, concrete, static, and final methods.</td>
+            <td>By default, only abstract methods (Java 8+ allows default/static methods).</td>
+        </tr>
+        <tr>
+            <td class="texto2CopyGrande">Variables</td>
+            <td>Can have instance variables.</td>
+            <td>Only public, static, and final constants.</td>
+        </tr>
+        <tr>
+            <td class="texto2CopyGrande">Access Modifiers</td>
+            <td>Can have private, protected, or public methods.</td>
+            <td>Methods are **public** by default.</td>
+        </tr>
+        <tr>
+            <td class="texto2CopyGrande">Constructor</td>
+            <td>Can have constructors.</td>
+            <td>Cannot have constructors.</td>
+        </tr>
+        <tr>
+            <td class="texto2CopyGrande">Multiple Inheritance</td>
+            <td>Cannot support multiple inheritance.</td>
+            <td>Can be implemented by multiple classes.</td>
+        </tr>
+        <tr>
+            <td class="texto2CopyGrande">Use Case</td>
+            <td>Used when classes share common behavior.</td>
+            <td>Used when unrelated classes need common functionality.</td>
+        </tr>
+        <tr>
+            <td class="texto2CopyGrande">Example</td>
+            <td>
+                <pre>
+abstract class Animal {
+    abstract void makeSound();
+}
+class Dog extends Animal {
+    void makeSound() { System.out.println("Bark"); }
+}
+                </pre>
+            </td>
+            <td>
+                <pre>
+interface Animal {
+    void makeSound();
+}
+class Dog implements Animal {
+    public void makeSound() { System.out.println("Bark"); }
+}
+                </pre>
+            </td>
+        </tr>
+</table><p class="style1">&nbsp;</p>
 <h2 class="style1">Set 1</h2>
     <ol class="style1">
         <li>
@@ -23,7 +270,7 @@
 <li>
             <strong>What are the four main principles of OOP?</strong><br>
             <p><em>Answer:</em> The four main principles of OOP are Encapsulation, Abstraction, Inheritance, and Polymorphism.</p>
-        </li>
+      </li>
         <li>
 <strong>What is <span class="style2">Encapsulation</span> in OOP?</strong><br>
             <p><em>Answer:</em> Encapsulation is the concept of wrapping data (variables) and methods (functions) into a single unit called a class, and restricting access to certain details using access modifiers (private, public, protected).</p>
@@ -52,7 +299,7 @@ public class Main {
 }
             </pre>
             <p><em>Answer:</em> In the example, the `name` field is encapsulated and can only be accessed or modified through the getter and setter methods.</p>
-        </li>
+      </li>
         <li>
 <strong>What is <span class="style2">Abstraction</span> in OOP?</strong><br>
             <p><em>Answer:</em> Abstraction is the concept of hiding the implementation details and showing only the essential features of an object. It helps in reducing complexity by providing a clear interface.</p>
@@ -78,7 +325,7 @@ public class Main {
 }
             </pre>
             <p><em>Answer:</em> In the example, the abstract class `Animal` defines the method `sound()` which is implemented in the `Dog` class. The abstract class hides the details of the sound implementation.</p>
-        </li>
+      </li>
         <li>
 <strong>What is <span class="style2">Inheritance</span> in OOP?</strong><br>
             <p><em>Answer:</em> Inheritance is the mechanism in OOP that allows one class to acquire the properties and behaviors (methods) of another class. This helps in code reusability and hierarchical class structure.</p>
@@ -106,7 +353,7 @@ public class Main {
 }
             </pre>
             <p><em>Answer:</em> The `Dog` class inherits from the `Animal` class and overrides the `sound()` method to provide a specific implementation.</p>
-        </li>
+      </li>
         <li>
 <strong>What is <span class="style2">Polymorphism</span> in OOP?</strong><br>
             <p><em>Answer:</em> Polymorphism allows objects of different classes to be treated as objects of a common superclass. It also allows the method of the same name to behave differently based on the object that invokes it.</p>
@@ -143,7 +390,7 @@ public class Main {
 }
             </pre>
             <p><em>Answer:</em> In the example, polymorphism allows the `sound()` method to behave differently depending on whether it is invoked on a `Dog` or a `Cat` object.</p>
-        </li>
+      </li>
     </ol>
     <h1 class="style1">Object-Oriented Programming (OOP) Principles - Questions & Answers</h1>
     <h2 class="style1">Set 2</h2>

@@ -9,11 +9,421 @@
 .style1 {font-family: Arial, Helvetica, sans-serif}
 -->
     </style>
+    <link href="../../../../ESTILOS.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <h1 class="style1">Java Collections Framework - Questions & Answers</h1>
+    <p class="style1">&nbsp;</p>
+    <p class="style1">&nbsp;</p>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+<table>
+    <tr>
+        <th>Feature / Collection</th>
+        <th>ArrayList</th>
+        <th>LinkedList</th>
+        <th>Vector</th>
+        <th>Stack</th>
+        <th>HashSet</th>
+        <th>LinkedHashSet</th>
+        <th>TreeSet</th>
+        <th>HashMap</th>
+        <th>LinkedHashMap</th>
+        <th>TreeMap</th>
+        <th>Hashtable</th>
+        <th>ConcurrentHashMap</th>
+        <th>WeakHashMap</th>
+        <th>PriorityQueue</th>
+        <th>ArrayDeque</th>
+        <th>Queue</th>
+    </tr>
+    <tr>
+        <td>Implements</td>
+        <td>List</td>
+        <td>List, Deque</td>
+        <td>List</td>
+        <td>List</td>
+        <td>Set</td>
+        <td>Set</td>
+        <td>Set, NavigableSet</td>
+        <td>Map</td>
+        <td>Map</td>
+        <td>Map, NavigableMap</td>
+        <td>Map</td>
+        <td>Map</td>
+        <td>Map</td>
+        <td>Queue</td>
+        <td>Deque</td>
+        <td>Queue</td>
+    </tr>
+    <tr>
+        <td>Ordering</td>
+        <td>Insertion</td>
+        <td>Insertion</td>
+        <td>Insertion</td>
+        <td>LIFO</td>
+        <td>No order</td>
+        <td>Insertion</td>
+        <td>Sorted</td>
+        <td>No order</td>
+        <td>Insertion</td>
+        <td>Sorted</td>
+        <td>No order</td>
+        <td>No order</td>
+        <td>No order</td>
+        <td>Priority</td>
+        <td>FIFO</td>
+        <td>FIFO</td>
+    </tr>
+    <tr>
+        <td>Duplicates Allowed?</td>
+        <td>✔️</td>
+        <td>✔️</td>
+        <td>✔️</td>
+        <td>✔️</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>✔️ (keys ❌, values ✔️)</td>
+        <td>✔️ (keys ❌, values ✔️)</td>
+        <td>✔️ (keys ❌, values ✔️)</td>
+        <td>✔️ (keys ❌, values ✔️)</td>
+        <td>✔️ (keys ❌, values ✔️)</td>
+        <td>✔️ (keys ❌, values ✔️)</td>
+        <td>✔️</td>
+        <td>✔️</td>
+        <td>✔️</td>
+    </tr>
+    <tr>
+        <td>Thread-safe</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>✔️</td>
+        <td>✔️</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>✔️</td>
+        <td>✔️</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>❌</td>
+    </tr>
+    <tr>
+        <td>Performance (Access)</td>
+        <td>O(1)</td>
+        <td>O(n)</td>
+        <td>O(1)</td>
+        <td>O(1)</td>
+        <td>O(1)</td>
+        <td>O(1)</td>
+        <td>O(log n)</td>
+        <td>O(1)</td>
+        <td>O(1)</td>
+        <td>O(log n)</td>
+        <td>O(1)</td>
+        <td>O(1)</td>
+        <td>O(1)</td>
+        <td>O(log n)</td>
+        <td>O(1)</td>
+        <td>O(1)</td>
+    </tr>
+    <tr>
+        <td>Performance (Insertion/Deletion)</td>
+        <td>O(n)</td>
+        <td>O(1) (ends)</td>
+        <td>O(n)</td>
+        <td>O(1) (push/pop)</td>
+        <td>O(1)</td>
+        <td>O(1)</td>
+        <td>O(log n)</td>
+        <td>O(1)</td>
+        <td>O(1)</td>
+        <td>O(log n)</td>
+        <td>O(1)</td>
+        <td>O(1)</td>
+        <td>O(1)</td>
+        <td>O(log n)</td>
+        <td>O(1)</td>
+        <td>O(1)</td>
+    </tr>
+</table>
+<p class="style1">&nbsp;</p>
+    <p class="style1">adsfafds</p>
+    <table width="100%" border="0" cellspacing="2" cellpadding="2">
+      <tr>
+        <td width="6%" class="texto3">Collection</td>
+        <td width="94%">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="texto3">List</td>
+        <td><table width="100%" border="0" cellspacing="2" cellpadding="2">
+          <tr>
+            <td class="texto4Copy">Definition</td>
+            <td class="style1">Ordered collection that allows duplicate elements.</td>
+          </tr>
+          <tr>
+            <td class="texto4Copy">Common Implementations</td>
+            <td><div align="left">
+              <table width="100%" border="0" cellspacing="2" cellpadding="2">
+                <tr>
+                  <td class="texto5Copy">1</td>
+                  <td class="texto2"><div align="left">ArrayList</div></td>
+                  <td class="style1"><div align="left">
+                    <ul>
+                      <li><strong>ArrayList</strong> - Dynamic array implementation</li>
+                      <li><strong>ArrayList</strong>: Uses dynamic arrays, provides fast random access (`O(1)`) but slow insertions and deletions (`O(n)`).</li>
+                      <li><strong>ArrayList</strong>: Uses a dynamic array, faster random access (`O(1)`).</li>
+                      <li><strong>ArrayList</strong> is not synchronized, making it faster.</li>
+                      <li><strong>ArrayList</strong> is backed by a dynamic array, making random access fast (O(1)), but insertions and deletions slow (O(n)).<br>                  
+                        </li>
+                    </ul>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td class="texto5Copy"><div align="center">2</div></td>
+                  <td class="texto2"><div align="left">LinkedList</div></td>
+                  <td class="style1"><div align="left">
+                    <ul>
+                      <li><strong>LinkedList</strong> - Doubly linked list implementation</li>
+                      <li><strong>LinkedList</strong>: Uses a doubly linked list, provides fast insertions and deletions (`O(1)`) but slow random access (`O(n)`).</li>
+                      <li><strong>LinkedList</strong>: Uses a doubly linked list, better for frequent insertions/removals (`O(1)` for adding/removing at the ends).</li>
+                      <li><strong>LinkedList</strong> allows null elements and has higher memory usage due to node references.</li>
+                      <li><strong>LinkedList</strong> is backed by a doubly-linked list, making insertions and deletions fast (O(1)), but random access slow (O(n)).<br>                  
+                      </li>
+                    </ul>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td class="texto5Copy"><div align="center">3</div></td>
+                  <td class="texto2"><div align="left">Vector</div></td>
+                  <td class="style1"><div align="left">
+                    <ul>
+                      <li><strong>Vector</strong> - Synchronized dynamic array</li>
+                      <li><strong>Vector</strong> is synchronized, making it thread-safe but slower.</li>
+                    </ul>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td class="texto5Copy"><div align="center">4</div></td>
+                  <td class="texto2"><div align="left">Stack</div></td>
+                  <td class="style1"><div align="left">
+                    <ul>
+                      <li><strong>Stack</strong> - LIFO stack implementation (extends `Vector`)</li>
+                    </ul>
+                  </div></td>
+                </tr>
+                          </table>
+            </div></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td class="texto3">Set</td>
+        <td><table width="100%" border="0" cellspacing="2" cellpadding="2">
+          <tr>
+            <td class="texto4Copy">Definition</td>
+            <td class="style1"><div align="left">
+              <ul>
+                <li>Set: Unordered collection that does not allow duplicate elements.</li>
+              </ul>
+            </div></td>
+          </tr>
+          <tr>
+            <td class="texto4Copy">Common Implementations</td>
+            <td><table width="100%" border="0" cellspacing="2" cellpadding="2">
+              <tr>
+                <td class="texto5Copy"><div align="center">1</div></td>
+                <td class="texto2"><div align="left">HashSet</div></td>
+                <td class="style1"><div align="left">
+                  <ul>
+                    <li><strong>HashSet</strong> - Uses a hash table for storage (unordered, allows null).</li>
+                    <li><strong>HashSet</strong>: Unordered collection, provides constant-time (O(1)) operations</li>
+                    <li><strong>HashSet</strong>: No ordering, `O(1)` complexity for basic operation</li>
+                  </ul>
+                </div></td>
+              </tr>
+              <tr>
+                <td class="texto5Copy"><div align="center">2</div></td>
+                <td class="texto2"><div align="left">LinkedHashSet</div></td>
+                <td class="style1"><div align="left">
+                  <ul>
+                    <li><strong>LinkedHashSet</strong> - Maintains insertion order</li>
+                  </ul>
+                </div></td>
+              </tr>
+              <tr>
+                <td class="texto5Copy"><div align="center">3</div></td>
+                <td class="texto2"><div align="left">TreeSet</div></td>
+                <td class="style1"><div align="left">
+                  <ul>
+                    <li><strong>TreeSet</strong> maintains elements in sorted order</li>
+                    <li><strong>TreeSet</strong> - Uses a Red-Black Tree and maintains elements in sorted order.</li>
+                    <li><strong>TreeSet</strong>: Maintains elements in sorted order, provides logarithmic-time (`O(log n)`) operations.</li>
+                    <li><strong>TreeSet</strong>: Maintains elements in sorted order, `O(log n)` complexity</li>
+                    <li><strong>headSet</strong>(<strong>element</strong>): Returns elements less than element</li>
+                    <li><strong>tailSet</strong>(<strong>element</strong>): Returns elements greater than or equal to element.</li>
+                    <li><strong>subSet</strong>(<strong>start</strong>, <strong>end</strong>): Returns elements between `start` (inclusive) and `end` (exclusive)</li>
+                  </ul>
+                </div></td>
+              </tr>
+            </table></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td class="texto3">Map</td>
+        <td><table width="100%" border="0" cellspacing="2" cellpadding="2">
+          <tr>
+            <td class="texto4Copy">Definition</td>
+            <td class="style1"><ul>
+              <li>`Map`: Collection that stores key-value pairs, where keys are unique.<br>
+              </li>
+            </ul>            </td>
+          </tr>
+          <tr>
+            <td class="texto4Copy">Common Implementations</td>
+            <td><table width="100%" border="0" cellspacing="2" cellpadding="2">
+              <tr>
+                <td class="texto5Copy"><div align="center">1</div></td>
+                <td class="texto2"><div align="left">HashMap</div></td>
+                <td class="style1"><div align="left">
+                  <ul>
+                    <li><strong>HashMap</strong> - Unordered key-value store, allows `null` keys.</li>
+                    <li><strong>HashMap</strong> does not guarantee order</li>
+                    <li><strong>HashMap</strong> is unordered and provides O(1) time complexity for get/put operations.</li>
+                  </ul>
+                </div></td>
+              </tr>
+              <tr>
+                <td class="texto5Copy"><div align="center">2</div></td>
+                <td class="texto2"><div align="left">LinkedHashMap</div></td>
+                <td class="style1"><div align="left">
+                  <ul>
+                    <li><strong>LinkedHashMap</strong> maintains insertion order</li>
+                  </ul>
+                </div></td>
+              </tr>
+              <tr>
+                <td class="texto5Copy"><div align="center">3</div></td>
+                <td class="texto2"><div align="left">TreeMap</div></td>
+                <td class="style1"><div align="left">
+                  <ul>
+                    <li><strong>TreeMap</strong> - Sorted key-value store using a Red-Black Tree.</li>
+                    <li><strong>TreeMap</strong> sorts elements in ascending order by key.</li>
+                    <li><strong>TreeMap</strong> is sorted in natural order or by a custom comparator and provides O(log n) complexity.</li>
+                  </ul>
+                </div></td>
+              </tr>
+              <tr>
+                <td class="texto5Copy"><div align="center">4</div></td>
+                <td class="texto2"><div align="left">Hashtable</div></td>
+                <td class="style1"><div align="left">
+                  <ul>
+                    <li><strong>Hashtable</strong> - Synchronized key-value store (legacy).</li>
+                  </ul>
+                </div></td>
+              </tr>
+              <tr>
+                <td class="texto5Copy"><div align="center">5</div></td>
+                <td class="texto2"><div align="left"><strong>ConcurrentHashMap</strong></div></td>
+                <td class="style1"><div align="left">
+                  <ul>
+                    <li><em align="left">How handle <strong>concurrency</strong> : </em>It divides the map into segments and allows concurrent reads and updates.</li>
+                  </ul>
+                </div>                  </td>
+              </tr>
+              <tr>
+                <td class="texto5Copy"><div align="center">6</div></td>
+                <td class="texto2"><div align="left"><strong>WeakHashMap</strong></div></td>
+                <td class="style1"><div align="left">
+                  <ul>
+                    <li><strong>WeakHashMap</strong> holds keys using weak references, allowing them to be garbage collected if no strong references exist.</li>
+                    <li><strong>WeakHashMap</strong> stores keys as weak references, meaning keys can be garbage collected if no strong references exist.<br>                
+                    </li>
+                  </ul>
+                </div></td>
+              </tr>
+            </table></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td class="texto3">Queue</td>
+        <td><table width="100%" border="0" cellspacing="2" cellpadding="2">
+          <tr>
+            <td class="texto4Copy">Definition</td>
+            <td class="style1"><div align="left">
+              <ul>
+                <li>The <strong>Queue</strong> interface represents a collection designed for holding elements prior to processing, typically in FIFO (First-In-First-Out) order. Implementations include `PriorityQueue` and <strong>LinkedList</strong>.</li>
+                <li><strong>peek</strong>() retrieves the head of the queue without removing it, while `poll()` retrieves and removes it.</li>
+                <li><strong>Queue</strong> follows FIFO (First-In-First-Out).</li>
+                <li><strong>peek</strong>() retrieves the head of the queue without removing it.</li>
+                <li><strong>poll</strong>() retrieves and removes the head of the queue.<br>              
+                </li>
+              </ul>
+            </div></td>
+          </tr>
+          <tr>
+            <td class="texto4Copy">Common Implementations</td>
+            <td><table width="100%" border="0" cellspacing="2" cellpadding="2">
+              <tr>
+                  <td class="texto2"><div align="left"><strong>PriorityQueue</strong></div></td>
+                  <td class="style1"><div align="left">
+                    <ul>
+                      <li><strong>PriorityQueue</strong> is a queue where elements are ordered based on priority using a heap structure.</li>
+                      <li>A <strong>PriorityQueue</strong> is a queue that orders elements based on priority using a comparator or natural ordering.</li>
+                      <li>A <strong>PriorityQueue</strong> orders elements according to natural ordering or a custom comparator.</li>
+                      <li><strong>PriorityQueue</strong> is a queue where elements are ordered based on priority, using natural ordering or a comparator.<br>
+                        <br>
+                      </li>
+                    </ul>
+                  </div></td>
+              </tr>
+                <tr>
+                  <td class="texto2"><div align="left"><strong>ArrayDeque</strong></div></td>
+                  <td>
+                    <div align="left">
+                      <ul class="style1">
+                        <li><strong>ArrayDeque</strong> is faster and does not allow null elements.</li>
+                        <li><strong>ArrayDeque</strong> is a resizable array-based implementation of a double-ended queue (deque), faster for queue operations.</li>
+                      </ul>
+                  </div></td>
+              </tr>
+
+            </table></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td class="texto3">Deque</td>
+        <td><div align="left"></div></td>
+      </tr>
+    </table>
+    <h2 class="style1">&nbsp;</h2>
     <h2 class="style1"><a href="Java 05 Java Collections Framework List Set Map Queue.mp3">Audio 1</a></h2>
-    <h2 class="style1">Set 1</h2>
+<h2 class="style1">Set 1</h2>
 <ol class="style1">
         <li>
             <strong>What is the Java Collections Framework?</strong><br>
@@ -111,7 +521,7 @@ public class Main {
             <strong>What is the purpose of the `Queue` interface?</strong><br>
             <p><em>Answer:</em> The `Queue` interface represents a collection designed for holding elements prior to processing, typically in FIFO (First-In-First-Out) order. Implementations include `PriorityQueue` and `LinkedList`.</p>
         </li>
-    </ol>
+</ol>
     <h1 class="style1">Java Collections Framework - Questions & Answers</h1>
     <h2 class="style1">Set 2</h2>
     <ol class="style1">
