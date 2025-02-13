@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Long Short-Term Memory (LSTM) Example</title>
+    <!-- Include necessary CSS or styling if needed -->
+</head>
+<body>
+
+<h1>Long Short-Term Memory (LSTM) Example</h1>
+
+<p>This is a simple example of Long Short-Term Memory (LSTM) using Python and the TensorFlow/Keras libraries.</p>
+
+<h2>LSTM Overview</h2>
+
+<p>Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) architecture designed to capture long-range dependencies in sequential data. It addresses the vanishing gradient problem of traditional RNNs by introducing memory cells with gating mechanisms. LSTMs are widely used for various sequence-based tasks such as time series prediction, natural language processing, and speech recognition.</p>
+
+<p>Key concepts of LSTMs:</p>
+
+<ul>
+    <li><b>Memory Cells:</b> Specialized units that store and retrieve information over long sequences.</li>
+    <li><b>Forget Gate:</b> Mechanism to selectively discard information from the memory cell.</li>
+    <li><b>Input Gate:</b> Mechanism to selectively update the memory cell with new information.</li>
+    <li><b>Output Gate:</b> Mechanism to decide what information to output from the memory cell.</li>
+</ul>
+
+<p>Python Source Code:</p>
+
+<pre><code># Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense
+
+# Generate synthetic time series data
+def generate_time_series(n):
+    t = np.linspace(0.0, 1.0, n)
+    series = 5 * np.sin(10 * np.pi * t) + 0.1 * np.random.randn(n)
+    return series
+
+# Create a synthetic time series dataset
+n_samples = 1000
+time_series = generate_time_series(n_samples)
+
+# Prepare data for training an LSTM
+n_steps = 50
+X, y = [], []
+for i in range(n_samples - n_steps):
+    X.append(time_series[i:i+n_steps])
+    y.append(time_series[i+n_steps])
+
+X = np.array(X).reshape(-1, n_steps, 1)
+y = np.array(y)
+
+# Build an LSTM model
+model = Sequential([
+    LSTM(20, activation='relu', input_shape=(n_steps, 1)),
+    Dense(1)
+])
+
+model.compile(optimizer='adam', loss='mse')
+
+# Train the LSTM model
+model.fit(X, y, epochs=20)
+
+# Generate predictions on new data
+X_new = time_series[-n_steps:].reshape(1, n_steps, 1)
+y_pred = model.predict(X_new)
+
+# Plot the original and predicted time series
+plt.figure(figsize=(10, 6))
+plt.plot(np.arange(n_samples), time_series, label='Original Time Series', linewidth=2)
+plt.plot(np.arange(n_samples, n_samples + n_steps), y_pred[0], label='Predicted Values', linestyle='dashed', linewidth=2)
+plt.title('LSTM Time Series Prediction')
+plt.xlabel('Time Steps')
+plt.ylabel('Values')
+plt.legend()
+plt.show()
+</code></pre>
+
+<p>Explanation:</p>
+
+<ul>
+    <li><b>Import Libraries:</b> Import necessary Python libraries, including TensorFlow and Keras for deep learning.</li>
+    <li><b>Generate Synthetic Time Series:</b> Generate a synthetic time series dataset for demonstration purposes.</li>
+    <li><b>Prepare Data:</b> Prepare the time series data for training an LSTM model.</li>
+    <li><b>Build LSTM Model:</b> Build an LSTM model with one LSTM layer and one dense output layer.</li>
+    <li><b>Train Model:</b> Train the LSTM model on the prepared data.</li>
+    <li><b>Generate Predictions:</b> Generate predictions on new data using the trained model.</li>
+    <li><b>Plot Results:</b> Plot the original time series and the predicted values.</li>
+</ul>
+
+<!-- Include necessary JavaScript libraries if needed -->
+
+</body>
+</html>

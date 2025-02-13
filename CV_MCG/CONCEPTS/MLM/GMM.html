@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gaussian Mixture Model (GMM) Example</title>
+    <!-- Include necessary CSS or styling if needed -->
+    <link href="../estilos.css" rel="stylesheet" type="text/css">
+</head>
+<body class="texto8_1">
+
+<h1>Gaussian Mixture Model (GMM) Example</h1>
+
+<p>This is a simple example of Gaussian Mixture Model (GMM) using Python and scikit-learn.</p>
+
+<h2>Gaussian Mixture Model (GMM) Overview</h2>
+
+<p>Gaussian Mixture Models (GMMs) are probabilistic models used for clustering and density estimation. Unlike k-means, which assumes spherical clusters, GMMs model data as a mixture of multiple Gaussian distributions with different means and covariances. Each data point has a probability of belonging to each cluster, and GMMs can handle clusters with different shapes and sizes.</p>
+
+<p>Key concepts of Gaussian Mixture Models:</p>
+
+<ul>
+    <li><b>Gaussian Distribution:</b> A probability distribution characterized by its mean and covariance matrix.</li>
+    <li><b>Mixture Model:</b> A model that combines multiple probability distributions to represent the overall distribution of the data.</li>
+    <li><b>Expectation-Maximization (EM) Algorithm:</b> An iterative algorithm used to estimate the parameters of the GMM based on observed data.</li>
+    <li><b>Soft Assignments:</b> Each data point is probabilistically assigned to all clusters with different degrees of membership.</li>
+</ul>
+
+<p>GMMs are versatile and can be applied to various tasks, including clustering, anomaly detection, and generating synthetic data.</p>
+
+<p>Python Source Code:</p>
+
+<pre><code># Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+from sklearn.mixture import GaussianMixture
+from sklearn.metrics import silhouette_score
+
+# Generate synthetic data with three clusters
+np.random.seed(42)
+X, _ = make_blobs(n_samples=300, centers=3, random_state=42)
+
+# Build a GMM model
+gmm = GaussianMixture(n_components=3, random_state=42)
+gmm.fit(X)
+
+# Make predictions on the data
+labels = gmm.predict(X)
+
+# Calculate silhouette score for model evaluation
+silhouette_avg = silhouette_score(X, labels)
+print(f'Silhouette Score: {silhouette_avg}')
+
+# Plot the results
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis', marker='o', edgecolors='black')
+plt.scatter(gmm.means_[:, 0], gmm.means_[:, 1], marker='X', s=200, color='red', label='Cluster Centers')
+plt.title('Gaussian Mixture Model (GMM) Example')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.legend()
+plt.show()
+</code></pre>
+
+<p>Explanation:</p>
+
+<ul>
+    <li><b>Import Libraries:</b> Import necessary Python libraries, including NumPy for numerical operations, Matplotlib for plotting, and scikit-learn for dataset generation and GMM.</li>
+    <li><b>Generate Synthetic Data:</b> Create synthetic data with three clusters using the <code>make_blobs</code> function from scikit-learn.</li>
+    <li><b>Build Model:</b> Create and train a Gaussian Mixture Model using scikit-learn's <code>GaussianMixture</code>.</li>
+    <li><b>Make Predictions:</b> Use the trained GMM to predict cluster labels for the data points.</li>
+    <li><b>Evaluate Model:</b> Calculate the silhouette score as a measure of the clustering quality.</li>
+    <li><b>Plot Results:</b> Visualize the data points with cluster assignments and highlight the cluster centers.</li>
+</ul>
+
+<!-- Include necessary JavaScript libraries if needed -->
+
+</body>
+</html>

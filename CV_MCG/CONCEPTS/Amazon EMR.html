@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Amazon EMR</title>
+<link href="ESTILOS.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p><a href="EMR_references_jpg.html" target="_blank" class="texto13">Amazon EMR (Elastic MapReduce)</a> is a cloud-based big data platform provided by Amazon Web Services (AWS). It simplifies the processing and analysis of large datasets using popular frameworks such as Apache Hadoop, Apache Spark, Apache Hive, Apache HBase, and more. EMR allows you to quickly and cost-effectively launch and scale clusters, enabling you to process large amounts of data for various use cases, including data processing, machine learning, and analytics.</p>
+<p>Key features of Amazon EMR include:</p>
+<ol>
+  <li>
+    <p><strong>Managed Clusters:</strong> EMR provides a fully managed environment, allowing you to easily create, configure, and scale clusters for processing big data workloads. You can use the AWS Management Console, AWS CLI, or SDKs to launch and manage clusters.</p>
+  </li>
+  <li>
+    <p><strong>Support for Popular Frameworks:</strong> EMR supports a variety of big data processing frameworks, including Apache Hadoop, Apache Spark, Apache Hive, Apache HBase, Apache Flink, and more. This flexibility allows you to choose the right framework for your specific use case.</p>
+  </li>
+  <li>
+    <p><strong>Integration with AWS Services:</strong> EMR integrates with other AWS services, such as <a href="Amazon S3.html" target="_blank">Amazon S3</a>, Amazon DynamoDB, <a href="Amazon Redshift.html" target="_blank">Amazon Redshift</a>, and AWS Identity and Access Management (IAM). This allows you to easily ingest data from various sources and store results in different AWS storage services.</p>
+  </li>
+  <li>
+    <p><strong>Security Features:</strong> EMR provides features to help secure your clusters, including Amazon Virtual Private Cloud (VPC) support, encryption for data at rest and in transit, IAM roles for fine-grained access control, and support for AWS Key Management Service (KMS).</p>
+  </li>
+  <li>
+    <p><strong>Auto-Scaling:</strong> EMR supports automatic scaling, allowing your cluster to dynamically add or remove instances based on the processing requirements of your jobs. This helps optimize costs by adjusting cluster capacity in response to workload changes.</p>
+  </li>
+  <li>
+    <p><strong>Managed Notebooks:</strong> EMR supports notebook interfaces for interactive data exploration and analysis. You can use tools like Apache Zeppelin or Jupyter notebooks directly on your EMR cluster.</p>
+  </li>
+  <li>
+    <p><strong>Application Libraries:</strong> EMR provides pre-installed application libraries for popular frameworks, making it easier to run specific workloads without manual setup. For example, you can run Apache Spark or Apache Flink jobs without installing these frameworks manually.</p>
+  </li>
+  <li>
+    <p><strong>Logging and Monitoring:</strong> EMR provides logging and monitoring capabilities through integration with Amazon CloudWatch. You can monitor cluster performance, track job progress, and set up alarms for various metrics.</p>
+  </li>
+  <li>
+    <p><strong>Customizable Configurations:</strong> While EMR offers managed defaults for many configurations, you have the flexibility to customize your cluster's configuration based on your specific requirements.</p>
+  </li>
+</ol>
+<p>Here's a simple example of using EMR with Apache Spark to process data:</p>
+<pre>aws emr create-cluster --name &quot;MySparkCluster&quot; \<br />  --release-label emr-6.6.0 \<br />  --applications Name=Spark \<br />  --ec2-attributes KeyName=my-key-pair \<br />  --instance-type m5.xlarge \<br />  --instance-count 3 \<br />  --steps Type=Spark,Name=&quot;Spark Program&quot;,ActionOnFailure=CONTINUE,Args=[--class,org.apache.spark.examples.SparkPi,--master,yarn,--deploy-mode,client,s3://elasticmapreduce/samples/spark/1.6.0/spark-examples-1.6.0-hadoop2.7.3.jar,10]<br />
+</pre>
+<p>This example uses the AWS CLI to create a Spark cluster on EMR and run the SparkPi example application.</p>
+<p>AWS provides extensive documentation and tutorials for working with Amazon EMR, covering various frameworks and use cases: <a href="https://docs.aws.amazon.com/emr/index.html" target="_new">Amazon EMR Documentation</a></p>
+</body>
+</html>

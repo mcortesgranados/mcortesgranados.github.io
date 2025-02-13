@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture Comparison</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .center {
+            text-align: center;
+        }
+    </style>
+    <link href="../ESTILOS.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<h2>Architecture Comparison</h2>
+
+<table>
+    <thead>
+        <tr>
+          <th>&nbsp;</th>
+            <th class="texto6Copy2">Architecture</th>
+            <th class="texto6Copy2">Definition</th>
+            <th class="texto6Copy2">Scalability</th>
+            <th class="texto6Copy2">Complexity</th>
+            <th class="texto6Copy2">Maintainability</th>
+            <th class="texto6Copy2">Performance</th>
+            <th class="texto6Copy2">Best for Java</th>
+            <th class="texto6Copy2">Best for Python</th>
+            <th class="texto6Copy2">Best for Node.js</th>
+            <th class="texto6Copy2">Best for C#</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>1</td>
+            <td class="texto2"><strong>Monolithic</strong></td>
+            <td>
+                <strong>Introduced:</strong> 1970s (Early software development era) <br>
+                <strong>Description:</strong> Monolithic architecture is a traditional software design where an entire application is built as a single, unified unit. It includes all components such as UI, business logic, and data access in one deployment. This approach was dominant in early computing but has become less popular for large-scale applications due to scalability limitations. However, it remains a viable choice for small projects, startups, and legacy systems. <br>
+                <strong>Use Cases:</strong> Small applications, startups, simple web applications, legacy enterprise systems. <br>
+                <strong>Advantages:</strong> Simple to develop and deploy; efficient performance within a single runtime; easy debugging and local testing. <br>
+                <strong>Disadvantages:</strong> Scalability challenges; long build and deployment times; a failure in one module can crash the entire system. <br>
+                <strong>Relevance Score:</strong> ⭐⭐⭐ (3/10) – Still relevant for simple applications but outdated for modern scalable systems.
+            </td>            
+            <td class="center"><i class="fa-solid fa-xmark" style="color: red;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-xmark" style="color: red;"></i></td>
+            <td class="center"><i class="fa-solid fa-xmark" style="color: red;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+        </tr>
+        <tr>
+          <td>2</td>
+            <td class="texto2"><strong>Layered (N-Tier)</strong></td>
+            <td>
+                <strong>Introduced:</strong> 1980s (Enterprise software evolution) <br>
+                <strong>Description:</strong> The Layered or N-Tier architecture organizes software into multiple layers such as presentation, business logic, and data access. This design allows modularity and separation of concerns, improving maintainability. It is widely used in traditional enterprise applications, particularly those using MVC (Model-View-Controller) frameworks. However, strict layer dependencies can lead to slower performance and increased complexity. <br>
+                <strong>Use Cases:</strong> Enterprise applications, e-commerce platforms, traditional web applications. <br>
+                <strong>Advantages:</strong> Encourages modular design; simplifies maintenance; improves team collaboration. <br>
+                <strong>Disadvantages:</strong> Can be rigid; slower response times due to multiple layers; not ideal for highly scalable systems. <br>
+                <strong>Relevance Score:</strong> ⭐⭐⭐⭐ (4/10) – Still widely used in enterprises but being replaced by more flexible architectures.
+            </td>            
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-xmark" style="color: red;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-xmark" style="color: red;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+        </tr>
+	        <tr>
+	          <td>3</td>
+            <td class="texto2"><strong>Hexagonal (Ports & Adapters)</strong></td>
+            <td>
+                <strong>Introduced:</strong> 2005 (By Alistair Cockburn) <br>
+                <strong>Description:</strong> Hexagonal architecture (Ports & Adapters) separates business logic from external dependencies, making applications more adaptable to change. It allows switching databases, APIs, or UI components without modifying the core logic. This architecture is ideal for systems requiring high maintainability and testability, such as financial or mission-critical applications. <br>
+                <strong>Use Cases:</strong> Banking applications, enterprise software, microservices-based systems. <br>
+                <strong>Advantages:</strong> Highly testable; improves maintainability; allows easy integration with new technologies. <br>
+                <strong>Disadvantages:</strong> Complex initial setup; requires experienced developers. <br>
+                <strong>Relevance Score:</strong> ⭐⭐⭐⭐⭐⭐⭐ (7/10) – Gaining traction in modern software development, especially in domain-driven applications.
+            </td>            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-xmark" style="color: red;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+        </tr>
+        <tr>
+          <td>4</td>
+            <td class="texto2"><strong>Microservices</strong></td>
+            <td>
+                <strong>Introduced:</strong> 2011 (Modern distributed systems) <br>
+                <strong>Description:</strong> Microservices architecture breaks applications into independent, small services, each responsible for a specific business function. These services communicate via APIs and can be deployed, updated, and scaled independently. This approach is highly popular in modern cloud-native applications, enabling greater flexibility and scalability. However, it requires robust DevOps practices and complex service coordination. <br>
+                <strong>Use Cases:</strong> Cloud-native applications, streaming services, large-scale e-commerce, SaaS platforms. <br>
+                <strong>Advantages:</strong> Enables independent deployment and scaling; improves fault isolation; supports agile development. <br>
+                <strong>Disadvantages:</strong> Requires complex service management; potential latency and consistency issues; higher operational overhead. <br>
+                <strong>Relevance Score:</strong> ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ (10/10) – The most relevant architecture for modern scalable applications.
+            </td>            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+        </tr>
+        <tr>
+          <td>5</td>
+            <td class="texto2"><strong>Service-Oriented (SOA)</strong></td>
+    <td>
+        <strong>Introduced:</strong> Early 2000s (Enterprise Service Architecture evolution) <br>
+        <strong>Description:</strong> SOA is an architectural style where software components are loosely coupled and communicate over a network via standardized protocols (SOAP, REST). Each service represents a business function, enabling interoperability between different applications. While SOA paved the way for Microservices, it is considered heavier due to reliance on ESBs (Enterprise Service Buses). <br>
+        <strong>Use Cases:</strong> Enterprise systems, government IT solutions, legacy system modernization. <br>
+        <strong>Advantages:</strong> Encourages reusability; improves integration with legacy systems. <br>
+        <strong>Disadvantages:</strong> High overhead with ESBs; performance bottlenecks in synchronous communication. <br>
+        <strong>Relevance Score:</strong> ⭐⭐⭐⭐⭐ (5/10) – Still used in legacy enterprises but being replaced by microservices.
+    </td>            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-xmark" style="color: red;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+        </tr>
+        <tr>
+          <td>6</td>
+            <td class="texto2"><strong>Event-Driven</strong></td>
+            <td>
+                <strong>Introduced:</strong> 1980s (Asynchronous computing) <br>
+                <strong>Description:</strong> Event-driven architecture (EDA) revolves around events that trigger actions in other parts of the system. Unlike traditional request-response models, EDA enables asynchronous processing and high responsiveness. It is widely used in IoT, real-time data processing, and reactive applications. Systems leveraging message brokers like Kafka or RabbitMQ often implement this architecture. <br>
+                <strong>Use Cases:</strong> IoT applications, real-time data analytics, financial transaction processing. <br>
+                <strong>Advantages:</strong> Improves system responsiveness; allows better decoupling of components; ideal for real-time processing. <br>
+                <strong>Disadvantages:</strong> Requires careful event handling; complex debugging and monitoring. <br>
+                <strong>Relevance Score:</strong> ⭐⭐⭐⭐⭐⭐⭐⭐⭐ (9/10) – Highly relevant for modern cloud applications and streaming services.
+            </td>            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+        </tr>
+        <tr>
+          <td>7</td>
+            <td class="texto2"><strong>CQRS</strong></td>
+    <td>
+        <strong>Introduced:</strong> 2010s (Greg Young's architectural pattern) <br>
+        <strong>Description:</strong> CQRS separates read and write operations into distinct models, improving scalability and performance in high-volume applications. This architecture is often combined with Event Sourcing to track state changes efficiently. CQRS is useful for applications requiring different optimization strategies for queries and commands. <br>
+        <strong>Use Cases:</strong> Financial systems, real-time analytics, event-driven applications. <br>
+        <strong>Advantages:</strong> Optimizes performance for both reads and writes; enables complex event-driven workflows. <br>
+        <strong>Disadvantages:</strong> Increased complexity; requires strong domain knowledge to implement correctly. <br>
+        <strong>Relevance Score:</strong> ⭐⭐⭐⭐⭐⭐⭐ (7/10) – Gaining adoption in scalable, real-time applications.
+    </td>            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+        </tr>
+        <tr>
+          <td>8</td>
+            <td class="texto2"><strong>Domain-Driven Design (DDD)</strong></td>
+    <td>
+        <strong>Introduced:</strong> 2004 (By Eric Evans) <br>
+        <strong>Description:</strong> DDD is an approach to software development that emphasizes modeling software based on real-world domains. It introduces concepts like Aggregates, Entities, and Value Objects to ensure that software mirrors business processes accurately. It is often used with Hexagonal and Microservices architectures. <br>
+        <strong>Use Cases:</strong> Complex business applications, fintech, healthcare systems. <br>
+        <strong>Advantages:</strong> Improves software alignment with business goals; facilitates team collaboration. <br>
+        <strong>Disadvantages:</strong> Requires deep domain expertise; complex implementation. <br>
+        <strong>Relevance Score:</strong> ⭐⭐⭐⭐⭐⭐⭐ (7/10) – Very useful in large-scale applications with complex business logic.
+    </td>            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-xmark" style="color: red;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+        </tr>
+        <tr>
+          <td>9</td>
+            <td class="texto2"><strong>API Gateway & BFF</strong></td>
+    <td>
+        <strong>Introduced:</strong> 2015 (Modern cloud architectures) <br>
+        <strong>Description:</strong> API Gateway serves as a unified entry point for multiple microservices, handling authentication, rate limiting, and request aggregation. The BFF pattern extends this by creating dedicated backend layers tailored for specific frontend applications (e.g., mobile vs. web). <br>
+        <strong>Use Cases:</strong> Multi-platform applications, mobile and web-based SaaS solutions. <br>
+        <strong>Advantages:</strong> Improves performance; centralizes security; customizes backend responses for each frontend. <br>
+        <strong>Disadvantages:</strong> Adds an extra layer; potential single point of failure if not designed properly. <br>
+        <strong>Relevance Score:</strong> ⭐⭐⭐⭐⭐⭐⭐⭐⭐ (9/10) – Essential in modern API-driven applications.
+    </td>            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+        </tr>
+        <tr>
+          <td>10</td>
+            <td class="texto2"><strong>Saga Pattern</strong></td>
+    <td>
+        <strong>Introduced:</strong> 1987 (Originally in databases, adapted for microservices) <br>
+        <strong>Description:</strong> The Saga pattern is used for managing long-running, distributed transactions in microservices. It ensures eventual consistency by using a sequence of compensating transactions. There are two common implementations: Choreography (event-driven) and Orchestration (centralized coordinator). <br>
+        <strong>Use Cases:</strong> E-commerce transactions, financial systems, distributed workflows. <br>
+        <strong>Advantages:</strong> Prevents data inconsistencies; allows graceful failure handling. <br>
+        <strong>Disadvantages:</strong> Requires complex coordination; debugging can be challenging. <br>
+        <strong>Relevance Score:</strong> ⭐⭐⭐⭐⭐⭐⭐⭐ (8/10) – Essential for distributed transactions in microservices.
+    </td>            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+        </tr>
+        <tr>
+          <td>11</td>
+            <td class="texto2"><strong>Event Sourcing</strong></td>
+    <td>
+        <strong>Introduced:</strong> 2010s (Modern event-driven applications) <br>
+        <strong>Description:</strong> Event Sourcing stores state changes as a sequence of immutable events rather than updating the current state. This allows for complete historical tracking and enables auditing, debugging, and rebuilding application states. It is often used alongside CQRS for high-performance systems. <br>
+        <strong>Use Cases:</strong> Financial ledgers, blockchain applications, auditing systems. <br>
+        <strong>Advantages:</strong> Enables full history tracking; improves auditability and debugging. <br>
+        <strong>Disadvantages:</strong> Requires significant storage and processing power; complex query design. <br>
+        <strong>Relevance Score:</strong> ⭐⭐⭐⭐⭐⭐⭐⭐ (8/10) – Highly useful for compliance-driven applications.
+    </td>            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+        </tr>
+        <tr>
+          <td>12</td>
+            <td class="texto2"><strong>Serverless (FaaS)</strong></td>
+            <td>
+                <strong>Introduced:</strong> 2014 (AWS Lambda launch) <br>
+                <strong>Description:</strong> Serverless architecture (Function-as-a-Service) allows developers to execute code without managing infrastructure. Functions are triggered by events and automatically scale as needed. This model is ideal for applications with variable workloads, such as API gateways, real-time processing, and automation. However, cold starts and vendor lock-in are potential concerns. <br>
+                <strong>Use Cases:</strong> API backends, chatbots, IoT processing, automated workflows. <br>
+                <strong>Advantages:</strong> Eliminates infrastructure management; scales automatically; cost-effective for sporadic workloads. <br>
+                <strong>Disadvantages:</strong> Cold start latency; dependency on cloud provider services; limited execution time per function. <br>
+                <strong>Relevance Score:</strong> ⭐⭐⭐⭐⭐⭐⭐⭐⭐ (9/10) – A cutting-edge approach for cloud-native development.
+            </td>            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-xmark" style="color: red;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-xmark" style="color: red;"></i></td>
+            <td class="center"><i class="fa-solid fa-star" style="color: gold;"></i></td>
+            <td class="center"><i class="fa-solid fa-check" style="color: green;"></i></td>
+            <td class="center"><i class="fa-solid fa-xmark" style="color: red;"></i></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

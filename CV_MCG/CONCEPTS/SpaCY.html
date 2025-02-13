@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>spaCy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #000; /* Set text color to black */
+        }
+
+        h1, h2 {
+            color: #000; /* Set heading color to black */
+        }
+
+        p {
+            color: #000; /* Set paragraph text color to black */
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow: auto;
+            margin-bottom: 20px;
+        }
+
+        code {
+            font-family: Monaco, monospace;
+            font-size: 14px;
+            color: #000; /* Set code text color to black */
+        }
+    </style>
+</head>
+<body>
+
+<h1>spaCy</h1>
+
+<p>spaCy is an open-source library for advanced natural language processing (NLP) in Python. It is designed specifically for production use and emphasizes simplicity and efficiency. spaCy provides pre-trained models for various NLP tasks, including part-of-speech tagging, named entity recognition, sentence segmentation, and more.</p>
+
+<h2>Key Features and Components of spaCy:</h2>
+
+<pre>
+<code>
+import spacy
+
+# Load the English language model
+nlp = spacy.load("en_core_web_sm")
+
+# Tokenization
+text = "spaCy is a powerful NLP library."
+doc = nlp(text)
+
+# Part-of-Speech Tagging
+for token in doc:
+    print(token.text, token.pos_)
+
+# Named Entity Recognition (NER)
+for ent in doc.ents:
+    print(ent.text, ent.label_)
+
+# Dependency Parsing
+for token in doc:
+    print(token.text, token.dep_, token.head.text, token.head.pos_)
+
+# Sentence Segmentation
+for sentence in doc.sents:
+    print(sentence.text)
+
+# Word Embeddings
+word = nlp("apple")
+print(word.vector)
+</code>
+</pre>
+
+<p>To use spaCy, you'll need to install it first using:</p>
+
+<pre>
+<code>
+pip install spacy
+</code>
+</pre>
+
+<p>After installation, you'll also need to download the language model you want to use. For example, to download the English language model:</p>
+
+<pre>
+<code>
+python -m spacy download en_core_web_sm
+</code>
+</pre>
+
+<p>The above code downloads the small English model (<code>en_core_web_sm</code>). Depending on your use case, you might need a larger model. You can find more information in the <a href="https://spacy.io/usage/models" target="_blank">spaCy documentation</a>.</p>
+
+</body>
+</html>

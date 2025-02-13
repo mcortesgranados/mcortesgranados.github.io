@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Beautiful Soup</title>
+<link href="ESTILOS.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto_grande">
+<p><br />
+  Beautiful Soup is a Python library that is used for web scraping purposes to pull the data out of HTML and XML files. It provides Pythonic idioms for iterating, searching, and modifying the parse tree. Beautiful Soup sits on top of popular Python parsers like lxml and html5lib, allowing you to try out different parsing strategies or trade speed for flexibility.</p>
+<p>Here's a simple example of how you might use Beautiful Soup to scrape data from a webpage:</p>
+<p>from bs4 import BeautifulSoup<br />
+import requests</p>
+<p># Make a request to the website<br />
+  url = 'https://example.com'<br />
+  response = requests.get(url)</p>
+<p># Parse the HTML content of the page<br />
+  soup = BeautifulSoup(response.text, 'html.parser')</p>
+<p># Extract information from the HTML<br />
+  title = soup.title.text<br />
+  print(f'Title of the page: {title}')</p>
+<p># Find all the links on the page<br />
+  links = soup.find_all('a')<br />
+  for link in links:<br />
+print(link.get('href'))</p>
+<p><br />
+Beautiful Soup is a Python library that is used for web scraping purposes to pull the data out of HTML and XML files. It provides Pythonic idioms for iterating, searching, and modifying the parse tree. Beautiful Soup sits on top of popular Python parsers like lxml and html5lib, allowing you to try out different parsing strategies or trade speed for flexibility.</p>
+<p>Here's a simple example of how you might use Beautiful Soup to scrape data from a webpage:</p>
+<pre><div><div>python<button>Copy code</button></div><div>from bs4 import BeautifulSoup  import requests    # Make a request to the website  url = 'https://example.com'  response = requests.get(url)    # Parse the HTML content of the page  soup = BeautifulSoup(response.text, 'html.parser')    # Extract information from the HTML  title = soup.title.text  print(f'Title of the page: {title}')    # Find all the links on the page  links = soup.find_all('a')  for link in links:      print(link.get('href'))  </div></div>
+</pre>
+<p>In this example:</p>
+<ol>
+  <li>requests.get(url) is used to make a GET request to the specified URL.</li>
+  <li>BeautifulSoup(response.text, 'html.parser') is used to create a Beautiful Soup object from the HTML content of the page. 'html.parser' is the parser that Beautiful Soup will use to parse the HTML.</li>
+  <li>soup.title.text is used to extract the text inside the &lt;title&gt; tag of the HTML.</li>
+  <li>soup.find_all('a') is used to find all the &lt;a&gt; (anchor) tags on the page, and the loop prints the href attribute of each link.</li>
+</ol>
+<p>Beautiful Soup provides a range of methods and properties to navigate and search the parse tree. Some commonly used ones include:</p>
+<ul>
+  <li>find(): Finds the first occurrence of a tag.</li>
+  <li>find_all(): Finds all occurrences of a tag.</li>
+  <li>select(): Uses CSS selectors to find elements.</li>
+  <li>get_text(): Gets the text of a tag.</li>
+  <li>children, descendants, parent, and find_parent(): Navigating the parse tree.</li>
+</ul>
+<p>Make sure to install Beautiful Soup before using it:</p>
+<pre><div><div>pip install beautifulsoup4  </div></div>
+</pre>
+<br />
+<div data-testid="conversation-turn-7">
+  <div>
+    <div>
+      <div>
+        <div>
+          <div>
+            <div data-message-author-role="assistant" data-message-id="7555c483-0476-422c-be94-5bf60d0eeb46">
+              <div>
+                <p>Keep in mind that web scraping should be done responsibly and in compliance with the terms of service of the website you are scraping. It's essential to be aware of legal and ethical considerations when extracting data from websites.</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div>
+              <button></button>
+              <div>
+                <button></button>
+                <button></button>
+              </div>
+              <button>
+                <div></div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+<div data-projection-id="41">
+<div>
+<br />
+<p>
+<pre>
+  <div>
+  <div>
+</p>
+<p><br />
+</p>
+<p>&nbsp;</p>
+<p><br />
+</p>
+</body>
+
+</html>

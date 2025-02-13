@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exception Handling Questions & Answers</title>
+</head>
+<body>
+    <h1>Exception Handling in Java - Questions & Answers</h1>
+
+    <h2>1. What is the difference between checked and unchecked exceptions in Java?</h2>
+    <p>In Java, exceptions are divided into two categories:</p>
+    <ul>
+        <li><strong>Checked Exceptions:</strong> These are exceptions that are checked at compile-time. The compiler requires that these exceptions be either handled using a try-catch block or declared in the method signature using the `throws` keyword. Examples include `IOException` and `SQLException`.</li>
+        <li><strong>Unchecked Exceptions:</strong> These are exceptions that occur at runtime and are not checked by the compiler. They are subclasses of `RuntimeException` and can occur due to programming errors. Examples include `NullPointerException`, `ArrayIndexOutOfBoundsException`, and `ArithmeticException`.</li>
+    </ul>
+
+    <h2>2. What is a try-catch-finally block, and how would you use it?</h2>
+    <p>A <code>try-catch-finally</code> block is used to handle exceptions in Java:</p>
+    <ul>
+        <li><strong>try:</strong> The code that might throw an exception is placed inside the <code>try</code> block.</li>
+        <li><strong>catch:</strong> If an exception occurs in the <code>try</code> block, it is caught by the corresponding <code>catch</code> block, where the exception can be handled.</li>
+        <li><strong>finally:</strong> The code inside the <code>finally</code> block always runs, regardless of whether an exception was thrown or not. It is typically used for cleanup actions (e.g., closing resources).</li>
+    </ul>
+    <p><strong>Example:</strong></p>
+    <pre>
+    try {
+        // Code that may throw an exception
+        int result = 10 / 0; // ArithmeticException
+    } catch (ArithmeticException e) {
+        System.out.println("Error: Division by zero.");
+    } finally {
+        System.out.println("This block always runs.");
+    }
+    </pre>
+
+    <h2>3. What is the difference between throw and throws?</h2>
+    <p><code>throw</code> and <code>throws</code> are both used for exception handling, but they serve different purposes:</p>
+    <ul>
+        <li><strong>throw:</strong> The <code>throw</code> keyword is used to explicitly throw an exception from within a method or block of code. It is followed by an instance of an exception class.</li>
+        <li><strong>throws:</strong> The <code>throws</code> keyword is used in a method declaration to indicate that the method may throw one or more exceptions. It does not throw the exception itself but rather signals that the caller of the method must handle it.</li>
+    </ul>
+    <p><strong>Example:</strong></p>
+    <pre>
+    // Using throw to throw an exception
+    public void myMethod() {
+        throw new IllegalArgumentException("Invalid argument");
+    }
+
+    // Using throws to declare an exception
+    public void myMethod() throws IOException {
+        // Code that may throw an IOException
+    }
+    </pre>
+
+    <h2>4. What happens if an exception is not caught inside a try-catch block?</h2>
+    <p>If an exception is not caught within a try-catch block, it will propagate up the call stack. If the exception is not handled at any point in the call stack, it will eventually cause the program to terminate, and the exception will be printed along with its stack trace. Uncaught exceptions in the main method will result in the termination of the program.</p>
+
+    <h2>5. When would it be appropriate to create custom exceptions in Java?</h2>
+    <p>It is appropriate to create custom exceptions in the following situations:</p>
+    <ul>
+        <li>When the standard Java exceptions do not adequately describe the specific error or issue in your application.</li>
+        <li>When you want to provide more meaningful error messages that are specific to your application’s domain.</li>
+        <li>When you need to include additional context or data along with the exception, such as custom fields or methods to capture the error's details.</li>
+    </ul>
+    <p><strong>Example:</strong></p>
+    <pre>
+    // Custom exception example
+    public class InsufficientFundsException extends Exception {
+        private double balance;
+
+        public InsufficientFundsException(double balance) {
+            this.balance = balance;
+        }
+
+        public double getBalance() {
+            return balance;
+        }
+
+        @Override
+        public String getMessage() {
+            return "Insufficient funds. Current balance: " + balance;
+        }
+    }
+    </pre>
+    
+        <h1>Exception Handling in Java - Additional Questions & Answers</h1>
+
+    <h2>6. What is the difference between `throw` and `throws` in terms of syntax?</h2>
+    <p>The <code>throw</code> keyword is used to explicitly throw an exception, followed by the instance of the exception. The <code>throws</code> keyword is used in method declarations to specify that a method might throw an exception.</p>
+
+    <h2>7. What is a `NullPointerException`, and how can it be avoided?</h2>
+    <p>A <code>NullPointerException</code> occurs when you try to access a method or field of an object that is null. To avoid it, ensure that objects are initialized before use, or check for null before performing operations.</p>
+
+    <h2>8. What is the purpose of the `finally` block?</h2>
+    <p>The <code>finally</code> block is used to execute code that must run after a <code>try-catch</code> block, whether an exception was thrown or not. It is typically used for cleanup operations such as closing files or releasing resources.</p>
+
+    <h2>9. Can you catch multiple exceptions in one catch block?</h2>
+    <p>Yes, since Java 7, you can catch multiple exceptions in a single <code>catch</code> block by separating them with a vertical bar (|). This is called multi-catch.</p>
+    <pre>
+    try {
+        // Code that may throw exceptions
+    } catch (IOException | SQLException e) {
+        System.out.println("Exception occurred: " + e.getMessage());
+    }
+    </pre>
+
+    <h2>10. What is the `Exception` class in Java?</h2>
+    <p>The <code>Exception</code> class is the superclass of all exceptions in Java, except for errors. It is used as a base class for creating custom exceptions and handling exceptions that may occur during program execution.</p>
+
+    <h2>11. What is an `ArithmeticException`?</h2>
+    <p>An <code>ArithmeticException</code> is thrown when an exceptional arithmetic condition occurs, such as division by zero.</p>
+
+    <h2>12. How do you handle `ArrayIndexOutOfBoundsException`?</h2>
+    <p>An <code>ArrayIndexOutOfBoundsException</code> occurs when you try to access an index outside the bounds of an array. To avoid this exception, ensure that the index is within valid bounds before accessing array elements.</p>
+
+    <h2>13. What is a `ClassNotFoundException`?</h2>
+    <p>A <code>ClassNotFoundException</code> is thrown when an application attempts to load a class by its name, but the class cannot be found on the classpath.</p>
+
+    <h2>14. Can you have a `finally` block without a `catch` block?</h2>
+    <p>Yes, you can have a `finally` block without a `catch` block. This is useful when you want to ensure some cleanup code runs, even if no exception occurs.</p>
+    <pre>
+    try {
+        // Code that might throw an exception
+    } finally {
+        System.out.println("This block always runs.");
+    }
+    </pre>
+
+    <h2>15. What is the difference between `RuntimeException` and `Exception`?</h2>
+    <p><code>RuntimeException</code> is a subclass of <code>Exception</code> and represents exceptions that are thrown during the execution of a program due to programming errors. <code>Exception</code> is a more general class for checked exceptions.</p>
+
+    <h2>16. How would you handle multiple exceptions using multiple catch blocks?</h2>
+    <p>In Java, you can use multiple <code>catch</code> blocks to handle different types of exceptions separately. Each <code>catch</code> block should handle one specific type of exception.</p>
+    <pre>
+    try {
+        // Code that may throw different exceptions
+    } catch (IOException e) {
+        System.out.println("IOException caught");
+    } catch (SQLException e) {
+        System.out.println("SQLException caught");
+    }
+    </pre>
+
+    <h2>17. What is the purpose of the `try-with-resources` statement?</h2>
+    <p>The <code>try-with-resources</code> statement ensures that each resource is closed at the end of the statement. It is typically used with classes that implement the `AutoCloseable` interface, such as `FileInputStream` or `BufferedReader`.</p>
+
+    <h2>18. What is the `StackOverflowError`?</h2>
+    <p>A <code>StackOverflowError</code> occurs when the call stack for a program exceeds its limit, usually due to excessive recursion. This error cannot be caught and is a subclass of `Error`.</p>
+
+    <h2>19. Can exceptions be thrown from a constructor?</h2>
+    <p>Yes, exceptions can be thrown from a constructor if an error occurs while creating an object. If an exception is thrown in the constructor, the object is not created.</p>
+
+    <h2>20. How can you create a custom exception that extends a checked exception?</h2>
+    <p>To create a custom checked exception, you need to extend the `Exception` class or one of its subclasses. It must be declared using the <code>throws</code> keyword in methods that throw it.</p>
+    <pre>
+    public class MyCheckedException extends Exception {
+        public MyCheckedException(String message) {
+            super(message);
+        }
+    }
+    </pre>
+
+    <h2>21. How can you re-throw an exception in Java?</h2>
+    <p>You can re-throw an exception by using the <code>throw</code> keyword within a <code>catch</code> block. This allows the exception to propagate further up the call stack.</p>
+    <pre>
+    try {
+        // Code that may throw an exception
+    } catch (IOException e) {
+        System.out.println("Exception caught, rethrowing...");
+        throw e;
+    }
+    </pre>
+
+    <h2>22. What is an `IndexOutOfBoundsException`?</h2>
+    <p>An <code>IndexOutOfBoundsException</code> is thrown when an index used to access an element in a list or array is outside the valid range (e.g., negative index or index larger than the array length).</p>
+
+    <h2>23. What is the difference between `Error` and `Exception`?</h2>
+    <p>Both `Error` and `Exception` are throwable classes in Java, but errors are typically not recoverable (e.g., `OutOfMemoryError`), whereas exceptions represent conditions that can be handled by the program.</p>
+
+    <h2>24. How would you handle `IOException` when working with files?</h2>
+    <p>To handle an <code>IOException</code>, you can use a `try-catch` block around file-related operations and properly close file streams in the `finally` block or by using `try-with-resources`.</p>
+
+    <h2>25. What is `IllegalArgumentException`?</h2>
+    <p>An <code>IllegalArgumentException</code> is thrown to indicate that a method has been passed an illegal or inappropriate argument.</p>
+
+    <h2>26. Can you catch `Throwable` in Java?</h2>
+    <p>Yes, but it is not recommended to catch `Throwable` in general, as it includes errors (e.g., `OutOfMemoryError`) that are beyond the control of the program and typically should not be caught.</p>
+
+    <h2>27. How can you handle multiple exceptions in a single catch block?</h2>
+    <p>Since Java 7, you can use the multi-catch syntax to handle multiple exceptions in a single <code>catch</code> block, which makes the code cleaner and more concise.</p>
+    <pre>
+    try {
+        // Code that may throw multiple exceptions
+    } catch (IOException | SQLException e) {
+        System.out.println("Exception occurred: " + e.getMessage());
+    }
+    </pre>
+
+    <h2>28. What is a `FileNotFoundException`?</h2>
+    <p>A <code>FileNotFoundException</code> occurs when an application tries to open a file that does not exist or is inaccessible.</p>
+
+    <h2>29. How do you handle exceptions in multi-threaded applications?</h2>
+    <p>In multi-threaded applications, exceptions can be handled by wrapping thread execution in a try-catch block within the thread's <code>run</code> method, or by using a custom exception handler for each thread.</p>
+
+    <h2>30. Can exceptions be caught inside a static block?</h2>
+    <p>Yes, exceptions can be caught inside a static block, and the same rules apply as with instance initialization blocks. You can use try-catch blocks to handle any exceptions that occur within the static block.</p>
+
+
+</body>
+</html>

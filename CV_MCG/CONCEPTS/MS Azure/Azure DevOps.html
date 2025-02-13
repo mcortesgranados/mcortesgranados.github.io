@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure DevOps</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .heading-primary {
+            color: #3366cc; /* Dark blue */
+        }
+
+        .heading-secondary {
+            color: #009933; /* Green */
+        }
+
+        .strong-text {
+            color: #cc3366; /* Dark pink */
+        }
+
+        .code-block {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            overflow: auto;
+        }
+
+        .code-text {
+            font-family: 'Courier New', monospace;
+        }
+    .style1 {color: #3366cc; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+
+    <h1 class="heading-primary">Azure DevOps</h1>
+    <p class="style1"><a href="../Azure DevOps_references_jpg.html" target="_blank">ACG LINK</a></p>
+<h2 class="heading-secondary">DevOps Overview:</h2>
+
+    <p><strong class="strong-text">Azure DevOps</strong> is a set of development tools and services that facilitate collaboration
+        between development and operations teams. It includes features for source control, build automation, release
+        management, and more.</p>
+
+    <h2 class="heading-secondary">Key Features:</h2>
+
+    <ul>
+        <li><strong class="strong-text">Azure Repos:</strong> Git repositories with unlimited free private repositories.</li>
+        <li><strong class="strong-text">Azure Pipelines:</strong> Build, test, and deploy with CI/CD pipelines for any
+            language, platform, or cloud.</li>
+        <li><strong class="strong-text">Azure Boards:</strong> Agile tools for planning, tracking, and discussing work across
+            your teams.</li>
+        <li><strong class="strong-text">Azure Artifacts:</strong> Package management to host and share Maven, npm, NuGet, and
+            Python packages.</li>
+        <li><strong class="strong-text">Azure Test Plans:</strong> Comprehensive testing tools to plan, track, and manage
+            testing efforts.</li>
+    </ul>
+
+    <h2 class="heading-secondary">DevOps Configuration Examples:</h2>
+
+    <p><strong class="strong-text">1. Setting up a Git Repository in Azure Repos:</strong></p>
+
+    <ol>
+        <li>Create a new project in Azure DevOps.</li>
+        <li>In the project, go to "Repos" and create a new Git repository.</li>
+        <li>Clone the repository locally, add files, commit changes, and push to Azure Repos.</li>
+    </ol>
+
+    <p><strong class="strong-text">2. Configuring CI/CD Pipeline in Azure Pipelines:</strong></p>
+
+    <ol>
+        <li>Define a pipeline YAML file in your repository with build and deployment steps.</li>
+        <li>Set up a new pipeline in Azure Pipelines using the YAML file.</li>
+        <li>Trigger builds on code commits and deploy to desired environments.</li>
+    </ol>
+
+    <p><strong class="strong-text">3. Managing Work Items in Azure Boards:</strong></p>
+
+    <ol>
+        <li>Create work items for tasks, user stories, or bugs in Azure Boards.</li>
+        <li>Assign work items to team members, set priorities, and track progress.</li>
+        <li>Use boards, backlogs, and sprints to manage and plan work.</li>
+    </ol>
+
+    <p><strong class="strong-text">4. Publishing and Managing Packages in Azure Artifacts:</strong></p>
+
+    <pre class="code-block">
+        <code class="code-text">
+dotnet pack -c Release
+dotnet nuget push ./bin/Release/*.nupkg --api-key AzureDevOps --source https://pkgs.dev.azure.com/{organization}/{project}/_packaging/{feed}/nuget/v3/index.json
+        </code>
+    </pre>
+
+    <p><strong class="strong-text">5. Running Automated Tests in Azure Test Plans:</strong></p>
+
+    <pre class="code-block">
+        <code class="code-text">
+mstest /testcontainer:Test.dll
+        </code>
+    </pre>
+
+</body>
+
+</html>

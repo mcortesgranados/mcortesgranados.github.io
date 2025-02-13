@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collections in Java - Questions & Answers</title>
+</head>
+<body>
+    <h1>Collections in Java - Questions & Answers</h1>
+
+    <h2>1. What is the difference between a List, Set, and Map in Java?</h2>
+    <p><strong>List:</strong> An ordered collection that allows duplicate elements. You can access elements by their index. Examples: <code>ArrayList</code>, <code>LinkedList</code>.</p>
+    <p><strong>Set:</strong> An unordered collection that does not allow duplicate elements. Examples: <code>HashSet</code>, <code>LinkedHashSet</code>.</p>
+    <p><strong>Map:</strong> A collection that stores key-value pairs. Keys are unique, but values can be duplicated. Examples: <code>HashMap</code>, <code>TreeMap</code>.</p>
+
+    <h2>2. What happens if I try to add an element to an ArrayList while I'm iterating?</h2>
+    <p>If you try to modify an <code>ArrayList</code> (such as adding or removing elements) while iterating over it using a regular <code>for</code> loop, you will encounter a <code>ConcurrentModificationException</code>. To avoid this, you can use an <code>Iterator</code> and its <code>add()</code> method, or use a <code>CopyOnWriteArrayList</code> for thread-safe operations.</p>
+
+    <h2>3. What is a HashMap, and how does it work internally?</h2>
+    <p>A <code>HashMap</code> is a collection class that stores key-value pairs. Internally, it uses an array of buckets, where each bucket corresponds to a hash code calculated from the key. The key is then mapped to an index in the array using its hash code, and the value is stored at that index. If multiple keys hash to the same bucket (a hash collision), the values are stored in a linked list or tree at that bucket.</p>
+
+    <h2>4. What is a ConcurrentHashMap, and when would you use it instead of a HashMap?</h2>
+    <p>A <code>ConcurrentHashMap</code> is a thread-safe version of <code>HashMap</code>. It allows concurrent read and write operations by dividing the map into segments, each of which can be locked independently. This makes it more efficient in multi-threaded environments. You would use a <code>ConcurrentHashMap</code> when you need to perform thread-safe operations on a map without the overhead of locking the entire map, as you would with <code>synchronizedMap()</code>.</p>
+
+    <h2>5. Explain the difference between ArrayList and LinkedList. When would you prefer one over the other?</h2>
+    <p><strong>ArrayList:</strong> A dynamically resizing array-based list. It provides constant-time random access to elements but has slower insertions and deletions compared to <code>LinkedList</code>, especially when modifying elements in the middle of the list.</p>
+    <p><strong>LinkedList:</strong> A doubly linked list where each element (node) points to the next and previous elements. It provides fast insertions and deletions but slower access time compared to <code>ArrayList</code> due to the need to traverse the list.</p>
+    <p>You should use an <code>ArrayList</code> when frequent access to elements by index is needed. Use a <code>LinkedList</code> when frequent insertions and deletions are expected.</p>
+
+    <h2>6. How do hashCode() and equals() work in collections? Why are they important?</h2>
+    <p><code>hashCode()</code> is a method that returns an integer hash code for an object. <code>equals()</code> compares two objects to check if they are equal. These methods are important in collections like <code>HashMap</code>, <code>HashSet</code>, and <code>Hashtable</code>, which rely on the hash code to store and retrieve elements efficiently.</p>
+    <p>When you override <code>equals()</code>, it is important to also override <code>hashCode()</code> to maintain the contract between the two methods. If two objects are considered equal by <code>equals()</code>, they must also return the same hash code from <code>hashCode()</code>.</p>
+
+    <h1>More Questions & Answers - Collections in Java</h1>
+
+    <h2>7. What is the difference between ArrayList and Vector in Java?</h2>
+    <p><strong>ArrayList:</strong> A dynamically resizing array that is not synchronized, making it faster for single-threaded applications.</p>
+    <p><strong>Vector:</strong> Similar to <code>ArrayList</code> but is synchronized, making it thread-safe. However, this synchronization comes with performance overhead.</p>
+
+    <h2>8. What is the difference between HashSet and TreeSet?</h2>
+    <p><strong>HashSet:</strong> An unordered collection that does not allow duplicates. It is backed by a <code>HashMap</code>.</p>
+    <p><strong>TreeSet:</strong> A sorted set that stores elements in their natural order or according to a comparator. It is backed by a <code>TreeMap</code>.</p>
+
+    <h2>9. What are the benefits of using a LinkedList over an ArrayList?</h2>
+    <p><code>LinkedList</code> offers faster insertion and removal of elements in the middle of the list compared to <code>ArrayList</code>, as it does not require shifting elements. It is more suitable when frequent additions/removals are required.</p>
+
+    <h2>10. Can you iterate over a Set?</h2>
+    <p>Yes, you can iterate over a <code>Set</code> using an <code>Iterator</code>, or by using a for-each loop. The iteration order is not guaranteed, except in the case of a <code>LinkedHashSet</code> (which maintains insertion order) or a <code>TreeSet</code> (which sorts elements).</p>
+
+    <h2>11. What is the purpose of the <code>contains()</code> method in a Set?</h2>
+    <p>The <code>contains()</code> method checks whether a specified element exists in the <code>Set</code> or not. It returns <code>true</code> if the element is found and <code>false</code> otherwise.</p>
+
+    <h2>12. How does a TreeMap maintain its order?</h2>
+    <p>A <code>TreeMap</code> maintains its order by sorting the keys using their natural order or a comparator provided at the time of creation. This sorting ensures that the keys are ordered when iterated over.</p>
+
+    <h2>13. How do you remove all elements from a List in Java?</h2>
+    <p>You can remove all elements from a <code>List</code> using the <code>clear()</code> method. This method removes every element from the list, making it empty.</p>
+
+    <h2>14. Can a List contain duplicate elements?</h2>
+    <p>Yes, a <code>List</code> can contain duplicate elements. Unlike a <code>Set</code>, which does not allow duplicates, a <code>List</code> allows storing multiple identical elements.</p>
+
+    <h2>15. What is a Comparator in Java?</h2>
+    <p>A <code>Comparator</code> is an interface used to define a custom order for sorting objects in collections. It provides the <code>compare()</code> method to compare two objects for sorting.</p>
+
+    <h2>16. What is the difference between an iterator and a list iterator?</h2>
+    <p><strong>Iterator:</strong> Used to iterate over any collection, but you can only iterate in one direction (forward).</p>
+    <p><strong>ListIterator:</strong> A type of iterator specific to <code>List</code> that allows both forward and backward iteration and also provides additional methods like <code>add()</code> and <code>set()</code>.</p>
+
+    <h2>17. What is the default capacity of an ArrayList?</h2>
+    <p>The default capacity of an <code>ArrayList</code> is 10. However, it increases dynamically when the list exceeds this capacity, typically by doubling the array size.</p>
+
+    <h2>18. How do you make a collection thread-safe in Java?</h2>
+    <p>To make a collection thread-safe, you can use synchronized wrappers, like <code>Collections.synchronizedList()</code>, or use thread-safe classes like <code>ConcurrentHashMap</code>, <code>CopyOnWriteArrayList</code>, and <code>BlockingQueue</code>.</p>
+
+    <h2>19. Can you store null values in a HashMap?</h2>
+    <p>Yes, you can store <code>null</code> values in a <code>HashMap</code>. However, only one <code>null</code> key is allowed since keys must be unique, but multiple <code>null</code> values can be stored.</p>
+
+    <h2>20. What is the difference between synchronized and concurrent collections?</h2>
+    <p><strong>Synchronized collections:</strong> Use explicit synchronization (via <code>Collections.synchronizedList()</code>) to make them thread-safe, which can result in contention and performance overhead.</p>
+    <p><strong>Concurrent collections:</strong> Are designed for high-performance concurrent access with better scalability, using techniques like lock striping, and include classes like <code>ConcurrentHashMap</code>.</p>
+
+    <h2>21. How do you ensure that a HashMap does not contain duplicate keys?</h2>
+    <p>A <code>HashMap</code> does not allow duplicate keys. If you try to add a new key-value pair where the key already exists, the new value will overwrite the old one. To avoid this, you can check for key existence using the <code>containsKey()</code> method before adding.</p>
+
+    <h2>22. How do you convert a Set to a List in Java?</h2>
+    <p>You can convert a <code>Set</code> to a <code>List</code> by passing the <code>Set</code> to the constructor of a <code>List</code> (e.g., <code>ArrayList</code>). Example: <code>List&lt;T&gt; list = new ArrayList&lt;&gt;(set);</code>.</p>
+
+    <h2>23. What is the difference between HashSet and LinkedHashSet?</h2>
+    <p><strong>HashSet:</strong> Does not guarantee any order of elements.</p>
+    <p><strong>LinkedHashSet:</strong> Maintains insertion order, meaning the elements are stored in the order in which they were added.</p>
+
+    <h2>24. How does the <code>containsKey()</code> method work in a HashMap?</h2>
+    <p>The <code>containsKey()</code> method checks if the specified key exists in the <code>HashMap</code>. It returns <code>true</code> if the key is present, and <code>false</code> otherwise.</p>
+
+    <h2>25. How does the <code>peek()</code> method work in a Queue?</h2>
+    <p>The <code>peek()</code> method retrieves, but does not remove, the head (first element) of the queue. If the queue is empty, it returns <code>null</code> without throwing an exception.</p>
+
+    <h2>26. What is the <code>poll()</code> method in a Queue?</h2>
+    <p>The <code>poll()</code> method retrieves and removes the head of the queue. If the queue is empty, it returns <code>null</code> rather than throwing an exception.</p>
+
+    <h2>27. What is the difference between <code>add()</code> and <code>offer()</code> in a Queue?</h2>
+    <p><code>add()</code> throws an exception if the element cannot be added, whereas <code>offer()</code> returns <code>false</code> instead of throwing an exception. <code>offer()</code> is generally preferred for a non-blocking approach.</p>
+
+    <h2>28. How do you sort a List in Java?</h2>
+    <p>You can sort a <code>List</code> using the <code>Collections.sort()</code> method, which uses the natural ordering of elements, or by providing a custom <code>Comparator</code> for custom sorting.</p>
+
+    <h2>29. How does the <code>replace()</code> method work in a Map?</h2>
+    <p>The <code>replace()</code> method replaces the value for a specified key in the <code>Map</code> if it is already present. It returns the previous value associated with the key, or <code>null</code> if there was no mapping for the key.</p>
+
+    <h2>30. What is the <code>forEach()</code> method in Java collections?</h2>
+    <p>The <code>forEach()</code> method is a default method in the <code>Iterable</code> interface that allows you to iterate over the collection and perform an action on each element. It accepts a <code>Consumer</code> as an argument.</p>
+
+
+</body>
+</html>

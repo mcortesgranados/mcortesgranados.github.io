@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLID LSP Example</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #555;
+        }
+        code {
+            display: block;
+            white-space: pre-wrap;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Problem Statement:</h1>
+
+<p>You are tasked with designing a system that adheres to the Liskov Substitution Principle (LSP) from the SOLID principles. The Liskov Substitution Principle states that objects of a superclass should be replaceable with objects of a subclass without affecting the correctness of the program. The goal is to create a system where derived classes can be used interchangeably with their base class without causing issues.</p>
+
+<h1>Solution:</h1>
+
+<ol>
+    <li>
+        <h2>Define a Base Class:</h2>
+
+        <code>
+            <!-- Bird.java (base class) -->
+            <pre><code>public class Bird {
+    public void fly() {
+        System.out.println("The bird is flying.");
+    }
+}</code></pre>
+        </code>
+    </li>
+
+    <li>
+        <h2>Create Derived Classes:</h2>
+
+        <code>
+            <!-- Sparrow.java (derived class 1) -->
+            <pre><code>public class Sparrow extends Bird {
+    // Additional methods or overrides can be added
+}</code></pre>
+
+            <!-- Penguin.java (derived class 2) -->
+            <pre><code>public class Penguin extends Bird {
+    @Override
+    public void fly() {
+        System.out.println("Penguins cannot fly.");
+    }
+}</code></pre>
+        </code>
+    </li>
+
+    <li>
+        <h2>Example Usage:</h2>
+
+        <code>
+            <!-- Main.java (example usage) -->
+            <pre><code>public class Main {
+    public static void main(String[] args) {
+        Bird sparrow = new Sparrow();
+        sparrow.fly();  // Outputs: "The bird is flying."
+
+        Bird penguin = new Penguin();
+        penguin.fly();  // Outputs: "Penguins cannot fly."
+    }
+}</code></pre>
+        </code>
+    </li>
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Kubernetes Service (AKS)</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .heading-primary {
+            color: #3366cc; /* Dark blue */
+        }
+
+        .heading-secondary {
+            color: #009933; /* Green */
+        }
+
+        .strong-text {
+            color: #cc3366; /* Dark pink */
+        }
+
+        .code-block {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            overflow: auto;
+        }
+
+        .code-text {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 class="heading-primary">Azure Kubernetes Service (AKS)</h1>
+
+    <h2 class="heading-secondary">AKS Overview:</h2>
+
+    <p><strong class="strong-text">Azure Kubernetes Service (AKS)</strong> simplifies deploying, managing, and scaling containerized
+        applications using Kubernetes. It provides a highly available, secure, and fully managed Kubernetes service.</p>
+
+    <h2 class="heading-secondary">Key Features:</h2>
+
+    <ul>
+        <li><strong class="strong-text">Scalability:</strong> Easily scale the number of nodes to meet application demands.</li>
+        <li><strong class="strong-text">Integrated Developer Tools:</strong> Seamless integration with Azure DevOps and Visual
+            Studio Code for containerized development.</li>
+        <li><strong class="strong-text">Managed Kubernetes:</strong> Azure handles operational tasks, including upgrades and
+            monitoring.</li>
+        <li><strong class="strong-text">Security:</strong> Integrated Azure Active Directory (AAD) for identity and access
+            management.</li>
+    </ul>
+
+    <h2 class="heading-secondary">AKS Configuration Examples:</h2>
+
+    <p><strong class="strong-text">1. Creating an AKS Cluster using Azure Portal:</strong></p>
+
+    <ol>
+        <li>Go to the Azure Portal.</li>
+        <li>Click on "Create a resource" &gt; "Containers" &gt; "Kubernetes Service."</li>
+        <li>Configure settings like resource group, cluster name, region, and node pool details.</li>
+        <li>Set up networking, monitoring, and authentication options.</li>
+        <li>Review and create the AKS cluster.</li>
+    </ol>
+
+    <p><strong class="strong-text">2. Deploying Applications to AKS using kubectl:</strong></p>
+
+    <ol>
+        <li>Install kubectl and configure it to connect to your AKS cluster.</li>
+        <li>Create a Kubernetes deployment YAML file for your application.</li>
+        <li>Run the following command to deploy the application:
+            <pre class="code-block">
+                <code class="code-text">
+kubectl apply -f your-app-deployment.yaml
+                </code>
+            </pre>
+        </li>
+    </ol>
+
+    <p><strong class="strong-text">3. Scaling AKS Node Pool using Azure CLI:</strong></p>
+
+    <pre class="code-block">
+        <code class="code-text">
+az aks scale --resource-group MyResourceGroup --name MyAKSCluster --node-count 3
+        </code>
+    </pre>
+
+    <p><strong class="strong-text">4. Configuring Ingress Controller for AKS:</strong></p>
+
+    <pre class="code-block">
+        <code class="code-text">
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+        </code>
+    </pre>
+
+</body>
+
+</html>

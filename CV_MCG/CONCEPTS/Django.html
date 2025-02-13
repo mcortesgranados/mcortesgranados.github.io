@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Django Web Framework</title>
+  <link href="estilos.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="texto8_1">
+
+<h1>Django Web Framework</h1>
+
+  <p>Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. It follows the Model-View-Controller (MVC) architectural pattern, with its own interpretation known as Model-View-Template (MVT). Key features of Django include:</p>
+
+  <h2>1. Model:</h2>
+  <p>Django provides an Object-Relational Mapping (ORM) system that allows developers to define data models as Python classes. These models represent database tables, and Django handles the creation, querying, and manipulation of database records.</p>
+
+  <h2>2. View:</h2>
+  <p>Views in Django handle the logic of processing user requests and returning appropriate responses. Views can be simple functions or classes, and they interact with models to retrieve or update data before rendering a response.</p>
+
+  <h2>3. Template:</h2>
+  <p>Django uses templates to define the structure of HTML pages. Templates allow developers to separate the presentation layer from the business logic. They support template inheritance, tags, and filters for dynamic content rendering.</p>
+
+  <h2>4. Admin Interface:</h2>
+  <p>Django provides a built-in admin interface that allows developers and administrators to manage the application's data easily. It is automatically generated based on the defined models and can be customized to suit specific needs.</p>
+
+  <h2>5. URL Routing:</h2>
+  <p>Django uses a URL routing system to map URLs to views. This is achieved through a central URL configuration file that directs incoming requests to the appropriate view based on defined patterns.</p>
+
+  <h2>6. Middleware:</h2>
+  <p>Django middleware components are hooks that process requests and responses globally. They can perform actions such as authentication, logging, and modifying requests or responses before reaching the view or client.</p>
+
+  <h2>7. Form Handling:</h2>
+  <p>Django simplifies form handling and validation by providing a Form class that can be defined in Python. Forms can be easily rendered in templates and used to process user input, including handling errors and displaying validation messages.</p>
+
+  <h2>8. Authentication and Authorization:</h2>
+  <p>Django includes built-in features for user authentication and authorization. It provides a user model, authentication views, and decorators for controlling access to views based on user roles and permissions.</p>
+
+  <h2>9. Security Features:</h2>
+  <p>Django includes security features such as protection against common web vulnerabilities like Cross-Site Scripting (XSS), Cross-Site Request Forgery (CSRF), and SQL injection. It also supports secure password hashing.</p>
+
+  <h2>10. Django REST Framework:</h2>
+  <p>For building RESTful APIs, Django offers the Django REST Framework, an extension that adds additional features for API development, including serializers, authentication classes, and viewsets.</p>
+
+  <p>Django is widely used for building scalable, maintainable, and secure web applications, making it a popular choice among developers for both small projects and large-scale applications.</p>
+
+
+ <h1>Django Web Framework</h1>
+
+  <p>Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. It follows the Model-View-Controller (MVC) architectural pattern, with its own interpretation known as Model-View-Template (MVT). Key features of Django include:</p>
+
+  <h2>1. Model:</h2>
+  <p>Django provides an Object-Relational Mapping (ORM) system that allows developers to define data models as Python classes. These models represent database tables, and Django handles the creation, querying, and manipulation of database records.</p>
+  
+  <p><strong>Example:</strong></p>
+  <pre><code class="python">from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=50)
+    published_date = models.DateField()</code></pre>
+
+  <h2>2. View:</h2>
+  <p>Views in Django handle the logic of processing user requests and returning appropriate responses. Views can be simple functions or classes, and they interact with models to retrieve or update data before rendering a response.</p>
+
+  <p><strong>Example:</strong></p>
+  <pre><code class="python">from django.shortcuts import render
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Hello, Django!")</code></pre>
+
+  <h2>3. Template:</h2>
+  <p>Django uses templates to define the structure of HTML pages. Templates allow developers to separate the presentation layer from the business logic. They support template inheritance, tags, and filters for dynamic content rendering.</p>
+
+  <p><strong>Example:</strong></p>
+  <pre><code class="html">{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ page_title }}</h1>
+  <p>This is a Django template.</p>
+{% endblock %}</code></pre>
+
+  <h2>4. Admin Interface:</h2>
+  <p>Django provides a built-in admin interface that allows developers and administrators to manage the application's data easily. It is automatically generated based on the defined models and can be customized to suit specific needs.</p>
+
+  <p><strong>Example:</strong></p>
+  <pre><code class="python">from django.contrib import admin
+from .models import Book
+
+admin.site.register(Book)</code></pre>
+
+  <h2>5. URL Routing:</h2>
+  <p>Django uses a URL routing system to map URLs to views. This is achieved through a central URL configuration file that directs incoming requests to the appropriate view based on defined patterns.</p>
+
+  <p><strong>Example:</strong></p>
+  <pre><code class="python">from django.urls import path
+from .views import home
+
+urlpatterns = [
+    path('', home, name='home'),
+]</code></pre>
+
+  <h2>6. Middleware:</h2>
+  <p>Django middleware components are hooks that process requests and responses globally. They can perform actions such as authentication, logging, and modifying requests or responses before reaching the view or client.</p>
+
+  <p><strong>Example:</strong></p>
+  <pre><code class="python">class MyMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        # Do something before the view is called.
+        response = self.get_response(request)
+        # Do something after the view is called.
+        return response</code></pre>
+
+  <p>These are just a few examples showcasing Django's features. Django's documentation provides comprehensive guidance on using these features and building robust web applications.</p>
+
+</body>
+
+</body>
+
+</html>

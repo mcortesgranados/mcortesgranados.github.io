@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Amazon Polly</title>
+<link href="estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p><a href="Amazon Polly.html" target="_blank"><span class="texto13">Amazon Polly</span></a> is a cloud service provided by Amazon Web Services (AWS) that enables developers to integrate text-to-speech (TTS) capabilities into their applications. With Polly, you can convert written text into natural-sounding speech in multiple languages and with different voices. It's a powerful tool for creating audio content for applications ranging from voice-enabled interfaces to audiobooks.</p>
+<p>Here are key features and concepts related to Amazon Polly:</p>
+<ol>
+  <li>
+    <p><strong>Text-to-Speech (TTS):</strong></p>
+    <ul>
+      <li>Polly enables developers to convert text into lifelike speech using advanced deep learning technologies. The resulting speech is natural and expressive.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Multiple Languages and Voices:</strong></p>
+    <ul>
+      <li>Polly supports a variety of languages and offers a selection of different voices for each language. This allows developers to choose the voice that best suits their application's needs.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>SSML (Speech Synthesis Markup Language):</strong></p>
+    <ul>
+      <li>Developers can use SSML to control aspects of speech synthesis, such as pitch, rate, volume, and more. This provides fine-grained control over the generated speech.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Speech Marks:</strong></p>
+    <ul>
+      <li>Polly provides speech marks, which are additional metadata that can be included in the TTS response. Speech marks provide timing information and help synchronize the generated speech with other media elements in an application.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Neural Text-to-Speech (NTTS):</strong></p>
+    <ul>
+      <li>Polly offers a Neural Text-to-Speech option, known as NTTS, which leverages deep learning to produce even more natural and expressive speech compared to traditional methods.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Lexicons:</strong></p>
+    <ul>
+      <li>Polly supports lexicons, which allow developers to customize the pronunciation of specific words. This is useful for ensuring correct pronunciation of domain-specific terms.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Pricing Model:</strong></p>
+    <ul>
+      <li>Amazon Polly follows a pay-as-you-go pricing model based on the number of characters processed. There are separate rates for standard and NTTS voices.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Integration with AWS Services:</strong></p>
+    <ul>
+      <li>Polly can be integrated with other AWS services, making it easy to incorporate text-to-speech capabilities into various applications and workflows. For example, you can use Polly with AWS Lambda, Amazon S3, or Amazon CloudWatch.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>SDKs and APIs:</strong></p>
+    <ul>
+      <li>Polly provides SDKs for various programming languages (e.g., Java, Python, JavaScript) and APIs that allow developers to programmatically interact with the service.</li>
+    </ul>
+  </li>
+</ol>
+<p><strong>Example of Using Amazon Polly:</strong></p>
+<p>Here's a simple example of using Amazon Polly with the AWS SDK for Python (Boto3):</p>
+<p>&nbsp;</p>
+<p>
+<pre>
+<code>
+import boto3
+
+# Create a Polly client
+polly_client = boto3.client('polly')
+
+# Specify the text to be converted to speech
+text_to_speak = "Hello, welcome to Amazon Polly. This is a sample text-to-speech conversion."
+
+# Request Polly to synthesize speech
+response = polly_client.synthesize_speech(
+    Text=text_to_speak,
+    OutputFormat='mp3',
+    VoiceId='Joanna'  # Choose a voice from available options
+)
+
+# Save the synthesized speech to a file
+with open('output.mp3', 'wb') as file:
+    file.write(response['AudioStream'].read())
+
+</pre>
+</code>
+
+</p>
+<p>In this example, the synthesize_speech method is used to convert the specified text to speech in the MP3 format. The resulting audio stream is then saved to a file. Developers can customize the voice, output format, and other parameters based on their requirements.</p>
+<p>Remember to check the official Amazon Polly documentation for the most up-to-date information on using the service: <a target="_new">Amazon Polly Documentation</a>.</p>
+<p>&nbsp; </p>
+</body>
+</html>

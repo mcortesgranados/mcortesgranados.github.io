@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASP.NET Core Overview and Interview Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        ol {
+            list-style-type: decimal;
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ASP.NET Core Overview</h1>
+
+    <p>ASP.NET Core is a cross-platform, high-performance framework for building modern, cloud-based, and internet-connected applications. It is an open-source framework and a redesign of the traditional ASP.NET framework. Let's explore the key aspects of the architecture of ASP.NET Core:</p>
+
+    <h2>Architecture Overview</h2>
+
+    <p><strong>1. Middleware:</strong> Middleware in ASP.NET Core is a pipeline that processes HTTP requests and responses. Each middleware component in the pipeline performs a specific function, such as routing, authentication, logging, or serving static files. Middleware can be configured in the Startup class.</p>
+
+    <p><strong>2. Dependency Injection:</strong> ASP.NET Core has built-in support for dependency injection. Services and dependencies can be registered in the application's dependency injection container. This promotes modularity, testability, and the separation of concerns.</p>
+
+    <p><strong>3. Kestrel Web Server:</strong> Kestrel is a cross-platform, lightweight, and high-performance web server built for ASP.NET Core. It is the default web server but can be used in conjunction with other servers like IIS or Nginx for hosting ASP.NET Core applications.</p>
+
+    <p><strong>4. Razor Pages and MVC:</strong> ASP.NET Core supports both Razor Pages and the Model-View-Controller (MVC) pattern for building web applications. Razor Pages is a page-based framework, while MVC provides a more structured approach with controllers and views.</p>
+
+    <p><strong>5. Configuration:</strong> Configuration in ASP.NET Core allows developers to externalize settings and parameters from the application code. Configuration sources include appsettings.json files, environment variables, and command-line arguments.</p>
+
+    <p><strong>6. Cross-Origin Resource Sharing (CORS):</strong> CORS in ASP.NET Core allows controlled access to resources from different origins. It can be configured in the Startup class to define which origins, methods, and headers are allowed for cross-origin requests.</p>
+
+    <p><strong>7. Tag Helpers:</strong> Tag Helpers in ASP.NET Core are a feature of Razor views that enable developers to create server-side code using HTML-like syntax. Tag Helpers simplify the process of rendering HTML elements and can be used for form validation, authentication, and more.</p>
+
+    <h2>Technical Interview Questions</h2>
+
+    <ol>
+        <li>
+            <strong>What is ASP.NET Core?</strong>
+            <p>ASP.NET Core is a cross-platform, high-performance framework for building modern, cloud-based, and internet-connected applications. It is an open-source redesign of the traditional ASP.NET framework.</p>
+        </li>
+        <li>
+            <strong>Explain the concept of Middleware in ASP.NET Core.</strong>
+            <p>Middleware in ASP.NET Core is a pipeline that processes HTTP requests and responses. Each middleware component performs a specific function, such as routing, authentication, logging, or serving static files.</p>
+        </li>
+        <li>
+            <strong>How does Dependency Injection work in ASP.NET Core?</strong>
+            <p>ASP.NET Core has built-in support for dependency injection. Services and dependencies can be registered in the application's dependency injection container, promoting modularity, testability, and separation of concerns.</p>
+        </li>
+        <li>
+            <strong>What is Kestrel in the context of ASP.NET Core?</strong>
+            <p>Kestrel is a cross-platform, lightweight, and high-performance web server built for ASP.NET Core. It is the default web server but can be used in conjunction with other servers like IIS or Nginx for hosting ASP.NET Core applications.</p>
+        </li>
+        <li>
+            <strong>Explain the difference between Razor Pages and MVC in ASP.NET Core.</strong>
+            <p>Razor Pages is a page-based framework in ASP.NET Core that simplifies building web pages with less ceremony. MVC (Model-View-Controller) provides a more structured approach with controllers and views, offering greater control over the application's architecture.</p>
+        </li>
+        <li>
+            <strong>How is Configuration managed in ASP.NET Core?</strong>
+            <p>Configuration in ASP.NET Core allows developers to externalize settings and parameters from the application code. Configuration sources include appsettings.json files, environment variables, and command-line arguments.</p>
+        </li>
+        <li>
+            <strong>What is Cross-Origin Resource Sharing (CORS) in ASP.NET Core?</strong>
+            <p>CORS in ASP.NET Core allows controlled access to resources from different origins. It can be configured in the Startup class to define which origins, methods, and headers are allowed for cross-origin requests.</p>
+        </li>
+        <li>
+            <strong>Explain the purpose of Tag Helpers in ASP.NET Core.</strong>
+            <p>Tag Helpers in ASP.NET Core are a feature of Razor views that enable developers to create server-side code using HTML-like syntax. They simplify the process of rendering HTML elements and can be used for form validation, authentication, and more.</p>
+        </li>
+        <li>
+            <strong>How does Routing work in ASP.NET Core?</strong>
+            <p>Routing in ASP.NET Core is the mechanism that maps incoming HTTP requests to the appropriate action in a controller. The routing configuration defines how URLs should be structured and how they map to specific actions.</p>
+        </li>
+        <li>
+            <strong>Explain the role of the ConfigureServices and Configure methods in the Startup class of ASP.NET Core.</strong>
+            <p>The ConfigureServices method in the Startup class is used to configure services and dependencies for the application. The Configure method sets up the request processing pipeline by adding middleware components. Both methods are essential for configuring an ASP.NET Core application.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of the appsettings.json file in ASP.NET Core?</strong>
+            <p>The appsettings.json file in ASP.NET Core is used to store configuration settings for the application. It allows developers to externalize settings and easily modify them without changing the application code.</p>
+        </li>
+        <li>
+            <strong>How can you secure an ASP.NET Core application?</strong>
+            <p>Security in ASP.NET Core can be implemented through various mechanisms, including authentication and authorization. ASP.NET Core supports authentication providers such as Identity, OAuth, and OpenID Connect. Authorization can be achieved using roles, policies, or claims-based authorization.</p>
+        </li>
+        <li>
+            <strong>Explain the role of the ILogger interface in ASP.NET Core.</strong>
+            <p>The ILogger interface in ASP.NET Core is used for logging. It provides a way to log messages at different log levels (Information, Warning, Error, etc.). Developers can use different logging providers, such as Console, Debug, or third-party logging frameworks.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of Dependency Injection Containers in ASP.NET Core?</strong>
+            <p>Dependency Injection Containers in ASP.NET Core are responsible for managing and providing instances of services and dependencies. The built-in container can be replaced with third-party containers if needed. Dependency injection promotes loose coupling and enhances testability.</p>
+        </li>
+        <li>
+            <strong>Explain the concept of Middleware Ordering in ASP.NET Core.</strong>
+            <p>Middleware Ordering in ASP.NET Core determines the sequence in which middleware components are executed in the pipeline. The order is crucial, as it affects how the components handle requests and responses. Middleware components are added and ordered in the Configure method of the Startup class.</p>
+        </li>
+        <li>
+            <strong>How can you host an ASP.NET Core application?</strong>
+            <p>ASP.NET Core applications can be hosted using various options, including Kestrel as a standalone server, IIS, Docker containers, and Azure App Service. Hosting options may vary based on the deployment environment and requirements.</p>
+        </li>
+        <li>
+            <strong>What are the benefits of using ASP.NET Core over traditional ASP.NET?</strong>
+            <p>ASP.NET Core offers several benefits, including cross-platform support, improved performance, a modular and lightweight framework, better support for cloud-based applications, and enhanced flexibility in terms of hosting options. It is also designed with a more modern and open-source approach.</p>
+        </li>
+        <li>
+            <strong>Explain the concept of Dependency Injection Scopes in ASP.NET Core.</strong>
+            <p>Dependency Injection Scopes in ASP.NET Core define the lifespan of instances created by the dependency injection container. The three main scopes are Transient (created every time), Scoped (created once per request), and Singleton (created once and reused throughout the application lifetime).</p>
+        </li>
+        <li>
+            <strong>What is the purpose of the IApplicationBuilder interface in ASP.NET Core?</strong>
+            <p>The IApplicationBuilder interface in ASP.NET Core is used to configure the application's request processing pipeline. It allows developers to add and configure middleware components, define the order of execution, and set up the flow of requests through the application.</p>
+        </li>
+        <li>
+            <strong>Explain the concept of Razor Pages in ASP.NET Core.</strong>
+            <p>Razor Pages in ASP.NET Core is a page-based framework that simplifies building web pages with less ceremony compared to traditional MVC. Each Razor Page is associated with a page model, containing the logic for handling HTTP requests and rendering the page.</p>
+        </li>
+        <li>
+            <strong>How does Cross-Site Request Forgery (CSRF) protection work in ASP.NET Core?</strong>
+            <p>ASP.NET Core provides built-in protection against Cross-Site Request Forgery (CSRF) attacks. The anti-forgery token mechanism generates and validates tokens to ensure that requests are legitimate. Developers can use the [ValidateAntiForgeryToken] attribute to apply CSRF protection to specific actions.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of the ConfigureServices method in the Startup class of ASP.NET Core?</strong>
+            <p>The ConfigureServices method in the Startup class is used to configure services and dependencies for the application. It is where services are registered in the built-in dependency injection container. Services include MVC, database contexts, authentication, and other application-specific components.</p>
+        </li>
+        <li>
+            <strong>Explain the role of the ASP.NET Core Hosting Environment.</strong>
+            <p>The ASP.NET Core Hosting Environment provides information about the hosting environment in which the application is running. It is accessible through the IHostingEnvironment or IWebHostEnvironment interfaces and provides details such as the content root path, environment name, and configuration settings.</p>
+        </li>
+        <li>
+            <strong>How does Configuration Binding work in ASP.NET Core?</strong>
+            <p>Configuration Binding in ASP.NET Core maps configuration settings to strongly-typed classes or objects. It simplifies the process of accessing configuration values by automatically binding them to properties of the specified type. Configuration Binding is commonly used with options patterns.</p>
+        </li>
+        <li>
+            <strong>What is the purpose of the IServiceCollection interface in ASP.NET Core?</strong>
+            <p>The IServiceCollection interface in ASP.NET Core is used to define and configure the services that the application will use. It is part of the dependency injection system and allows developers to register services, specify their lifetimes, and configure options.</p>
+        </li>
+        <li>
+            <strong>Explain the concept of Razor Class Libraries (RCL) in ASP.NET Core.</strong>
+            <p>Razor Class Libraries (RCL) in ASP.NET Core allow developers to package Razor views, pages, and related assets into a reusable library. RCLs can be shared across multiple projects, making it convenient to package and distribute UI components.</p>
+        </li>
+    </ol>
+
+</body>
+</html>
