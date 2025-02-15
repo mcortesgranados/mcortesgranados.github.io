@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Azure Disk Storage</title>
+</head>
+
+<body>
+<p><strong>Azure Disk Storage: Overview and Configuration Example</strong></p>
+<p>Azure Disk Storage provides scalable and highly available block storage that you can attach to Azure Virtual Machines. It supports both managed and unmanaged disks, allowing you to choose the level of control and management based on your requirements. Here's a detailed overview of Azure Disk Storage along with a configuration example:</p>
+<h3>Features of Azure Disk Storage:</h3>
+<ol>
+  <li>
+    <p><strong>Managed Disks:</strong></p>
+    <ul>
+      <li>Simplifies disk management by offering managed disks, which handle storage account management and provide additional capabilities like snapshots and resizing.</li>
+    </ul>
+  </li>
+  <li><strong>Availability Options:</strong>
+    <ul>
+      <li>Supports different availability options, including Standard and Premium disks, allowing you to balance performance and cost based on your application requirements.</li>
+    </ul>
+  </li>
+  <li><strong>Disk Encryption:</strong>
+    <ul>
+      <li>Provides encryption at rest for both managed and unmanaged disks, ensuring the security of your data.</li>
+    </ul>
+  </li>
+  <li><strong>Disk Snapshots:</strong>
+    <ul>
+      <li>Allows you to create point-in-time snapshots of managed disks for backup and recovery purposes.</li>
+    </ul>
+  </li>
+  <li><strong>Disk Replication:</strong>
+    <ul>
+      <li>Offers options for disk replication, such as Zone Redundant Storage (ZRS) for local redundancy and Geo-Redundant Storage (GRS) for cross-region redundancy.</li>
+    </ul>
+  </li>
+  <li><strong>Scaling and Performance Tiers:</strong>
+    <ul>
+      <li>Provides different scaling and performance tiers for Premium disks, including Premium SSD, Standard SSD, and Standard HDD.</li>
+    </ul>
+  </li>
+  <li><strong>Disk Caching:</strong>
+    <ul>
+      <li>Supports disk caching for improved read and write performance.</li>
+    </ul>
+  </li>
+  <li><strong>Custom Images:</strong>
+    <ul>
+      <li>Enables the creation of custom virtual machine images from managed disks for rapid deployment.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Configuration Example:</h3>
+<p>Let's configure an Azure Virtual Machine with a managed disk:</p>
+<ol>
+  <li>
+    <p><strong>Login to Azure Portal:</strong></p>
+    <ul>
+      <li>Navigate to the <a target="_new" href="https://portal.azure.com/">Azure Portal</a>.</li>
+    </ul>
+  </li>
+  <li><strong>Create a Virtual Machine:</strong>
+    <ul>
+      <li>Click on &quot;Create a resource&quot; and search for &quot;Virtual machine.&quot;</li>
+      <li>Click &quot;Create&quot; to start the Virtual Machine creation wizard.</li>
+    </ul>
+  </li>
+  <li><strong>Configure Basics:</strong>
+    <ul>
+      <li>Provide basic information, such as subscription, resource group, VM name, region, and availability options.</li>
+      <li>Choose the operating system image (Windows or Linux).</li>
+    </ul>
+  </li>
+  <li><strong>Configure Disks:</strong>
+    <ul>
+      <li>Choose the disk type (Standard HDD, Standard SSD, Premium SSD), and specify the disk size.</li>
+      <li>Select &quot;Managed disk&quot; for the disk type.</li>
+    </ul>
+  </li>
+  <li><strong>Configure Networking:</strong>
+    <ul>
+      <li>Configure networking settings, including virtual network, subnet, and public IP address.</li>
+    </ul>
+  </li>
+  <li><strong>Configure Management:</strong>
+    <ul>
+      <li>Set up monitoring, diagnostics, and other management settings.</li>
+      <li>Optionally, configure auto-shutdown settings for cost savings.</li>
+    </ul>
+  </li>
+  <li><strong>Configure Advanced Settings (Optional):</strong>
+    <ul>
+      <li>Explore advanced settings, such as extensions, custom scripts, or boot diagnostics.</li>
+    </ul>
+  </li>
+  <li><strong>Review and Create:</strong>
+    <ul>
+      <li>Review the configured settings and click &quot;Create&quot; to start the deployment of the Virtual Machine.</li>
+    </ul>
+  </li>
+  <li><strong>Access the Virtual Machine:</strong>
+    <ul>
+      <li>Once the deployment is complete, access the virtual machine using Remote Desktop Protocol (RDP) for Windows or Secure Shell (SSH) for Linux.</li>
+    </ul>
+  </li>
+  <li><strong>Monitor Disk Metrics:</strong>
+    <ul>
+      <li>In the Azure Portal, navigate to the Virtual Machine, and under the &quot;Metrics&quot; section, monitor disk-related metrics.</li>
+    </ul>
+  </li>
+  <li><strong>Create Disk Snapshots (Optional):</strong>
+    <ul>
+      <li>In the Azure Portal, navigate to the managed disk associated with the virtual machine.</li>
+      <li>Create a disk snapshot for backup and recovery purposes.</li>
+    </ul>
+  </li>
+  <li><strong>Enable Disk Encryption (Optional):</strong>
+    <ul>
+      <li>Configure disk encryption for the managed disk to secure data at rest.</li>
+    </ul>
+  </li>
+  <li><strong>Resize Disks (Optional):</strong>
+    <ul>
+      <li>If needed, resize the managed disks associated with the virtual machine to accommodate growing data requirements.</li>
+    </ul>
+  </li>
+  <li><strong>Custom Images (Optional):</strong>
+    <ul>
+      <li>Create a custom image from the managed disk for use in creating new virtual machines with the same configuration.</li>
+    </ul>
+  </li>
+  <li><strong>Clean Up Resources:</strong>
+    <ul>
+      <li>Once done, clean up resources by deleting the Virtual Machine and associated disks.</li>
+    </ul>
+  </li>
+</ol>
+</body>
+</html>

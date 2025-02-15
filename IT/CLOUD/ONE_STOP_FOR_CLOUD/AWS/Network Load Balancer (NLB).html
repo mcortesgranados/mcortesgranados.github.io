@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Network Load Balancer (NLB)</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p><a href="../Network Load Balancer_references_jpg.html" target="_blank">ACG LINK</a></p>
+<p><strong>Network Load Balancer (NLB): Overview and Configuration Example</strong></p>
+<p>Amazon Network Load Balancer (NLB) is a highly scalable and performant load balancing service that operates at the transport layer (Layer 4) of the OSI model. It distributes incoming network traffic across multiple targets, such as Amazon EC2 instances, containers, and IP addresses, within one or more availability zones. Here's a detailed overview of Amazon NLB along with a configuration example:</p>
+<h3>Features of Amazon NLB:</h3>
+<ol>
+  <li>
+    <p><strong>Layer 4 Load Balancing:</strong></p>
+    <ul>
+      <li>Operates at the transport layer, allowing for efficient handling of TCP and UDP traffic.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Static IP Addresses:</strong></p>
+    <ul>
+      <li>Provides a static IP address for each Availability Zone, facilitating direct communication with backend targets.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>High Throughput and Low Latency:</strong></p>
+    <ul>
+      <li>Delivers high throughput and low-latency performance for handling large volumes of traffic.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Support for TCP and UDP:</strong></p>
+    <ul>
+      <li>Supports both TCP and UDP protocols, making it suitable for a wide range of applications.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Integration with AWS Services:</strong></p>
+    <ul>
+      <li>Integrates seamlessly with other AWS services, such as Auto Scaling, AWS WAF (Web Application Firewall), and AWS CloudWatch.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Cross-Zone Load Balancing:</strong></p>
+    <ul>
+      <li>Distributes traffic evenly across targets in multiple Availability Zones for improved fault tolerance.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Configuration Example:</h3>
+<p>Let's create a simple Amazon Network Load Balancer and configure it to distribute TCP traffic to backend EC2 instances using the AWS Management Console:</p>
+<ol>
+  <li>
+    <p><strong>Login to AWS Console:</strong></p>
+    <ul>
+      <li>Navigate to the <a target="_new">AWS Management Console</a>.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Open EC2 Console:</strong></p>
+    <ul>
+      <li>Click on the &quot;EC2&quot; service in the console.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Create EC2 Instances:</strong></p>
+    <ul>
+      <li>Launch EC2 instances that will serve as backend targets. Ensure they are in the same VPC and security group.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Open Load Balancer Console:</strong></p>
+    <ul>
+      <li>Click on the &quot;Load Balancers&quot; section and choose &quot;Create Load Balancer.&quot;</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Select Network Load Balancer:</strong></p>
+    <ul>
+      <li>Choose &quot;Network Load Balancer&quot; and click &quot;Create.&quot;</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Configure Load Balancer:</strong></p>
+    <ul>
+      <li>Provide a name for the load balancer.</li>
+      <li>Specify the listener configuration, such as the protocol (TCP or UDP) and port (e.g., TCP port 80).</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Configure Availability Zones:</strong></p>
+    <ul>
+      <li>Choose the Availability Zones where you want the load balancer to distribute traffic.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Configure Target Groups:</strong></p>
+    <ul>
+      <li>Define target groups and associate EC2 instances with each group. Configure health checks for each target group.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Configure Security Settings (Optional):</strong></p>
+    <ul>
+      <li>Optionally, configure security settings, including source IP address preservation.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Review and Create:</strong></p>
+    <ul>
+      <li>Review the load balancer configuration and click &quot;Create.&quot;</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Monitor Load Balancer Creation:</strong></p>
+    <ul>
+      <li>Monitor the load balancer creation process in the console until the status becomes &quot;Active.&quot;</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Update DNS (Optional):</strong></p>
+    <ul>
+      <li>If using a custom domain, update DNS settings to point to the DNS name of the load balancer.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Test Load Balancer:</strong></p>
+    <ul>
+      <li>Test the load balancer by accessing the DNS name or IP address. Requests should be distributed to the configured target groups.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Scale and Update Configuration (Optional):</strong></p>
+    <ul>
+      <li>Optionally, scale the number of EC2 instances in target groups or update load balancer configuration as needed.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Delete Load Balancer (Optional):</strong></p>
+    <ul>
+      <li>Optionally, you can delete the load balancer through the console if it's no longer needed.</li>
+    </ul>
+  </li>
+</ol>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Google Cloud Network Peering</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p>Google Cloud Network Peering allows you to establish private, high-bandwidth connections between virtual networks in the same or different Google Cloud projects. This enables communication between resources in different networks as if they were part of the same network, without using external IP addresses.</p>
+<h3>Features:</h3>
+<ol>
+  <li>
+    <p><strong>Private Connectivity:</strong></p>
+    <ul>
+      <li>Network Peering provides private connectivity between virtual networks, allowing resources to communicate securely without going through the public internet.</li>
+    </ul>
+  </li>
+  <li><strong>Transitive Routing:</strong>
+    <ul>
+      <li>Network Peering supports transitive routing, meaning that if Network A is peered with Network B and Network B is peered with Network C, then resources in Network A can communicate with resources in Network C.</li>
+    </ul>
+  </li>
+  <li><strong>Shared VPC:</strong>
+    <ul>
+      <li>Network Peering is commonly used in Shared VPC configurations, allowing resources in different projects to communicate within a common VPC.</li>
+    </ul>
+  </li>
+  <li><strong>Granular Control:</strong>
+    <ul>
+      <li>You can control which subnets are shared and limit the scope of the peering to specific subnets within the networks.</li>
+    </ul>
+  </li>
+  <li><strong>Dynamic Routing:</strong>
+    <ul>
+      <li>Cloud Router can be used to dynamically exchange routes between the peered networks, ensuring efficient and automatic routing.</li>
+    </ul>
+  </li>
+</ol>
+<h4>Configuration Example:</h4>
+<p>Here's a basic example of setting up Network Peering between two Google Cloud projects:</p>
+<ol>
+  <li>
+    <p><strong>Enable API and Set Up Projects:</strong></p>
+    <ul>
+      <li>In the Google Cloud Console, enable the Compute Engine API and create two projects, representing the networks you want to peer.</li>
+    </ul>
+  </li>
+  <li><strong>Create VPC Networks:</strong>
+    <ul>
+      <li>In each project, create the VPC networks that you want to peer.</li>
+    </ul>
+    <pre><div><div>bash<button>Copy code</button></div><div>gcloud compute networks create network-a --project=project-a  gcloud compute networks create network-b --project=project-b  </div></div>
+</pre>
+  </li>
+  <li><strong>Create Subnets:</strong>
+    <ul>
+      <li>Create subnets in each network.</li>
+    </ul>
+    <pre><div><div>bash<button>Copy code</button></div><div>gcloud compute networks subnets create subnet-a --network=network-a --project=project-a --region=us-central1 --range=10.1.0.0/24  gcloud compute networks subnets create subnet-b --network=network-b --project=project-b --region=us-central1 --range=10.2.0.0/24  </div></div>
+</pre>
+  </li>
+  <li><strong>Enable API and Create Peering:</strong>
+    <ul>
+      <li>In each project, enable the Compute Engine API and create a network peering.</li>
+    </ul>
+    <pre><div><div>bash<button>Copy code</button></div><div>gcloud compute networks peerings create peering-a-to-b --project=project-a --network=network-a --peer-project=project-b --peer-network=network-b --auto-create-routes  gcloud compute networks peerings create peering-b-to-a --project=project-b --network=network-b --peer-project=project-a --peer-network=network-a --auto-create-routes  </div></div>
+</pre>
+  </li>
+  <li><strong>Configure Firewall Rules:</strong>
+    <ul>
+      <li>Ensure that firewall rules are configured to allow the necessary traffic between the peered networks.</li>
+    </ul>
+    <pre><div><div>bash<button>Copy code</button></div><div>gcloud compute firewall-rules create allow-internal-a-to-b --project=project-a --network=network-a --allow=INTERNAL --source-ranges=10.2.0.0/24  gcloud compute firewall-rules create allow-internal-b-to-a --project=project-b --network=network-b --allow=INTERNAL --source-ranges=10.1.0.0/24  </div></div>
+</pre>
+  </li>
+  <li><strong>Verify Connectivity:</strong>
+    <ul>
+      <li>Deploy resources in each network and verify that they can communicate with each other using internal IP addresses.</li>
+    </ul>
+  </li>
+</ol>
+<p>Always refer to the <a target="_new">official documentation</a> for the most up-to-date and detailed information on configuring Google Cloud Network Peering. Adjust the commands based on your specific requirements, such as region, IP ranges, and firewall rules.</p>
+</body>
+</html>

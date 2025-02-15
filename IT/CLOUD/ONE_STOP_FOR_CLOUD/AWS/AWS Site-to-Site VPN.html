@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>AWS Site-to-Site VPN</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" /></head>
+
+<body class="texto8_1">
+<p><a href="../VPN_references_jpg.html" target="_blank">ACG LINK</a></p>
+<p><strong>AWS Site-to-Site VPN: Overview and Configuration Example</strong></p>
+<p>AWS Site-to-Site VPN allows you to establish secure and scalable connections between your on-premises network and your Amazon Virtual Private Cloud (Amazon VPC). This enables you to extend your on-premises data center into the AWS Cloud, providing secure and reliable connectivity. Here's a detailed overview of AWS Site-to-Site VPN along with a configuration example:</p>
+<h3>Features of AWS Site-to-Site VPN:</h3>
+<ol>
+  <li>
+    <p><strong>Secure Connectivity:</strong></p>
+    <ul>
+      <li>Establishes encrypted IPsec VPN connections between your on-premises network and AWS VPC.</li>
+    </ul>
+  </li>
+  <li><strong>Redundancy and High Availability:</strong>
+    <ul>
+      <li>Supports the creation of redundant VPN connections for increased availability.</li>
+    </ul>
+  </li>
+  <li><strong>Scalability:</strong>
+    <ul>
+      <li>Easily scales to support a large number of on-premises networks and VPCs.</li>
+    </ul>
+  </li>
+  <li><strong>Dynamic Routing:</strong>
+    <ul>
+      <li>Supports dynamic routing protocols (BGP - Border Gateway Protocol) for automatic route propagation.</li>
+    </ul>
+  </li>
+  <li><strong>IP Address Prefixes:</strong>
+    <ul>
+      <li>Allows the definition of IP address prefixes for your on-premises network and the VPC.</li>
+    </ul>
+  </li>
+  <li><strong>Customer Gateway:</strong>
+    <ul>
+      <li>Represents the physical device or software application on the customer side of the VPN connection.</li>
+    </ul>
+  </li>
+  <li><strong>Virtual Private Gateway (VGW):</strong>
+    <ul>
+      <li>Represents the VPN endpoint on the AWS side of the VPN connection.</li>
+    </ul>
+  </li>
+  <li><strong>CloudWatch Monitoring:</strong>
+    <ul>
+      <li>Monitors VPN connections using AWS CloudWatch, providing visibility into connection health and performance.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Configuration Example:</h3>
+<p>Let's create a simple AWS Site-to-Site VPN connection between an on-premises network and an Amazon VPC using the AWS Management Console:</p>
+<ol>
+  <li>
+    <p><strong>Login to AWS Console:</strong></p>
+    <ul>
+      <li>Navigate to the <a target="_new">AWS Management Console</a>.</li>
+    </ul>
+  </li>
+  <li><strong>Create a Customer Gateway:</strong>
+    <ul>
+      <li>In the &quot;VPC Dashboard,&quot; click &quot;Customer Gateways&quot; in the left navigation pane.</li>
+      <li>Click &quot;Create Customer Gateway&quot; and provide the necessary details, including the public IP address of your on-premises VPN device.</li>
+    </ul>
+  </li>
+  <li><strong>Create a Virtual Private Gateway (VGW):</strong>
+    <ul>
+      <li>In the &quot;VPC Dashboard,&quot; click &quot;Virtual Private Gateways.&quot;</li>
+      <li>Click &quot;Create Virtual Private Gateway&quot; and attach it to your VPC.</li>
+    </ul>
+  </li>
+  <li><strong>Create a VPN Connection:</strong>
+    <ul>
+      <li>In the &quot;VPC Dashboard,&quot; click &quot;Site-to-Site VPN Connections.&quot;</li>
+      <li>Click &quot;Create VPN Connection&quot; and provide the necessary details, including the customer gateway and virtual private gateway.</li>
+    </ul>
+  </li>
+  <li><strong>Configure VPN Connection Options:</strong>
+    <ul>
+      <li>Specify the IKE (Internet Key Exchange) and IPsec configuration options.</li>
+      <li>Define the tunnel options, such as pre-shared keys and BGP settings.</li>
+    </ul>
+  </li>
+  <li><strong>Download VPN Configuration:</strong>
+    <ul>
+      <li>After creating the VPN connection, download the VPN configuration file, which includes information needed for on-premises VPN device configuration.</li>
+    </ul>
+  </li>
+  <li><strong>Configure On-Premises VPN Device:</strong>
+    <ul>
+      <li>Using the downloaded configuration file, configure your on-premises VPN device with the necessary settings.</li>
+    </ul>
+  </li>
+  <li><strong>Verify VPN Connection:</strong>
+    <ul>
+      <li>In the AWS Management Console, monitor the status of the VPN connection in the &quot;Site-to-Site VPN Connections&quot; section.</li>
+      <li>Verify the BGP status and check for any connectivity issues.</li>
+    </ul>
+  </li>
+  <li><strong>Test Connectivity:</strong>
+    <ul>
+      <li>Test connectivity between resources in your on-premises network and your Amazon VPC.</li>
+    </ul>
+  </li>
+  <li><strong>CloudWatch Monitoring (Optional):</strong>
+    <ul>
+      <li>Explore CloudWatch metrics to monitor VPN connection performance.</li>
+    </ul>
+  </li>
+  <li><strong>Terminate VPN Connection (Optional):</strong>
+    <ul>
+      <li>Optionally, you can delete the VPN connection through the console if it's no longer needed.</li>
+    </ul>
+  </li>
+</ol>
+</body>
+
+</html>

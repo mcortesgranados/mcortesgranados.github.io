@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Azure Cost Management APIs</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p><strong>Azure Cost Management APIs</strong></p>
+<p>As of my last update, the primary Azure Cost Management API is the &quot;Consumption API,&quot; which allows you to retrieve Azure consumption data. Features of the Consumption API include:</p>
+<ol>
+  <li>
+    <p><strong>Usage Details:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Provides detailed information about the resources consumed in an Azure subscription, including usage quantity, meter details, and additional metadata.</li>
+      <li><strong>Use Case:</strong> Useful for granular analysis of resource consumption, allowing you to understand which resources are driving costs.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Marketplace Charges:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Retrieves details about charges incurred due to the usage of Azure Marketplace resources.</li>
+      <li><strong>Use Case:</strong> Useful for understanding and analyzing charges related to third-party services and applications from the Azure Marketplace.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Price Sheet:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Allows you to retrieve the Azure price sheet, which provides the pricing details for various Azure resources.</li>
+      <li><strong>Use Case:</strong> Useful for calculating estimated costs based on current pricing for different Azure resources.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Budgets:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Enables the management of budgets for Azure subscriptions. Budgets help track and control costs by setting thresholds and alerts.</li>
+      <li><strong>Use Case:</strong> Useful for proactively managing and controlling costs by setting budget limits and receiving notifications when spending approaches or exceeds those limits.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Reservations:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Provides details about Azure Reserved VM Instances (RIs), allowing you to track and manage reserved capacity.</li>
+      <li><strong>Use Case:</strong> Useful for optimizing costs by taking advantage of reserved capacity for virtual machines.</li>
+    </ul>
+  </li>
+</ol>
+<p>Now, let's provide a simplified example of how you might use the Consumption API to retrieve usage details using a hypothetical scenario. Please note that this is a basic example, and actual implementations may vary based on your specific requirements and programming language.</p>
+<p><strong>Example in Python using Azure SDK for Python (azure-mgmt-consumption):</strong></p>
+<p>&nbsp;</p>
+<p>from azure.identity import DefaultAzureCredential<br />
+from azure.mgmt.consumption import ConsumptionManagementClient</p>
+<p># Specify your Azure subscription ID and other details<br />
+  subscription_id = 'your_subscription_id'<br />
+  resource_group = 'your_resource_group'<br />
+  billing_period_start = '2023-01-01'<br />
+  billing_period_end = '2023-01-31'</p>
+<p># Authenticate using DefaultAzureCredential<br />
+  credential = DefaultAzureCredential()<br />
+  consumption_client = ConsumptionManagementClient(credential, subscription_id)</p>
+<p># Get usage details for the specified billing period<br />
+  usage_details = consumption_client.usage_details.list(<br />
+  resource_group,<br />
+  start_date=billing_period_start,<br />
+  end_date=billing_period_end<br />
+  )</p>
+<p># Print usage details<br />
+  for usage_detail in usage_details:<br />
+  print(f&quot;Resource ID: {usage_detail.id}&quot;)<br />
+  print(f&quot;Usage Quantity: {usage_detail.quantity}&quot;)<br />
+  print(f&quot;Meter ID: {usage_detail.meter_id}&quot;)<br />
+  print(f&quot;Meter Details: {usage_detail.meter_details}&quot;)<br />
+print(&quot;----------------------------&quot;)</p>
+<p>This example assumes you have the necessary Azure SDK installed (azure-mgmt-consumption), and you've set up the authentication using Azure Identity. Adjust the parameters, such as subscription_id, resource_group, billing_period_start, and billing_period_end, according to your specific scenario.</p>
+<br />
+<p><br />
+</p>
+</body>
+</html>

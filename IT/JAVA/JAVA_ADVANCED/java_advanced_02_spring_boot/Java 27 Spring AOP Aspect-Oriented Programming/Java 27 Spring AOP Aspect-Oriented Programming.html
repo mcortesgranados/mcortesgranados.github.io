@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring AOP Interview Questions - Set 1</title>
+</head>
+<body>
+    <h1>Spring AOP Interview Questions - Set 1</h1>
+
+    <h2>1. What is Spring AOP?</h2>
+    <p>Spring AOP (Aspect-Oriented Programming) is a programming paradigm that enables modularization of cross-cutting concerns like logging, security, and transaction management.</p>
+
+    <h2>2. What are the key concepts of Spring AOP?</h2>
+    <p>The main concepts in Spring AOP are Aspect, Advice, Join Point, Pointcut, Weaving, and Target Object.</p>
+
+    <h2>3. What is an Aspect in Spring AOP?</h2>
+    <p>An Aspect is a module that encapsulates cross-cutting concerns such as logging or security.</p>
+
+    <h2>4. What is Advice in Spring AOP?</h2>
+    <p>Advice defines what action an aspect should take and when it should be executed.</p>
+
+    <h2>5. What are the types of Advice in Spring AOP?</h2>
+    <p>Spring AOP provides five types of advice: Before, After, After Returning, After Throwing, and Around.</p>
+
+    <h2>6. What is a Join Point in Spring AOP?</h2>
+    <p>A Join Point is a specific point during execution where an aspect can be applied, such as method execution.</p>
+
+    <h2>7. What is a Pointcut in Spring AOP?</h2>
+    <p>A Pointcut is an expression that matches Join Points to determine where Advice should be applied.</p>
+
+    <h2>8. What is Weaving in Spring AOP?</h2>
+    <p>Weaving is the process of linking aspects with other application types or objects to create an advised object.</p>
+
+    <h2>9. Can Spring AOP be used for method-level security?</h2>
+    <p>Yes, Spring AOP can be used to enforce security rules at the method level using aspects.</p>
+
+    <h2>10. Provide a simple example of a Before Advice in Spring AOP.</h2>
+    <pre>
+        <code>
+            @Aspect
+            @Component
+            public class LoggingAspect {
+                @Before("execution(* com.example.service.*.*(..))")
+                public void logBeforeMethodExecution() {
+                    System.out.println("Method execution started...");
+                }
+            }
+        </code>
+
+
+    </pre>
+
+    <h1>Spring AOP Interview Questions - Set 2</h1>
+    <h2>11. What are the different types of Pointcut expressions in Spring AOP?</h2>
+    <p>Spring AOP supports execution, within, this, target, args, and @annotation pointcut expressions.</p>
+    <h2>12. What is the difference between execution and within in Spring AOP?</h2>
+    <p>The execution expression is used to match method execution join points, while within matches all methods within a specific type.</p>
+    <h2>13. How does @Around advice work in Spring AOP?</h2>
+    <p>@Around advice allows control over method execution by providing access to the ProceedingJoinPoint, which can modify execution flow.</p>
+    <h2>14. Provide an example of an @Around advice.</h2>
+    <pre>
+        <code>
+            @Aspect
+            @Component
+            public class PerformanceAspect {
+                @Around("execution(* com.example.service.*.*(..))")
+                public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+                    long start = System.currentTimeMillis();
+                    Object result = joinPoint.proceed();
+                    long duration = System.currentTimeMillis() - start;
+                    System.out.println("Execution took: " + duration + " ms");
+                    return result;
+                }
+            }
+        </code>
+    </pre>
+    <h2>15. What is the purpose of the @AfterReturning advice?</h2>
+    <p>@AfterReturning advice runs after a method successfully returns a result and allows access to the return value.</p>
+    <h2>16. Provide an example of @AfterReturning advice.</h2>
+    <pre>
+        <code>
+            @Aspect
+            @Component
+            public class LoggingAspect {
+                @AfterReturning(pointcut = "execution(* com.example.service.*.*(..))", returning = "result")
+                public void logAfterReturning(Object result) {
+                    System.out.println("Method returned: " + result);
+                }
+            }
+        </code>
+    </pre>
+    <h2>17. How does @AfterThrowing advice work in Spring AOP?</h2>
+    <p>@AfterThrowing advice executes if a method throws an exception, allowing exception handling or logging.</p>
+    <h2>18. Provide an example of @AfterThrowing advice.</h2>
+    <pre>
+        <code>
+            @Aspect
+            @Component
+            public class ExceptionLoggingAspect {
+                @AfterThrowing(pointcut = "execution(* com.example.service.*.*(..))", throwing = "ex")
+                public void logException(Exception ex) {
+                    System.out.println("Exception thrown: " + ex.getMessage());
+                }
+            }
+        </code>
+    </pre>
+    <h2>19. What is the difference between @Before and @Around advice?</h2>
+    <p>@Before runs before a method executes, while @Around can control whether and how the method executes.</p>
+    <h2>20. Can we apply multiple aspects to a single method in Spring AOP?</h2>
+    <p>Yes, multiple aspects can be applied, and their execution order can be controlled using the @Order annotation.</p>
+    <h1>Spring AOP Interview Questions - Set 3</h1>
+    <h2>21. What is the difference between Spring AOP and AspectJ?</h2>
+    <p>Spring AOP is proxy-based and works at runtime, whereas AspectJ is compile-time weaving and more powerful.</p>
+    <h2>22. How can we enable Spring AOP in a Spring Boot application?</h2>
+    <p>Spring AOP is enabled using @EnableAspectJAutoProxy annotation.</p>
+    <h2>23. Provide an example of enabling Spring AOP in a configuration class.</h2>
+    <pre>
+        <code>
+            @Configuration
+            @EnableAspectJAutoProxy
+            public class AppConfig {
+            }
+        </code>
+    </pre>
+    <h2>24. What are the advantages of using Spring AOP?</h2>
+    <p>Spring AOP simplifies cross-cutting concerns like logging, security, and transactions without modifying core logic.</p>
+    <h2>25. Can Spring AOP be used with non-Spring-managed beans?</h2>
+    <p>No, Spring AOP works only with Spring-managed beans.</p>
+    <h2>26. What is the @DeclareParents annotation in Spring AOP?</h2>
+    <p>@DeclareParents is used to introduce new methods or fields to an existing type.</p>
+    <h2>27. Provide an example of @DeclareParents in Spring AOP.</h2>
+    <pre>
+        <code>
+            @Aspect
+            public class IntroducerAspect {
+                @DeclareParents(value = "com.example.service.*", defaultImpl = DefaultImplementation.class)
+                public static MyInterface mixin;
+            }
+        </code>
+    </pre>
+    <h2>28. How does Spring AOP compare with traditional Proxy-based approaches?</h2>
+    <p>Spring AOP is more flexible and provides better separation of concerns than traditional proxies.</p>
+    <h2>29. What is the default proxy mechanism used in Spring AOP?</h2>
+    <p>By default, Spring AOP uses JDK dynamic proxies for interface-based beans and CGLIB for concrete classes.</p>
+    <h2>30. How can we force Spring AOP to use CGLIB proxies?</h2>
+    <p>We can set proxyTargetClass = true in @EnableAspectJAutoProxy to force the use of CGLIB proxies.</p>
+    <p>&nbsp;</p>
+    <h1>Spring AOP Interview Questions - Set 4</h1>
+    <h2>31. What is weaving in Spring AOP?</h2>
+    <p>Weaving is the process of linking aspects with other application types or objects to create an advised object.</p>
+    <h2>32. What are the different types of weaving in Spring AOP?</h2>
+    <p>There are three types: compile-time, load-time, and runtime weaving. Spring AOP uses runtime weaving.</p>
+    <h2>33. What is a JoinPoint in Spring AOP?</h2>
+    <p>A JoinPoint represents a specific point in the execution flow, such as a method invocation.</p>
+    <h2>34. How does a Pointcut work in Spring AOP?</h2>
+    <p>A Pointcut defines a set of JoinPoints where advice should be applied.</p>
+    <h2>35. What is the purpose of the @Pointcut annotation?</h2>
+    <p>@Pointcut is used to define reusable expressions for method execution matching.</p>
+    <h2>36. Provide an example of defining a Pointcut.</h2>
+    <pre>
+        <code>
+            @Aspect
+            public class LoggingAspect {
+                @Pointcut("execution(* com.example.service.*.*(..))")
+                public void serviceMethods() {}
+            }
+        </code>
+    </pre>
+    <h2>37. What is the difference between @Pointcut and directly writing expressions in advice annotations?</h2>
+    <p>@Pointcut improves reusability and makes expressions more readable, whereas direct expressions in advice annotations reduce reusability.</p>
+    <h2>38. Can we use multiple Pointcut expressions together?</h2>
+    <p>Yes, we can combine multiple Pointcuts using logical operators like &&, ||, and !.</p>
+    <h2>39. Provide an example of combining multiple Pointcuts.</h2>
+    <pre>
+        <code>
+            @Aspect
+            public class CombinedAspect {
+                @Pointcut("execution(* com.example.service.*.*(..))")
+                public void serviceMethods() {}
+                
+                @Pointcut("within(com.example.controller.*)")
+                public void controllerMethods() {}
+                
+                @Pointcut("serviceMethods() || controllerMethods()")
+                public void applicationMethods() {}
+            }
+        </code>
+    </pre>
+    <h2>40. What is the order of execution if multiple advices are applied to the same method?</h2>
+    <p>By default, they execute in an unspecified order, but we can control the order using the @Order annotation.</p>
+    <p>&nbsp;</p>
+    <h1>Spring AOP Interview Questions - Set 5</h1>
+    <h2>41. What is the @Order annotation in Spring AOP?</h2>
+    <p>The @Order annotation specifies the precedence of multiple advices applied to the same JoinPoint.</p>
+    <h2>42. Provide an example of using @Order in Spring AOP.</h2>
+    <pre>
+        <code>
+            @Aspect
+            @Order(1)
+            public class FirstAspect {
+                @Before("execution(* com.example.service.*.*(..))")
+                public void logBefore() {
+                    System.out.println("First Aspect - Before Advice");
+                }
+            }
+
+            @Aspect
+            @Order(2)
+            public class SecondAspect {
+                @Before("execution(* com.example.service.*.*(..))")
+                public void logBefore() {
+                    System.out.println("Second Aspect - Before Advice");
+                }
+            }
+        </code>
+    </pre>
+    <h2>43. What is the difference between before advice and around advice?</h2>
+    <p>Before advice runs before the JoinPoint executes, while around advice wraps the JoinPoint and can modify its execution.</p>
+    <h2>44. How can we modify the return value of a method using Spring AOP?</h2>
+    <p>By using @Around advice, we can intercept the method execution and change the return value.</p>
+    <h2>45. Provide an example of modifying a return value using @Around advice.</h2>
+    <pre>
+        <code>
+            @Aspect
+            public class ModifyReturnAspect {
+                @Around("execution(* com.example.service.DataService.getData(..))")
+                public Object modifyReturnValue(ProceedingJoinPoint pjp) throws Throwable {
+                    Object originalValue = pjp.proceed();
+                    return "Modified: " + originalValue;
+                }
+            }
+        </code>
+    </pre>
+    <h2>46. Can we apply multiple advices to the same JoinPoint?</h2>
+    <p>Yes, multiple advices can be applied to the same JoinPoint, and their execution order can be controlled using @Order.</p>
+    <h2>47. What is the default order of execution for multiple aspects if @Order is not specified?</h2>
+    <p>If @Order is not specified, the execution order of multiple aspects is undefined.</p>
+    <h2>48. How can we disable an aspect in Spring AOP?</h2>
+    <p>An aspect can be disabled by removing it from the Spring context or using conditional expressions in the pointcut.</p>
+    <h2>49. What is an introduction in Spring AOP?</h2>
+    <p>Introduction allows us to add new methods or fields to an existing class without modifying it.</p>
+    <h2>50. How can we test an aspect in Spring AOP?</h2>
+    <p>We can use JUnit with Spring’s testing framework to verify the behavior of aspects by asserting their effects.</p>
+    <p>&nbsp;</p>
+    <h1>Spring AOP Interview Questions - Set 6</h1>
+    <h2>51. What are some common use cases of Spring AOP?</h2>
+    <p>Common use cases include logging, security, transaction management, exception handling, and performance monitoring.</p>
+    <h2>52. How does Spring AOP differ from AspectJ?</h2>
+    <p>Spring AOP uses runtime weaving and proxies, whereas AspectJ supports compile-time, load-time, and runtime weaving.</p>
+    <h2>53. What is the role of the AspectJWeaver in Spring AOP?</h2>
+    <p>The AspectJWeaver allows load-time weaving and enhances Spring AOP with full AspectJ capabilities.</p>
+    <h2>54. Can Spring AOP advise private methods?</h2>
+    <p>No, Spring AOP works with proxies and cannot advise private methods.</p>
+    <h2>55. How can we apply Spring AOP to constructors?</h2>
+    <p>Spring AOP does not support constructor interception; for that, AspectJ is required.</p>
+    <h2>56. What is the @DeclareParents annotation in Spring AOP?</h2>
+    <p>The @DeclareParents annotation allows an aspect to introduce new interfaces to existing classes.</p>
+    <h2>57. Provide an example of using @DeclareParents in Spring AOP.</h2>
+    <pre>
+        <code>
+            @Aspect
+            public class IntroduceInterfaceAspect {
+                @DeclareParents(value = "com.example.service.*", defaultImpl = DefaultAdditionalService.class)
+                public static AdditionalService mixin;
+            }
+        </code>
+    </pre>
+    <h2>58. Can we use Spring AOP without Spring Boot?</h2>
+    <p>Yes, Spring AOP can be used in any Spring-based application, even without Spring Boot.</p>
+    <h2>59. What are some limitations of Spring AOP?</h2>
+    <p>Spring AOP only supports method-level interception and works only with Spring beans.</p>
+    <h2>60. How can we apply AOP to non-Spring-managed beans?</h2>
+    <p>We need to use AspectJ for non-Spring-managed beans since Spring AOP relies on the application context.</p>
+    <p>&nbsp;</p>
+    <h1>Spring AOP Interview Questions - Set 7</h1>
+    <h2>61. What is the role of the ProxyFactoryBean in Spring AOP?</h2>
+    <p>ProxyFactoryBean is used to create proxy instances for beans, allowing AOP advice to be applied dynamically.</p>
+    <h2>62. How does Spring handle circular dependencies in AOP?</h2>
+    <p>Spring may throw a Circular Dependency error. This can be resolved using @Lazy or restructuring bean dependencies.</p>
+    <h2>63. What is a JoinPoint in Spring AOP?</h2>
+    <p>A JoinPoint represents a point in the execution of a program where an aspect can be applied.</p>
+    <h2>64. How can we enable AspectJ annotation support in a Spring application?</h2>
+    <p>By adding @EnableAspectJAutoProxy in the configuration class.</p>
+    <h2>65. What is the difference between @Pointcut and @Around in Spring AOP?</h2>
+    <p>@Pointcut defines reusable expressions for advices, while @Around wraps method execution to control behavior.</p>
+    <h2>66. How can we apply AOP to selected methods only?</h2>
+    <p>By defining specific pointcut expressions targeting desired methods.</p>
+    <h2>67. What is the purpose of the @Aspect annotation in Spring AOP?</h2>
+    <p>The @Aspect annotation marks a class as an aspect containing advice and pointcut definitions.</p>
+    <h2>68. Can we apply multiple advices to a single method?</h2>
+    <p>Yes, multiple advices can be applied, and their order is determined using @Order.</p>
+    <h2>69. What is a Target Object in Spring AOP?</h2>
+    <p>A Target Object is the actual object being proxied by AOP to apply cross-cutting concerns.</p>
+    <h2>70. How can we exclude specific methods from AOP in Spring?</h2>
+    <p>By refining pointcut expressions to exclude methods using negation (!execution(...)).</p>
+    <p>&nbsp;</p>
+    <h1>Spring AOP Interview Questions - Set 8</h1>
+    <h2>71. What is the role of Weaving in Spring AOP?</h2>
+    <p>Weaving is the process of linking aspects with target objects to create advised proxies.</p>
+    <h2>72. How does Spring AOP handle exceptions thrown by advised methods?</h2>
+    <p>Spring AOP allows exception handling using @AfterThrowing advice.</p>
+    <h2>73. Can we use AOP with Spring Boot?</h2>
+    <p>Yes, Spring Boot has built-in support for AOP through the spring-boot-starter-aop dependency.</p>
+    <h2>74. What is the use of @AfterReturning in Spring AOP?</h2>
+    <p>@AfterReturning executes advice after a method successfully returns a value.</p>
+    <h2>75. How can we log method execution time using AOP?</h2>
+    <p>Using @Around advice and System.nanoTime() to calculate execution duration.</p>
+    <h2>76. What are the types of advice in Spring AOP?</h2>
+    <p>Types include @Before, @After, @AfterReturning, @AfterThrowing, and @Around.</p>
+    <h2>77. What is the difference between compile-time weaving and runtime weaving?</h2>
+    <p>Compile-time weaving happens at build-time, while runtime weaving happens dynamically at execution.</p>
+    <h2>78. How do you enable Aspect-Oriented Programming in a Spring Boot application?</h2>
+    <p>By adding @EnableAspectJAutoProxy to a configuration class.</p>
+    <h2>79. Can we use AOP for field-level interception?</h2>
+    <p>Spring AOP does not support field-level interception; AspectJ is required.</p>
+    <h2>80. How can we order multiple aspects in Spring AOP?</h2>
+    <p>Using the @Order annotation to define execution precedence.</p>
+    <h1>Spring AOP Interview Questions - Set 9</h1>
+    <h2>81. What is AspectJ in the context of Spring AOP?</h2>
+    <p>AspectJ is a powerful AOP framework that extends Spring AOP by supporting more advanced features like compile-time and load-time weaving.</p>
+    <h2>82. How does Spring AOP work internally?</h2>
+    <p>Spring AOP creates proxies using JDK dynamic proxies (for interfaces) or CGLIB proxies (for classes) to apply advice at runtime.</p>
+    <h2>83. What are the key differences between JDK dynamic proxies and CGLIB proxies?</h2>
+    <p>JDK dynamic proxies work with interfaces, while CGLIB proxies subclass the target class and require bytecode manipulation.</p>
+    <h2>84. Can Spring AOP be used for transaction management?</h2>
+    <p>Yes, Spring AOP is commonly used to manage declarative transactions by applying transactional advice.</p>
+    <h2>85. How can we use Spring AOP to enforce security rules?</h2>
+    <p>By defining security aspects and applying them to service methods using pointcuts.</p>
+    <h2>86. What is the difference between AOP and Dependency Injection?</h2>
+    <p>Dependency Injection manages object dependencies, while AOP modularizes cross-cutting concerns.</p>
+    <h2>87. How does @Aspect work internally in Spring?</h2>
+    <p>Spring parses @Aspect annotated classes and applies advice dynamically using proxies.</p>
+    <h2>88. Can we combine multiple pointcut expressions in Spring AOP?</h2>
+    <p>Yes, using logical operators like &&, ||, and ! to combine expressions.</p>
+    <h2>89. What is the best way to test AOP configurations in Spring?</h2>
+    <p>Using unit tests with Spring Test framework and mocking dependencies where needed.</p>
+    <h2>90. How can we debug AOP-related issues in Spring?</h2>
+    <p>By enabling debug logs, inspecting proxy objects, and checking aspect execution flow.</p>
+    <p>&nbsp;</p>
+    <h1>Spring AOP Interview Questions - Set 10</h1>
+    <h2>91. Can we apply AOP on private methods in Spring?</h2>
+    <p>No, Spring AOP works only on public methods because it relies on proxies.</p>
+    <h2>92. What is a proxy in the context of Spring AOP?</h2>
+    <p>A proxy is an object that wraps the target object and adds additional behavior via advice.</p>
+    <h2>93. What are the different ways to create proxies in Spring AOP?</h2>
+    <p>Spring AOP uses JDK dynamic proxies for interfaces and CGLIB proxies for classes.</p>
+    <h2>94. How do we apply AOP to all methods of a package?</h2>
+    <p>By using a pointcut expression like "execution(* com.example.package..*(..))".</p>
+    <h2>95. Can we disable AOP in a Spring application?</h2>
+    <p>Yes, by removing @EnableAspectJAutoProxy or excluding the AOP configuration.</p>
+    <h2>96. How does AOP help in performance monitoring?</h2>
+    <p>By using @Around advice to log execution time of methods.</p>
+    <h2>97. What is a proxy factory in Spring AOP?</h2>
+    <p>ProxyFactory is a Spring class used to programmatically create proxies.</p>
+    <h2>98. How can we combine multiple advices on the same method?</h2>
+    <p>By defining multiple advice types for the same pointcut expression.</p>
+    <h2>99. What is Load-Time Weaving (LTW) in AOP?</h2>
+    <p>LTW is an AspectJ feature that applies aspects at runtime during class loading.</p>
+    <h2>100. How can we exclude certain classes from AOP in Spring?</h2>
+    <p>By refining pointcut expressions to avoid matching specific classes or methods.</p>
+    <p>&nbsp;</p>
+    <h1>Spring AOP Interview Questions - Set 11</h1>
+    <h2>101. What is the difference between Spring AOP and AspectJ?</h2>
+    <p>Spring AOP uses proxies and is limited to method execution, while AspectJ provides compile-time, load-time, and runtime weaving.</p>
+    <h2>102. How can we apply AOP to beans declared in XML configuration?</h2>
+    <p>By defining aspects using &lt;aop:config&gt; and specifying pointcuts and advice in XML.</p>
+    <h2>103. Can we apply AOP on constructors in Spring?</h2>
+    <p>No, Spring AOP does not support constructor interception. AspectJ is needed for this feature.</p>
+    <h2>104. How can we exclude specific methods from AOP advice?</h2>
+    <p>By refining pointcut expressions using negation (!) or method patterns.</p>
+    <h2>105. How does @DeclareParents annotation work in Spring AOP?</h2>
+    <p>@DeclareParents allows adding new methods or interfaces to existing classes dynamically.</p>
+    <h2>106. What is the purpose of JoinPoint in Spring AOP?</h2>
+    <p>JoinPoint represents a point in the execution flow where advice can be applied.</p>
+    <h2>107. How can we access method arguments in an advice?</h2>
+    <p>By using JoinPoint.getArgs() inside an advice method.</p>
+    <h2>108. What is a common use case for @Around advice?</h2>
+    <p>Logging, performance monitoring, and transaction management are common use cases.</p>
+    <h2>109. How can we order the execution of multiple aspects?</h2>
+    <p>Using the @Order annotation to set precedence.</p>
+    <h2>110. Can we use Spring AOP with Reactive programming?</h2>
+    <p>Yes, but it is limited since proxies work synchronously, and AspectJ might be needed for full support.</p>
+    <p>&nbsp;</p>
+    <h1>Spring AOP Interview Questions - Set 12</h1>
+    <h2>111. What is an Introduction in Spring AOP?</h2>
+    <p>An Introduction allows adding new methods or fields to an existing class without modifying it.</p>
+    <h2>112. How can we declare an Introduction in Spring AOP?</h2>
+    <p>By using the @DeclareParents annotation to introduce new functionality to a target class.</p>
+    <h2>113. What is Aspect Instantiation in Spring AOP?</h2>
+    <p>Aspect instantiation refers to how aspects are created, either as singletons or per target object.</p>
+    <h2>114. How can we limit aspect execution to specific beans?</h2>
+    <p>By using the bean() pointcut designator to apply aspects only to certain Spring beans.</p>
+    <h2>115. Can we apply AOP on static methods in Spring?</h2>
+    <p>No, Spring AOP does not support static method interception since proxies work at the instance level.</p>
+    <h2>116. What are the disadvantages of Spring AOP?</h2>
+    <p>Spring AOP has limitations like no support for field-level interception and only method-level proxying.</p>
+    <h2>117. How does Spring AOP handle exceptions?</h2>
+    <p>By using @AfterThrowing advice, which executes when a method throws an exception.</p>
+    <h2>118. How can we retrieve the return value of a method in AOP?</h2>
+    <p>Using the @AfterReturning advice and accessing the returning parameter.</p>
+    <h2>119. What is the purpose of @EnableAspectJAutoProxy?</h2>
+    <p>It enables support for AspectJ-style aspects in a Spring application.</p>
+    <h2>120. Can we use Spring AOP without Spring Framework?</h2>
+    <p>No, Spring AOP is a part of the Spring Framework and requires Spring's dependency injection container.</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <pre>&nbsp;
+    </pre>
+</body>
+</html>

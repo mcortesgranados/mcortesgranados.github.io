@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Google Cloud Identity and Access Management (IAM)</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p><a href="../IAM_references_jpg_0540.html" target="_blank">ACG LINK</a></p>
+<p><strong><br />
+Google Cloud Identity and Access Management (IAM): Secure Access Control for Cloud Resources</strong></p>
+<p>Google Cloud Identity and Access Management (IAM) is a robust security and access control service that enables users to manage permissions and control access to Google Cloud Platform (GCP) resources. IAM ensures secure collaboration and helps organizations adhere to the principle of least privilege. Here's a comprehensive list of Google Cloud IAM features along with their definitions:</p>
+<ol>
+  <li>
+    <p><strong>Identity Management:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM allows users to manage and control access based on identities, such as Google Accounts, Google Groups, and service accounts. This ensures that only authorized individuals or entities can interact with resources.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Role-Based Access Control (RBAC):</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM implements RBAC, enabling users to assign roles to identities. Roles define the set of permissions granted to a user, determining their level of access to resources.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Predefined Roles:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM provides a set of predefined roles with specific sets of permissions. These roles cover common use cases, such as owner, editor, viewer, and more. Users can assign these roles to grant permissions easily.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Custom Roles:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> Users can create custom roles with a specific set of permissions tailored to their unique requirements. This allows for fine-grained control over access to resources.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Resource Hierarchy:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM operates within a resource hierarchy, allowing users to set permissions at the project, folder, or organization level. This hierarchical structure streamlines access management in complex environments.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Policy Binding:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM policies define the permissions granted to users, and these policies are bound to resources at different levels in the hierarchy. Policy binding ensures that access controls are applied effectively.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Conditional IAM Policies:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> Users can create conditional IAM policies that consider additional factors, such as device status, IP address, and time of day. This adds an extra layer of security and flexibility to access control.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Service Accounts:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> Service accounts are special types of Google Accounts that represent non-human users, such as applications and virtual machines. IAM allows users to assign roles to service accounts for secure automation.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Service Account Key Management:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM provides a way to manage and rotate keys for service accounts. This ensures secure access to resources by regularly updating and managing service account keys.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>IAM Audit Logging:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM generates audit logs that capture changes to IAM policies and permissions. These logs provide a comprehensive record of who made changes to access controls and when.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>IAM Conditions:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM conditions allow users to specify additional constraints on policies, such as requiring requests to come from a specific network or device. Conditions enhance the granularity of access controls.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Access Levels:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM allows users to define access levels based on context-aware access policies. Access levels consider various factors, including device status and location, to determine access.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Resource-level IAM:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM supports resource-level access control for certain GCP services. Users can set IAM policies directly on individual resources, providing more granular control over access.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Role Inheritance:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM roles can be inherited by child resources in the hierarchy. This simplifies access management, ensuring that permissions granted at a higher level automatically apply to lower-level resources.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Delegated Administration:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM allows users to delegate administration of IAM roles and permissions for specific resources. This enables distributed and role-based administration across an organization.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>IAM Recommender:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM Recommender provides recommendations to help users optimize their IAM policies. This includes suggestions for removing unused permissions and aligning permissions with best practices.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Integration with Cloud Identity:</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> IAM integrates seamlessly with Cloud Identity, providing organizations with a unified solution for managing access across Google Cloud and other Google Workspace services.</li>
+    </ul>
+  </li>
+</ol>
+<p>Google Cloud IAM is a critical component for securing and managing access to cloud resources. Its flexible and granular access control capabilities, combined with features like conditional policies and auditing, empower organizations to enforce security best practices and compliance standards effectively.</p>
+<p>Google Cloud Identity and Access Management (IAM) allows you to manage access control for your Google Cloud resources. IAM enables you to define who (identity) has what access (roles) to which resources. Below is a basic example of using Google Cloud IAM:</p>
+<h3>Prerequisites:</h3>
+<p>Ensure you have the necessary permissions to manage IAM policies for your Google Cloud project.</p>
+<h3>Example using gcloud CLI:</h3>
+<ol>
+  <li>
+    <p><strong>List Existing IAM Policies:</strong></p>
+    <ul>
+      <li>Use the gcloud command to list existing IAM policies for a Google Cloud resource.</li>
+    </ul>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<p>gcloud projects get-iam-policy PROJECT_ID<br />
+</p>
+<p>&nbsp;</p>
+<ol>
+  <li>
+    <p>Replace PROJECT_ID with your Google Cloud project ID.</p>
+  </li>
+  <li>
+    <p><strong>Grant a Role to a User:</strong></p>
+    <ul>
+      <li>Use the gcloud command to grant a specific role to a user.</li>
+    </ul>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<p>gcloud projects add-iam-policy-binding PROJECT_ID \<br />
+--member=user:USER_EMAIL \<br />
+--role=roles/ROLE_NAME<br />
+</p>
+<p>&nbsp;</p>
+<ol>
+  <li>
+    <p>Replace PROJECT_ID, USER_EMAIL, and ROLE_NAME with your Google Cloud project ID, the user's email address, and the desired role, respectively.</p>
+  </li>
+  <li>
+    <p><strong>Create a Custom Role:</strong></p>
+    <ul>
+      <li>Use the gcloud command to create a custom role with specific permissions.</li>
+    </ul>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<p>gcloud iam roles create CUSTOM_ROLE_NAME \<br />
+--project=PROJECT_ID \<br />
+--title=&quot;Custom Role Title&quot; \<br />
+--description=&quot;Description of the custom role&quot; \<br />
+--permissions=permissions.list,of,permissions<br />
+</p>
+<p>&nbsp;</p>
+<ol>
+  <li>
+    <p>Replace CUSTOM_ROLE_NAME, PROJECT_ID, and permissions.list,of,permissions with your desired custom role name, Google Cloud project ID, and a comma-separated list of permissions.</p>
+  </li>
+  <li>
+    <p><strong>Grant a Custom Role to a User:</strong></p>
+    <ul>
+      <li>Use the gcloud command to grant a custom role to a user.</li>
+    </ul>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<p>gcloud projects add-iam-policy-binding PROJECT_ID \<br />
+--member=user:USER_EMAIL \<br />
+--role=roles/CUSTOM_ROLE_NAME<br />
+</p>
+<p>&nbsp;</p>
+<ol>
+  <li>
+    <p>Replace PROJECT_ID, USER_EMAIL, and CUSTOM_ROLE_NAME with your Google Cloud project ID, the user's email address, and the custom role name, respectively.</p>
+  </li>
+  <li>
+    <p><strong>Revoke a Role from a User:</strong></p>
+    <ul>
+      <li>Use the gcloud command to revoke a role from a user.</li>
+    </ul>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<p>gcloud projects remove-iam-policy-binding PROJECT_ID \<br />
+--member=user:USER_EMAIL \<br />
+--role=roles/ROLE_NAME<br />
+</p>
+<p>&nbsp;</p>
+<ol>
+  <li>
+    <p>Replace PROJECT_ID, USER_EMAIL, and ROLE_NAME with your Google Cloud project ID, the user's email address, and the role name, respectively.</p>
+  </li>
+  <li>
+    <p><strong>Create a Service Account:</strong></p>
+    <ul>
+      <li>Use the gcloud command to create a service account.</li>
+    </ul>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<p>gcloud iam service-accounts create SERVICE_ACCOUNT_NAME \<br />
+--display-name=&quot;Service Account Display Name&quot;<br />
+</p>
+<p>&nbsp;</p>
+<ol>
+  <li>
+    <p>Replace SERVICE_ACCOUNT_NAME with your desired service account name.</p>
+  </li>
+  <li>
+    <p><strong>Grant a Role to a Service Account:</strong></p>
+    <ul>
+      <li>Use the gcloud command to grant a role to a service account.</li>
+    </ul>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<p>gcloud projects add-iam-policy-binding PROJECT_ID \<br />
+--member=serviceAccount:SERVICE_ACCOUNT_EMAIL \<br />
+--role=roles/ROLE_NAME<br />
+</p>
+<p>&nbsp;</p>
+<ol>
+  <li>
+    <p>Replace PROJECT_ID, SERVICE_ACCOUNT_EMAIL, and ROLE_NAME with your Google Cloud project ID, the service account's email address, and the role name, respectively.</p>
+  </li>
+  <li>
+    <p><strong>List Service Account Keys:</strong></p>
+    <ul>
+      <li>Use the gcloud command to list keys for a service account.</li>
+    </ul>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<p>gcloud iam service-accounts keys list \<br />
+--iam-account=SERVICE_ACCOUNT_EMAIL<br />
+</p>
+<p>&nbsp;</p>
+<ol>
+  <li>
+    <p>Replace SERVICE_ACCOUNT_EMAIL with the email address of the service account.</p>
+  </li>
+  <li>
+    <p><strong>Remove a Member (Revoke Access):</strong></p>
+    <ul>
+      <li>Use the gcloud command to remove a member (revoke access) from a resource.</li>
+    </ul>
+  </li>
+</ol>
+<p>&nbsp;</p>
+<p>Replace PROJECT_ID, USER_EMAIL, and ROLE_NAME with your Google Cloud project ID, the user's email address, and the role name, respectively.</p>
+<p>&nbsp; </p>
+<p>&nbsp; </p>
+<p>&nbsp; </p>
+<p>&nbsp; </p>
+<p>&nbsp; </p>
+<p>&nbsp; </p>
+<p>&nbsp; </p>
+<p>&nbsp; </p>
+</body>
+</html>

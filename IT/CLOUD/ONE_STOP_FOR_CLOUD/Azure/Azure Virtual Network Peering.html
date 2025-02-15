@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Azure Virtual Network Peering</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p><strong>Azure Virtual Network Peering: Overview and Configuration Example</strong></p>
+<p>Azure Virtual Network Peering allows you to connect Azure virtual networks seamlessly. Virtual machines in peered virtual networks can communicate with each other directly, using private IP addresses as if they were in the same network. Here's a detailed overview of Azure Virtual Network Peering along with a configuration example:</p>
+<h3>Features of Azure Virtual Network Peering:</h3>
+<ol>
+  <li>
+    <p><strong>Global Reach:</strong></p>
+    <ul>
+      <li>Provides connectivity between virtual networks across different regions, facilitating a global network architecture.</li>
+    </ul>
+  </li>
+  <li><strong>Private IP Addressing:</strong>
+    <ul>
+      <li>Enables communication between virtual machines using private IP addresses, maintaining isolation from the public internet.</li>
+    </ul>
+  </li>
+  <li><strong>Transitive Routing:</strong>
+    <ul>
+      <li>Supports transitive routing, allowing traffic to flow through multiple peered virtual networks.</li>
+    </ul>
+  </li>
+  <li><strong>Hub-and-Spoke Topology:</strong>
+    <ul>
+      <li>Facilitates the creation of hub-and-spoke network architectures for centralized management and traffic control.</li>
+    </ul>
+  </li>
+  <li><strong>Gateway Transit (Optional):</strong>
+    <ul>
+      <li>Enables the use of gateway transit, allowing peered networks to use the VPN or ExpressRoute gateway in the hub network.</li>
+    </ul>
+  </li>
+  <li><strong>Remote Gateway (Optional):</strong>
+    <ul>
+      <li>Allows communication between virtual networks over a VPN or ExpressRoute connection.</li>
+    </ul>
+  </li>
+  <li><strong>Shared Services (Optional):</strong>
+    <ul>
+      <li>Supports the creation of shared services, allowing a central network to host services accessed by other networks.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Configuration Example:</h3>
+<p>Let's configure Azure Virtual Network Peering between two virtual networks:</p>
+<ol>
+  <li>
+    <p><strong>Login to Azure Portal:</strong></p>
+    <ul>
+      <li>Navigate to the <a target="_new" href="https://portal.azure.com/">Azure Portal</a>.</li>
+    </ul>
+  </li>
+  <li><strong>Create Virtual Networks:</strong>
+    <ul>
+      <li>Click on &quot;Create a resource&quot; and search for &quot;Virtual network.&quot;</li>
+      <li>Create two virtual networks, e.g., &quot;VNet1&quot; and &quot;VNet2,&quot; in the same or different regions.</li>
+    </ul>
+  </li>
+  <li><strong>Configure Address Spaces:</strong>
+    <ul>
+      <li>In each virtual network, configure the address space to avoid overlapping IP address ranges.</li>
+    </ul>
+  </li>
+  <li><strong>Create Subnets:</strong>
+    <ul>
+      <li>In each virtual network, create subnets as needed.</li>
+    </ul>
+  </li>
+  <li><strong>Configure Network Security Groups (Optional):</strong>
+    <ul>
+      <li>Optionally, configure Network Security Groups (NSGs) for each subnet to control inbound and outbound traffic.</li>
+    </ul>
+  </li>
+  <li><strong>Create Virtual Network Peering:</strong>
+    <ul>
+      <li>In the &quot;VNet1&quot; blade, go to &quot;Peerings&quot; and click &quot;Add.&quot;</li>
+      <li>Choose the target virtual network, e.g., &quot;VNet2,&quot; and configure peering settings.</li>
+      <li>Repeat the process in the &quot;VNet2&quot; blade, peering with &quot;VNet1.</li>
+    </ul>
+  </li>
+  <li><strong>Enable Remote Gateway (Optional):</strong>
+    <ul>
+      <li>If you have a VPN or ExpressRoute gateway in one of the networks, enable remote gateway in the peering settings.</li>
+    </ul>
+  </li>
+  <li><strong>Verify Connectivity:</strong>
+    <ul>
+      <li>Deploy virtual machines in each subnet and verify that they can communicate with each other using private IP addresses.</li>
+    </ul>
+  </li>
+  <li><strong>Transitive Routing (Optional):</strong>
+    <ul>
+      <li>Create additional virtual networks and peer them with &quot;VNet1&quot; or &quot;VNet2&quot; to enable transitive routing.</li>
+    </ul>
+  </li>
+  <li><strong>Gateway Transit (Optional):</strong>
+    <ul>
+      <li>If using a hub-and-spoke architecture, enable gateway transit on the hub network to allow peered networks to use the VPN or ExpressRoute gateway.</li>
+    </ul>
+  </li>
+  <li><strong>Shared Services (Optional):</strong>
+    <ul>
+      <li>If hosting shared services in one of the networks, ensure that the peered networks can access those services.</li>
+    </ul>
+  </li>
+  <li><strong>Monitoring and Logging (Optional):</strong>
+    <ul>
+      <li>Enable monitoring and logging to track network activity and diagnose issues.</li>
+    </ul>
+  </li>
+  <li><strong>Clean Up Resources:</strong>
+    <ul>
+      <li>Once done, clean up resources by deleting the virtual networks or specific resources as needed.</li>
+    </ul>
+  </li>
+</ol>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>AWS Security Groups</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p><a href="../Security Groups_references_jpg.html" target="_blank">ACG LINK</a></p>
+<p><strong>AWS Security Groups: Overview and Configuration Example</strong></p>
+<p>AWS Security Groups act as virtual firewalls for your Amazon Elastic Compute Cloud (Amazon EC2) instances to control inbound and outbound traffic. They provide stateful filtering, allowing you to define rules that permit or deny traffic based on protocols, ports, and IP addresses. Here's a detailed overview of AWS Security Groups along with a configuration example:</p>
+<h3>Features of AWS Security Groups:</h3>
+<ol>
+  <li>
+    <p><strong>Stateful Filtering:</strong></p>
+    <ul>
+      <li>Provides stateful filtering, allowing response traffic for allowed inbound traffic.</li>
+    </ul>
+  </li>
+  <li><strong>Inbound and Outbound Rules:</strong>
+    <ul>
+      <li>Allows you to define inbound and outbound rules separately.</li>
+    </ul>
+  </li>
+  <li><strong>Dynamic Membership:</strong>
+    <ul>
+      <li>Automatically updates group membership for instances launched within the specified Amazon Virtual Private Cloud (Amazon VPC).</li>
+    </ul>
+  </li>
+  <li><strong>Instance-Level Security:</strong>
+    <ul>
+      <li>Applies security rules at the instance level, controlling traffic to and from individual instances.</li>
+    </ul>
+  </li>
+  <li><strong>Default Deny:</strong>
+    <ul>
+      <li>Adheres to a default deny rule, meaning that all inbound traffic is denied unless explicitly allowed.</li>
+    </ul>
+  </li>
+  <li><strong>Integration with AWS Services:</strong>
+    <ul>
+      <li>Integrates seamlessly with other AWS services, including Amazon RDS, Amazon Redshift, and more.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Configuration Example:</h3>
+<p>Let's create a simple AWS Security Group and define inbound and outbound rules for a hypothetical web server using the AWS Management Console:</p>
+<ol>
+  <li>
+    <p><strong>Login to AWS Console:</strong></p>
+    <ul>
+      <li>Navigate to the <a target="_new">AWS Management Console</a>.</li>
+    </ul>
+  </li>
+  <li><strong>Open EC2 Console:</strong>
+    <ul>
+      <li>Click on the &quot;EC2&quot; service in the console.</li>
+    </ul>
+  </li>
+  <li><strong>Create Security Group:</strong>
+    <ul>
+      <li>In the EC2 Dashboard, navigate to &quot;Security Groups&quot; in the left navigation pane.</li>
+      <li>Click &quot;Create Security Group&quot; and provide a name and description for the security group.</li>
+    </ul>
+  </li>
+  <li><strong>Define Inbound Rules:</strong>
+    <ul>
+      <li>Click on the &quot;Inbound Rules&quot; tab.</li>
+      <li>Click &quot;Add Rule&quot; and define inbound rules based on your use case. For a web server, you might add a rule to allow incoming traffic on port 80 for HTTP.</li>
+    </ul>
+  </li>
+  <li><strong>Define Outbound Rules:</strong>
+    <ul>
+      <li>Click on the &quot;Outbound Rules&quot; tab.</li>
+      <li>Click &quot;Add Rule&quot; and define outbound rules. Typically, you might allow all outbound traffic.</li>
+    </ul>
+  </li>
+  <li><strong>Associate Security Group with EC2 Instance:</strong>
+    <ul>
+      <li>Launch a new EC2 instance or select an existing instance.</li>
+      <li>In the instance details, navigate to the &quot;Security&quot; tab and associate the newly created security group with the instance.</li>
+    </ul>
+  </li>
+  <li><strong>Test Connectivity:</strong>
+    <ul>
+      <li>Connect to the EC2 instance using SSH (if applicable) or access the web server. Ensure that inbound and outbound traffic follows the defined rules.</li>
+    </ul>
+  </li>
+  <li><strong>Update Security Group Rules (Optional):</strong>
+    <ul>
+      <li>If your requirements change, update the security group rules accordingly.</li>
+    </ul>
+  </li>
+  <li><strong>Monitor Security Group Activity:</strong>
+    <ul>
+      <li>Monitor security group activity using CloudWatch logs or other monitoring tools.</li>
+    </ul>
+  </li>
+  <li><strong>Delete Security Group (Optional):</strong>
+    <ul>
+      <li>Optionally, you can delete the security group through the console if it's no longer needed.</li>
+    </ul>
+  </li>
+</ol>
+</body>
+</html>

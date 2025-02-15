@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>AWS WAF (Web Application Firewall)</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p><a href="../AWS WAF_references_jpg.html" target="_blank">ACG LINK</a></p>
+<p><strong>AWS WAF (Web Application Firewall): Overview and Configuration Example</strong></p>
+<p>AWS WAF is a web application firewall service that helps protect web applications from common web exploits, such as SQL injection and cross-site scripting (XSS). It allows you to create rules to control access to your content and resources, and it integrates seamlessly with other AWS services. Here's a detailed overview of AWS WAF along with a configuration example:</p>
+<h3>Features of AWS WAF:</h3>
+<ol>
+  <li>
+    <p><strong>Web Application Protection:</strong></p>
+    <ul>
+      <li>Protects web applications from common web exploits and vulnerabilities.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Rule-Based Filtering:</strong></p>
+    <ul>
+      <li>Allows you to create rules based on IP addresses, HTTP headers, HTTP body, or URI strings.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Integration with CloudFront and Application Load Balancer:</strong></p>
+    <ul>
+      <li>Integrates with Amazon CloudFront and Application Load Balancer to protect web applications at the edge.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Managed Rule Sets:</strong></p>
+    <ul>
+      <li>Provides managed rule sets to protect against common threats without the need for manual rule creation.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Custom Rules:</strong></p>
+    <ul>
+      <li>Enables the creation of custom rules tailored to specific application requirements.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Rate Limiting:</strong></p>
+    <ul>
+      <li>Supports rate limiting to control the number of requests from a client in a given time period.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Logging and Monitoring:</strong></p>
+    <ul>
+      <li>Provides detailed logs and integrates with AWS CloudWatch for monitoring.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Configuration Example:</h3>
+<p>Let's create a simple AWS WAF web ACL (Access Control List) and define rules to protect a web application using the AWS Management Console:</p>
+<ol>
+  <li>
+    <p><strong>Login to AWS Console:</strong></p>
+    <ul>
+      <li>Navigate to the <a target="_new">AWS Management Console</a>.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Open AWS WAF Console:</strong></p>
+    <ul>
+      <li>Click on the &quot;AWS WAF &amp; Shield&quot; service in the console.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Create a Web ACL:</strong></p>
+    <ul>
+      <li>Click &quot;Web ACLs&quot; in the left navigation pane.</li>
+      <li>Click &quot;Create Web ACL&quot; and provide a name for the ACL.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Add Rules to Web ACL:</strong></p>
+    <ul>
+      <li>Click on the newly created ACL and navigate to the &quot;Rules&quot; tab.</li>
+      <li>Click &quot;Add Rule&quot; and choose the type of rule you want to add (e.g., IP match rule, string match rule).</li>
+      <li>Configure the rule settings, such as conditions and actions.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Configure Rate Limiting (Optional):</strong></p>
+    <ul>
+      <li>Optionally, configure rate limiting rules to control the number of requests from a client in a specified time period.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Associate Web ACL with Resource:</strong></p>
+    <ul>
+      <li>Associate the web ACL with the resource you want to protect, such as a CloudFront distribution or Application Load Balancer.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Test Web Application:</strong></p>
+    <ul>
+      <li>Test the web application to ensure that the defined rules are protecting against common web exploits.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Monitor WAF Logs:</strong></p>
+    <ul>
+      <li>Monitor WAF logs in the AWS WAF console and CloudWatch to review detected threats and false positives.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Update Rules and ACL (Optional):</strong></p>
+    <ul>
+      <li>Update rules and ACL settings as needed based on changing security requirements.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Delete Web ACL (Optional):</strong></p>
+    <ul>
+      <li>Optionally, you can delete the web ACL through the console if it's no longer needed.</li>
+    </ul>
+  </li>
+</ol>
+</body>
+</html>

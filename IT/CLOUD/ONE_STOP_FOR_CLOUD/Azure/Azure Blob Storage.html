@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Azure Blob Storage</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p><a href="../Blob Storage_references_jpg.html" target="_blank">ACG LINK</a></p>
+<p><strong>Azure Blob Storage: Overview and Configuration Example</strong></p>
+<p>Azure Blob Storage is a scalable object storage solution for the cloud, designed to store and manage large amounts of unstructured data, such as text or binary data. It provides high availability, durability, and accessibility to your data from anywhere in the world. Here's a detailed overview of Azure Blob Storage along with a configuration example:</p>
+<h3>Features of Azure Blob Storage:</h3>
+<ol>
+  <li>
+    <p><strong>Scalability and Durability:</strong></p>
+    <ul>
+      <li>Provides scalable storage capacity with the ability to store and manage vast amounts of data. Data is replicated for high durability.</li>
+    </ul>
+  </li>
+  <li><strong>Multiple Storage Tiers:</strong>
+    <ul>
+      <li>Supports multiple storage tiers, including hot, cool, and archive, to optimize costs based on data access patterns.</li>
+    </ul>
+  </li>
+  <li><strong>Blob Types:</strong>
+    <ul>
+      <li>Supports different types of blobs, including block blobs, append blobs, and page blobs, each designed for specific use cases.</li>
+    </ul>
+  </li>
+  <li><strong>Data Encryption:</strong>
+    <ul>
+      <li>Offers encryption at rest and in transit, ensuring the security of stored data.</li>
+    </ul>
+  </li>
+  <li><strong>Access Control and Authorization:</strong>
+    <ul>
+      <li>Integrates with Azure Active Directory for access control and supports Shared Access Signatures (SAS) for fine-grained authorization.</li>
+    </ul>
+  </li>
+  <li><strong>Versioning:</strong>
+    <ul>
+      <li>Provides versioning support for blobs, enabling you to track changes and restore previous versions.</li>
+    </ul>
+  </li>
+  <li><strong>Lifecycle Management:</strong>
+    <ul>
+      <li>Allows you to define policies for automatic data movement between storage tiers and retention policies.</li>
+    </ul>
+  </li>
+  <li><strong>Event Grid Integration:</strong>
+    <ul>
+      <li>Integrates with Azure Event Grid for event-driven architectures, enabling you to react to blob storage events.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Configuration Example:</h3>
+<p>Let's configure an Azure Blob Storage account and upload a file to a blob container using the Azure Storage Explorer:</p>
+<ol>
+  <li>
+    <p><strong>Login to Azure Portal:</strong></p>
+    <ul>
+      <li>Navigate to the <a target="_new" href="https://portal.azure.com/">Azure Portal</a>.</li>
+    </ul>
+  </li>
+  <li><strong>Create a Storage Account:</strong>
+    <ul>
+      <li>Click on &quot;Create a resource&quot; and search for &quot;Storage account.&quot;</li>
+      <li>Click &quot;Create&quot; to start the Storage Account creation wizard.</li>
+      <li>Specify account details, such as subscription, resource group, storage account name, region, and performance (Standard/ Premium).</li>
+    </ul>
+  </li>
+  <li><strong>Configure Advanced Settings:</strong>
+    <ul>
+      <li>Configure additional settings, such as account kind (StorageV2 for general-purpose storage), replication (Locally redundant storage, Geo-redundant storage, etc.), and access tier (Hot or Cool).</li>
+    </ul>
+  </li>
+  <li><strong>Review and Create:</strong>
+    <ul>
+      <li>Review the configured settings and click &quot;Create&quot; to deploy the Storage Account.</li>
+    </ul>
+  </li>
+  <li><strong>Access Keys:</strong>
+    <ul>
+      <li>Once the Storage Account is created, navigate to the Storage Account in the Azure Portal.</li>
+      <li>Go to &quot;Settings&quot; &gt; &quot;Access keys&quot; to find the account key, which is required for authentication.</li>
+    </ul>
+  </li>
+  <li><strong>Install Azure Storage Explorer:</strong>
+    <ul>
+      <li>Download and install <a target="_new">Azure Storage Explorer</a>.</li>
+    </ul>
+  </li>
+  <li><strong>Connect to Storage Account:</strong>
+    <ul>
+      <li>Open Azure Storage Explorer and click on &quot;Add an account&quot; to connect to your Azure subscription.</li>
+      <li>Provide the subscription ID and paste one of the access keys obtained from the Storage Account.</li>
+    </ul>
+  </li>
+  <li><strong>Create a Blob Container:</strong>
+    <ul>
+      <li>In Azure Storage Explorer, navigate to the Storage Account &gt; Blob Containers.</li>
+      <li>Right-click on &quot;Blob Containers&quot; and select &quot;Create Blob Container.&quot;</li>
+      <li>Provide a name for the container, e.g., &quot;mycontainer.&quot;</li>
+    </ul>
+  </li>
+  <li><strong>Upload a File to Blob Container:</strong>
+    <ul>
+      <li>Right-click on the created container and select &quot;Upload...&quot;</li>
+      <li>Choose a file to upload to the blob container.</li>
+    </ul>
+  </li>
+  <li><strong>Access Blob URL:</strong>
+    <ul>
+      <li>Once the file is uploaded, right-click on the file and select &quot;Copy URL&quot; to get the URL of the blob.</li>
+    </ul>
+  </li>
+  <li><strong>Blob Access Control (Optional):</strong>
+    <ul>
+      <li>Configure access control for the blob, such as setting public access levels or generating a Shared Access Signature (SAS) for temporary access.</li>
+    </ul>
+  </li>
+  <li><strong>Blob Versioning (Optional):</strong>
+    <ul>
+      <li>Enable blob versioning in the Azure Portal if versioning is required for the blob.</li>
+    </ul>
+  </li>
+  <li><strong>Blob Lifecycle Management (Optional):</strong>
+    <ul>
+      <li>Configure a lifecycle management policy in the Azure Portal to automatically move blobs between storage tiers or delete old versions.</li>
+    </ul>
+  </li>
+  <li><strong>Blob Events (Optional):</strong>
+    <ul>
+      <li>Set up Azure Event Grid to receive notifications about blob events, such as blob created or deleted.</li>
+    </ul>
+  </li>
+  <li><strong>Blob Analytics (Optional):</strong>
+    <ul>
+      <li>Enable Azure Storage Analytics to capture metrics and logs for monitoring and analysis.</li>
+    </ul>
+  </li>
+</ol>
+</body>
+</html>

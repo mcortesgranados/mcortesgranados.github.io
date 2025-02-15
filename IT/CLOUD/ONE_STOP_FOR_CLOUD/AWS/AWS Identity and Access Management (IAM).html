@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>AWS Identity and Access Management (IAM)</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p><a href="AWS Identity and Access Management (IAM).html" target="_blank">ACG LINK</a></p>
+<p><strong>AWS Identity and Access Management (IAM): Overview and Configuration Example</strong></p>
+<p>AWS Identity and Access Management (IAM) is a web service that helps you securely control access to AWS resources. IAM enables you to create and manage AWS users and groups, and it provides granular access control over AWS services and resources. Here's a detailed overview of AWS IAM along with a configuration example:</p>
+<h3>Features of AWS IAM:</h3>
+<ol>
+  <li>
+    <p><strong>Users and Groups:</strong></p>
+    <ul>
+      <li>Allows you to create and manage IAM users and groups with individual credentials.</li>
+    </ul>
+  </li>
+  <li><strong>Policies:</strong>
+    <ul>
+      <li>Defines permissions using policies, which are JSON documents that specify what actions are allowed or denied on AWS resources.</li>
+    </ul>
+  </li>
+  <li><strong>Roles:</strong>
+    <ul>
+      <li>Enables you to create roles with specific permissions and attach them to AWS resources or IAM users.</li>
+    </ul>
+  </li>
+  <li><strong>Access Keys:</strong>
+    <ul>
+      <li>Generates access keys for programmatic access to AWS services.</li>
+    </ul>
+  </li>
+  <li><strong>Multi-Factor Authentication (MFA):</strong>
+    <ul>
+      <li>Provides an extra layer of security by requiring users to present a second authentication factor in addition to their password.</li>
+    </ul>
+  </li>
+  <li><strong>Identity Federation:</strong>
+    <ul>
+      <li>Supports identity federation with external identity providers, such as Microsoft Active Directory.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Configuration Example:</h3>
+<p>Let's create a simple IAM configuration to set up a new user, group, and policy:</p>
+<ol>
+  <li>
+    <p><strong>Login to AWS Console:</strong></p>
+    <ul>
+      <li>Navigate to the <a target="_new">AWS Management Console</a>.</li>
+    </ul>
+  </li>
+  <li><strong>Open IAM Console:</strong>
+    <ul>
+      <li>Click on the &quot;IAM&quot; service in the console.</li>
+    </ul>
+  </li>
+  <li><strong>Create IAM User:</strong>
+    <ul>
+      <li>In the IAM dashboard, click on &quot;Users&quot; in the left navigation pane.</li>
+      <li>Click &quot;Add user&quot; and provide a username.</li>
+      <li>Choose the type of access (programmatic, AWS Management Console, or both) and set permissions.</li>
+    </ul>
+  </li>
+  <li><strong>Create IAM Group:</strong>
+    <ul>
+      <li>In the IAM dashboard, click on &quot;Groups&quot; in the left navigation pane.</li>
+      <li>Click &quot;Create group&quot; and provide a group name.</li>
+      <li>Attach policies to the group that define the permissions for users in the group.</li>
+    </ul>
+  </li>
+  <li><strong>Attach Policy to Group:</strong>
+    <ul>
+      <li>In the group details, click &quot;Attach policies&quot; and select policies to attach. Policies define the permissions for the group.</li>
+    </ul>
+  </li>
+  <li><strong>Add User to Group:</strong>
+    <ul>
+      <li>In the group details, click &quot;Add users to group&quot; and select the user created in step 3 to add to the group.</li>
+    </ul>
+  </li>
+  <li><strong>Create IAM Policy:</strong>
+    <ul>
+      <li>In the IAM dashboard, click on &quot;Policies&quot; in the left navigation pane.</li>
+      <li>Click &quot;Create policy&quot; and choose a service to create a policy for.</li>
+      <li>Define the policy using the visual editor or by writing JSON policy code.</li>
+    </ul>
+  </li>
+  <li><strong>Attach Policy to User:</strong>
+    <ul>
+      <li>In the user details, click on the &quot;Add permissions&quot; button.</li>
+      <li>Attach the policy created in step 7 to the user.</li>
+    </ul>
+  </li>
+  <li><strong>Generate Access Key (Optional):</strong>
+    <ul>
+      <li>In the user details, click on the &quot;Security credentials&quot; tab.</li>
+      <li>Generate access keys for programmatic access to AWS services.</li>
+    </ul>
+  </li>
+  <li><strong>Configure MFA (Optional):</strong>
+    <ul>
+      <li>In the user details, click on the &quot;Security credentials&quot; tab.</li>
+      <li>Configure multi-factor authentication for added security.</li>
+    </ul>
+  </li>
+  <li><strong>Test Access:</strong>
+    <ul>
+      <li>Log in as the IAM user and test access to AWS resources based on the assigned permissions.</li>
+    </ul>
+  </li>
+  <li><strong>Monitor and Manage IAM:</strong>
+    <ul>
+      <li>Regularly review and manage IAM users, groups, and policies based on changing requirements.</li>
+    </ul>
+  </li>
+</ol>
+</body>
+</html>

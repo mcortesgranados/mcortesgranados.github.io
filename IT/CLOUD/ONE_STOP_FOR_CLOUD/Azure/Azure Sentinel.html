@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Azure Sentinel</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<h3>Azure Sentinel REST API:</h3>
+<h4>Features:</h4>
+<ol>
+  <li>
+    <p><strong>Incidents:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Azure Sentinel incidents represent security events that are grouped together based on similarity and can be investigated as a unit.</li>
+      <li><strong>Use Case:</strong> Useful for programmatically managing and investigating security incidents.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Alerts:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Azure Sentinel alerts are generated when specific conditions indicative of a security threat are met.</li>
+      <li><strong>Use Case:</strong> Useful for retrieving and responding to security alerts.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Bookmarks:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Bookmarks in Azure Sentinel are used to mark specific points in time during an investigation for future reference.</li>
+      <li><strong>Use Case:</strong> Useful for managing and retrieving bookmarks in investigations.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Data Connectors:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Azure Sentinel allows you to connect to various data sources to collect security-related data.</li>
+      <li><strong>Use Case:</strong> Useful for programmatically managing data connectors.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Example in Python using the requests library:</h3>
+<p>Below is a simplified example demonstrating how to use the Azure Sentinel REST API to retrieve incidents. Ensure you have the necessary Azure AD authentication details and replace placeholders with your actual values.</p>
+<p>import requests</p>
+<p># Specify your Azure Sentinel details<br />
+  sentinel_workspace_id = 'your-sentinel-workspace-id'<br />
+  api_version = '2019-01-01-preview'  # Replace with the appropriate API version</p>
+<p># Azure AD authentication details<br />
+  tenant_id = 'your-tenant-id'<br />
+  client_id = 'your-client-id'<br />
+  client_secret = 'your-client-secret'<br />
+  resource_url = 'https://management.azure.com/'</p>
+<p># Get Azure AD token for authentication<br />
+  token_endpoint = f'https://login.microsoftonline.com/{tenant_id}/oauth2/token'<br />
+  token_data = {<br />
+  'grant_type': 'client_credentials',<br />
+  'client_id': client_id,<br />
+  'client_secret': client_secret,<br />
+  'resource': resource_url<br />
+  }<br />
+  token_response = requests.post(token_endpoint, data=token_data)<br />
+  access_token = token_response.json()['access_token']</p>
+<p># Retrieve incidents from Azure Sentinel<br />
+  sentinel_endpoint = f'https://management.azure.com/subscriptions/{sentinel_workspace_id}/providers/Microsoft.OperationalInsights/workspaces/{sentinel_workspace_id}/providers/Microsoft.SecurityInsights/incidents?api-version={api_version}'<br />
+  headers = {'Authorization': f'Bearer {access_token}'}<br />
+  response = requests.get(sentinel_endpoint, headers=headers)<br />
+  incidents = response.json().get('value', [])</p>
+<p># Print incident details<br />
+  for incident in incidents:<br />
+  print(f&quot;Incident ID: {incident['name']}&quot;)<br />
+  print(f&quot;Severity: {incident['properties']['severity']}&quot;)<br />
+  print(f&quot;Status: {incident['properties']['status']}&quot;)<br />
+  print(&quot;----------------------------&quot;)<br />
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>This example demonstrates how to retrieve incidents from Azure Sentinel using the requests library in Python. Ensure that you replace the placeholder values with your actual Azure Sentinel details and Azure AD authentication information.</p>
+<p>For production environments, it's recommended to use Azure SDKs for Python, such as azure-mgmt-security, for a more convenient and secure approach. Install the required library using:</p>
+<pre><div><div>bash<button>Copy code</button></div><div>pip install azure-mgmt-security  </div></div>
+</pre>
+<p>Refer to the official <a target="_new">Azure Sentinel REST API documentation</a> for the latest information and API details.</p>
+<p>&nbsp; </p>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Azure Security Center</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<h3>Azure Monitor API:</h3>
+<h4>Features:</h4>
+<ol>
+  <li>
+    <p><strong>Security Insights:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Azure Monitor provides security insights and allows you to query security-related data, including security events and alerts.</li>
+      <li><strong>Use Case:</strong> Useful for integrating security data into custom applications or workflows.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Log Queries:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> You can use Log Analytics queries to retrieve specific security-related information from logs.</li>
+      <li><strong>Use Case:</strong> Useful for custom log analysis and reporting.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Azure Policy API:</h3>
+<h4>Features:</h4>
+<ol>
+  <li>
+    <p><strong>Policy Definitions:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Azure Policy allows you to define and enforce policies that help ensure your resources comply with your organization's standards.</li>
+      <li><strong>Use Case:</strong> Useful for programmatically managing and enforcing security policies.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Compliance Data:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Retrieve compliance data to understand how well resources adhere to defined policies.</li>
+      <li><strong>Use Case:</strong> Useful for tracking and reporting on compliance status.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Azure Defender API (Azure Security Center Standard):</h3>
+<h4>Features:</h4>
+<ol>
+  <li>
+    <p><strong>Security Recommendations:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Azure Defender provides security recommendations to help you improve the security posture of your Azure resources.</li>
+      <li><strong>Use Case:</strong> Useful for programmatically implementing security best practices.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Incident Response:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> If Security Center detects a security incident, you can use APIs to retrieve and respond to incident data.</li>
+      <li><strong>Use Case:</strong> Useful for automating incident response workflows.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Example in Python using Azure SDK for Python:</h3>
+<p>Below is a simplified example demonstrating how to use the Azure Monitor API to query security-related logs using the Log Analytics Query API. This example uses the Azure SDK for Python (azure-identity and azure-monitor-query):</p>
+<p>&nbsp;</p>
+<p>from azure.identity import DefaultAzureCredential<br />
+from azure.monitor.query import LogsQueryClient</p>
+<p># Specify your Azure Monitor details<br />
+  workspace_id = 'your_workspace_id'<br />
+  query = 'SecurityEvent | take 5'  # Example log query</p>
+<p># Authenticate using DefaultAzureCredential<br />
+  credential = DefaultAzureCredential()<br />
+  query_client = LogsQueryClient(credential)</p>
+<p># Make a query to retrieve security-related logs<br />
+  result = query_client.query(workspace_id, query)</p>
+<p># Print query result<br />
+  for row in result.tables[0].rows:<br />
+  print(row)<br />
+</p>
+<p>&nbsp;</p>
+<p><br />
+Azure Security Center is a Microsoft Azure service that helps organizations prevent, detect, and respond to security threats. While Azure Security Center itself doesn't have a traditional API for programmatic access, it provides integration with Azure Monitor, Azure Policy, and Azure Defender (formerly known as Azure Security Center Standard). These services offer programmatic interfaces and APIs that you can use to interact with security-related features.</p>
+<h3>Azure Monitor API:</h3>
+<h4>Features:</h4>
+<ol>
+  <li>
+    <p><strong>Security Insights:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Azure Monitor provides security insights and allows you to query security-related data, including security events and alerts.</li>
+      <li><strong>Use Case:</strong> Useful for integrating security data into custom applications or workflows.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Log Queries:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> You can use Log Analytics queries to retrieve specific security-related information from logs.</li>
+      <li><strong>Use Case:</strong> Useful for custom log analysis and reporting.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Azure Policy API:</h3>
+<h4>Features:</h4>
+<ol>
+  <li>
+    <p><strong>Policy Definitions:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Azure Policy allows you to define and enforce policies that help ensure your resources comply with your organization's standards.</li>
+      <li><strong>Use Case:</strong> Useful for programmatically managing and enforcing security policies.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Compliance Data:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Retrieve compliance data to understand how well resources adhere to defined policies.</li>
+      <li><strong>Use Case:</strong> Useful for tracking and reporting on compliance status.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Azure Defender API (Azure Security Center Standard):</h3>
+<h4>Features:</h4>
+<ol>
+  <li>
+    <p><strong>Security Recommendations:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Azure Defender provides security recommendations to help you improve the security posture of your Azure resources.</li>
+      <li><strong>Use Case:</strong> Useful for programmatically implementing security best practices.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Incident Response:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> If Security Center detects a security incident, you can use APIs to retrieve and respond to incident data.</li>
+      <li><strong>Use Case:</strong> Useful for automating incident response workflows.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Example in Python using Azure SDK for Python:</h3>
+<p>Below is a simplified example demonstrating how to use the Azure Monitor API to query security-related logs using the Log Analytics Query API. This example uses the Azure SDK for Python (azure-identity and azure-monitor-query):</p>
+<pre><div><div>python<button>Copy code</button></div><div>from azure.identity import DefaultAzureCredential  from azure.monitor.query import LogsQueryClient    # Specify your Azure Monitor details  workspace_id = 'your_workspace_id'  query = 'SecurityEvent | take 5'  # Example log query    # Authenticate using DefaultAzureCredential  credential = DefaultAzureCredential()  query_client = LogsQueryClient(credential)    # Make a query to retrieve security-related logs  result = query_client.query(workspace_id, query)    # Print query result  for row in result.tables[0].rows:      print(row)  </div></div>
+</pre>
+<p>In this example, replace 'your_workspace_id' with the actual Workspace ID of your Log Analytics workspace and adjust the log query according to your requirements.</p>
+<p>Remember to install the required Python libraries using:</p>
+<pre><div><div>bash<button>Copy code</button></div><div>pip install azure-identity azure-monitor-query  </div></div>
+</pre>
+<p>Ensure you refer to the official Azure documentation for the latest information and APIs:</p>
+<p>&nbsp;</p>
+</body>
+</html>

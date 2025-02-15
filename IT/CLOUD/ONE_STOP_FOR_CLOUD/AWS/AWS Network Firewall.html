@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>AWS Network Firewall</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p><a href="../Network Firewall_references_jpg.html" target="_blank">ACG LINK</a></p>
+<p><strong>AWS Network Firewall: Overview and Configuration Example</strong></p>
+<p>AWS Network Firewall is a managed firewall service that provides scalable, stateful, and rule-based network traffic filtering for Amazon Virtual Private Cloud (Amazon VPC) environments. It allows you to define and enforce fine-grained rules to control incoming and outgoing traffic based on IP addresses, protocols, ports, and domain names. Here's a detailed overview of AWS Network Firewall along with a configuration example:</p>
+<h3>Features of AWS Network Firewall:</h3>
+<ol>
+  <li>
+    <p><strong>Stateful Filtering:</strong></p>
+    <ul>
+      <li>Provides stateful inspection of traffic, allowing you to define rules based on the state of the connection.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Rule-Based Filtering:</strong></p>
+    <ul>
+      <li>Allows you to create custom rules for traffic filtering based on IP addresses, protocols, ports, and domain names.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Integration with AWS Services:</strong></p>
+    <ul>
+      <li>Integrates seamlessly with Amazon VPC, AWS CloudWatch, and AWS Identity and Access Management (IAM).</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Logging and Monitoring:</strong></p>
+    <ul>
+      <li>Provides detailed logging of network traffic, allowing you to monitor and analyze firewall activity.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Scalability:</strong></p>
+    <ul>
+      <li>Scales automatically to handle varying levels of network traffic.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Rule Groups:</strong></p>
+    <ul>
+      <li>Allows you to organize rules into rule groups for easier management.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Rule Variables:</strong></p>
+    <ul>
+      <li>Supports rule variables for dynamic rule configurations.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Configuration Example:</h3>
+<p>Let's create a simple AWS Network Firewall policy and associated rule groups using the AWS Management Console:</p>
+<ol>
+  <li>
+    <p><strong>Login to AWS Console:</strong></p>
+    <ul>
+      <li>Navigate to the <a target="_new">AWS Management Console</a>.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Open AWS Network Firewall Console:</strong></p>
+    <ul>
+      <li>Click on the &quot;AWS Network Firewall&quot; service in the console.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Create a Firewall Policy:</strong></p>
+    <ul>
+      <li>Click on &quot;Policies&quot; in the Network Firewall console.</li>
+      <li>Click &quot;Create Policy&quot; and provide a name for the policy.</li>
+      <li>Configure stateful rule groups, rule group associations, and other settings.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Define Rule Groups:</strong></p>
+    <ul>
+      <li>Create and define rule groups based on your specific requirements. For example:
+          <ul>
+            <li>Create a rule group for allowing or blocking traffic based on IP addresses.</li>
+            <li>Create a rule group for allowing or blocking traffic based on protocols and ports.</li>
+            <li>Create a rule group for allowing or blocking traffic based on domain names.</li>
+          </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Associate Rule Groups with Policy:</strong></p>
+    <ul>
+      <li>Associate the created rule groups with the firewall policy to define the filtering rules.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Create a Firewall:</strong></p>
+    <ul>
+      <li>Click on &quot;Firewalls&quot; in the Network Firewall console.</li>
+      <li>Click &quot;Create Firewall&quot; and provide a name for the firewall.</li>
+      <li>Choose the VPC where the firewall will be deployed.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Associate Policy with Firewall:</strong></p>
+    <ul>
+      <li>Associate the previously created firewall policy with the firewall.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Monitor Firewall Activity:</strong></p>
+    <ul>
+      <li>Monitor firewall activity using the Network Firewall console and CloudWatch logs.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Test Traffic Filtering:</strong></p>
+    <ul>
+      <li>Test the firewall by sending network traffic that matches the defined rules and observe the filtering behavior.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Update Rules and Policy (Optional):</strong></p>
+    <ul>
+      <li>Update rules and policy as needed based on changing security requirements.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Delete Firewall (Optional):</strong></p>
+    <ul>
+      <li>Optionally, you can delete the firewall through the console if it's no longer needed.</li>
+    </ul>
+  </li>
+</ol>
+</body>
+</html>

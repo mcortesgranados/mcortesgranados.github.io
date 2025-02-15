@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Microsoft Graph API</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p>Microsoft Graph API is a unified API endpoint that allows developers to access a wide range of Microsoft 365 services, including Azure Active Directory, SharePoint, OneDrive, Microsoft Teams, and more. It serves as a single endpoint for interacting with various Microsoft cloud services. Below, I'll provide a brief overview of Microsoft Graph API and a simple example in Python using the requests library.</p>
+<h3>Microsoft Graph API:</h3>
+<h4>Features:</h4>
+<ol>
+  <li>
+    <p><strong>Users and Groups:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Microsoft Graph allows you to retrieve information about users and groups in Azure AD.</li>
+      <li><strong>Use Case:</strong> Useful for managing users, groups, and their memberships.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Mail and Calendar:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> You can access and manipulate emails, calendars, and events using Microsoft Graph.</li>
+      <li><strong>Use Case:</strong> Useful for integrating email and calendar functionalities into custom applications.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Drive and Files:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Microsoft Graph provides access to OneDrive and SharePoint for working with files and folders.</li>
+      <li><strong>Use Case:</strong> Useful for managing and accessing documents stored in OneDrive or SharePoint.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Security and Compliance:</strong></p>
+    <ul>
+      <li><strong>Explanation:</strong> Microsoft Graph includes security-related APIs for managing security alerts and compliance data.</li>
+      <li><strong>Use Case:</strong> Useful for integrating security and compliance functionalities into custom applications.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Example in Python using the requests library:</h3>
+<p>Below is a simplified example demonstrating how to use the Microsoft Graph API to retrieve information about the signed-in user. Ensure you have the necessary Azure AD authentication details and replace placeholders with your actual values.</p>
+<p>&nbsp;</p>
+<p>import requests</p>
+<p># Specify your Microsoft Graph API details<br />
+  graph_api_endpoint = 'https://graph.microsoft.com/v1.0/me'  # Endpoint to retrieve user's information</p>
+<p># Azure AD authentication details<br />
+  tenant_id = 'your-tenant-id'<br />
+  client_id = 'your-client-id'<br />
+  client_secret = 'your-client-secret'<br />
+  resource_url = 'https://graph.microsoft.com'</p>
+<p># Get Azure AD token for authentication<br />
+  token_endpoint = f'https://login.microsoftonline.com/{tenant_id}/oauth2/token'<br />
+  token_data = {<br />
+  'grant_type': 'client_credentials',<br />
+  'client_id': client_id,<br />
+  'client_secret': client_secret,<br />
+  'resource': resource_url<br />
+  }<br />
+  token_response = requests.post(token_endpoint, data=token_data)<br />
+  access_token = token_response.json()['access_token']</p>
+<p># Retrieve user information from Microsoft Graph<br />
+  headers = {'Authorization': f'Bearer {access_token}'}<br />
+  response = requests.get(graph_api_endpoint, headers=headers)<br />
+  user_info = response.json()</p>
+<p># Print user details<br />
+  print(f&quot;User ID: {user_info['id']}&quot;)<br />
+  print(f&quot;User Name: {user_info['displayName']}&quot;)<br />
+  print(f&quot;User Email: {user_info['mail']}&quot;)<br />
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>This example demonstrates how to retrieve information about the signed-in user from Microsoft Graph using the requests library in Python. Ensure that you replace the placeholder values with your actual Azure AD authentication information.</p>
+<p>For production environments, it's recommended to use official SDKs provided by Microsoft, such as the msal library for authentication. Install the required library using:</p>
+<pre><div><div>bash<button>Copy code</button></div><div>pip install msal  </div></div>
+</pre>
+<p>Refer to the official <a target="_new">Microsoft Graph API documentation</a> for the latest information, API details, and examples.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp; </p>
+</body>
+</html>

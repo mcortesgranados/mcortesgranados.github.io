@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Azure Network Security Groups</title>
+<link href="../estilos.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="texto8_1">
+<p><strong>Azure Network Security Groups (NSG): Overview and Configuration Example</strong></p>
+<p>Azure Network Security Groups (NSGs) are a fundamental component of Azure's network security model. They act as virtual firewalls for controlling inbound and outbound traffic to network interfaces (NIC), virtual machine (VM), and other Azure resources. Here's a detailed overview of Azure NSGs along with a configuration example:</p>
+<h3>Features of Azure Network Security Groups:</h3>
+<ol>
+  <li>
+    <p><strong>Stateful Filtering:</strong></p>
+    <ul>
+      <li>Provides stateful packet filtering, allowing the definition of rules for both inbound and outbound traffic.</li>
+    </ul>
+  </li>
+  <li><strong>Application Security Groups:</strong>
+    <ul>
+      <li>Enables the use of Application Security Groups to simplify network security group rule management.</li>
+    </ul>
+  </li>
+  <li><strong>Inbound and Outbound Rules:</strong>
+    <ul>
+      <li>Defines rules for controlling traffic entering (inbound) and leaving (outbound) Azure resources.</li>
+    </ul>
+  </li>
+  <li><strong>Priority and Order:</strong>
+    <ul>
+      <li>Assigns priorities to rules for precise control over rule enforcement order.</li>
+    </ul>
+  </li>
+  <li><strong>Port and Protocol Filtering:</strong>
+    <ul>
+      <li>Filters traffic based on specific ports, protocols, and IP addresses.</li>
+    </ul>
+  </li>
+  <li><strong>Network Virtual Appliances (NVA) Integration:</strong>
+    <ul>
+      <li>Integrates with third-party network virtual appliances for advanced networking scenarios.</li>
+    </ul>
+  </li>
+  <li><strong>Security Rules Logging:</strong>
+    <ul>
+      <li>Logs security rules to Azure Monitor for auditing and compliance purposes.</li>
+    </ul>
+  </li>
+  <li><strong>Integration with Azure Virtual Networks:</strong>
+    <ul>
+      <li>Associates NSGs with Azure Virtual Networks and subnets.</li>
+    </ul>
+  </li>
+</ol>
+<h3>Configuration Example:</h3>
+<p>Let's configure an Azure Network Security Group for a sample scenario:</p>
+<ol>
+  <li>
+    <p><strong>Login to Azure Portal:</strong></p>
+    <ul>
+      <li>Navigate to the <a target="_new" href="https://portal.azure.com/">Azure Portal</a>.</li>
+    </ul>
+  </li>
+  <li><strong>Create an Azure Network Security Group:</strong>
+    <ul>
+      <li>Click on &quot;Create a resource&quot; and search for &quot;Network Security Group.&quot;</li>
+      <li>Click &quot;Create&quot; to start the Azure Network Security Group creation wizard.</li>
+    </ul>
+  </li>
+  <li><strong>Configure NSG Settings:</strong>
+    <ul>
+      <li>Specify details such as subscription, resource group, NSG name, region, and whether you want to associate it with an existing virtual network or create a new one.</li>
+    </ul>
+  </li>
+  <li><strong>Define Inbound and Outbound Rules:</strong>
+    <ul>
+      <li>Create inbound and outbound rules based on your application's requirements. Define rules for specific IP addresses, ports, and protocols.</li>
+    </ul>
+  </li>
+  <li><strong>Configure Security Rules Priority:</strong>
+    <ul>
+      <li>Assign priorities to rules to control the order of rule enforcement. Lower numbers have higher priority.</li>
+    </ul>
+  </li>
+  <li><strong>Associate NSG with Azure Resources:</strong>
+    <ul>
+      <li>Associate the NSG with Azure resources, such as virtual machines or subnets, to enforce security rules.</li>
+    </ul>
+  </li>
+  <li><strong>Configure Application Security Groups (Optional):</strong>
+    <ul>
+      <li>If needed, create and configure Application Security Groups to simplify rule management.</li>
+    </ul>
+  </li>
+  <li><strong>Enable Security Rules Logging (Optional):</strong>
+    <ul>
+      <li>Enable logging for security rules to capture information for auditing and compliance.</li>
+    </ul>
+  </li>
+  <li><strong>Review and Create:</strong>
+    <ul>
+      <li>Review the configured settings and click &quot;Create&quot; to deploy the Azure Network Security Group.</li>
+    </ul>
+  </li>
+  <li><strong>Monitor NSG Usage:</strong>
+    <ul>
+      <li>Use Azure Monitor or other monitoring tools to track NSG usage, rule hits, and logs.</li>
+    </ul>
+  </li>
+  <li><strong>Scale Resources (Optional):</strong>
+    <ul>
+      <li>Depending on your security requirements, scale resources by adjusting NSG rules, priorities, or associating with additional resources.</li>
+    </ul>
+  </li>
+  <li><strong>Clean Up Resources:</strong>
+    <ul>
+      <li>Once done, clean up resources by deleting the Azure Network Security Group or specific resources as needed.</li>
+    </ul>
+  </li>
+</ol>
+</body>
+</html>
