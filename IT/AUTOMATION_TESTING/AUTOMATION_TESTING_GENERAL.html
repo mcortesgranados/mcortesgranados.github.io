@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automation Testing Interview Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Automation Testing Interview Questions - Set 1</h2>
+
+    <div class="question">
+        <strong>1. What is automation testing, and why is it important?</strong>
+        <p>Automation testing is the process of using software tools to execute pre-scripted tests on a software application before it is released into production.</p>
+    </div>
+
+    <div class="question">
+        <strong>2. What are the key differences between Selenium WebDriver and Selenium Grid?</strong>
+        <p>Selenium WebDriver is used for automating web applications, while Selenium Grid is used for parallel test execution on multiple machines and browsers.</p>
+    </div>
+
+    <div class="question">
+        <strong>3. How do you handle dynamic elements in Selenium WebDriver using Java?</strong>
+        <p>Dynamic elements can be handled using XPath with dynamic attributes:</p>
+        <pre>
+            WebDriver driver = new ChromeDriver();
+            WebElement element = driver.findElement(By.xpath("//button[contains(text(),'Submit')]"));
+            element.click();
+        </pre>
+    </div>
+
+    <div class="question">
+        <strong>4. How do you perform API testing in Python using the requests library?</strong>
+        <pre>
+            import requests
+
+            response = requests.get("https://jsonplaceholder.typicode.com/posts/1")
+            print(response.json())
+        </pre>
+    </div>
+
+    <div class="question">
+        <strong>5. What are the advantages of using Cypress over Selenium for web automation?</strong>
+        <p>Cypress runs directly in the browser, has better debugging capabilities, and provides automatic waiting for elements.</p>
+    </div>
+
+    <div class="question">
+        <strong>6. How do you handle pop-ups in Selenium WebDriver using Java?</strong>
+        <pre>
+            Alert alert = driver.switchTo().alert();
+            alert.accept();  // Click OK
+        </pre>
+    </div>
+
+    <div class="question">
+        <strong>7. What is the difference between implicit wait and explicit wait in Selenium?</strong>
+        <p>Implicit wait applies a global delay for element finding, while explicit wait applies a condition-based wait for specific elements.</p>
+    </div>
+
+    <div class="question">
+        <strong>8. How can you automate file uploads in Selenium using Java?</strong>
+        <pre>
+            WebElement uploadElement = driver.findElement(By.id("upload"));
+            uploadElement.sendKeys("C:\\path\\to\\file.txt");
+        </pre>
+    </div>
+
+    <div class="question">
+        <strong>9. How do you execute JavaScript in Selenium WebDriver?</strong>
+        <pre>
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("document.getElementById('submit').click();");
+        </pre>
+    </div>
+
+<div class="question">
+        <strong>10. What is Jest, and how is it used for automation testing in JavaScript?</strong>
+        <p>Jest is a JavaScript testing framework. Example:</p>
+        <pre>
+            test('adds 1 + 2 to equal 3', () => {
+                expect(1 + 2).toBe(3);
+            });
+        </pre>
+    </div>
+    <h2>Automation Testing Interview Questions - Set 2</h2>
+    <div class="question"> <strong>11. What are Page Object Model (POM) and its benefits in Selenium?</strong>
+        <p>POM is a design pattern that enhances test maintenance and reduces code duplication by creating separate classes for different pages.</p>
+    </div>
+    <div class="question"> <strong>12. How do you validate a response code in API testing using Python?</strong>
+        <pre>
+            import requests
+
+            response = requests.get("https://jsonplaceholder.typicode.com/posts/1")
+            assert response.status_code == 200
+        </pre>
+    </div>
+    <div class="question"> <strong>13. How do you perform data-driven testing in Selenium with Java?</strong>
+        <p>Data-driven testing can be performed using TestNG and Apache POI for Excel data.</p>
+      <pre>
+            @DataProvider(name = "data-provider")
+            public Object[][] dataProviderMethod() {
+                return new Object[][] { { "testUser", "testPass" } };
+            }
+
+            @Test(dataProvider = "data-provider")
+            public void testLogin(String username, String password) {
+                System.out.println("Logging in with: " + username + " / " + password);
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>14. How can you take a screenshot in Selenium WebDriver?</strong>
+        <pre>
+            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(screenshot, new File("screenshot.png"));
+        </pre>
+    </div>
+    <div class="question"> <strong>15. What is Mocha, and how is it used for testing in Node.js?</strong>
+        <p>Mocha is a JavaScript testing framework for Node.js.</p>
+      <pre>
+            const assert = require('assert');
+
+            describe('Math Tests', function() {
+                it('should return 4 for 2+2', function() {
+                    assert.strictEqual(2 + 2, 4);
+                });
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>16. How do you handle mouse hover actions in Selenium WebDriver?</strong>
+        <pre>
+            Actions actions = new Actions(driver);
+            WebElement element = driver.findElement(By.id("menu"));
+            actions.moveToElement(element).perform();
+        </pre>
+    </div>
+    <div class="question"> <strong>17. What are the different types of locators in Selenium WebDriver?</strong>
+        <p>The different locators are ID, Name, Class Name, Tag Name, CSS Selector, XPath, Link Text, and Partial Link Text.</p>
+    </div>
+    <div class="question"> <strong>18. How do you perform parallel testing in TestNG?</strong>
+        <p>Parallel testing can be configured in the TestNG XML file.</p>
+      <pre>
+            &lt;suite name="ParallelSuite" parallel="tests" thread-count="2"&gt;
+                &lt;test name="Test1"&gt;
+                    &lt;classes&gt;
+                        &lt;class name="com.tests.TestClass1"/&gt;
+                    &lt;/classes&gt;
+                &lt;/test&gt;
+                &lt;test name="Test2"&gt;
+                    &lt;classes&gt;
+                        &lt;class name="com.tests.TestClass2"/&gt;
+                    &lt;/classes&gt;
+                &lt;/test&gt;
+            &lt;/suite&gt;
+        </pre>
+    </div>
+    <div class="question"> <strong>19. How do you verify an element is present using Cypress?</strong>
+        <pre>
+            cy.get('#elementId').should('be.visible');
+        </pre>
+    </div>
+    <div class="question"> <strong>20. How do you handle authentication pop-ups in Selenium WebDriver?</strong>
+        <pre>
+            driver.get("http://username:password@website.com");
+        </pre>
+    </div>
+    <h2>Automation Testing Interview Questions - Set 3</h2>
+    <div class="question"> <strong>21. How do you handle dropdowns in Selenium WebDriver?</strong>
+        <pre>
+            Select dropdown = new Select(driver.findElement(By.id("dropdownId")));
+            dropdown.selectByVisibleText("Option1");
+        </pre>
+    </div>
+    <div class="question"> <strong>22. What is the difference between Hard Assertions and Soft Assertions in TestNG?</strong>
+        <p>Hard assertions stop execution immediately on failure, whereas soft assertions continue execution and report all failures.</p>
+      <pre>
+            // Hard Assertion
+            Assert.assertEquals(actual, expected);
+            
+            // Soft Assertion
+            SoftAssert softAssert = new SoftAssert();
+            softAssert.assertEquals(actual, expected);
+            softAssert.assertAll();
+        </pre>
+    </div>
+    <div class="question"> <strong>23. How do you perform API testing using RestAssured in Java?</strong>
+        <pre>
+            given()
+                .when()
+                .get("https://jsonplaceholder.typicode.com/posts/1")
+                .then()
+                .statusCode(200);
+        </pre>
+    </div>
+    <div class="question"> <strong>24. How do you automate browser actions using Puppeteer in Node.js?</strong>
+        <pre>
+            const puppeteer = require('puppeteer');
+
+            (async () => {
+                const browser = await puppeteer.launch();
+                const page = await browser.newPage();
+                await page.goto('https://example.com');
+                await browser.close();
+            })();
+        </pre>
+    </div>
+    <div class="question"> <strong>25. How do you scroll to an element in Selenium WebDriver?</strong>
+        <pre>
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            WebElement element = driver.findElement(By.id("footer"));
+            js.executeScript("arguments[0].scrollIntoView();", element);
+        </pre>
+    </div>
+    <div class="question"> <strong>26. What is the difference between TestNG and JUnit?</strong>
+        <p>TestNG provides better parallel execution, dependency management, and data-driven testing support compared to JUnit.</p>
+    </div>
+    <div class="question"> <strong>27. How do you perform visual testing in automation?</strong>
+        <p>Visual testing is done using tools like Applitools or Selenium with OpenCV for comparing screenshots.</p>
+    </div>
+    <div class="question"> <strong>28. How do you automate login functionality using Selenium and Java?</strong>
+        <pre>
+            driver.findElement(By.id("username")).sendKeys("testuser");
+            driver.findElement(By.id("password")).sendKeys("password123");
+            driver.findElement(By.id("loginBtn")).click();
+        </pre>
+    </div>
+    <div class="question"> <strong>29. How do you mock API responses in Cypress?</strong>
+        <pre>
+            cy.intercept('GET', '/api/data', { fixture: 'data.json' }).as('mockedData');
+            cy.visit('/');
+            cy.wait('@mockedData');
+        </pre>
+    </div>
+    <div class="question"> <strong>30. What is the use of Faker library in test automation?</strong>
+        <p>Faker is used to generate fake data for testing purposes.</p>
+      <pre>
+            import com.github.javafaker.Faker;
+
+            Faker faker = new Faker();
+            String randomName = faker.name().fullName();
+        </pre>
+    </div>
+    <h2>Automation Testing Interview Questions - Set 4</h2>
+    <div class="question"> <strong>31. How do you handle dynamic elements in Selenium WebDriver?</strong>
+        <p>Dynamic elements can be handled using XPath with contains() or starts-with().</p>
+      <pre>
+            driver.findElement(By.xpath("//button[contains(text(),'Submit')]")).click();
+        </pre>
+    </div>
+    <div class="question"> <strong>32. What is the difference between implicit and explicit waits in Selenium?</strong>
+        <p>Implicit wait applies globally, whereas explicit wait is specific to an element.</p>
+      <pre>
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+            WebDriverWait wait = new WebDriverWait(driver, 10);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("elementId")));
+        </pre>
+    </div>
+    <div class="question"> <strong>33. How do you execute JavaScript commands in Selenium WebDriver?</strong>
+        <pre>
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("alert('Hello, World!');");
+        </pre>
+    </div>
+    <div class="question"> <strong>34. How do you test file uploads using Selenium?</strong>
+        <pre>
+            driver.findElement(By.id("fileUpload")).sendKeys("C:\\path\\to\\file.txt");
+        </pre>
+    </div>
+    <div class="question"> <strong>35. How do you use PyTest fixtures in automation testing?</strong>
+        <p>Fixtures in PyTest help set up and tear down test dependencies.</p>
+      <pre>
+            import pytest
+
+            @pytest.fixture
+            def setup():
+                print("Setup code")
+                yield
+                print("Teardown code")
+
+            def test_example(setup):
+                print("Test execution")
+        </pre>
+    </div>
+    <div class="question"> <strong>36. How do you handle multiple browser windows in Selenium?</strong>
+        <pre>
+            String mainWindow = driver.getWindowHandle();
+            for (String window : driver.getWindowHandles()) {
+                driver.switchTo().window(window);
+            }
+            driver.switchTo().window(mainWindow);
+        </pre>
+    </div>
+    <div class="question"> <strong>37. How do you perform API testing in Postman using JavaScript?</strong>
+        <pre>
+// In Postman Test Tab
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+        </pre>
+    </div>
+    <div class="question"> <strong>38. How do you automate PDF validation in Java?</strong>
+        <p>Using Apache PDFBox to extract and validate PDF content.</p>
+      <pre>
+            PDDocument document = PDDocument.load(new File("sample.pdf"));
+            String content = new PDFTextStripper().getText(document);
+            document.close();
+        </pre>
+    </div>
+    <div class="question"> <strong>39. How do you validate JSON responses in API testing with Python?</strong>
+        <pre>
+            import requests
+            import json
+
+            response = requests.get("https://jsonplaceholder.typicode.com/posts/1")
+            json_data = response.json()
+            assert json_data["userId"] == 1
+        </pre>
+    </div>
+    <div class="question"> <strong>40. How do you mock HTTP requests in Jest for Node.js testing?</strong>
+        <pre>
+            jest.mock('axios');
+            import axios from 'axios';
+
+            test('should fetch data', async () => {
+                axios.get.mockResolvedValue({ data: { message: 'Success' } });
+                const response = await axios.get('/api/data');
+                expect(response.data.message).toBe('Success');
+            });
+        </pre>
+    </div>
+    <h2>Automation Testing Interview Questions - Set 5</h2>
+    <div class="question"> <strong>41. How do you handle alerts in Selenium WebDriver?</strong>
+        <pre>
+            Alert alert = driver.switchTo().alert();
+            alert.accept(); // Accept the alert
+        </pre>
+    </div>
+    <div class="question"> <strong>42. How do you capture screenshots in Selenium WebDriver?</strong>
+        <pre>
+            File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(src, new File("screenshot.png"));
+        </pre>
+    </div>
+    <div class="question"> <strong>43. How do you use TestNG annotations in Java?</strong>
+        <pre>
+            @BeforeMethod
+            public void setup() {
+                System.out.println("Setup code");
+            }
+
+            @Test
+            public void testExample() {
+                System.out.println("Test execution");
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>44. How do you perform headless browser testing in Selenium?</strong>
+        <pre>
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");
+            WebDriver driver = new ChromeDriver(options);
+        </pre>
+    </div>
+    <div class="question"> <strong>45. How do you read data from an Excel file in Java for test automation?</strong>
+        <pre>
+            FileInputStream file = new FileInputStream("data.xlsx");
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            String value = sheet.getRow(1).getCell(1).getStringCellValue();
+        </pre>
+    </div>
+    <div class="question"> <strong>46. How do you validate XML responses in API testing with Python?</strong>
+        <pre>
+            import xml.etree.ElementTree as ET
+
+            response = "&lt;root&gt;&lt;status&gt;success&lt;/status&gt;&lt;/root&gt;"
+            root = ET.fromstring(response)
+            assert root.find('status').text == 'success'
+        </pre>
+    </div>
+    <div class="question"> <strong>47. How do you mock dependencies in Python using unittest?</strong>
+        <pre>
+            from unittest.mock import MagicMock
+
+            mock_service = MagicMock()
+            mock_service.get_data.return_value = "mocked data"
+        </pre>
+    </div>
+    <div class="question"> <strong>48. How do you generate HTML test reports in Cypress?</strong>
+        <pre>
+            npm install --save-dev mochawesome
+
+            // Run with:
+            npx cypress run --reporter mochawesome
+        </pre>
+    </div>
+    <div class="question"> <strong>49. How do you perform mobile automation testing using Appium?</strong>
+        <pre>
+            DesiredCapabilities caps = new DesiredCapabilities();
+            caps.setCapability("platformName", "Android");
+            caps.setCapability("deviceName", "emulator-5554");
+            caps.setCapability("app", "/path/to/app.apk");
+            AppiumDriver driver = new AndroidDriver(new URL("http://localhost:4723/wd/hub"), caps);
+        </pre>
+    </div>
+    <div class="question"> <strong>50. What is parallel testing and how do you implement it in TestNG?</strong>
+        <p>Parallel testing allows test execution on multiple threads for faster execution.</p>
+      <pre>
+            &lt;suite name="ParallelSuite" parallel="methods" thread-count="2"&gt;
+                &lt;test name="Test1"&gt;
+                    &lt;classes&gt;
+                        &lt;class name="TestClass"/&gt;
+                    &lt;/classes&gt;
+                &lt;/test&gt;
+            &lt;/suite&gt;
+        </pre>
+    </div>
+    <h2>Automation Testing Interview Questions - Set 6</h2>
+    <div class="question"> <strong>51. How do you handle dropdowns in Selenium WebDriver?</strong>
+        <pre>
+            Select dropdown = new Select(driver.findElement(By.id("dropdownId")));
+            dropdown.selectByVisibleText("Option 1");
+        </pre>
+    </div>
+    <div class="question"> <strong>52. How do you verify if an element is present in Selenium WebDriver?</strong>
+        <pre>
+            boolean isPresent = driver.findElements(By.id("elementId")).size() > 0;
+        </pre>
+    </div>
+    <div class="question"> <strong>53. How do you perform parallel testing in Cypress?</strong>
+        <pre>
+            npx cypress run --record --parallel
+        </pre>
+    </div>
+    <div class="question"> <strong>54. How do you validate cookies in Selenium WebDriver?</strong>
+        <pre>
+            Cookie cookie = driver.manage().getCookieNamed("cookieName");
+            System.out.println(cookie.getValue());
+        </pre>
+    </div>
+    <div class="question"> <strong>55. How do you stub API responses in Cypress?</strong>
+        <pre>
+            cy.intercept('GET', '/api/users', { fixture: 'users.json' }).as('getUsers');
+        </pre>
+    </div>
+    <div class="question"> <strong>56. How do you use JUnit annotations in Java?</strong>
+        <pre>
+            @Before
+            public void setup() {
+                System.out.println("Setup code");
+            }
+
+            @Test
+            public void testExample() {
+                System.out.println("Test execution");
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>57. How do you generate test execution reports in PyTest?</strong>
+        <pre>
+            pytest --html=report.html
+        </pre>
+    </div>
+    <div class="question"> <strong>58. How do you handle pop-ups in Selenium WebDriver?</strong>
+        <pre>
+            driver.switchTo().alert().accept();
+        </pre>
+    </div>
+    <div class="question"> <strong>59. How do you perform API contract testing using Postman?</strong>
+        <pre>
+// In Postman Test Tab
+pm.test("Response has expected schema", function () {
+    pm.response.to.have.jsonSchema(schema);
+});
+        </pre>
+    </div>
+    <div class="question"> <strong>60. How do you perform UI component testing in React using Jest?</strong>
+        <pre>
+            import { render, screen } from '@testing-library/react';
+            import MyComponent from './MyComponent';
+
+            test('renders a button', () => {
+                render(&lt;MyComponent /&gt;);
+                expect(screen.getByText('Click Me')).toBeInTheDocument();
+            });
+        </pre>
+    </div>
+    <h2>Automation Testing Interview Questions - Set 7</h2>
+    <div class="question"> <strong>61. How do you implement data-driven testing in TestNG?</strong>
+        <pre>
+            @DataProvider(name = "testData")
+            public Object[][] getData() {
+                return new Object[][] {
+                    {"test1", 123},
+                    {"test2", 456}
+                };
+            }
+
+            @Test(dataProvider = "testData")
+            public void testMethod(String name, int value) {
+                System.out.println(name + " - " + value);
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>62. How do you handle dynamic elements in Selenium WebDriver?</strong>
+        <pre>
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dynamicElement")));
+        </pre>
+    </div>
+    <div class="question"> <strong>63. How do you run multiple test cases in PyTest?</strong>
+        <pre>
+            pytest test_file1.py test_file2.py
+        </pre>
+    </div>
+    <div class="question"> <strong>64. How do you handle AJAX calls in Selenium WebDriver?</strong>
+        <pre>
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.elementToBeClickable(By.id("ajaxButton")));
+        </pre>
+    </div>
+    <div class="question"> <strong>65. How do you configure logging in Cypress?</strong>
+        <pre>
+            Cypress.on('log:added', (log) => {
+                console.log(log);
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>66. How do you perform accessibility testing in Cypress?</strong>
+        <pre>
+            import 'cypress-axe';
+
+            describe('Accessibility Test', () => {
+                it('should check for accessibility violations', () => {
+                    cy.visit('/');
+                    cy.injectAxe();
+                    cy.checkA11y();
+                });
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>67. How do you handle file uploads in Selenium WebDriver?</strong>
+        <pre>
+            driver.findElement(By.id("fileUpload")).sendKeys("C:\\path\\to\\file.txt");
+        </pre>
+    </div>
+    <div class="question"> <strong>68. How do you mock HTTP requests in Jest?</strong>
+        <pre>
+            jest.mock('axios');
+
+            axios.get.mockResolvedValue({ data: { message: 'success' } });
+        </pre>
+    </div>
+    <div class="question"> <strong>69. How do you handle API rate limits in automated testing?</strong>
+        <p>By implementing retries with exponential backoff.</p>
+      <pre>
+            import time
+            import requests
+
+            def api_request():
+                retries = 3
+                for i in range(retries):
+                    response = requests.get("https://api.example.com/data")
+                    if response.status_code == 200:
+                        return response.json()
+                    time.sleep(2 ** i)
+        </pre>
+    </div>
+    <div class="question"> <strong>70. How do you perform parallel test execution in JUnit 5?</strong>
+        <pre>
+            @Execution(ExecutionMode.CONCURRENT)
+            class ParallelTests {
+                @Test
+                void testOne() { ... }
+
+                @Test
+                void testTwo() { ... }
+            }
+        </pre>
+    </div>
+    <h2>Automation Testing Interview Questions - Set 8</h2>
+    <div class="question"> <strong>71. How do you implement parameterized tests in JUnit 5?</strong>
+        <pre>
+            @ParameterizedTest
+            @ValueSource(strings = {"apple", "banana", "cherry"})
+            void testWithParameters(String fruit) {
+                assertNotNull(fruit);
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>72. How do you verify an element is disabled in Selenium WebDriver?</strong>
+        <pre>
+            boolean isDisabled = !driver.findElement(By.id("buttonId")).isEnabled();
+        </pre>
+    </div>
+    <div class="question"> <strong>73. How do you capture browser console logs using Selenium WebDriver?</strong>
+        <pre>
+            LogEntries logs = driver.manage().logs().get(LogType.BROWSER);
+            logs.forEach(logEntry -> System.out.println(logEntry.getMessage()));
+        </pre>
+    </div>
+    <div class="question"> <strong>74. How do you handle multiple browser windows in Selenium WebDriver?</strong>
+        <pre>
+            String originalWindow = driver.getWindowHandle();
+            for (String handle : driver.getWindowHandles()) {
+                driver.switchTo().window(handle);
+            }
+            driver.close();
+            driver.switchTo().window(originalWindow);
+        </pre>
+    </div>
+    <div class="question"> <strong>75. How do you perform visual regression testing in Cypress?</strong>
+        <pre>
+            describe('Visual Testing', () => {
+                it('should compare UI snapshots', () => {
+                    cy.visit('/');
+                    cy.matchImageSnapshot();
+                });
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>76. How do you mock API responses in Jest?</strong>
+        <pre>
+            jest.mock('axios');
+
+            axios.get.mockResolvedValue({ data: { user: 'John Doe' } });
+        </pre>
+    </div>
+    <div class="question"> <strong>77. How do you automate OTP verification in testing?</strong>
+        <pre>
+            String otp = driver.findElement(By.id("otpField")).getAttribute("value");
+        </pre>
+    </div>
+    <div class="question"> <strong>78. How do you perform keyboard actions in Selenium WebDriver?</strong>
+        <pre>
+            Actions actions = new Actions(driver);
+            actions.sendKeys(Keys.ENTER).perform();
+        </pre>
+    </div>
+    <div class="question"> <strong>79. How do you verify response time in API testing with Python?</strong>
+        <pre>
+            import requests
+            response = requests.get("https://api.example.com/data")
+            assert response.elapsed.total_seconds() < 2
+        </pre>
+    </div>
+    <div class="question"> <strong>80. How do you handle browser permissions in Cypress?</strong>
+        <pre>
+            Cypress.on('window:before:load', (win) => {
+                cy.stub(win.Notification, 'requestPermission').resolves('granted');
+            });
+        </pre>
+    </div>
+    <p>&nbsp;</p>
+    <h2>Automation Testing Interview Questions - Set 9</h2>
+    <div class="question"> <strong>81. How do you handle alerts and pop-ups in Selenium WebDriver?</strong>
+        <pre>
+            Alert alert = driver.switchTo().alert();
+            alert.accept(); // To accept alert
+            alert.dismiss(); // To dismiss alert
+        </pre>
+    </div>
+    <div class="question"> <strong>82. How do you implement implicit and explicit waits in Selenium?</strong>
+        <pre>
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("myElement")));
+        </pre>
+    </div>
+    <div class="question"> <strong>83. How do you perform API contract testing using Postman?</strong>
+        <pre>
+// Postman test script example
+            pm.test("Response schema should match", function () {
+                pm.response.to.have.jsonSchema(schema);
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>84. How do you handle authentication pop-ups in Selenium WebDriver?</strong>
+        <pre>
+            String url = "https://username:password@example.com";
+            driver.get(url);
+        </pre>
+    </div>
+    <div class="question"> <strong>85. How do you perform cross-browser testing using Selenium Grid?</strong>
+        <pre>
+            DesiredCapabilities caps = new DesiredCapabilities();
+            caps.setBrowserName("chrome");
+            WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444"), caps);
+        </pre>
+    </div>
+    <div class="question"> <strong>86. How do you perform mouse hover action in Selenium WebDriver?</strong>
+        <pre>
+            Actions actions = new Actions(driver);
+            WebElement element = driver.findElement(By.id("menu"));
+            actions.moveToElement(element).perform();
+        </pre>
+    </div>
+    <div class="question"> <strong>87. How do you verify if a web element exists in Selenium WebDriver?</strong>
+        <pre>
+            boolean isPresent = driver.findElements(By.id("elementId")).size() > 0;
+        </pre>
+    </div>
+    <div class="question"> <strong>88. How do you execute JavaScript commands in Selenium WebDriver?</strong>
+        <pre>
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0,500)");
+        </pre>
+    </div>
+    <div class="question"> <strong>89. How do you use Faker library for test data generation in Python?</strong>
+        <pre>
+            from faker import Faker
+            fake = Faker()
+            print(fake.name())
+            print(fake.email())
+        </pre>
+    </div>
+    <div class="question"> <strong>90. How do you capture network requests in Cypress?</strong>
+        <pre>
+            cy.intercept('GET', '/api/data').as('getData');
+            cy.wait('@getData').its('response.statusCode').should('eq', 200);
+        </pre>
+    </div>
+    <p>&nbsp;</p>
+    <h2>Automation Testing Interview Questions - Set 10</h2>
+    <div class="question"> <strong>91. How do you handle dynamic elements in Selenium WebDriver?</strong>
+        <pre>
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='dynamicElement']")));
+        </pre>
+    </div>
+    <div class="question"> <strong>92. How do you perform headless browser testing in Selenium?</strong>
+        <pre>
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");
+            WebDriver driver = new ChromeDriver(options);
+        </pre>
+    </div>
+    <div class="question"> <strong>93. How do you generate an extent report in Selenium with Java?</strong>
+        <pre>
+            ExtentReports extent = new ExtentReports("report.html", true);
+            ExtentTest test = extent.startTest("Test Case 1");
+            test.log(LogStatus.PASS, "Test Passed");
+            extent.endTest(test);
+            extent.flush();
+        </pre>
+    </div>
+    <div class="question"> <strong>94. How do you upload a file using Selenium WebDriver?</strong>
+        <pre>
+            WebElement uploadElement = driver.findElement(By.id("upload"));
+            uploadElement.sendKeys("C:\\path\\to\\file.png");
+        </pre>
+    </div>
+    <div class="question"> <strong>95. How do you perform parallel execution in TestNG?</strong>
+        <pre>
+            &lt;suite name="Suite" parallel="tests" thread-count="2"&gt;
+                &lt;test name="Test1"&gt;
+                    &lt;classes&gt;
+                        &lt;class name="TestClass1"/&gt;
+                    &lt;/classes&gt;
+                &lt;/test&gt;
+                &lt;test name="Test2"&gt;
+                    &lt;classes&gt;
+                        &lt;class name="TestClass2"/&gt;
+                    &lt;/classes&gt;
+                &lt;/test&gt;
+            &lt;/suite&gt;
+        </pre>
+    </div>
+    <div class="question"> <strong>96. How do you use Playwright for browser automation in JavaScript?</strong>
+        <pre>
+            const { chromium } = require('playwright');
+            (async () => {
+                const browser = await chromium.launch();
+                const page = await browser.newPage();
+                await page.goto('https://example.com');
+                await browser.close();
+            })();
+        </pre>
+    </div>
+    <div class="question"> <strong>97. How do you assert response data in Cypress API testing?</strong>
+        <pre>
+            cy.request('GET', '/api/users').then((response) => {
+                expect(response.status).to.eq(200);
+                expect(response.body).to.have.property('users');
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>98. How do you execute a SQL query in Python for database validation?</strong>
+        <pre>
+            import sqlite3
+            conn = sqlite3.connect('test.db')
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM users")
+            results = cursor.fetchall()
+            conn.close()
+        </pre>
+    </div>
+    <div class="question"> <strong>99. How do you capture screenshots in Selenium WebDriver?</strong>
+        <pre>
+            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(screenshot, new File("screenshot.png"));
+        </pre>
+    </div>
+    <div class="question"> <strong>100. How do you handle timeouts in Cypress?</strong>
+        <pre>
+            cy.get('#element', { timeout: 10000 }).should('be.visible');
+        </pre>
+    </div>
+    <p>&nbsp;</p>
+    <h2>Automation Testing Interview Questions - Set 11</h2>
+    <div class="question"> <strong>101. How do you use the Robot class in Java to handle keyboard and mouse events?</strong>
+        <pre>
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+        </pre>
+    </div>
+    <div class="question"> <strong>102. How do you handle dropdowns in Selenium WebDriver?</strong>
+        <pre>
+            Select dropdown = new Select(driver.findElement(By.id("dropdown")));
+            dropdown.selectByVisibleText("Option 1");
+        </pre>
+    </div>
+    <div class="question"> <strong>103. How do you validate response status and headers in Postman tests?</strong>
+        <pre>
+// Postman test script
+            pm.test("Status code is 200", function () {
+                pm.response.to.have.status(200);
+            });
+
+            pm.test("Content-Type is JSON", function () {
+                pm.response.to.have.header("Content-Type", "application/json");
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>104. How do you mock API responses in Cypress?</strong>
+        <pre>
+            cy.intercept('GET', '/api/data', { fixture: 'data.json' }).as('getData');
+            cy.visit('/');
+            cy.wait('@getData');
+        </pre>
+    </div>
+    <div class="question"> <strong>105. How do you perform keyboard actions using Selenium WebDriver?</strong>
+        <pre>
+            Actions actions = new Actions(driver);
+            actions.sendKeys(Keys.ENTER).perform();
+        </pre>
+    </div>
+    <div class="question"> <strong>106. How do you execute a command in Node.js to run Selenium tests?</strong>
+        <pre>
+            const { exec } = require('child_process');
+            exec('npm run test', (error, stdout, stderr) => {
+                if (error) console.error(`Error: ${error.message}`);
+                console.log(`Output: ${stdout}`);
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>107. How do you validate JSON response schema in Python API testing?</strong>
+        <pre>
+            import jsonschema
+            from jsonschema import validate
+
+            schema = { "type": "object", "properties": { "name": { "type": "string" } } }
+            response_data = { "name": "John Doe" }
+            validate(instance=response_data, schema=schema)
+        </pre>
+    </div>
+    <div class="question"> <strong>108. How do you perform soft assertions in TestNG?</strong>
+        <pre>
+            SoftAssert softAssert = new SoftAssert();
+            softAssert.assertEquals(actual, expected, "Validation failed");
+            softAssert.assertAll();
+        </pre>
+    </div>
+    <div class="question"> <strong>109. How do you capture browser console logs using Selenium WebDriver?</strong>
+        <pre>
+            LogEntries logs = driver.manage().logs().get(LogType.BROWSER);
+            for (LogEntry logEntry : logs) {
+                System.out.println(logEntry.getMessage());
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>110. How do you test file downloads using Selenium WebDriver?</strong>
+        <pre>
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("download.default_directory=/path/to/download");
+            WebDriver driver = new ChromeDriver(options);
+        </pre>
+    </div>
+    <p>&nbsp;</p>
+    <h2>Automation Testing Interview Questions - Set 12</h2>
+    <div class="question"> <strong>111. How do you handle browser pop-ups in Selenium WebDriver?</strong>
+        <pre>
+            Alert alert = driver.switchTo().alert();
+            alert.accept(); // To accept the alert
+            // alert.dismiss(); // To dismiss the alert
+        </pre>
+    </div>
+    <div class="question"> <strong>112. How do you validate text on a webpage using Selenium WebDriver?</strong>
+        <pre>
+            WebElement element = driver.findElement(By.id("textElement"));
+            Assert.assertEquals(element.getText(), "Expected Text");
+        </pre>
+    </div>
+    <div class="question"> <strong>113. How do you execute JavaScript in Selenium WebDriver?</strong>
+        <pre>
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0,500)");
+        </pre>
+    </div>
+    <div class="question"> <strong>114. How do you handle frames in Selenium WebDriver?</strong>
+        <pre>
+            driver.switchTo().frame("frameName");
+            driver.switchTo().defaultContent(); // Switch back to main content
+        </pre>
+    </div>
+    <div class="question"> <strong>115. How do you perform API testing using RestAssured in Java?</strong>
+        <pre>
+            given()
+                .when().get("https://api.example.com/data")
+                .then().statusCode(200);
+        </pre>
+    </div>
+    <div class="question"> <strong>116. How do you use Mocha for unit testing in JavaScript?</strong>
+        <pre>
+            const assert = require('assert');
+            describe('Array', function () {
+                it('should return -1 when value is not present', function () {
+                    assert.equal([1, 2, 3].indexOf(4), -1);
+                });
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>117. How do you take a full-page screenshot in Selenium WebDriver?</strong>
+        <pre>
+            AShot aShot = new AShot();
+            Screenshot screenshot = aShot.shootingStrategy(ShootingStrategies.viewportPasting(1000))
+                .takeScreenshot(driver);
+            ImageIO.write(screenshot.getImage(), "PNG", new File("fullpage.png"));
+        </pre>
+    </div>
+    <div class="question"> <strong>118. How do you perform data-driven testing using TestNG?</strong>
+        <pre>
+            @DataProvider(name = "testData")
+            public Object[][] getData() {
+                return new Object[][] { {"data1"}, {"data2"} };
+            }
+
+            @Test(dataProvider = "testData")
+            public void testMethod(String data) {
+                System.out.println("Data: " + data);
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>119. How do you handle dynamic waits in Playwright?</strong>
+        <pre>
+            await page.waitForSelector("#dynamicElement");
+        </pre>
+    </div>
+    <div class="question"> <strong>120. How do you use Faker.js to generate test data in JavaScript?</strong>
+        <pre>
+            const faker = require('faker');
+            console.log(faker.name.findName());
+            console.log(faker.internet.email());
+        </pre>
+    </div>
+    <p>&nbsp;</p>
+    <h2>Automation Testing Interview Questions - Set 13</h2>
+    <div class="question"> <strong>121. How do you handle multiple windows in Selenium WebDriver?</strong>
+        <pre>
+            String mainWindow = driver.getWindowHandle();
+            for (String windowHandle : driver.getWindowHandles()) {
+                driver.switchTo().window(windowHandle);
+            }
+            driver.switchTo().window(mainWindow);
+        </pre>
+    </div>
+    <div class="question"> <strong>122. How do you use pytest to run parameterized tests in Python?</strong>
+        <pre>
+            import pytest
+            
+            @pytest.mark.parametrize("input, expected", [(2, 4), (3, 9)])
+            def test_square(input, expected):
+                assert input ** 2 == expected
+        </pre>
+    </div>
+    <div class="question"> <strong>123. How do you handle exceptions in Selenium WebDriver?</strong>
+        <pre>
+            try {
+                driver.findElement(By.id("nonexistent")).click();
+            } catch (NoSuchElementException e) {
+                System.out.println("Element not found: " + e.getMessage());
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>124. How do you verify tooltips in Selenium WebDriver?</strong>
+        <pre>
+            WebElement tooltip = driver.findElement(By.id("tooltipElement"));
+            String tooltipText = tooltip.getAttribute("title");
+            Assert.assertEquals(tooltipText, "Expected Tooltip");
+        </pre>
+    </div>
+    <div class="question"> <strong>125. How do you perform API testing using Postman and Newman CLI?</strong>
+        <pre>
+            newman run mycollection.json -e myenvironment.json
+        </pre>
+    </div>
+    <div class="question"> <strong>126. How do you wait for elements in Playwright?</strong>
+        <pre>
+            await page.waitForSelector("#dynamicElement", { state: "visible" });
+        </pre>
+    </div>
+    <div class="question"> <strong>127. How do you handle authentication pop-ups in Selenium WebDriver?</strong>
+        <pre>
+            driver.get("https://username:password@example.com");
+        </pre>
+    </div>
+    <div class="question"> <strong>128. How do you generate HTML reports in TestNG?</strong>
+        <pre>
+            // Run with command: mvn test -Dsurefire.suiteXmlFiles=testng.xml
+            // HTML report will be generated in target/surefire-reports
+        </pre>
+    </div>
+    <div class="question"> <strong>129. How do you perform headless browser testing in Selenium?</strong>
+        <pre>
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");
+            WebDriver driver = new ChromeDriver(options);
+        </pre>
+    </div>
+    <div class="question"> <strong>130. How do you mock responses in Jest for API testing?</strong>
+        <pre>
+            jest.mock('axios');
+            axios.get.mockResolvedValue({ data: { message: "Success" } });
+        </pre>
+    </div>
+    <p>&nbsp;</p>
+    <h2>Automation Testing Interview Questions - Set 14</h2>
+    <div class="question"> <strong>131. How do you handle file uploads in Selenium WebDriver?</strong>
+        <pre>
+            WebElement uploadElement = driver.findElement(By.id("upload"));
+            uploadElement.sendKeys("C:\\path\\to\\file.txt");
+        </pre>
+    </div>
+    <div class="question"> <strong>132. How do you use Selenium Grid for parallel execution?</strong>
+        <pre>
+            DesiredCapabilities cap = new DesiredCapabilities();
+            cap.setBrowserName("chrome");
+            WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap);
+        </pre>
+    </div>
+    <div class="question"> <strong>133. How do you handle mouse hover actions in Selenium WebDriver?</strong>
+        <pre>
+            Actions actions = new Actions(driver);
+            WebElement menu = driver.findElement(By.id("menu"));
+            actions.moveToElement(menu).perform();
+        </pre>
+    </div>
+    <div class="question"> <strong>134. How do you perform data-driven testing using JUnit?</strong>
+        <pre>
+            @ParameterizedTest
+            @CsvSource({"1, true", "2, false"})
+            void testMethod(int input, boolean expected) {
+                assertEquals(expected, input % 2 == 1);
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>135. How do you handle dropdowns in Selenium WebDriver?</strong>
+        <pre>
+            Select select = new Select(driver.findElement(By.id("dropdown")));
+            select.selectByVisibleText("Option 1");
+        </pre>
+    </div>
+    <div class="question"> <strong>136. How do you perform performance testing using JMeter?</strong>
+        <pre>
+            // Run JMeter test from CLI
+            jmeter -n -t testplan.jmx -l results.jtl -e -o report/
+        </pre>
+    </div>
+    <div class="question"> <strong>137. How do you handle browser cookies in Selenium WebDriver?</strong>
+        <pre>
+            driver.manage().addCookie(new Cookie("key", "value"));
+            driver.manage().deleteAllCookies();
+        </pre>
+    </div>
+    <div class="question"> <strong>138. How do you take a screenshot in Playwright?</strong>
+        <pre>
+            await page.screenshot({ path: "screenshot.png" });
+        </pre>
+    </div>
+    <div class="question"> <strong>139. How do you mock APIs in Cypress?</strong>
+        <pre>
+            cy.intercept("GET", "/api/data", { fixture: "data.json" }).as("getData");
+        </pre>
+    </div>
+    <div class="question"> <strong>140. How do you set up and use Page Object Model (POM) in Selenium?</strong>
+        <pre>
+            public class LoginPage {
+                WebDriver driver;
+                @FindBy(id="username") WebElement username;
+                @FindBy(id="password") WebElement password;
+
+                public LoginPage(WebDriver driver) {
+                    this.driver = driver;
+                    PageFactory.initElements(driver, this);
+                }
+
+                public void login(String user, String pass) {
+                    username.sendKeys(user);
+                    password.sendKeys(pass);
+                }
+            }
+        </pre>
+    </div>
+    <p>&nbsp;</p>
+    <h2>Automation Testing Interview Questions - Set 15</h2>
+    <div class="question"> <strong>141. How do you handle dynamic elements in Selenium WebDriver?</strong>
+        <pre>
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dynamicElement")));
+        </pre>
+    </div>
+    <div class="question"> <strong>142. How do you configure and run Jest tests in a JavaScript project?</strong>
+        <pre>
+            // Install Jest
+            npm install --save-dev jest
+            
+            // Run Jest tests
+            npx jest
+        </pre>
+    </div>
+    <div class="question"> <strong>143. How do you perform parallel execution in Pytest?</strong>
+        <pre>
+            pytest -n 4  # Runs tests in 4 parallel threads
+        </pre>
+    </div>
+    <div class="question"> <strong>144. How do you validate text inside an alert popup in Selenium WebDriver?</strong>
+        <pre>
+            Alert alert = driver.switchTo().alert();
+            String alertText = alert.getText();
+            alert.accept();
+            Assert.assertEquals(alertText, "Expected Alert Text");
+        </pre>
+    </div>
+    <div class="question"> <strong>145. How do you handle modal dialogs in Playwright?</strong>
+        <pre>
+            page.once("dialog", async dialog => {
+                console.log(`Dialog message: ${dialog.message()}`);
+                await dialog.accept();
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>146. How do you integrate Selenium tests with Jenkins?</strong>
+        <pre>
+            // Run Selenium tests in Jenkins with Maven
+            mvn clean test
+        </pre>
+    </div>
+    <div class="question"> <strong>147. How do you use TestNG annotations to control test execution order?</strong>
+        <pre>
+            @Test(priority = 1)
+            public void firstTest() {}
+
+            @Test(priority = 2)
+            public void secondTest() {}
+        </pre>
+    </div>
+    <div class="question"> <strong>148. How do you capture browser console logs using Selenium WebDriver?</strong>
+        <pre>
+            LogEntries logs = driver.manage().logs().get(LogType.BROWSER);
+            for (LogEntry entry : logs) {
+                System.out.println(entry.getMessage());
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>149. How do you mock APIs using Mockito in Java?</strong>
+        <pre>
+            @Mock
+            private ApiService apiService;
+
+            @Before
+            public void setUp() {
+                MockitoAnnotations.initMocks(this);
+                when(apiService.getData()).thenReturn("Mock Data");
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>150. How do you execute Playwright tests in headless mode?</strong>
+        <pre>
+            const { chromium } = require('playwright');
+            (async () => {
+                const browser = await chromium.launch({ headless: true });
+                const page = await browser.newPage();
+                await page.goto('https://example.com');
+                await browser.close();
+            })();
+        </pre>
+    </div>
+    <p>&nbsp;</p>
+    <h2>Automation Testing Interview Questions - Set 16</h2>
+    <div class="question"> <strong>151. How do you perform visual regression testing using Cypress?</strong>
+        <pre>
+            import 'cypress-plugin-snapshots/commands';
+
+            cy.visit('/home');
+            cy.matchImageSnapshot('homepage');
+        </pre>
+    </div>
+    <div class="question"> <strong>152. How do you use Pytest fixtures for setup and teardown?</strong>
+        <pre>
+            import pytest
+
+            @pytest.fixture
+            def setup():
+                print("\nSetup before test")
+                yield
+                print("\nTeardown after test")
+        </pre>
+    </div>
+    <div class="question"> <strong>153. How do you handle authentication pop-ups in Selenium WebDriver?</strong>
+        <pre>
+            driver.get("https://username:password@website.com");
+        </pre>
+    </div>
+    <div class="question"> <strong>154. How do you test API responses using Supertest in Node.js?</strong>
+        <pre>
+            const request = require('supertest');
+            const app = require('../app');
+
+            test('GET /api/data', async () => {
+                const response = await request(app).get('/api/data');
+                expect(response.status).toBe(200);
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>155. How do you perform cross-browser testing using Selenium WebDriver?</strong>
+        <pre>
+            WebDriver driver = new ChromeDriver();
+            driver = new FirefoxDriver();
+            driver = new EdgeDriver();
+        </pre>
+    </div>
+    <div class="question"> <strong>156. How do you use Jest for mocking functions?</strong>
+        <pre>
+            const myFunction = jest.fn().mockReturnValue(10);
+            expect(myFunction()).toBe(10);
+        </pre>
+    </div>
+    <div class="question"> <strong>157. How do you perform mobile testing using Appium with Java?</strong>
+        <pre>
+            DesiredCapabilities caps = new DesiredCapabilities();
+            caps.setCapability("platformName", "Android");
+            WebDriver driver = new AndroidDriver(new URL("http://localhost:4723/wd/hub"), caps);
+        </pre>
+    </div>
+    <div class="question"> <strong>158. How do you validate API responses using Postman tests?</strong>
+        <pre>
+// In Postman Test tab
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+        </pre>
+    </div>
+    <div class="question"> <strong>159. How do you handle SSL certificate errors in Selenium?</strong>
+        <pre>
+            ChromeOptions options = new ChromeOptions();
+            options.setAcceptInsecureCerts(true);
+            WebDriver driver = new ChromeDriver(options);
+        </pre>
+    </div>
+    <div class="question"> <strong>160. How do you execute TestNG tests from the command line?</strong>
+        <pre>
+            mvn test -DsuiteXmlFile=testng.xml
+        </pre>
+    </div>
+    <p>&nbsp;</p>
+    <h2>Automation Testing Interview Questions - Set 17</h2>
+    <div class="question"> <strong>161. How do you use Cypress for end-to-end testing?</strong>
+        <pre>
+            describe('My First Test', () => {
+                it('Visits the app and checks content', () => {
+                    cy.visit('https://example.com');
+                    cy.contains('Welcome');
+                });
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>162. How do you perform data-driven testing in JUnit?</strong>
+        <pre>
+            @ParameterizedTest
+            @ValueSource(strings = {"test1", "test2", "test3"})
+            void testWithDifferentInputs(String input) {
+                System.out.println("Testing with: " + input);
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>163. How do you stub HTTP requests in Cypress?</strong>
+        <pre>
+            cy.intercept('GET', '/api/data', { fixture: 'data.json' }).as('getData');
+            cy.visit('/home');
+            cy.wait('@getData');
+        </pre>
+    </div>
+    <div class="question"> <strong>164. How do you perform API contract testing with Pact in Node.js?</strong>
+        <pre>
+            const { Pact } = require('@pact-foundation/pact');
+
+            const provider = new Pact({ consumer: 'Client', provider: 'API' });
+
+            beforeAll(() => provider.setup());
+            afterAll(() => provider.finalize());
+        </pre>
+    </div>
+    <div class="question"> <strong>165. How do you run Selenium tests in headless mode?</strong>
+        <pre>
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");
+            WebDriver driver = new ChromeDriver(options);
+        </pre>
+    </div>
+    <div class="question"> <strong>166. How do you configure Pytest to generate test reports?</strong>
+        <pre>
+            pytest --html=report.html
+        </pre>
+    </div>
+    <div class="question"> <strong>167. How do you test a REST API using RestAssured in Java?</strong>
+        <pre>
+            given()
+                .baseUri("https://api.example.com")
+            .when()
+                .get("/users")
+            .then()
+                .statusCode(200);
+        </pre>
+    </div>
+    <div class="question"> <strong>168. How do you verify element visibility in Playwright?</strong>
+        <pre>
+            const element = await page.waitForSelector('#myElement', { state: 'visible' });
+            expect(await element.isVisible()).toBeTruthy();
+        </pre>
+    </div>
+    <div class="question"> <strong>169. How do you implement custom matchers in Jest?</strong>
+        <pre>
+            expect.extend({
+                toBeEven(received) {
+                    return received % 2 === 0
+                        ? { pass: true, message: () => 'Pass' }
+                        : { pass: false, message: () => 'Fail' };
+                }
+            });
+
+            test('Number is even', () => {
+                expect(4).toBeEven();
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>170. How do you set up a Selenium Grid for parallel execution?</strong>
+        <pre>
+            java -jar selenium-server-standalone.jar -role hub
+            java -jar selenium-server-standalone.jar -role node -hub http://localhost:4444/grid/register
+        </pre>
+    </div>
+    <p>&nbsp;</p>
+    <h2>Automation Testing Interview Questions - Set 18</h2>
+    <div class="question"> <strong>171. How do you use the Page Object Model (POM) in Selenium with Java?</strong>
+        <pre>
+            public class LoginPage {
+                WebDriver driver;
+                
+                @FindBy(id="username") WebElement username;
+                @FindBy(id="password") WebElement password;
+                @FindBy(id="login") WebElement loginButton;
+
+                public LoginPage(WebDriver driver) {
+                    this.driver = driver;
+                    PageFactory.initElements(driver, this);
+                }
+
+                public void login(String user, String pass) {
+                    username.sendKeys(user);
+                    password.sendKeys(pass);
+                    loginButton.click();
+                }
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>172. How do you handle retries in Pytest?</strong>
+        <pre>
+            import pytest
+
+            @pytest.mark.flaky(reruns=3)
+            def test_example():
+                assert some_function() == True
+        </pre>
+    </div>
+    <div class="question"> <strong>173. How do you handle file uploads in Cypress?</strong>
+        <pre>
+            import 'cypress-file-upload';
+
+            cy.get('input[type="file"]').attachFile('test-file.png');
+        </pre>
+    </div>
+    <div class="question"> <strong>174. How do you run Selenium tests in parallel using TestNG?</strong>
+        <pre>
+            &lt;suite name="Parallel Suite" parallel="tests" thread-count="2"&gt;
+                &lt;test name="Test1"&gt;
+                    &lt;classes&gt;
+                        &lt;class name="TestClass1"/&gt;
+                    &lt;/classes&gt;
+                &lt;/test&gt;
+                &lt;test name="Test2"&gt;
+                    &lt;classes&gt;
+                        &lt;class name="TestClass2"/&gt;
+                    &lt;/classes&gt;
+                &lt;/test&gt;
+            &lt;/suite&gt;
+        </pre>
+    </div>
+    <div class="question"> <strong>175. How do you mock API responses in Jest?</strong>
+        <pre>
+            jest.mock('axios');
+            axios.get.mockResolvedValue({ data: { user: 'John' } });
+
+            test('fetches data', async () => {
+                const response = await axios.get('/user');
+                expect(response.data.user).toBe('John');
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>176. How do you use Selenium with C# and NUnit?</strong>
+        <pre>
+            using NUnit.Framework;
+            using OpenQA.Selenium;
+            using OpenQA.Selenium.Chrome;
+
+            [TestFixture]
+            public class SeleniumTest {
+                IWebDriver driver;
+
+                [SetUp]
+                public void Setup() {
+                    driver = new ChromeDriver();
+                }
+
+                [Test]
+                public void OpenGoogle() {
+                    driver.Navigate().GoToUrl("https://www.google.com");
+                    Assert.IsTrue(driver.Title.Contains("Google"));
+                }
+
+                [TearDown]
+                public void Cleanup() {
+                    driver.Quit();
+                }
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>177. How do you handle alerts in Selenium WebDriver?</strong>
+        <pre>
+            Alert alert = driver.switchTo().alert();
+            System.out.println(alert.getText());
+            alert.accept(); // Click OK
+        </pre>
+    </div>
+    <div class="question"> <strong>178. How do you use Cypress to test an API?</strong>
+        <pre>
+            cy.request('GET', '/api/users/1').then((response) => {
+                expect(response.status).to.eq(200);
+            });
+        </pre>
+    </div>
+    <div class="question"> <strong>179. How do you create and run a parameterized test in NUnit?</strong>
+        <pre>
+            [Test]
+            [TestCase(2, 2, 4)]
+            [TestCase(3, 3, 6)]
+            public void TestAddition(int a, int b, int expected) {
+                Assert.AreEqual(expected, a + b);
+            }
+        </pre>
+    </div>
+    <div class="question"> <strong>180. How do you configure WebDriver to use a specific browser profile?</strong>
+        <pre>
+            FirefoxOptions options = new FirefoxOptions();
+            options.addArguments("-profile", "/path/to/profile");
+            WebDriver driver = new FirefoxDriver(options);
+        </pre>
+    </div>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>adsfasdf
+    sadf
+    asfd
+
+    </p>
+</body>
+</html>
