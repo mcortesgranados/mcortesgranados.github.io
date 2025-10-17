@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test-Driven Development (TDD) in React</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    h2 {
+      color: #34495e;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      font-size: 1rem;
+      overflow-x: auto;
+    }
+    code {
+      font-size: 1rem;
+      color: #d63a0d;
+    }
+    .card {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px solid #e1e1e1;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>✅ Test-Driven Development (TDD) in React</h1>
+
+  <div class="card">
+    <h2>💬 What to Say in the Interview</h2>
+    <p>
+      "I implemented **Test-Driven Development (TDD)** in my React applications, which ensured the reliability of the components and application logic from the start of the development process. With TDD, I wrote tests before the actual code, helping me define the desired functionality and preventing defects early."
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>🔧 How I Implemented TDD</h2>
+    <p>
+      I followed the **Red-Green-Refactor** cycle in TDD, where I:
+      <ul>
+        <li>Wrote failing tests (Red) for the component or function I was about to implement.</li>
+        <li>Implemented the minimum code to make the test pass (Green).</li>
+        <li>Refactored the code to ensure it was clean and efficient while maintaining the test's passing status (Refactor).</li>
+      </ul>
+      This approach helped me build reliable, bug-free components with high test coverage from the start.
+    </p>
+
+    <h3>Test Case Example for a Counter Component</h3>
+    <pre><code>import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import Counter from './Counter';
+
+test('Counter increments the value when the button is clicked', () => {
+  render(&lt;Counter /&gt;);
+  const button = screen.getByText('Increment');
+  const counterValue = screen.getByTestId('counter-value');
+
+  expect(counterValue).toHaveTextContent('0');
+  fireEvent.click(button);
+  expect(counterValue).toHaveTextContent('1');
+});</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>🎯 Key Principles of TDD Applied</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Red</td>
+          <td>Write a failing test for the functionality you want to implement</td>
+        </tr>
+        <tr>
+          <td>Green</td>
+          <td>Write just enough code to pass the test, focusing on functionality</td>
+        </tr>
+        <tr>
+          <td>Refactor</td>
+          <td>Refactor the code to improve structure while ensuring the test still passes</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>🔍 Benefits of TDD in React</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Benefit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Early Bug Detection</td>
+          <td>By writing tests before implementation, bugs are caught early in the development cycle</td>
+        </tr>
+        <tr>
+          <td>Improved Code Quality</td>
+          <td>Focusing on passing tests ensures clean, efficient, and well-structured code</td>
+        </tr>
+        <tr>
+          <td>Enhanced Maintainability</td>
+          <td>Tests act as documentation for the functionality of components, making it easier to maintain the codebase</td>
+        </tr>
+        <tr>
+          <td>Higher Test Coverage</td>
+          <td>Ensures that all code paths are tested and validated, reducing the risk of undetected issues</td>
+        </tr>
+        <tr>
+          <td>Confidence in Refactoring</td>
+          <td>With a full suite of tests, I could confidently refactor code without breaking existing functionality</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>🔥 Real-World Example</h2>
+    <p>
+      "In a recent project, I applied TDD to build a user registration form. The tests included validating form inputs, ensuring proper error messages were displayed, and testing the success scenario after form submission. By following TDD, I ensured that the form logic was robust and met all functional requirements from day one."
+    </p>
+  </div>
+
+</body>
+</html>

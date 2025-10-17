@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimized API Requests - 1.4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+            background-color: #fff;
+        }
+        h2 {
+            color: #333;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 5px;
+            border-radius: 3px;
+            font-size: 1rem;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #e2f7e0;
+            border-left: 5px solid #4caf50;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .step {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Optimized API Requests - 1.4</h1>
+</header>
+
+<main>
+    <h2>Overview</h2>
+    <p>
+        “I optimized API requests using batch processing, caching strategies, and pagination techniques to enhance performance and reduce API quota usage.” Here’s how I technically designed, coded, and applied these techniques:
+    </p>
+
+    <div class="step">
+        <h3>1. Batch Processing for High-Volume Interactions</h3>
+        <p>
+            "I avoided excessive round-trips by implementing <strong>batch request handling</strong> when interacting with CRMs (e.g., HubSpot), chat platforms (e.g., ManyChat), or analytics systems. Instead of calling the API for each record, I aggregated up to 100 records per request — complying with the platform’s max limits (e.g., HubSpot: 100 per call)."
+        </p>
+        <pre><code>
+def sync_contacts_batched(contacts):
+    for batch in chunked(contacts, 100):
+        response = requests.post(API_URL, json={"contacts": batch})
+        </code></pre>
+        <pre><code>
+Flux.fromIterable(contactList)
+    .buffer(100)
+    .flatMap(batch -> webClient.post()
+        .uri("/contacts/batch")
+        .bodyValue(batch)
+        .retrieve()
+        .bodyToMono(Void.class))
+    .subscribe();
+        </code></pre>
+    </div>
+
+    <div class="step">
+        <h3>2. AI-Driven Data Prioritization for Batching (Optional AI Layer)</h3>
+        <p>
+            "When using AI for <strong>contact scoring or churn prediction</strong>, I sorted records based on AI-predicted importance (e.g., likelihood to convert, sentiment flag), and <strong>batched prioritized data first</strong> to stay within API quotas under pressure."
+        </p>
+        <p><strong>Example:</strong> "If I could only sync 1,000 contacts/day, I’d prioritize syncing those with high lead scores or negative sentiment — insights powered by AI."</p>
+    </div>
+
+    <div class="step">
+        <h3>3. Caching Strategies to Reduce Redundant API Calls</h3>
+        <p>
+            "I implemented <strong>short-term in-memory caching (Redis or in-app LRU cache)</strong> to avoid re-fetching unchanged records. Whenever a user interaction or contact had not changed, I pulled it from cache rather than calling the API again."
+        </p>
+        <pre><code>
+@cached(cache=TTLCache(maxsize=500, ttl=300))
+def get_user_data(user_id):
+    return requests.get(f"{API_URL}/users/{user_id}").json()
+        </code></pre>
+        <p>Result: Reduced external calls by up to <strong>70%</strong> and protected against HubSpot/Mailchimp rate limits.</p>
+    </div>
+
+    <div class="step">
+        <h3>4. Pagination Handling for Bulk Data</h3>
+        <p>
+            "I integrated <strong>auto-pagination logic</strong> when retrieving large datasets via <strong>limit</strong> and <strong>offset</strong> or <strong>cursor-based</strong> pagination. This ensured full dataset coverage without manual iteration."
+        </p>
+        <pre><code>
+def get_all_contacts():
+    has_more = True
+    offset = 0
+    while has_more:
+        res = get_contacts(offset=offset, limit=100)
+        process_contacts(res['contacts'])
+        has_more = res['has_more']
+        offset = res['next_offset']
+        </code></pre>
+    </div>
+
+    <div class="step">
+        <h3>5. Monitoring and Quota Awareness</h3>
+        <p>
+            "I added a <strong>rate-limiter monitor</strong> and used <strong>exponential backoff</strong> or <code>Retry-After</code> headers to avoid breaching quotas. This was critical for APIs like HubSpot, ManyChat, and Meta Business APIs, which can temporarily block abusive patterns."
+        </p>
+    </div>
+
+    <div class="highlight">
+        <h3>Interview Summary Phrase</h3>
+        <p>
+            “To keep my integrations scalable and compliant with 3rd-party API quotas, I implemented <strong>batching, smart caching, and efficient pagination</strong> — often enhanced by AI-based prioritization logic — reducing overhead while maintaining real-time responsiveness.”
+        </p>
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Integrating React with RESTful APIs and GraphQL</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    h2 {
+      color: #34495e;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      font-size: 1rem;
+      overflow-x: auto;
+    }
+    code {
+      font-size: 1rem;
+      color: #d63a0d;
+    }
+    .card {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px solid #e1e1e1;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔗 Working with Backend Developers to Integrate React Applications with APIs</h1>
+
+  <div class="card">
+    <h2>💬 What to Say in the Interview</h2>
+    <p>
+      "I collaborated with backend developers to integrate **React applications** with **RESTful APIs** and **GraphQL endpoints**. This integration allowed React applications to fetch data dynamically, interact with backend services, and present data to users in real-time. I used tools like **Axios**, **Fetch API**, and **Apollo Client** to make API calls and handle responses, ensuring that the user interface was always up-to-date with the latest data."
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>🔧 How I Integrated React with RESTful APIs and GraphQL</h2>
+    <p>
+      During this integration, I followed these steps to ensure smooth communication between the frontend (React) and backend (APIs or GraphQL endpoints):
+      <ul>
+        <li><strong>API Calls with Axios and Fetch API:</strong> I used **Axios** or the **Fetch API** to send HTTP requests to RESTful APIs. These requests fetched data (GET), created data (POST), updated data (PUT/PATCH), or deleted data (DELETE) from the server. Axios was preferred for its promise-based syntax and features such as interceptors and automatic handling of JSON data.</li>
+        <li><strong>State Management with React:</strong> I used **React’s state management** (like **useState**, **useReducer**, or **Redux**) to store the data received from the APIs and dynamically update the UI whenever data changed. This ensured that users always saw the latest data without needing to reload the page.</li>
+        <li><strong>Handling Responses:</strong> I handled responses from the API by using **promise chaining** (`.then()`, `.catch()`) or **async/await** to process the response. I then stored the data in state and updated the UI accordingly.</li>
+        <li><strong>Error Handling:</strong> I implemented **error handling** for API requests to manage cases where the backend service might fail or return errors (e.g., 404, 500). This provided the user with informative error messages and allowed the app to gracefully recover.</li>
+        <li><strong>GraphQL Integration:</strong> For GraphQL, I used **Apollo Client** to send **GraphQL queries and mutations**. The integration allowed me to send more precise requests for specific data, reducing over-fetching and improving performance.</li>
+      </ul>
+    </p>
+
+    <h3>Code Example: Fetching Data from a RESTful API</h3>
+    <pre><code>
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const UsersList = () => {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetching data from RESTful API using Axios
+    axios.get('https://api.example.com/users')
+      .then(response => {
+        setUsers(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
+  return (
+    <ul>
+      {users.map(user => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+};
+
+export default UsersList;
+    </code></pre>
+  </div>
+
+  <div class="card">
+    <h2>🎯 Key Features Used in API Integration</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>How it Was Used</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>API Calls</td>
+          <td>Used **Axios** or **Fetch API** to send HTTP requests to RESTful APIs to retrieve or manipulate data on the server.</td>
+        </tr>
+        <tr>
+          <td>State Management</td>
+          <td>Used **React state** (e.g., `useState`) or **Redux** to store the fetched data and update the UI dynamically.</td>
+        </tr>
+        <tr>
+          <td>Error Handling</td>
+          <td>Implemented error handling with `.catch()` or `try/catch` for API calls to handle failed requests and notify users appropriately.</td>
+        </tr>
+        <tr>
+          <td>GraphQL Integration</td>
+          <td>Used **Apollo Client** for efficient data fetching with **GraphQL** queries, reducing over-fetching and streamlining requests.</td>
+        </tr>
+        <tr>
+          <td>Asynchronous Requests</td>
+          <td>Utilized **async/await** and **promise chaining** to handle asynchronous requests and update the UI after receiving responses from APIs.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>🔥 Real-World Example</h2>
+    <p>
+      "For a financial dashboard, I integrated React with a RESTful API that provided real-time data about stock market prices. By making **GET** requests to the API, I fetched and displayed up-to-the-minute stock price data on the user interface. I used **Axios** to handle the requests and implemented error handling in case the API failed, ensuring the user had a smooth experience even during downtime."
+    </p>
+  </div>
+
+</body>
+</html>

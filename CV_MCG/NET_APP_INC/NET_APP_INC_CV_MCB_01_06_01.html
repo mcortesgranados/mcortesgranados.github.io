@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Agents I Implemented</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f8fa;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      color: #0f172a;
+      text-align: center;
+    }
+    section {
+      background: #ffffff;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-left: 6px solid #007acc;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    h2 {
+      color: #007acc;
+    }
+    code {
+      background: #eef;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+    pre {
+      background: #eef;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    .highlight {
+      background: #e0f7fa;
+      padding: 15px;
+      border-left: 4px solid #0097a7;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🤖 AI Agents I Implemented – What & How</h1>
+
+  <section>
+    <h2>1. Product Recommendation Agent</h2>
+    <p>
+      Trained a collaborative filtering model (using Python & scikit-learn) based on purchase history and customer profiles.
+      This model was deployed as a FastAPI service, consumed by chatbot and frontend systems.
+    </p>
+    <pre><code># FastAPI route serving recommendations
+@app.get("/recommendations/{user_id}")
+def get_recommendations(user_id: str):
+    vector = user_vectorizer.transform(get_user_data(user_id))
+    result = recommendation_model.predict(vector)
+    return {"recommended_products": result}</code></pre>
+    <p class="highlight">Used by ManyChat chatbot to personalize product suggestions during interactions.</p>
+  </section>
+
+  <section>
+    <h2>2. Financial Forecasting Agent</h2>
+    <p>
+      Built time-series models (ARIMA, XGBoost) to predict future revenue or cash flow. These models were exposed via a secured REST API (Spring Boot + OAuth2).
+    </p>
+    <pre><code>// Java Spring Boot Controller
+@GetMapping("/forecast/{companyId}")
+public ResponseEntity&lt;Forecast&gt; getForecast(@PathVariable String companyId) {
+    Forecast forecast = modelService.forecast(companyId);
+    return ResponseEntity.ok(forecast);
+}</code></pre>
+    <p class="highlight">Used by dashboard components and back-office analytics to guide investment decisions.</p>
+  </section>
+
+  <section>
+    <h2>3. Anomaly Detection Agent</h2>
+    <p>
+      Deployed unsupervised models (Isolation Forest) that flagged abnormal transactions in real time.
+      Python backend (Flask) scanned batches of transaction data and reported scores via API.
+    </p>
+    <pre><code># Flask API
+@app.post("/anomaly-score")
+def anomaly_score(data: List[Transaction]):
+    features = extract_features(data)
+    scores = anomaly_model.decision_function(features)
+    return {"scores": scores}</code></pre>
+    <p class="highlight">Enabled fraud detection modules to trigger alerts or secondary reviews.</p>
+  </section>
+
+  <section>
+    <h2>4. Support Escalation Agent</h2>
+    <p>
+      Combined a rules engine with ML classification to detect high-priority customer complaints (based on sentiment, intent, and keywords).
+      Used by ManyChat and backend support ticketing logic.
+    </p>
+    <pre><code># Rules + ML classifier
+if intent == "complaint" and sentiment_score &lt; -0.5:
+    escalate_ticket(user_id, category="urgent")</code></pre>
+    <p class="highlight">Improved customer service by escalating only the most critical cases automatically.</p>
+  </section>
+
+  <section>
+    <h2>5. Token-Aware AI Access Agent</h2>
+    <p>
+      Some agents (forecasting bots, anomaly services) acted autonomously and authenticated via <code>OAuth2 Client Credentials</code> flow to access secured APIs.
+    </p>
+    <pre><code>POST /oauth/token
+grant_type=client_credentials
+client_id=agent-xyz
+client_secret=secret</code></pre>
+    <p class="highlight">Ensured secure machine-to-machine interactions within the system.</p>
+  </section>
+
+  <section class="highlight">
+    <h2>Summary</h2>
+    <p>
+      These AI agents were modular, secure, and integrated into real-time systems — helping automate decisions, improve predictions, and personalize user experiences in financial and customer-facing domains.
+    </p>
+  </section>
+</body>
+</html>

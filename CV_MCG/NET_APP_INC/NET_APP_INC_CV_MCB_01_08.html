@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI-Driven RESTful API Implementation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f8f9fa;
+    }
+    h2 {
+      color: #333;
+    }
+    h3 {
+      color: #0066cc;
+    }
+    code, pre {
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
+      display: block;
+      margin-top: 10px;
+      white-space: pre-wrap;
+    }
+    .highlight {
+      background-color: #dff0d8;
+      padding: 10px;
+      border-left: 5px solid #4CAF50;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🛠️ Built and Optimized RESTful APIs using FastAPI, Django, and Spring Boot, Leveraging AI-driven Data Processing Pipelines</h2>
+
+  <h3>✅ What I Did Technically</h3>
+  <ul>
+    <li><strong>Created intelligent APIs</strong> to return ML-based results like risk scores, fraud detection, and predictive analytics.</li>
+    <li><a href="NET_APP_INC_CV_MCB_01_08_01.html" target="_blank"><strong>Integrated AI models</strong> using Python (FastAPI/Django) and Java (Spring Boot).</a></li>
+    <li><strong>Optimized performance</strong> with batch processing, caching (Redis), and asynchronous tasks.</li>
+  </ul>
+
+  <h3>📦 FastAPI Example (Python + Scikit-learn)</h3>
+  <pre><code>from fastapi import FastAPI, Request
+import joblib
+
+app = FastAPI()
+model = joblib.load("churn_model.pkl")
+
+@app.post("/predict-churn")
+async def predict(data: dict):
+    features = extract_features(data)
+    prediction = model.predict([features])
+    return {"churn_risk": prediction[0]}</code></pre>
+
+  <h3>☕ Spring Boot Example (Java + AI Service)</h3>
+  <pre><code>@PostMapping("/score")
+public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; score(@RequestBody UserData input) {
+    double prediction = aiService.predictRisk(input);
+    return ResponseEntity.ok(Map.of("risk_score", prediction));
+}</code></pre>
+
+  <h3>🧠 What is an AI-Driven Data Pipeline?</h3>
+  <div class="highlight">
+    <ul>
+      <li><strong>Input:</strong> Raw JSON data (text, transactions, user input)</li>
+      <li><strong>Processing:</strong> Normalization, encoding, feature extraction</li>
+      <li><strong>Model Inference:</strong> AI model makes prediction/classification</li>
+      <li><strong>Output:</strong> API responds with intelligent insights</li>
+    </ul>
+  </div>
+
+  <h3>🚀 Interview Summary</h3>
+  <p>
+    “I designed APIs in FastAPI, Django, and Spring Boot that connected directly to ML models for tasks like risk scoring, recommendations, and text analysis.
+    The endpoints triggered full AI pipelines: preprocessing → model inference → response generation.
+    I optimized them with async execution, caching, and batch support to ensure low-latency and high-performance AI integrations.”
+  </p>
+
+</body>
+</html>

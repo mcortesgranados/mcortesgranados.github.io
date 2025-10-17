@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI-Focused Query Optimization</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      color: #333;
+    }
+    h2 {
+      color: #005f99;
+    }
+    pre {
+      background-color: #eef;
+      padding: 10px;
+      border-left: 4px solid #005f99;
+      overflow-x: auto;
+    }
+    .section {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💾 AI-Focused Query Optimization with PostgreSQL, MySQL, and MongoDB</h1>
+
+  <div class="section">
+    <h2>What Are AI-Related Queries?</h2>
+    <p>AI-related queries refer to database queries used for:</p>
+    <ul>
+      <li>Fetching training data for ML models</li>
+      <li>Retrieving real-time features for inference</li>
+      <li>Querying AI predictions (like scores, recommendations)</li>
+      <li>Enabling semantic or intelligent search (e.g., vector queries)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>1. Training Data Pipelines (ETL for AI)</h2>
+    <p>Optimized complex SQL to generate high-quality training datasets for supervised learning:</p>
+    <pre><code>SELECT c.id, c.signup_date, o.total_spent, ch.churned
+FROM customers c
+JOIN orders o ON o.customer_id = c.id
+JOIN churn_labels ch ON ch.customer_id = c.id
+WHERE c.signup_date &gt;= '2020-01-01';</code></pre>
+    <p><strong>Techniques:</strong> Indexing, materialized views, denormalization</p>
+  </div>
+
+  <div class="section">
+    <h2>2. Real-Time Feature Extraction (Online Inference)</h2>
+    <p>Enabled low-latency retrieval of features used by ML models in production:</p>
+    <pre><code>SELECT last_login, avg_purchase, support_tickets
+FROM customer_features
+WHERE customer_id = :id;</code></pre>
+    <p><strong>PostgreSQL/MySQL:</strong> Partial indexes, caching, partitions<br>
+       <strong>MongoDB:</strong> Aggregations, projections, compound indexes</p>
+  </div>
+
+  <div class="section">
+    <h2>3. AI-Powered Predictions and Recommendations</h2>
+    <p>Queried AI model outputs stored in DBs, such as recommendation rankings:</p>
+    <pre><code>SELECT product_id, predicted_score
+FROM product_recommendations
+WHERE user_id = :userId
+ORDER BY predicted_score DESC
+LIMIT 10;</code></pre>
+    <p><strong>Optimizations:</strong> Indexing on prediction score, pre-computation, read replicas</p>
+  </div>
+
+  <div class="section">
+    <h2>4. Querying JSON and Vector Data (AI Semantics)</h2>
+    <p>Used MongoDB for labeled JSON document queries and PostgreSQL with pgvector for semantic search and embedding queries.</p>
+  </div>
+
+  <div class="section">
+    <h2>🧠 Summary</h2>
+    <p>
+      I worked on optimizing data pipelines supporting AI processes — from training data to inference and prediction delivery.
+      Using PostgreSQL, MySQL, and MongoDB, I applied indexing, caching, aggregation tuning, and schema design techniques 
+      to ensure fast, scalable, and AI-friendly data workflows.
+    </p>
+  </div>
+
+</body>
+</html>

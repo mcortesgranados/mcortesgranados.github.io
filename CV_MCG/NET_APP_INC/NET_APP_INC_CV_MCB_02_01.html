@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS-in-JS for React Components</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    h2 {
+      color: #34495e;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      font-size: 1rem;
+      overflow-x: auto;
+    }
+    code {
+      font-size: 1rem;
+      color: #d63a0d;
+    }
+    .card {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px solid #e1e1e1;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎨 CSS-in-JS with Styled Components and Emotion</h1>
+
+  <div class="card">
+    <h2>💬 What to Say in the Interview</h2>
+    <p>
+      "In my React projects, I used **CSS-in-JS** libraries like <strong>styled-components</strong> and <strong>@emotion/styled</strong> to implement component-level styling. This approach allowed me to write styles directly inside JavaScript, co-located with the components they affected. It made the UI codebase more modular, reusable, and maintainable."
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>🔧 How I Applied CSS-in-JS</h2>
+    <p>
+      With **CSS-in-JS**, I used libraries to avoid issues of global scope in traditional CSS and gain dynamic and scoped styling for each React component.
+    </p>
+    <h3>Installation</h3>
+    <pre><code>npm install styled-components
+# or
+npm install @emotion/styled</code></pre>
+
+    <h3>Example Code</h3>
+    <pre><code>import styled from 'styled-components';
+
+const Button = styled.button\`
+  background: \${props => props.primary ? 'blue' : 'gray'};
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+\`;
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Button primary&gt;Primary Button&lt;/Button&gt;
+      &lt;Button&gt;Default Button&lt;/Button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>🎨 Theming Support</h2>
+    <p>
+      I used <code>&lt;ThemeProvider&gt;</code> to provide a centralized theme for the entire application, ensuring consistency in colors, fonts, and spacing. This was especially useful in implementing dark/light modes across the app.
+    </p>
+    <pre><code>import { ThemeProvider } from 'styled-components';
+
+const theme = {
+  primary: '#3498db',
+  secondary: '#e74c3c'
+};
+
+&lt;ThemeProvider theme={theme}&gt;
+  &lt;App /&gt;
+&lt;/ThemeProvider&gt;</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>🧠 Benefits of Using CSS-in-JS</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Benefit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Component-scoped styles</td>
+          <td>No global style leakage</td>
+        </tr>
+        <tr>
+          <td>Dynamic styling</td>
+          <td>Easily change styles based on state or props</td>
+        </tr>
+        <tr>
+          <td>Theming support</td>
+          <td>Centralized design decisions for consistency</td>
+        </tr>
+        <tr>
+          <td>CSS in JavaScript</td>
+          <td>No need for external CSS files</td>
+        </tr>
+        <tr>
+          <td>SSR Support</td>
+          <td>Improved performance and SEO with server-side rendering</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>🔥 Example Use Case</h2>
+    <p>
+      "In a React e-commerce dashboard, I created dynamic product cards using <strong>styled-components</strong>. Each card changed its background color based on stock level (low, medium, high), and the app automatically adapted to dark/light mode based on the user's preference. This approach streamlined the styling process and made it highly maintainable."
+    </p>
+  </div>
+
+</body>
+</html>

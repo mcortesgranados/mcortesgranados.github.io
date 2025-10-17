@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>1.6 – Secure OAuth & AI-Powered Interactions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      background: white;
+      padding: 30px;
+      max-width: 1000px;
+      margin: 40px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #0f172a;
+    }
+    p {
+      line-height: 1.6;
+    }
+    code, pre {
+      background: #eef;
+      padding: 10px;
+      border-radius: 5px;
+      display: block;
+      overflow-x: auto;
+      margin-top: 10px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .highlight {
+      background-color: #e0f7fa;
+      border-left: 6px solid #00796b;
+      padding: 15px;
+      margin-top: 30px;
+    }
+    .step {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔐 1.6 – Secure OAuth & API Token Management for AI-Powered Financial Interactions</h1>
+  </header>
+  <main>
+    <h2>Overview</h2>
+    <p>
+      I implemented secure OAuth 2.0 authentication and API token management to control access to financial systems by both users and AI-powered agents. The purpose was to ensure safe, personalized, and automated decision-making workflows within regulated financial environments.
+    </p>
+
+    <div class="step">
+      <h3>Why AI-Powered Interactions?</h3>
+      <p>
+        Financial systems increasingly rely on AI to automate tasks, make predictions, and improve personalization. Examples of AI-powered interactions include:
+      </p>
+      <ul>
+        <li>🔎 <strong>Predictive analytics:</strong> AI agents forecasting cash flow or credit risk</li>
+        <li>💬 <strong>Smart chatbots:</strong> ML-driven assistants offering investment advice based on user profiles</li>
+        <li>🎯 <strong>Personalized alerts:</strong> Based on anomaly detection in transaction data</li>
+        <li>⚙️ <strong>Automated decisioning engines:</strong> Approving or escalating transactions based on model scores</li>
+      </ul>
+      <p>
+        These AI agents need secure access to APIs, financial records, and profile data — which is why token-based OAuth access control is essential.
+      </p>
+    </div>
+
+    <div class="step">
+      <h3>OAuth 2.0 in Action</h3>
+      <p>
+        I used the <strong>Authorization Code Flow</strong> for users and the <strong>Client Credentials Flow</strong> for AI agents:
+      </p>
+      <pre><code>POST /oauth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+&client_id=ai-agent-001
+&client_secret=abc123</code></pre>
+      <p>
+        Access tokens were scoped to limit what data could be read or written (e.g., <code>read:transactions</code>, <code>write:alerts</code>).
+      </p>
+    </div>
+
+    <div class="step">
+      <h3>Token Management Strategy</h3>
+      <ul>
+        <li>⏱️ Used <strong>short-lived tokens</strong> with refresh mechanisms</li>
+        <li>🔐 Stored tokens securely using encryption-at-rest</li>
+        <li>👁️ Monitored token usage for anomalies</li>
+        <li>🚫 Implemented revocation endpoints for compromised tokens</li>
+      </ul>
+      <p><a href="NET_APP_INC_CV_MCB_01_06_01.html" target="_blank">🤖 AI Agents I Implemented – What & How</a></p>
+    </div>
+
+    <div class="step">
+      <h3>Integration with AI Components</h3>
+      <p>
+        AI components (Python scripts, ML pipelines, FastAPI apps) called secure APIs to:
+      </p>
+      <ul>
+        <li>Fetch real-time transaction data</li>
+        <li>Score user risk profiles</li>
+        <li>Update personalized investment dashboards</li>
+      </ul>
+      <p>
+        Tokens were passed in headers like:
+      </p>
+      <pre><code>Authorization: Bearer &lt;access_token&gt;</code></pre>
+    </div>
+
+    <div class="highlight">
+      <h3>Interview Summary</h3>
+      <p>
+        “I secured both user and AI-agent access to financial APIs using OAuth 2.0. I used token scopes and lifecycles to ensure that AI systems — like chatbots, forecasting models, or automation engines — could safely access only the data they needed for personalized and predictive financial services.” 🔐🤖📊
+      </p>
+    </div>
+  </main>
+</body>
+</html>

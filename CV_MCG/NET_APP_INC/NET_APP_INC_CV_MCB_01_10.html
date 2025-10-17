@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cloud-Based AI Deployment</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; padding: 20px; }
+    h1 { color: #2c3e50; }
+    .section {
+      background: #fff;
+      padding: 16px;
+      margin-bottom: 20px;
+      border-left: 5px solid #3498db;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    pre {
+      background: #eef;
+      padding: 10px;
+      overflow-x: auto;
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+<body>
+
+<h1>☁️ AI-Powered Cloud Deployment on AWS & Azure</h1>
+
+<div class="section">
+  <h2>1. Model Development & Packaging</h2>
+  <p>Trained models in Python (e.g., scikit-learn, TensorFlow) and serialized them:</p>
+  <pre><code># Save model
+import joblib
+joblib.dump(model, 'model.pkl')</code></pre>
+  <p>Then wrapped them with FastAPI or Flask for serving:</p>
+  <pre><code># Flask API for inference
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.json
+    prediction = model.predict(data['features'])
+    return jsonify(prediction=prediction.tolist())</code></pre>
+</div>
+
+<div class="section">
+  <h2>2. Dockerizing the Model API</h2>
+  <pre><code># Dockerfile
+FROM python:3.9
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+CMD ["python", "app.py"]</code></pre>
+</div>
+
+<div class="section">
+  <h2>3. Deployment Options</h2>
+  <ul>
+    <li><strong>AWS Lambda:</strong> For serverless model inference with API Gateway.</li>
+    <li><strong>AWS EC2 / Azure VM:</strong> For hosting full ML pipelines or heavy models.</li>
+    <li><strong>Kubernetes (EKS/AKS):</strong> To orchestrate scalable model-serving pods.</li>
+    <li><strong>Docker + ECS:</strong> Containerized microservices with load balancing.</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>4. CI/CD & Monitoring</h2>
+  <ul>
+    <li>Integrated with GitHub Actions to auto-deploy Docker images.</li>
+    <li>Used CloudWatch (AWS) and Azure Monitor for logs and performance insights.</li>
+    <li>Configured horizontal pod autoscaling in Kubernetes based on CPU/requests.</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>🧠 Why It's AI-Driven</h2>
+  <p>These applications consumed input, invoked an ML model (locally or via endpoint), and returned smart responses — e.g.:</p>
+  <ul>
+    <li>Fraud score</li>
+    <li>Product recommendation</li>
+    <li>Forecasted price</li>
+    <li>Priority label (e.g., support ticket classifier)</li>
+  </ul>
+</div>
+
+</body>
+</html>

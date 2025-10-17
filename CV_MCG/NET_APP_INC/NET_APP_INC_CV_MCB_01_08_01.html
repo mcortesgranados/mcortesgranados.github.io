@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Model Integration Explanation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background-color: #f4f6f8;
+      padding: 20px;
+    }
+    .section {
+      background-color: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #2c3e50;
+    }
+    pre {
+      background-color: #f0f0f0;
+      padding: 10px;
+      overflow-x: auto;
+      border-left: 4px solid #3498db;
+      font-size: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #ecf0f1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="section">
+    <h2>🔍 Objective</h2>
+    <p>Integrate ML/AI models into backend services so that REST APIs can return intelligent, data-driven responses.</p>
+  </div>
+
+  <div class="section">
+    <h2>✅ Python (FastAPI / Django)</h2>
+
+    <h3>🧠 Scenario</h3>
+    <ul>
+      <li>Pre-trained ML model using scikit-learn, XGBoost, etc.</li>
+      <li>Saved as <code>.pkl</code>, <code>.joblib</code>, or <code>.h5</code>.</li>
+      <li>Served via FastAPI or Django REST Framework.</li>
+    </ul>
+
+    <h3>🔧 Example with FastAPI</h3>
+    <pre><code>from fastapi import FastAPI
+import joblib
+import numpy as np
+
+app = FastAPI()
+model = joblib.load("models/churn_predictor.pkl")
+
+@app.post("/predict")
+async def predict(data: dict):
+    features = np.array([data["feature1"], data["feature2"], data["feature3"]])
+    prediction = model.predict([features])
+    return {"prediction": int(prediction[0])}</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>✅ Java (Spring Boot)</h2>
+
+    <h3>🧠 Integration Methods</h3>
+    <ul>
+      <li><strong>Microservice Call:</strong> Java app calls a Python ML microservice via HTTP.</li>
+      <li><strong>PMML/ONNX:</strong> Load exported model in Java using JPMML or ONNX Runtime.</li>
+      <li><strong>Java ML Libraries:</strong> Use libraries like DL4J or Smile natively.</li>
+    </ul>
+
+    <h3>🌐 Example: Calling Python ML API from Spring Boot</h3>
+    <pre><code>public double predictFromPythonService(InputData inputData) {
+    String url = "http://localhost:8000/predict";
+    HttpEntity&lt;InputData&gt; request = new HttpEntity<>(inputData);
+    ResponseEntity&lt;PredictionResponse&gt; response =
+        restTemplate.postForEntity(url, request, PredictionResponse.class);
+    return response.getBody().getPrediction();
+}</code></pre>
+
+    <h3>📦 Example: Loading PMML Model in Java</h3>
+    <pre><code>Evaluator modelEvaluator = new LoadingModelEvaluatorBuilder()
+    .load(new File("model.pmml"))
+    .build();
+modelEvaluator.verify();
+
+Map&lt;String, ?&gt; features = prepareFeatures(inputData);
+Map&lt;FieldName, ?&gt; result = modelEvaluator.evaluate(features);</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>🗂️ Summary Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Platform</th>
+          <th>Integration Method</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Python FastAPI</td>
+          <td>joblib.load, direct inference</td>
+          <td>Best for native ML (scikit-learn, XGBoost)</td>
+        </tr>
+        <tr>
+          <td>Django</td>
+          <td>Django REST Framework</td>
+          <td>Best for full-stack apps</td>
+        </tr>
+        <tr>
+          <td>Spring Boot</td>
+          <td>Microservice call or ONNX/PMML load</td>
+          <td>Best for scalable enterprise systems</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🗣️ Interview Summary</h2>
+    <p>“I embedded ML models in Python backends (FastAPI, Django) by loading them with <code>joblib</code> and exposing inference via REST APIs. In Java (Spring Boot), I either called Python model endpoints as microservices or used ONNX/PMML formats to load models directly into the Java runtime, depending on performance and deployment constraints.”</p>
+  </div>
+
+</body>
+</html>

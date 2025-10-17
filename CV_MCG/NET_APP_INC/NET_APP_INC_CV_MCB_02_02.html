@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit Testing with Jest & React Testing Library</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    h2 {
+      color: #34495e;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      font-size: 1rem;
+      overflow-x: auto;
+    }
+    code {
+      font-size: 1rem;
+      color: #d63a0d;
+    }
+    .card {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px solid #e1e1e1;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧪 Unit Testing with Jest and React Testing Library</h1>
+
+  <div class="card">
+    <h2>💬 What to Say in the Interview</h2>
+    <p>
+      "In my React projects, I employed **Jest** as the testing framework and **React Testing Library** for testing React components. The goal was to ensure that the components behaved as expected, with a focus on testing the user interactions and rendering logic, rather than the internal implementation details."
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>🔧 How I Implemented Unit Tests</h2>
+    <p>
+      I implemented unit tests for individual React components by focusing on user behavior (e.g., clicking buttons, entering text). This ensured that the components were tested from the user's perspective and not just their internal structure.
+    </p>
+    <h3>Installation</h3>
+    <pre><code>npm install --save-dev jest @testing-library/react @testing-library/jest-dom</code></pre>
+
+    <h3>Example Test Case for a Button Component</h3>
+    <pre><code>import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import Button from './Button';
+
+test('Button should call onClick when clicked', () => {
+  const handleClick = jest.fn();
+  render(&lt;Button onClick={handleClick} label="Click me" /&gt;);
+
+  fireEvent.click(screen.getByText(/Click me/i));
+  expect(handleClick).toHaveBeenCalledTimes(1);
+});</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>🎨 Focus on User Interaction Testing</h2>
+    <p>
+      I made sure to focus on testing the UI components as the user would interact with them. This ensured that the application was reliable and bug-free from the user's perspective.
+    </p>
+    <h3>Example: Testing Form Input</h3>
+    <pre><code>test('Form input updates state', () => {
+  render(&lt;Form /&gt;);
+  const input = screen.getByLabelText('Name');
+  fireEvent.change(input, { target: { value: 'John Doe' } });
+  expect(input.value).toBe('John Doe');
+});</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>🔍 Mocking and Assertions</h2>
+    <p>
+      I used **jest.fn()** to mock functions, ensuring that the components correctly triggered events and interacted with external data, such as API calls or external services. This allowed me to validate the logic of components without needing to rely on actual implementations.
+    </p>
+    <h3>Mocking an API Call</h3>
+    <pre><code>jest.mock('axios');
+import axios from 'axios';
+import { render, screen, waitFor } from '@testing-library/react';
+import DataFetchingComponent from './DataFetchingComponent';
+
+test('fetches and displays data', async () => {
+  axios.get.mockResolvedValue({ data: 'some data' });
+  render(&lt;DataFetchingComponent /&gt;);
+
+  await waitFor(() => screen.getByText('some data'));
+  expect(screen.getByText('some data')).toBeInTheDocument();
+});</code></pre>
+  </div>
+
+  <div class="card">
+    <h2>🎯 Benefits of Unit Testing in React</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Benefit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Focused Testing</td>
+          <td>Tests components in isolation, focusing on user behavior and interaction</td>
+        </tr>
+        <tr>
+          <td>Faster Feedback</td>
+          <td>Quick test runs during development to catch issues early</td>
+        </tr>
+        <tr>
+          <td>Prevents Regression</td>
+          <td>Tests ensure that new changes do not break existing functionality</td>
+        </tr>
+        <tr>
+          <td>Improved Code Quality</td>
+          <td>Writing tests enforces writing cleaner and more modular code</td>
+        </tr>
+        <tr>
+          <td>Confidence in Refactoring</td>
+          <td>Provides a safety net when refactoring or adding new features</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>🔥 Example Use Case</h2>
+    <p>
+      "In a recent project, I implemented unit tests for a shopping cart component. The test cases included verifying the correct display of cart items, updating quantities, and ensuring the correct total price calculation. This helped ensure the shopping cart remained functional as the app evolved."
+    </p>
+  </div>
+
+</body>
+</html>

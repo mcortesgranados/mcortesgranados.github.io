@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing GraphQL Schemas and Queries</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    h2 {
+      color: #34495e;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      font-size: 1rem;
+      overflow-x: auto;
+    }
+    code {
+      font-size: 1rem;
+      color: #d63a0d;
+    }
+    .card {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px solid #e1e1e1;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔍 Designing GraphQL Schemas and Queries</h1>
+
+  <div class="card">
+    <h2>💬 What to Say in the Interview</h2>
+    <p>
+      "I designed **GraphQL schemas** to optimize data retrieval from the server by defining types, queries, mutations, and relationships between data models. I wrote efficient GraphQL queries that enable the frontend to request exactly the data it needs, minimizing over-fetching and improving performance."
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>🔧 How I Designed GraphQL Schemas and Queries</h2>
+    <p>
+      When designing GraphQL schemas and queries, I focused on:
+      <ul>
+        <li><strong>Schema Definition:</strong> I carefully defined types, queries, and mutations that represented the business logic and relationships within the data. This included scalar types (String, Int, etc.), object types, and custom types (like Date, ID, etc.).</li>
+        <li><strong>Query Optimization:</strong> I designed queries to retrieve only the necessary data by using **GraphQL's declarative nature**. For example, instead of sending all user data, I defined fields for specific attributes such as `name`, `email`, etc., to optimize performance.</li>
+        <li><strong>Nested Queries:</strong> I utilized **nested queries** to retrieve related data efficiently, eliminating multiple round-trips to the server. This helped reduce network latency and improved overall response time.</li>
+        <li><strong>Mutations:</strong> I designed mutations for **data modification** (e.g., create, update, delete) while maintaining the integrity of the database and ensuring smooth interactions between the frontend and the backend.</li>
+        <li><strong>Input Types:</strong> To handle user input in a structured way, I defined **input types** in GraphQL that validated and processed data for mutations, ensuring data consistency and validation.</li>
+        <li><strong>Subscriptions:</strong> For real-time data, I implemented **GraphQL subscriptions**, enabling the frontend to listen for changes or updates to data without the need for polling.</li>
+      </ul>
+    </p>
+
+    <h3>Code Example: Defining a GraphQL Schema</h3>
+    <pre><code>
+# GraphQL schema definition for a User
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  posts: [Post!]!
+}
+
+# Query to get a user by ID
+type Query {
+  user(id: ID!): User
+}
+
+# Mutation to create a new user
+type Mutation {
+  createUser(name: String!, email: String!): User
+}
+
+# Post type and related query
+type Post {
+  id: ID!
+  title: String!
+  content: String!
+  author: User!
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+    </code></pre>
+  </div>
+
+  <div class="card">
+    <h2>🎯 Key GraphQL Features Leveraged</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>How it Was Used</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Types</td>
+          <td>Defined custom types like `User`, `Post`, and `Comment` to represent different entities in the data model.</td>
+        </tr>
+        <tr>
+          <td>Queries</td>
+          <td>Designed queries to fetch specific data, ensuring the frontend only requested the data it needed. For example, fetching a user by ID with specific fields (`name`, `email`).</td>
+        </tr>
+        <tr>
+          <td>Mutations</td>
+          <td>Created mutations to handle the creation, updating, and deletion of data. Each mutation had a well-defined input type for validation.</td>
+        </tr>
+        <tr>
+          <td>Input Types</td>
+          <td>Used input types to structure the data sent to the server in mutations, ensuring consistency and validation of inputs before executing business logic.</td>
+        </tr>
+        <tr>
+          <td>Subscriptions</td>
+          <td>Implemented real-time data fetching via subscriptions to allow the client to receive updates when new data was created or modified.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>🎯 Query Optimization Techniques</h2>
+    <ul>
+      <li><strong>Field Selection:</strong> I designed queries to request specific fields from the server to reduce the payload size and minimize the amount of data transferred.</li>
+      <li><strong>Batching:</strong> I used **DataLoader** to batch and cache requests to the database, reducing redundant calls and improving response times.</li>
+      <li><strong>Filtering and Pagination:</strong> I used filters and pagination for large datasets, allowing the frontend to load only relevant chunks of data and improving performance.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>🔥 Real-World Example</h2>
+    <p>
+      "In a recent project, I designed a GraphQL schema for an e-commerce platform. The schema allowed clients to query specific product details, along with related categories and customer reviews. Queries were optimized to fetch only the needed fields, and pagination was implemented for product listings to improve performance. We also used GraphQL subscriptions to send real-time notifications when the product availability status changed."
+    </p>
+  </div>
+
+</body>
+</html>

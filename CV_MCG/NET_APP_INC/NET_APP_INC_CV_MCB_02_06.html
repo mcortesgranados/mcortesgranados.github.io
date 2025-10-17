@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Implementing Server-Side Rendering (SSR) with Next.js</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    h2 {
+      color: #34495e;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      font-size: 1rem;
+      overflow-x: auto;
+    }
+    code {
+      font-size: 1rem;
+      color: #d63a0d;
+    }
+    .card {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px solid #e1e1e1;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📦 Implementing Server-Side Rendering (SSR) with Next.js</h1>
+
+  <div class="card">
+    <h2>💬 What to Say in the Interview</h2>
+    <p>
+      "I implemented **Server-Side Rendering (SSR)** in React applications using **Next.js** to improve performance and SEO. By rendering pages on the server, we sent fully rendered HTML to the client, ensuring fast page loads and better indexing by search engines. I configured dynamic routing, data fetching, and other SSR-specific features to optimize the user experience."
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>🔧 How I Implemented SSR with Next.js</h2>
+    <p>
+      When implementing SSR in Next.js, I focused on several key steps to ensure optimal performance and smooth user experience:
+      <ul>
+        <li><strong>Dynamic Routing:</strong> I configured dynamic routes using Next.js' **file-based routing** system, where the page structure corresponds to the file system. This allowed for easy creation of new pages and automatic routing.</li>
+        <li><strong>Data Fetching with `getServerSideProps`:</strong> To enable SSR, I used the **`getServerSideProps`** function in Next.js. This method allowed me to fetch data on the server for each request before the page was rendered. The data fetched here was then passed as props to the page component.</li>
+        <li><strong>SEO Optimization:</strong> By rendering content on the server, I improved the **SEO** of the application, making sure that search engines could easily crawl the fully-rendered HTML rather than relying on client-side JavaScript execution.</li>
+        <li><strong>Performance Optimization:</strong> I ensured that only the necessary data was fetched during SSR, minimizing network requests and reducing server load. For non-critical data, I relied on client-side rendering (CSR) after the page load.</li>
+        <li><strong>Fallback for Static Pages:</strong> For pages that didn't need frequent updates, I used **static site generation (SSG)** as a fallback to further optimize performance and reduce server load.</li>
+      </ul>
+    </p>
+
+    <h3>Code Example: `getServerSideProps` in Next.js</h3>
+    <pre><code>
+import React from 'react';
+
+// Example page component using SSR with getServerSideProps
+const Post = ({ post }) => {
+  return (
+    <div>
+      <h1>{post.title}</h1>
+      <p>{post.content}</p>
+    </div>
+  );
+};
+
+// Fetch data on the server side before rendering the page
+export async function getServerSideProps(context) {
+  const res = await fetch(`https://api.example.com/posts/${context.params.id}`);
+  const post = await res.json();
+
+  return {
+    props: { post }, // Will be passed to the page component as props
+  };
+}
+
+export default Post;
+    </code></pre>
+  </div>
+
+  <div class="card">
+    <h2>🎯 Key Features Leveraged for SSR</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>How it Was Used</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dynamic Routing</td>
+          <td>Configured dynamic routes using file-based routing, enabling pages to load based on URL structure.</td>
+        </tr>
+        <tr>
+          <td>getServerSideProps</td>
+          <td>Used `getServerSideProps` to fetch data on the server for each request, ensuring the page is rendered with up-to-date data.</td>
+        </tr>
+        <tr>
+          <td>SEO Optimization</td>
+          <td>Rendered pages on the server to provide fully generated HTML to search engines, enhancing indexing and visibility in search results.</td>
+        </tr>
+        <tr>
+          <td>Client-Side Rendering (CSR)</td>
+          <td>Used CSR for components and data that did not need to be server-rendered, reducing server load.</td>
+        </tr>
+        <tr>
+          <td>Static Site Generation (SSG)</td>
+          <td>Used SSG for static pages that didn’t require frequent updates, reducing server load and speeding up page load times.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>🔥 Real-World Example</h2>
+    <p>
+      "For an e-commerce platform, I implemented SSR using Next.js to ensure that product pages were fully rendered on the server before being sent to the client. This improved page load times and allowed for better SEO. By using `getServerSideProps`, I fetched product details, including pricing, availability, and reviews, ensuring that customers always saw the most up-to-date information on initial load."
+    </p>
+  </div>
+
+</body>
+</html>
