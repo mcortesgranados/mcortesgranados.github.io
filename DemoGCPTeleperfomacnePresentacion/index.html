@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diapositiva GCP</title>
+    <style>
+        :root {
+            --blue: #1a73e8;
+            --green: #0f9d58;
+            --yellow: #f4b400;
+            --red: #db4437;
+            --dark: #0a1324;
+            --glass: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(26, 115, 232, 0.35), transparent 35%),
+                        radial-gradient(circle at 20% 80%, rgba(244, 180, 0, 0.4), transparent 45%);
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(26, 115, 232, 0.18), transparent 45%, rgba(219, 68, 55, 0.2));
+            opacity: 0.65;
+            z-index: -1;
+        }
+
+        .presentation {
+            width: min(1100px, 92vw);
+            padding: 32px;
+        }
+
+        .slide {
+            position: relative;
+            padding: 48px;
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(26, 115, 232, 0.85), rgba(15, 157, 88, 0.9));
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+            animation: pulseGlow 12s ease-in-out infinite;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0 4px, transparent 4px 22px);
+            opacity: 0.3;
+            mix-blend-mode: screen;
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero small {
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 4vw, 64px);
+            margin: 6px 0 10px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin: 0;
+            max-width: 720px;
+            opacity: 0.9;
+        }
+
+        .google-bar {
+            margin: 30px 0;
+            display: flex;
+            gap: 12px;
+            position: relative;
+        }
+
+        .google-pill {
+            flex: 1;
+            padding: 16px 20px;
+            border-radius: 999px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            cursor: pointer;
+        }
+
+        .google-pill:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .pill-blue { background: rgba(26, 115, 232, 0.25); border: 1px solid rgba(255,255,255,0.35); }
+        .pill-red { background: rgba(219, 68, 55, 0.25); border: 1px solid rgba(255,255,255,0.35); }
+        .pill-yellow { background: rgba(244, 180, 0, 0.25); border: 1px solid rgba(255,255,255,0.35); }
+        .pill-green { background: rgba(15, 157, 88, 0.25); border: 1px solid rgba(255,255,255,0.35); }
+
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            padding: 18px;
+            border-radius: 18px;
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .link-button {
+            margin-top: 12px;
+            padding: 10px 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .link-button:hover,
+        .link-button:focus-visible {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .card h3 {
+            margin: 0 0 6px;
+            font-size: 18px;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.4;
+            opacity: 0.85;
+        }
+
+        .card::after {
+            content: 'âœ¨';
+            position: absolute;
+            font-size: 32px;
+            opacity: 0;
+            top: 10px;
+            right: 16px;
+            transform: scale(0.6);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        .card:hover::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .footer {
+            margin-top: 32px;
+            font-size: 14px;
+            opacity: 0.85;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .audio-clue {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+            opacity: 0.95;
+            z-index: 5;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .audio-clue.hidden {
+            opacity: 0;
+            transform: translateY(-50px);
+            pointer-events: none;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 19, 36, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            z-index: 10;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+            border-radius: 20px;
+            width: min(500px, 90vw);
+            padding: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .modal h2 {
+            margin: 0 0 10px;
+            font-size: 26px;
+        }
+
+        .modal p {
+            margin: 12px 0;
+            line-height: 1.6;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .diagram-graphic {
+            margin: 18px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .diagram-graphic svg {
+            width: 100%;
+            max-width: 380px;
+            height: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: transparent;
+            border: 0;
+            color: #fff;
+            font-size: 26px;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px 6px;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 30px 50px rgba(0, 0, 0, 0.35);
+            }
+            50% {
+                box-shadow: 0 45px 80px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .slide {
+                padding: 28px 22px;
+            }
+
+            .google-bar {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="audio-clue" id="audioHint">
+        Toca en cualquier lugar para escuchar la introducción sonora
+    </div>
+    <div class="presentation">
+        <section class="slide">
+            <div class="slide-content">
+                <div class="hero">
+                    <small>Presentación Google Cloud</small>
+                    <h1>Arquitectura Híbrida AWS + GCP</h1>
+                    <p>Fusionamos lo mejor de ambas nubes para escalar aplicaciones críticas con seguridad end-to-end, análisis en tiempo real y control de costos dinámico.</p>
+                </div>
+
+                <div class="google-bar">
+                    <div class="google-pill pill-blue" id="cloudRunPill">Cloud Run + GKE</div>
+                    <div class="google-pill pill-red">BigQuery ML</div>
+                    <div class="google-pill pill-yellow">Armonía Multi-nube</div>
+                    <div class="google-pill pill-green">Optimización Dinámica</div>
+                </div>
+
+                <div class="highlights">
+                    <article class="card">
+                        <h3>Autoescalado inteligente</h3>
+                        <p>Capacitamos cargas con GKE y Cloud Run para responder en segundos a picos inesperados sin reprovisionar infraestructura.</p>
+                    </article>
+                    <article class="card" id="dataCard">
+                        <h3>Datos en tiempo real</h3>
+                        <p>Streaming y BigQuery permiten decisiones guiadas por ML con latencias inferiores a 2 segundos.</p>
+                        <button class="link-button" type="button" data-modal-target="dataModal">Ver arquitectura</button>
+                    </article>
+                    <article class="card">
+                        <h3>Integración segura</h3>
+                        <p>VPN e Interconnect mantienen conexiones cifradas entre servicios AWS y GCP sin exponer las claves administrativas.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Costos bajo control</h3>
+                        <p>Alertas inteligentes y recomendaciones de ahorro adaptan el footprint de la nube al tráfico real.</p>
+                    </article>
+                </div>
+
+                <div class="footer">
+                    <div>Demo Técnica · Google Cloud 2025</div>
+                    <div>Arquitectura HA-brida lista para producción</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="modal-overlay" id="cloudRunModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal">
+            <button class="modal-close" type="button" aria-label="Cerrar modal">Cerrar</button>
+            <h2 id="modalTitle">¿Qué es Cloud Run?</h2>
+            <p><strong>Definición:</strong> Cloud Run ejecuta contenedores sin servidor con autoscaling instantáneo y facturación por segundo, permitiendo al equipo enfocarse en el código.</p>
+            <p><strong>Adopción en la industria:</strong> Empresas globales (desde startups hasta Fortune 500) usan Cloud Run para microservicios, fintech y retail, con despliegues en minutos y baja latencia.</p>
+            <p><strong>Valor económico:</strong> Se reportan hasta 25% de ahorro en costos operativos frente a máquinas virtuales tradicionales; en promedio $1.3M USD anuales por reducción de infraestructura ociosa.</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="dataModal" role="dialog" aria-modal="true" aria-labelledby="dataModalTitle">
+        <div class="modal">
+            <button class="modal-close" type="button" aria-label="Cerrar modal">Cerrar</button>
+            <h2 id="dataModalTitle">Arquitectura de datos en tiempo real</h2>
+            <p>El streaming fluye desde fuentes hasta BigQuery y ML, manteniendo decisiones con latencias inferiores a 2 segundos.</p>
+            <div class="diagram-graphic">
+                <svg viewBox="0 0 380 220" role="img" aria-labelledby="diagramTitle">
+                    <title id="diagramTitle">Diagrama de arquitectura: fuentes â†’ Pub/Sub â†’ Dataflow â†’ BigQuery â†’ ML</title>
+                    <defs>
+                        <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                            <path d="M0 0 L10 5 L0 10 Z" fill="#fff" />
+                        </marker>
+                    </defs>
+                    <rect x="20" y="120" width="90" height="60" rx="12" fill="rgba(26,115,232,0.9)" stroke="#fff" stroke-width="2"></rect>
+                    <text x="65" y="150" text-anchor="middle" fill="#fff" font-size="14">Fuentes</text>
+                    <rect x="150" y="95" width="90" height="70" rx="12" fill="rgba(15,157,88,0.9)" stroke="#fff" stroke-width="2"></rect>
+                    <text x="195" y="125" text-anchor="middle" fill="#fff" font-size="14">Pub/Sub</text>
+                    <rect x="280" y="60" width="90" height="70" rx="12" fill="rgba(219,68,55,0.9)" stroke="#fff" stroke-width="2"></rect>
+                    <text x="325" y="90" text-anchor="middle" fill="#fff" font-size="14">Dataflow</text>
+                    <rect x="150" y="10" width="140" height="40" rx="12" fill="rgba(244,180,0,0.9)" stroke="#fff" stroke-width="2"></rect>
+                    <text x="220" y="35" text-anchor="middle" fill="#fff" font-size="14">BigQuery ML</text>
+                    <line x1="110" y1="150" x2="150" y2="130" stroke="#fff" stroke-width="2" marker-end="url(#arrow)" />
+                    <line x1="240" y1="130" x2="280" y2="90" stroke="#fff" stroke-width="2" marker-end="url(#arrow)" />
+                </svg>
+            </div>
+            <p>Los eventos entran a Pub/Sub, pasan por Dataflow y aterrizan en BigQuery + ML para alertas casi instantáneas.</p>
+        </div>
+    </div>
+
+    <div style="position: fixed; bottom: 18px; left: 18px;">
+        <a href="slide-overview.html" style="background:#0f9d58;color:#fff;padding:10px 20px;border-radius:999px;text-decoration:none;font-weight:600;box-shadow:0 10px 20px rgba(15,157,88,0.4);">Ver presentación Mercado Libre ▶</a>
+    </div>
+    <script>
+        (function () {
+            const hint = document.getElementById('audioHint');
+            let ctx;
+            const cloudRunButton = document.getElementById('cloudRunPill');
+            const cloudRunModal = document.getElementById('cloudRunModal');
+            const cloudRunModalClose = cloudRunModal ? cloudRunModal.querySelector('.modal-close') : null;
+            const dataButton = document.querySelector('[data-modal-target="dataModal"]');
+            const dataModal = document.getElementById('dataModal');
+            const dataModalClose = dataModal ? dataModal.querySelector('.modal-close') : null;
+
+            function ensureContext() {
+                if (!ctx) {
+                    ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+                return ctx;
+            }
+
+            function playTone(frequency, duration, startTime) {
+                const context = ensureContext();
+                const osc = context.createOscillator();
+                const gain = context.createGain();
+                osc.frequency.value = frequency;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0, startTime);
+                gain.gain.linearRampToValueAtTime(0.45, startTime + 0.02);
+                gain.gain.linearRampToValueAtTime(0, startTime + duration);
+                osc.connect(gain).connect(context.destination);
+                osc.start(startTime);
+                osc.stop(startTime + duration + 0.05);
+            }
+
+            function playIntro() {
+                const now = ensureContext().currentTime;
+                playTone(392, 0.4, now);
+                playTone(523, 0.35, now + 0.35);
+                playTone(660, 0.25, now + 0.7);
+            }
+
+            function handleFirstInteraction() {
+                if (hint) {
+                    hint.classList.add('hidden');
+                }
+                playIntro();
+            }
+
+            window.addEventListener('click', handleFirstInteraction, { once: true });
+            window.addEventListener('touchstart', handleFirstInteraction, { once: true });
+
+            function toggleModal(modalElement, open) {
+                if (!modalElement) return;
+                modalElement.classList.toggle('active', open);
+            }
+
+            if (cloudRunButton) {
+                cloudRunButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    toggleModal(cloudRunModal, true);
+                });
+            }
+
+            if (cloudRunModalClose) {
+                cloudRunModalClose.addEventListener('click', () => toggleModal(cloudRunModal, false));
+            }
+
+            if (cloudRunModal) {
+                cloudRunModal.addEventListener('click', (event) => {
+                    if (event.target === cloudRunModal) {
+                        toggleModal(cloudRunModal, false);
+                    }
+                });
+            }
+
+            if (dataButton) {
+                dataButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    toggleModal(dataModal, true);
+                });
+            }
+
+            if (dataModalClose) {
+                dataModalClose.addEventListener('click', () => toggleModal(dataModal, false));
+            }
+
+            if (dataModal) {
+                dataModal.addEventListener('click', (event) => {
+                    if (event.target === dataModal) {
+                        toggleModal(dataModal, false);
+                    }
+                });
+            }
+
+            window.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    toggleModal(cloudRunModal, false);
+                    toggleModal(dataModal, false);
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
