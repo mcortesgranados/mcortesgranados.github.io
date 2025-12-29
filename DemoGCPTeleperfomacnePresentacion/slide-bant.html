@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Slide 4 · Enfoque BANT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            margin: 0;
+            background: #040719;
+            color: #fff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .card {
+            width: min(1100px, 100%);
+            background: rgba(15, 23, 42, 0.96);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 40px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+        }
+        header {
+            margin-bottom: 32px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: clamp(30px, 4vw, 48px);
+        }
+        header p {
+            margin: 10px 0 0;
+            color: rgba(255,255,255,0.7);
+        }
+        .bant {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+            gap: 24px;
+        }
+        .bant-card {
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            min-height: 190px;
+            cursor: pointer;
+            position: relative;
+        }
+        .bant-card h3 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #8ab4f8;
+        }
+        .bant-card::after {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            border-radius: 16px;
+            border: 1px solid transparent;
+            pointer-events: none;
+        }
+        .bant-card.reading {
+            animation: readingPulse 2.4s ease-in-out;
+            z-index: 1;
+        }
+        .bant-card.reading::after {
+            border-color: rgba(255,255,255,0.6);
+            box-shadow: 0 0 25px rgba(26, 115, 232, 0.4);
+        }
+        .bant-card.reading h3,
+        .bant-card.reading p,
+        .bant-card.reading li {
+            animation: colorWave 3s ease forwards;
+        }
+        .bant-card p {
+            margin: 0;
+            line-height: 1.6;
+        }
+        ul {
+            padding-left: 18px;
+            margin: 10px 0 0;
+        }
+        .actions {
+            margin-top: 28px;
+            padding: 24px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255,255,255,0.25);
+        }
+        .actions h3 {
+            margin: 0 0 10px;
+            color: #fbbc05;
+        }
+        .actions p {
+            margin: 0;
+            line-height: 1.6;
+        }
+        @keyframes readingPulse {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes colorWave {
+            0% { color: #fff; }
+            50% { color: #ffe27d; }
+            100% { color: #f4b400; }
+        }
+        .nav-controls {
+            margin-top: 32px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .nav-button {
+            background: #1a73e8;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 12px 24px rgba(26, 115, 232, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <article class="card">
+        <header>
+            <p class="kicker" style="letter-spacing:0.25em;font-size:12px;color:rgba(255,255,255,0.6)">Google Cloud Sales · BANT</p>
+            <h1>Cómo guiamos la conversación con Gonzalo</h1>
+            <p>Metodología BANT para asegurar budget, authority, need y timing durante la reunión inicial.</p>
+        </header>
+
+        <div class="bant">
+            <section class="bant-card">
+                <h3>Budget</h3>
+                <p>Confirmar inversiones actuales en AWS/Microsoft.</p>
+                <ul>
+                    <li>Mostrar escenarios de licenciamiento GCP + Workspace.</li>
+                    <li>Proponer comparación de costos y ahorro esperado.</li>
+                </ul>
+            </section>
+            <section class="bant-card">
+                <h3>Authority</h3>
+                <p>Gonzalo como Director de Tecnología + su equipo de arquitectura e infraestructura.</p>
+                <p>Validar quién toma decisiones en temas de nube híbrida, datos y productividad.</p>
+            </section>
+            <section class="bant-card">
+                <h3>Need</h3>
+                <p>Escalabilidad, análisis de datos y productividad como prioridades.</p>
+                <ul>
+                    <li>Presentar cómo Anthos, BigQuery+Vertex AI y Workspace atienden esos needs.</li>
+                    <li>Mencionar operaciones estacionales y la oportunidad de resiliencia híbrida.</li>
+                </ul>
+            </section>
+            <section class="bant-card">
+                <h3>Timing</h3>
+                <p>Reunión inmediata después del evento. Se posiciona como discovery para plan de próxima sesión.</p>
+                <p>Recalcar que el plan comercial se comparte en la siguiente reunión con escenarios detallados.</p>
+            </section>
+        </div>
+
+        <div class="actions">
+            <h3>Próximos pasos propuestos</h3>
+            <p>1) Compartir propuesta de implementación (licenciamiento y precios) con escenarios flexibles.<br>
+               2) Invitación a un workshop de prueba de concepto IA + datos.<br>
+               3) Agendar sesión con Teleperformance/cliente simulado para validar estrategia conjunta.</p>
+        </div>
+        <div class="nav-controls">
+            <a class="nav-button" href="slide-solution.html">Anterior · Solución</a>
+            <a class="nav-button" href="slide-commercial.html">Siguiente · Comercial</a>
+        </div>
+        <script>
+            document.querySelectorAll('.bant-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    document.querySelectorAll('.bant-card').forEach(c => c.classList.remove('reading'));
+                    card.classList.add('reading');
+                    setTimeout(() => card.classList.remove('reading'), 3600);
+                });
+            });
+        </script>
+    </article>
+</body>
+</html>
