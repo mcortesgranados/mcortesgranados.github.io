@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Slide 2 · Desafíos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        :root {
+            --deep: #050a1b;
+            --accent: #f4b400;
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(145deg, rgba(10, 25, 55, 0.95), rgba(5, 9, 18, 0.9));
+            color: #f3f6ff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 24px;
+        }
+        .panel {
+            width: min(1100px, 100%);
+            background: rgba(8, 12, 28, 0.95);
+            border-radius: 32px;
+            padding: 48px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+        }
+        header {
+            margin-bottom: 28px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: clamp(30px, 4vw, 46px);
+        }
+        header p {
+            margin: 6px 0 0;
+            color: rgba(255,255,255,0.75);
+        }
+        .rows {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(320px,1fr));
+            gap: 24px;
+        }
+        .row {
+            padding: 20px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            min-height: 220px;
+            position: relative;
+            cursor: pointer;
+        }
+        .row h2 {
+            margin-top: 0;
+            color: var(--accent);
+            font-size: 18px;
+            transition: color 0.4s ease;
+        }
+        .row p {
+            margin: 0;
+            line-height: 1.6;
+            transition: color 0.4s ease;
+        }
+        .row::after {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            border-radius: 18px;
+            border: 1px solid transparent;
+            pointer-events: none;
+        }
+        .row.reading {
+            animation: readingPulse 2.4s ease-in-out;
+            z-index: 1;
+        }
+        .row.reading::after {
+            border-color: rgba(255,255,255,0.6);
+            box-shadow: 0 0 25px rgba(15, 157, 88, 0.55);
+        }
+        .row.reading h2,
+        .row.reading p {
+            animation: colorWave 3s ease forwards;
+        }
+        .legend {
+            margin-top: 32px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+        }
+        .legend div {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+        .legend .infra { background: #1a73e8; }
+        .legend .data { background: #0f9d58; }
+        .legend .innovation { background: #f4b400; }
+        .inline-button {
+            display: inline-flex;
+            margin-top: 12px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 13px;
+            color: #fff;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .inline-button:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+        }
+        .modal-backdrop.active {
+            display: flex;
+        }
+        .modal-content {
+            background: linear-gradient(145deg, rgba(26,115,232,0.25), rgba(5,9,22,0.95));
+            padding: 28px 32px;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.25);
+            max-width: 520px;
+            width: 90%;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            position: relative;
+        }
+        .modal-content h3 {
+            margin-top: 0;
+            font-size: 20px;
+            letter-spacing: 0.1em;
+            color: #e7f2ff;
+        }
+        .modal-content p {
+            margin: 8px 0;
+            line-height: 1.5;
+            color: #e4ecff;
+        }
+        .modal-grid {
+            margin-top: 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+            gap: 12px;
+        }
+        .modal-block {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 14px;
+            padding: 12px;
+        }
+        .modal-block strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #f9d85d;
+        }
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: #f4b400;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        @keyframes readingPulse {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes colorWave {
+            0% { color: #fff; }
+            50% { color: #ffe27d; }
+            100% { color: #f4b400; }
+        }
+        .nav-controls {
+            margin-top: 28px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .nav-button {
+            background: #0f9d58;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 12px 24px rgba(15, 157, 88, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <section class="panel">
+        <header>
+            <h1>Desafíos de negocio y puntos problemáticos</h1>
+            <p>Mercado Libre, como líder de e-commerce, requiere soluciones sólidas en infraestructura, datos e innovación para mantener su ventaja.</p>
+        </header>
+        <div class="rows">
+            <article class="row">
+                <h2>Escalabilidad &amp; resiliencia</h2>
+                <p>Alta dependencia de AWS y Microsoft. Necesitan una arquitectura híbrida para manejar picos estacionales (Black Friday, Navidad) sin fallas y con costos optimizados.</p>
+                <p>Celda: autoscaling inteligente con Cloud Run + GKE + Anthos para mover cargas críticas entre nubes según demanda.</p>
+            </article>
+            <article class="row" data-topic="analisis-datos">
+                <h2>Análisis de datos</h2>
+                <p>Millones de usuarios generan enormes volúmenes de datos. El reto es traducir esos datos en insights de personalización, marketing, combate a fraude y logística predictiva.</p>
+                <p>Necesitan un pipeline en tiempo real (Pub/Sub, Dataflow, BigQuery, Vertex AI) desplegado con seguridad, gobernanza y rapidez de iteración.</p>
+                <div class="inline-button" data-topic="analisis-datos">¿Qué herramientas usan?</div>
+            </article>
+            <article class="row">
+                <h2>Innovación &amp; productividad</h2>
+                <p>Para mantenerse líderes, los equipos deben enfocarse en soluciones y no en infraestructura. Se necesitan herramientas intuitivas, colaborativas y seguras.</p>
+                <p>Workspace + Chrome + servicios de colaboración en GCP brindan productividad, protección y reducción de tareas operativas.</p>
+            </article>
+        </div>
+        <div class="legend">
+            <span><div class="infra"></div>Infraestructura &amp; costos</span>
+            <span><div class="data"></div>Data &amp; IA</span>
+            <span><div class="innovation"></div>Innovación &amp; equipos</span>
+        </div>
+        <div class="nav-controls">
+            <a class="nav-button" href="slide-overview.html">Anterior · Contexto</a>
+            <a class="nav-button" href="slide-solution.html">Siguiente · Solución</a>
+        </div>
+        <div class="modal-backdrop" id="dataModal">
+            <div class="modal-content">
+                <button class="modal-close" aria-label="Cerrar modal">Cerrar</button>
+                <h3>Análisis de datos · Componentes</h3>
+                <p>Una pipeline moderna combina ingestion, procesamiento y análisis con gobernanza.</p>
+                <div class="modal-grid"></div>
+            </div>
+        </div>
+        <script>
+            document.querySelectorAll('.row').forEach(row => {
+                row.addEventListener('click', () => {
+                    document.querySelectorAll('.row').forEach(r => r.classList.remove('reading'));
+                    row.classList.add('reading');
+                    setTimeout(() => row.classList.remove('reading'), 3600);
+                });
+            });
+
+            const dataButton = document.querySelector('[data-topic="analisis-datos"] .inline-button');
+            const dataModal = document.getElementById('dataModal');
+            const modalGrid = dataModal.querySelector('.modal-grid');
+            const modalClose = dataModal.querySelector('.modal-close');
+
+            const dataBlocks = [
+                {
+                    label: 'Pub/Sub',
+                    text: 'Servicio de mensajería gestionado que entrega eventos con baja latencia a canales de procesamiento, Vertex AI y Cloud Run.',
+                    impact: 'Mantiene 99.99% de disponibilidad y reduce 45% el tiempo de respuesta operacional.'
+                },
+                {
+                    label: 'Dataflow',
+                    text: 'Motor Apache Beam que aplica transformaciones, enriquecimientos y windowing con escalado automático para streaming y batch.',
+                    impact: 'Procesa 50k eventos al segundo, acortando pipelines en 40%.'
+                },
+                {
+                    label: 'BigQuery',
+                    text: 'Data warehouse serverless con SQL, BQML y Dataplex, integrando gobernanza, BI y ML en un mismo ecosistema.',
+                    impact: 'Reduce 70% el tiempo de consulta y convierte petabytes en insights en segundos.'
+                },
+                {
+                    label: 'Vertex AI',
+                    text: 'Plataforma que unifica AutoML, Feature Store y endpoints gestionados para desplegar modelos con trazabilidad.',
+                    impact: 'Reduce en 35% los ciclos de modelos y mantiene decisiones guiadas por IA en menos de 2 segundos.'
+                },
+                {
+                    label: 'Looker + BigQuery BI',
+                    text: 'Dashboards colaborativos y métricas en vivo conectadas directamente a BigQuery para tomar acciones de marketing y fraude.',
+                    impact: 'Multiplica por tres la adopción de datos en product teams y operaciones.'
+                },
+                {
+                    label: 'Data Catalog & DLP',
+                    text: 'Catalogación automática, etiquetas sensibles y escaneos que alinean políticas y auditorías en todo el lakehouse.',
+                    impact: 'Garantiza cumplimiento y evita sanciones por exposición de datos críticos.'
+                }
+            ];
+
+            const populateBlocks = () => {
+                modalGrid.innerHTML = '';
+                dataBlocks.forEach(block => {
+                    const div = document.createElement('div');
+                    div.className = 'modal-block';
+                    div.innerHTML = `<strong>${block.label}</strong><span>${block.text}</span><small>${block.impact}</small>`;
+                    modalGrid.appendChild(div);
+                });
+            };
+
+            const openDataModal = (event) => {
+                event.stopPropagation();
+                populateBlocks();
+                dataModal.classList.add('active');
+            };
+
+            const closeDataModal = () => dataModal.classList.remove('active');
+
+            dataButton.addEventListener('click', openDataModal);
+            modalClose.addEventListener('click', closeDataModal);
+            dataModal.addEventListener('click', (event) => {
+                if (event.target === dataModal) closeDataModal();
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') closeDataModal();
+            });
+        </script>
+    </section>
+</body>
+</html>
