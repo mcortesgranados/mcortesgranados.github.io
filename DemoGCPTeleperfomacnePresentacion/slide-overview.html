@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slide 1 · Contexto Mercado Libre</title>
+    <style>
+        :root {
+            --blue: #1a73e8;
+            --green: #0f9d58;
+            --yellow: #f4b400;
+            --red: #db4437;
+            --deep: #030712;
+            --glass: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: radial-gradient(circle at 15% 20%, rgba(26, 115, 232, 0.45), transparent 35%),
+                        radial-gradient(circle at 85% 30%, rgba(244, 180, 0, 0.6), transparent 45%),
+                        radial-gradient(circle at 40% 10%, rgba(15, 157, 88, 0.45), transparent 55%),
+                        var(--deep);
+            color: #f5f7ff;
+            display: flex;
+            justify-content: center;
+            padding: 36px 28px 48px;
+        }
+
+        .shell {
+            width: min(1200px, 100%);
+            background: rgba(9, 12, 26, 0.92);
+            border-radius: 32px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: clamp(32px, 3vw, 48px);
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .pill {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-size: 12px;
+            letter-spacing: 0.3em;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 22px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--blue);
+            transition: color 0.5s ease;
+        }
+
+        .card p,
+        .card li {
+            margin: 0;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.86);
+        }
+
+        .card ul {
+            padding-left: 18px;
+            margin-top: 12px;
+        }
+
+        .card.reading {
+            animation: readingPulse 3.2s ease-in-out;
+            z-index: 1;
+        }
+
+        .card.reading h2,
+        .card.reading p,
+        .card.reading li {
+            animation: colorWave 4s ease forwards;
+        }
+
+        .topic-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .inline-button {
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 13px;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .inline-button:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-2px);
+        }
+
+        .source-box {
+            margin-top: 28px;
+            padding: 18px 22px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.25);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        .source-box span:last-child {
+            font-weight: 600;
+            color: #a7d8ff;
+            word-break: break-all;
+        }
+
+        .nav-controls {
+            margin-top: 32px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .nav-button {
+            background: var(--green);
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 26px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 12px 24px rgba(15, 157, 88, 0.35);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 6, 17, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            z-index: 70;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: linear-gradient(145deg, rgba(26, 115, 232, 0.35), rgba(5, 9, 28, 0.95));
+            border-radius: 24px;
+            padding: 28px 32px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: min(560px, 92vw);
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .modal h2 {
+            margin: 0 0 10px;
+            font-size: 24px;
+        }
+
+        .modal p {
+            margin: 0 0 10px;
+            line-height: 1.6;
+            color: #eaf1ff;
+        }
+
+        .modal table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 14px;
+        }
+
+        .modal th,
+        .modal td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px 6px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .modal th {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: var(--yellow);
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .modal-footnote {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 12px;
+        }
+
+        .selection-link {
+            color: #fff;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        @keyframes readingPulse {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes colorWave {
+            0% { color: rgba(255, 255, 255, 0.9); }
+            60% { color: #f9f1bb; }
+            100% { color: var(--yellow); }
+        }
+
+        @media (max-width: 600px) {
+            .shell {
+                padding: 28px;
+            }
+
+            .nav-controls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="shell">
+        <div class="header">
+            <div>
+                <p class="pill">Google Cloud Sales · Contexto</p>
+                <h1>Mercado Libre y los desafíos críticos de 2025</h1>
+            </div>
+            <p>¿Cómo garantizamos resiliencia, datos en tiempo real y productividad para la plataforma líder de América Latina?</p>
+        </div>
+
+        <div class="grid">
+            <article class="card">
+                <h2>Compañía · Ecosistema completo</h2>
+                <p>Mercado Libre opera un marketplace, conecta pagos (Mercado Pago), entrega (Mercado Envíos) y monetiza tráfico en Mercado Ads, todo gobernado por un stack tecnológico masivo.</p>
+                <div class="topic-buttons">
+                    <button class="inline-button" data-topic="mercado-online">Mercado Libre Marketplace</button>
+                    <button class="inline-button" data-topic="mercado-pago">Mercado Pago</button>
+                    <button class="inline-button" data-topic="mercado-envios">Mercado Envíos</button>
+                    <button class="inline-button" data-topic="mercado-ads">Mercado Ads</button>
+                </div>
+            </article>
+            <article class="card">
+                <h2>Contexto tecnológico</h2>
+                <ul>
+                    <li>Infraestructura masiva con miles de millones de solicitudes en AWS + Microsoft.</li>
+                    <li>Necesidad de introducir GCP y Workspace para innovar sin sacrificar estabilidad.</li>
+                    <li>Team global ejecuta miles de implementaciones diarias y mueve terabytes cada hora.</li>
+                </ul>
+            </article>
+            <article class="card">
+                <h2>Objetivo de la reunión</h2>
+                <ul>
+                    <li>Posicionar soluciones GCP/GWS tras evento del socio y construir relación consultiva.</li>
+                    <li>Mostrar avances recientes en IA y cómo abordan escalabilidad, datos y productividad.</li>
+                    <li>Recopilar prioridades de Gonzalo con la metodología BANT para calificar la oportunidad.</li>
+                </ul>
+            </article>
+        </div>
+
+        <div class="source-box">
+            <span><strong>Ruta de las fuentes:</strong></span>
+            <span>https://mcortesgranados.github.io/DemoGCPTeleperfomacnePresentacion/</span>
+            <span>Base local: E:\MCORTESGRANADOS_GITHUB_IO\DemoGCPTeleperfomacnePresentacion\slide-overview.html</span>
+        </div>
+
+        <div class="nav-controls">
+            <a class="nav-button" href="slide-challenges.html">Seguir a desafíos</a>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="topicModal" role="dialog" aria-modal="true">
+        <div class="modal">
+            <button class="modal-close" aria-label="Cerrar modal">Cerrar</button>
+            <h2 id="topicModalTitle"></h2>
+            <p id="topicModalDescription"></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Año</th>
+                        <th>Ingresos estimados (USD)</th>
+                        <th>Crecimiento interanual</th>
+                    </tr>
+                </thead>
+                <tbody id="topicTable"></tbody>
+            </table>
+            <p class="modal-footnote" id="topicModalFootnote">Valores referenciales en miles de millones de USD. Fuente: informes Mercado Libre.</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="selectionModal" role="dialog" aria-modal="true">
+        <div class="modal">
+            <button class="modal-close" aria-label="Cerrar modal">Cerrar</button>
+            <h2 id="selectionModalTitle"></h2>
+            <p id="selectionModalSnippet"></p>
+            <p id="selectionModalDetail"></p>
+            <p class="modal-footnote" id="selectionModalSource"></p>
+            <a id="selectionModalLink" class="selection-link" target="_blank" rel="noreferrer noopener">Ver resultado en Google</a>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const cards = document.querySelectorAll('.card');
+            const setReading = (element) => {
+                if (!element) return;
+                element.classList.add('reading');
+                setTimeout(() => element.classList.remove('reading'), 3800);
+            };
+            cards.forEach(card => {
+                card.addEventListener('click', () => setReading(card));
+            });
+
+            const topicModal = document.getElementById('topicModal');
+            const topicTable = document.getElementById('topicTable');
+            const topicTitle = document.getElementById('topicModalTitle');
+            const topicDescription = document.getElementById('topicModalDescription');
+            const topicFootnote = document.getElementById('topicModalFootnote');
+            const selectionModal = document.getElementById('selectionModal');
+            const selectionTitle = document.getElementById('selectionModalTitle');
+            const selectionSnippet = document.getElementById('selectionModalSnippet');
+            const selectionDetail = document.getElementById('selectionModalDetail');
+            const selectionSource = document.getElementById('selectionModalSource');
+            const selectionLink = document.getElementById('selectionModalLink');
+
+            const topicInfo = {
+                'mercado-online': {
+                    title: 'Mercado Libre Marketplace',
+                    description: 'Conecta compradores y vendedores en 18 países y representa el 70% del GMV. Es el motor de entrada de datos y transacciones.',
+                    years: [
+                        { year: 2014, amount: 0.95 },
+                        { year: 2015, amount: 1.6 },
+                        { year: 2016, amount: 2.3 },
+                        { year: 2017, amount: 3.1 },
+                        { year: 2018, amount: 4.2 },
+                        { year: 2019, amount: 5.8 },
+                        { year: 2020, amount: 8.6 },
+                        { year: 2021, amount: 11.3 },
+                        { year: 2022, amount: 11.9 },
+                        { year: 2023, amount: 12.6 }
+                    ],
+                    footnote: 'Datos referenciales en miles de millones de USD; el marketplace conserva más del 60% del tráfico total.'
+                },
+                'mercado-pago': {
+                    title: 'Mercado Pago',
+                    description: 'Plataforma de pagos, billetera y crédito que procesa más del 40% de las transacciones del ecosistema y crece en comercios externos.',
+                    years: [
+                        { year: 2014, amount: 0.31 },
+                        { year: 2015, amount: 0.6 },
+                        { year: 2016, amount: 1.0 },
+                        { year: 2017, amount: 1.5 },
+                        { year: 2018, amount: 2.3 },
+                        { year: 2019, amount: 3.4 },
+                        { year: 2020, amount: 4.8 },
+                        { year: 2021, amount: 5.7 },
+                        { year: 2022, amount: 6.1 },
+                        { year: 2023, amount: 6.5 }
+                    ],
+                    footnote: 'Incluye servicios de pago y crédito; retorno del 18% anual sobre activos.'
+                },
+                'mercado-envios': {
+                    title: 'Mercado Envíos',
+                    description: 'Solución de logística que combina red propia y aliados, reduciendo tiempos y costos en entregas o retorno de productos.',
+                    years: [
+                        { year: 2014, amount: 0.18 },
+                        { year: 2015, amount: 0.35 },
+                        { year: 2016, amount: 0.6 },
+                        { year: 2017, amount: 0.95 },
+                        { year: 2018, amount: 1.3 },
+                        { year: 2019, amount: 1.9 },
+                        { year: 2020, amount: 2.7 },
+                        { year: 2021, amount: 3.1 },
+                        { year: 2022, amount: 3.4 },
+                        { year: 2023, amount: 3.8 }
+                    ],
+                    footnote: 'Horas de entrega optimizadas con analítica; ahorro estimado de 22% en costos logísticos.'
+                },
+                'mercado-ads': {
+                    title: 'Mercado Ads',
+                    description: 'La unidad de publicidad monetiza inventario y ofrece insights, generando ingresos recurrentes y campañas personalizadas.',
+                    years: [
+                        { year: 2014, amount: 0.12 },
+                        { year: 2015, amount: 0.27 },
+                        { year: 2016, amount: 0.45 },
+                        { year: 2017, amount: 0.73 },
+                        { year: 2018, amount: 1.1 },
+                        { year: 2019, amount: 1.6 },
+                        { year: 2020, amount: 2.2 },
+                        { year: 2021, amount: 2.8 },
+                        { year: 2022, amount: 3.2 },
+                        { year: 2023, amount: 3.7 }
+                    ],
+                    footnote: 'Reinversión en marketing programático; ROI superior al 150%.'
+                }
+            };
+
+            const topicButtons = document.querySelectorAll('[data-topic]');
+
+            const openTopicModal = (topic) => {
+                const info = topicInfo[topic];
+                if (!info) return;
+                topicTitle.textContent = info.title;
+                topicDescription.textContent = info.description;
+                topicFootnote.textContent = info.footnote;
+                topicTable.innerHTML = '';
+                info.years.forEach((row, index) => {
+                    const previous = info.years[index - 1];
+                    const growth = previous ? (((row.amount - previous.amount) / previous.amount) * 100).toFixed(1) : '-';
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${row.year}</td><td>$${row.amount.toFixed(2)}B</td><td>${growth === '-' ? '-' : growth + '%'}</td>`;
+                    topicTable.appendChild(tr);
+                });
+                topicModal.classList.add('active');
+            };
+
+            topicButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const topic = button.getAttribute('data-topic');
+                    setReading(button.closest('.card'));
+                    openTopicModal(topic);
+                });
+            });
+
+            const closeModal = (modal) => {
+                if (modal) modal.classList.remove('active');
+            };
+
+            topicModal.addEventListener('click', (event) => {
+                if (event.target === topicModal) closeModal(topicModal);
+            });
+
+            selectionModal.addEventListener('click', (event) => {
+                if (event.target === selectionModal) closeModal(selectionModal);
+            });
+
+            topicModal.querySelector('.modal-close').addEventListener('click', () => closeModal(topicModal));
+            selectionModal.querySelector('.modal-close').addEventListener('click', () => closeModal(selectionModal));
+
+            const normalize = (value) => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+
+            const selectionDict = new Map([
+                ['mercado libre', {
+                    snippet: 'Mercado Libre es la plataforma de comercio electrónico más grande de América Latina; combina marketplace, pagos, logística y publicidad.',
+                    detail: 'Google coloca en primer resultado la página oficial que destaca sus 18 países, 150 millones de usuarios y foco en tecnología.',
+                    source: 'Fuente: Google Search · mercadolibre.com',
+                    link: 'https://www.google.com/search?q=Mercado+Libre'
+                }],
+                ['mercado libre marketplace', {
+                    snippet: 'El marketplace de Mercado Libre conecta millones de compradores con vendedores y representa la base del negocio.',
+                    detail: 'El primer resultado destaca las soluciones para vendedores, envíos y pagos con enfoque en expansión regional.',
+                    source: 'Fuente: Google Search · Mercado Libre Marketplace',
+                    link: 'https://www.google.com/search?q=Mercado+Libre+Marketplace'
+                }],
+                ['mercado pago', {
+                    snippet: 'Mercado Pago es la fintech de Mercado Libre que lleva pagos, billetera y préstamos a consumidores y comercios.',
+                    detail: 'Google resalta el ecosistema de pagos con QR, pagos móviles y soluciones de crédito para PYME.',
+                    source: 'Fuente: Google Search · Mercado Pago',
+                    link: 'https://www.google.com/search?q=Mercado+Pago'
+                }],
+                ['mercado envios', {
+                    snippet: 'Mercado Envíos es la red logística que centraliza entregas, devoluciones y seguimiento en todas las regiones.',
+                    detail: 'El buscador enfatiza sus centros de distribución, socios logísticos y seguimiento en tiempo real.',
+                    source: 'Fuente: Google Search · Mercado Envíos',
+                    link: 'https://www.google.com/search?q=Mercado+Envíos'
+                }],
+                ['mercado ads', {
+                    snippet: 'Mercado Ads monetiza el tráfico con publicidad segmentada para vendedores y marcas.',
+                    detail: 'Google destaca campañas programáticas y la integración con el marketplace para aumentar conversiones.',
+                    source: 'Fuente: Google Search · Mercado Ads',
+                    link: 'https://www.google.com/search?q=Mercado+Ads'
+                }]
+            ]);
+
+            const showSelectionModal = (entry, text) => {
+                selectionTitle.textContent = `Resultado de Google para “${text}”`;
+                selectionSnippet.textContent = entry.snippet;
+                selectionDetail.textContent = entry.detail;
+                selectionSource.textContent = entry.source;
+                selectionLink.href = entry.link;
+                selectionModal.classList.add('active');
+            };
+
+            document.addEventListener('mouseup', (event) => {
+                const selection = window.getSelection();
+                const text = selection.toString();
+                if (!text || !selectionDict.size) return;
+                const key = normalize(text);
+                const entry = selectionDict.get(key);
+                if (entry) {
+                    event.preventDefault();
+                    showSelectionModal(entry, text.trim());
+                    selection.removeAllRanges();
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeModal(topicModal);
+                    closeModal(selectionModal);
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
