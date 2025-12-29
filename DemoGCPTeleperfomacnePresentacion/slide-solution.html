@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Slide 3 · Propuesta Técnica</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: #030712;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 28px;
+        }
+        .panel {
+            width: min(1200px, 100%);
+            border-radius: 36px;
+            background: linear-gradient(145deg, rgba(26, 115, 232, 0.25), rgba(5, 9, 18, 0.95));
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 35px 70px rgba(0,0,0,0.55);
+        }
+        h1 {
+            margin-top: 0;
+            font-size: clamp(32px, 4vw, 50px);
+        }
+        .subhead {
+            margin-bottom: 28px;
+            color: rgba(255,255,255,0.7);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 28px;
+        }
+        .stack {
+            background: rgba(14, 23, 44, 0.9);
+            border-radius: 24px;
+            padding: 22px;
+            border: 1px solid rgba(255,255,255,0.08);
+            position: relative;
+            cursor: pointer;
+        }
+       .stack h2 {
+           margin-top: 0;
+           color: #8ab4f8;
+           font-size: 18px;
+       }
+        .stack ul {
+            margin: 0;
+            padding-left: 18px;
+            line-height: 1.6;
+        }
+        .stack::after {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            border-radius: 22px;
+            border: 1px solid transparent;
+            pointer-events: none;
+        }
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .sidebar-card {
+            padding: 18px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            position: relative;
+            cursor: pointer;
+        }
+        .sidebar-card::after {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            border-radius: 14px;
+            border: 1px solid transparent;
+            pointer-events: none;
+        }
+        .sidebar-card h3 {
+            margin: 0 0 10px;
+            font-size: 16px;
+            color: #fbbc05;
+        }
+        .sidebar-card p {
+            margin: 0;
+            line-height: 1.5;
+        }
+        .note {
+            margin-top: 24px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .reading {
+            animation: readingPulse 2.4s ease-in-out;
+            z-index: 1;
+        }
+        .reading::after {
+            border-color: rgba(255,255,255,0.6);
+            box-shadow: 0 0 25px rgba(255, 188, 5, 0.4);
+        }
+        .reading h2,
+        .reading h3,
+        .reading p,
+        .reading li {
+            animation: colorWave 3s ease forwards;
+        }
+        @keyframes readingPulse {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes colorWave {
+            0% { color: #fff; }
+            50% { color: #ffe27d; }
+            100% { color: #f4b400; }
+        }
+        .nav-controls {
+            margin-top: 36px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        .nav-button {
+            background: #fbbc05;
+            color: #050712;
+            padding: 12px 22px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 12px 24px rgba(255, 188, 5, 0.45);
+        }
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(2,6,17,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 60;
+        }
+        .modal-backdrop.active {
+            display: flex;
+        }
+        .modal-dialog {
+            background: linear-gradient(135deg, rgba(14, 62, 255, 0.2), rgba(5, 9, 22, 0.95));
+            border-radius: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 32px;
+            max-width: 580px;
+            width: 92%;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            position: relative;
+        }
+        .modal-dialog h3 {
+            margin-top: 0;
+            font-size: 22px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #ecf4ff;
+        }
+        .modal-dialog p {
+            margin: 8px 0;
+            line-height: 1.5;
+            color: #e5edff;
+        }
+        .modal-legend {
+            margin-top: 14px;
+            font-size: 12px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .modal-grid {
+            margin-top: 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        .modal-block {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 12px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .modal-block strong {
+            display: block;
+            font-size: 13px;
+            color: #fce679;
+            margin-bottom: 6px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: #f4b400;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <section class="panel">
+        <h1>Propuesta de solución Google Cloud + Workspace</h1>
+        <p class="subhead">Integrar resiliencia híbrida, analytics de datos y herramientas de colaboración en una pila coherente con IA para Mercado Libre.</p>
+                <div class="grid">
+                    <div class="stack" data-topic="stack">
+                        <h2>Pila técnica propuesta</h2>
+                        <ul>
+                            <li><strong>Infraestructura híbrida:</strong> Anthos para orquestar GKE, Cloud Run y cargas AWS existentes con seguridad consistente.</li>
+                    <li><strong>Autoscaling:</strong> Cloud Run + Managed Instance Groups con políticas predictivas para los picos estacionales.</li>
+                    <li><strong>Datos + IA:</strong> Pub/Sub → Dataflow → BigQuery + Vertex AI genera insights de fraude, marketing y logística en < 2 segundos.</li>
+                    <li><strong>Workspace + Chrome:</strong> Equipos seguros, colaboración ágil y flujo de trabajo integrado con Speakership en Google Meet.</li>
+                    <li><strong>Seguridad:</strong> BeyondCorp Enterprise y Secure Cloud Interconnect para proteger data sensibles y APIS.</li>
+                </ul>
+            </div>
+            <div class="sidebar">
+                <article class="sidebar-card" data-topic="vertex-ai">
+                    <h3>IA adaptada</h3>
+                    <p>Vertex AI + Generative AI Studio para personalización, recomendadores, scoring de fraude y automatización de campañas con IA causal.</p>
+                </article>
+                <article class="sidebar-card" data-topic="workspace">
+                    <h3>Experiencia humana</h3>
+                    <p>Workspace conecta desarrolladores y product teams para reducir tareas operativas e impulsar innovación.</p>
+                </article>
+                <article class="sidebar-card" data-topic="results">
+                    <h3>Resultados esperados</h3>
+                    <p>Reducción de costos operativos, escalabilidad sin fricción y decisiones guiadas por datos que sustentan la ventaja competitiva.</p>
+                </article>
+            </div>
+        </div>
+        <p class="note">Esta arquitectura se presenta como base para discutir escenarios de implementación y licenciamiento durante la reunión.</p>
+        <div class="nav-controls">
+            <a class="nav-button" href="slide-challenges.html">Anterior · Desafíos</a>
+            <a class="nav-button" href="slide-bant.html">Siguiente · BANT</a>
+        </div>
+        <div class="modal-backdrop" id="techModal">
+            <div class="modal-dialog">
+                <button class="modal-close" aria-label="Cerrar modal">Cerrar</button>
+                <h3>Componentes clave</h3>
+                <p id="techModalDesc"></p>
+                <p class="modal-legend">Valor estimado proyectado</p>
+                <div class="modal-grid" id="techModalGrid"></div>
+            </div>
+        </div>
+        <script>
+            const stack = document.querySelector('.stack');
+            const sidebarItems = document.querySelectorAll('.sidebar-card');
+            const techModal = document.getElementById('techModal');
+            const techDesc = techModal.querySelector('#techModalDesc');
+            const techGrid = techModal.querySelector('#techModalGrid');
+            const techClose = techModal.querySelector('.modal-close');
+
+            const topics = {
+                'stack': {
+                    label: 'Pila técnica propuesta',
+                    desc: 'Anthos y Cloud Run garantizan infraestructura híbrida segura, BigQuery + Vertex AI generan analítica con IA, y las políticas de BeyondCorp estabilizan Workspace.',
+                    blocks: [
+                        { name: 'Anthos + Cloud Run', text: 'Orquesta Kubernetes en GCP y AWS con políticas comunes, balanceo global y autoscaling predictivo.', value: 'Ahorro estimado de $1.4M USD anual al eliminar reprovisionamientos durante picos.' },
+                        { name: 'Pub/Sub + Dataflow', text: 'Mensajería y procesamiento streaming de eventos financieros, fraude y logística hacia BigQuery.', value: 'Previene $2.2M en incidentes y acelera detección de fraudes y aberraciones.' },
+                        { name: 'BigQuery + Dataplex', text: 'Data warehouse serverless + lakehouse gobernado con BI, ML y catálogos de datos únicos.', value: 'Reduce 27% el tiempo de consulta y libera $1.1M en horas de ingeniería.' },
+                        { name: 'Vertex AI Platform', text: 'Gestiona desde AutoML hasta modelos custom, Feature Store y deployment continuo con observabilidad.', value: 'Acorta ciclos de ML en 35% con un impacto proyectado de $2.5M en ingresos de IA.' },
+                        { name: 'BeyondCorp Enterprise', text: 'Zero trust de acceso basado en identidad, evaluaciones de riesgo y DLP integrados.', value: 'Evita cerca de $980k en brechas al reforzar controles y accesos a datos sensibles.' },
+                        { name: 'Secure Cloud Interconnect', text: 'Conectividad dedicada y privada con baja latencia para enlazar centros de datos con GCP.', value: 'Reduce $680k en costos de transferencia y mejora latencia crítica.' }
+                    ]
+                },
+                'vertex-ai': {
+                    label: 'IA adaptada',
+                    desc: 'Vertex AI + Generative AI Studio crea modelos personalizados y acelera la colaboración entre ciencia de datos y producto.',
+                    blocks: [
+                        { name: 'Modelos gestionados', text: 'Entrena con AutoML o contenedores custom y despliega endpoints gestionados en minutos.', value: 'Reduce 40% el time-to-market de modelos, equivalente a $1.9M en productividad.' },
+                        { name: 'Feature Store + Pipelines', text: 'Centraliza features en Vertex AI para reutilización y garantiza gobernanza de datos de entrenamiento.', value: 'Triplica la reutilización de features y evita $480k en trabajos redundantes.' }
+                    ]
+                },
+                'workspace': {
+                    label: 'Experiencia humana',
+                    desc: 'Workspace + Chrome Enterprise refuerzan productividad y coordinación segura entre ingeniería y producto.',
+                    blocks: [
+                        { name: 'Drive · Docs · Meet', text: 'Documentos colaborativos, sesiones de Meet y espacios en Spaces para alinear equipos.', value: 'Reduce 15% las aprobaciones manuales con $460k en tiempos liberados.' },
+                        { name: 'Chrome Enterprise + Admin', text: 'Navegadores gestionados, políticas y endpoints protegidos con administración unificada.', value: 'Evita $520k en incidentes de seguridad web y mejora la experiencia de los usuarios.' }
+                    ]
+                },
+                'results': {
+                    label: 'Resultados esperados',
+                    desc: 'Esta pila reduce costos, escala sin fricciones y permite decisiones basadas en datos e IA.',
+                    blocks: [
+                        { name: 'Costos operativos', text: 'Rightsizing, compromisos multianuales y optimizaciones continúan.', value: 'Reduce hasta 27% los costos totales, aproximadamente $4.2M USD.' },
+                        { name: 'Time-to-market', text: 'Plantillas, automatizaciones y pruebas aceleran despliegues y pruebas.', value: 'Acorta lanzamientos en 20%, liberando $1.1M en oportunidades nuevas.' }
+                    ]
+                }
+            };
+
+            function setReading(target) {
+                document.querySelectorAll('.stack, .sidebar-card').forEach(el => el.classList.remove('reading'));
+                target.classList.add('reading');
+                setTimeout(() => target.classList.remove('reading'), 3600);
+            }
+
+            function showTopic(topic) {
+                const info = topics[topic];
+                if (!info) return;
+                techDesc.textContent = info.desc;
+                techGrid.innerHTML = '';
+                info.blocks.forEach(block => {
+                    const div = document.createElement('div');
+                    div.className = 'modal-block';
+                    div.innerHTML = `<strong>${block.name}</strong><span>${block.text}</span><small style="display:block;margin-top:6px;color:#a6d8ff;">${block.value}</small>`;
+                    techGrid.appendChild(div);
+                });
+                techModal.classList.add('active');
+            }
+
+            if (stack) {
+                stack.addEventListener('click', () => {
+                    setReading(stack);
+                    showTopic('stack');
+                });
+            }
+            sidebarItems.forEach(card => {
+                card.addEventListener('click', () => {
+                    setReading(card);
+                    const topic = card.getAttribute('data-topic');
+                    showTopic(topic);
+                });
+            });
+
+            techClose.addEventListener('click', () => techModal.classList.remove('active'));
+            techModal.addEventListener('click', event => {
+                if (event.target === techModal) techModal.classList.remove('active');
+            });
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape') {
+                    techModal.classList.remove('active');
+                }
+            });
+        </script>
+    </section>
+</body>
+</html>
