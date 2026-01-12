@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Matriz Integral de Competencias Técnicas</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script><style>
+        body {overflow: hidden; width: 1280px; min-height: 720px; margin: 0;
+            padding: 0;}
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+        }
+        .skill-bar {
+            height: 20px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            
+            position: relative;
+        }
+        .skill-level {
+            height: 100%;
+            border-radius: 10px;
+        }
+        .category-title {
+            position: relative;
+            padding-left: 20px;
+        }
+        .category-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #98FF98;
+        }
+    
+html {
+    overflow: hidden;
+}</style>
+</head>
+<body>
+<div class="slide bg-gradient-to-br from-gray-900 to-gray-800 text-white p-12 flex flex-col" style=" overflow: hidden;">
+<!-- Header -->
+<div class="mb-6">
+<h1 class="text-4xl font-bold text-white mb-2">Matriz Integral de Competencias Técnicas</h1>
+<div class="w-24 h-1 bg-green-400"></div>
+</div>
+<!-- Main Content -->
+<div class="flex-grow grid grid-cols-2 gap-6">
+<!-- Left Column: Radar Chart -->
+<div class="bg-gray-800 bg-opacity-70 p-6 rounded-lg shadow-lg flex flex-col items-center justify-center">
+<h2 class="text-xl font-semibold mb-4">Nivel de Expertise por Categoría</h2>
+<div class="w-full h-80" id="radar-chart"></div>
+</div>
+<!-- Right Column: Skill Bars -->
+<div class="bg-gray-800 bg-opacity-70 p-6 rounded-lg shadow-lg overflow-auto">
+<h2 class="text-xl font-semibold mb-4">Nivel de Competencia Detallado</h2>
+<div class="space-y-4">
+<!-- Frontend Skills -->
+<div>
+<h3 class="category-title text-lg font-medium mb-2">Frontend</h3>
+<div class="mb-2 flex items-center">
+<span class="w-24 text-sm">Angular</span>
+<div class="flex-grow skill-bar">
+<div class="skill-level bg-blue-500" style="width: 95%"></div>
+</div>
+<span class="w-16 text-right text-sm">95%</span>
+</div>
+<div class="mb-2 flex items-center">
+<span class="w-24 text-sm">React</span>
+<div class="flex-grow skill-bar">
+<div class="skill-level bg-blue-500" style="width: 90%"></div>
+</div>
+<span class="w-16 text-right text-sm">90%</span>
+</div>
+<div class="mb-2 flex items-center">
+<span class="w-24 text-sm">TypeScript</span>
+<div class="flex-grow skill-bar">
+<div class="skill-level bg-blue-500" style="width: 85%"></div>
+</div>
+<span class="w-16 text-right text-sm">85%</span>
+</div>
+</div>
+<!-- Backend Skills -->
+<div>
+<h3 class="category-title text-lg font-medium mb-2">Backend</h3>
+<div class="mb-2 flex items-center">
+<span class="w-24 text-sm">Java</span>
+<div class="flex-grow skill-bar">
+<div class="skill-level bg-yellow-600" style="width: 95%"></div>
+</div>
+<span class="w-16 text-right text-sm">95%</span>
+</div>
+<div class="mb-2 flex items-center">
+<span class="w-24 text-sm">Python</span>
+<div class="flex-grow skill-bar">
+<div class="skill-level bg-yellow-600" style="width: 90%"></div>
+</div>
+<span class="w-16 text-right text-sm">90%</span>
+</div>
+<div class="mb-2 flex items-center">
+<span class="w-24 text-sm">NodeJS</span>
+<div class="flex-grow skill-bar">
+<div class="skill-level bg-yellow-600" style="width: 85%"></div>
+</div>
+<span class="w-16 text-right text-sm">85%</span>
+</div>
+</div>
+<!-- Other Technologies -->
+<div>
+<h3 class="category-title text-lg font-medium mb-2">Otras Tecnologías</h3>
+<div class="mb-2 flex items-center">
+<span class="w-24 text-sm">C#</span>
+<div class="flex-grow skill-bar">
+<div class="skill-level bg-red-600" style="width: 80%"></div>
+</div>
+<span class="w-16 text-right text-sm">80%</span>
+</div>
+<div class="mb-2 flex items-center">
+<span class="w-24 text-sm">Base de Datos</span>
+<div class="flex-grow skill-bar">
+<div class="skill-level bg-green-600" style="width: 85%"></div>
+</div>
+<span class="w-16 text-right text-sm">85%</span>
+</div>
+<div class="mb-2 flex items-center">
+<span class="w-24 text-sm">Cloud</span>
+<div class="flex-grow skill-bar">
+<div class="skill-level bg-blue-400" style="width: 80%"></div>
+</div>
+<span class="w-16 text-right text-sm">80%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="mt-6 flex justify-between items-center">
+<div class="text-sm text-gray-400">Manuela Cortés Granados - CV Profesional 2025</div>
+<div class="text-sm text-gray-400">Página 16 de 17</div>
+</div>
+</div>
+<script>
+        // Radar Chart Data
+        const data = [
+            { category: "Frontend", value: 0.90 },
+            { category: "Backend", value: 0.90 },
+            { category: "Base de Datos", value: 0.85 },
+            { category: "Cloud", value: 0.80 },
+            { category: "Otras", value: 0.85 }
+        ];
+        
+        // Radar Chart Configuration
+        const margin = { top: 50, right: 50, bottom: 50, left: 50 };
+        const width = 400 - margin.left - margin.right;
+        const height = 300 - margin.top - margin.bottom;
+        const radius = Math.min(width, height) / 2;
+        
+        // Create SVG
+        const svg = d3.select("#radar-chart")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${width/2 + margin.left}, ${height/2 + margin.top})`);
+        
+        // Scales
+        const angleScale = d3.scalePoint()
+            .domain(data.map(d => d.category))
+            .range([0, 2 * Math.PI]);
+        
+        const radiusScale = d3.scaleLinear()
+            .domain([0, 1])
+            .range([0, radius]);
+        
+        // Draw Axes
+        const axes = svg.selectAll(".axis")
+            .data(data)
+            .enter()
+            .append("g")
+            .attr("class", "axis");
+        
+        axes.append("line")
+            .attr("x1", 0)
+            .attr("y1", 0)
+            .attr("x2", d => radiusScale(1) * Math.sin(angleScale(d.category)))
+            .attr("y2", d => -radiusScale(1) * Math.cos(angleScale(d.category)))
+            .attr("stroke", "white")
+            .attr("stroke-opacity", 0.3);
+        
+        axes.append("text")
+            .attr("x", d => radiusScale(1.1) * Math.sin(angleScale(d.category)))
+            .attr("y", d => -radiusScale(1.1) * Math.cos(angleScale(d.category)))
+            .attr("text-anchor", "middle")
+            .attr("dy", "0.35em")
+            .attr("fill", "white")
+            .text(d => d.category);
+        
+        // Draw Radar Area
+        const radarLine = d3.lineRadial()
+            .angle(d => angleScale(d.category))
+            .radius(d => radiusScale(d.value))
+            .curve(d3.curveLinearClosed);
+        
+        svg.append("path")
+            .datum(data)
+            .attr("d", radarLine)
+            .attr("fill", "#98FF98")
+            .attr("fill-opacity", 0.3)
+            .attr("stroke", "#98FF98")
+            .attr("stroke-width", 2);
+        
+        // Draw Radar Points
+        svg.selectAll(".radar-point")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("class", "radar-point")
+            .attr("cx", d => radiusScale(d.value) * Math.sin(angleScale(d.category)))
+            .attr("cy", d => -radiusScale(d.value) * Math.cos(angleScale(d.category)))
+            .attr("r", 4)
+            .attr("fill", "#98FF98");
+    </script>
+
+</body></html>

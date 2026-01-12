@@ -1,0 +1,211 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mayor Logro Profesional</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script><style>
+        body {overflow: hidden; width: 1280px; min-height: 720px; margin: 0;
+            padding: 0;}
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+        }
+        .database-node {
+            transition: all 0.3s ease;
+        }
+        .database-node:hover {
+            transform: scale(1.1);
+        }
+    
+html {
+    overflow: hidden;
+}</style>
+</head>
+<body>
+<div class="slide bg-gradient-to-br from-gray-900 to-gray-800 text-white p-12 flex flex-col" style=" overflow: hidden;">
+<!-- Header -->
+<div class="mb-6">
+<h1 class="text-4xl font-bold text-white mb-2">Mayor Logro Profesional</h1>
+<div class="w-24 h-1 bg-green-400"></div>
+</div>
+<!-- Main Content -->
+<div class="flex-grow flex">
+<!-- Left Column - Project Description -->
+<div class="w-1/2 pr-6">
+<div class="bg-gray-800 bg-opacity-70 p-6 rounded-lg shadow-lg h-full flex flex-col justify-between">
+<div>
+<h2 class="text-2xl font-semibold mb-4 text-green-400">
+<i class="fas fa-trophy mr-2"></i>Proyecto &#34;VerificacionAutomatica&#34;
+                        </h2>
+<p class="text-lg mb-6">
+                            Desarrollo de un servicio de verificación automática de información de clientes mediante la integración con 17 bases de datos públicas, incluyendo entidades como la Asociación Nacional de Enfermeras (ANEC), registros judiciales y el Sistema de Identificación de Potenciales Beneficiarios de Programas Sociales (SISBEN).
+                        </p>
+<div class="space-y-4">
+<div class="flex items-start">
+<i class="fas fa-code-branch text-green-400 text-xl mr-3 mt-1"></i>
+<p class="text-md">Implementación de reglas de negocio complejas para validar la calidad de la información</p>
+</div>
+<div class="flex items-start">
+<i class="fas fa-check-circle text-green-400 text-xl mr-3 mt-1"></i>
+<p class="text-md">Despliegue en producción y consumo por tres aplicaciones relacionadas con áreas de crédito</p>
+</div>
+<div class="flex items-start">
+<i class="fas fa-server text-green-400 text-xl mr-3 mt-1"></i>
+<p class="text-md">Solución de software de alto impacto y misión crítica</p>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<div class="flex flex-wrap">
+<span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Java</span>
+<span class="bg-yellow-600 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">Python</span>
+<span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">NodeJS</span>
+<span class="bg-red-600 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">C#</span>
+<span class="bg-blue-400 text-white px-3 py-1 rounded-full text-sm mr-2 mb-2">TypeScript</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column - Database Integration Visualization -->
+<div class="w-1/2 pl-6">
+<div class="bg-gray-800 bg-opacity-70 p-6 rounded-lg shadow-lg h-full flex flex-col">
+<h3 class="text-xl font-semibold mb-4 text-center">Integración con Bases de Datos</h3>
+<div class="flex-grow relative" id="database-visualization">
+<!-- D3.js will render the database integration visualization here -->
+</div>
+<div class="mt-4">
+<h4 class="text-lg font-semibold mb-2">Bases de Datos Integradas:</h4>
+<div class="grid grid-cols-3 gap-2">
+<div class="flex items-center">
+<i class="fas fa-hospital text-red-400 mr-2"></i>
+<span class="text-sm">ANEC</span>
+</div>
+<div class="flex items-center">
+<i class="fas fa-gavel text-yellow-400 mr-2"></i>
+<span class="text-sm">Antecedentes Judiciales</span>
+</div>
+<div class="flex items-center">
+<i class="fas fa-id-card text-blue-400 mr-2"></i>
+<span class="text-sm">SISBEN</span>
+</div>
+<div class="flex items-center">
+<i class="fas fa-landmark text-green-400 mr-2"></i>
+<span class="text-sm">Bancos</span>
+</div>
+<div class="flex items-center">
+<i class="fas fa-building text-purple-400 mr-2"></i>
+<span class="text-sm">Empresas</span>
+</div>
+<div class="flex items-center">
+<i class="fas fa-user-shield text-orange-400 mr-2"></i>
+<span class="text-sm">Seguridad Social</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="mt-6 flex justify-between items-center">
+<div class="text-sm text-gray-400">Manuela Cortés Granados - CV Profesional 2025</div>
+<div class="text-sm text-gray-400">Página 9 de 17</div>
+</div>
+</div>
+<script>
+        // D3.js visualization for database integration
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = d3.select("#database-visualization");
+            const width = container.node().getBoundingClientRect().width;
+            const height = container.node().getBoundingClientRect().height;
+            
+            // Create SVG
+            const svg = container.append("svg")
+                .attr("width", width)
+                .attr("height", height);
+            
+            // Central node (the system)
+            const centralNode = {
+                id: "central",
+                name: "VerificacionAutomatica",
+                x: width / 2,
+                y: height / 2,
+                r: 40
+            };
+            
+            // Database nodes
+            const databaseNames = [
+                "ANEC", "Judicial", "SISBEN", "Bancos", "Empresas", 
+                "Seguridad Social", "Salud", "Educação", "Voto", "Transporte",
+                "Inmigración", "Propiedad", "Tributaria", "Laboral", "Penal",
+                "Civil", "Comercial"
+            ];
+            
+            // Create database nodes in a circular pattern around the central node
+            const radius = Math.min(width, height) * 0.35;
+            const databaseNodes = databaseNames.map((name, i) => {
+                const angle = (i / databaseNames.length) * 2 * Math.PI;
+                return {
+                    id: `db${i}`,
+                    name: name,
+                    x: centralNode.x + radius * Math.cos(angle),
+                    y: centralNode.y + radius * Math.sin(angle),
+                    r: 20 + Math.random() * 10
+                };
+            });
+            
+            // Draw connections between central node and database nodes
+            databaseNodes.forEach(node => {
+                svg.append("line")
+                    .attr("x1", centralNode.x)
+                    .attr("y1", centralNode.y)
+                    .attr("x2", node.x)
+                    .attr("y2", node.y)
+                    .attr("stroke", "#4ade80")
+                    .attr("stroke-width", 2)
+                    .attr("stroke-opacity", 0.6);
+            });
+            
+            // Draw database nodes
+            databaseNodes.forEach(node => {
+                const group = svg.append("g")
+                    .attr("class", "database-node")
+                    .attr("transform", `translate(${node.x}, ${node.y})`);
+                
+                // Node circle
+                group.append("circle")
+                    .attr("r", node.r)
+                    .attr("fill", `hsl(${Math.random() * 360}, 70%, 60%)`)
+                    .attr("stroke", "#ffffff")
+                    .attr("stroke-width", 2);
+                
+                // Node label
+                group.append("text")
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.3em")
+                    .attr("fill", "#ffffff")
+                    .attr("font-size", "10px")
+                    .text(node.name.length > 4 ? node.name.substring(0, 4) + "..." : node.name);
+            });
+            
+            // Draw central node
+            const centralGroup = svg.append("g")
+                .attr("transform", `translate(${centralNode.x}, ${centralNode.y})`);
+            
+            centralGroup.append("circle")
+                .attr("r", centralNode.r)
+                .attr("fill", "#2563eb")
+                .attr("stroke", "#ffffff")
+                .attr("stroke-width", 3);
+            
+            centralGroup.append("text")
+                .attr("text-anchor", "middle")
+                .attr("dy", "0.3em")
+                .attr("fill", "#ffffff")
+                .attr("font-size", "12px")
+                .attr("font-weight", "bold")
+                .text(centralNode.name.length > 6 ? centralNode.name.substring(0, 6) + "..." : centralNode.name);
+        });
+    </script>
+
+</body></html>

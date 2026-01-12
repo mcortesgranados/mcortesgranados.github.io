@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Experiencia Laboral Reciente</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://picture-search.skywork.ai/aippt/static/tailwindcss.com"></script><style>
+        body {overflow: hidden; width: 1280px; min-height: 720px; margin: 0;
+            padding: 0;}
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+        }
+        .timeline-point {
+            transition: all 0.3s ease;
+        }
+        .timeline-point:hover {
+            transform: scale(1.05);
+        }
+        .company-logo {
+            height: 50px;
+            width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+    
+html {
+    overflow: hidden;
+}</style>
+</head>
+<body>
+<div class="slide bg-gradient-to-br from-gray-900 to-gray-800 text-white p-12 flex flex-col" style=" overflow: hidden;">
+<!-- Header -->
+<div class="mb-8">
+<h1 class="text-4xl font-bold text-white mb-2">Experiencia Laboral Reciente</h1>
+<div class="w-24 h-1 bg-green-400"></div>
+</div>
+<!-- Timeline Visualization -->
+<div class="h-16 mb-6" id="timeline">
+<!-- D3.js will render the timeline here -->
+</div>
+<!-- Experience Cards -->
+<div class="grid grid-cols-3 gap-6 mb-6">
+<!-- Wizeline Experience -->
+<div class="bg-gray-800 bg-opacity-70 p-6 rounded-lg shadow-lg timeline-point">
+<div class="flex items-center mb-4">
+<div class="company-logo bg-blue-600 text-white mr-4">
+<i class="fas fa-laptop-code text-2xl"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold">Wizeline</h3>
+<p class="text-green-400">Fullstack Senior Software Developer</p>
+</div>
+</div>
+<div class="flex items-center text-sm text-gray-300 mb-2">
+<i class="far fa-calendar-alt mr-2"></i>
+<span>Marzo 2022 - Abril 2023</span>
+</div>
+<div class="flex items-center text-sm text-gray-300 mb-2">
+<i class="far fa-clock mr-2"></i>
+<span>1 Año 1 Mes</span>
+</div>
+<div class="mt-3">
+<p class="text-sm">Desarrollo fullstack con Java, Python, NodeJS, Typescript, Angular y React. Integración con soluciones empresariales.</p>
+</div>
+</div>
+<!-- Globant Experience -->
+<div class="bg-gray-800 bg-opacity-70 p-6 rounded-lg shadow-lg timeline-point">
+<div class="flex items-center mb-4">
+<div class="company-logo bg-green-600 text-white mr-4">
+<i class="fas fa-code text-2xl"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold">Globant</h3>
+<p class="text-green-400">Java Developer Architect</p>
+</div>
+</div>
+<div class="flex items-center text-sm text-gray-300 mb-2">
+<i class="far fa-calendar-alt mr-2"></i>
+<span>Noviembre 2021 - Marzo 2022</span>
+</div>
+<div class="flex items-center text-sm text-gray-300 mb-2">
+<i class="far fa-clock mr-2"></i>
+<span>5 Meses</span>
+</div>
+<div class="mt-3">
+<p class="text-sm">Desarrollo senior fullstack con Java, Python, NodeJS, Typescript, Angular y React. Arquitectura de soluciones.</p>
+</div>
+</div>
+<!-- InnovaSoftware Experience -->
+<div class="bg-gray-800 bg-opacity-70 p-6 rounded-lg shadow-lg timeline-point">
+<div class="flex items-center mb-4">
+<div class="company-logo bg-purple-600 text-white mr-4">
+<i class="fas fa-project-diagram text-2xl"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold">InnovaSoftware</h3>
+<p class="text-green-400">Senior Fullstack Software Developer</p>
+</div>
+</div>
+<div class="flex items-center text-sm text-gray-300 mb-2">
+<i class="far fa-calendar-alt mr-2"></i>
+<span>Abril 2024 - Presente</span>
+</div>
+<div class="flex items-center text-sm text-gray-300 mb-2">
+<i class="far fa-clock mr-2"></i>
+<span>&lt; 1 Año</span>
+</div>
+<div class="mt-3">
+<p class="text-sm">Desarrollo fullstack con Java, Python, NodeJS, Typescript, C#, Angular y React. Diseño de arquitecturas robustas.</p>
+</div>
+</div>
+</div>
+<!-- Summary -->
+<div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg">
+<p class="text-center text-lg">
+<i class="fas fa-chart-line text-green-400 mr-2"></i>
+                Trayectoria profesional con roles senior en desarrollo fullstack, liderazgo técnico y arquitectura de soluciones robustas.
+            </p>
+</div>
+<!-- Footer -->
+<div class="mt-auto flex justify-between items-center">
+<div class="text-sm text-gray-400">Manuela Cortés Granados - CV Profesional 2025</div>
+<div class="text-sm text-gray-400">Página 10 de 17</div>
+</div>
+</div>
+<script>
+        // D3.js Timeline Visualization
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineData = [
+                {year: 2021, label: '2021'},
+                {year: 2022, label: '2022'},
+                {year: 2023, label: '2023'},
+                {year: 2024, label: '2024'}
+            ];
+            
+            const width = 1200;
+            const height = 60;
+            const margin = {top: 20, right: 50, bottom: 20, left: 50};
+            
+            const svg = d3.select("#timeline")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+            
+            const xScale = d3.scaleLinear()
+                .domain([2021, 2024])
+                .range([margin.left, width - margin.right]);
+            
+            // Draw the line
+            svg.append("line")
+                .attr("x1", margin.left)
+                .attr("y1", height/2)
+                .attr("x2", width - margin.right)
+                .attr("y2", height/2)
+                .attr("stroke", "#98FF98")
+                .attr("stroke-width", 3);
+            
+            // Add the points
+            const points = svg.selectAll(".point")
+                .data(timelineData)
+                .enter()
+                .append("g")
+                .attr("class", "point")
+                .attr("transform", d => `translate(${xScale(d.year)}, ${height/2})`);
+            
+            points.append("circle")
+                .attr("r", 8)
+                .attr("fill", "#FFB347");
+            
+            points.append("text")
+                .attr("y", -15)
+                .attr("text-anchor", "middle")
+                .attr("fill", "white")
+                .text(d => d.label);
+        });
+    </script>
+
+</body></html>
