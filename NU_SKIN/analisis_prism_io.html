@@ -1,0 +1,446 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Análisis Comercial - Prism iO</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --ink: #1f2937;
+      --muted: #5f6b7a;
+      --blue: #1565c0;
+      --green: #2e7d32;
+      --purple: #7b1fa2;
+      --orange: #ef6c00;
+      --red: #c62828;
+      --teal: #00796b;
+      --line: #dde3ec;
+      --soft: #eef4ff;
+      --soft2: #e8f5e9;
+      --soft3: #fff8e1;
+      --soft4: #fce4ec;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: radial-gradient(circle at top right, #e3f2fd 0%, var(--bg) 40%), var(--bg);
+      color: var(--ink);
+      line-height: 1.45;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 26px auto;
+      padding: 24px;
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      box-shadow: 0 14px 35px rgba(16, 24, 40, 0.08);
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--blue);
+      font-size: 2rem;
+      letter-spacing: 0.2px;
+    }
+
+    h2 {
+      margin: 26px 0 12px;
+      color: var(--green);
+      font-size: 1.35rem;
+      border-bottom: 2px solid #e8eef8;
+      padding-bottom: 7px;
+    }
+
+    h3 {
+      margin: 16px 0 8px;
+      color: var(--purple);
+      font-size: 1.05rem;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .chips { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .chip {
+      font-size: 0.86rem;
+      background: #e3f2fd;
+      color: var(--blue);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid #c8def7;
+      font-weight: 600;
+    }
+
+    .note {
+      margin: 16px 0;
+      border-left: 5px solid var(--blue);
+      background: var(--soft);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      grid-column: span 6;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .card.full { grid-column: span 12; }
+    .card.g { background: var(--soft2); }
+    .card.y { background: var(--soft3); }
+    .card.p { background: var(--soft4); }
+
+    .kpi {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .kpi .box {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      background: #fff;
+      text-align: center;
+    }
+
+    .kpi .n {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 9px;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f5f8fd;
+      color: #234;
+      text-align: left;
+    }
+
+    ul { margin: 6px 0 0 18px; }
+    li { margin-bottom: 6px; }
+
+    .warn {
+      background: #fff1f1;
+      border-left: 5px solid var(--red);
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .ok {
+      background: #ecfdf3;
+      border-left: 5px solid var(--green);
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .footer {
+      margin-top: 24px;
+      color: #667085;
+      font-size: 0.9rem;
+      text-align: right;
+    }
+
+    @media (max-width: 860px) {
+      .card { grid-column: span 12; }
+      .kpi { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 520px) {
+      .container { padding: 14px; margin: 10px; }
+      .kpi { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>📊 Análisis Estratégico de la Reunión Comercial (Prism iO)</h1>
+    <p class="subtitle">Documento de síntesis comercial basado en la transcripción compartida. Enfocado en atracción de clientes, diferenciación y ejecución en campo.</p>
+
+    <div class="chips">
+      <span class="chip">🧠 Enfoque consultivo</span>
+      <span class="chip">💡 Diferenciación por evidencia</span>
+      <span class="chip">👩‍⚕️ Segmento médico</span>
+      <span class="chip">🏠 Uso en hogar</span>
+      <span class="chip">📈 Conversión y seguimiento</span>
+    </div>
+
+    <section>
+      <h2>🧭 Resumen Ejecutivo</h2>
+      <div class="note">
+        <ul>
+          <li>La charla posiciona el dispositivo como <strong>herramienta de conversación + medición + seguimiento</strong>, no solo como gadget.</li>
+          <li>La propuesta central: <strong>demostrar diferencia real</strong> entre suplementación genérica vs suplementación respaldada por medición.</li>
+          <li>Se refuerza una venta humana: <strong>preguntar, escuchar y personalizar</strong> (modelo "gato, no cachorro").</li>
+          <li>El segmento médico aparece como <strong>canal clave de escalamiento</strong> para credibilidad y volumen.</li>
+          <li>La oportunidad principal está en vincular <strong>salud preventiva + experiencia del usuario + negocio recurrente</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="kpi">
+        <div class="box"><span class="n">4</span>Dolores de compra clave</div>
+        <div class="box"><span class="n">3</span>Pilares del mensaje</div>
+        <div class="box"><span class="n">2</span>Canales prioritarios</div>
+        <div class="box"><span class="n">1</span>Objetivo: decisión informada</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🎯 Personas y Oportunidades (Cuadro Resumen)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Persona</th>
+            <th>Dolor principal</th>
+            <th>Mensaje recomendado</th>
+            <th>Acción de cierre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>👩‍👧 Cuidador(a) familiar</td>
+            <td>Incertidumbre: "No sé si lo que toma sí funciona"</td>
+            <td>"Midamos primero y decidamos con datos"</td>
+            <td>Primera medición + plan de 30 días</td>
+          </tr>
+          <tr>
+            <td>🏃 Persona activa/deportista</td>
+            <td>Optimizar rendimiento y recuperación</td>
+            <td>"No es solo entrenar; es medir respuesta biológica"</td>
+            <td>Comparativo inicial vs seguimiento</td>
+          </tr>
+          <tr>
+            <td>👨‍⚕️ Médico/especialista</td>
+            <td>Necesita valor clínico + ingreso adicional</td>
+            <td>"Monitoreo rápido para adherencia y educación del paciente"</td>
+            <td>Piloto con pacientes seleccionados</td>
+          </tr>
+          <tr>
+            <td>💼 Profesional con poco tiempo</td>
+            <td>Estrés y falta de hábitos sostenibles</td>
+            <td>"Pequeñas decisiones con medición simple"</td>
+            <td>Uso en casa y control periódico</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>🧩 Framework Comercial Extraído de la Reunión</h2>
+      <div class="grid">
+        <article class="card g">
+          <h3>1) Conectar (🤝 empatía)</h3>
+          <ul>
+            <li>Romper hielo con observación genuina.</li>
+            <li>Validar contexto personal antes de vender.</li>
+            <li>Enfatizar interés por la persona, no por el producto.</li>
+          </ul>
+        </article>
+
+        <article class="card y">
+          <h3>2) Diagnosticar (❓preguntas)</h3>
+          <ul>
+            <li>Identificar dolores: tiempo, dinero, estrés, autoestima.</li>
+            <li>Usar preguntas de impacto (ej. uso del tiempo diario).</li>
+            <li>Evitar discurso técnico largo en primera interacción.</li>
+          </ul>
+        </article>
+
+        <article class="card p">
+          <h3>3) Demostrar (📲 medición)</h3>
+          <ul>
+            <li>Mostrar resultados visuales simples por color/nivel.</li>
+            <li>Comparar situación actual vs meta personalizada.</li>
+            <li>Convertir "opinión" en "dato".</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>4) Acompañar (📈 seguimiento)</h3>
+          <ul>
+            <li>Plan de mejora por etapas (30-60-90 días).</li>
+            <li>Re-medición y ajuste de hábitos/suplementación.</li>
+            <li>Testimonio basado en progreso, no promesa.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>⚔️ Diferenciadores Percibidos vs Mercado</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Elemento</th>
+            <th>Wearables comunes</th>
+            <th>Narrativa Prism iO en la reunión</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Qué miden</td>
+            <td>Actividad, sueño, pasos, frecuencia</td>
+            <td>Estado biomarcador vinculado a salud interna</td>
+          </tr>
+          <tr>
+            <td>Uso comercial</td>
+            <td>Bienestar general</td>
+            <td>Puente a recomendación de hábitos/suplementación</td>
+          </tr>
+          <tr>
+            <td>Rol del profesional</td>
+            <td>Bajo o indirecto</td>
+            <td>Alto: médico/líder interpreta y guía seguimiento</td>
+          </tr>
+          <tr>
+            <td>Conversación de valor</td>
+            <td>"Estoy usando tecnología"</td>
+            <td>"Estoy tomando decisiones con evidencia"</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>🧪 Mensajes de Alto Impacto (Listos para usar)</h2>
+      <div class="ok">
+        <strong>✅ Mensaje base corto:</strong> "No queremos adivinar; queremos medir para tomar mejores decisiones de salud preventiva".
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Escenario</th>
+            <th>Frase sugerida</th>
+            <th>Objetivo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cliente que ya consume suplementos</td>
+            <td>"Excelente que ya te cuides. ¿Te parece si verificamos si realmente te está funcionando?"</td>
+            <td>Evitar confrontación, abrir prueba</td>
+          </tr>
+          <tr>
+            <td>Médico escéptico</td>
+            <td>"Podemos iniciar un piloto pequeño y observar adherencia y evolución"</td>
+            <td>Bajar barrera de entrada</td>
+          </tr>
+          <tr>
+            <td>Persona con poco tiempo</td>
+            <td>"Es una lectura rápida que te ayuda a priorizar hábitos con mayor impacto"</td>
+            <td>Reducir percepción de complejidad</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>⚠️ Riesgos y Recomendaciones de Cumplimiento</h2>
+      <div class="warn">
+        <strong>Riesgo principal:</strong> en varios momentos se acerca el discurso a promesas médicas fuertes. Para proteger marca y equipo, usar lenguaje de <strong>apoyo, prevención y monitoreo</strong>, evitando lenguaje de "cura" o garantía de resultados.
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Evitar decir</th>
+            <th>Decir mejor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>"Esto cura X"</td>
+            <td>"Esto ayuda a monitorear y apoyar hábitos saludables"</td>
+          </tr>
+          <tr>
+            <td>"Con esto seguro baja tu enfermedad"</td>
+            <td>"Cada persona responde distinto; medimos evolución y ajustamos"</td>
+          </tr>
+          <tr>
+            <td>"Ganarás X en poco tiempo"</td>
+            <td>"Los ingresos dependen de ejecución, constancia y red"</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>🚀 Plan de Acción Sugerido (14 días)</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Día 1-3</h3>
+          <ul>
+            <li>Definir lista de 25 contactos por segmentos.</li>
+            <li>Preparar guion de apertura de 20-30 segundos.</li>
+            <li>Agendar 10 mediciones demostrativas.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Día 4-7</h3>
+          <ul>
+            <li>Ejecutar mediciones y registrar objeciones frecuentes.</li>
+            <li>Documentar 3 mini testimonios (antes/después narrativo).</li>
+            <li>Invitar 2 profesionales de salud a piloto.</li>
+          </ul>
+        </article>
+        <article class="card full">
+          <h3>Día 8-14</h3>
+          <ul>
+            <li>Recontactar a todos con seguimiento personalizado.</li>
+            <li>Convertir insights en contenido de equipo (guía FAQ).</li>
+            <li>Medir tasa de conversión: contacto → medición → recompra.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>📝 Conclusión Estratégica</h2>
+      <div class="note">
+        <p>La reunión muestra una oportunidad real de crecimiento si el equipo mantiene 3 disciplinas:</p>
+        <ul>
+          <li><strong>Escucha activa</strong> (primero entender, luego presentar).</li>
+          <li><strong>Demostración con datos</strong> (menos discurso, más evidencia).</li>
+          <li><strong>Seguimiento sistemático</strong> (la venta ocurre en el acompañamiento).</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="footer">Documento generado para uso interno comercial • Fecha: 2026-03-04</p>
+  </main>
+</body>
+</html>
