@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Analisis Medico-Comercial - Nu Skin</title>
+  <style>
+    :root {
+      --bg: #f6fbf9;
+      --card: #ffffff;
+      --ink: #1e293b;
+      --muted: #5f6b7b;
+      --line: #d9e4e6;
+      --teal: #00796b;
+      --blue: #0d47a1;
+      --orange: #ef6c00;
+      --green: #2e7d32;
+      --red: #c62828;
+      --soft: #e8f5f3;
+      --soft2: #fff4e5;
+      --soft3: #eef3ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at top right, #dff4f1 0%, var(--bg) 48%);
+      line-height: 1.45;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 28px auto;
+      padding: 24px;
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 28px rgba(17, 24, 39, 0.08);
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--blue);
+      font-size: 1.95rem;
+    }
+
+    h2 {
+      margin: 26px 0 10px;
+      color: var(--teal);
+      border-bottom: 2px solid #e8eff3;
+      padding-bottom: 7px;
+      font-size: 1.3rem;
+    }
+
+    h3 {
+      margin: 14px 0 6px;
+      color: #0f4a5f;
+      font-size: 1.05rem;
+    }
+
+    p { margin: 0; }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+    }
+
+    .chips {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      font-size: 0.86rem;
+      background: #eaf4ff;
+      border: 1px solid #cfe1f6;
+      color: #1b4f8a;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-weight: 600;
+    }
+
+    .note {
+      margin-top: 12px;
+      border-left: 5px solid var(--teal);
+      background: var(--soft);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .warn {
+      margin-top: 12px;
+      border-left: 5px solid var(--red);
+      background: #fff2f2;
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .ok {
+      margin-top: 12px;
+      border-left: 5px solid var(--green);
+      background: #ecfdf3;
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .card {
+      grid-column: span 6;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .card.full { grid-column: span 12; }
+    .card.a { background: var(--soft2); }
+    .card.b { background: var(--soft3); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 9px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f3f8ff;
+      color: #1b395e;
+    }
+
+    ul {
+      margin: 6px 0 0 18px;
+      padding: 0;
+    }
+
+    li { margin-bottom: 6px; }
+
+    .kpis {
+      margin-top: 10px;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .kpi {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .kpi strong {
+      display: block;
+      color: var(--teal);
+      font-size: 1.2rem;
+    }
+
+    .footer {
+      margin-top: 24px;
+      text-align: right;
+      color: #667085;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      .card { grid-column: span 12; }
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 560px) {
+      .container { margin: 10px; padding: 14px; }
+      .kpis { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>🩺 Analisis de Reunion: Medicos + Ciencia + Negocio (Nu Skin)</h1>
+    <p class="subtitle">Sintesis comercial de la sesion con Dra. Angelica Aranda y Dra. Juliet, enfocada en antioxidantes, epigenetica, Prism iO y estrategia de abordaje medico.</p>
+
+    <div class="chips">
+      <span class="chip">👩‍⚕️ Segmento medico</span>
+      <span class="chip">🧬 Epigenetica aplicada</span>
+      <span class="chip">🧪 Evidencia y patentes</span>
+      <span class="chip">📲 Prism iO</span>
+      <span class="chip">💼 Ingreso adicional</span>
+    </div>
+
+    <section>
+      <h2>📌 Resumen Ejecutivo</h2>
+      <div class="note">
+        <ul>
+          <li>La narrativa central fue: <strong>prevencion + medicion + acompanamiento</strong>, evitando presentar la propuesta solo como oportunidad de negocio.</li>
+          <li>Se posiciono a los medicos como canal estrategico para educar al paciente, monitorear avance y elevar adherencia.</li>
+          <li>Se remarco que la suplementacion debe verse como <strong>complemento</strong> del plan medico, no como reemplazo terapeutico.</li>
+          <li>Prism iO fue presentado como una herramienta de valor en consulta, postquirurgico y seguimiento de pacientes.</li>
+          <li>El discurso con mas traccion fue: calidad de vida profesional, autonomia del tiempo y medicina preventiva con respaldo cientifico.</li>
+        </ul>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><strong>2</strong>doctoras liderando mensaje</div>
+        <div class="kpi"><strong>3</strong>pilares: ciencia, prevencion, monitoreo</div>
+        <div class="kpi"><strong>5+</strong>objeciones clinicas respondidas</div>
+        <div class="kpi"><strong>1</strong>enfoque: paciente primero</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🎯 Perfiles Prioritarios y Mensaje de Entrada</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Perfil</th>
+            <th>Necesidad/Problema</th>
+            <th>Mensaje sugerido</th>
+            <th>Cierre propuesto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>👨‍⚕️ Medico general/especialista</td>
+            <td>Busca mas valor clinico y mejores herramientas de seguimiento</td>
+            <td>"No vengo a venderte negocio: vengo a mostrarte una herramienta util para tus pacientes"</td>
+            <td>Piloto de 10 pacientes con medicion y re-medicion</td>
+          </tr>
+          <tr>
+            <td>👩 Paciente en peri/menopausia</td>
+            <td>Sintomas hormonales y baja calidad de vida</td>
+            <td>"Podemos complementar tu manejo actual con soporte nutricional por etapa"</td>
+            <td>Plan por fase + control de sintomas</td>
+          </tr>
+          <tr>
+            <td>🏥 Centros postquirurgicos</td>
+            <td>Interes en mejor recuperacion y adherencia</td>
+            <td>"Un puntaje inicial ayuda a personalizar acompanamiento nutricional"</td>
+            <td>Integrar prueba al protocolo de ingreso</td>
+          </tr>
+          <tr>
+            <td>🏠 Familia preventiva</td>
+            <td>No sabe si su suplementacion actual funciona</td>
+            <td>"Mide primero y decide con datos"</td>
+            <td>Medicion base + ruta 30 dias</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>🧠 Hallazgos Clave de Contenido</h2>
+      <div class="grid">
+        <article class="card b">
+          <h3>1) Ciencia comprensible para no medicos</h3>
+          <ul>
+            <li>Explicacion simple de radical libre vs antioxidante.</li>
+            <li>Asociacion con estres, alimentacion, sueno y habitos.</li>
+            <li>Uso de lenguaje cotidiano facilita conversion.</li>
+          </ul>
+        </article>
+
+        <article class="card a">
+          <h3>2) Apertura real en comunidad medica</h3>
+          <ul>
+            <li>Hay interes en medicina preventiva con evidencia.</li>
+            <li>Dolor transversal: falta de tiempo y desgaste profesional.</li>
+            <li>No vender "ingreso"; vender "valor al paciente".</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>3) Oportunidad de protocolo clinico</h3>
+          <ul>
+            <li>Prequirurgico: punto de partida nutricional.</li>
+            <li>Seguimiento: comparar evolucion objetiva.</li>
+            <li>Educacion: empoderar paciente sobre habitos.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>4) Ventaja de portafolio por etapa</h3>
+          <ul>
+            <li>Mensajes por momento de vida (no enfoque generalista).</li>
+            <li>Combinaciones base: G3, LifePak, Omega, colageno, Estera.</li>
+            <li>Permite rutas personalizadas con supervision profesional.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>🧾 Cuadro de Productos Mencionados</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Uso narrado en la reunion</th>
+            <th>Perfil frecuente</th>
+            <th>Observacion comercial</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="./ficha_g3.html">G3</a></td>
+            <td>Base antioxidante familiar, facil adherencia por formato liquido</td>
+            <td>Ninos, adultos mayores, pacientes que no toleran tabletas</td>
+            <td>Entrada ideal para hogares</td>
+          </tr>
+          <tr>
+            <td><a href="./ficha_lifepak.html">LifePak</a></td>
+            <td>Soporte nutricional integral</td>
+            <td>Adultos con alta carga laboral/estres</td>
+            <td>Producto ancla para plan mensual</td>
+          </tr>
+          <tr>
+            <td><a href="./ficha_optimum_omega.html">Optimum Omega</a></td>
+            <td>Apoyo cognitivo, cardiovascular y bienestar general</td>
+            <td>Jovenes y adultos</td>
+            <td>Se hablo de buena tolerancia en diferentes perfiles</td>
+          </tr>
+          <tr>
+            <td><a href="./ficha_colageno.html">Colageno</a></td>
+            <td>Soporte articular, piel y estructura corporal</td>
+            <td>Mujeres desde 25+, pacientes con dolor articular</td>
+            <td>No limitar discurso solo a estetica</td>
+          </tr>
+          <tr>
+            <td>
+              <a href="./ficha_estera_phase1.html">Estera Phase I</a><br />
+              <a href="./ficha_estera_phase2.html">Estera Phase II</a><br />
+              <a href="./ficha_estera_phase3.html">Estera Phase III</a>
+            </td>
+            <td>Acompañamiento por fases peri, menopausia y postmenopausia</td>
+            <td>Salud femenina por etapa hormonal</td>
+            <td>Segmento de alto valor para consulta especializada</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>❓ FAQ Comercial (Preguntas Recurrentes)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Pregunta</th>
+            <th>Respuesta orientativa en la reunion</th>
+            <th>Recomendacion de lenguaje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>"Paciente con hipotiroidismo puede tomar LifePak?"</td>
+            <td>Se expreso que si, sin problema.</td>
+            <td>"Revisemos caso por caso con su medico tratante."</td>
+          </tr>
+          <tr>
+            <td>"En diabeticos se puede usar G3?"</td>
+            <td>Se expreso que si y se compartieron testimonios positivos.</td>
+            <td>"Nunca sustituye el manejo medico ni controles."</td>
+          </tr>
+          <tr>
+            <td>"Anticoagulados pueden tomar Omega?"</td>
+            <td>Se respondio afirmativamente.</td>
+            <td>"Validar historial farmacologico en consulta."</td>
+          </tr>
+          <tr>
+            <td>"Cual Estera segun etapa?"</td>
+            <td>Estera 1 perimenopausia, 2 menopausia, 3 postmenopausia.</td>
+            <td>"Personalizar por sintomas y criterio profesional."</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>⚖️ Cumplimiento y Riesgo Reputacional</h2>
+      <div class="warn">
+        <strong>Punto critico:</strong> en salud, evitar promesas absolutas ("cura", "garantiza", "reemplaza"). El mensaje debe centrarse en <strong>apoyo, monitoreo y prevencion</strong>.
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Evitar</th>
+            <th>Usar mejor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>"Esto controla la diabetes por si solo"</td>
+            <td>"Esto puede apoyar el bienestar metabolico dentro de un plan medico"</td>
+          </tr>
+          <tr>
+            <td>"Deje su tratamiento y tome suplementos"</td>
+            <td>"Esto acompana tu tratamiento, no lo reemplaza"</td>
+          </tr>
+          <tr>
+            <td>"Resultado garantizado en todos"</td>
+            <td>"Cada persona responde distinto; por eso medimos y hacemos seguimiento"</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="ok">
+        <strong>Mejor practica:</strong> combinar evidencia cientifica + lenguaje responsable + acompanamiento continuo.
+      </div>
+    </section>
+
+    <section>
+      <h2>🚀 Plan Tactico Sugerido (7 dias)</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Dias 1-2</h3>
+          <ul>
+            <li>Armar lista de 15 medicos por especialidad.</li>
+            <li>Preparar guion corto de abordaje clinico (sin foco en ingresos).</li>
+            <li>Definir material de soporte: ficha tecnica + caso tipo.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Dias 3-5</h3>
+          <ul>
+            <li>Realizar 5 reuniones de introduccion profesional.</li>
+            <li>Ofrecer piloto con medicion inicial y seguimiento.</li>
+            <li>Registrar objeciones para FAQ interno del equipo.</li>
+          </ul>
+        </article>
+
+        <article class="card full">
+          <h3>Dias 6-7</h3>
+          <ul>
+            <li>Convertir 2 alianzas en acciones concretas de consulta.</li>
+            <li>Levantar testimonios con enfoque educativo, no promocional exagerado.</li>
+            <li>Presentar resultados en reunion de equipo y estandarizar script.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>✅ Cierre</h2>
+      <div class="note">
+        <p>La sesion deja una ruta clara: hablar con medicos desde el valor clinico, apoyar decisiones con evidencia, y usar Prism iO para convertir conversacion en acompanamiento medible. La combinacion <strong>medicina preventiva + comunicacion responsable + sistema de seguimiento</strong> es la ventaja competitiva del equipo.</p>
+      </div>
+    </section>
+
+    <p class="footer">Documento interno de analisis - Fecha: 2026-03-04</p>
+  </main>
+</body>
+</html>
