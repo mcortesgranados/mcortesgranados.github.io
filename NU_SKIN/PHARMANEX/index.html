@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pharmanex Colombia - Proyeccion de Ventas con Base en Historicos</title>
+  <style>
+    :root {
+      --bg: #f4f8f5;
+      --card: #ffffff;
+      --ink: #1e293b;
+      --muted: #5b6777;
+      --line: #d9e5dd;
+      --green: #1b5e20;
+      --teal: #00695c;
+      --blue: #0d47a1;
+      --amber: #ef6c00;
+      --red: #b71c1c;
+      --soft-green: #edf8ef;
+      --soft-blue: #eef5ff;
+      --soft-amber: #fff7e8;
+      --soft-red: #fff0f0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, #dff3e4 0%, transparent 32%),
+        radial-gradient(circle at top right, #dcecff 0%, transparent 28%),
+        var(--bg);
+      line-height: 1.55;
+    }
+
+    .container {
+      max-width: 1160px;
+      margin: 26px auto;
+      padding: 24px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #c9dbce;
+      background: #f7fbf8;
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .stamp {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--green);
+      font-size: 2.05rem;
+    }
+
+    h2 {
+      margin: 28px 0 10px;
+      color: var(--teal);
+      font-size: 1.28rem;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e5efe8;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      color: #174a3d;
+      font-size: 1.04rem;
+    }
+
+    p { margin: 0; }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      max-width: 980px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .chip {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #edf7ef;
+      border: 1px solid #cde3d2;
+      color: #216333;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    .banner,
+    .note,
+    .warn,
+    .ok {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 12px;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #edf8ef 0%, #eef5ff 100%);
+      border: 1px solid #d5e6da;
+    }
+
+    .note {
+      background: var(--soft-blue);
+      border-left: 5px solid var(--blue);
+    }
+
+    .warn {
+      background: var(--soft-amber);
+      border-left: 5px solid var(--amber);
+    }
+
+    .ok {
+      background: var(--soft-green);
+      border-left: 5px solid var(--green);
+    }
+
+    .kpis {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 16px;
+    }
+
+    .kpi {
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      text-align: center;
+    }
+
+    .kpi strong {
+      display: block;
+      color: var(--teal);
+      font-size: 1.32rem;
+      margin-bottom: 4px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(12, 1fr);
+      margin-top: 12px;
+    }
+
+    .card {
+      grid-column: span 6;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .card.full { grid-column: span 12; }
+    .card.green { background: #fbfefb; }
+    .card.blue { background: #fbfdff; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f3f8f4;
+      color: #204a3b;
+    }
+
+    ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+
+    li { margin-bottom: 6px; }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .scenario {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .scenario.c1 {
+      background: #eef5ff;
+      border: 1px solid #cddcf6;
+      color: #174a92;
+    }
+
+    .scenario.c2 {
+      background: #edf8ef;
+      border: 1px solid #cfe4d3;
+      color: #1d6430;
+    }
+
+    .scenario.c3 {
+      background: #fff4e8;
+      border: 1px solid #f0d3b4;
+      color: #9a5600;
+    }
+
+    .bar-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 68px 1fr 62px;
+      gap: 10px;
+      align-items: center;
+      font-size: 0.93rem;
+    }
+
+    .bar-track {
+      height: 14px;
+      border-radius: 999px;
+      background: #edf2ee;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #2e7d32 0%, #66bb6a 100%);
+    }
+
+    .foot {
+      margin-top: 24px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    @media (max-width: 920px) {
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+      .card { grid-column: span 12; }
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        margin: 10px;
+        padding: 14px;
+      }
+
+      .kpis { grid-template-columns: 1fr; }
+
+      .bar-row {
+        grid-template-columns: 54px 1fr 54px;
+        gap: 8px;
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="topbar">
+      <a class="back" href="../index.html">Volver a NU_SKIN</a>
+      <div class="stamp">Actualizado: 11 de marzo de 2026</div>
+    </div>
+
+    <h1>Pharmanex Colombia: proyeccion de ventas con base en historicos</h1>
+    <p class="subtitle">
+      Pagina de trabajo para estimar el comportamiento comercial de Pharmanex en Colombia usando senales historicas del canal de venta directa, el deterioro local mas reciente de Nu Skin y el rebote regional reportado por la matriz en 2025.
+    </p>
+
+    <div class="chips">
+      <span class="chip">Cobertura: Colombia</span>
+      <span class="chip">Base historica: 2020-2025</span>
+      <span class="chip">Proyeccion: 2025-2028</span>
+      <span class="chip">Modelo: escenarios</span>
+      <span class="chip">Unidad principal: COP miles de millones</span>
+    </div>
+
+    <section>
+      <div class="banner">
+        <strong>Lectura rapida:</strong> no existe publicamente una serie auditada de ventas de <strong>Pharmanex Colombia</strong> como linea separada. Por eso esta pagina usa una metodologia de inferencia: toma la banda publica de Nu Skin Colombia, estima el peso de bienestar/suplementos dentro del mix local y proyecta tres trayectorias posibles.
+      </div>
+
+      <div class="kpis">
+        <div class="kpi">
+          <strong>-30,47%</strong>
+          variacion de ingresos netos por ventas de Nu Skin Colombia reportada para 2024
+        </div>
+        <div class="kpi">
+          <strong>+72,3%</strong>
+          crecimiento de Latinoamerica en Nu Skin durante 2025
+        </div>
+        <div class="kpi">
+          <strong>COP 6,2 bn</strong>
+          tamano reportado del canal de venta directa en 2021
+        </div>
+        <div class="kpi">
+          <strong>45%-55%</strong>
+          rango de participacion inferida de Pharmanex dentro del mix local
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>1) Insumos historicos usados</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Periodo</th>
+            <th>Dato historico</th>
+            <th>Uso dentro del modelo</th>
+            <th>Lectura</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2020</td>
+            <td>El canal de venta directa en Colombia movio mas de COP 5,5 billones durante la pandemia.</td>
+            <td>Punto de base para un indice de demanda resiliente.</td>
+            <td>La categoria demostro capacidad de sostener consumo relacional aun en un entorno adverso.</td>
+          </tr>
+          <tr>
+            <td>2021</td>
+            <td>Acovedi reporto mas de COP 6,2 billones y crecimiento de 14,5% frente a 2020.</td>
+            <td>Impulsa la fase de expansion del indice historico.</td>
+            <td>El canal siguio fuerte despues del pico pandemico.</td>
+          </tr>
+          <tr>
+            <td>2022</td>
+            <td>Acovedi informo crecimiento de 8% y cerca de COP 6 billones en transacciones.</td>
+            <td>Sirve como ultima referencia sectorial de crecimiento explicito.</td>
+            <td>El canal sigue grande, pero ya en una fase menos explosiva.</td>
+          </tr>
+          <tr>
+            <td>2024</td>
+            <td>EMIS reporta para Nu Skin Colombia una caida de 30,47% en ingresos netos por ventas; Portafolio Empresas ubica la compania en la banda COP 20.000 millones a COP 100.000 millones.</td>
+            <td>Es la principal senal local para estimar un piso de 2024.</td>
+            <td>La filial local venia de una contraccion relevante.</td>
+          </tr>
+          <tr>
+            <td>2025</td>
+            <td>Nu Skin reporta que Latinoamerica paso de US$57,8 millones a US$99,6 millones, equivalente a +72,3%.</td>
+            <td>Actua como factor de rebote, pero no se traslada 1:1 a Colombia.</td>
+            <td>La region mejora, aunque el dato por pais no se abre publicamente.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="small">La normalizacion 2023 se maneja como ano de ajuste y no como cifra observada exacta para Pharmanex.</p>
+    </section>
+
+    <section>
+      <h2>2) Supuestos del modelo Pharmanex</h2>
+      <div class="grid">
+        <article class="card green">
+          <h3>Que se esta infiriendo</h3>
+          <ul>
+            <li>La banda publica de ingresos de Nu Skin Colombia se usa como marco general, no como venta especifica de Pharmanex.</li>
+            <li>El peso de Pharmanex se estima entre <strong>45%</strong> y <strong>55%</strong> del negocio local por la relevancia de suplementos recurrentes en el portafolio.</li>
+            <li>La recuperacion 2025-2028 se modera frente al +72,3% regional para evitar sobreestimar el caso colombiano.</li>
+          </ul>
+        </article>
+
+        <article class="card blue">
+          <h3>Que no debe interpretarse</h3>
+          <ul>
+            <li>No son ventas auditadas publicadas por linea de negocio.</li>
+            <li>No es una valuacion financiera ni una guia oficial de la compania.</li>
+            <li>Sirve para planeacion comercial, contenido ejecutivo o conversaciones de estrategia, no para reporte regulatorio.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="warn">
+        El dato mas fragil del modelo es la participacion real de Pharmanex dentro de Nu Skin Colombia. Si mas adelante aparece una mezcla local confirmada por categoria, conviene recalcular todas las cifras.
+      </div>
+    </section>
+
+    <section>
+      <h2>3) Escenarios de referencia 2024</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Escenario</th>
+            <th>Nu Skin Colombia 2024 usado como referencia</th>
+            <th>Participacion estimada de Pharmanex</th>
+            <th>Venta Pharmanex 2024 inferida</th>
+            <th>Trayectoria 2025-2028 aplicada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="scenario c1">Conservador</span></td>
+            <td>COP 28,0 bn</td>
+            <td>45%</td>
+            <td>COP 12,6 bn</td>
+            <td>+6%, +5%, +4%, +4%</td>
+          </tr>
+          <tr>
+            <td><span class="scenario c2">Base</span></td>
+            <td>COP 40,0 bn</td>
+            <td>50%</td>
+            <td>COP 20,0 bn</td>
+            <td>+14%, +10%, +8%, +6%</td>
+          </tr>
+          <tr>
+            <td><span class="scenario c3">Acelerado</span></td>
+            <td>COP 60,0 bn</td>
+            <td>55%</td>
+            <td>COP 33,0 bn</td>
+            <td>+22%, +15%, +10%, +8%</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>4) Proyeccion monetizada de ventas Pharmanex</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Ano</th>
+            <th>Escenario conservador</th>
+            <th>Escenario base</th>
+            <th>Escenario acelerado</th>
+            <th>Lectura</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2024</td>
+            <td>COP 12,6 bn</td>
+            <td>COP 20,0 bn</td>
+            <td>COP 33,0 bn</td>
+            <td>Piso inferido despues de la senal local de contraccion.</td>
+          </tr>
+          <tr>
+            <td>2025</td>
+            <td>COP 13,4 bn</td>
+            <td>COP 22,8 bn</td>
+            <td>COP 40,3 bn</td>
+            <td>Rebote parcial alineado con la mejora regional, sin copiarla por completo.</td>
+          </tr>
+          <tr>
+            <td>2026</td>
+            <td>COP 14,0 bn</td>
+            <td>COP 25,1 bn</td>
+            <td>COP 46,3 bn</td>
+            <td>Consolidacion si la recompra de suplementos vuelve a ser consistente.</td>
+          </tr>
+          <tr>
+            <td>2027</td>
+            <td>COP 14,6 bn</td>
+            <td>COP 27,1 bn</td>
+            <td>COP 50,9 bn</td>
+            <td>Crecimiento mas normalizado y menos dependiente del rebote inicial.</td>
+          </tr>
+          <tr>
+            <td>2028</td>
+            <td>COP 15,2 bn</td>
+            <td>COP 28,7 bn</td>
+            <td>COP 55,0 bn</td>
+            <td>Escala alcanzable solo si retencion, ticket y formacion comercial sostienen el avance.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="ok">
+        <strong>Resumen practico:</strong> el escenario base ubica a Pharmanex Colombia alrededor de <strong>COP 22,8 bn en 2025</strong> y <strong>COP 28,7 bn en 2028</strong>. El rango de trabajo completo queda entre <strong>COP 13,4 bn</strong> y <strong>COP 40,3 bn</strong> para 2025, dependiendo del peso real del mix de bienestar y de la velocidad de recuperacion local.
+      </div>
+    </section>
+
+    <section>
+      <h2>5) Indice historico-proyectado (base 2020 = 100)</h2>
+      <div class="grid">
+        <article class="card full">
+          <p>Este indice evita la falsa precision de una serie monetaria no publicada. Combina crecimiento sectorial observado, una normalizacion 2023 y la caida local 2024 para mostrar la direccion esperada del negocio Pharmanex en Colombia.</p>
+
+          <div class="bar-list">
+            <div class="bar-row">
+              <strong>2020</strong>
+              <div class="bar-track"><div class="bar" style="width: 80.8%;"></div></div>
+              <span>100,0</span>
+            </div>
+            <div class="bar-row">
+              <strong>2021</strong>
+              <div class="bar-track"><div class="bar" style="width: 92.6%;"></div></div>
+              <span>114,5</span>
+            </div>
+            <div class="bar-row">
+              <strong>2022</strong>
+              <div class="bar-track"><div class="bar" style="width: 100%;"></div></div>
+              <span>123,7</span>
+            </div>
+            <div class="bar-row">
+              <strong>2023</strong>
+              <div class="bar-track"><div class="bar" style="width: 94.0%;"></div></div>
+              <span>116,3</span>
+            </div>
+            <div class="bar-row">
+              <strong>2024</strong>
+              <div class="bar-track"><div class="bar" style="width: 65.4%;"></div></div>
+              <span>80,9</span>
+            </div>
+            <div class="bar-row">
+              <strong>2025</strong>
+              <div class="bar-track"><div class="bar" style="width: 74.5%;"></div></div>
+              <span>92,2</span>
+            </div>
+            <div class="bar-row">
+              <strong>2026</strong>
+              <div class="bar-track"><div class="bar" style="width: 82.0%;"></div></div>
+              <span>101,4</span>
+            </div>
+            <div class="bar-row">
+              <strong>2027</strong>
+              <div class="bar-track"><div class="bar" style="width: 88.5%;"></div></div>
+              <span>109,5</span>
+            </div>
+            <div class="bar-row">
+              <strong>2028</strong>
+              <div class="bar-track"><div class="bar" style="width: 93.8%;"></div></div>
+              <span>116,1</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>6) Variables que mas mueven la proyeccion</h2>
+      <div class="grid">
+        <article class="card green">
+          <h3>Variables al alza</h3>
+          <ul>
+            <li>Mayor penetracion de suplementos de recompra mensual como LifePak, Collagen+ y Optimum Omega.</li>
+            <li>Mejor activacion de la red comercial con enfoque bienestar y no solo skincare premium.</li>
+            <li>Traspaso real del rebote latinoamericano hacia Colombia.</li>
+          </ul>
+        </article>
+
+        <article class="card blue">
+          <h3>Variables a la baja</h3>
+          <ul>
+            <li>Persistencia de la contraccion local observada en 2024.</li>
+            <li>Competencia fuerte de Omnilife, Herbalife y otros actores de suplementacion recurrente.</li>
+            <li>Un mix local demasiado cargado a belleza premium, con menor frecuencia de recompra.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="note">
+        Si se quiere convertir esta pagina en tablero comercial, el siguiente paso correcto es agregar una tabla editable por mes con tres entradas: <strong>nuevos clientes</strong>, <strong>recompra</strong> y <strong>ticket promedio</strong>. Con eso la proyeccion puede dejar de ser solo macro y pasar a ser operativa.
+      </div>
+    </section>
+
+    <section>
+      <h2>7) Fuentes publicas base</h2>
+      <ul>
+        <li><a href="https://www.larepublica.co/empresas/con-digitalizacion-las-marcas-de-venta-directa-movieron-5-5-billones-en-la-pandemia-3162938" target="_blank" rel="noreferrer">La Republica - venta directa en pandemia (2020)</a></li>
+        <li><a href="https://www.larepublica.co/empresas/a-cierre-de-2021-tuvimos-2-1-millones-de-personas-dedicadas-a-las-ventas-directas-3331992" target="_blank" rel="noreferrer">La Republica / Acovedi - cierre 2021</a></li>
+        <li><a href="https://acovedi.org.co/sector-de-venta-directa-crecio-8-en-2022-en-colombia-genero-6-billones-de-pesos-en-transacciones/" target="_blank" rel="noreferrer">Acovedi - crecimiento del sector 2022</a></li>
+        <li><a href="https://www.emis.com/php/company-profile/CO/Nu_Skin_Colombia_Inc_es_3405394.html" target="_blank" rel="noreferrer">EMIS - Nu Skin Colombia Inc.</a></li>
+        <li><a href="https://empresas.portafolio.co/NU-SKIN-COLOMBIA-INC.html" target="_blank" rel="noreferrer">Portafolio Empresas - Nu Skin Colombia</a></li>
+        <li><a href="https://www.sec.gov/Archives/edgar/data/1021561/000114036126005130/ef20060638_10k.htm" target="_blank" rel="noreferrer">Nu Skin - SEC Form 10-K 2025</a></li>
+        <li><a href="../analisis_ventas_nu_skin_colombia_vs_competencia.html">Analisis local ya existente en esta carpeta</a></li>
+      </ul>
+    </section>
+
+    <div class="foot">Modelo de escenarios elaborado con fuentes publicas consultadas hasta el 11 de marzo de 2026.</div>
+  </main>
+</body>
+</html>

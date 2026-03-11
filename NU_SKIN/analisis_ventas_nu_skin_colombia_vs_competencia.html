@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Analisis de Ventas Nu Skin Colombia vs Competencia</title>
+  <style>
+    :root {
+      --bg: #f3f7fc;
+      --card: #ffffff;
+      --ink: #1f2937;
+      --muted: #5f6b7a;
+      --line: #dbe4ef;
+      --blue: #0d47a1;
+      --teal: #00695c;
+      --green: #2e7d32;
+      --orange: #ef6c00;
+      --red: #c62828;
+      --soft: #eaf3ff;
+      --soft2: #ecfdf3;
+      --soft3: #fff8e6;
+      --soft4: #fff1f1;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at top right, #dcecff 0%, var(--bg) 46%);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 28px auto;
+      padding: 24px;
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--blue);
+      font-size: 2rem;
+    }
+
+    h2 {
+      margin: 26px 0 10px;
+      color: var(--teal);
+      border-bottom: 2px solid #e6eef8;
+      padding-bottom: 7px;
+      font-size: 1.3rem;
+    }
+
+    h3 {
+      margin: 14px 0 6px;
+      color: #154360;
+      font-size: 1.05rem;
+    }
+
+    p { margin: 0; }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+    }
+
+    .chips {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      font-size: 0.86rem;
+      background: #e8f2ff;
+      border: 1px solid #cbddf5;
+      color: #1f4d88;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-weight: 600;
+    }
+
+    .pct-pos {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #dff7e8 0%, #effcf4 100%);
+      border: 1px solid #9dd7b1;
+      color: #0f6b3a;
+      font-weight: 700;
+      white-space: nowrap;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+    }
+
+    .product-tag {
+      display: inline-block;
+      margin: 4px 6px 0 0;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: #edf4ff;
+      border: 1px solid #cfdff6;
+      color: #1b4f8a;
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    .note,
+    .ok,
+    .warn,
+    .info {
+      margin-top: 12px;
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .note {
+      border-left: 5px solid var(--blue);
+      background: var(--soft);
+    }
+
+    .ok {
+      border-left: 5px solid var(--green);
+      background: var(--soft2);
+    }
+
+    .warn {
+      border-left: 5px solid var(--red);
+      background: var(--soft4);
+    }
+
+    .info {
+      border-left: 5px solid var(--orange);
+      background: var(--soft3);
+    }
+
+    .kpis {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .kpi {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+      text-align: center;
+    }
+
+    .kpi strong {
+      display: block;
+      color: var(--teal);
+      font-size: 1.25rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .card {
+      grid-column: span 6;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .card.full { grid-column: span 12; }
+    .card.a { background: #f9fcff; }
+    .card.b { background: #fbfffb; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 9px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f4f8fd;
+      color: #1b395e;
+    }
+
+    ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+
+    li { margin-bottom: 6px; }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .sources li {
+      margin-bottom: 10px;
+      word-break: break-word;
+    }
+
+    .footer {
+      margin-top: 24px;
+      color: #667085;
+      font-size: 0.9rem;
+      text-align: right;
+    }
+
+    @media (max-width: 920px) {
+      .card { grid-column: span 12; }
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        margin: 10px;
+        padding: 14px;
+      }
+
+      .kpis { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Analisis de Ventas Nu Skin Colombia vs Competencia</h1>
+    <p class="subtitle">Sintesis de investigacion publica para ubicar a Nu Skin Colombia en contexto historico, sectorial y competitivo desde su entrada al pais hasta la informacion mas reciente disponible al 10 de marzo de 2026.</p>
+
+    <div class="chips">
+      <span class="chip">Inicio comercial 2009-2010</span>
+      <span class="chip">Canal: venta directa</span>
+      <span class="chip">Mix: belleza + bienestar</span>
+      <span class="chip">Datos locales mas recientes: 2024</span>
+      <span class="chip">Dato regional mas reciente: 2025</span>
+    </div>
+
+    <section>
+      <h2>1) Resumen Ejecutivo</h2>
+      <div class="note">
+        <ul>
+          <li>Nu Skin entro a Colombia en una ventana <strong>2009-2010</strong>, pero el canal de venta directa ya era grande y competitivo cuando llego.</li>
+          <li>La carpeta local de NU_SKIN mezcla <strong>cuidado personal, dispositivos y suplementos</strong>; por eso la comparacion correcta no es una sola lista de rivales.</li>
+          <li>En bienestar y suplementos, los comparables mas cercanos en Colombia son <strong>Omnilife, Herbalife y Amway</strong>. En belleza/venta directa, el comparativo de canal incluye <strong>Oriflame</strong> y otros jugadores fuertes de catalogo como Yanbal, Natura/Belcorp y Avon.</li>
+          <li>La informacion publica local sugiere que Nu Skin opera como <strong>jugador mediano</strong>, por debajo de Herbalife y Omnilife en escala visible en Colombia.</li>
+          <li>El dato local mas concreto que encontre para 2024 apunta a <strong>deterioro</strong> en Nu Skin Colombia, mientras que el ultimo dato oficial regional de la matriz muestra <strong>rebote de Latinoamerica en 2025</strong> con <span class="pct-pos">+72,3%</span>.</li>
+          <li>Los resultados no dependen solo de la red comercial: el <strong>mix de productos Nu Skin</strong> influye directamente en ticket promedio, recompra mensual y capacidad de diferenciacion frente a la competencia.</li>
+        </ul>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><strong>2009-2010</strong>inicio comercial util para comparar</div>
+        <div class="kpi"><strong>20-100 bn COP</strong>banda publica de facturacion visible para Nu Skin Colombia</div>
+        <div class="kpi"><strong>-30,47%</strong>variacion de ingresos netos por ventas reportada por EMIS para 2024</div>
+        <div class="kpi"><strong class="pct-pos">+72,3%</strong>crecimiento de Latinoamerica en Nu Skin durante 2025</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>2) Que si puede decir este reporte y que no</h2>
+      <div class="warn">
+        <ul>
+          <li><strong>Si puede:</strong> ubicar el momento de entrada, leer la tendencia del canal, comparar bandas de escala y detectar si Nu Skin aparece o no entre los lideres publicos de categoria.</li>
+          <li><strong>No puede:</strong> reconstruir una serie anual limpia 2008-2025 de ventas exactas por empresa en Colombia, porque esa serie no aparece publicada de forma consistente y homologada para todos los jugadores.</li>
+          <li><strong>Metodo usado:</strong> combinar reportes corporativos de Nu Skin, gremio sectorial, prensa economica y directorios empresariales.</li>
+        </ul>
+      </div>
+
+      <div class="info">
+        Las cifras del sector usan distintas bases y monedas segun la fuente y el ano. Por eso sirven mejor para <strong>ver direccion de mercado</strong> que para calcular un CAGR exacto sin normalizacion adicional.
+      </div>
+    </section>
+
+    <section>
+      <h2>3) Cronologia de mercado y de Nu Skin</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Hecho</th>
+            <th>Lectura estrategica</th>
+            <th>Fuente</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>14 nov 2008</td>
+            <td>EMIS ubica la constitucion de Nu Skin Colombia Inc. en esa fecha y la describe operando en el mercado colombiano desde 2008.</td>
+            <td>Marca el inicio legal, pero no necesariamente el arranque comercial pleno.</td>
+            <td><a href="https://www.emis.com/php/company-profile/CO/Nu_Skin_Colombia_Inc_es_3405394.html" target="_blank" rel="noreferrer">EMIS</a></td>
+          </tr>
+          <tr>
+            <td>2009</td>
+            <td>Nu Skin informa en su 10-K 2009 ante la SEC que abrio operaciones en Colombia y Argentina durante 2009.</td>
+            <td>Es la mejor referencia publica para el arranque operativo real.</td>
+            <td><a href="https://www.sec.gov/Archives/edgar/data/1021561/000102156110000024/k10-2009nse.htm" target="_blank" rel="noreferrer">SEC 10-K 2009</a></td>
+          </tr>
+          <tr>
+            <td>2010</td>
+            <td>La historia corporativa oficial de Nu Skin lista a Colombia como expansion de mercado en 2010.</td>
+            <td>Conviene tratar 2009-2010 como ventana de inicio comercial, no una unica fecha.</td>
+            <td><a href="https://www.nuskin.com/en_HK/about/company/the-history.html" target="_blank" rel="noreferrer">Nu Skin History</a></td>
+          </tr>
+          <tr>
+            <td>2008</td>
+            <td>Portafolio estimaba para la venta directa un mercado cercano a COP 2 billones y crecimiento anual alrededor de <span class="pct-pos">17%</span>.</td>
+            <td>Nu Skin entro a un canal ya grande y en expansion, no a una categoria naciente.</td>
+            <td><a href="https://www.portafolio.co/negocios/empresas/la-venta-directa-y-por-catalogo-gana-terreno-en-colombia-155056" target="_blank" rel="noreferrer">Portafolio</a></td>
+          </tr>
+          <tr>
+            <td>2012</td>
+            <td>La Republica cito ventas locales del sector por US$2,9 mil millones y crecimiento promedio cercano a <span class="pct-pos">8%</span>.</td>
+            <td>Confirma que el canal ya estaba consolidado pocos anos despues de la entrada de Nu Skin.</td>
+            <td><a href="https://www.larepublica.co/archivo/las-ventas-directas-moveran-us2-900-millones-este-ano-en-colombia-2036369" target="_blank" rel="noreferrer">La Republica</a></td>
+          </tr>
+          <tr>
+            <td>2020</td>
+            <td>Durante la pandemia, las marcas de venta directa movieron mas de COP 5,5 billones en Colombia.</td>
+            <td>El canal mostro resiliencia y aceleracion digital.</td>
+            <td><a href="https://www.larepublica.co/empresas/con-digitalizacion-las-marcas-de-venta-directa-movieron-5-5-billones-en-la-pandemia-3162938" target="_blank" rel="noreferrer">La Republica</a></td>
+          </tr>
+          <tr>
+            <td>2021</td>
+            <td>Acovedi reporto mas de COP 6,2 billones y crecimiento de <span class="pct-pos">14,5%</span> frente a 2020, ademas de <span class="pct-pos">31%</span> frente a 2019.</td>
+            <td>El canal siguio fuerte despues del pico pandemico.</td>
+            <td><a href="https://www.larepublica.co/empresas/a-cierre-de-2021-tuvimos-2-1-millones-de-personas-dedicadas-a-las-ventas-directas-3331992" target="_blank" rel="noreferrer">La Republica / Acovedi</a></td>
+          </tr>
+          <tr>
+            <td>2022</td>
+            <td>Acovedi informo que la venta directa crecio <span class="pct-pos">8%</span> y genero cerca de COP 6 billones en transacciones.</td>
+            <td>Se mantiene una base alta, aunque con metodologia no siempre equivalente a anos previos.</td>
+            <td><a href="https://acovedi.org.co/sector-de-venta-directa-crecio-8-en-2022-en-colombia-genero-6-billones-de-pesos-en-transacciones/" target="_blank" rel="noreferrer">Acovedi</a></td>
+          </tr>
+          <tr>
+            <td>2023-2024</td>
+            <td>Portafolio cito ingresos sectoriales por US$2.312 millones en 2023 y una expectativa de estabilidad para 2024.</td>
+            <td>El canal deja de acelerarse y entra en fase mas madura.</td>
+            <td><a href="https://www.portafolio.co/negocios/empresas/sector-de-venta-directa-facturara-unos-us-2-312-este-ano-614990" target="_blank" rel="noreferrer">Portafolio</a></td>
+          </tr>
+          <tr>
+            <td>2024</td>
+            <td>EMIS reporta para Nu Skin Colombia una caida de 30,47% en ingresos netos por ventas. El directorio empresarial de Portafolio la ubica en la banda de COP 20.000 millones a COP 100.000 millones.</td>
+            <td>La senal local mas reciente es de contraccion relevante y escala intermedia.</td>
+            <td><a href="https://www.emis.com/php/company-profile/CO/Nu_Skin_Colombia_Inc_es_3405394.html" target="_blank" rel="noreferrer">EMIS</a> / <a href="https://empresas.portafolio.co/NU-SKIN-COLOMBIA-INC.html" target="_blank" rel="noreferrer">Portafolio Empresas</a></td>
+          </tr>
+          <tr>
+            <td>2025</td>
+            <td>La matriz reporta que Latinoamerica paso de US$57,8 millones a US$99,6 millones, un alza de <span class="pct-pos">72,3%</span>; al mismo tiempo, el segmento Americas total de Nu Skin cayo 12,3%.</td>
+            <td>Hay rebote regional, pero no se puede atribuir automaticamente a Colombia porque la empresa no abre el dato por pais.</td>
+            <td><a href="https://www.sec.gov/Archives/edgar/data/1021561/000114036126005130/ef20060638_10k.htm" target="_blank" rel="noreferrer">SEC 10-K 2025</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>4) Competencia correcta para esta carpeta: dos mapas, no uno</h2>
+      <div class="grid">
+        <article class="card a">
+          <h3>A. Bienestar y suplementos</h3>
+          <p>Este es el mapa mas comparable para productos como colageno, omega, G3 y otros suplementos de la carpeta local.</p>
+          <ul>
+            <li><strong>Omnilife</strong> y <strong>Herbalife</strong> son los referentes mas directos por modelo multinivel y foco en nutricion/bienestar.</li>
+            <li><strong>Amway</strong> tambien compite en salud y hogar, aunque con un portafolio mas amplio.</li>
+            <li>Portafolio, citando Euromonitor, ubico en 2019 a <strong>Omnilife (<span class="pct-pos">15,6%</span>)</strong>, <strong>Sanofi (<span class="pct-pos">14,1%</span>)</strong> y <strong>Herbalife (<span class="pct-pos">8,1%</span>)</strong> como lideres del mercado colombiano de suplementos dietarios.</li>
+            <li>Nu Skin no aparece en ese top 3 publico, lo que sugiere posicion secundaria en esa subcategoria.</li>
+          </ul>
+        </article>
+
+        <article class="card b">
+          <h3>B. Belleza, skincare y venta directa</h3>
+          <p>Este es el mapa util para lineas como LumiSpa, Boost, niacinamida, AHA y demas cuidado facial.</p>
+          <ul>
+            <li><strong>Oriflame</strong> es un comparable directo de canal por venta relacional y catalogo de belleza.</li>
+            <li>Tambien pesan jugadores grandes de canal como <strong>Yanbal</strong>, <strong>Natura/Belcorp</strong> y <strong>Avon</strong>, aunque el mix de producto no sea identico.</li>
+            <li>La comparacion correcta aqui no es solo facturacion, sino capacidad de red, repeticion de compra y profundidad del catalogo en belleza.</li>
+            <li>Para un posicionamiento premium, Nu Skin necesita diferenciarse por evidencia, experiencia y ecosistema, no por escala masiva.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>5) Productos de Nu Skin que influyen en los resultados</h2>
+      <div class="grid">
+        <article class="card a">
+          <h3>A. Belleza premium y dispositivos</h3>
+          <p>Estas lineas suelen influir en captacion, margen y diferenciacion porque elevan el ticket inicial y ayudan a vender una experiencia premium.</p>
+          <div>
+            <span class="product-tag">ageLOC LumiSpa iO</span>
+            <span class="product-tag">ageLOC Boost Activating Serum</span>
+            <span class="product-tag">AHA Glycolic Cleanser</span>
+            <span class="product-tag">Niacinamide Serum</span>
+            <span class="product-tag">AHA &amp; Vitamin C Gel Cream</span>
+          </div>
+          <ul>
+            <li>Influyen en la conversion inicial porque permiten demostracion, rutina visible y argumento premium.</li>
+            <li>Mejoran recompra cuando se venden como ecosistema y no como producto aislado.</li>
+          </ul>
+        </article>
+
+        <article class="card b">
+          <h3>B. Bienestar y consumo recurrente</h3>
+          <p>Estas lineas pesan mas en continuidad, volumen mensual y estabilidad de red, que es donde muchas companias de venta directa consolidan resultados.</p>
+          <div>
+            <span class="product-tag">Beauty Focus Collagen+</span>
+            <span class="product-tag">LifePak</span>
+            <span class="product-tag">G3</span>
+            <span class="product-tag">Optimum Omega</span>
+            <span class="product-tag">Estera Phase 1-3</span>
+          </div>
+          <ul>
+            <li>Influyen en recompra porque se consumen en ciclos continuos y sostienen volumen mensual.</li>
+            <li>Si estas lineas pierden traccion frente a Omnilife o Herbalife, el resultado comercial total de Nu Skin se resiente.</li>
+          </ul>
+        </article>
+
+        <article class="card full">
+          <h3>C. Impacto comercial del portafolio</h3>
+          <ul>
+            <li><strong>Mas dispositivos y skincare premium</strong> suelen elevar ticket, pero requieren red entrenada y demostracion efectiva.</li>
+            <li><strong>Mas suplementos recurrentes</strong> suelen fortalecer frecuencia de compra y estabilidad del negocio.</li>
+            <li><strong>Conclusion practica:</strong> los resultados de Nu Skin en Colombia no dependen solo del tamano de la red; dependen tambien de que el portafolio correcto gane rotacion y recompra en cada categoria.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>6) Tabla comparativa de escala visible en Colombia</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Empresa</th>
+            <th>Rol competitivo</th>
+            <th>Escala visible mas reciente en Colombia</th>
+            <th>Lectura</th>
+            <th>Fuente</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Nu Skin Colombia</td>
+            <td>Mix belleza + bienestar</td>
+            <td>COP 20.000 millones a COP 100.000 millones; EMIS reporta -30,47% en ventas 2024</td>
+            <td>Jugador mediano con senal local reciente debil.</td>
+            <td><a href="https://empresas.portafolio.co/NU-SKIN-COLOMBIA-INC.html" target="_blank" rel="noreferrer">Portafolio Empresas</a> / <a href="https://www.emis.com/php/company-profile/CO/Nu_Skin_Colombia_Inc_es_3405394.html" target="_blank" rel="noreferrer">EMIS</a></td>
+          </tr>
+          <tr>
+            <td>HLF Colombia (Herbalife)</td>
+            <td>Bienestar, control de peso y suplementacion</td>
+            <td>Mas de COP 100.000 millones</td>
+            <td>Escala local visible superior a Nu Skin.</td>
+            <td><a href="https://empresas.portafolio.co/HLF-COLOMBIA-LTDA.html" target="_blank" rel="noreferrer">Portafolio Empresas</a></td>
+          </tr>
+          <tr>
+            <td>Omnilife de Colombia</td>
+            <td>Bienestar, nutricion y multinivel</td>
+            <td>Mas de COP 100.000 millones</td>
+            <td>Escala local visible superior a Nu Skin y liderazgo historico en suplementos.</td>
+            <td><a href="https://empresas.portafolio.co/OMNILIFE-COLOMBIA-SAS.html" target="_blank" rel="noreferrer">Portafolio Empresas</a> / <a href="https://www.portafolio.co/amp/negocios/los-suplementos-dietarios-mueven-274-300-millones-534598" target="_blank" rel="noreferrer">Portafolio suplementos</a></td>
+          </tr>
+          <tr>
+            <td>Amway Colombia</td>
+            <td>Portafolio mixto, salud y hogar</td>
+            <td>COP 20.000 millones a COP 100.000 millones</td>
+            <td>Comparable de banda similar, aunque con propuesta mas diversificada.</td>
+            <td><a href="https://empresas.portafolio.co/AMWAY-COLOMBIA.html" target="_blank" rel="noreferrer">Portafolio Empresas</a></td>
+          </tr>
+          <tr>
+            <td>Oriflame Colombia</td>
+            <td>Belleza, cuidado personal y venta directa</td>
+            <td>COP 20.000 millones a COP 100.000 millones</td>
+            <td>Comparable cercano por canal y categoria de belleza.</td>
+            <td><a href="https://empresas.portafolio.co/ORIFLAME-COLOMBIA-SA.html" target="_blank" rel="noreferrer">Portafolio Empresas</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>7) Lectura estrategica</h2>
+      <div class="ok">
+        <ul>
+          <li><strong>Nu Skin no parece haber ganado liderazgo de volumen en Colombia.</strong> La evidencia publica la deja por debajo de Omnilife y Herbalife en escala visible.</li>
+          <li><strong>Su mejor espacio competitivo no es pelear por masividad.</strong> La carpeta local sugiere una salida mas defendible: premium, consultiva y con narrativa de evidencia/ritual/dispositivo.</li>
+          <li><strong>La debilidad local de 2024 no invalida una opcion de recuperacion.</strong> El 2025 regional mejora con <span class="pct-pos">+72,3%</span> en Latinoamerica, pero aun falta confirmacion publica pais por pais.</li>
+          <li><strong>Para un sitio como este, la comparacion comercial debe explicarse por lineas.</strong> Un mensaje unico para skincare y suplementos diluye la ventaja; conviene separar promesa de belleza visible y promesa de bienestar medible.</li>
+          <li><strong>Los productos de Nu Skin si influyen en los resultados.</strong> Cuando el portafolio premium convierte y el portafolio recurrente recompra, la empresa mejora margen, retencion y volumen; cuando falla alguno de los dos, la competitividad cae.</li>
+        </ul>
+      </div>
+
+      <div class="info">
+        Si este analisis se quiere llevar a nivel mas riguroso, el siguiente paso correcto es normalizar una base en Excel con tres capas: <strong>sector</strong>, <strong>matriz regional</strong> y <strong>entidades locales comparables</strong>. Sin esa normalizacion, la lectura debe mantenerse como <strong>direccion estrategica</strong>, no como auditoria financiera cerrada.
+      </div>
+    </section>
+
+    <section>
+      <h2>8) Fuentes usadas</h2>
+      <ul class="sources">
+        <li><a href="https://www.emis.com/php/company-profile/CO/Nu_Skin_Colombia_Inc_es_3405394.html" target="_blank" rel="noreferrer">EMIS - Nu Skin Colombia Inc.</a></li>
+        <li><a href="https://www.sec.gov/Archives/edgar/data/1021561/000102156110000024/k10-2009nse.htm" target="_blank" rel="noreferrer">Nu Skin - SEC Form 10-K 2009</a></li>
+        <li><a href="https://www.nuskin.com/en_HK/about/company/the-history.html" target="_blank" rel="noreferrer">Nu Skin - Company History</a></li>
+        <li><a href="https://www.portafolio.co/negocios/empresas/la-venta-directa-y-por-catalogo-gana-terreno-en-colombia-155056" target="_blank" rel="noreferrer">Portafolio - mercado de venta directa en Colombia</a></li>
+        <li><a href="https://www.larepublica.co/archivo/las-ventas-directas-moveran-us2-900-millones-este-ano-en-colombia-2036369" target="_blank" rel="noreferrer">La Republica - ventas directas en 2012</a></li>
+        <li><a href="https://www.larepublica.co/empresas/con-digitalizacion-las-marcas-de-venta-directa-movieron-5-5-billones-en-la-pandemia-3162938" target="_blank" rel="noreferrer">La Republica - canal de venta directa en 2020</a></li>
+        <li><a href="https://www.larepublica.co/empresas/a-cierre-de-2021-tuvimos-2-1-millones-de-personas-dedicadas-a-las-ventas-directas-3331992" target="_blank" rel="noreferrer">La Republica / Acovedi - cierre 2021</a></li>
+        <li><a href="https://acovedi.org.co/sector-de-venta-directa-crecio-8-en-2022-en-colombia-genero-6-billones-de-pesos-en-transacciones/" target="_blank" rel="noreferrer">Acovedi - venta directa 2022</a></li>
+        <li><a href="https://www.portafolio.co/negocios/empresas/sector-de-venta-directa-facturara-unos-us-2-312-este-ano-614990" target="_blank" rel="noreferrer">Portafolio - sector de venta directa 2023/2024</a></li>
+        <li><a href="https://www.portafolio.co/amp/negocios/los-suplementos-dietarios-mueven-274-300-millones-534598" target="_blank" rel="noreferrer">Portafolio - suplementos dietarios y cuotas de mercado</a></li>
+        <li><a href="https://empresas.portafolio.co/NU-SKIN-COLOMBIA-INC.html" target="_blank" rel="noreferrer">Portafolio Empresas - Nu Skin Colombia</a></li>
+        <li><a href="https://empresas.portafolio.co/HLF-COLOMBIA-LTDA.html" target="_blank" rel="noreferrer">Portafolio Empresas - HLF Colombia</a></li>
+        <li><a href="https://empresas.portafolio.co/OMNILIFE-COLOMBIA-SAS.html" target="_blank" rel="noreferrer">Portafolio Empresas - Omnilife de Colombia</a></li>
+        <li><a href="https://empresas.portafolio.co/AMWAY-COLOMBIA.html" target="_blank" rel="noreferrer">Portafolio Empresas - Amway Colombia</a></li>
+        <li><a href="https://empresas.portafolio.co/ORIFLAME-COLOMBIA-SA.html" target="_blank" rel="noreferrer">Portafolio Empresas - Oriflame Colombia</a></li>
+        <li><a href="https://www.sec.gov/Archives/edgar/data/1021561/000114036126005130/ef20060638_10k.htm" target="_blank" rel="noreferrer">Nu Skin - SEC Form 10-K 2025</a></li>
+      </ul>
+    </section>
+
+    <div class="footer">Documento elaborado con fuentes publicas consultadas el 10 de marzo de 2026.</div>
+  </main>
+</body>
+</html>
