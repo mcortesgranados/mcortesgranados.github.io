@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Analisis de precio - Kit de Inicio Prysm</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --ink: #18212f;
+      --muted: #5b6676;
+      --line: #d8e0ec;
+      --blue: #0f4c81;
+      --green: #1f7a4d;
+      --teal: #0d6e74;
+      --amber: #b45309;
+      --soft-blue: #eef5ff;
+      --soft-green: #edf8f0;
+      --soft-amber: #fff7e8;
+      --soft-red: #fff2f2;
+      --red: #b42318;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      line-height: 1.55;
+      background:
+        radial-gradient(circle at top right, rgba(21, 101, 192, 0.12) 0%, transparent 30%),
+        radial-gradient(circle at top left, rgba(46, 125, 50, 0.12) 0%, transparent 24%),
+        var(--bg);
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 26px auto;
+      padding: 24px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #cdd8e8;
+      background: #f7faff;
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .stamp {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--blue);
+      font-size: 2.05rem;
+    }
+
+    h2 {
+      margin: 28px 0 10px;
+      color: var(--green);
+      font-size: 1.32rem;
+      border-bottom: 2px solid #e7edf7;
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      color: var(--teal);
+      font-size: 1.05rem;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      max-width: 980px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .chip {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eef5ff;
+      border: 1px solid #cfdbf4;
+      color: #1f4f86;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    .banner,
+    .note,
+    .warn,
+    .ok {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 12px;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #eef5ff 0%, #edf8f0 100%);
+      border: 1px solid #d7e4ef;
+    }
+
+    .note {
+      background: var(--soft-blue);
+      border-left: 5px solid var(--blue);
+    }
+
+    .warn {
+      background: var(--soft-amber);
+      border-left: 5px solid var(--amber);
+    }
+
+    .ok {
+      background: var(--soft-green);
+      border-left: 5px solid var(--green);
+    }
+
+    .danger {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: var(--soft-red);
+      border-left: 5px solid var(--red);
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .kpi {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .kpi strong {
+      display: block;
+      font-size: 1.34rem;
+      color: var(--teal);
+      margin-bottom: 4px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .card {
+      grid-column: span 6;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .card.full { grid-column: span 12; }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: 1px solid #d4dfef;
+      background: #f7fbff;
+      color: #1f4f86;
+    }
+
+    .tag.green {
+      background: #eef8f1;
+      border-color: #cfe4d4;
+      color: #23673e;
+    }
+
+    .tag.amber {
+      background: #fff7eb;
+      border-color: #eed7ba;
+      color: #9a5800;
+    }
+
+    ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+
+    li { margin-bottom: 6px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f5f8fd;
+      color: #1f3f60;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .money {
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .foot {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: right;
+    }
+
+    @media (max-width: 980px) {
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+      .card { grid-column: span 12; }
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        margin: 10px;
+        padding: 14px;
+      }
+
+      .kpis { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="topbar">
+      <a class="back" href="./index.html">Volver a NU_SKIN</a>
+      <div class="stamp">Actualizado: 12 de marzo de 2026</div>
+    </div>
+
+    <h1>Kit de Inicio Prysm: precio individual vs precio consolidado</h1>
+    <p class="subtitle">
+      Analisis construido sobre la imagen compartida del <strong>Kit de Inicio Prysm</strong> y sobre paginas oficiales de Nu Skin para Estados Unidos.
+      El objetivo aqui no es forzar una suma artificial, sino separar con claridad <strong>precio verificado</strong>, <strong>precio no publicado</strong> y <strong>saldo residual del kit</strong>.
+    </p>
+
+    <div class="chips">
+      <span class="chip">Mercado leido: Estados Unidos</span>
+      <span class="chip">Kit imagen: SKU 01130588</span>
+      <span class="chip">Precio publico del kit: US$850</span>
+      <span class="chip">Precio miembro del kit: US$740</span>
+      <span class="chip">SV 500 / CV 525</span>
+    </div>
+
+    <div class="banner">
+      <strong>Lectura rapida:</strong> con precios publicos oficiales localizados, el subtotal individual verificable de los items claramente identificables llega a
+      <strong>US$641</strong>. Contra el precio consolidado del kit (<strong>US$850</strong>), queda un <strong>saldo residual de US$209</strong> que probablemente absorbe el
+      <strong>Prysm iO</strong> y algunas muestras/accesorios visibles cuyo precio unitario publico no fue localizado de forma confiable.
+    </div>
+
+    <div class="kpis">
+      <div class="kpi">
+        <strong>US$850</strong>
+        precio publico consolidado del kit
+      </div>
+      <div class="kpi">
+        <strong>US$740</strong>
+        precio miembro consolidado del kit
+      </div>
+      <div class="kpi">
+        <strong>US$641</strong>
+        subtotal retail verificable por item
+      </div>
+      <div class="kpi">
+        <strong>US$209</strong>
+        saldo residual no desglosado publicamente
+      </div>
+      <div class="kpi">
+        <strong>SV 500 / CV 525</strong>
+        volumen comercial interno del kit
+      </div>
+    </div>
+
+    <section>
+      <h2>1) Metodologia y limite del comparativo</h2>
+      <div class="note">
+        <ul>
+          <li>La imagen muestra <strong>producto completo + muestras/sobres + accesorios</strong>. Por eso no toda pieza visible se puede sumar como si fuera una caja completa.</li>
+          <li>Solo se suman como precio individual los articulos para los que se encontro <strong>precio oficial publico y enlace oficial</strong>.</li>
+          <li>Cuando el item es visible pero Nu Skin no expone un precio unitario publico localizable, se deja como <strong>no publicado</strong> y se explica aparte.</li>
+          <li>El precio de miembro por item no siempre esta visible en la pagina publica. Cuando existe en la guia oficial, se reporta; cuando no, se deja en blanco para no inventarlo.</li>
+        </ul>
+      </div>
+
+      <div class="warn">
+        <strong>Importante:</strong> este documento sirve para analisis comercial. No reemplaza criterio medico, no debe usarse para prometer resultados clinicos y
+        "no consumirlo" no significa dano automatico: significa perder el soporte o la conveniencia especifica que ese item aporta dentro del protocolo.
+      </div>
+    </section>
+
+    <section>
+      <h2>2) Precio individual vs precio consolidado</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Item visible o deducible del kit</th>
+            <th>Precio retail verificado</th>
+            <th>Precio miembro verificado</th>
+            <th>Estado del dato</th>
+            <th>Comentario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Prysm iO intelligent wellness device</td>
+            <td class="money">No publicado</td>
+            <td class="money">No publicado</td>
+            <td>Dato publico no localizado</td>
+            <td>Nu Skin publica la pagina oficial del dispositivo, pero no un precio unitario publico verificable en las paginas indexadas revisadas.</td>
+          </tr>
+          <tr>
+            <td>S3 Soft Carry Bag</td>
+            <td class="money">US$25.00</td>
+            <td class="money">No publicado</td>
+            <td>Verificado</td>
+            <td>Accesorio de transporte/proteccion para el ecosistema scanner.</td>
+          </tr>
+          <tr>
+            <td>Pharmanex M-Smart</td>
+            <td class="money">US$75.00</td>
+            <td class="money">No publicado</td>
+            <td>Verificado retail</td>
+            <td>Precio hallado en pagina oficial del producto; la guia publica indexada consultada no mostraba el SKU.</td>
+          </tr>
+          <tr>
+            <td>Beauty Focus Collagen+ Powder</td>
+            <td class="money">US$75.00</td>
+            <td class="money">US$60.00</td>
+            <td>Verificado</td>
+            <td>Se toma la presentacion powder porque la imagen muestra el empaque grande y un envase tipo tarro; los sobres visibles se tratan como muestras/variantes.</td>
+          </tr>
+          <tr>
+            <td>ageLOC Youth</td>
+            <td class="money">US$169.00</td>
+            <td class="money">US$136.00</td>
+            <td>Verificado</td>
+            <td>Identificable por el cilindro blanco del lado derecho.</td>
+          </tr>
+          <tr>
+            <td>Nu Biome</td>
+            <td class="money">US$72.00</td>
+            <td class="money">US$57.00</td>
+            <td>Verificado</td>
+            <td>La imagen parece mostrar una unidad de muestra/visual, pero el precio se reporta sobre la unidad comercial oficial.</td>
+          </tr>
+          <tr>
+            <td>LifePak Nano</td>
+            <td class="money">US$225.00</td>
+            <td class="money">No publicado</td>
+            <td>Verificado retail</td>
+            <td>Se encontro precio publico retail en la busqueda oficial de Nu Skin.</td>
+          </tr>
+          <tr>
+            <td>Colostrum Defense / Colostrum visible</td>
+            <td class="money">No publicado</td>
+            <td class="money">No publicado</td>
+            <td>Parcial</td>
+            <td>Se encontro pagina oficial de colostrum en Nu Skin global, pero no un precio unitario US vigente y claro para la pieza visible en la imagen.</td>
+          </tr>
+          <tr>
+            <td><strong>Subtotal individual verificable</strong></td>
+            <td class="money"><strong>US$641.00</strong></td>
+            <td class="money">Parcial</td>
+            <td>Calculado sobre precios oficiales localizados</td>
+            <td>No incluye Prysm iO sin precio publico localizado ni piezas visibles tratadas como muestras.</td>
+          </tr>
+          <tr>
+            <td><strong>Kit de Inicio Prysm (imagen)</strong></td>
+            <td class="money"><strong>US$850.00</strong></td>
+            <td class="money"><strong>US$740.00</strong></td>
+            <td>Dato de la imagen</td>
+            <td>SV 500 / CV 525.</td>
+          </tr>
+          <tr>
+            <td><strong>Saldo residual del kit</strong></td>
+            <td class="money"><strong>US$209.00</strong></td>
+            <td class="money">No reconstruible con precision</td>
+            <td>Inferencia</td>
+            <td>Muy probablemente concentra el valor del Prysm iO y de muestras/accesorios no desglosados publicamente.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="ok">
+        <strong>Conclusion comercial:</strong> el kit no se debe vender como "simple suma de suplementos". Su valor diferencial parece estar en
+        <strong>combinar productos de soporte nutricional con una herramienta de medicion</strong>. Esa capa de medicion es precisamente la que impide reconstruir
+        el valor individual exacto con datos publicos completos.
+      </div>
+    </section>
+
+    <section>
+      <h2>3) Definicion y lectura por item</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Prysm iO</h3>
+          <div class="meta">
+            <span class="tag">Tipo: dispositivo</span>
+            <span class="tag amber">Precio unitario publico: no localizado</span>
+          </div>
+          <p>Dispositivo de bienestar que mide de forma no invasiva los niveles de carotenoides en la piel y convierte esa lectura en un puntaje de seguimiento.</p>
+          <ul>
+            <li><strong>Beneficio principal:</strong> da una referencia medible para hablar de absorcion, habitos y adherencia al protocolo.</li>
+            <li><strong>Valor comercial:</strong> transforma la conversacion desde "creo que me funciona" a "vamos a medir si estoy mejorando".</li>
+            <li><strong>Si no se usa:</strong> no se pierde nutricion, pero si se pierde la herramienta de validacion, seguimiento y diferenciacion comercial del kit.</li>
+          </ul>
+          <p class="small">Link oficial: <a href="https://www.nuskin.com/us/en/site/product/meet-prysm-io-the-future-of-measurable-nutritional-wellness" target="_blank" rel="noopener noreferrer">Nu Skin - Prysm iO</a></p>
+        </article>
+
+        <article class="card">
+          <h3>S3 Soft Carry Bag</h3>
+          <div class="meta">
+            <span class="tag">Tipo: accesorio</span>
+            <span class="tag green">Retail verificado: US$25.00</span>
+          </div>
+          <p>Accesorio de transporte para proteger y mover el ecosistema del scanner entre citas, demostraciones o trabajo de campo.</p>
+          <ul>
+            <li><strong>Beneficio principal:</strong> portabilidad y proteccion del equipo.</li>
+            <li><strong>Impacto de no usarlo:</strong> mayor friccion operativa y mas riesgo de desgaste o traslado incomodo; no tiene impacto nutricional.</li>
+          </ul>
+          <p class="small">Link oficial: <a href="https://www.nuskin.com/us/es/product/s3-scanner-soft-carry-bag?variant=90026271" target="_blank" rel="noopener noreferrer">Nu Skin - S3 Soft Carry Bag</a></p>
+        </article>
+
+        <article class="card">
+          <h3>Pharmanex M-Smart</h3>
+          <div class="meta">
+            <span class="tag">Tipo: suplemento</span>
+            <span class="tag green">Retail verificado: US$75.00</span>
+          </div>
+          <p>Mezcla en sobres orientada a apoyar una respuesta saludable a comidas con carbohidratos y a sostener energia mas estable despues de comer.</p>
+          <ul>
+            <li><strong>Beneficios reportados por Nu Skin:</strong> soporte a la respuesta saludable a carbohidratos, energia mas balanceada y ayuda para digestion/saciedad.</li>
+            <li><strong>Si no se consume:</strong> se pierde ese soporte puntual alrededor de comidas ricas en carbohidratos; no implica por si solo un deterioro metabolico si la dieta ya esta bien controlada.</li>
+          </ul>
+          <p class="small">Link oficial: <a href="https://www.nuskin.com/us/vi/product/pharmanex-m-smart?categoryId=all_products" target="_blank" rel="noopener noreferrer">Nu Skin - Pharmanex M-Smart</a></p>
+        </article>
+
+        <article class="card">
+          <h3>Beauty Focus Collagen+ Powder</h3>
+          <div class="meta">
+            <span class="tag">Tipo: suplemento</span>
+            <span class="tag green">Retail: US$75.00</span>
+            <span class="tag green">Miembro: US$60.00</span>
+          </div>
+          <p>Colageno en polvo orientado a belleza desde adentro, usado como apoyo para hidratacion, elasticidad y apariencia general de la piel.</p>
+          <ul>
+            <li><strong>Beneficios reportados por Nu Skin:</strong> soporte cosmetico para la piel y parte de la narrativa de belleza interna del sistema Prysm.</li>
+            <li><strong>Si no se consume:</strong> se pierde ese componente de soporte a piel; no significa que la piel empeore automaticamente si ya existe una dieta y rutina bien cubiertas.</li>
+          </ul>
+          <p class="small">Link oficial del producto/familia: <a href="https://www.nuskin.com/us/es/product/beauty-focus-collagen?variant=beauty-focus-collagen-plus-strawberry" target="_blank" rel="noopener noreferrer">Nu Skin - Beauty Focus Collagen+</a></p>
+          <p class="small">Fuente oficial de precio: <a href="https://api.nuskin.com/content/dam/office/n_america/US/en/business_materials/us-member-with-sharing-bonus-price-guide.pdf" target="_blank" rel="noopener noreferrer">Nu Skin US Price Guide</a></p>
+        </article>
+
+        <article class="card">
+          <h3>ageLOC Youth</h3>
+          <div class="meta">
+            <span class="tag">Tipo: suplemento</span>
+            <span class="tag green">Retail: US$169.00</span>
+            <span class="tag green">Miembro: US$136.00</span>
+          </div>
+          <p>Suplemento premium de la linea ageLOC, posicionado por Nu Skin como apoyo de amplio espectro para mecanismos de defensa relacionados con el envejecimiento.</p>
+          <ul>
+            <li><strong>Beneficios reportados por Nu Skin:</strong> apoyo a un envejecimiento mas saludable, energia y actividad sostenida dentro del concepto de "youthspan".</li>
+            <li><strong>Si no se consume:</strong> se pierde el componente premium de soporte anti-aging del kit; no tomarlo no equivale a acelerar el envejecimiento de manera demostrada para una persona especifica.</li>
+          </ul>
+          <p class="small">Link oficial: <a href="https://www.nuskin.com/us/es/product/ageloc-youth" target="_blank" rel="noopener noreferrer">Nu Skin - ageLOC Youth</a></p>
+        </article>
+
+        <article class="card">
+          <h3>Nu Biome</h3>
+          <div class="meta">
+            <span class="tag">Tipo: suplemento</span>
+            <span class="tag green">Retail: US$72.00</span>
+            <span class="tag green">Miembro: US$57.00</span>
+          </div>
+          <p>Producto de soporte intestinal con una formula de pre y postbioticos, orientado a microbioma, digestion y red antioxidante.</p>
+          <ul>
+            <li><strong>Beneficios reportados por Nu Skin:</strong> apoyo a flora intestinal beneficiosa, digestion saludable y red antioxidante; hay version con y sin cafeina.</li>
+            <li><strong>Si no se consume:</strong> se pierde el angulo de salud intestinal del kit; no implica por si mismo que aparecera malestar digestivo si ya existe buen soporte alimentario.</li>
+          </ul>
+          <p class="small">Link oficial: <a href="https://www.nuskin.com/us/en/product/pharmanex-nu-biome?variant=nu-biome-caffeine-free" target="_blank" rel="noopener noreferrer">Nu Skin - Nu Biome</a></p>
+        </article>
+
+        <article class="card">
+          <h3>LifePak Nano</h3>
+          <div class="meta">
+            <span class="tag">Tipo: suplemento</span>
+            <span class="tag green">Retail verificado: US$225.00</span>
+            <span class="tag amber">Miembro unitario: no localizado</span>
+          </div>
+          <p>Multivitaminico anti-aging de alto ticket dentro de Pharmanex, posicionado como soporte avanzado de la red antioxidante y como uno de los anclajes fuertes del ecosistema Prysm.</p>
+          <ul>
+            <li><strong>Beneficios reportados por Nu Skin:</strong> formula antioxidante avanzada y uno de los productos mas coherentes con la narrativa de carotenoides y score.</li>
+            <li><strong>Si no se consume:</strong> se pierde el producto de mayor peso nutricional y de mayor ticket dentro del kit; no significa necesariamente deficiencia si existe una suplementacion equivalente por otra via.</li>
+          </ul>
+          <p class="small">Link oficial: <a href="https://www.nuskin.com/us/en/product/lifepak-nano" target="_blank" rel="noopener noreferrer">Nu Skin - LifePak Nano</a></p>
+        </article>
+
+        <article class="card">
+          <h3>Colostrum visible en la imagen</h3>
+          <div class="meta">
+            <span class="tag">Tipo: suplemento / muestra visible</span>
+            <span class="tag amber">Precio US unitario: no localizado</span>
+          </div>
+          <p>La pieza verde visible parece corresponder a una variante de colostrum o a un material de muestra. Nu Skin si mantiene paginas oficiales de colostrum en otros mercados, pero no se encontro un precio US claro y vigente para esta pieza exacta.</p>
+          <ul>
+            <li><strong>Beneficio reportado por la marca en paginas oficiales globales:</strong> apoyo inmunologico mediante fracciones bioactivas de colostrum.</li>
+            <li><strong>Si no se consume:</strong> se pierde ese soporte puntual de inmunidad; no implica automaticamente menor defensa si la persona ya cubre ese frente por otras vias.</li>
+          </ul>
+          <p class="small">Link oficial global: <a href="https://www.nuskin.com/content/products/37/00/35/37003535/en.html" target="_blank" rel="noopener noreferrer">Nu Skin - Pharmanex Colostrum</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>4) Items visibles que no conviene sumar como cajas completas</h2>
+      <div class="grid">
+        <article class="card full">
+          <ul>
+            <li>Se observan sobres de <strong>Beauty Focus Collagen+</strong>. Como la imagen no prueba que sean cajas completas adicionales, no se les asigna otro US$120 por variante.</li>
+            <li>Se observa una pieza pequena de <strong>M-Smart</strong> y otra de <strong>Nu Biome</strong>, pero visualmente parecen sobres o muestras; el subtotal ya toma la unidad comercial del producto base, no un duplicado.</li>
+            <li>La imagen incluye al menos un accesorio de transporte y el dispositivo <strong>Prysm iO</strong>, cuyo precio unitario publico no fue localizado en las paginas oficiales indexadas revisadas.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>5) Definicion practica de SV y CV</h2>
+      <div class="note">
+        <ul>
+          <li><strong>SV:</strong> indicador interno de volumen comercial usado por Nu Skin para seguimiento del negocio.</li>
+          <li><strong>CV:</strong> valor comisionable interno que Nu Skin usa para calculos del plan comercial.</li>
+          <li>En este kit la imagen reporta <strong>SV 500</strong> y <strong>CV 525</strong>, lo que confirma que el paquete fue pensado mas como herramienta de activacion comercial que como simple compra minorista suelta.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>6) Conclusion final</h2>
+      <div class="danger">
+        <strong>La comparacion correcta no es "suplementos sueltos vs caja bonita".</strong> El Kit de Inicio Prysm parece estructurado para vender
+        <strong>medicion + narrativa de evidencia + suplementos de soporte</strong>. Comercialmente, el kit cobra sentido si el dispositivo se usa para demostrar valor.
+        Si el Prysm iO no se activa en campo, el paquete pierde una parte importante de su logica economica.
+      </div>
+    </section>
+
+    <div class="foot">Fuentes oficiales usadas: paginas de producto Nu Skin, pagina oficial Prysm iO y US Price Guide oficial indexado hasta marzo de 2026.</div>
+  </main>
+</body>
+</html>
