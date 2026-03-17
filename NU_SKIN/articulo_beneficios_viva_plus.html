@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VIVA+ - Beneficios para nuevos Afiliados de Marca</title>
+  <style>
+    :root {
+      --bg: #151718;
+      --panel: #0f8a89;
+      --panel-dark: #0a6c6b;
+      --card: #ffffff;
+      --ink: #1d2939;
+      --muted: #5f6c7b;
+      --line: #d8e3ea;
+      --gold: #f2b94b;
+      --soft: #eef7f7;
+      --soft-gold: #fff7e7;
+      --soft-blue: #eef5ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      line-height: 1.55;
+      background:
+        radial-gradient(circle at top left, rgba(15, 138, 137, 0.20), transparent 26%),
+        linear-gradient(180deg, #111315 0%, #1a1d20 100%);
+    }
+
+    .container {
+      max-width: 1160px;
+      margin: 28px auto;
+      padding: 24px;
+      border-radius: 22px;
+      background: #fbfcfd;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #c9d8df;
+      background: #f6fbfb;
+      color: #0d5f6b;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .stamp {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      border-radius: 24px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02)),
+        linear-gradient(135deg, var(--panel) 0%, #0e7f80 62%, var(--panel-dark) 100%);
+      color: #fff;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto auto;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 68%);
+      transform: translate(20%, -18%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    h1 {
+      margin: 16px 0 10px;
+      font-size: 2.4rem;
+      line-height: 1.04;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 720px;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 1.05rem;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .chip {
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .hero-card {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-card strong {
+      display: block;
+      font-size: 1.42rem;
+      margin-bottom: 4px;
+    }
+
+    .hero-card span {
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.95rem;
+    }
+
+    h2 {
+      margin: 30px 0 12px;
+      color: #0d5f6b;
+      font-size: 1.35rem;
+      border-bottom: 2px solid #e2ecef;
+      padding-bottom: 8px;
+    }
+
+    p { margin: 0; }
+
+    .note,
+    .warn,
+    .soft-card {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 16px;
+    }
+
+    .note {
+      background: var(--soft-blue);
+      border-left: 5px solid #1f67c1;
+    }
+
+    .warn {
+      background: var(--soft-gold);
+      border-left: 5px solid var(--gold);
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .kpi {
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+    }
+
+    .kpi strong {
+      display: block;
+      color: #0d5f6b;
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .card {
+      grid-column: span 6;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.05);
+    }
+
+    .card.full { grid-column: span 12; }
+
+    .level {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eaf8f7;
+      color: #0d5f6b;
+      font-weight: 800;
+      font-size: 0.84rem;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      color: #135965;
+      font-size: 1.08rem;
+    }
+
+    ul {
+      margin: 10px 0 0 18px;
+      padding: 0;
+    }
+
+    li { margin-bottom: 6px; }
+
+    .small {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .footer {
+      margin-top: 22px;
+      text-align: right;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .kpis { grid-template-columns: 1fr; }
+      .card { grid-column: span 12; }
+    }
+
+    @media (max-width: 640px) {
+      .container { margin: 10px; padding: 14px; }
+      .hero { padding: 20px; }
+      h1 { font-size: 1.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="topbar">
+      <a class="back" href="./index.html">← Volver al índice NU_SKIN</a>
+      <span class="stamp">Artículo generado: 2026-03-17</span>
+    </div>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">🚀 Programa VIVA+ para Latinoamérica</span>
+          <h1>Beneficios para nuevos Afiliados de Marca</h1>
+          <p class="subtitle">Resumen editorial basado en la pieza visual compartida: beneficios de entrada, ruta por niveles e incentivos visibles durante los primeros 4 meses calendario.</p>
+          <div class="chips">
+            <span class="chip">📦 30% descuento general</span>
+            <span class="chip">💎 70% en seleccionados</span>
+            <span class="chip">🎁 regalos por niveles</span>
+            <span class="chip">💵 bono extra de USD 500</span>
+          </div>
+        </div>
+        <div class="hero-side">
+          <div class="hero-card">
+            <strong>4 meses</strong>
+            <span>Ventana promocional inicial para nuevos Afiliados de Marca.</span>
+          </div>
+          <div class="hero-card">
+            <strong>Hasta USD 1,144</strong>
+            <span>Valor equivalente mostrado en la pieza para regalos de Nivel I, II y III.</span>
+          </div>
+          <div class="hero-card">
+            <strong>Meta final: Nivel 4</strong>
+            <span>Convertirse en Representante de Marca y alcanzar 2000 GSV.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="warn">
+      <strong>Importante:</strong> este artículo resume texto visible en la imagen. Antes de usarlo comercialmente, conviene validar términos oficiales, elegibilidad por país, definiciones de DSCV/GSV y vigencia exacta del incentivo.
+    </div>
+
+    <section>
+      <h2>1) Beneficios visibles en la pieza</h2>
+      <div class="kpis">
+        <article class="kpi">
+          <strong>30%</strong>
+          <span>Descuento en productos, según el arte promocional.</span>
+        </article>
+        <article class="kpi">
+          <strong>70%</strong>
+          <span>Descuento en productos seleccionados.</span>
+        </article>
+        <article class="kpi">
+          <strong>USD 100</strong>
+          <span>Regalos por compras en suscripción de 3 meses, según la pieza.</span>
+        </article>
+        <article class="kpi">
+          <strong>USD 500</strong>
+          <span>Bono adicional si se mantiene la suscripción de 500 puntos en 2 meses.</span>
+        </article>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Lo que la pieza comunica</h3>
+          <ul>
+            <li>Garantía y apalancamiento como mensaje de entrada.</li>
+            <li>Bono de venta y bono por compartir.</li>
+            <li>Regalos vinculados al avance por niveles.</li>
+            <li>Apoyo visual para explicar una ruta de arranque, no solo descuentos.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Cómo leerlo estratégicamente</h3>
+          <ul>
+            <li>La propuesta mezcla ahorro inmediato, incentivos por activación y metas comerciales.</li>
+            <li>El objetivo no parece ser solo comprar, sino mover volumen con clientes activos directos.</li>
+            <li>La pieza da argumentos de arranque rápido para conversación comercial y seguimiento.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>2) Ruta por niveles mostrada en VIVA+</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="level">Nivel 1</div>
+          <h3>Logra 500 DSCV con 3 clientes activos y directos</h3>
+          <p>Primer escalón de activación. La imagen sugiere que aquí comienza la ruta de premios visibles y la validación de tracción inicial.</p>
+        </article>
+        <article class="card">
+          <div class="level">Nivel 2</div>
+          <h3>Logra 1000 DCSV con 6 clientes activos y directos</h3>
+          <p>Segundo avance del programa. El mensaje comercial es claro: duplicar volumen y ampliar la base activa de clientes para desbloquear un premio mayor.</p>
+        </article>
+        <article class="card">
+          <div class="level">Nivel 3</div>
+          <h3>Logra 2000 DCSV con 9 clientes activos y directos</h3>
+          <p>Tercer escalón con enfoque en aceleración. La pieza visual muestra un premio adicional, reforzando la narrativa de crecimiento sostenido.</p>
+        </article>
+        <article class="card">
+          <div class="level">Nivel 4</div>
+          <h3>Conviértete en Representante de Marca y logra 2000 GSV</h3>
+          <p>La fase final cambia el discurso: ya no es solo un regalo, sino el paso hacia una posición comercial superior dentro del modelo.</p>
+        </article>
+      </div>
+      <p class="small">Nota: la imagen usa las siglas DSCV/DCSV y GSV. Conviene verificar en el material oficial cuál es la nomenclatura exacta aplicable al mercado local.</p>
+    </section>
+
+    <section>
+      <h2>3) Incentivos acumulados destacados</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>🎁 Regalos de Nivel I, II y III</h3>
+          <p>La pieza indica regalos por cada etapa y resume un valor total equivalente a <strong>$4.224.000 COP</strong> o <strong>USD 1,144</strong>. Ese dato sirve como ancla visual fuerte para explicar el atractivo del programa.</p>
+        </article>
+        <article class="card">
+          <h3>💵 Bono adicional de USD 500</h3>
+          <p>La pieza menciona un bono de <strong>USD 500</strong> asociado a una condición concreta: mantener en 2 meses un producto de suscripción de 500 puntos de Hogares Saludables.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>4) Mensaje comercial sugerido</h2>
+      <div class="note">
+        <p><strong>Idea central:</strong> VIVA+ no se presenta solo como una promo de descuento. La pieza lo comunica como un programa de arranque acelerado con ahorro, regalos, metas de activación y un posible bono adicional.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <h3>Para una conversación breve</h3>
+          <ul>
+            <li>“Empiezas con descuentos relevantes desde el primer mes”.</li>
+            <li>“Si activas clientes directos, avanzas por niveles y desbloqueas premios”.</li>
+            <li>“La meta no es comprar por comprar, sino arrancar con estructura y seguimiento”.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Para una explicación más estratégica</h3>
+          <ul>
+            <li>Habla del programa como una ruta de onboarding de 4 meses.</li>
+            <li>Explica que el volumen y los clientes activos directos son el eje de avance.</li>
+            <li>Usa los premios como apoyo visual, no como única promesa del negocio.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>5) Aclaraciones que conviene dejar por escrito</h2>
+      <div class="soft-card" style="background: var(--soft); border: 1px solid #d4e9e7;">
+        <ul>
+          <li>Los montos, regalos y condiciones aquí descritos provienen de la pieza visual compartida.</li>
+          <li>Debe confirmarse vigencia, mercado, stock, reglas de elegibilidad y definiciones internas del plan.</li>
+          <li>Este artículo no constituye promesa de ingresos ni reemplaza documentación oficial del programa.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="footer">Resumen editorial para NU_SKIN · Basado en la imagen suministrada por el usuario</div>
+  </main>
+</body>
+</html>
