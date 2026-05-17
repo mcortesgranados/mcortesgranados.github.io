@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fase 6 Costeo Aterrizado | Kawaii Bogotá Lab</title>
+    <meta
+      name="description"
+      content="Fase 6 para calcular costo aterrizado de papelería kawaii: producto, flete, arancel, IVA, DIAN, empaque, pauta, comisiones, devoluciones y precio mínimo rentable."
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="ack-page phase-page">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header class="site-header" data-header>
+      <nav class="nav-shell" aria-label="Navegación principal">
+        <a class="brand" href="index.html#inicio" aria-label="Ir al inicio">
+          <span class="brand-mark" aria-hidden="true">K</span>
+          <span>Kawaii Bogotá Lab</span>
+        </a>
+
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">
+          <span class="menu-bars" aria-hidden="true"></span>
+          <span class="sr-only">Abrir menú</span>
+        </button>
+
+        <div class="nav-links" id="site-menu">
+          <a href="fase-0-definicion-estrategica.html">Fase 0</a>
+          <a href="fase-1-formalizacion-riesgo-legal.html">Fase 1</a>
+          <a href="fase-2-investigacion-competitiva.html">Fase 2</a>
+          <a href="fase-3-validacion-cliente.html">Fase 3</a>
+          <a href="fase-4-seleccion-surtido-piloto.html">Fase 4</a>
+          <a href="fase-5-proveedores-muestras.html">Fase 5</a>
+          <a class="is-active" href="fase-6-costeo-aterrizado.html">Fase 6</a>
+          <a href="fase-7-importacion-piloto.html">Fase 7</a>
+          <a href="fase-8-lanzamiento-comercial.html">Fase 8</a>
+          <a href="fase-9-iteracion-reorden.html">Fase 9</a>
+          <a href="fase-10-escalamiento.html">Fase 10</a>
+          <a href="index.html#dofa">DOFA</a>
+          <a href="index.html#metodo">Método</a>
+          <a href="categorias.html">Catálogo</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="contenido">
+      <section class="phase-hero">
+        <div>
+          <p class="eyebrow">Fase 6</p>
+          <h1>Costeo aterrizado</h1>
+          <p>
+            Esta fase responde la pregunta que decide si el piloto vive o se come la caja: cuál es el costo real por unidad después de producto, flete, seguro, arancel, IVA, DIAN, agente, transporte, empaque, pauta, comisiones, devoluciones y margen mínimo.
+          </p>
+        </div>
+        <aside>
+          <span aria-hidden="true">🧮</span>
+          <h2>Decisión de salida</h2>
+          <p>Avanzar solo si cada SKU tiene costo aterrizado, precio mínimo rentable, margen de seguridad y sensibilidad ante TRM, flete, comisión y devoluciones.</p>
+        </aside>
+      </section>
+
+      <section class="phase-section phase-definition-section">
+        <div class="method-heading">
+          <span>00</span>
+          <div>
+            <h2>Reglas del costeo</h2>
+            <p>El error no está en comprar caro; está en vender con un precio que no paga todos los costos invisibles.</p>
+          </div>
+        </div>
+
+        <div class="phase-definition-grid phase-legal-grid">
+          <article>
+            <span aria-hidden="true">🏷️</span>
+            <small>Producto</small>
+            <p>Precio del proveedor por unidad, set o caja. Debe distinguir EXW, FOB, muestra, empaque y personalización.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🚢</span>
+            <small>Flete y seguro</small>
+            <p>Sumar transporte internacional, seguro, manejo, consolidación y cualquier recargo hasta llegada a Colombia.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🛃</span>
+            <small>Base aduanera</small>
+            <p>El valor en aduana parte del valor de la mercancía y costos hasta el lugar de importación, según valoración aduanera.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">📄</span>
+            <small>Arancel</small>
+            <p>Depende de la subpartida arancelaria. No asumir tarifa única para toda la papelería; confirmar por producto.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🧾</span>
+            <small>IVA importación</small>
+            <p>Como regla general, los bienes gravados aplican IVA; la tarifa general es 19%, salvo excepciones o tarifas diferenciales.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🏢</span>
+            <small>DIAN y agente</small>
+            <p>Incluir nacionalización, agencia aduanera, bodegaje, documentos, inspecciones, Courier o intermediación.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🎀</span>
+            <small>Venta</small>
+            <p>Sumar empaque local, tarjeta, sticker regalo, pauta, descuentos, comisión de marketplace y pasarela de pago.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">↩️</span>
+            <small>Devoluciones</small>
+            <p>Reservar un porcentaje por garantías, rotos, cambios, inventario frío y descuentos para liquidar productos lentos.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="phase-section">
+        <div class="method-heading">
+          <span>01</span>
+          <div>
+            <h2>Fórmula de costo aterrizado</h2>
+            <p>La lógica debe estar por SKU. Una agenda, un sticker y una lámpara no absorben flete, riesgo y comisión igual.</p>
+          </div>
+        </div>
+
+        <div class="method-table-wrap">
+          <table class="method-table">
+            <thead>
+              <tr>
+                <th>Paso</th>
+                <th>Fórmula</th>
+                <th>Qué incluye</th>
+                <th>Decisión</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Paso">1. Producto COP</td>
+                <td data-label="Fórmula">Precio USD x TRM x unidades</td>
+                <td data-label="Incluye">Costo proveedor, set, empaque de fábrica y personalización si aplica.</td>
+                <td data-label="Decisión">No mezclar muestra con precio de lote.</td>
+              </tr>
+              <tr>
+                <td data-label="Paso">2. Valor aduanero</td>
+                <td data-label="Fórmula">Producto + flete + seguro hasta importación</td>
+                <td data-label="Incluye">Base para liquidar derechos de aduana cuando corresponda.</td>
+                <td data-label="Decisión">Asignar flete por peso, volumen o valor según tipo de SKU.</td>
+              </tr>
+              <tr>
+                <td data-label="Paso">3. Arancel</td>
+                <td data-label="Fórmula">Valor aduanero x % arancel</td>
+                <td data-label="Incluye">Gravamen según subpartida arancelaria y norma vigente.</td>
+                <td data-label="Decisión">Confirmar subpartida antes de importar.</td>
+              </tr>
+              <tr>
+                <td data-label="Paso">4. IVA importación</td>
+                <td data-label="Fórmula">(Valor aduanero + arancel) x % IVA</td>
+                <td data-label="Incluye">IVA causado al nacionalizar si el bien está gravado.</td>
+                <td data-label="Decisión">Separar caja requerida de costo si el IVA será descontable.</td>
+              </tr>
+              <tr>
+                <td data-label="Paso">5. Gastos locales</td>
+                <td data-label="Fórmula">Agente + DIAN + bodegaje + transporte local</td>
+                <td data-label="Incluye">Costos fijos que deben prorratearse entre unidades.</td>
+                <td data-label="Decisión">No dejar gastos fijos fuera del SKU barato.</td>
+              </tr>
+              <tr>
+                <td data-label="Paso">6. Costo comercial</td>
+                <td data-label="Fórmula">Costo aterrizado + empaque + pauta por unidad</td>
+                <td data-label="Incluye">Costo de dejar el producto listo para vender y adquirir cliente.</td>
+                <td data-label="Decisión">Si no cabe empaque y pauta, el precio está incompleto.</td>
+              </tr>
+              <tr>
+                <td data-label="Paso">7. Precio mínimo</td>
+                <td data-label="Fórmula">Costo comercial / (1 - comisión - devoluciones - margen)</td>
+                <td data-label="Incluye">Marketplace, pasarela, garantías, devoluciones y utilidad mínima.</td>
+                <td data-label="Decisión">Si supera precio de mercado, ajustar SKU o no comprar.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="phase-section">
+        <div class="method-heading">
+          <span>02</span>
+          <div>
+            <h2>Calculadora de precio mínimo rentable</h2>
+            <p>Modelo editable para simular un SKU. Usar TRM, arancel, IVA y comisiones reales al momento de comprar.</p>
+          </div>
+        </div>
+
+        <article class="calculator-card">
+          <form class="calculator" data-phase6-calculator>
+            <label>
+              Unidades del lote
+              <input type="number" name="units" min="1" step="1" value="300">
+            </label>
+            <label>
+              TRM usada
+              <input type="number" name="exchangeRate" min="0" step="1" value="4000">
+            </label>
+            <label>
+              Producto USD por unidad
+              <input type="number" name="productUsd" min="0" step="0.01" value="1.2">
+            </label>
+            <label>
+              Flete internacional USD total
+              <input type="number" name="freightUsd" min="0" step="0.01" value="120">
+            </label>
+            <label>
+              Seguro USD total
+              <input type="number" name="insuranceUsd" min="0" step="0.01" value="10">
+            </label>
+            <label>
+              Arancel estimado %
+              <input type="number" name="dutyRate" min="0" max="60" step="0.1" value="10">
+            </label>
+            <label>
+              IVA importación %
+              <input type="number" name="vatRate" min="0" max="35" step="0.1" value="19">
+            </label>
+            <label>
+              Agente / DIAN / bodegaje COP total
+              <input type="number" name="brokerCop" min="0" step="1000" value="350000">
+            </label>
+            <label>
+              Transporte local COP total
+              <input type="number" name="localTransportCop" min="0" step="1000" value="120000">
+            </label>
+            <label>
+              Empaque local COP por unidad
+              <input type="number" name="packagingCop" min="0" step="100" value="900">
+            </label>
+            <label>
+              Pauta / contenido COP por unidad
+              <input type="number" name="adsCop" min="0" step="100" value="1200">
+            </label>
+            <label>
+              Comisión canal %
+              <input type="number" name="commissionRate" min="0" max="60" step="0.1" value="12">
+            </label>
+            <label>
+              Reserva devoluciones %
+              <input type="number" name="returnsRate" min="0" max="40" step="0.1" value="4">
+            </label>
+            <label>
+              Margen mínimo %
+              <input type="number" name="targetMargin" min="0" max="80" step="0.1" value="35">
+            </label>
+            <label>
+              IVA importación descontable
+              <input type="checkbox" name="vatRecoverable">
+            </label>
+          </form>
+
+          <div class="calc-result" aria-live="polite">
+            <span>Precio mínimo rentable</span>
+            <strong data-phase6-price>$0</strong>
+            <small data-phase6-alert>Calculando estructura de costos...</small>
+          </div>
+
+          <div class="phase-decision-grid">
+            <article>
+              <span aria-hidden="true">📦</span>
+              <h3>Costo aterrizado unitario</h3>
+              <p><strong data-phase6-landed>$0</strong></p>
+            </article>
+            <article>
+              <span aria-hidden="true">💵</span>
+              <h3>Caja requerida importación</h3>
+              <p><strong data-phase6-cash>$0</strong><br><small data-phase6-cash-unit>Caja por unidad: $0</small></p>
+            </article>
+            <article>
+              <span aria-hidden="true">🛃</span>
+              <h3>Arancel e IVA</h3>
+              <p>Arancel: <strong data-phase6-duty>$0</strong><br>IVA: <strong data-phase6-vat>$0</strong></p>
+            </article>
+            <article>
+              <span aria-hidden="true">🎯</span>
+              <h3>Costo comercial</h3>
+              <p><strong data-phase6-commercial-cost>$0</strong><br>Variable: <strong data-phase6-variable>0%</strong></p>
+            </article>
+            <article>
+              <span aria-hidden="true">🏪</span>
+              <h3>Comisión y devoluciones</h3>
+              <p>Comisión: <strong data-phase6-commission>$0</strong><br>Reserva: <strong data-phase6-returns>$0</strong></p>
+            </article>
+            <article>
+              <span aria-hidden="true">💰</span>
+              <h3>Utilidad mínima por unidad</h3>
+              <p><strong data-phase6-profit>$0</strong></p>
+            </article>
+          </div>
+        </article>
+      </section>
+
+      <section class="phase-section">
+        <div class="method-heading">
+          <span>03</span>
+          <div>
+            <h2>Costos ocultos por canal</h2>
+            <p>Un mismo producto puede ser rentable en WhatsApp y perder margen en marketplace si no se modela la comisión.</p>
+          </div>
+        </div>
+
+        <div class="method-table-wrap">
+          <table class="method-table">
+            <thead>
+              <tr>
+                <th>Canal</th>
+                <th>Costos a incluir</th>
+                <th>Riesgo</th>
+                <th>Regla de precio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Canal">WhatsApp / Instagram</td>
+                <td data-label="Costos">Empaque, pasarela, transferencia, pauta, mensajería, tiempo de atención.</td>
+                <td data-label="Riesgo">Costos de atención invisibles y descuentos manuales.</td>
+                <td data-label="Regla">Precio base puede ser más competitivo, pero no regalar envío sin calcular.</td>
+              </tr>
+              <tr>
+                <td data-label="Canal">TikTok / Reels</td>
+                <td data-label="Costos">Producción de contenido, muestras, pauta, influencer, descuento viral.</td>
+                <td data-label="Riesgo">Viralizar producto con margen insuficiente.</td>
+                <td data-label="Regla">Cada combo viral debe tener margen después de promoción.</td>
+              </tr>
+              <tr>
+                <td data-label="Canal">Mercado Libre</td>
+                <td data-label="Costos">Comisión, envío, ads internos, devoluciones, reputación y descuentos.</td>
+                <td data-label="Riesgo">Competir contra vendedores de bajo margen.</td>
+                <td data-label="Regla">Subir precio o vender packs para diluir comisión y flete.</td>
+              </tr>
+              <tr>
+                <td data-label="Canal">Pop-up / feria</td>
+                <td data-label="Costos">Stand, transporte, mobiliario, datáfono, inventario exhibido, merma.</td>
+                <td data-label="Riesgo">Vender mucho pero absorber stand sin medir utilidad.</td>
+                <td data-label="Regla">Definir venta mínima por día para cubrir el evento.</td>
+              </tr>
+              <tr>
+                <td data-label="Canal">Tienda propia</td>
+                <td data-label="Costos">Shopify/Tienda nube, dominio, pasarela, apps, fotos, soporte, pauta.</td>
+                <td data-label="Riesgo">Tráfico bajo sin pauta o contenido constante.</td>
+                <td data-label="Regla">Precio debe cubrir adquisición de cliente, no solo producto.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="phase-section">
+        <div class="method-heading">
+          <span>04</span>
+          <div>
+            <h2>Política de margen por categoría</h2>
+            <p>El margen no debe ser igual para todos los SKUs. Lo barato y viral debe pagar errores; lo pesado debe ser más selectivo.</p>
+          </div>
+        </div>
+
+        <div class="phase-decision-grid">
+          <article>
+            <span aria-hidden="true">🌸</span>
+            <h3>Stickers, clips y add-ons</h3>
+            <p>Margen bruto meta: 60%-75%. Deben compensar descuentos, regalos y promociones de combos.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🖊️</span>
+            <h3>Lapiceros y resaltadores</h3>
+            <p>Margen bruto meta: 50%-65%. Alta rotación, pero exigir prueba de calidad para evitar devoluciones.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">📓</span>
+            <h3>Agendas y cuadernos</h3>
+            <p>Margen bruto meta: 40%-58%. Cuidar peso, temporada, idioma, daño en transporte y ticket final.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🗂️</span>
+            <h3>Organizadores y setup</h3>
+            <p>Margen bruto meta: 35%-55%. Solo entran si el flete no elimina la utilidad y el producto se ve premium.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🎁</span>
+            <h3>Kits y cajas</h3>
+            <p>Margen bruto meta: 50%-65%. El margen nace de curaduría, empaque y combinación, no de cada pieza suelta.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">💡</span>
+            <h3>Eléctricos y frágiles</h3>
+            <p>Margen bruto meta: 45%-65% o no comprar. Deben cubrir garantía, rotura, soporte y devoluciones.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="phase-section">
+        <div class="method-heading">
+          <span>05</span>
+          <div>
+            <h2>Pruebas de sensibilidad</h2>
+            <p>Antes de comprar, el SKU debe sobrevivir escenarios incómodos. Si cualquier cambio pequeño destruye el margen, el producto es frágil.</p>
+          </div>
+        </div>
+
+        <div class="phase-definition-grid phase-legal-grid">
+          <article>
+            <span aria-hidden="true">💱</span>
+            <small>TRM +10%</small>
+            <p>Recalcular precio si el dólar sube antes del pago final. Dejar colchón si la cotización no está cubierta.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🚚</span>
+            <small>Flete +20%</small>
+            <p>Simular recargo por peso volumétrico, temporada alta, consolidación pequeña o cambios de courier.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🏪</span>
+            <small>Comisión +5 pp</small>
+            <p>Probar marketplace, pasarela o pauta más costosa. Si el canal exige descuento, debe estar previsto.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">↩️</span>
+            <small>Devoluciones +3 pp</small>
+            <p>Especialmente en eléctricos, organizadores, agendas golpeadas o productos con variación de color.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🎀</span>
+            <small>Empaque premium</small>
+            <p>Medir cuánto sube el costo si se agrega bolsa, sticker, tarjeta, papel seda o caja de regalo.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🧊</span>
+            <small>Liquidación</small>
+            <p>Simular salida con 20%-30% de descuento. Si no conserva margen, comprar menos unidades.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">📦</span>
+            <small>Merma</small>
+            <p>Reservar unidades dañadas, defectuosas, muestras para contenido y regalos estratégicos.</p>
+          </article>
+          <article>
+            <span aria-hidden="true">🧮</span>
+            <small>Punto de equilibrio</small>
+            <p>Calcular cuántas unidades deben venderse para recuperar importación, pauta inicial y empaque.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="phase-section">
+        <div class="method-heading">
+          <span>06</span>
+          <div>
+            <h2>Brief de costeo por SKU</h2>
+            <p>Este entregable debe completarse para cada SKU A y para cualquier SKU B o C con riesgo de flete, garantía o comisión.</p>
+          </div>
+        </div>
+
+        <form class="phase-brief-grid">
+          <label>
+            SKU y proveedor
+            <textarea rows="4" placeholder="Nombre del SKU, proveedor, Incoterm, cantidad y enlace de cotización."></textarea>
+          </label>
+          <label>
+            Costos de importación
+            <textarea rows="4" placeholder="Producto, flete, seguro, arancel, IVA, DIAN, agente, bodegaje y transporte local."></textarea>
+          </label>
+          <label>
+            Costos de venta
+            <textarea rows="4" placeholder="Empaque, pauta, comisión, pasarela, descuentos, devoluciones y merma."></textarea>
+          </label>
+          <label>
+            Precio mínimo y precio objetivo
+            <textarea rows="4" placeholder="Precio mínimo rentable, precio de mercado, precio objetivo y margen esperado."></textarea>
+          </label>
+          <label>
+            Riesgo de sensibilidad
+            <input type="text" placeholder="Ej. TRM +10% obliga subir precio a $24.900 o reducir pauta.">
+          </label>
+          <label>
+            Decisión
+            <input type="text" placeholder="Comprar, ajustar cantidad, renegociar, vender en pack o descartar.">
+          </label>
+        </form>
+      </section>
+
+      <section class="phase-section phase-gate" data-phase6-check>
+        <div class="method-heading">
+          <span>07</span>
+          <div>
+            <h2>Compuerta de avance Fase 6</h2>
+            <p>Marca lo que ya está calculado. No se compra lote piloto si el precio rentable no cabe en el mercado.</p>
+          </div>
+        </div>
+
+        <div class="phase-score-panel">
+          <div>
+            <span>Preparación Fase 6</span>
+            <strong data-phase6-score>0/20</strong>
+            <p data-phase6-message>No conviene avanzar: falta calcular costo total, arancel, IVA, gastos DIAN, empaque, pauta, comisiones, devoluciones y margen.</p>
+          </div>
+          <div class="phase-score-track" aria-hidden="true"><span data-phase6-bar></span></div>
+        </div>
+
+        <div class="phase-check-grid">
+          <label><input type="checkbox"> Cada SKU A tiene cotización de producto por unidad.</label>
+          <label><input type="checkbox"> Se definió TRM de cálculo y colchón por variación.</label>
+          <label><input type="checkbox"> Se estimó flete internacional por peso, volumen o valor.</label>
+          <label><input type="checkbox"> Se incluyó seguro o reserva por pérdida/daño.</label>
+          <label><input type="checkbox"> Se confirmó subpartida o ruta para validar arancel.</label>
+          <label><input type="checkbox"> Se calculó IVA de importación y caja necesaria.</label>
+          <label><input type="checkbox"> Se definió si el IVA será costo o descontable con contador.</label>
+          <label><input type="checkbox"> Se sumaron agente, DIAN, bodegaje y documentos.</label>
+          <label><input type="checkbox"> Se sumó transporte local hasta bodega.</label>
+          <label><input type="checkbox"> Se calculó costo aterrizado unitario por SKU.</label>
+          <label><input type="checkbox"> Se incluyó empaque local por pedido o por producto.</label>
+          <label><input type="checkbox"> Se incluyó pauta o costo de adquisición por unidad.</label>
+          <label><input type="checkbox"> Se incluyeron comisiones de marketplace/pasarela.</label>
+          <label><input type="checkbox"> Se reservó porcentaje de devoluciones, garantía y merma.</label>
+          <label><input type="checkbox"> Se calculó precio mínimo rentable por SKU.</label>
+          <label><input type="checkbox"> Se comparó precio mínimo contra precios de mercado.</label>
+          <label><input type="checkbox"> Se hizo sensibilidad de TRM, flete, comisión y devoluciones.</label>
+          <label><input type="checkbox"> Se definió precio objetivo y precio de promoción.</label>
+          <label><input type="checkbox"> Se descartaron SKUs que no soportan el precio rentable.</label>
+          <label><input type="checkbox"> Se documentó decisión de comprar, ajustar o descartar.</label>
+        </div>
+      </section>
+
+      <section class="phase-section">
+        <div class="method-heading">
+          <span>08</span>
+          <div>
+            <h2>Fuentes y herramientas base</h2>
+            <p>Confirmar siempre con agente aduanero y contador. Las tarifas dependen de subpartida, fecha, régimen y calidad tributaria del negocio.</p>
+          </div>
+        </div>
+
+        <div class="phase-source-grid">
+          <a href="https://www.dian.gov.co/aduanas/paginas/importacion.aspx" target="_blank" rel="noreferrer">DIAN: importación</a>
+          <a href="https://muisca.dian.gov.co/WebArancel/DefMenuConsultas.faces" target="_blank" rel="noreferrer">DIAN: consulta arancel</a>
+          <a href="https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_8857_2025.htm" target="_blank" rel="noreferrer">DIAN: IVA e importaciones</a>
+          <a href="https://www.dian.gov.co/aduanas/aspectecmercancias/valoracion_de_mercancias/Temas_de_interes/Documents/Cartilla-Resoluciones-anticipadas-CT-COA-0123.pdf" target="_blank" rel="noreferrer">DIAN: valoración aduanera</a>
+          <a href="https://vuce.gov.co/ayuda/preguntas-frecuentes/importaciones" target="_blank" rel="noreferrer">VUCE: importaciones</a>
+          <a href="fase-5-proveedores-muestras.html">Fase 5: datos proveedor</a>
+          <a href="fase-4-seleccion-surtido-piloto.html">Fase 4: SKUs piloto</a>
+          <a href="categorias.html">Catálogo visual interno</a>
+        </div>
+      </section>
+
+      <section class="phase-action-panel">
+        <div>
+          <h2>Resultado esperado de Fase 6</h2>
+          <p>La fase queda completa cuando cada SKU tiene una respuesta económica clara: comprar, renegociar, vender en pack o descartar.</p>
+        </div>
+        <ol>
+          <li>Costo aterrizado unitario por SKU y caja total de importación.</li>
+          <li>Precio mínimo rentable con comisiones, pauta, empaque y devoluciones.</li>
+          <li>Comparación contra precio de mercado y sensibilidad de riesgo.</li>
+          <li>Lista final de SKUs económicamente viables para compra piloto.</li>
+        </ol>
+      </section>
+
+      <nav class="method-pager" aria-label="Navegación de fase">
+        <a href="fase-5-proveedores-muestras.html">Volver a Fase 5</a>
+        <a href="fase-7-importacion-piloto.html">Siguiente: importación piloto</a>
+        <a href="fase-4-seleccion-surtido-piloto.html">Ver surtido piloto</a>
+      </nav>
+    </main>
+
+    <script src="fase6.js?v=2"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
