@@ -1,217 +1,1315 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
     <title>Manuela Cortés Granados | Index</title>
-<link rel="stylesheet" href="ESTILOS.css">
-<style>
-        /* Estilo general */
+    <style>
+        :root {
+            --page-top: #dfe7f2;
+            --page-mid: #f8fafc;
+            --page-bottom: #ffffff;
+            --hero-bg: #142f60;
+            --hero-bg-soft: #1d447d;
+            --card: #ffffff;
+            --card-soft: #eef4ff;
+            --card-rose: #fff7f8;
+            --line: #e2e8f0;
+            --line-blue: #bfd4ff;
+            --line-rose: rgba(190, 24, 93, 0.14);
+            --ink: #0f172a;
+            --ink-soft: #475569;
+            --blue: #2563eb;
+            --blue-strong: #1d4ed8;
+            --rose: #db2777;
+            --rose-soft: #fce7f3;
+            --gold: #e9c7a1;
+            --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+            --shadow-strong: 0 24px 60px rgba(15, 23, 42, 0.18);
+            --radius-xl: 26px;
+            --radius-lg: 20px;
+            --radius-md: 16px;
+            --sidebar-width: 188px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
             margin: 0;
-            padding: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--ink);
+            background: linear-gradient(180deg, var(--page-top), var(--page-mid) 45%, var(--page-bottom));
         }
 
-        /* Contenedor principal */
-        .container {
+        a {
+            color: inherit;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        img {
+            display: block;
             max-width: 100%;
-            margin: 50px auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* Encabezado */
-        h1 {
-            color: #0056b3;
-            text-align: center;
-            font-size: 26px;
-            margin-bottom: 20px;
+        .page-shell {
+            width: min(1880px, calc(100% - 0.02rem));
+            margin: 0 auto;
+            padding: 0.03rem 0 0.85rem;
+            display: grid;
+            grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+            gap: 0.22rem;
+            align-items: start;
         }
 
-        /* Estilo de las listas */
-        .collapsible {
-            list-style: none;
-            padding: 0;
+        .sidebar {
+            position: sticky;
+            top: 0.03rem;
         }
 
-        .collapsible li {
-            font-size: 18px;
-            margin: 8px 0;
+        .sidebar-card,
+        .content-section,
+        .banner-card,
+        .action-card,
+        .support-panel,
+        .message-panel,
+        .spotlight-card {
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
         }
 
-        /* Botones colapsables */
-        .collapsible .toggle {
-            cursor: pointer;
-            background: #e9ecef;
-            border-left: 5px solid #0056b3;
-            padding: 10px;
+        .sidebar-card {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 22px;
+            padding: 0.72rem;
+        }
+
+        .sidebar-card + .sidebar-card {
+            margin-top: 0.65rem;
+        }
+
+        .sidebar-kicker {
+            margin: 0 0 0.7rem;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: #475569;
+        }
+
+        .sidebar-intro {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.55;
+            color: var(--ink-soft);
+        }
+
+        .sidebar-nav {
+            display: grid;
+            gap: 0.7rem;
+        }
+
+        .sidebar-nav a {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            border-radius: 4px;
-            font-weight: bold;
-            transition: background 0.3s ease;
-        }
-
-        .collapsible .toggle:hover {
-            background: #d6d8db;
-        }
-
-        /* Icono de colapsado */
-        .collapsible .toggle::after {
-            content: "▶";
-            font-size: 16px;
-            transition: transform 0.3s ease;
-        }
-
-        .collapsible .toggle.active::after {
-            transform: rotate(90deg);
-        }
-
-        /* Sublistas ocultas por defecto */
-        .collapsible ol {
-            display: none;
-            padding-left: 20px;
-            margin-top: 5px;
-            border-left: 4px solid #007bff;
-        }
-
-        .collapsible ol li {
-            font-size: 16px;
-            background: #f1f3f5;
-            padding: 8px;
-            border-radius: 4px;
-        }
-
-        .collapsible ol a {
+            gap: 0.55rem;
+            min-height: 2.75rem;
+            padding: 0.72rem 0.95rem;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
             text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-            transition: color 0.3s ease;
+            color: var(--ink);
+            font-weight: 600;
         }
 
-        .collapsible ol a:hover {
-            color: #0056b3;
+        .sidebar-nav a:hover {
+            transform: translateY(-1px);
+            border-color: var(--line-blue);
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12);
         }
-.style2 {
-	font-size: 61px;
-	font-style: normal;
-	font-family: "Times New Roman", Times, serif;
-	font-weight: bold;
-}
-</style>
+
+        .content-column {
+            display: grid;
+            gap: 0.28rem;
+        }
+
+        .hero-panel {
+            background: linear-gradient(180deg, var(--hero-bg), #17386d 62%, var(--hero-bg-soft));
+            border-radius: 30px;
+            padding: 0.16rem;
+            box-shadow: var(--shadow-strong);
+            color: #f8fafc;
+            overflow: hidden;
+        }
+
+        .banner-card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.96));
+            border-radius: 22px;
+            padding: 0.28rem;
+            display: grid;
+            grid-template-columns: clamp(320px, 30vw, 390px) minmax(0, 1fr);
+            gap: 0.5rem;
+            align-items: stretch;
+            position: relative;
+        }
+
+        .banner-photo {
+            background-image: url("CV_MCG/MCG_FEMALE_PHOTO_JUN_2026.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center top;
+            background-color: #f4f7fb;
+            width: 100%;
+            aspect-ratio: 841 / 1870;
+            min-height: 0;
+            border-radius: 20px;
+            border: 3px solid rgba(191, 212, 255, 0.88);
+            box-shadow: 0 22px 42px rgba(15, 23, 42, 0.18);
+        }
+
+        .banner-copy {
+            min-width: 0;
+            color: var(--ink);
+            display: grid;
+            grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+            gap: 1.05rem;
+            align-items: stretch;
+            padding: 1.3rem 1.15rem 1rem 0.4rem;
+        }
+
+        .banner-copy p {
+            margin: 0;
+        }
+
+        .banner-main {
+            display: grid;
+            align-content: center;
+            gap: 0.95rem;
+            padding-right: 0.15rem;
+        }
+
+        .banner-eyebrow {
+            margin-bottom: 0.35rem !important;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: #64748b;
+        }
+
+        .banner-copy h1 {
+            margin: 0;
+            font-size: clamp(3.4rem, 7vw, 6.5rem);
+            line-height: 0.9;
+            color: #0f4fa0;
+            text-wrap: balance;
+            max-width: 9ch;
+        }
+
+        .banner-role-strip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: fit-content;
+            max-width: 100%;
+            min-height: 2.7rem;
+            padding: 0.72rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(191, 212, 255, 0.96);
+            background: linear-gradient(180deg, rgba(239, 246, 255, 0.98), rgba(255, 247, 248, 0.92));
+            color: #0f4fa0;
+            font-size: 0.94rem;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .banner-intro {
+            font-size: 1.08rem;
+            line-height: 1.72;
+            color: #334155;
+            max-width: 46ch;
+        }
+
+        .hero-social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            align-items: center;
+        }
+
+        .hero-social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.45rem;
+            padding: 0.52rem 0.82rem;
+            border-radius: 999px;
+            border: 1px solid rgba(191, 212, 255, 0.95);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 246, 255, 0.9));
+            color: #17386d;
+            font-size: 0.82rem;
+            font-weight: 700;
+            line-height: 1.3;
+            text-decoration: none;
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+            overflow-wrap: anywhere;
+        }
+
+        .hero-social-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 26px rgba(37, 99, 235, 0.14);
+        }
+
+        .banner-fact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.7rem;
+        }
+
+        .banner-fact {
+            padding: 0.92rem 0.96rem;
+            border-radius: 18px;
+            border: 1px solid rgba(191, 212, 255, 0.78);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(239, 246, 255, 0.86));
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+        }
+
+        .banner-fact-label {
+            display: block;
+            margin-bottom: 0.32rem;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #a21caf;
+        }
+
+        .banner-fact strong {
+            display: block;
+            color: #17386d;
+            font-size: 0.97rem;
+            line-height: 1.5;
+        }
+
+        .banner-summary {
+            position: relative;
+            align-self: stretch;
+            padding: 1.25rem 1.15rem 1.15rem;
+            border-radius: 24px;
+            border: 1px solid rgba(191, 212, 255, 0.95);
+            background: linear-gradient(180deg, rgba(239, 246, 255, 0.98), rgba(255, 247, 248, 0.98));
+            box-shadow: 0 18px 38px rgba(37, 99, 235, 0.12);
+            display: grid;
+            align-content: start;
+            gap: 0.82rem;
+            overflow: hidden;
+        }
+
+        .banner-summary::before {
+            content: "";
+            position: absolute;
+            inset: auto -2.5rem -2.8rem auto;
+            width: 10rem;
+            height: 10rem;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(219, 39, 119, 0.12), rgba(219, 39, 119, 0));
+            pointer-events: none;
+        }
+
+        .banner-summary-kicker {
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: #a21caf;
+        }
+
+        .banner-summary-title {
+            font-size: 1.68rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #17386d;
+        }
+
+        .banner-summary-role {
+            font-size: 0.95rem;
+            font-weight: 700;
+            line-height: 1.5;
+            color: #0f4fa0;
+        }
+
+        .banner-summary-text {
+            font-size: 0.98rem;
+            line-height: 1.68;
+            color: #334155;
+        }
+
+        .banner-summary-list {
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .summary-point {
+            padding: 0.78rem 0.84rem;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.76);
+            border: 1px solid rgba(191, 212, 255, 0.75);
+            color: #334155;
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+
+        .summary-point strong {
+            color: #17386d;
+        }
+
+        .banner-summary-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+        }
+
+        .summary-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.4rem;
+            padding: 0.52rem 0.8rem;
+            border-radius: 999px;
+            border: 1px solid rgba(191, 212, 255, 0.95);
+            background: rgba(255, 255, 255, 0.9);
+            color: #17386d;
+            font-size: 0.88rem;
+            font-weight: 700;
+            line-height: 1.25;
+            text-align: center;
+        }
+
+        .banner-tag {
+            position: absolute;
+            top: 0.65rem;
+            right: 0.65rem;
+            padding: 0.65rem 0.95rem;
+            border-radius: 999px;
+            border: 1px solid var(--line-blue);
+            background: linear-gradient(180deg, rgba(239, 246, 255, 0.98), rgba(255, 247, 248, 0.98));
+            color: #1e3a8a;
+            font-size: 0.88rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .hero-eyebrow {
+            margin: 0.65rem 0 0.35rem 0.25rem;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.34em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .hero-description {
+            margin: 0 0 0 0.25rem;
+            max-width: 980px;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(248, 250, 252, 0.92);
+        }
+
+        .hero-grid {
+            margin-top: 0.65rem;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.45rem;
+        }
+
+        .action-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.85rem;
+            min-height: 17rem;
+            padding: 1.3rem 1.2rem;
+            border-radius: 24px;
+            background: linear-gradient(180deg, rgba(239, 246, 255, 0.98), rgba(255, 255, 255, 0.98));
+            text-decoration: none;
+            text-align: center;
+            color: var(--ink);
+        }
+
+        .action-card:hover,
+        .pill-link:hover,
+        .social-link:hover,
+        .directory-grid > li:hover,
+        .directory-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .action-badge {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--blue-strong);
+        }
+
+        .action-card h2 {
+            margin: 0;
+            font-size: clamp(1.9rem, 3vw, 2.3rem);
+            line-height: 1.15;
+            text-wrap: balance;
+        }
+
+        .action-card p {
+            margin: 0;
+            max-width: 36ch;
+            font-size: 1rem;
+            line-height: 1.65;
+            color: var(--ink-soft);
+        }
+
+        .action-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 14rem;
+            min-height: 3.25rem;
+            padding: 0.7rem 1.25rem;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--blue-strong), #3b82f6);
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            text-decoration: none;
+            box-shadow: 0 12px 22px rgba(37, 99, 235, 0.28);
+        }
+
+        .support-panel {
+            margin-top: 0.4rem;
+            padding: 1rem;
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(30, 58, 138, 0.24), rgba(30, 41, 59, 0.16));
+            border-color: rgba(191, 212, 255, 0.16);
+            display: grid;
+            gap: 0.9rem;
+        }
+
+        .support-title {
+            margin: 0 0 0.35rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .support-text {
+            margin: 0;
+            color: rgba(248, 250, 252, 0.92);
+            line-height: 1.55;
+        }
+
+        .framework-card {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.85rem;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.95rem 1rem;
+            border-radius: 16px;
+            border: 1px solid rgba(191, 212, 255, 0.14);
+            background: rgba(15, 23, 42, 0.14);
+        }
+
+        .framework-card a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .framework-card a:first-child {
+            flex: 1 1 20rem;
+        }
+
+        .framework-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 6rem;
+            padding: 0.78rem 1.15rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.26);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.08));
+            font-size: 0.92rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .social-row,
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .social-link,
+        .pill-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 3rem;
+            padding: 0.75rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(191, 212, 255, 0.18);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04));
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .quick-label {
+            margin: 1.05rem 0 0.55rem;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .pill-link {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 246, 255, 0.95));
+            border-color: rgba(255, 255, 255, 0.16);
+            color: #17386d;
+        }
+
+        .content-section {
+            background: var(--card);
+            border-radius: 22px;
+            padding: 0.95rem;
+        }
+
+        .cis-index-grid {
+            margin-top: 0.75rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.9fr);
+            gap: 0.55rem;
+            align-items: stretch;
+        }
+
+        .cis-panel {
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: linear-gradient(180deg, #ffffff, #f8fbff);
+            box-shadow: var(--shadow);
+            padding: 1.15rem;
+        }
+
+        .cis-panel p {
+            margin: 0;
+            color: #334155;
+            line-height: 1.7;
+        }
+
+        .cis-panel p + p {
+            margin-top: 0.85rem;
+        }
+
+        .cis-kicker {
+            margin: 0 0 0.6rem;
+            color: var(--blue-strong);
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .cis-title {
+            margin: 0 0 0.4rem;
+            font-size: clamp(1.45rem, 2vw, 1.9rem);
+            color: #17386d;
+        }
+
+        .cis-link-row {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            align-items: center;
+        }
+
+        .cis-inline-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 2.9rem;
+            padding: 0.7rem 1rem;
+            border-radius: 999px;
+            border: 1px solid var(--line-blue);
+            background: linear-gradient(180deg, rgba(239, 246, 255, 0.98), rgba(255, 255, 255, 0.98));
+            color: #17386d;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .cis-module-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.55rem;
+        }
+
+        .cis-module {
+            padding: 0.85rem 0.95rem;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            background: linear-gradient(180deg, #ffffff, #fafcff);
+            color: #17386d;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .cis-note {
+            margin-top: 0.85rem;
+            font-size: 0.96rem;
+            line-height: 1.6;
+            color: #475569;
+        }
+
+        .section-eyebrow {
+            margin: 0 0 0.45rem;
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: clamp(1.75rem, 2.6vw, 2.35rem);
+            color: #0f172a;
+        }
+
+        .section-text {
+            margin: 0.5rem 0 0;
+            color: var(--ink-soft);
+            line-height: 1.65;
+        }
+
+        .reflection-grid {
+            margin-top: 0.75rem;
+            display: grid;
+            grid-template-columns: minmax(0, 0.96fr) minmax(360px, 1.08fr) minmax(0, 0.96fr);
+            gap: 0.4rem;
+            align-items: stretch;
+        }
+
+        .message-panel {
+            border-radius: 18px;
+            padding: 1.18rem;
+            background: linear-gradient(180deg, #ffffff, #fbfcff);
+        }
+
+        .message-panel--es {
+            border-color: var(--line-rose);
+            background: linear-gradient(180deg, #fffafc, #ffffff);
+        }
+
+        .message-panel--en {
+            border-color: var(--line-blue);
+            background: linear-gradient(180deg, #f9fbff, #ffffff);
+        }
+
+        .message-tag {
+            margin: 0 0 0.75rem;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .message-panel--es .message-tag {
+            color: var(--rose);
+        }
+
+        .message-panel--en .message-tag {
+            color: var(--blue-strong);
+        }
+
+        .message-body p {
+            margin: 0 0 1rem;
+            line-height: 1.95;
+            color: #1e293b;
+            font-size: 1rem;
+        }
+
+        .message-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-body strong {
+            color: #0f172a;
+        }
+
+        .message-body a {
+            color: #0f4fa0;
+        }
+
+        .message-panel--es .message-body {
+            text-align: center;
+        }
+
+        .spotlight-column {
+            display: grid;
+            gap: 0.55rem;
+            position: sticky;
+            top: 0.45rem;
+            align-self: start;
+        }
+
+        .spotlight-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            padding: 0.75rem 0.72rem 0.95rem;
+            min-height: clamp(31rem, 46vw, 44rem);
+            background: linear-gradient(180deg, #153262, #1a437e 54%, #eef4ff 100%);
+            border: 1px solid rgba(191, 212, 255, 0.44);
+            box-shadow: 0 28px 70px rgba(15, 23, 42, 0.26);
+            text-align: center;
+            display: grid;
+            align-content: center;
+            justify-items: center;
+            gap: 0.55rem;
+        }
+
+        .spotlight-card::before {
+            content: "";
+            position: absolute;
+            inset: auto auto -4.5rem -3.6rem;
+            width: 13rem;
+            height: 13rem;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(255, 247, 248, 0.42), rgba(255, 247, 248, 0));
+            pointer-events: none;
+        }
+
+        .spotlight-emoji {
+            position: absolute;
+            top: 0.85rem;
+            right: 0.9rem;
+            margin: 0;
+            font-size: 1.18rem;
+            opacity: 0.72;
+        }
+
+        .spotlight-card img {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 365px);
+            margin: 0 auto 0.12rem;
+            filter: drop-shadow(0 30px 36px rgba(15, 23, 42, 0.34));
+            transform: scale(1.08);
+            transform-origin: center center;
+        }
+
+        .spotlight-note {
+            position: relative;
+            z-index: 1;
+            max-width: 27ch;
+            margin: 0;
+            padding: 0.72rem 0.82rem;
+            border-radius: 16px;
+            border: 1px solid rgba(191, 212, 255, 0.34);
+            background: rgba(255, 255, 255, 0.18);
+            color: #eff6ff;
+            font-size: 0.96rem;
+            line-height: 1.62;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        .directory-grid {
+            list-style: none;
+            margin: 1.25rem 0 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .directory-grid > li {
+            padding: 1.15rem;
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            background: linear-gradient(180deg, #ffffff, #fafcff);
+        }
+
+        .directory-grid > li > strong,
+        .directory-grid > li > a {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #17386d;
+        }
+
+        .directory-grid ul {
+            list-style: none;
+            margin: 0.9rem 0 0;
+            padding: 0;
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .directory-grid ul li {
+            padding-top: 0.7rem;
+            border-top: 1px solid var(--line);
+            line-height: 1.65;
+            color: #334155;
+        }
+
+        .directory-grid a {
+            color: #0f4fa0;
+        }
+
+        .directory-card {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 5rem;
+            padding: 1rem 1.15rem;
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            background: linear-gradient(180deg, #ffffff, #fafcff);
+            text-decoration: none;
+            color: #17386d;
+            font-weight: 700;
+        }
+
+        .micro-link {
+            margin: 1rem 0 0;
+            text-align: center;
+        }
+
+        .micro-link a {
+            display: inline-flex;
+            width: 1.9rem;
+            height: 1.9rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: #ffffff;
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+
+        @media (max-width: 1100px) {
+            .page-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .banner-card {
+                grid-template-columns: clamp(280px, 35vw, 390px) minmax(0, 1fr);
+            }
+
+            .banner-copy {
+                grid-template-columns: 1fr;
+            }
+
+            .banner-main {
+                padding-right: 0;
+            }
+
+            .banner-tag {
+                position: static;
+                justify-self: start;
+                margin-left: 0.1rem;
+            }
+
+            .reflection-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cis-index-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .spotlight-column {
+                position: static;
+                grid-template-columns: minmax(0, 1.28fr) minmax(220px, 0.72fr);
+                align-items: stretch;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .page-shell {
+                width: min(100%, calc(100% - 0.01rem));
+                padding-top: 0.01rem;
+            }
+
+            .content-column {
+                order: 1;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+
+            .hero-panel,
+            .content-section,
+            .sidebar-card {
+                border-radius: 22px;
+            }
+
+            .banner-card {
+                grid-template-columns: 1fr;
+                text-align: left;
+                gap: 0.35rem;
+            }
+
+            .banner-photo {
+                width: 100%;
+                max-width: none;
+                min-height: 0;
+                justify-self: stretch;
+                aspect-ratio: 841 / 1870;
+                background-position: center center;
+            }
+
+            .banner-copy {
+                grid-template-columns: 1fr;
+                padding: 0.08rem 0.32rem 0.65rem;
+            }
+
+            .banner-copy h1 {
+                font-size: clamp(2.5rem, 11vw, 4.2rem);
+                max-width: 100%;
+            }
+
+            .banner-role-strip {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .banner-intro {
+                max-width: none;
+            }
+
+            .hero-social-links {
+                justify-content: flex-start;
+            }
+
+            .hero-social-link {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .banner-fact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .banner-summary {
+                padding: 1rem 0.92rem;
+            }
+
+            .banner-summary-title {
+                font-size: 1.28rem;
+            }
+
+            .banner-tag {
+                margin-left: 0.32rem;
+            }
+
+            .hero-grid,
+            .spotlight-column,
+            .directory-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cis-module-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-card {
+                min-height: 0;
+            }
+
+            .framework-card {
+                align-items: flex-start;
+            }
+
+            .social-link,
+            .pill-link {
+                width: 100%;
+            }
+
+            .content-section {
+                padding: 0.95rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="page-shell">
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <p class="sidebar-kicker">👩‍💼 Navigation</p>
+                <p class="sidebar-intro">A quick, clean access point aligned with the visual language of Informática y Buen Gobierno, with a more feminine tone.</p>
+            </div>
 
-<div class="container">
-  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-      <td valign="top"><table width="100%" border="0" cellspacing="5" cellpadding="5">
-        <tr>
-          <td><table width="100%" border="0" cellspacing="5" cellpadding="5">
-            <tr>
-              <td><div align="center"><span class="style2">Manuela Cortés Granados</span></div></td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="texto3"><div align="center"><a href="PETICIONES-SANTO-ROSARIO.pdf" target="_blank"><strong>PETICIONES AL SANTO ROSARIO PARA EVITAR LA DESTRUCCIÓN DEL GENERO HUMANO</strong></a></div></td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="texto3"><div align="center"><a href="PETITIONS-HOLY-ROSARY.pdf" target="_blank">PETITIONS TO THE HOLY ROSARY TO PREVENT THE DESTRUCTION OF HUMANITY</a></div></td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td class="texto3"><div align="center">
-                <p align="center"><a href="Fair Technical Assessment Framework.pdf" target="_blank"><strong>Fair Technical  Assessment/Technical Interview Framework</strong></a> <a href="FAIR_TECHNICAL_ASSESSMENT_FRAMEWORK/FAIR_TECHNIAL_ASSESSMENT_FRAMEWORK.html" target="_blank">HTML</a></p>
-              </div></td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td><div align="center"><span class="texto2"><a href="https://www.linkedin.com/in/mcortesgranados/" target="_blank">https://www.linkedin.com/in/mcortesgranados/</a></span></div></td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td><div align="center"><a href="https://www.youtube.com/@mcortesgranados" target="_blank">https://www.youtube.com/@mcortesgranados</a></div></td>
-              <td>&nbsp;</td>
-            </tr>
-          </table>          </td>
-        </tr>
-        <tr>
-          <td><div align="center">
-            <table width="100%" border="0" cellspacing="5" cellpadding="5">
-              <tr>
-                <td><p align="center"><strong>Quien reza el </strong><strong>Santo Rosario </strong><strong>de la </strong><strong>Santísima Virgen  María</strong><strong>todos los días recibe una gracia profunda:</strong> la capacidad de  distinguir claramente la Divina Realidad Cristiana de la ilusión <strong>satánica/luciferina</strong> que  subyace a casi todos los males que azotan a la humanidad. Esta ilusión es la  fuerza oculta tras los conflictos en la sociedad humana, las adicciones, las  enfermedades mortales, los divorcios, el hambre, la guerra, el asesinato, las  violaciones de los derechos humanos, la erosión de la libertad, la promoción de  la ignorancia y la propagación del odio. ⚔️&#128330;️ <br>
-  &#128591; Mediante el Santo  Rosario, se pueden combatir eficazmente los siete pecados capitales,  especialmente el más letal de todos: <strong>la  soberbia</strong>, que es la raíz de la rebelión contra Dios.<br>
-  &#128214; Sin embargo, esta  misión espiritual no está completa sin leer y comprender plenamente el  documento (este preciso documento) <strong>&quot;</strong><strong>33  Peticiones al Santo Rosario</strong><strong>&quot;</strong>, disponible en el  siguiente enlace:<br>
-  &#128279; <a href="https://mcortesgranados.github.io/PETICIONES-SANTO-ROSARIO.pdf" target="_new">https://mcortesgranados.github.io/PETICIONES-SANTO-ROSARIO.pdf</a> <br>
-  &#128367;️ Como se indica explícitamente en el párrafo 19, página  11, en la <strong>Petición al Santo Rosario A</strong>, una vez que una persona  lee este mensaje y su contenido, se vuelve <strong>espiritualmente responsable  ante Dios</strong>. Cada alma debe entonces discernir seriamente si acepta el  compromiso diario de rezar el Santo Rosario y reflexionar profundamente sobre  las 33 peticiones que se indican en el documento PDF mencionado anteriormente.<br>
-  &#128150; Si este llamado  sagrado se acoge con sinceridad de corazón, las <strong>bendiciones de Dios se  desbordarán</strong>, no solo sobre la persona, sino también sobre su familia,  amigos y todos los que la rodean. Estas bendiciones pueden traer <strong>beneficios  inconmensurables</strong> a toda la humanidad, ofreciendo <strong>protección y  gracia divinas</strong> que pueden evitar su caída espiritual y literal. &#127807;&#128737;️ <br>
-                  ⚠️ Pero si esta  invitación divina se rechaza —por <strong>indiferencia</strong>, <strong>negligencia</strong> o <strong>desprecio</strong>—, las consecuencias son <strong>graves</strong>.  La persona puede perder la <strong>protección maternal de la Santísima Virgen  María</strong> y, con ella, el apoyo de las huestes angelicales. Desamparada  espiritualmente, se vuelve vulnerable a los engaños y ataques de <strong>Satanás</strong>, el verdadero artífice de casi todos los  males de este mundo. &#128371;️&#128127; </p>
-                  &#128148; Y al rechazar este llamado, consciente o inconscientemente,  esa persona <strong>colaboraria con los planes de </strong><strong>Satanás</strong>, contribuyendo así a la  posible condena de innumerables almas en todo el mundo. Esta negligencia podría  conducir a la ocurrencia de <strong>TERREMOTOS, ERUPCIONES VOLCÁNICAS, EVENTOS GEOLOGICOS  DE GRAN DESTRUCCION</strong> o más grave aún, directa o indirectamente, al estallido de  una <strong>TERCERA GUERRA MUNDIAL</strong>, una catástrofe global con  consecuencias desastrosas, incluyendo la escalada hasta el uso de <strong>armas nucleares</strong>, que traería <strong>destrucción no solo material</strong>,  sino también al <strong>destino espiritual de casi el  90% de la humanidad</strong>. </td>
-                <td><p align="center"><img src="rosary_01.png" width="294" height="499"></p>
-                  <p>&nbsp;</p></td>
-                <td><p>Whoever prays the Holy Rosary of the Blessed Virgin Mary every day receives a profound grace: the ability to clearly distinguish the Divine Christian Reality from the Satanic/Luciferian illusion that underlies almost all the evils that plague humanity. This illusion is the hidden force behind conflicts in human society, addictions, deadly diseases, divorce, hunger, war, murder, violations of human rights, the erosion of freedom, the promotion of ignorance, and the spread of hatred. ⚔️🕊️<br>
-                  🙏 Through the Holy Rosary, one can effectively combat the seven deadly sins, especially the most lethal of all: pride, which is the root of rebellion against God. 📖 However, this spiritual mission is not complete without reading and fully understanding the document (this very document) &quot;33 Petitions to the Holy Rosary,&quot; available at the following link:</p>
-                  <p><br>
-                    🔗 https://mcortesgranados.github.io/PETICIONES-SANTO-ROSARIO.pdf</p>
-                  <p><br>
-                    🕯️ As explicitly stated in paragraph 19, page 11, in Petition to the Holy Rosary A, once a person reads this message and its contents, they become spiritually accountable to God. Each soul must then seriously discern whether to accept the daily commitment to pray the Holy Rosary and reflect deeply on the 33 petitions listed in the aforementioned PDF document.</p>
-                  <p><br>
-                    💖 If this sacred calling is embraced with sincerity of heart, God's blessings will overflow, not only upon the person, but also upon their family, friends, and all those around them. These blessings can bring immeasurable benefits to all of humanity, offering divine protection and grace that can prevent their spiritual and literal fall. 🌿🛡️<br>
-                    ⚠️ But if this divine invitation is rejected—through indifference, negligence, or contempt—the consequences are grave. The person may lose the maternal protection of the Blessed Virgin Mary and, with it, the support of the angelic hosts. Spiritually abandoned, they become vulnerable to the deceptions and attacks of Satan, the true architect of almost all the evils of this world. 🕳️👿<br>
-                    💔 And by rejecting this call, consciously or unconsciously, that person would be collaborating with Satan's plans, thus contributing to the possible damnation of countless souls around the world. This negligence could lead to the occurrence of EARTHQUAKES, VOLCANIC ERUPTIONS, GEOLOGICAL EVENTS OF GREAT DESTRUCTION or, even more seriously, directly or indirectly, to the outbreak of a THIRD WORLD WAR, a global catastrophe with disastrous consequences, including the escalation to the use of nuclear weapons, which would bring destruction not only materially, but also to the spiritual destiny of almost 90% of humanity.</p>
-                  <p>&nbsp;</p></td>
-              </tr>
-            </table>
-          </div></td>
-        </tr>
-      </table></td>
-    </tr>
-  </table>
-<ul>
-    <li><strong><a href="CHRISTIANITY/index.html">📖 CRISTIANISMO/CHRISTIANITY  </a></strong>
-      <ul>
-        <li><strong>🙏 PETICIONES SANTO ROSARIO MCG    </strong>
-          <ul>
-            <li>🇪🇸 <a href="CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_INDEX.html" target="_blank">CASTELLANO</a></li>
-            <li>🇬🇧 ENGLISH</li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li>🇨🇴 COLOMBIA</li>
-    <li><strong>📄 CV MCG
-      </strong>
-      <ul>
-        <li>📅 <a href="CV_MCG/2025/index.html" target="_blank">2025</a></li>
-      </ul>
-    </li>
-    <li>💻 <a href="https://mcortesgranados.github.io/IT_KNOWLEDGE_BASE/IT.html" target="_blank">IT KNOWLEDGE BASE</a></li>
-    <li>🏳️‍🌈 <a href="LGBTQ+/lgbtq+.html" target="_blank">LGBTQ+</a></li>
-    <li>📜 <a href="POETRY/index.html" target="_blank">POETRY</a></li>
-    <li>📂 <a href="OTHER/OTHER.html" target="_blank">OTHER</a></li>
-    <li><a href="FINCA_RAIZ/index.html">FINCA RAIZ</a></li>
-    <li><a href="NU_SKIN/index.html">NU_SKIN</a> - <a href="NU_SKIN/productos_nu_skin_imagen.html">Productos de la imagen</a> - <a href="NU_SKIN/PHARMANEX/index.html">PHARMANEX</a></li>
-</ul>
-  <p><a href="CV_MCG/CV_MCG_ENGLISH_2023.htm" target="_blank">.</a></p>
-</div>
+            <div class="sidebar-card">
+                <nav class="sidebar-nav" aria-label="Main navigation">
+                    <a href="#inicio">👩‍💼 Home</a>
+                    <a href="#documentos">👩‍⚖️ Key documents</a>
+                    <a href="#christianity-index">✝️ Christianity CIS</a>
+                    <a href="#enlaces">👩‍💻 Links and networks</a>
+                    <a href="#reflexion-es">👩‍🦳 Spanish Rosary text</a>
+                    <a href="#reflexion-en">👩‍💬 Message in English</a>
+                    <a href="#directorio">👩‍🔎 Directory</a>
+                </nav>
+            </div>
+        </aside>
 
-<script>
-    document.querySelectorAll(".toggle").forEach(button => {
-        button.addEventListener("click", function () {
-            let sublist = this.nextElementSibling;
-            if (sublist) {
-                sublist.style.display = sublist.style.display === "block" ? "none" : "block";
-                this.classList.toggle("active");
-            }
-        });
-    });
-      </script>
+        <main class="content-column">
+            <section class="hero-panel" id="inicio">
+                <div class="banner-card">
+                    <div class="banner-photo" role="img" aria-label="Manuela Cortés Granados"></div>
+
+                    <div class="banner-copy">
+                        <div class="banner-main">
+                            <p class="banner-eyebrow">👩‍💼 Personal profile and directory</p>
+                            <h1>Manuela Cortés Granados</h1>
+                            <p class="banner-role-strip">Senior Software Engineer · Pianist · Citizen Oversight Advocate</p>
+                            <div class="hero-social-links" aria-label="Featured social links">
+                                <a class="hero-social-link" href="https://www.linkedin.com/in/mcortesgranados/" target="_blank" rel="noopener">👩‍💻 linkedin.com/in/mcortesgranados</a>
+                                <a class="hero-social-link" href="https://www.facebook.com/manuelcortesgranados" target="_blank" rel="noopener">📘 facebook.com/manuelcortesgranados</a>
+                                <a class="hero-social-link" href="https://www.instagram.com/mcortesgranados/" target="_blank" rel="noopener">📸 instagram.com/mcortesgranados</a>
+                            </div>
+                            <p class="banner-intro">An interdisciplinary profile connecting software engineering, public-transparency analytics, artistic expression at the piano, and a visible voice in citizenship, diversity, and Marian faith causes.</p>
+                            <div class="banner-fact-grid">
+                                <div class="banner-fact">
+                                    <span class="banner-fact-label">Specialization</span>
+                                    <strong>Java / Spring Boot, Python, secure APIs, Data &amp; AI</strong>
+                                </div>
+                                <div class="banner-fact">
+                                    <span class="banner-fact-label">Track record</span>
+                                    <strong>28+ years in enterprise software, integration, cloud, and automation</strong>
+                                </div>
+                                <div class="banner-fact">
+                                    <span class="banner-fact-label">Music</span>
+                                    <strong>Pianist with 324 documented songs in her repertoire</strong>
+                                </div>
+                                <div class="banner-fact">
+                                    <span class="banner-fact-label">Causes</span>
+                                    <strong>Trans LGBTQ+ activist, Marian Catholic activist, and citizen oversight advocate</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <aside class="banner-summary" aria-label="Main summary">
+                            <p class="banner-summary-kicker">🎀 Integrated profile</p>
+                            <p class="banner-summary-title">Technology, citizenship, art, and faith</p>
+                            <p class="banner-summary-role">INFORMATICA Y BUEN GOBIERNO · Citizen Oversight</p>
+                            <p class="banner-summary-text">According to the 2026 resume, she brings <strong>28+ years of experience</strong> in enterprise software, integration, cloud, Python automation, data work, and AI-assisted technical delivery, with recent focus on <strong>Java / Spring Boot</strong>, secure APIs, modernization, and cloud-native architectures.</p>
+                            <p class="banner-summary-text">Her profile also brings together piano performance, civic commitment, and an active presence in diversity and Marian spirituality causes.</p>
+                            <div class="banner-summary-list">
+                                <div class="summary-point"><strong>💼 Engineering:</strong> backend development, data integration, automation, APIs, and scalable solutions for demanding environments.</div>
+                                <div class="summary-point"><strong>🏛️ Citizen oversight:</strong> experience linked to <strong>INFORMATICA Y BUEN GOBIERNO</strong>, focused on transparency, public information, and civic oversight.</div>
+                                <div class="summary-point"><strong>🎹 Piano:</strong> a documented repertoire of <strong>324 songs</strong> as a pianist and musician.</div>
+                                <div class="summary-point"><strong>🌷 Identity:</strong> <strong>Trans LGBTQ+</strong> activist, <strong>Marian Catholic</strong> activist, and <strong>citizen oversight advocate</strong>.</div>
+                            </div>
+                            <div class="banner-summary-chips">
+                                <span class="summary-chip">💼 28+ years</span>
+                                <span class="summary-chip">🎹 324 songs</span>
+                                <span class="summary-chip">🏛️ Citizen oversight advocate</span>
+                                <span class="summary-chip">🏳️‍⚧️ Trans LGBTQ+ activist</span>
+                                <span class="summary-chip">🙏 Marian Catholic</span>
+                            </div>
+                        </aside>
+                    </div>
+
+                    <div class="banner-tag">👩‍⚖️ MCG</div>
+                </div>
+
+                <p class="hero-eyebrow">👩‍⚖️ Main documents</p>
+                <p class="hero-description">The central access points preserve your main materials exactly as they are, now presented inside a more structured, clearer landing page that is much closer to the reference site style.</p>
+
+                <div class="hero-grid" id="documentos">
+                    <a class="action-card" href="PETICIONES-SANTO-ROSARIO.pdf" target="_blank" rel="noopener">
+                        <div class="action-badge">👩‍⚖️ Most-used access</div>
+                        <h2>PETICIONES AL SANTO ROSARIO PARA EVITAR LA DESTRUCCIÓN DEL GENERO HUMANO</h2>
+                        <p>Main Spanish document, preserved intact inside a featured card.</p>
+                        <span class="action-cta">Click here &gt;</span>
+                    </a>
+
+                    <a class="action-card" href="PETITIONS-HOLY-ROSARY.pdf" target="_blank" rel="noopener">
+                        <div class="action-badge">👩‍💬 Main access</div>
+                        <h2>PETITIONS TO THE HOLY ROSARY TO PREVENT THE DESTRUCTION OF HUMANITY</h2>
+                        <p>English version presented with the same visual priority and the same strong entry point.</p>
+                        <span class="action-cta">Click here &gt;</span>
+                    </a>
+                </div>
+
+                <div class="support-panel">
+                    <div>
+                        <p class="support-title">👩‍🏫 Complementary framework</p>
+                        <p class="support-text">The technical resource and social links are still present, but now reorganized as a cleaner support block that stays more consistent with the reference site's visual language.</p>
+                    </div>
+
+                    <div class="framework-card">
+                        <a href="Fair Technical Assessment Framework.pdf" target="_blank" rel="noopener"><strong>Fair Technical Assessment/Technical Interview Framework</strong></a>
+                        <a class="framework-pill" href="FAIR_TECHNICAL_ASSESSMENT_FRAMEWORK/FAIR_TECHNIAL_ASSESSMENT_FRAMEWORK.html" target="_blank" rel="noopener">HTML</a>
+                    </div>
+
+                    <div class="social-row" id="enlaces">
+                        <a class="social-link" href="https://www.linkedin.com/in/mcortesgranados/" target="_blank" rel="noopener">👩‍💻 https://www.linkedin.com/in/mcortesgranados/</a>
+                        <a class="social-link" href="https://www.youtube.com/@mcortesgranados" target="_blank" rel="noopener">👩‍🎤 https://www.youtube.com/@mcortesgranados</a>
+                    </div>
+
+                    <p class="quick-label">👩‍🔎 Other quick links</p>
+                    <div class="quick-links">
+                        <a class="pill-link" href="CHRISTIANITY/index.html">📖 CHRISTIANITY</a>
+                        <a class="pill-link" href="#christianity-index">✝️ CHRISTIANITY CIS</a>
+                        <a class="pill-link" href="CV_MCG/2025/index.html" target="_blank" rel="noopener">📄 CV MCG 2025</a>
+                        <a class="pill-link" href="https://mcortesgranados.github.io/IT_KNOWLEDGE_BASE/IT.html" target="_blank" rel="noopener">💻 IT KNOWLEDGE BASE</a>
+                        <a class="pill-link" href="LGBTQ+/lgbtq+.html" target="_blank" rel="noopener">🏳️‍🌈 LGBTQ+</a>
+                        <a class="pill-link" href="POETRY/index.html" target="_blank" rel="noopener">📜 POETRY</a>
+                        <a class="pill-link" href="OTHER/OTHER.html" target="_blank" rel="noopener">📂 OTHER</a>
+                        <a class="pill-link" href="FINCA_RAIZ/index.html">FINCA RAIZ</a>
+                        <a class="pill-link" href="NU_SKIN/index.html">NU_SKIN</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section" id="christianity-index">
+                <p class="section-eyebrow">✝️ Christianity</p>
+                <h2 class="section-title">Christianity Information System</h2>
+                <p class="section-text">The main landing page now directly indexes the <strong>Christianity Information System</strong> site inside the wider Informática y Buen Gobierno ecosystem.</p>
+
+                <div class="cis-index-grid">
+                    <article class="cis-panel">
+                        <p class="cis-kicker">Introduction</p>
+                        <h3 class="cis-title">A Christian dashboard designed for consultation and thematic organization</h3>
+                        <p>On its current front page, <strong>https://www.informaticaybuengobierno.org/christianity/</strong> presents itself as a Christian information system structured around a <strong>main dashboard</strong>, a <strong>thematic search tool</strong>, and a set of modules that make content exploration more organized and more useful than a traditional static page.</p>
+                        <p>The site's visible navigation organizes access to areas such as <strong>Bible</strong>, <strong>Rosary</strong>, <strong>Doctrine</strong>, <strong>Mariology</strong>, <strong>Popes</strong>, <strong>Saints</strong>, <strong>Structure</strong>, and <strong>History</strong>, while also showing a <strong>catalog</strong>-oriented and content-administration approach for exploring Christian information in a systematic way.</p>
+
+                        <div class="cis-link-row">
+                            <a class="action-cta" href="https://www.informaticaybuengobierno.org/christianity/" target="_blank" rel="noopener">Open site &gt;</a>
+                            <a class="cis-inline-link" href="CHRISTIANITY/index.html">📖 View related local index</a>
+                        </div>
+                    </article>
+
+                    <aside class="cis-panel">
+                        <p class="cis-kicker">Visible modules</p>
+                        <div class="cis-module-grid">
+                            <div class="cis-module">Dashboard</div>
+                            <div class="cis-module">Search</div>
+                            <div class="cis-module">Bible</div>
+                            <div class="cis-module">Rosary</div>
+                            <div class="cis-module">Doctrine</div>
+                            <div class="cis-module">Mariology</div>
+                            <div class="cis-module">Popes</div>
+                            <div class="cis-module">Saints</div>
+                            <div class="cis-module">Structure</div>
+                            <div class="cis-module">History</div>
+                        </div>
+                        <p class="cis-note">The visible reference also shows system signals such as a general dashboard, an internal catalog, and an administration area.</p>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <p class="section-eyebrow">👩‍🦳 Bilingual reflection</p>
+                <h2 class="section-title">The same core content, now better organized visually</h2>
+                <p class="section-text">The Spanish and English readings remain available, but now live inside a cleaner, more legible section format that is much more aligned with the reference site's card-based structure.</p>
+
+                <div class="reflection-grid">
+                    <article class="message-panel message-panel--es" id="reflexion-es" lang="es">
+                        <p class="message-tag">👩‍⚖️ Spanish</p>
+                        <div class="message-body">
+                            <p><strong>Quien reza el </strong><strong>Santo Rosario </strong><strong>de la </strong><strong>Santísima Virgen María</strong><strong>todos los días recibe una gracia profunda:</strong> la capacidad de distinguir claramente la Divina Realidad Cristiana de la ilusión <strong>satánica/luciferina</strong> que subyace a casi todos los males que azotan a la humanidad. Esta ilusión es la fuerza oculta tras los conflictos en la sociedad humana, las adicciones, las enfermedades mortales, los divorcios, el hambre, la guerra, el asesinato, las violaciones de los derechos humanos, la erosión de la libertad, la promoción de la ignorancia y la propagación del odio. ⚔️🕊️ <br>
+                            🙏 Mediante el Santo Rosario, se pueden combatir eficazmente los siete pecados capitales, especialmente el más letal de todos: <strong>la soberbia</strong>, que es la raíz de la rebelión contra Dios.<br>
+                            📖 Sin embargo, esta misión espiritual no está completa sin leer y comprender plenamente el documento (este preciso documento) <strong>"</strong><strong>33 Peticiones al Santo Rosario</strong><strong>"</strong>, disponible en el siguiente enlace:<br>
+                            🔗 <a href="https://mcortesgranados.github.io/PETICIONES-SANTO-ROSARIO.pdf" target="_new">https://mcortesgranados.github.io/PETICIONES-SANTO-ROSARIO.pdf</a> <br>
+                            🕯️ Como se indica explícitamente en el párrafo 19, página 11, en la <strong>Petición al Santo Rosario A</strong>, una vez que una persona lee este mensaje y su contenido, se vuelve <strong>espiritualmente responsable ante Dios</strong>. Cada alma debe entonces discernir seriamente si acepta el compromiso diario de rezar el Santo Rosario y reflexionar profundamente sobre las 33 peticiones que se indican en el documento PDF mencionado anteriormente.<br>
+                            💖 Si este llamado sagrado se acoge con sinceridad de corazón, las <strong>bendiciones de Dios se desbordarán</strong>, no solo sobre la persona, sino también sobre su familia, amigos y todos los que la rodean. Estas bendiciones pueden traer <strong>beneficios inconmensurables</strong> a toda la humanidad, ofreciendo <strong>protección y gracia divinas</strong> que pueden evitar su caída espiritual y literal. 🌿🛡️ <br>
+                            ⚠️ Pero si esta invitación divina se rechaza —por <strong>indiferencia</strong>, <strong>negligencia</strong> o <strong>desprecio</strong>—, las consecuencias son <strong>graves</strong>. La persona puede perder la <strong>protección maternal de la Santísima Virgen María</strong> y, con ella, el apoyo de las huestes angelicales. Desamparada espiritualmente, se vuelve vulnerable a los engaños y ataques de <strong>Satanás</strong>, el verdadero artífice de casi todos los males de este mundo. 🕳️👿</p>
+                            <p>💔 Y al rechazar este llamado, consciente o inconscientemente, esa persona <strong>colaboraria con los planes de </strong><strong>Satanás</strong>, contribuyendo así a la posible condena de innumerables almas en todo el mundo. Esta negligencia podría conducir a la ocurrencia de <strong>TERREMOTOS, ERUPCIONES VOLCÁNICAS, EVENTOS GEOLOGICOS DE GRAN DESTRUCCION</strong> o más grave aún, directa o indirectamente, al estallido de una <strong>TERCERA GUERRA MUNDIAL</strong>, una catástrofe global con consecuencias desastrosas, incluyendo la escalada hasta el uso de <strong>armas nucleares</strong>, que traería <strong>destrucción no solo material</strong>, sino también al <strong>destino espiritual de casi el 90% de la humanidad</strong>.</p>
+                        </div>
+                    </article>
+
+                    <div class="spotlight-column">
+                        <div class="spotlight-card">
+                            <p class="spotlight-emoji">👩‍🦳💗</p>
+                            <img src="rosary_01.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                            <p class="spotlight-note">A central visual axis with a softer, more feminine tone, without losing the solemn character of the content.</p>
+                        </div>
+
+                        <a class="directory-card" href="CV_MCG/CV_MCG_ENGLISH_2023.htm" target="_blank" rel="noopener">👩‍💻 CV_MCG_ENGLISH_2023</a>
+                    </div>
+
+                    <article class="message-panel message-panel--en" id="reflexion-en">
+                        <p class="message-tag">👩‍💬 English</p>
+                        <div class="message-body">
+                            <p>Whoever prays the Holy Rosary of the Blessed Virgin Mary every day receives a profound grace: the ability to clearly distinguish the Divine Christian Reality from the Satanic/Luciferian illusion that underlies almost all the evils that plague humanity. This illusion is the hidden force behind conflicts in human society, addictions, deadly diseases, divorce, hunger, war, murder, violations of human rights, the erosion of freedom, the promotion of ignorance, and the spread of hatred. ⚔️🕊️<br>
+                            🙏 Through the Holy Rosary, one can effectively combat the seven deadly sins, especially the most lethal of all: pride, which is the root of rebellion against God. 📖 However, this spiritual mission is not complete without reading and fully understanding the document (this very document) "33 Petitions to the Holy Rosary," available at the following link:</p>
+                            <p>🔗 https://mcortesgranados.github.io/PETICIONES-SANTO-ROSARIO.pdf</p>
+                            <p>🕯️ As explicitly stated in paragraph 19, page 11, in Petition to the Holy Rosary A, once a person reads this message and its contents, they become spiritually accountable to God. Each soul must then seriously discern whether to accept the daily commitment to pray the Holy Rosary and reflect deeply on the 33 petitions listed in the aforementioned PDF document.</p>
+                            <p>💖 If this sacred calling is embraced with sincerity of heart, God's blessings will overflow, not only upon the person, but also upon their family, friends, and all those around them. These blessings can bring immeasurable benefits to all of humanity, offering divine protection and grace that can prevent their spiritual and literal fall. 🌿🛡️<br>
+                            ⚠️ But if this divine invitation is rejected—through indifference, negligence, or contempt—the consequences are grave. The person may lose the maternal protection of the Blessed Virgin Mary and, with it, the support of the angelic hosts. Spiritually abandoned, they become vulnerable to the deceptions and attacks of Satan, the true architect of almost all the evils of this world. 🕳️👿<br>
+                            💔 And by rejecting this call, consciously or unconsciously, that person would be collaborating with Satan's plans, thus contributing to the possible damnation of countless souls around the world. This negligence could lead to the occurrence of EARTHQUAKES, VOLCANIC ERUPTIONS, GEOLOGICAL EVENTS OF GREAT DESTRUCTION or, even more seriously, directly or indirectly, to the outbreak of a THIRD WORLD WAR, a global catastrophe with disastrous consequences, including the escalation to the use of nuclear weapons, which would bring destruction not only materially, but also to the spiritual destiny of almost 90% of humanity.</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="content-section" id="directorio">
+                <p class="section-eyebrow">👩‍🔎 Directory</p>
+                <h2 class="section-title">Remaining access points preserved as cards</h2>
+                <p class="section-text">The remaining links and sections are still available, but they are now presented in a more orderly grid that stays more coherent with the reference visual style.</p>
+
+                <ul class="directory-grid">
+                    <li>
+                        <strong><a href="CHRISTIANITY/index.html">📖 CHRISTIANITY</a></strong>
+                        <ul>
+                            <li>
+                                <strong>🙏 HOLY ROSARY PETITIONS MCG</strong>
+                                <ul>
+                                    <li>🇪🇸 <a href="CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_INDEX.html" target="_blank" rel="noopener">SPANISH</a></li>
+                                    <li>🇬🇧 ENGLISH</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>🇨🇴 COLOMBIA</li>
+                    <li>
+                        <strong>📄 CV MCG</strong>
+                        <ul>
+                            <li>📅 <a href="CV_MCG/2025/index.html" target="_blank" rel="noopener">2025</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="https://mcortesgranados.github.io/IT_KNOWLEDGE_BASE/IT.html" target="_blank" rel="noopener">💻 IT KNOWLEDGE BASE</a></li>
+                    <li><a href="LGBTQ+/lgbtq+.html" target="_blank" rel="noopener">🏳️‍🌈 LGBTQ+</a></li>
+                    <li><a href="POETRY/index.html" target="_blank" rel="noopener">📜 POETRY</a></li>
+                    <li><a href="OTHER/OTHER.html" target="_blank" rel="noopener">📂 OTHER</a></li>
+                    <li><a href="FINCA_RAIZ/index.html">FINCA RAIZ</a></li>
+                    <li><a href="NU_SKIN/index.html">NU_SKIN</a> - <a href="NU_SKIN/productos_nu_skin_imagen.html">Products from the image</a> - <a href="NU_SKIN/PHARMANEX/index.html">PHARMANEX</a></li>
+                </ul>
+
+                <p class="micro-link"><a href="CV_MCG/CV_MCG_ENGLISH_2023.htm" target="_blank" rel="noopener">.</a></p>
+            </section>
+        </main>
+    </div>
 </body>
 </html>

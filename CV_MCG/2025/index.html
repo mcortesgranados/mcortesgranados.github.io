@@ -1,592 +1,3308 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Manuela CortAcs Granados CV Version 2025</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manuela Cortes Granados | ATS-Aligned CV Hub 2025</title>
   <style>
-  body { font-family: 'Segoe UI', Arial, sans-serif; background: #fafbfc; color: #23272f; margin: 0; padding: 0; }
-  .container { max-width: 950px; margin: 40px auto; background: #fff; box-shadow: 0 8px 32px rgba(0,0,0,0.08); border-radius: 10px; padding: 32px 40px; }
-  h1 { color: #1565c0; }
-  h2 { color: #2e7d32; margin-top: 32px; }
-  h3 { color: #7b1fa2; margin-top: 24px; }
-  .note { background: #e3f2fd; border-left: 4px solid #1976d2; padding: 16px 20px; margin: 18px 0; border-radius: 7px; }
-  .note ul { list-style: disc inside; margin: 0; padding-left: 1.2em; }
-  .note li { margin-bottom: 3px; line-height: 1.35; }
-  .note p { margin: 0 0 6px 0; line-height: 1.5; }
-  .footer { text-align: right; color: #888; font-size: 1em; margin-top: 40px; }
-  .tag { background: #e3f2fd; color: #1565c0; border-radius: 4px; padding: 3px 8px; margin-left: 6px; font-size: 0.95em; }
-  dt { color: #2e7d32; font-weight: bold; margin-top: 10px; }
-  dd { margin-bottom: 10px; }
-  .params table { border-collapse: collapse; width: 100%; margin: 10px 0; }
-  .params th, .params td { border: 1px solid #ccc; padding: 6px; }
-  .important { background: #fffde7; border-left: 4px solid #fbc02d; padding: 12px 18px; margin: 18px 0; border-radius: 5px; }
-  .sideEffects ul, .solid ul { margin: 0; padding-left: 20px; }
-  @media (max-width: 600px) { .container { padding: 16px 8px; } }
-  /* Code block styling */
-  pre { background: #f6f8fa; padding: 14px; border-radius: 8px; overflow: auto; font-size: 0.92em; }
-  code { font-family: Consolas, 'Courier New', monospace; }
-  .row { display:flex; gap:20px; flex-wrap:wrap; }
-  .col { flex:1 1 420px; }
-  /* Small visual helpers */
-  .endpoint { border: 1px solid #e0e0e0; padding: 12px 14px; border-radius: 8px; background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,0.04); }
-  .json { white-space: pre; font-family: Consolas, 'Courier New', monospace; font-size: 0.95em; }
-  .success { color: #2e7d32; font-weight: 600; }
-  .error { color: #c62828; font-weight: 600; }
-  .table-tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 10px 0 6px; }
-  .table-tools input { padding: 8px 10px; border: 1px solid #cfd8dc; border-radius: 6px; width: min(360px, 100%); }
-  .table-wrap { border: 1px solid #e0e0e0; border-radius: 8px; overflow: auto; box-shadow: 0 3px 8px rgba(0,0,0,0.04); }
-  .params table { min-width: 980px; }
-  .params thead th { position: sticky; top: 0; background: #f1f5fb; z-index: 2; }
-  .params th:first-child, .params td:first-child { position: sticky; left: 0; background: #fff; z-index: 1; }
-  .params thead th:first-child { z-index: 3; background: #e3f2fd; }
-  .row-highlight td { background: #fff8e1; }
-  .tech-tag { display: inline-block; padding: 2px 6px; margin: 2px 4px 2px 0; background: #e3f2fd; color: #1565c0; border-radius: 4px; font-size: 0.85em; }
-  @media (max-width: 700px) {
-    .params table { min-width: 0; }
-    .params thead { display: none; }
-    .params table, .params tbody, .params tr, .params td { display: block; width: 100%; }
-    .params tr { border: 1px solid #e0e0e0; border-radius: 8px; margin: 10px 0; padding: 8px; background: #fff; }
-    .params td { border: none; border-bottom: 1px dashed #e0e0e0; padding: 8px 6px; }
-    .params td:last-child { border-bottom: none; }
-    .params td::before { content: attr(data-label); display: block; font-weight: 600; color: #2e7d32; margin-bottom: 2px; }
-    .params th:first-child, .params td:first-child { position: static; background: transparent; }
-  }
+    :root {
+      --bg-top: #e7eef8;
+      --bg-bottom: #f9fbff;
+      --panel: rgba(255, 255, 255, 0.96);
+      --panel-strong: #ffffff;
+      --ink: #132238;
+      --ink-soft: #42556f;
+      --navy: #143462;
+      --navy-soft: #234f8f;
+      --teal: #0f766e;
+      --gold: #c89b5b;
+      --rose: #b43f71;
+      --blue: #2563eb;
+      --blue-strong: #1d4ed8;
+      --card-soft: #eef4ff;
+      --card-rose: #fff7f8;
+      --line: rgba(20, 52, 98, 0.12);
+      --line-strong: rgba(20, 52, 98, 0.22);
+      --line-blue: #bfd4ff;
+      --shadow: 0 18px 46px rgba(15, 23, 42, 0.08);
+      --shadow-strong: 0 28px 70px rgba(15, 23, 42, 0.14);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --sidebar-width: 260px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(200, 155, 91, 0.18), transparent 28rem),
+        radial-gradient(circle at right 12%, rgba(35, 79, 143, 0.12), transparent 22rem),
+        linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .page-shell {
+      width: min(1750px, calc(100% - 0.5rem));
+      margin: 0 auto;
+      padding: 0.25rem 0 1.2rem;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      gap: 0.45rem;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0.25rem;
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar-card {
+      padding: 1rem;
+    }
+
+    .sidebar-kicker,
+    .section-kicker,
+    .eyebrow {
+      margin: 0;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--rose);
+    }
+
+    .sidebar-copy {
+      margin: 0.75rem 0 0;
+      color: var(--ink-soft);
+      line-height: 1.65;
+      font-size: 0.98rem;
+    }
+
+    .sidebar-nav {
+      display: grid;
+      gap: 0.65rem;
+      margin-top: 0.9rem;
+    }
+
+    .sidebar-nav a,
+    .sidebar-link-list a {
+      display: block;
+      padding: 0.78rem 0.92rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(242, 247, 255, 0.96));
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-link-list a:hover,
+    .resource-card:hover,
+    .detail-link:hover,
+    .button-row a:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+      box-shadow: 0 14px 30px rgba(20, 52, 98, 0.12);
+    }
+
+    .sidebar-mini-list {
+      list-style: none;
+      margin: 0.95rem 0 0;
+      padding: 0;
+      display: grid;
+      gap: 0.68rem;
+    }
+
+    .sidebar-mini-list li {
+      padding: 0.82rem 0.9rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(247, 250, 255, 0.94));
+    }
+
+    .sidebar-mini-list strong {
+      display: block;
+      color: var(--navy);
+      font-size: 0.9rem;
+    }
+
+    .sidebar-mini-list span {
+      display: block;
+      margin-top: 0.2rem;
+      color: var(--ink-soft);
+      line-height: 1.45;
+      font-size: 0.88rem;
+    }
+
+    .content-column {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .hero {
+      padding: 0.3rem;
+      background: linear-gradient(180deg, rgba(20, 52, 98, 0.98), rgba(35, 79, 143, 0.98));
+      box-shadow: var(--shadow-strong);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, 340px) minmax(0, 1.2fr) minmax(300px, 0.9fr);
+      gap: 0.42rem;
+      align-items: stretch;
+    }
+
+    .hero-card,
+    .hero-aside {
+      border-radius: calc(var(--radius-xl) - 4px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .hero-photo {
+      padding: 0.38rem;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 246, 255, 0.98));
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      min-height: 42rem;
+      border-radius: calc(var(--radius-xl) - 10px);
+      box-shadow: 0 22px 46px rgba(15, 23, 42, 0.16);
+    }
+
+    .hero-photo-note {
+      margin-top: 0.4rem;
+      padding: 0.78rem 0.95rem;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, rgba(20, 52, 98, 0.92), rgba(24, 65, 119, 0.88));
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.58;
+      font-size: 0.92rem;
+    }
+
+    .hero-main {
+      padding: 1.5rem 1.6rem;
+      background:
+        radial-gradient(circle at right top, rgba(180, 63, 113, 0.08), transparent 14rem),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(246, 249, 255, 0.98));
+    }
+
+    .hero-main h1 {
+      margin: 0.28rem 0 0;
+      font-size: clamp(3rem, 6vw, 5.6rem);
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      line-height: 0.92;
+      color: #0f4fa0;
+      max-width: 8ch;
+      text-wrap: balance;
+    }
+
+    .hero-role {
+      margin: 0.95rem 0 0;
+      padding: 0.8rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(20, 52, 98, 0.14);
+      background: linear-gradient(180deg, rgba(243, 248, 255, 0.98), rgba(255, 248, 250, 0.94));
+      color: var(--navy-soft);
+      font-size: 0.98rem;
+      font-weight: 800;
+      line-height: 1.4;
+      width: fit-content;
+      max-width: 100%;
+    }
+
+    .hero-lead,
+    .hero-support {
+      margin: 1rem 0 0;
+      font-size: 1.04rem;
+      line-height: 1.76;
+      color: var(--ink-soft);
+      max-width: 66ch;
+    }
+
+    .metric-grid {
+      margin-top: 1.05rem;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.72rem;
+    }
+
+    .metric-card {
+      padding: 0.95rem 0.98rem;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(20, 52, 98, 0.14);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 246, 255, 0.9));
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.05);
+    }
+
+    .metric-card strong {
+      display: block;
+      color: var(--navy);
+      font-size: 1.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .metric-card span {
+      display: block;
+      margin-top: 0.28rem;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .button-row {
+      margin-top: 1.05rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .button-row a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3rem;
+      padding: 0.82rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(20, 52, 98, 0.16);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    .primary-button {
+      background: linear-gradient(90deg, var(--navy), var(--navy-soft));
+      color: #ffffff;
+      box-shadow: 0 14px 28px rgba(20, 52, 98, 0.2);
+    }
+
+    .secondary-button {
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--navy);
+    }
+
+    .hero-aside {
+      padding: 1.4rem 1.25rem;
+      background:
+        radial-gradient(circle at right bottom, rgba(200, 155, 91, 0.14), transparent 12rem),
+        linear-gradient(180deg, rgba(240, 246, 255, 0.98), rgba(255, 248, 250, 0.98));
+      color: var(--ink);
+      display: grid;
+      align-content: start;
+      gap: 0.9rem;
+    }
+
+    .hero-aside .eyebrow {
+      color: var(--rose);
+    }
+
+    .hero-aside-title {
+      margin: 0;
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+      color: #17386d;
+    }
+
+    .contact-list,
+    .credential-list,
+    .plain-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.62rem;
+    }
+
+    .contact-list li,
+    .credential-list li,
+    .plain-list li {
+      padding: 0.78rem 0.84rem;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(20, 52, 98, 0.12);
+      background: rgba(255, 255, 255, 0.8);
+      line-height: 1.55;
+      color: var(--ink-soft);
+    }
+
+    .contact-list strong,
+    .credential-list strong {
+      display: block;
+      color: var(--navy);
+      font-size: 0.88rem;
+      margin-bottom: 0.18rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.25rem;
+      padding: 0.48rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid rgba(20, 52, 98, 0.12);
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--navy);
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .callout {
+      padding: 1rem 1.02rem;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, rgba(20, 52, 98, 0.96), rgba(27, 64, 115, 0.94));
+      color: rgba(255, 255, 255, 0.94);
+      line-height: 1.65;
+    }
+
+    .section {
+      padding: 1.2rem 1.25rem;
+    }
+
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: end;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      margin: 0.18rem 0 0;
+      font-size: clamp(1.85rem, 2.8vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.04;
+      color: #17386d;
+      text-wrap: balance;
+    }
+
+    .section-copy {
+      margin: 0.55rem 0 0;
+      max-width: 72ch;
+      line-height: 1.7;
+      color: var(--ink-soft);
+      font-size: 1rem;
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.5rem;
+      padding: 0.58rem 0.95rem;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(20, 52, 98, 0.98), rgba(35, 79, 143, 0.94));
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .resource-grid,
+    .skills-grid,
+    .highlight-grid,
+    .credentials-grid {
+      display: grid;
+      gap: 0.78rem;
+    }
+
+    .resource-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .resource-card {
+      display: grid;
+      gap: 0.62rem;
+      padding: 1rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(20, 52, 98, 0.12);
+      background:
+        radial-gradient(circle at right top, rgba(180, 63, 113, 0.08), transparent 10rem),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(244, 248, 255, 0.96));
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+    }
+
+    .resource-card .resource-kicker {
+      margin: 0;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--rose);
+    }
+
+    .resource-card h3,
+    .skill-card h3,
+    .highlight-card h3,
+    .credential-card h3 {
+      margin: 0;
+      color: #17386d;
+      font-family: inherit;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.28;
+    }
+
+    .resource-card p,
+    .skill-card p,
+    .highlight-card p,
+    .credential-card p {
+      margin: 0;
+      color: var(--ink-soft);
+      line-height: 1.65;
+    }
+
+    .resource-card span {
+      color: var(--navy-soft);
+      font-weight: 800;
+      font-size: 0.86rem;
+    }
+
+    .skills-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .skill-card,
+    .highlight-card,
+    .credential-card {
+      padding: 1rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(20, 52, 98, 0.12);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(246, 249, 255, 0.98));
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+    }
+
+    .skill-list,
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.72rem;
+    }
+
+    .skill-list span,
+    .tag-list span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2rem;
+      padding: 0.38rem 0.64rem;
+      border-radius: 999px;
+      background: rgba(20, 52, 98, 0.08);
+      color: var(--navy);
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .highlight-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    #highlights {
+      background:
+        radial-gradient(circle at right top, rgba(37, 99, 235, 0.07), transparent 16rem),
+        radial-gradient(circle at left bottom, rgba(219, 39, 119, 0.06), transparent 14rem),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(244, 248, 255, 0.98));
+    }
+
+    #highlights .section-title,
+    #insights .section-title {
+      font-size: clamp(2.05rem, 3vw, 2.85rem);
+      color: #17386d;
+      max-width: 20ch;
+    }
+
+    #highlights .section-copy,
+    #insights .section-copy {
+      font-size: 1.03rem;
+      color: #334155;
+      max-width: 78ch;
+    }
+
+    #highlights .section-badge,
+    #insights .section-badge {
+      background: linear-gradient(90deg, var(--blue-strong), #3b82f6);
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.18);
+    }
+
+    .highlight-card {
+      display: grid;
+      position: relative;
+      overflow: hidden;
+      gap: 0.82rem;
+      padding: 1.08rem;
+      border: 1px solid rgba(191, 212, 255, 0.88);
+      background:
+        radial-gradient(circle at right top, rgba(37, 99, 235, 0.08), transparent 10rem),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(238, 244, 255, 0.96));
+      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.07);
+    }
+
+    .highlight-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue-strong), var(--rose), var(--gold));
+      opacity: 0.92;
+    }
+
+    .highlight-emoji-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.52rem;
+      margin-top: 0.9rem;
+    }
+
+    .highlight-emoji-chip,
+    .highlight-card-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      min-height: 2.05rem;
+      padding: 0.42rem 0.72rem;
+      border-radius: 999px;
+      border: 1px solid rgba(191, 212, 255, 0.95);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 246, 255, 0.9));
+      color: #17386d;
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .highlight-card-badge {
+      margin: 0;
+      color: #a21caf;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .highlight-period {
+      margin: 0;
+      color: #a21caf;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .highlight-role {
+      color: #0f4fa0;
+      font-weight: 700;
+      font-size: 0.98rem;
+      line-height: 1.55;
+    }
+
+    .detail-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      min-height: 2.45rem;
+      padding: 0.55rem 0.82rem;
+      border-radius: 999px;
+      border: 1px solid rgba(191, 212, 255, 0.95);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 246, 255, 0.9));
+      color: #17386d;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .insight-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.52rem;
+      margin-top: 0.9rem;
+    }
+
+    .insight-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.1rem;
+      padding: 0.45rem 0.74rem;
+      border-radius: 999px;
+      border: 1px solid rgba(191, 212, 255, 0.95);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 246, 255, 0.9));
+      color: #17386d;
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.82rem;
+    }
+
+    .chart-card {
+      display: grid;
+      gap: 0.72rem;
+      padding: 1rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(191, 212, 255, 0.86);
+      background:
+        radial-gradient(circle at right top, rgba(37, 99, 235, 0.08), transparent 12rem),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(242, 247, 255, 0.96));
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .chart-card-wide {
+      grid-column: span 2;
+    }
+
+    .chart-kicker {
+      margin: 0;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #a21caf;
+    }
+
+    .chart-card h3 {
+      margin: 0;
+      color: #17386d;
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.22;
+    }
+
+    .chart-copy {
+      margin: 0;
+      color: #475569;
+      line-height: 1.58;
+      font-size: 0.95rem;
+    }
+
+    .chart-shell {
+      position: relative;
+      min-height: 320px;
+      border-radius: 18px;
+      border: 1px solid rgba(191, 212, 255, 0.82);
+      background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.95), rgba(238, 244, 255, 0.92)),
+        linear-gradient(180deg, rgba(248, 250, 252, 0.96), rgba(255, 255, 255, 0.99));
+      overflow: hidden;
+    }
+
+    .chart-card-wide .chart-shell {
+      min-height: 390px;
+    }
+
+    .chart-canvas,
+    .chart-fallback {
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+    }
+
+    .chart-fallback {
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      color: #475569;
+      text-align: center;
+      line-height: 1.65;
+    }
+
+    .chart-count-accent {
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .credentials-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .archive-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+      margin-top: 0.3rem;
+      margin-bottom: 0.95rem;
+    }
+
+    .archive-tools label {
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .archive-tools input {
+      flex: 1 1 300px;
+      min-height: 3rem;
+      padding: 0.85rem 0.95rem;
+      border-radius: 14px;
+      border: 1px solid rgba(20, 52, 98, 0.18);
+      background: #ffffff;
+      color: var(--ink);
+      font: inherit;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+
+    .archive-note {
+      margin: 0 0 0.8rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+    }
+
+    .table-wrap {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(20, 52, 98, 0.12);
+      overflow: auto;
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
+      background: rgba(255, 255, 255, 0.98);
+    }
+
+    .archive-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1120px;
+    }
+
+    .archive-table th,
+    .archive-table td {
+      padding: 0.88rem 0.82rem;
+      border-bottom: 1px solid rgba(20, 52, 98, 0.08);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .archive-table th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: linear-gradient(180deg, rgba(20, 52, 98, 0.98), rgba(35, 79, 143, 0.94));
+      color: #ffffff;
+      font-size: 0.83rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .archive-table tr:nth-child(even) td {
+      background: rgba(245, 249, 255, 0.92);
+    }
+
+    .archive-table td:first-child,
+    .archive-table th:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 1;
+    }
+
+    .archive-table td:first-child {
+      background: #ffffff;
+      font-weight: 800;
+      color: var(--navy);
+      text-align: center;
+      min-width: 4rem;
+    }
+
+    .archive-table tr:nth-child(even) td:first-child {
+      background: rgba(245, 249, 255, 0.98);
+    }
+
+    .archive-table th:first-child {
+      z-index: 3;
+    }
+
+    .company-link {
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    .table-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.3rem;
+    }
+
+    .table-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.26rem 0.52rem;
+      border-radius: 999px;
+      background: rgba(20, 52, 98, 0.08);
+      color: var(--navy);
+      font-size: 0.76rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .footer-note {
+      padding: 1rem 1.15rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(20, 52, 98, 0.12);
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--ink-soft);
+      line-height: 1.65;
+      text-align: center;
+    }
+
+    @media (max-width: 1450px) {
+      .hero-grid {
+        grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+      }
+
+      .hero-aside {
+        grid-column: 1 / -1;
+      }
+
+      .resource-grid,
+      .highlight-grid,
+      .credentials-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .chart-card-wide .chart-shell {
+        min-height: 360px;
+      }
+    }
+
+    @media (max-width: 1120px) {
+      .page-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        order: 2;
+      }
+
+      .content-column {
+        order: 1;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .insights-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-card-wide {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .page-shell {
+        width: min(100%, calc(100% - 0.18rem));
+        padding-top: 0.1rem;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-photo img {
+        min-height: 0;
+        max-height: 40rem;
+      }
+
+      .hero-main,
+      .hero-aside,
+      .section,
+      .sidebar-card {
+        padding: 1rem;
+      }
+
+      .resource-grid,
+      .skills-grid,
+      .highlight-grid,
+      .credentials-grid,
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-shell,
+      .chart-card-wide .chart-shell {
+        min-height: 300px;
+      }
+
+      .button-row a {
+        width: 100%;
+      }
+
+      .archive-table,
+      .archive-table tbody,
+      .archive-table tr,
+      .archive-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .archive-table {
+        min-width: 0;
+      }
+
+      .archive-table thead {
+        display: none;
+      }
+
+      .archive-table tr {
+        border-bottom: 1px solid rgba(20, 52, 98, 0.1);
+      }
+
+      .archive-table td,
+      .archive-table td:first-child {
+        position: static;
+        background: transparent !important;
+        padding: 0.7rem 0.85rem;
+        border-bottom: 1px dashed rgba(20, 52, 98, 0.12);
+      }
+
+      .archive-table td:last-child {
+        border-bottom: none;
+      }
+
+      .archive-table td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 0.15rem;
+        color: var(--rose);
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>&#128204; Manuela CortAcs Granados CV Version 2025 <span class="tag">Actualizado</span></h1>
-    <p><strong>&#127919; Rol:</strong> Systems Engineer / Senior Fullstack Software Developer</p>
+  <div class="page-shell">
+    <aside class="sidebar">
+      <section class="sidebar-card panel">
+        <p class="sidebar-kicker">CV Hub 2025</p>
+        <p class="sidebar-copy">Rebuilt around the 2026 ATS V5 resume while preserving the strongest archive links, career pages, and supporting references from the 2025 CV index.</p>
+        <nav class="sidebar-nav" aria-label="CV navigation">
+          <a href="#overview">Overview</a>
+          <a href="#resources">Resources</a>
+          <a href="#skills">Core skills</a>
+          <a href="#highlights">Career highlights</a>
+          <a href="#credentials">Credentials</a>
+          <a href="#insights">Insight charts</a>
+          <a href="#archive">Experience archive</a>
+        </nav>
+      </section>
 
-    <div class="note">
-      <p><strong>&#11088; Resumen rapido</strong></p>
-      <p>Trayectoria profesional enfocada en desarrollo fullstack, arquitectura y automatizacion. Experiencia en multiples sectores y clientes finales.</p>
-      <ul>
-        <li>&#128187; Java / Python / NodeJS / Typescript / C# / Angular / React</li>
-        <li>&#128736;&#65039; Integraciones, modernizacion y plataformas empresariales</li>
-        <li>&#128200; Enfoque en impacto y resultados medibles</li>
-      </ul>
-    </div>
+      <section class="sidebar-card panel">
+        <p class="sidebar-kicker">Quick Facts</p>
+        <ul class="sidebar-mini-list">
+          <li>
+            <strong>28+ years</strong>
+            <span>Professional software engineering experience since 1998.</span>
+          </li>
+          <li>
+            <strong>AI-assisted delivery</strong>
+            <span>Active use of ChatGPT, GitHub Copilot, Cursor, OpenAI APIs, Gemini, and Claude since approximately 2022.</span>
+          </li>
+          <li>
+            <strong>24 linked roles</strong>
+            <span>Preserved experience archive with direct links to company detail pages from the 2025 source.</span>
+          </li>
+          <li>
+            <strong>324 piano songs</strong>
+            <span>Documented repertoire retained from the preserved music links in the CV archive.</span>
+          </li>
+        </ul>
+      </section>
 
-    <div class="row">
-      <div class="col">
-        <div class="endpoint">
-          <h3>&#129517; Indice principal</h3>
-          <ul>
-            <li>[1] Summary</li>
-            <li>[2] Personal Info
-              <ul>
-                <li><a href="https://www.youtube.com/@mcortesgranados" target="_blank">Youtube Pianist/Musician Channel</a></li>
-                <li><a href="../list_songs.html" target="_blank">List of songs played in Piano</a></li>
-              </ul>
-            </li>
-            <li>[3] Technical Proficiency</li>
-            <li>[4] Academic Record</li>
-            <li><a href="\" target="_blank">[5] Certifications</a>
-              <ul>
-                <li><a href="cv_mcg_2025_certifications.html" target="_blank">[5-1] Certifications of finished courses from cloudguru (Cloud Technologies)</a></li>
-                <li><a href="list_badges_learn_microsoft_manuelacortesgranados.html" target="_blank">[5-2] Certifications of badges learn.microsoft.comp</a></li>
-              </ul>
-            </li>
-            <li>[6] Business  Domain</li>
-            <li><a href="../../PETICIONES-SANTO-ROSARIO.pdf" target="_blank"><strong>[7] Greatest Achievement of Manu CortAcs Granados</strong></a></li>
-            <li><a href="comparative_table_tab.html" target="_blank"><strong>[8] Laboral Experience Concise</strong></a></li>
-            <li>[9] <strong>Laboral Experience</strong> in detail (Below)</li>
-            <li><a href="tech_assessments.html" target="_blank">[10] Manuela CortAcs GranadosA's Historical Record of Tech Assessments</a></li>
-            <li><a href="comprehensive_technical_proficiency_matrix.html" target="_parent">[11] Manuela Cortes Granados's Comprehensive Technical Proficiency Matrix</a></li>
-            <li><a href="../mcg_presentation_letter.html" target="_parent">[12] Presentation Letter</a></li>
-          </ul>
+      <section class="sidebar-card panel">
+        <p class="sidebar-kicker">Anchor Links</p>
+        <div class="sidebar-link-list">
+          <a href="../../PETICIONES-SANTO-ROSARIO.pdf" target="_blank" rel="noopener">Holy Rosary PDF - Spanish</a>
+          <a href="../../PETITIONS-HOLY-ROSARY.pdf" target="_blank" rel="noopener">Holy Rosary PDF - English</a>
+          <a href="comparative_table_tab.html" target="_blank" rel="noopener">Concise labor history</a>
+          <a href="tech_assessments.html" target="_blank" rel="noopener">Technical assessments</a>
         </div>
-      </div>
-      <div class="col">
-        <div class="important">
-          <p><strong>&#9989; Vista rapida</strong></p>
-          <p>CV con trayectoria completa por proyectos, clientes finales y referencias.</p>
-          <p class="success">Estado: Disponible para nuevos retos</p>
+      </section>
+    </aside>
+
+    <main class="content-column">
+      <section class="hero panel" id="overview">
+        <div class="hero-grid">
+          <div class="hero-photo hero-card">
+            <img src="../MCG_FEMALE_PHOTO_JUN_2026.png" alt="Portrait of Manuela Cortes Granados" loading="lazy" decoding="async">
+            <div class="hero-photo-note">
+              ATS-aligned professional landing page grounded in the 2026 resume and connected to the preserved 2025 archive, music links, certifications, and detailed role history.
+            </div>
+          </div>
+
+          <div class="hero-main hero-card">
+            <p class="eyebrow">ATS-aligned CV hub</p>
+            <h1>Manuela Cortes Granados</h1>
+            <p class="hero-role">Senior Software Engineer | Java / Spring Boot | Python | Data &amp; AI Engineering | APIs &amp; Automation</p>
+            <p class="hero-lead">Senior software engineer and technical consultant with 28+ years of experience delivering enterprise software, integration platforms, cloud solutions, data engineering, Python automation, AI-enabled delivery, QA automation, and full-stack applications.</p>
+            <p class="hero-support">This redesigned 2025 CV page uses the 2026 ATS V5 resume as the primary narrative source while preserving the most valuable information already present in the 2025 page: direct career links, certifications, music references, matrix pages, concise labor history, and detailed company archive pages.</p>
+
+            <div class="metric-grid">
+              <div class="metric-card">
+                <strong>28+ years</strong>
+                <span>IT experience across enterprise platforms, middleware, cloud, data, and full-stack delivery.</span>
+              </div>
+              <div class="metric-card">
+                <strong>2019-present</strong>
+                <span>Recent emphasis on Spring Boot, secure APIs, cloud-native delivery, data workflows, and AI-assisted engineering.</span>
+              </div>
+              <div class="metric-card">
+                <strong>24 linked roles</strong>
+                <span>Preserved detailed experience archive sourced from the 2025 index and linked role pages.</span>
+              </div>
+              <div class="metric-card">
+                <strong>324 songs</strong>
+                <span>Piano repertoire preserved through the 2025 music references and linked song archive.</span>
+              </div>
+            </div>
+
+            <div class="button-row">
+              <a class="primary-button" href="comparative_table_tab.html" target="_blank" rel="noopener">Open concise labor history</a>
+              <a class="secondary-button" href="comprehensive_technical_proficiency_matrix.html" target="_blank" rel="noopener">View proficiency matrix</a>
+              <a class="secondary-button" href="../mcg_presentation_letter.html" target="_blank" rel="noopener">Presentation letter</a>
+            </div>
+          </div>
+
+          <aside class="hero-aside">
+            <p class="eyebrow">Profile essentials</p>
+            <h2 class="hero-aside-title">Contact, delivery focus, and working style</h2>
+
+            <ul class="contact-list">
+              <li>
+                <strong>Location</strong>
+                Bogota D.C., Colombia
+              </li>
+              <li>
+                <strong>Phone / WhatsApp</strong>
+                <a href="tel:+573184118212">+57 318 411 8212</a>
+              </li>
+              <li>
+                <strong>Email</strong>
+                <a href="mailto:manuelacortesgranados@gmail.com">manuelacortesgranados@gmail.com</a>
+              </li>
+              <li>
+                <strong>LinkedIn</strong>
+                <a href="https://www.linkedin.com/in/mcortesgranados/" target="_blank" rel="noopener">linkedin.com/in/mcortesgranados</a>
+              </li>
+              <li>
+                <strong>Portfolio</strong>
+                <a href="https://mcortesgranados.github.io" target="_blank" rel="noopener">mcortesgranados.github.io</a>
+              </li>
+            </ul>
+
+            <div class="pill-row">
+              <span class="pill">Java 17/21</span>
+              <span class="pill">Spring Boot</span>
+              <span class="pill">Python</span>
+              <span class="pill">React / Angular</span>
+              <span class="pill">AWS / Azure / GCP</span>
+              <span class="pill">B2+/C1 English</span>
+            </div>
+
+            <div class="callout">
+              Actively using AI-assisted engineering workflows with ChatGPT, GitHub Copilot, Cursor, OpenAI APIs, Gemini, and Claude while applying senior engineering judgment, secure design, testing discipline, and production-readiness reviews before delivery.
+            </div>
+          </aside>
         </div>
-        <div class="endpoint">
-          <h3>&#128337; Linea de tiempo (destacados)</h3>
-          <dl>
-            <dt>2024 - Presente</dt>
-            <dd>InnovaSoftware</dd>
-            <dt>2023 - 2024</dt>
-            <dd>InformA­tica y Buen Gobierno</dd>
-            <dt>2019 - 2021</dt>
-            <dd>ScotiaGBS</dd>
-            <dt>2016 - 2017</dt>
-            <dd>Hardnetics / Entelgy</dd>
-          </dl>
+      </section>
+
+      <section class="section panel" id="resources">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">Preserved 2025 assets</p>
+            <h2 class="section-title">Curated resources and retained links</h2>
+            <p class="section-copy">The current page keeps the most useful resources from the older 2025 index, but organizes them as a professional resource library instead of a plain bullet list.</p>
+          </div>
+          <div class="section-badge">10 key resources</div>
         </div>
-      </div>
-    </div>
 
-    <h2>&#128188; Laboral Experience (Detail)</h2>
-    <div class="table-tools">
-      <label for="tableFilter"><strong>&#128269; Buscar:</strong></label>
-      <input id="tableFilter" type="text" placeholder="Empresa, cliente, tecnologia o ano" />
-      <span class="tag">&#128204; 24 registros</span>
-    </div>
+        <div class="resource-grid">
+          <a class="resource-card" href="comparative_table_tab.html" target="_blank" rel="noopener">
+            <p class="resource-kicker">Career archive</p>
+            <h3>Concise labor history</h3>
+            <p>Tab-based concise experience review preserved from the 2025 CV materials.</p>
+            <span>Open resource</span>
+          </a>
 
-    <div class="params table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Company</th>
-            <th>Title</th>
-            <th>Tecnologias</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Duration</th>
-            <th>Final Client</th>
-            <th>Reference</th>
-            <th>Phone</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="row-highlight">
-            <td>24</td>
-            <td><a href="24_InnovaSoftware.html" target="_blank">InnovaSoftware</a></td>
-            <td>Systems  Engineer / Senior Fullstack Software Developer (Java/Python/NodeJS/Typescript/C#/Angular/React/) Webflow Designer/Integrator</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">Python</span>
-              <span class="tech-tag">NodeJS</span>
-              <span class="tech-tag">Typescript</span>
-              <span class="tech-tag">C#</span>
-              <span class="tech-tag">Angular</span>
-              <span class="tech-tag">React</span>
-              <span class="tech-tag">Webflow</span>
-            </td>
-            <td>April 2024</td>
-            <td>Present</td>
-            <td>&lt; 1 Year</td>
-            <td></td>
-            <td>
-              <p>Aura Cristina GarzA3n RodrA-guez</p>
-              <p>&nbsp;</p>
-            </td>
-            <td>+573192486336</td>
-          </tr>
-          <tr class="row-highlight">
-            <td>23</td>
-            <td><a href="23_InformaticaBuenGobierno.html" target="_blank">InformA­tica y Buen Gobierno</a></td>
-            <td>Fullstack Software Developer/ Senior Front End React Developer/ Senior Automation Test Engineer Consultant (Java/Python/NodeJS/Typescript/C#/Angular/React)</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">Python</span>
-              <span class="tech-tag">NodeJS</span>
-              <span class="tech-tag">Typescript</span>
-              <span class="tech-tag">C#</span>
-              <span class="tech-tag">Angular</span>
-              <span class="tech-tag">React</span>
-              <span class="tech-tag">Automation</span>
-            </td>
-            <td>April 2023</td>
-            <td>April 2024</td>
-            <td>1 Year</td>
-            <td>Colombian State</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>22</td>
-            <td><a href="22_Wizeline.html" target="_blank">Wizeline</a></td>
-            <td>Fullstack Senior Software Developer (Java/Python/NodeJS/Typescript/Angular/React)</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">Python</span>
-              <span class="tech-tag">NodeJS</span>
-              <span class="tech-tag">Typescript</span>
-              <span class="tech-tag">Angular</span>
-              <span class="tech-tag">React</span>
-            </td>
-            <td>March 2022</td>
-            <td>April 2023</td>
-            <td>1 Year 1 Month</td>
-            <td>DowJones</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>21</td>
-            <td><a href="21_Globant.html" target="_blank">Globant</a></td>
-            <td>Java Developer Architect (Senior Fullstack SW Developer Java/Python/NodeJS/Typescript/Angular/React )</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">Python</span>
-              <span class="tech-tag">NodeJS</span>
-              <span class="tech-tag">Typescript</span>
-              <span class="tech-tag">Angular</span>
-              <span class="tech-tag">React</span>
-            </td>
-            <td>November 2021</td>
-            <td>March 2022</td>
-            <td>5 Months</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>20</td>
-            <td><a href="20_ScotiaGBS.html" target="_blank">ScotiaGBS Colombia Global Business Service (ScotiaBank)</a></td>
-            <td>Programmer Analyst Advisory/Platform Engineer Specialist (Java/.NET C# Development)</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">.NET</span>
-              <span class="tech-tag">C#</span>
-              <span class="tech-tag">Platform</span>
-            </td>
-            <td>October 2019</td>
-            <td>October 2021</td>
-            <td>2 Years</td>
-            <td>ScotiaGBS</td>
-            <td>
-              <p><a href="https://www.linkedin.com/in/pablo-andres-esteban-vargas-3bab99173/" target="_blank">Pablo AndrAcs Esteban Vargas</a></p>
-              <p>&nbsp;</p>
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>19</td>
-            <td><a href="19_IBG.html" target="_blank">INFORMATICA Y BUEN GOBIERNO - VeedurA-a Ciudadana / Citizen Oversight Organization informaticaybuengobierno.net</a></td>
-            <td>Founder / Director / Coordinator / Senior FullstackDeveloper Platforms Consultation in SECOP National Procurement Platform (Java/Python/NodeJS/Typescript/Angular/React)</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">Python</span>
-              <span class="tech-tag">NodeJS</span>
-              <span class="tech-tag">Typescript</span>
-              <span class="tech-tag">Angular</span>
-              <span class="tech-tag">React</span>
-            </td>
-            <td>March 2017</td>
-            <td>October 2019</td>
-            <td>2 years 8 Months</td>
-            <td>Colombian State</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>18</td>
-            <td><a href="18_Hardnetics.html" target="_blank">Hardnetics (Oracle Partner)</a></td>
-            <td>Oracle Service Bus Developer - Senior Java Developer</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">Oracle OSB</span>
-            </td>
-            <td>November 2016</td>
-            <td>February 2017</td>
-            <td>4 Months</td>
-            <td>Claro</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>17</td>
-            <td><a href="17_EntelgyColombia.html" target="_blank">Entelgy Colombia</a></td>
-            <td>Oracle Service Bus Developer - Senior Java Developer</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">Oracle OSB</span>
-            </td>
-            <td>August 2016</td>
-            <td>October 2016</td>
-            <td>4 Months</td>
-            <td>Corpbanca/HELMS/ITAHU</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>16</td>
-            <td><a href="16_PeriferiaIT.html" target="_blank">Periferia IT</a></td>
-            <td>Senior Java PL SQL Transact SQL Developer/Analyst</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">PL/SQL</span>
-              <span class="tech-tag">T-SQL</span>
-            </td>
-            <td>July 2016</td>
-            <td>August 2016</td>
-            <td>2 Months</td>
-            <td>Royal Sun Alliance (RSA)</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>15</td>
-            <td><a href="15_SOAINT.html" target="_blank">SOAINT</a></td>
-            <td>Oracle Middleware Developer (Oracle SOA Suite &amp; Oracle Service Bus)</td>
-            <td>
-              <span class="tech-tag">Oracle SOA</span>
-              <span class="tech-tag">Oracle OSB</span>
-              <span class="tech-tag">Java</span>
-            </td>
-            <td>October 2015</td>
-            <td>April 2016</td>
-            <td>7 Months</td>
-            <td>Banco Falabella</td>
-            <td><a href="https://www.linkedin.com/in/ricardo-rinc%C3%B3n-pardo-a49a2430/" target="_blank">Ricardo  Rincon</a></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>14</td>
-            <td><a href="14_Ceinte.html" target="_blank">CEINTE SA</a></td>
-            <td>Oracle Business Intelligence Implementator</td>
-            <td>
-              <span class="tech-tag">Oracle BI</span>
-            </td>
-            <td>August 2025</td>
-            <td>October 2015</td>
-            <td>4 Months</td>
-            <td>Colombian Ministry of Education</td>
-            <td>
-              <p><a href="https://www.linkedin.com/in/diegocamilopalaciosflechas/" target="_blank">Diego  Palacios</a></p>
-              <p>&nbsp;</p>
-            </td>
-            <td>+573214048852</td>
-          </tr>
-          <tr>
-            <td>13</td>
-            <td><a href="13_Tata.html" target="_blank">Tata Consultancy Services Colombia</a></td>
-            <td>Senior Java Developer/Oracle BPM Integrator</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">Oracle BPM</span>
-            </td>
-            <td>January 2015</td>
-            <td>July 2015</td>
-            <td>7 Months</td>
-            <td>
-              <p align="center">Zona Franca - Bogota DC Colombia</p>
-            </td>
-            <td>
-              <p align="center">Javier  DelRio Moreno (Project Manager)</p>
-              <p align="center">&nbsp;</p>
-              <p align="center"><a href="https://www.linkedin.com/in/martintorrescardozo/" target="_blank">Martin  Torres Cardozo (Delivery Manager)</a></p>
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>12</td>
-            <td><a href="12_EfronConsulting.html" target="_blank">EFRON CONSULTING</a></td>
-            <td>Technical Lead Team/Senior Java Developer</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">Leadership</span>
-            </td>
-            <td>August 2014</td>
-            <td>December 2014</td>
-            <td>6 Months</td>
-            <td>Ministry of Labor - Colombian Government - Ri</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>11</td>
-            <td><a href="11_InterkontEU.html" target="_blank">INTERKONT EU</a></td>
-            <td>Senior Java Software Developer</td>
-            <td>
-              <span class="tech-tag">Java</span>
-            </td>
-            <td>May 2014</td>
-            <td>August 2014</td>
-            <td>4 Months</td>
-            <td>FONADE - ICCU</td>
-            <td>
-              <p><a href="https://www.linkedin.com/in/alejandro-guti%C3%A9rrez-48a59754/" target="_blank">Alejandro  Gutierrez</a> (General Manager CEO)</p>
-              <p>+573104127514</p>
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>10</td>
-            <td><a href="10_Stefanini.html" target="_blank">STEFANINI InformA­tica y TecnologA-a</a></td>
-            <td>Senior II Java and Oracle BPM Software Developer</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">Oracle BPM</span>
-            </td>
-            <td>November 2013</td>
-            <td>February 2014</td>
-            <td>4 Months</td>
-            <td>INVIMA - Colombian Government Entity realted with Food Administration</td>
-            <td>
-              <p><a href="https://www.linkedin.com/in/vicente-gonzalez-1252b059/" target="_blank">Vicente  Gonzalez</a></p>
-              <p>+573176572911</p>
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>9</td>
-            <td><a href="09_Incaprog.html" target="_blank">Online Live Computer Education and Training Institute</a></td>
-            <td>Computer Trainer/Instructor for Oracle Technologies/Java Trainer</td>
-            <td>
-              <span class="tech-tag">Java</span>
-              <span class="tech-tag">Oracle</span>
-            </td>
-            <td>August 2011</td>
-            <td>March 2013</td>
-            <td>1 Year 7 Months</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td><a href="08_Ipler.html" target="_blank">IPLER CI SA - Educational Institute for Work and Human Development</a></td>
-            <td>Systems Engineer / Java Software Developer</td>
-            <td>
-              <span class="tech-tag">Java</span>
-            </td>
-            <td>April 2006</td>
-            <td>August 2011</td>
-            <td>5 Years 5 Months</td>
-            <td>IPLER</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td><a href="07_sigtech.html" target="_blank">SIGTECH LTDA</a></td>
-            <td>Mid-Level Java Software Developer</td>
-            <td>
-              <span class="tech-tag">Java</span>
-            </td>
-            <td>October 2005</td>
-            <td>March 2006</td>
-            <td>6 Months</td>
-            <td>
-              <p>Unidad Administrativa Especial de Catastro Distrital (CATASTRO)</p>
-              <p>ETB - SAAW (ADJUS ADMINISTERING SYSTEM) - Architecture</p>
-            </td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td><a href="06_synapsis.html" target="_blank">Synapsis Ltda</a></td>
-            <td>Visual  Basic 6.0 Software Developer</td>
-            <td>
-              <span class="tech-tag">Visual Basic 6.0</span>
-            </td>
-            <td>December 2003</td>
-            <td>December 2004</td>
-            <td>10 Months</td>
-            <td>Codensa - Carulla </td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td><a href="05_megalinea.html" target="_blank">Megalinea</a></td>
-            <td>Visual Fox Pro Software Developer</td>
-            <td>
-              <span class="tech-tag">Visual FoxPro</span>
-            </td>
-            <td>April 2003</td>
-            <td>December 2003</td>
-            <td>10 Months</td>
-            <td>
-              <p>COOPTENJO Entidad Cooperativa de Ahorro y Credito </p>
-              <p>COOPIDROGAS Cooperativa Nacional de Droguistas Detallistas</p>
-            </td>
-            <td>
-              <p><a href="https://www.linkedin.com/in/deligarretov/" target="_blank">Diego Esteban Vargas Ligarreto</a></p>
-              <p>&nbsp;</p>
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td><a href="04_Porvenir.html" target="_blank">Porvenir</a></td>
-            <td>&nbsp;</td>
-            <td>
-              <span class="tech-tag">N/A</span>
-            </td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td><a href="03_moloko.html" target="_blank">Moloko S.A.</a></td>
-            <td>Visual Basic Software Developer/Freelancer</td>
-            <td>
-              <span class="tech-tag">Visual Basic</span>
-            </td>
-            <td>September 2001</td>
-            <td>March 2003</td>
-            <td>7 Months</td>
-            <td>Porvenir</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td><a href="02_apice.html" target="_blank">APICE S.A.</a></td>
-            <td>IVR Visual Basic Software  Developer</td>
-            <td>
-              <span class="tech-tag">Visual Basic</span>
-            </td>
-            <td>January 1999</td>
-            <td>August 2001</td>
-            <td>2 Years 8 Months</td>
-            <td>Codensa </td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td><a href="01_nortel_networks.html" target="_blank">Nortel Networks</a></td>
-            <td>Visual Basic/MS Access Developer</td>
-            <td>
-              <span class="tech-tag">Visual Basic</span>
-              <span class="tech-tag">MS Access</span>
-            </td>
-            <td>March 1998</td>
-            <td>December 1998</td>
-            <td>10 Months</td>
-            <td>Nortel Networks</td>
-            <td>
-              <p><a href="https://www.linkedin.com/in/uddy-carmi-6aa220/" target="_blank">Uddy Carmi</a></p>
-              <p>+17862646633</p>
-            </td>
-            <td>&nbsp;</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+          <a class="resource-card" href="comprehensive_technical_proficiency_matrix.html" target="_blank" rel="noopener">
+            <p class="resource-kicker">Skills</p>
+            <h3>Comprehensive proficiency matrix</h3>
+            <p>Detailed matrix of technologies, tools, and practical capability areas.</p>
+            <span>Open resource</span>
+          </a>
 
-    <div class="footer">Actualizado: 2025 &#9989;</div>
+          <a class="resource-card" href="tech_assessments.html" target="_blank" rel="noopener">
+            <p class="resource-kicker">Assessment history</p>
+            <h3>Technical assessments record</h3>
+            <p>Preserved history of technical evaluations and interview-related materials.</p>
+            <span>Open resource</span>
+          </a>
+
+          <a class="resource-card" href="cv_mcg_2025_certifications.html" target="_blank" rel="noopener">
+            <p class="resource-kicker">Credentials</p>
+            <h3>Cloud and course certifications</h3>
+            <p>Finished-course certification library preserved from the 2025 CV hub.</p>
+            <span>Open resource</span>
+          </a>
+
+          <a class="resource-card" href="list_badges_learn_microsoft_manuelacortesgranados.html" target="_blank" rel="noopener">
+            <p class="resource-kicker">Credentials</p>
+            <h3>Microsoft Learn badges</h3>
+            <p>Dedicated page for badge-based learning and Microsoft progress artifacts.</p>
+            <span>Open resource</span>
+          </a>
+
+          <a class="resource-card" href="../mcg_presentation_letter.html" target="_blank" rel="noopener">
+            <p class="resource-kicker">Professional</p>
+            <h3>Presentation letter</h3>
+            <p>Supporting presentation letter retained from the broader CV archive.</p>
+            <span>Open resource</span>
+          </a>
+
+          <a class="resource-card" href="https://www.youtube.com/@mcortesgranados" target="_blank" rel="noopener">
+            <p class="resource-kicker">Music</p>
+            <h3>Pianist / musician channel</h3>
+            <p>Official YouTube channel preserved from the earlier personal info section.</p>
+            <span>Open channel</span>
+          </a>
+
+          <a class="resource-card" href="../list_songs.html" target="_blank" rel="noopener">
+            <p class="resource-kicker">Music</p>
+            <h3>Piano repertoire archive</h3>
+            <p>Linked song list showing a documented repertoire of 324 piano pieces.</p>
+            <span>Open archive</span>
+          </a>
+
+          <a class="resource-card" href="../../PETICIONES-SANTO-ROSARIO.pdf" target="_blank" rel="noopener">
+            <p class="resource-kicker">Mission</p>
+            <h3>Holy Rosary petitions - Spanish</h3>
+            <p>Mission-centered document highlighted both in the preserved 2025 page and the 2026 ATS resume.</p>
+            <span>Open PDF</span>
+          </a>
+
+          <a class="resource-card" href="../../PETITIONS-HOLY-ROSARY.pdf" target="_blank" rel="noopener">
+            <p class="resource-kicker">Mission</p>
+            <h3>Holy Rosary petitions - English</h3>
+            <p>English companion version of the featured Rosary petition document.</p>
+            <span>Open PDF</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="section panel" id="skills">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">ATS V5 core areas</p>
+            <h2 class="section-title">Technical profile aligned to the 2026 resume</h2>
+            <p class="section-copy">The skills below follow the technical structure and wording emphasis of the 2026 ATS resume while keeping continuity with the technologies already listed throughout the 2025 page.</p>
+          </div>
+          <div class="section-badge">Multi-stack / multi-cloud</div>
+        </div>
+
+        <div class="skills-grid">
+          <article class="skill-card">
+            <h3>Backend engineering</h3>
+            <p>Java and service-oriented engineering with strong coverage across Spring Boot, REST APIs, JEE, SOAP, persistence, and Python-based backend work.</p>
+            <div class="skill-list">
+              <span>Java 17/21</span>
+              <span>Spring Boot</span>
+              <span>Spring MVC</span>
+              <span>Hibernate / JPA</span>
+              <span>Python</span>
+              <span>FastAPI / Flask / Django</span>
+              <span>Node.js / Express</span>
+              <span>.NET / C# / ASP.NET</span>
+            </div>
+          </article>
+
+          <article class="skill-card">
+            <h3>Frontend and product delivery</h3>
+            <p>Modern UI delivery across web and mobile-friendly stacks, with preserved continuity from the React and Angular-heavy experience already shown in the 2025 archive.</p>
+            <div class="skill-list">
+              <span>React</span>
+              <span>Angular</span>
+              <span>Next.js</span>
+              <span>React Native</span>
+              <span>TypeScript</span>
+              <span>JavaScript</span>
+              <span>HTML / CSS</span>
+              <span>Material UI</span>
+            </div>
+          </article>
+
+          <article class="skill-card">
+            <h3>Cloud and DevOps</h3>
+            <p>Hands-on multi-cloud delivery with deployment, observability, containers, CI/CD, and production support across enterprise environments.</p>
+            <div class="skill-list">
+              <span>AWS</span>
+              <span>Azure</span>
+              <span>GCP</span>
+              <span>Oracle Cloud</span>
+              <span>Docker</span>
+              <span>Kubernetes</span>
+              <span>Jenkins</span>
+              <span>GitHub / GitLab CI</span>
+            </div>
+          </article>
+
+          <article class="skill-card">
+            <h3>Data and analytics</h3>
+            <p>Data-intensive delivery spanning ETL / ELT workflows, data quality, historical reporting, analytics support, and cloud-oriented data processing.</p>
+            <div class="skill-list">
+              <span>Oracle</span>
+              <span>SQL Server</span>
+              <span>MySQL</span>
+              <span>PostgreSQL</span>
+              <span>MongoDB</span>
+              <span>Snowflake</span>
+              <span>Amazon Athena</span>
+              <span>Airflow / SSIS / DataStage</span>
+            </div>
+          </article>
+
+          <article class="skill-card">
+            <h3>Integration and middleware</h3>
+            <p>Deep track record with Oracle middleware, orchestration, messaging, proxy services, transformation logic, and distributed integration patterns.</p>
+            <div class="skill-list">
+              <span>Oracle SOA Suite</span>
+              <span>Oracle Service Bus</span>
+              <span>BPEL / BPM</span>
+              <span>WebLogic</span>
+              <span>JMS</span>
+              <span>Kafka</span>
+              <span>RabbitMQ</span>
+              <span>Event-driven systems</span>
+            </div>
+          </article>
+
+          <article class="skill-card">
+            <h3>AI-assisted delivery and QA</h3>
+            <p>Active use of modern AI engineering tools together with strong automation, code-quality, and test-suite design practices.</p>
+            <div class="skill-list">
+              <span>ChatGPT</span>
+              <span>GitHub Copilot</span>
+              <span>Cursor</span>
+              <span>OpenAI APIs</span>
+              <span>Gemini / Claude</span>
+              <span>Selenium</span>
+              <span>Appium</span>
+              <span>JUnit / pytest / Jest / Cucumber</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section panel" id="highlights">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">Selected roles ✨</p>
+            <h2 class="section-title">Career highlights shaped by the ATS resume and the 2025 archive 💼</h2>
+            <p class="section-copy">These highlights combine the stronger ATS wording from the 2026 resume with the preserved detail pages and key links already present in the 2025 page.</p>
+            <div class="highlight-emoji-row">
+              <span class="highlight-emoji-chip">💻 Multi-stack delivery</span>
+              <span class="highlight-emoji-chip">🔐 Secure APIs</span>
+              <span class="highlight-emoji-chip">☁️ Cloud acceleration</span>
+              <span class="highlight-emoji-chip">🤖 AI-assisted execution</span>
+              <span class="highlight-emoji-chip">📊 Data + analytics</span>
+              <span class="highlight-emoji-chip">🎹 Disciplined craft</span>
+            </div>
+          </div>
+          <div class="section-badge">6 spotlight roles 💫</div>
+        </div>
+
+        <div class="highlight-grid">
+          <article class="highlight-card">
+            <p class="highlight-card-badge">🚀 Product + AI momentum</p>
+            <p class="highlight-period">Apr 2024 - Present</p>
+            <h3>InnovaSoftware</h3>
+            <p class="highlight-role">Systems Engineer / Java Software Developer / Python AI Developer</p>
+            <p>Designed Spring Boot 3 REST APIs with security, OpenAPI, OAuth2 and JWT validation; delivered SaaS integrations with PayPal, Airwallex, Twilio, WhatsApp Business, Firebase, Google Maps, Mailgun, and HubSpot; and supported AI automation workflows with Python, ManyChat, and cloud services.</p>
+            <div class="tag-list">
+              <span>Spring Boot</span>
+              <span>Python</span>
+              <span>React / Angular</span>
+              <span>AWS / Azure</span>
+              <span>ManyChat / HubSpot</span>
+            </div>
+            <a class="detail-link" href="24_InnovaSoftware.html" target="_blank" rel="noopener">Open preserved detail page</a>
+          </article>
+
+          <article class="highlight-card">
+            <p class="highlight-card-badge">🧪 Frontend + QA precision</p>
+            <p class="highlight-period">Apr 2023 - Apr 2024</p>
+            <h3>Informatica y Buen Gobierno</h3>
+            <p class="highlight-role">Java Software Developer / Senior React Frontend Developer / QA Automation Consultant</p>
+            <p>Built scalable SaaS applications with React, Next.js, React Native, TypeScript, and cloud integrations while also reducing regression effort through reusable automation suites, Python-based API validation, and structured QA engineering practices.</p>
+            <div class="tag-list">
+              <span>React / Next.js</span>
+              <span>React Native</span>
+              <span>Python</span>
+              <span>Selenium / Appium</span>
+              <span>CI pipelines</span>
+            </div>
+            <a class="detail-link" href="23_InformaticaBuenGobierno.html" target="_blank" rel="noopener">Open preserved detail page</a>
+          </article>
+
+          <article class="highlight-card">
+            <p class="highlight-card-badge">🛠️ Modernization leadership</p>
+            <p class="highlight-period">Mar 2022 - Apr 2023</p>
+            <h3>Wizeline</h3>
+            <p class="highlight-role">Java Software Developer</p>
+            <p>Led modernization of a critical legacy system from C++ to Java, designed modular REST APIs with Java Spark, applied HATEOAS principles, and supported production readiness through testing, monitoring, deployment coordination, and cloud service integration.</p>
+            <div class="tag-list">
+              <span>Java Spark</span>
+              <span>REST APIs</span>
+              <span>Modernization</span>
+              <span>Dow Jones</span>
+              <span>Cloud services</span>
+            </div>
+            <a class="detail-link" href="22_Wizeline.html" target="_blank" rel="noopener">Open preserved detail page</a>
+          </article>
+
+          <article class="highlight-card">
+            <p class="highlight-card-badge">🏦 Governance + scale delivery</p>
+            <p class="highlight-period">Oct 2019 - Oct 2021</p>
+            <h3>ScotiaGBS Colombia / Scotiabank</h3>
+            <p class="highlight-role">Programmer Analyst Advisory / Platform Engineer Specialist</p>
+            <p>Delivered IBM OpenPages customizations, resolved 31+ development tickets and 41+ service desk tickets, contributed 1,100+ Git commits, created analytics utilities around Git and Jira, and authored 200+ pages of technical documentation.</p>
+            <div class="tag-list">
+              <span>Java</span>
+              <span>IBM OpenPages</span>
+              <span>AWS</span>
+              <span>MySQL</span>
+              <span>Confluence</span>
+            </div>
+            <a class="detail-link" href="20_ScotiaGBS.html" target="_blank" rel="noopener">Open preserved detail page</a>
+          </article>
+
+          <article class="highlight-card">
+            <p class="highlight-card-badge">🏛️ Civic transparency engine</p>
+            <p class="highlight-period">Mar 2017 - Oct 2019</p>
+            <h3>Informatica y Buen Gobierno - Citizen Oversight</h3>
+            <p class="highlight-role">Founder / Director / Coordinator / SECOP Data Platform Consultant</p>
+            <p>Built open-data analytics platforms around SECOP I / SECOP II and datos.gov.co, delivered entity and contractor dashboards, Excel exports, consolidated historical reporting, and citizen oversight tools grounded in transparency and public-procurement analysis.</p>
+            <div class="tag-list">
+              <span>Citizen oversight</span>
+              <span>SECOP data</span>
+              <span>Java / Python</span>
+              <span>React / Angular</span>
+              <span>Historical reporting</span>
+            </div>
+            <a class="detail-link" href="19_IBG.html" target="_blank" rel="noopener">Open preserved detail page</a>
+          </article>
+
+          <article class="highlight-card">
+            <p class="highlight-card-badge">🔗 Middleware orchestration</p>
+            <p class="highlight-period">2015 - 2017</p>
+            <h3>Oracle middleware delivery track</h3>
+            <p class="highlight-role">SOAINT, Entelgy Colombia, Hardnetics, and adjacent integration roles</p>
+            <p>Delivered Oracle SOA Suite, Oracle Service Bus, BPM, WebLogic, JMS, data-source configuration, transformation logic, proxy services, routing, and enterprise integration patterns across banking, telecom, and middleware-heavy programs.</p>
+            <div class="tag-list">
+              <span>Oracle SOA</span>
+              <span>Oracle OSB</span>
+              <span>WebLogic</span>
+              <span>JMS</span>
+              <span>Enterprise integration</span>
+            </div>
+            <a class="detail-link" href="15_SOAINT.html" target="_blank" rel="noopener">Open preserved detail page</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section panel" id="credentials">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">Education and supporting profile data</p>
+            <h2 class="section-title">Credentials, communication profile, and mission links</h2>
+            <p class="section-copy">The following items are aligned with the 2026 ATS resume while preserving supporting materials that were already surfaced by the 2025 CV index.</p>
+          </div>
+          <div class="section-badge">Resume support</div>
+        </div>
+
+        <div class="credentials-grid">
+          <article class="credential-card">
+            <h3>Education and language profile</h3>
+            <ul class="credential-list">
+              <li>
+                <strong>Academic record</strong>
+                Pontificia Universidad Javeriana, Bogota D.C., Colombia - ten approved semesters of Computer Science (2002).
+              </li>
+              <li>
+                <strong>English communication</strong>
+                Upper-intermediate to advanced (B2+/C1), comfortable in technical interviews, architecture discussions, documentation, and cross-team collaboration.
+              </li>
+              <li>
+                <strong>Spanish</strong>
+                Native.
+              </li>
+            </ul>
+          </article>
+
+          <article class="credential-card">
+            <h3>Highlighted certifications</h3>
+            <ul class="credential-list">
+              <li>
+                <strong>SSYB</strong>
+                Six Sigma Yellow Belt - 6sigmastudy (Certificate ID: 585208).
+              </li>
+              <li>
+                <strong>SFC / SMC / SDC</strong>
+                Scrum Fundamentals Certified, Scrum Master Certified, and Scrum Developer Certified.
+              </li>
+              <li>
+                <strong>Preserved credential libraries</strong>
+                <a href="cv_mcg_2025_certifications.html" target="_blank" rel="noopener">Cloud and finished-course certifications</a><br>
+                <a href="list_badges_learn_microsoft_manuelacortesgranados.html" target="_blank" rel="noopener">Microsoft Learn badges</a>
+              </li>
+            </ul>
+          </article>
+
+          <article class="credential-card">
+            <h3>Personal, music, and mission links</h3>
+            <ul class="plain-list">
+              <li><a href="https://www.youtube.com/@mcortesgranados" target="_blank" rel="noopener">Pianist / musician YouTube channel</a></li>
+              <li><a href="../list_songs.html" target="_blank" rel="noopener">Documented piano song list (324 songs)</a></li>
+              <li><a href="../../PETICIONES-SANTO-ROSARIO.pdf" target="_blank" rel="noopener">Holy Rosary petitions - Spanish PDF</a></li>
+              <li><a href="../../PETITIONS-HOLY-ROSARY.pdf" target="_blank" rel="noopener">Holy Rosary petitions - English PDF</a></li>
+              <li><a href="https://www.linkedin.com/in/mcortesgranados/" target="_blank" rel="noopener">LinkedIn profile</a></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section panel" id="insights">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">Visual analytics 📈</p>
+            <h2 class="section-title">Fifteen ECharts translating the resume into a portfolio intelligence view ✨</h2>
+            <p class="section-copy">These interactive charts turn the ATS V5 resume and the preserved 2025 archive into an expanded visual dashboard. Exact counts are used where the source is numeric; when the source is descriptive, the visuals use normalized intensity scores to summarize emphasis, breadth, direction, and comparative balance.</p>
+            <div class="insight-chip-row">
+              <span class="insight-chip">🧾 ATS V5 narrative</span>
+              <span class="insight-chip">🗂️ 2025 archive continuity</span>
+              <span class="insight-chip">🔢 Exact counts when available</span>
+              <span class="insight-chip">📉 Normalized strengths for descriptive areas</span>
+            </div>
+          </div>
+          <div class="section-badge"><span class="chart-count-accent">15</span> live ECharts 📊</div>
+        </div>
+
+        <div class="insights-grid">
+          <article class="chart-card">
+            <p class="chart-kicker">Chart 01 ✨</p>
+            <h3>Career arc by era 🕰️</h3>
+            <p class="chart-copy">Approximate years of primary emphasis across the major professional stages preserved in the resume chronology and the linked archive.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-career-arc"></div>
+            </div>
+          </article>
+
+          <article class="chart-card">
+            <p class="chart-kicker">Chart 02 ✨</p>
+            <h3>Spotlight role bubble map 🫧</h3>
+            <p class="chart-copy">A normalized comparison of platform breadth, transformation leverage, and automation depth across the six featured roles.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-spotlight-bubble"></div>
+            </div>
+          </article>
+
+          <article class="chart-card">
+            <p class="chart-kicker">Chart 03 ✨</p>
+            <h3>Capability radar 🧭</h3>
+            <p class="chart-copy">Resume emphasis versus archive breadth across backend APIs, frontend delivery, data, QA automation, cloud, and enterprise integration.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-capability-radar"></div>
+            </div>
+          </article>
+
+          <article class="chart-card chart-card-wide">
+            <p class="chart-kicker">Chart 04 ✨</p>
+            <h3>Technology taxonomy sunburst ☀️</h3>
+            <p class="chart-copy">A hierarchical view of the core stacks surfaced by the ATS resume and the retained 2025 supporting materials.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-technology-sunburst"></div>
+            </div>
+          </article>
+
+          <article class="chart-card chart-card-wide">
+            <p class="chart-kicker">Chart 05 ✨</p>
+            <h3>Delivery value stream sankey 🔄</h3>
+            <p class="chart-copy">How the strongest technical tracks move from engineering capabilities into concrete delivery outcomes across APIs, automation, products, integration, and civic transparency.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-delivery-sankey"></div>
+            </div>
+          </article>
+
+          <article class="chart-card">
+            <p class="chart-kicker">Chart 06 ✨</p>
+            <h3>Capability heatmap 🔥</h3>
+            <p class="chart-copy">Normalized intensity scores showing how the main technologies intersect with delivery areas such as analytics, automation, APIs, and citizen oversight.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-capability-heatmap"></div>
+            </div>
+          </article>
+
+          <article class="chart-card">
+            <p class="chart-kicker">Chart 07 ✨</p>
+            <h3>Domain footprint treemap 🗺️</h3>
+            <p class="chart-copy">A compact map of where the archived role history has been concentrated across financial services, govtech, telecom, SaaS, education, and utilities.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-domain-treemap"></div>
+            </div>
+          </article>
+
+          <article class="chart-card">
+            <p class="chart-kicker">Chart 08 ✨</p>
+            <h3>Portfolio spectrum polar bars 🎯</h3>
+            <p class="chart-copy">A balanced profile view of engineering, documentation, citizen oversight, music discipline, and mission-oriented supporting materials.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-spectrum-polar"></div>
+            </div>
+          </article>
+
+          <article class="chart-card">
+            <p class="chart-kicker">Chart 09 ✨</p>
+            <h3>AI-assisted delivery trajectory 🤖</h3>
+            <p class="chart-copy">A normalized trend line reflecting the growth in AI-assisted tooling since approximately 2022 alongside already strong automation maturity.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-ai-trajectory"></div>
+            </div>
+          </article>
+
+          <article class="chart-card chart-card-wide">
+            <p class="chart-kicker">Chart 10 ✨</p>
+            <h3>Spotlight role capability network 🕸️</h3>
+            <p class="chart-copy">A force graph linking the flagship roles to the capabilities they most strongly represent inside the redesigned portfolio narrative.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-role-network"></div>
+            </div>
+          </article>
+
+          <article class="chart-card chart-card-wide">
+            <p class="chart-kicker">Chart 11 ✨</p>
+            <h3>Spotlight role parallel profile 🪄</h3>
+            <p class="chart-copy">A multi-axis comparison of the six featured roles across platform breadth, automation depth, data leverage, cloud intensity, and integration complexity.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-role-parallel"></div>
+            </div>
+          </article>
+
+          <article class="chart-card">
+            <p class="chart-kicker">Chart 12 ✨</p>
+            <h3>Delivery lifecycle funnel 🛠️</h3>
+            <p class="chart-copy">A normalized journey from discovery and architecture through engineering, automation, production hardening, and knowledge transfer.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-delivery-funnel"></div>
+            </div>
+          </article>
+
+          <article class="chart-card">
+            <p class="chart-kicker">Chart 13 ✨</p>
+            <h3>Portfolio balance rose chart 🌹</h3>
+            <p class="chart-copy">A rose-style view of the current portfolio identity across engineering, integration, data, QA, civic work, music discipline, and mission-centered materials.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-portfolio-rose"></div>
+            </div>
+          </article>
+
+          <article class="chart-card chart-card-wide">
+            <p class="chart-kicker">Chart 14 ✨</p>
+            <h3>Technology wave over time 🌊</h3>
+            <p class="chart-copy">A time-based river view showing how Java, frontend delivery, data, integration, and AI-assisted automation intensify across recent career phases.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-technology-river"></div>
+            </div>
+          </article>
+
+          <article class="chart-card chart-card-wide">
+            <p class="chart-kicker">Chart 15 ✨</p>
+            <h3>Career lineage tree 🌳</h3>
+            <p class="chart-copy">A branching visual summary connecting the early foundations, Java leadership years, civic data phase, and current cloud and AI-forward product delivery arc.</p>
+            <div class="chart-shell">
+              <div class="chart-canvas" id="chart-career-tree"></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section panel" id="archive">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">Preserved experience data</p>
+            <h2 class="section-title">Searchable experience archive</h2>
+            <p class="section-copy">This table preserves the important role history that was already present in the 2025 page, but reorganizes it into a cleaner archive tied to the new ATS-aligned narrative. Each row still links to the preserved detail page.</p>
+          </div>
+          <div class="section-badge">24 linked records</div>
+        </div>
+
+        <div class="archive-tools">
+          <label for="archive-filter">Search archive</label>
+          <input id="archive-filter" type="text" placeholder="Company, client, technology, or year">
+        </div>
+
+        <p class="archive-note">Detailed company pages remain linked row by row. The role list below is normalized in English for readability while remaining grounded in the preserved 2025 CV content and related detail pages.</p>
+
+        <div class="table-wrap">
+          <table class="archive-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Company</th>
+                <th>Role</th>
+                <th>Dates</th>
+                <th>Focus / stack</th>
+                <th>Final client / context</th>
+                <th>Detail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>24</td>
+                <td><a class="company-link" href="24_InnovaSoftware.html" target="_blank" rel="noopener">InnovaSoftware</a></td>
+                <td>Systems Engineer / Senior Fullstack Software Developer / Webflow Designer-Integrator</td>
+                <td>Apr 2024 - Present</td>
+                <td>
+                  Secure APIs, AI automation, SaaS integrations, frontend delivery, cloud deployment
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">Spring Boot</span>
+                    <span class="table-tag">Python</span>
+                    <span class="table-tag">React</span>
+                    <span class="table-tag">Angular</span>
+                    <span class="table-tag">Webflow</span>
+                  </div>
+                </td>
+                <td>Multi-project enterprise and integration work</td>
+                <td><a class="detail-link" href="24_InnovaSoftware.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>23</td>
+                <td><a class="company-link" href="23_InformaticaBuenGobierno.html" target="_blank" rel="noopener">Informatica y Buen Gobierno</a></td>
+                <td>Fullstack Software Developer / Senior Frontend React Developer / Senior Automation Test Engineer Consultant</td>
+                <td>Apr 2023 - Apr 2024</td>
+                <td>
+                  React delivery, QA automation, Python support, CI pipelines
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">Python</span>
+                    <span class="table-tag">React</span>
+                    <span class="table-tag">Angular</span>
+                    <span class="table-tag">Automation</span>
+                  </div>
+                </td>
+                <td>Colombian State / public-interest delivery</td>
+                <td><a class="detail-link" href="23_InformaticaBuenGobierno.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>22</td>
+                <td><a class="company-link" href="22_Wizeline.html" target="_blank" rel="noopener">Wizeline</a></td>
+                <td>Fullstack Senior Software Developer</td>
+                <td>Mar 2022 - Apr 2023</td>
+                <td>
+                  Legacy modernization, Java APIs, distributed integration support
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">Python</span>
+                    <span class="table-tag">Node.js</span>
+                    <span class="table-tag">TypeScript</span>
+                    <span class="table-tag">React</span>
+                  </div>
+                </td>
+                <td>Dow Jones</td>
+                <td><a class="detail-link" href="22_Wizeline.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>21</td>
+                <td><a class="company-link" href="21_Globant.html" target="_blank" rel="noopener">Globant</a></td>
+                <td>Java Developer Architect / Senior .NET Developer / Cloud-Oriented Full Stack Specialist</td>
+                <td>Nov 2021 - Mar 2022</td>
+                <td>
+                  Cloud-oriented full stack delivery and .NET development
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">C#</span>
+                    <span class="table-tag">ASP.NET</span>
+                    <span class="table-tag">Azure</span>
+                    <span class="table-tag">Docker</span>
+                  </div>
+                </td>
+                <td>Enterprise cloud initiatives</td>
+                <td><a class="detail-link" href="21_Globant.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>20</td>
+                <td><a class="company-link" href="20_ScotiaGBS.html" target="_blank" rel="noopener">ScotiaGBS Colombia / Scotiabank</a></td>
+                <td>Programmer Analyst Advisory / Platform Engineer Specialist</td>
+                <td>Oct 2019 - Oct 2021</td>
+                <td>
+                  Risk platform customization, analytics utilities, documentation, operational support
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">OpenPages</span>
+                    <span class="table-tag">AWS</span>
+                    <span class="table-tag">MySQL</span>
+                  </div>
+                </td>
+                <td>ScotiaGBS</td>
+                <td><a class="detail-link" href="20_ScotiaGBS.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>19</td>
+                <td><a class="company-link" href="19_IBG.html" target="_blank" rel="noopener">INFORMATICA Y BUEN GOBIERNO</a></td>
+                <td>Founder / Director / Coordinator / SECOP Data Platform Consultant</td>
+                <td>Mar 2017 - Oct 2019</td>
+                <td>
+                  Open data analytics, dashboards, historical reporting, citizen oversight
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">Python</span>
+                    <span class="table-tag">Node.js</span>
+                    <span class="table-tag">Angular</span>
+                    <span class="table-tag">React</span>
+                  </div>
+                </td>
+                <td>Colombian State / citizen oversight organization</td>
+                <td><a class="detail-link" href="19_IBG.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>18</td>
+                <td><a class="company-link" href="18_Hardnetics.html" target="_blank" rel="noopener">Hardnetics</a></td>
+                <td>Oracle Service Bus Developer / Senior Java Developer</td>
+                <td>Nov 2016 - Feb 2017</td>
+                <td>
+                  Oracle Service Bus implementation and integration delivery
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">Oracle OSB</span>
+                  </div>
+                </td>
+                <td>Claro</td>
+                <td><a class="detail-link" href="18_Hardnetics.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>17</td>
+                <td><a class="company-link" href="17_EntelgyColombia.html" target="_blank" rel="noopener">Entelgy Colombia</a></td>
+                <td>Oracle Service Bus 12c Integrator / Developer</td>
+                <td>Aug 2016 - Oct 2016</td>
+                <td>
+                  Middleware configuration, queueing, banking integration support
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">Oracle OSB</span>
+                    <span class="table-tag">WebLogic</span>
+                  </div>
+                </td>
+                <td>Corpbanca / Helms / Itau</td>
+                <td><a class="detail-link" href="17_EntelgyColombia.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>16</td>
+                <td><a class="company-link" href="16_PeriferiaIT.html" target="_blank" rel="noopener">Periferia IT</a></td>
+                <td>Java / PL SQL / Transact-SQL Developer Analyst</td>
+                <td>Jul 2016 - Aug 2016</td>
+                <td>
+                  Java and database-oriented delivery
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">PL/SQL</span>
+                    <span class="table-tag">T-SQL</span>
+                  </div>
+                </td>
+                <td>Royal Sun Alliance (RSA)</td>
+                <td><a class="detail-link" href="16_PeriferiaIT.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>15</td>
+                <td><a class="company-link" href="15_SOAINT.html" target="_blank" rel="noopener">SOAINT</a></td>
+                <td>Oracle Middleware Developer (SOA Suite / Service Bus)</td>
+                <td>Oct 2015 - Apr 2016</td>
+                <td>
+                  Oracle middleware orchestration and service bus delivery
+                  <div class="table-tag-row">
+                    <span class="table-tag">Oracle SOA</span>
+                    <span class="table-tag">Oracle OSB</span>
+                    <span class="table-tag">Java</span>
+                  </div>
+                </td>
+                <td>Banco Falabella</td>
+                <td><a class="detail-link" href="15_SOAINT.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>14</td>
+                <td><a class="company-link" href="14_Ceinte.html" target="_blank" rel="noopener">CEINTE SA</a></td>
+                <td>Oracle Business Intelligence Implementator</td>
+                <td>Aug 2015 - Oct 2015</td>
+                <td>
+                  Business intelligence implementation and reporting
+                  <div class="table-tag-row">
+                    <span class="table-tag">Oracle BI</span>
+                  </div>
+                </td>
+                <td>Colombian Ministry of Education</td>
+                <td><a class="detail-link" href="14_Ceinte.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>13</td>
+                <td><a class="company-link" href="13_Tata.html" target="_blank" rel="noopener">Tata Consultancy Services Colombia</a></td>
+                <td>Senior Java Developer / Oracle BPM Integrator</td>
+                <td>Jan 2015 - Jul 2015</td>
+                <td>
+                  BPM and Java integration delivery
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">Oracle BPM</span>
+                  </div>
+                </td>
+                <td>Zona Franca / delivery program</td>
+                <td><a class="detail-link" href="13_Tata.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>12</td>
+                <td><a class="company-link" href="12_EfronConsulting.html" target="_blank" rel="noopener">EFRON CONSULTING</a></td>
+                <td>Technical Lead Team / Senior Java Developer</td>
+                <td>Aug 2014 - Dec 2014</td>
+                <td>
+                  Leadership and enterprise Java delivery
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">Leadership</span>
+                  </div>
+                </td>
+                <td>Ministry of Labor</td>
+                <td><a class="detail-link" href="12_EfronConsulting.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>11</td>
+                <td><a class="company-link" href="11_InterkontEU.html" target="_blank" rel="noopener">INTERKONT EU</a></td>
+                <td>Senior Java Software Developer</td>
+                <td>May 2014 - Aug 2014</td>
+                <td>
+                  Enterprise Java delivery
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                  </div>
+                </td>
+                <td>FONADE / ICCU</td>
+                <td><a class="detail-link" href="11_InterkontEU.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td><a class="company-link" href="10_Stefanini.html" target="_blank" rel="noopener">STEFANINI Informatica y Tecnologia</a></td>
+                <td>Senior II Java and Oracle BPM Software Developer</td>
+                <td>Nov 2013 - Feb 2014</td>
+                <td>
+                  Java and BPM enterprise solutions
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">Oracle BPM</span>
+                  </div>
+                </td>
+                <td>INVIMA</td>
+                <td><a class="detail-link" href="10_Stefanini.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>9</td>
+                <td><a class="company-link" href="09_Incaprog.html" target="_blank" rel="noopener">Online Live Computer Education and Training Institute</a></td>
+                <td>Computer Trainer / Oracle Technologies / Java Trainer</td>
+                <td>Aug 2011 - Mar 2013</td>
+                <td>
+                  Oracle and Java instruction
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                    <span class="table-tag">Oracle</span>
+                    <span class="table-tag">Training</span>
+                  </div>
+                </td>
+                <td>Professional education</td>
+                <td><a class="detail-link" href="09_Incaprog.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td><a class="company-link" href="08_Ipler.html" target="_blank" rel="noopener">IPLER CI SA</a></td>
+                <td>Systems Engineer / Java Software Developer</td>
+                <td>Apr 2006 - Aug 2011</td>
+                <td>
+                  Long-form Java delivery in education-oriented environments
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                  </div>
+                </td>
+                <td>IPLER</td>
+                <td><a class="detail-link" href="08_Ipler.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td><a class="company-link" href="07_sigtech.html" target="_blank" rel="noopener">SIGTECH LTDA</a></td>
+                <td>Mid-Level Java Software Developer</td>
+                <td>Oct 2005 - Mar 2006</td>
+                <td>
+                  Java solutions for district and telecom contexts
+                  <div class="table-tag-row">
+                    <span class="table-tag">Java</span>
+                  </div>
+                </td>
+                <td>Catastro / ETB</td>
+                <td><a class="detail-link" href="07_sigtech.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td><a class="company-link" href="06_synapsis.html" target="_blank" rel="noopener">Synapsis Ltda</a></td>
+                <td>Visual Basic 6.0 Software Developer</td>
+                <td>Dec 2003 - Dec 2004</td>
+                <td>
+                  Business software delivery
+                  <div class="table-tag-row">
+                    <span class="table-tag">Visual Basic 6.0</span>
+                  </div>
+                </td>
+                <td>Codensa / Carulla</td>
+                <td><a class="detail-link" href="06_synapsis.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td><a class="company-link" href="05_megalinea.html" target="_blank" rel="noopener">Megalinea</a></td>
+                <td>Visual FoxPro Software Developer</td>
+                <td>Apr 2003 - Dec 2003</td>
+                <td>
+                  Cooperative-sector software delivery
+                  <div class="table-tag-row">
+                    <span class="table-tag">Visual FoxPro</span>
+                  </div>
+                </td>
+                <td>COOPTENJO / COOPIDROGAS</td>
+                <td><a class="detail-link" href="05_megalinea.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td><a class="company-link" href="04_Porvenir.html" target="_blank" rel="noopener">Porvenir</a></td>
+                <td>Preserved archive entry</td>
+                <td>Preserved in 2025 source</td>
+                <td>
+                  Archived role placeholder retained for continuity
+                  <div class="table-tag-row">
+                    <span class="table-tag">Preserved record</span>
+                  </div>
+                </td>
+                <td>Porvenir</td>
+                <td><a class="detail-link" href="04_Porvenir.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><a class="company-link" href="03_moloko.html" target="_blank" rel="noopener">Moloko S.A.</a></td>
+                <td>Visual Basic Software Developer / Freelancer</td>
+                <td>Sep 2001 - Mar 2003</td>
+                <td>
+                  Freelance and client-focused software development
+                  <div class="table-tag-row">
+                    <span class="table-tag">Visual Basic</span>
+                  </div>
+                </td>
+                <td>Porvenir</td>
+                <td><a class="detail-link" href="03_moloko.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><a class="company-link" href="02_apice.html" target="_blank" rel="noopener">APICE S.A.</a></td>
+                <td>IVR Visual Basic Software Developer</td>
+                <td>Jan 1999 - Aug 2001</td>
+                <td>
+                  IVR and business software solutions
+                  <div class="table-tag-row">
+                    <span class="table-tag">Visual Basic</span>
+                  </div>
+                </td>
+                <td>Codensa</td>
+                <td><a class="detail-link" href="02_apice.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td><a class="company-link" href="01_nortel_networks.html" target="_blank" rel="noopener">Nortel Networks</a></td>
+                <td>Visual Basic / MS Access Developer</td>
+                <td>Mar 1998 - Dec 1998</td>
+                <td>
+                  Early software development foundation
+                  <div class="table-tag-row">
+                    <span class="table-tag">Visual Basic</span>
+                    <span class="table-tag">MS Access</span>
+                  </div>
+                </td>
+                <td>Nortel Networks</td>
+                <td><a class="detail-link" href="01_nortel_networks.html" target="_blank" rel="noopener">Open</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="footer-note panel">
+        This page was rebuilt around the contents of <strong>CV_MCG_2026_ENGLISH_ATS_OK_V5.pdf</strong> while preserving important supporting links and role references from the prior <strong>CV_MCG/2025/index.html</strong> page and its related archive files.
+      </section>
+    </main>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
   <script>
-  (function () {
-    var table = document.querySelector(".params table");
-    if (!table) { return; }
-    var headers = Array.prototype.map.call(table.querySelectorAll("thead th"), function (th) {
-      return th.textContent.trim();
-    });
-    Array.prototype.forEach.call(table.querySelectorAll("tbody tr"), function (tr) {
-      Array.prototype.forEach.call(tr.children, function (td, i) {
-        if (!td.getAttribute("data-label")) {
-          td.setAttribute("data-label", headers[i] || "");
+    (function () {
+      var table = document.querySelector(".archive-table");
+      if (!table) {
+        return;
+      }
+
+      var headers = Array.prototype.map.call(
+        table.querySelectorAll("thead th"),
+        function (th) {
+          return th.textContent.trim();
+        }
+      );
+
+      Array.prototype.forEach.call(table.querySelectorAll("tbody tr"), function (row) {
+        Array.prototype.forEach.call(row.children, function (cell, index) {
+          cell.setAttribute("data-label", headers[index] || "");
+        });
+      });
+
+      var input = document.getElementById("archive-filter");
+      if (!input) {
+        return;
+      }
+
+      input.addEventListener("input", function () {
+        var query = input.value.toLowerCase().trim();
+        Array.prototype.forEach.call(table.querySelectorAll("tbody tr"), function (row) {
+          var text = row.textContent.toLowerCase();
+          row.style.display = text.indexOf(query) === -1 ? "none" : "";
+        });
+      });
+    })();
+
+    (function () {
+      var chartIds = [
+        "chart-career-arc",
+        "chart-spotlight-bubble",
+        "chart-capability-radar",
+        "chart-technology-sunburst",
+        "chart-delivery-sankey",
+        "chart-capability-heatmap",
+        "chart-domain-treemap",
+        "chart-spectrum-polar",
+        "chart-ai-trajectory",
+        "chart-role-network",
+        "chart-role-parallel",
+        "chart-delivery-funnel",
+        "chart-portfolio-rose",
+        "chart-technology-river",
+        "chart-career-tree"
+      ];
+
+      function renderFallback(message) {
+        Array.prototype.forEach.call(document.querySelectorAll(".chart-canvas"), function (node) {
+          node.className = "chart-fallback";
+          node.textContent = message;
+        });
+      }
+
+      if (!window.echarts) {
+        renderFallback("ECharts could not be loaded for this local page. Connect to the internet and reload to display the 15 interactive charts.");
+        return;
+      }
+
+      var fontFamily = "\"Segoe UI\", Tahoma, Geneva, Verdana, sans-serif";
+      var palette = {
+        navy: "#143462",
+        navySoft: "#234f8f",
+        blue: "#2563eb",
+        blueStrong: "#1d4ed8",
+        sky: "#60a5fa",
+        cyan: "#0891b2",
+        teal: "#0f766e",
+        rose: "#db2777",
+        gold: "#e9c7a1",
+        amber: "#f59e0b",
+        slate: "#475569",
+        slateLight: "#94a3b8",
+        ink: "#0f172a",
+        white: "#ffffff"
+      };
+
+      echarts.registerTheme("mcg-portfolio", {
+        color: [
+          palette.blueStrong,
+          palette.sky,
+          palette.rose,
+          palette.teal,
+          palette.gold,
+          palette.cyan,
+          palette.amber,
+          palette.navySoft
+        ],
+        textStyle: {
+          fontFamily: fontFamily
         }
       });
-    });
-    var input = document.getElementById("tableFilter");
-    if (!input) { return; }
-    input.addEventListener("input", function () {
-      var q = input.value.toLowerCase();
-      Array.prototype.forEach.call(table.querySelectorAll("tbody tr"), function (tr) {
-        var text = tr.textContent.toLowerCase();
-        tr.style.display = text.indexOf(q) !== -1 ? "" : "none";
+
+      function gradientHorizontal(fromColor, toColor) {
+        return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+          { offset: 0, color: fromColor },
+          { offset: 1, color: toColor }
+        ]);
+      }
+
+      function gradientVertical(fromColor, toColor) {
+        return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: fromColor },
+          { offset: 1, color: toColor }
+        ]);
+      }
+
+      function axisLabelStyle(extra) {
+        var base = {
+          color: palette.slate,
+          fontFamily: fontFamily,
+          fontSize: 11
+        };
+        if (!extra) {
+          return base;
+        }
+        Object.keys(extra).forEach(function (key) {
+          base[key] = extra[key];
+        });
+        return base;
+      }
+
+      var chartSpecs = [
+        {
+          id: "chart-career-arc",
+          option: {
+            aria: { enabled: true },
+            grid: { left: 168, right: 28, top: 24, bottom: 26 },
+            tooltip: {
+              trigger: "axis",
+              axisPointer: { type: "shadow" },
+              formatter: function (params) {
+                var item = params[0];
+                return item.name + "<br><strong>" + item.value + " years</strong> of primary emphasis";
+              }
+            },
+            xAxis: {
+              type: "value",
+              min: 0,
+              max: 12,
+              splitNumber: 6,
+              axisLine: { show: false },
+              axisTick: { show: false },
+              splitLine: { lineStyle: { color: "rgba(148, 163, 184, 0.16)" } },
+              axisLabel: axisLabelStyle({ formatter: "{value}" })
+            },
+            yAxis: {
+              type: "category",
+              axisLine: { show: false },
+              axisTick: { show: false },
+              axisLabel: axisLabelStyle(),
+              data: [
+                "2020-2026 | Cloud, product & AI",
+                "2015-2019 | Integration & civic data",
+                "2005-2014 | Java growth & leadership",
+                "1998-2004 | Foundations"
+              ]
+            },
+            series: [
+              {
+                type: "bar",
+                data: [7, 5, 10, 7],
+                barWidth: 22,
+                showBackground: true,
+                backgroundStyle: { color: "rgba(226, 232, 240, 0.7)", borderRadius: 999 },
+                itemStyle: {
+                  borderRadius: 999,
+                  color: gradientHorizontal(palette.blueStrong, palette.sky)
+                },
+                label: {
+                  show: true,
+                  position: "right",
+                  color: palette.navy,
+                  fontFamily: fontFamily,
+                  fontWeight: 700,
+                  formatter: "{c} yrs"
+                }
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-spotlight-bubble",
+          option: {
+            aria: { enabled: true },
+            grid: { left: 50, right: 26, top: 30, bottom: 46 },
+            tooltip: {
+              formatter: function (params) {
+                return [
+                  "<strong>" + params.data.name + "</strong>",
+                  "Platform breadth: " + params.data.value[0],
+                  "Transformation leverage: " + params.data.value[1],
+                  "Automation / API depth: " + params.data.value[2]
+                ].join("<br>");
+              }
+            },
+            xAxis: {
+              type: "value",
+              min: 60,
+              max: 95,
+              name: "Platform breadth",
+              nameLocation: "middle",
+              nameGap: 28,
+              axisLine: { show: false },
+              axisTick: { show: false },
+              splitLine: { lineStyle: { color: "rgba(148, 163, 184, 0.14)" } },
+              axisLabel: axisLabelStyle(),
+              nameTextStyle: axisLabelStyle({ fontWeight: 700 })
+            },
+            yAxis: {
+              type: "value",
+              min: 65,
+              max: 92,
+              name: "Transformation leverage",
+              nameLocation: "middle",
+              nameGap: 38,
+              axisLine: { show: false },
+              axisTick: { show: false },
+              splitLine: { lineStyle: { color: "rgba(148, 163, 184, 0.14)" } },
+              axisLabel: axisLabelStyle(),
+              nameTextStyle: axisLabelStyle({ fontWeight: 700 })
+            },
+            series: [
+              {
+                type: "scatter",
+                symbolSize: function (value) {
+                  return value[2];
+                },
+                label: {
+                  show: true,
+                  position: "top",
+                  color: palette.navy,
+                  fontFamily: fontFamily,
+                  fontWeight: 700,
+                  formatter: function (params) {
+                    return params.data.name;
+                  }
+                },
+                itemStyle: {
+                  shadowBlur: 18,
+                  shadowColor: "rgba(37, 99, 235, 0.16)"
+                },
+                data: [
+                  { name: "InnovaSoftware", value: [90, 88, 54], itemStyle: { color: "#1d4ed8" } },
+                  { name: "IBG SaaS / QA", value: [86, 84, 50], itemStyle: { color: "#2563eb" } },
+                  { name: "Wizeline", value: [77, 80, 42], itemStyle: { color: "#0891b2" } },
+                  { name: "ScotiaGBS", value: [74, 76, 40], itemStyle: { color: "#0f766e" } },
+                  { name: "Citizen Oversight", value: [88, 82, 48], itemStyle: { color: "#db2777" } },
+                  { name: "Oracle Track", value: [79, 74, 38], itemStyle: { color: "#e9c7a1" } }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-capability-radar",
+          option: {
+            aria: { enabled: true },
+            tooltip: { trigger: "item" },
+            legend: {
+              bottom: 0,
+              textStyle: axisLabelStyle(),
+              itemWidth: 12,
+              itemHeight: 12
+            },
+            radar: {
+              center: ["50%", "46%"],
+              radius: "64%",
+              splitNumber: 5,
+              axisName: axisLabelStyle({ fontWeight: 700 }),
+              splitArea: {
+                areaStyle: {
+                  color: ["rgba(239, 246, 255, 0.34)", "rgba(255, 255, 255, 0.2)"]
+                }
+              },
+              splitLine: {
+                lineStyle: { color: "rgba(148, 163, 184, 0.18)" }
+              },
+              axisLine: {
+                lineStyle: { color: "rgba(148, 163, 184, 0.18)" }
+              },
+              indicator: [
+                { name: "Backend APIs", max: 10 },
+                { name: "Frontend delivery", max: 10 },
+                { name: "Data & analytics", max: 10 },
+                { name: "QA automation", max: 10 },
+                { name: "Cloud / DevOps", max: 10 },
+                { name: "Integration middleware", max: 10 }
+              ]
+            },
+            series: [
+              {
+                type: "radar",
+                data: [
+                  {
+                    value: [10, 8, 8, 8, 8, 7],
+                    name: "2026 ATS emphasis",
+                    lineStyle: { color: palette.blueStrong, width: 2.5 },
+                    areaStyle: { color: "rgba(37, 99, 235, 0.18)" },
+                    symbol: "circle",
+                    symbolSize: 7,
+                    itemStyle: { color: palette.blueStrong }
+                  },
+                  {
+                    value: [9, 7, 7, 9, 7, 10],
+                    name: "2025 archive breadth",
+                    lineStyle: { color: palette.rose, width: 2.2 },
+                    areaStyle: { color: "rgba(219, 39, 119, 0.12)" },
+                    symbol: "circle",
+                    symbolSize: 7,
+                    itemStyle: { color: palette.rose }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-technology-sunburst",
+          option: {
+            aria: { enabled: true },
+            tooltip: {
+              formatter: function (params) {
+                return "<strong>" + params.name + "</strong><br>Weight: " + params.value;
+              }
+            },
+            series: [
+              {
+                type: "sunburst",
+                radius: [0, "88%"],
+                sort: null,
+                emphasis: { focus: "ancestor" },
+                label: {
+                  rotate: "radial",
+                  color: palette.ink,
+                  fontFamily: fontFamily
+                },
+                itemStyle: {
+                  borderWidth: 2,
+                  borderColor: "rgba(255, 255, 255, 0.92)"
+                },
+                levels: [
+                  {},
+                  { r0: "0%", r: "20%", label: { rotate: 0, fontWeight: 800, color: palette.navy } },
+                  { r0: "20%", r: "50%", label: { rotate: "tangential", color: palette.ink } },
+                  { r0: "50%", r: "88%", label: { fontSize: 10, color: palette.slate } }
+                ],
+                data: [
+                  {
+                    name: "Backend",
+                    value: 24,
+                    children: [
+                      { name: "Java", value: 7 },
+                      { name: "Spring Boot", value: 5 },
+                      { name: "Python", value: 5 },
+                      { name: "REST / OpenAPI", value: 4 },
+                      { name: "OAuth2 / JWT", value: 3 }
+                    ]
+                  },
+                  {
+                    name: "Frontend",
+                    value: 18,
+                    children: [
+                      { name: "React", value: 5 },
+                      { name: "Next.js", value: 3 },
+                      { name: "Angular", value: 4 },
+                      { name: "React Native", value: 3 },
+                      { name: "TypeScript", value: 3 }
+                    ]
+                  },
+                  {
+                    name: "Cloud & Infra",
+                    value: 17,
+                    children: [
+                      { name: "AWS", value: 5 },
+                      { name: "Azure", value: 4 },
+                      { name: "GCP", value: 3 },
+                      { name: "Firebase", value: 2 },
+                      { name: "Cloud-native delivery", value: 3 }
+                    ]
+                  },
+                  {
+                    name: "Data & Analytics",
+                    value: 14,
+                    children: [
+                      { name: "ETL / ELT", value: 4 },
+                      { name: "Athena / analytics", value: 3 },
+                      { name: "SECOP data", value: 4 },
+                      { name: "Dashboards / exports", value: 3 }
+                    ]
+                  },
+                  {
+                    name: "QA & AI",
+                    value: 17,
+                    children: [
+                      { name: "Selenium / Appium", value: 4 },
+                      { name: "JUnit / pytest / Jest", value: 4 },
+                      { name: "ChatGPT / Copilot", value: 3 },
+                      { name: "Cursor / OpenAI APIs", value: 3 },
+                      { name: "Gemini / Claude", value: 3 }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-delivery-sankey",
+          option: {
+            aria: { enabled: true },
+            tooltip: {
+              trigger: "item",
+              formatter: function (params) {
+                return params.dataType === "edge"
+                  ? params.data.source + " -> " + params.data.target + "<br><strong>" + params.data.value + "</strong> emphasis points"
+                  : "<strong>" + params.name + "</strong>";
+              }
+            },
+            series: [
+              {
+                type: "sankey",
+                layout: "none",
+                emphasis: { focus: "adjacency" },
+                nodeWidth: 18,
+                nodeGap: 18,
+                draggable: false,
+                lineStyle: {
+                  color: "gradient",
+                  curveness: 0.52,
+                  opacity: 0.48
+                },
+                itemStyle: {
+                  borderWidth: 1,
+                  borderColor: "rgba(255, 255, 255, 0.9)"
+                },
+                label: {
+                  color: palette.ink,
+                  fontFamily: fontFamily,
+                  fontWeight: 700
+                },
+                data: [
+                  { name: "Java engineering" },
+                  { name: "Python automation" },
+                  { name: "React / Angular UX" },
+                  { name: "Oracle SOA / OSB" },
+                  { name: "QA automation" },
+                  { name: "Citizen data platforms" },
+                  { name: "AI tooling" },
+                  { name: "Secure APIs" },
+                  { name: "Automation pipelines" },
+                  { name: "SaaS interfaces" },
+                  { name: "Enterprise integration" },
+                  { name: "Transparency analytics" },
+                  { name: "Delivery acceleration" },
+                  { name: "Cloud products" },
+                  { name: "Faster QA cycles" },
+                  { name: "Cross-system orchestration" },
+                  { name: "Citizen oversight" },
+                  { name: "Banking / telecom programs" },
+                  { name: "Business integrations" },
+                  { name: "AI-assisted engineering" }
+                ],
+                links: [
+                  { source: "Java engineering", target: "Secure APIs", value: 8 },
+                  { source: "Python automation", target: "Automation pipelines", value: 7 },
+                  { source: "React / Angular UX", target: "SaaS interfaces", value: 7 },
+                  { source: "Oracle SOA / OSB", target: "Enterprise integration", value: 8 },
+                  { source: "QA automation", target: "Faster QA cycles", value: 7 },
+                  { source: "Citizen data platforms", target: "Transparency analytics", value: 6 },
+                  { source: "AI tooling", target: "Delivery acceleration", value: 6 },
+                  { source: "Secure APIs", target: "Cloud products", value: 7 },
+                  { source: "Secure APIs", target: "Business integrations", value: 6 },
+                  { source: "Automation pipelines", target: "Faster QA cycles", value: 7 },
+                  { source: "SaaS interfaces", target: "Cloud products", value: 6 },
+                  { source: "Enterprise integration", target: "Cross-system orchestration", value: 8 },
+                  { source: "Transparency analytics", target: "Citizen oversight", value: 6 },
+                  { source: "Delivery acceleration", target: "AI-assisted engineering", value: 6 },
+                  { source: "Cross-system orchestration", target: "Banking / telecom programs", value: 7 },
+                  { source: "Cloud products", target: "Business integrations", value: 6 }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-capability-heatmap",
+          option: {
+            aria: { enabled: true },
+            tooltip: {
+              position: "top",
+              formatter: function (params) {
+                return params.name + "<br><strong>" + params.value[2] + "/10</strong> normalized intensity";
+              }
+            },
+            grid: { left: 118, right: 20, top: 24, bottom: 54 },
+            xAxis: {
+              type: "category",
+              data: ["Java", "Python", "React", "Oracle", "Cloud", "QA", "Data"],
+              splitArea: { show: false },
+              axisLine: { show: false },
+              axisTick: { show: false },
+              axisLabel: axisLabelStyle({ rotate: 22 })
+            },
+            yAxis: {
+              type: "category",
+              data: ["APIs", "Automation", "Frontends", "Integration", "Analytics", "Citizen oversight"],
+              splitArea: { show: false },
+              axisLine: { show: false },
+              axisTick: { show: false },
+              axisLabel: axisLabelStyle()
+            },
+            visualMap: {
+              min: 0,
+              max: 10,
+              calculable: false,
+              orient: "horizontal",
+              left: "center",
+              bottom: 6,
+              textStyle: axisLabelStyle(),
+              inRange: {
+                color: ["#eff6ff", "#93c5fd", "#2563eb", "#143462"]
+              }
+            },
+            series: [
+              {
+                name: "Capability intensity",
+                type: "heatmap",
+                data: [
+                  [0, 0, 10], [1, 0, 7], [2, 0, 4], [3, 0, 8], [4, 0, 7], [5, 0, 4], [6, 0, 6],
+                  [0, 1, 6], [1, 1, 10], [2, 1, 4], [3, 1, 6], [4, 1, 5], [5, 1, 10], [6, 1, 7],
+                  [0, 2, 2], [1, 2, 5], [2, 2, 10], [3, 2, 1], [4, 2, 4], [5, 2, 4], [6, 2, 3],
+                  [0, 3, 8], [1, 3, 7], [2, 3, 6], [3, 3, 10], [4, 3, 7], [5, 3, 5], [6, 3, 7],
+                  [0, 4, 5], [1, 4, 8], [2, 4, 4], [3, 4, 5], [4, 4, 7], [5, 4, 6], [6, 4, 10],
+                  [0, 5, 4], [1, 5, 7], [2, 5, 6], [3, 5, 3], [4, 5, 5], [5, 5, 5], [6, 5, 10]
+                ],
+                label: {
+                  show: true,
+                  color: palette.white,
+                  fontFamily: fontFamily,
+                  fontWeight: 700
+                },
+                itemStyle: {
+                  borderColor: "rgba(255, 255, 255, 0.66)",
+                  borderWidth: 1
+                }
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-domain-treemap",
+          option: {
+            aria: { enabled: true },
+            tooltip: {
+              formatter: function (params) {
+                return "<strong>" + params.name + "</strong><br>" + params.value + " archive roles";
+              }
+            },
+            series: [
+              {
+                type: "treemap",
+                roam: false,
+                nodeClick: false,
+                breadcrumb: { show: false },
+                upperLabel: {
+                  show: true,
+                  color: palette.navy,
+                  fontFamily: fontFamily,
+                  fontWeight: 800
+                },
+                label: {
+                  show: true,
+                  formatter: "{b}\n{c} roles",
+                  color: palette.ink,
+                  fontFamily: fontFamily,
+                  lineHeight: 18
+                },
+                itemStyle: {
+                  borderColor: palette.white,
+                  borderWidth: 3,
+                  gapWidth: 3
+                },
+                levels: [
+                  {
+                    color: [
+                      "#dbeafe",
+                      "#e0f2fe",
+                      "#fdf2f8",
+                      "#ecfeff",
+                      "#fef3c7",
+                      "#eef2ff"
+                    ]
+                  }
+                ],
+                data: [
+                  { name: "Financial services", value: 7 },
+                  { name: "Public sector / civic", value: 5 },
+                  { name: "Telecom / networking", value: 4 },
+                  { name: "Product engineering / SaaS", value: 4 },
+                  { name: "Education / training", value: 2 },
+                  { name: "Utilities / retail", value: 2 }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-spectrum-polar",
+          option: {
+            aria: { enabled: true },
+            angleAxis: {
+              type: "category",
+              data: [
+                "Enterprise engineering",
+                "Secure APIs",
+                "QA automation",
+                "Data & analytics",
+                "Documentation",
+                "Citizen oversight",
+                "Music discipline",
+                "Mission resources"
+              ],
+              axisLabel: axisLabelStyle({ interval: 0, rotate: 18 })
+            },
+            radiusAxis: {
+              max: 10,
+              axisLabel: axisLabelStyle(),
+              axisLine: { show: false },
+              axisTick: { show: false },
+              splitLine: { lineStyle: { color: "rgba(148, 163, 184, 0.14)" } }
+            },
+            polar: {},
+            tooltip: {
+              formatter: function (params) {
+                return "<strong>" + params.name + "</strong><br>" + params.value + "/10 portfolio emphasis";
+              }
+            },
+            series: [
+              {
+                type: "bar",
+                coordinateSystem: "polar",
+                roundCap: true,
+                silent: true,
+                barWidth: 18,
+                data: [10, 10, 10, 10, 10, 10, 10, 10],
+                itemStyle: { color: "rgba(219, 234, 254, 0.96)" }
+              },
+              {
+                type: "bar",
+                coordinateSystem: "polar",
+                roundCap: true,
+                barWidth: 14,
+                data: [10, 9, 8, 8, 9, 8, 7, 6],
+                itemStyle: {
+                  color: function (params) {
+                    var colors = [
+                      palette.blueStrong,
+                      palette.blue,
+                      palette.cyan,
+                      palette.teal,
+                      palette.navySoft,
+                      palette.rose,
+                      palette.gold,
+                      palette.amber
+                    ];
+                    return colors[params.dataIndex % colors.length];
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-ai-trajectory",
+          option: {
+            aria: { enabled: true },
+            tooltip: { trigger: "axis" },
+            legend: {
+              top: 0,
+              textStyle: axisLabelStyle(),
+              itemWidth: 12,
+              itemHeight: 12
+            },
+            grid: { left: 44, right: 26, top: 44, bottom: 28 },
+            xAxis: {
+              type: "category",
+              boundaryGap: false,
+              data: ["2022", "2023", "2024", "2025", "2026"],
+              axisLine: { show: false },
+              axisTick: { show: false },
+              axisLabel: axisLabelStyle()
+            },
+            yAxis: {
+              type: "value",
+              min: 0,
+              max: 10,
+              axisLine: { show: false },
+              axisTick: { show: false },
+              splitLine: { lineStyle: { color: "rgba(148, 163, 184, 0.16)" } },
+              axisLabel: axisLabelStyle()
+            },
+            series: [
+              {
+                name: "AI-assisted tooling",
+                type: "line",
+                smooth: true,
+                symbolSize: 8,
+                lineStyle: { width: 3, color: palette.blueStrong },
+                itemStyle: { color: palette.blueStrong },
+                areaStyle: { color: "rgba(37, 99, 235, 0.14)" },
+                data: [3, 5, 7, 8, 9]
+              },
+              {
+                name: "Automation maturity",
+                type: "line",
+                smooth: true,
+                symbolSize: 8,
+                lineStyle: { width: 3, color: palette.rose },
+                itemStyle: { color: palette.rose },
+                areaStyle: { color: "rgba(219, 39, 119, 0.08)" },
+                data: [7, 8, 8, 9, 9]
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-role-network",
+          option: {
+            aria: { enabled: true },
+            tooltip: {
+              formatter: function (params) {
+                if (params.dataType === "edge") {
+                  return params.data.source + " -> " + params.data.target;
+                }
+                return "<strong>" + params.data.name + "</strong>";
+              }
+            },
+            legend: {
+              bottom: 0,
+              textStyle: axisLabelStyle(),
+              data: ["Spotlight roles", "Capabilities"]
+            },
+            series: [
+              {
+                type: "graph",
+                layout: "force",
+                roam: true,
+                draggable: true,
+                force: {
+                  repulsion: 180,
+                  edgeLength: [70, 130],
+                  gravity: 0.06
+                },
+                categories: [
+                  { name: "Spotlight roles" },
+                  { name: "Capabilities" }
+                ],
+                label: {
+                  show: true,
+                  color: palette.ink,
+                  fontFamily: fontFamily,
+                  fontWeight: 700
+                },
+                lineStyle: {
+                  color: "rgba(148, 163, 184, 0.72)",
+                  width: 1.6,
+                  curveness: 0.14
+                },
+                itemStyle: {
+                  shadowBlur: 16,
+                  shadowColor: "rgba(15, 23, 42, 0.1)"
+                },
+                emphasis: { focus: "adjacency" },
+                data: [
+                  { name: "InnovaSoftware", category: 0, symbolSize: 52, itemStyle: { color: palette.blueStrong } },
+                  { name: "IBG SaaS / QA", category: 0, symbolSize: 46, itemStyle: { color: palette.blue } },
+                  { name: "Wizeline", category: 0, symbolSize: 42, itemStyle: { color: palette.cyan } },
+                  { name: "ScotiaGBS", category: 0, symbolSize: 42, itemStyle: { color: palette.teal } },
+                  { name: "Citizen Oversight", category: 0, symbolSize: 48, itemStyle: { color: palette.rose } },
+                  { name: "Oracle Track", category: 0, symbolSize: 40, itemStyle: { color: palette.gold } },
+                  { name: "Secure APIs", category: 1, symbolSize: 30, itemStyle: { color: "#dbeafe" } },
+                  { name: "Cloud apps", category: 1, symbolSize: 28, itemStyle: { color: "#e0f2fe" } },
+                  { name: "Frontend platforms", category: 1, symbolSize: 30, itemStyle: { color: "#ecfeff" } },
+                  { name: "QA automation", category: 1, symbolSize: 30, itemStyle: { color: "#fdf2f8" } },
+                  { name: "Data analytics", category: 1, symbolSize: 28, itemStyle: { color: "#eef2ff" } },
+                  { name: "Enterprise integration", category: 1, symbolSize: 30, itemStyle: { color: "#fef3c7" } },
+                  { name: "Citizen transparency", category: 1, symbolSize: 28, itemStyle: { color: "#fde68a" } },
+                  { name: "AI-assisted delivery", category: 1, symbolSize: 28, itemStyle: { color: "#bfdbfe" } }
+                ],
+                links: [
+                  { source: "InnovaSoftware", target: "Secure APIs" },
+                  { source: "InnovaSoftware", target: "Cloud apps" },
+                  { source: "InnovaSoftware", target: "AI-assisted delivery" },
+                  { source: "IBG SaaS / QA", target: "Frontend platforms" },
+                  { source: "IBG SaaS / QA", target: "QA automation" },
+                  { source: "IBG SaaS / QA", target: "Cloud apps" },
+                  { source: "Wizeline", target: "Secure APIs" },
+                  { source: "Wizeline", target: "Enterprise integration" },
+                  { source: "ScotiaGBS", target: "QA automation" },
+                  { source: "ScotiaGBS", target: "Data analytics" },
+                  { source: "Citizen Oversight", target: "Data analytics" },
+                  { source: "Citizen Oversight", target: "Citizen transparency" },
+                  { source: "Citizen Oversight", target: "Frontend platforms" },
+                  { source: "Oracle Track", target: "Enterprise integration" },
+                  { source: "Oracle Track", target: "Secure APIs" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-role-parallel",
+          option: {
+            aria: { enabled: true },
+            tooltip: { trigger: "item" },
+            legend: {
+              bottom: 0,
+              textStyle: axisLabelStyle(),
+              itemWidth: 12,
+              itemHeight: 12
+            },
+            parallelAxis: [
+              { dim: 0, name: "Platform", min: 60, max: 100, nameTextStyle: axisLabelStyle({ fontWeight: 700 }) },
+              { dim: 1, name: "Automation", min: 50, max: 100, nameTextStyle: axisLabelStyle({ fontWeight: 700 }) },
+              { dim: 2, name: "Data", min: 40, max: 100, nameTextStyle: axisLabelStyle({ fontWeight: 700 }) },
+              { dim: 3, name: "Cloud", min: 40, max: 100, nameTextStyle: axisLabelStyle({ fontWeight: 700 }) },
+              { dim: 4, name: "Integration", min: 40, max: 100, nameTextStyle: axisLabelStyle({ fontWeight: 700 }) }
+            ],
+            parallel: {
+              left: 44,
+              right: 44,
+              top: 34,
+              bottom: 54,
+              parallelAxisDefault: {
+                type: "value",
+                nameLocation: "end",
+                nameGap: 10,
+                axisLine: { lineStyle: { color: "rgba(148, 163, 184, 0.28)" } },
+                axisTick: { show: false },
+                splitLine: { lineStyle: { color: "rgba(148, 163, 184, 0.16)" } },
+                axisLabel: axisLabelStyle()
+              }
+            },
+            series: [
+              {
+                name: "InnovaSoftware",
+                type: "parallel",
+                smooth: 0.4,
+                lineStyle: { width: 2.6, color: palette.blueStrong, opacity: 0.76 },
+                data: [[92, 90, 72, 84, 66]]
+              },
+              {
+                name: "IBG SaaS / QA",
+                type: "parallel",
+                smooth: 0.4,
+                lineStyle: { width: 2.4, color: palette.blue, opacity: 0.72 },
+                data: [[88, 86, 68, 70, 58]]
+              },
+              {
+                name: "Wizeline",
+                type: "parallel",
+                smooth: 0.4,
+                lineStyle: { width: 2.4, color: palette.cyan, opacity: 0.72 },
+                data: [[78, 72, 52, 60, 74]]
+              },
+              {
+                name: "ScotiaGBS",
+                type: "parallel",
+                smooth: 0.4,
+                lineStyle: { width: 2.4, color: palette.teal, opacity: 0.72 },
+                data: [[74, 76, 74, 68, 62]]
+              },
+              {
+                name: "Citizen Oversight",
+                type: "parallel",
+                smooth: 0.4,
+                lineStyle: { width: 2.4, color: palette.rose, opacity: 0.74 },
+                data: [[86, 74, 90, 58, 64]]
+              },
+              {
+                name: "Oracle Track",
+                type: "parallel",
+                smooth: 0.4,
+                lineStyle: { width: 2.4, color: palette.gold, opacity: 0.76 },
+                data: [[72, 60, 48, 50, 92]]
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-delivery-funnel",
+          option: {
+            aria: { enabled: true },
+            tooltip: {
+              formatter: function (params) {
+                return "<strong>" + params.name + "</strong><br>" + params.value + "/100 normalized flow";
+              }
+            },
+            series: [
+              {
+                type: "funnel",
+                left: "10%",
+                width: "80%",
+                top: 18,
+                bottom: 18,
+                minSize: "28%",
+                maxSize: "100%",
+                sort: "descending",
+                gap: 4,
+                label: {
+                  show: true,
+                  position: "inside",
+                  color: palette.white,
+                  fontFamily: fontFamily,
+                  fontWeight: 700
+                },
+                itemStyle: {
+                  borderColor: palette.white,
+                  borderWidth: 2
+                },
+                emphasis: {
+                  label: { fontSize: 13 }
+                },
+                data: [
+                  { value: 100, name: "Discovery & framing", itemStyle: { color: "#1d4ed8" } },
+                  { value: 94, name: "Architecture", itemStyle: { color: "#2563eb" } },
+                  { value: 89, name: "Engineering build", itemStyle: { color: "#0891b2" } },
+                  { value: 81, name: "Automation & QA", itemStyle: { color: "#0f766e" } },
+                  { value: 73, name: "Production hardening", itemStyle: { color: "#db2777" } },
+                  { value: 66, name: "Knowledge transfer", itemStyle: { color: "#e9c7a1" } }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-portfolio-rose",
+          option: {
+            aria: { enabled: true },
+            tooltip: {
+              formatter: function (params) {
+                return "<strong>" + params.name + "</strong><br>" + params.value + " weighted portfolio points";
+              }
+            },
+            legend: {
+              bottom: 0,
+              textStyle: axisLabelStyle(),
+              itemWidth: 12,
+              itemHeight: 12
+            },
+            series: [
+              {
+                type: "pie",
+                radius: ["20%", "78%"],
+                center: ["50%", "44%"],
+                roseType: "radius",
+                label: {
+                  color: palette.ink,
+                  fontFamily: fontFamily,
+                  formatter: "{b}"
+                },
+                labelLine: {
+                  lineStyle: { color: "rgba(148, 163, 184, 0.54)" }
+                },
+                itemStyle: {
+                  borderColor: palette.white,
+                  borderWidth: 2
+                },
+                data: [
+                  { value: 28, name: "Engineering" },
+                  { value: 16, name: "Integration" },
+                  { value: 15, name: "Data & analytics" },
+                  { value: 14, name: "QA automation" },
+                  { value: 12, name: "Civic transparency" },
+                  { value: 9, name: "Music discipline" },
+                  { value: 6, name: "Mission resources" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-technology-river",
+          option: {
+            aria: { enabled: true },
+            tooltip: {
+              trigger: "axis",
+              axisPointer: { type: "line", lineStyle: { color: "rgba(37, 99, 235, 0.24)" } }
+            },
+            legend: {
+              top: 0,
+              textStyle: axisLabelStyle(),
+              itemWidth: 12,
+              itemHeight: 12
+            },
+            singleAxis: {
+              top: 42,
+              bottom: 28,
+              type: "time",
+              axisLine: { lineStyle: { color: "rgba(148, 163, 184, 0.24)" } },
+              axisTick: { show: false },
+              axisLabel: axisLabelStyle()
+            },
+            series: [
+              {
+                type: "themeRiver",
+                emphasis: { itemStyle: { shadowBlur: 14, shadowColor: "rgba(15, 23, 42, 0.14)" } },
+                label: { show: false },
+                data: [
+                  ["2018/01/01", 6, "Java / APIs"],
+                  ["2019/01/01", 6, "Java / APIs"],
+                  ["2020/01/01", 7, "Java / APIs"],
+                  ["2021/01/01", 7, "Java / APIs"],
+                  ["2022/01/01", 7, "Java / APIs"],
+                  ["2023/01/01", 8, "Java / APIs"],
+                  ["2024/01/01", 8, "Java / APIs"],
+                  ["2025/01/01", 8, "Java / APIs"],
+                  ["2026/01/01", 8, "Java / APIs"],
+                  ["2018/01/01", 3, "Frontend delivery"],
+                  ["2019/01/01", 4, "Frontend delivery"],
+                  ["2020/01/01", 4, "Frontend delivery"],
+                  ["2021/01/01", 4, "Frontend delivery"],
+                  ["2022/01/01", 5, "Frontend delivery"],
+                  ["2023/01/01", 7, "Frontend delivery"],
+                  ["2024/01/01", 7, "Frontend delivery"],
+                  ["2025/01/01", 6, "Frontend delivery"],
+                  ["2026/01/01", 6, "Frontend delivery"],
+                  ["2018/01/01", 6, "Data / analytics"],
+                  ["2019/01/01", 6, "Data / analytics"],
+                  ["2020/01/01", 5, "Data / analytics"],
+                  ["2021/01/01", 5, "Data / analytics"],
+                  ["2022/01/01", 5, "Data / analytics"],
+                  ["2023/01/01", 6, "Data / analytics"],
+                  ["2024/01/01", 6, "Data / analytics"],
+                  ["2025/01/01", 6, "Data / analytics"],
+                  ["2026/01/01", 6, "Data / analytics"],
+                  ["2018/01/01", 7, "Integration / middleware"],
+                  ["2019/01/01", 6, "Integration / middleware"],
+                  ["2020/01/01", 5, "Integration / middleware"],
+                  ["2021/01/01", 5, "Integration / middleware"],
+                  ["2022/01/01", 4, "Integration / middleware"],
+                  ["2023/01/01", 4, "Integration / middleware"],
+                  ["2024/01/01", 4, "Integration / middleware"],
+                  ["2025/01/01", 4, "Integration / middleware"],
+                  ["2026/01/01", 4, "Integration / middleware"],
+                  ["2018/01/01", 1, "AI / automation"],
+                  ["2019/01/01", 1, "AI / automation"],
+                  ["2020/01/01", 2, "AI / automation"],
+                  ["2021/01/01", 2, "AI / automation"],
+                  ["2022/01/01", 4, "AI / automation"],
+                  ["2023/01/01", 5, "AI / automation"],
+                  ["2024/01/01", 7, "AI / automation"],
+                  ["2025/01/01", 8, "AI / automation"],
+                  ["2026/01/01", 9, "AI / automation"]
+                ]
+              }
+            ]
+          }
+        },
+        {
+          id: "chart-career-tree",
+          option: {
+            aria: { enabled: true },
+            tooltip: {
+              formatter: function (params) {
+                return "<strong>" + params.data.name + "</strong>";
+              }
+            },
+            series: [
+              {
+                type: "tree",
+                data: [
+                  {
+                    name: "Career path",
+                    children: [
+                      {
+                        name: "Foundations 1998-2004",
+                        children: [
+                          { name: "Nortel Networks" },
+                          { name: "APICE" },
+                          { name: "Moloko / Synapsis" }
+                        ]
+                      },
+                      {
+                        name: "Java growth 2005-2014",
+                        children: [
+                          { name: "SIGTECH / IPLER" },
+                          { name: "INCAPROG" },
+                          { name: "Stefanini / Efron" }
+                        ]
+                      },
+                      {
+                        name: "Integration & civic 2015-2019",
+                        children: [
+                          { name: "SOAINT / Entelgy / Hardnetics" },
+                          { name: "Citizen Oversight" },
+                          { name: "SECOP analytics" }
+                        ]
+                      },
+                      {
+                        name: "Cloud, product & AI 2020-2026",
+                        children: [
+                          { name: "ScotiaGBS" },
+                          { name: "Wizeline" },
+                          { name: "IBG SaaS / QA" },
+                          { name: "InnovaSoftware" }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                top: "4%",
+                left: "8%",
+                bottom: "4%",
+                right: "26%",
+                symbol: "circle",
+                symbolSize: 12,
+                lineStyle: {
+                  color: "rgba(37, 99, 235, 0.42)",
+                  width: 2,
+                  curveness: 0.52
+                },
+                label: {
+                  position: "left",
+                  verticalAlign: "middle",
+                  align: "right",
+                  color: palette.ink,
+                  fontFamily: fontFamily,
+                  fontWeight: 700,
+                  fontSize: 12
+                },
+                leaves: {
+                  label: {
+                    position: "right",
+                    verticalAlign: "middle",
+                    align: "left",
+                    color: palette.slate,
+                    fontFamily: fontFamily,
+                    fontWeight: 600
+                  }
+                },
+                emphasis: { focus: "descendant" },
+                expandAndCollapse: false,
+                initialTreeDepth: 2,
+                itemStyle: {
+                  color: palette.blueStrong,
+                  borderColor: palette.white,
+                  borderWidth: 2
+                }
+              }
+            ]
+          }
+        }
+      ];
+
+      var chartInstances = [];
+
+      chartSpecs.forEach(function (spec) {
+        var node = document.getElementById(spec.id);
+        if (!node) {
+          return;
+        }
+
+        var instance = echarts.init(node, "mcg-portfolio", { renderer: "canvas" });
+        instance.setOption(spec.option);
+        chartInstances.push(instance);
       });
-    });
-  })();
+
+      if (!chartInstances.length) {
+        return;
+      }
+
+      function resizeCharts() {
+        chartInstances.forEach(function (instance) {
+          instance.resize();
+        });
+      }
+
+      if ("ResizeObserver" in window) {
+        var observer = new ResizeObserver(function () {
+          resizeCharts();
+        });
+
+        chartIds.forEach(function (id) {
+          var node = document.getElementById(id);
+          if (node) {
+            observer.observe(node);
+          }
+        });
+      }
+
+      window.addEventListener("resize", resizeCharts);
+    })();
   </script>
 </body>
 </html>
