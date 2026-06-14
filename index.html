@@ -46,6 +46,7 @@
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             color: var(--ink);
             background: linear-gradient(180deg, var(--page-top), var(--page-mid) 45%, var(--page-bottom));
+            overflow-x: clip;
         }
 
         a {
@@ -59,18 +60,36 @@
         }
 
         .page-shell {
-            width: min(1880px, calc(100% - 0.02rem));
+            width: min(1880px, 100%);
             margin: 0 auto;
-            padding: 0.03rem 0 0.85rem;
+            padding: clamp(0.2rem, 0.8vw, 0.7rem) clamp(0.2rem, 1vw, 0.9rem) 0.95rem;
             display: grid;
             grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
-            gap: 0.22rem;
+            gap: clamp(0.4rem, 0.85vw, 0.85rem);
             align-items: start;
         }
 
         .sidebar {
             position: sticky;
             top: 0.03rem;
+            min-width: 0;
+        }
+
+        .content-column,
+        .hero-panel,
+        .sidebar-card,
+        .content-section,
+        .banner-card,
+        .banner-copy,
+        .banner-main,
+        .banner-summary,
+        .support-panel,
+        .cis-panel,
+        .message-panel,
+        .spotlight-card,
+        .directory-card,
+        .action-card {
+            min-width: 0;
         }
 
         .sidebar-card,
@@ -127,6 +146,7 @@
             text-decoration: none;
             color: var(--ink);
             font-weight: 600;
+            overflow-wrap: anywhere;
         }
 
         .sidebar-nav a:hover {
@@ -228,6 +248,8 @@
             font-size: 0.94rem;
             font-weight: 800;
             line-height: 1.35;
+            white-space: normal;
+            overflow-wrap: anywhere;
         }
 
         .banner-intro {
@@ -374,6 +396,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 0.55rem;
+            min-width: 0;
         }
 
         .summary-chip {
@@ -390,6 +413,9 @@
             font-weight: 700;
             line-height: 1.25;
             text-align: center;
+            max-width: 100%;
+            white-space: normal;
+            overflow-wrap: anywhere;
         }
 
         .banner-tag {
@@ -574,6 +600,9 @@
             color: #ffffff;
             text-decoration: none;
             font-weight: 600;
+            max-width: 100%;
+            white-space: normal;
+            overflow-wrap: anywhere;
         }
 
         .quick-label {
@@ -619,6 +648,12 @@
             line-height: 1.7;
         }
 
+        .cis-panel strong,
+        .message-body a {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
         .cis-panel p + p {
             margin-top: 0.85rem;
         }
@@ -657,6 +692,9 @@
             color: #17386d;
             font-weight: 700;
             text-decoration: none;
+            max-width: 100%;
+            white-space: normal;
+            overflow-wrap: anywhere;
         }
 
         .cis-module-grid {
@@ -889,6 +927,7 @@
             text-decoration: none;
             color: #17386d;
             font-weight: 700;
+            overflow-wrap: anywhere;
         }
 
         .micro-link {
@@ -914,8 +953,17 @@
                 grid-template-columns: 1fr;
             }
 
+            .content-column {
+                order: 1;
+            }
+
             .sidebar {
                 position: static;
+                order: 2;
+            }
+
+            .sidebar-nav {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             }
 
             .banner-card {
@@ -951,18 +999,62 @@
             }
         }
 
+        @media (max-width: 980px) {
+            .banner-card {
+                grid-template-columns: 1fr;
+                gap: 0.6rem;
+            }
+
+            .banner-photo {
+                width: min(100%, 22rem);
+                justify-self: center;
+            }
+
+            .banner-copy {
+                grid-template-columns: 1fr;
+                gap: 0.9rem;
+                padding: 0.3rem 0.72rem 0.92rem;
+            }
+
+            .banner-copy h1 {
+                max-width: 100%;
+                font-size: clamp(2.8rem, 8vw, 4.8rem);
+            }
+
+            .banner-role-strip {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .banner-intro {
+                max-width: none;
+            }
+
+            .hero-social-links {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+
+            .hero-social-link,
+            .action-cta {
+                width: 100%;
+            }
+
+            .banner-fact-grid,
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .spotlight-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 760px) {
             .page-shell {
-                width: min(100%, calc(100% - 0.01rem));
-                padding-top: 0.01rem;
-            }
-
-            .content-column {
-                order: 1;
-            }
-
-            .sidebar {
-                order: 2;
+                width: 100%;
+                padding: 0.18rem;
             }
 
             .hero-panel,
@@ -978,21 +1070,21 @@
             }
 
             .banner-photo {
-                width: 100%;
-                max-width: none;
+                width: min(100%, 18rem);
                 min-height: 0;
-                justify-self: stretch;
+                justify-self: center;
                 aspect-ratio: 841 / 1870;
                 background-position: center center;
             }
 
             .banner-copy {
                 grid-template-columns: 1fr;
-                padding: 0.08rem 0.32rem 0.65rem;
+                gap: 0.78rem;
+                padding: 0.08rem 0.22rem 0.65rem;
             }
 
             .banner-copy h1 {
-                font-size: clamp(2.5rem, 11vw, 4.2rem);
+                font-size: clamp(2.35rem, 12vw, 3.8rem);
                 max-width: 100%;
             }
 
@@ -1015,6 +1107,18 @@
                 justify-content: flex-start;
             }
 
+            .sidebar-kicker,
+            .banner-eyebrow,
+            .hero-eyebrow,
+            .section-eyebrow,
+            .action-badge,
+            .quick-label,
+            .cis-kicker,
+            .message-tag,
+            .banner-summary-kicker {
+                letter-spacing: 0.14em;
+            }
+
             .banner-fact-grid {
                 grid-template-columns: 1fr;
             }
@@ -1029,6 +1133,11 @@
 
             .banner-tag {
                 margin-left: 0.32rem;
+            }
+
+            .action-cta {
+                min-width: 0;
+                max-width: 100%;
             }
 
             .hero-grid,
@@ -1052,6 +1161,16 @@
             .social-link,
             .pill-link {
                 width: 100%;
+            }
+
+            .spotlight-card {
+                min-height: clamp(22rem, 88vw, 28rem);
+                padding: 0.72rem 0.65rem 0.88rem;
+            }
+
+            .spotlight-card img {
+                width: min(100%, 290px);
+                transform: scale(1.02);
             }
 
             .content-section {
