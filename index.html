@@ -522,6 +522,48 @@
             box-shadow: 0 12px 22px rgba(37, 99, 235, 0.28);
         }
 
+        .copy-social-button {
+            appearance: none;
+            border: 0;
+            cursor: pointer;
+            min-width: 14rem;
+            min-height: 3.25rem;
+            padding: 0.7rem 1.25rem;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--rose), #f472b6);
+            color: #ffffff;
+            font: inherit;
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            box-shadow: 0 12px 22px rgba(219, 39, 119, 0.24);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+
+        .copy-social-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 15px 26px rgba(219, 39, 119, 0.28);
+        }
+
+        .copy-social-button:focus-visible {
+            outline: 3px solid rgba(244, 114, 182, 0.38);
+            outline-offset: 3px;
+        }
+
+        .copy-social-button[data-copied="true"] {
+            background: linear-gradient(90deg, #15803d, #22c55e);
+            box-shadow: 0 12px 22px rgba(21, 128, 61, 0.22);
+        }
+
+        .copy-social-status {
+            min-height: 1.35rem;
+            margin-top: -0.25rem !important;
+            font-size: 0.86rem !important;
+            line-height: 1.45 !important;
+            color: #334155 !important;
+        }
+
         .support-panel {
             margin-top: 0.4rem;
             padding: 1rem;
@@ -1265,12 +1307,14 @@
                 <p class="hero-description">The central access points preserve your main materials exactly as they are, now presented inside a more structured, clearer landing page that is much closer to the reference site style.</p>
 
                 <div class="hero-grid" id="documentos">
-                    <a class="action-card" href="PETICIONES-SANTO-ROSARIO.pdf" target="_blank" rel="noopener">
+                    <article class="action-card">
                         <div class="action-badge">👩‍⚖️ Most-used access</div>
                         <h2>PETICIONES AL SANTO ROSARIO PARA EVITAR LA DESTRUCCIÓN DEL GENERO HUMANO</h2>
                         <p>Main Spanish document, preserved intact inside a featured card.</p>
-                        <span class="action-cta">Click here &gt;</span>
-                    </a>
+                        <a class="action-cta" href="PETICIONES-SANTO-ROSARIO.pdf" target="_blank" rel="noopener">Click here &gt;</a>
+                        <button class="copy-social-button" id="copy-social-button" type="button" aria-describedby="copy-social-status">Copiar Redes</button>
+                        <p class="copy-social-status" id="copy-social-status" role="status" aria-live="polite">Listo para LinkedIn (menos de 1.250 caracteres).</p>
+                    </article>
 
                     <a class="action-card" href="PETITIONS-HOLY-ROSARY.pdf" target="_blank" rel="noopener">
                         <div class="action-badge">👩‍💬 Main access</div>
@@ -1430,5 +1474,83 @@
             </section>
         </main>
     </div>
+    <script>
+        (function () {
+            const LINKEDIN_COMMENT_LIMIT = 1250;
+            const DOCUMENT_URL = "https://mcortesgranados.github.io/PETICIONES-SANTO-ROSARIO.pdf";
+            const copyButton = document.getElementById("copy-social-button");
+            const copyStatus = document.getElementById("copy-social-status");
+
+            if (!copyButton || !copyStatus) {
+                return;
+            }
+
+            function buildSocialMessage() {
+                return [
+                    "🙏🌹 Te invito a leer y compartir con respeto este documento: \"Peticiones al Santo Rosario para evitar la destrucción del género humano\".",
+                    "⚠️ En tiempos de catástrofes y tragedias, como terremotos en Venezuela y otros eventos dolorosos, necesitamos oración, reflexión y conversión para pedir protección, misericordia y paz.",
+                    "📖 Documento PDF:",
+                    DOCUMENT_URL,
+                    "🕊️ Que esta lectura ayude a evitar más sufrimiento y a unir corazones en el Santo Rosario."
+                ].join("\n\n");
+            }
+
+            function fitLinkedInComment(message) {
+                if (message.length <= LINKEDIN_COMMENT_LIMIT) {
+                    return message;
+                }
+
+                const suffix = "\n\n📖 Documento PDF:\n\n" + DOCUMENT_URL;
+                const maxBodyLength = LINKEDIN_COMMENT_LIMIT - suffix.length;
+                return message.slice(0, Math.max(0, maxBodyLength)).trimEnd() + suffix;
+            }
+
+            function copyWithFallback(text) {
+                const textarea = document.createElement("textarea");
+                textarea.value = text;
+                textarea.setAttribute("readonly", "");
+                textarea.style.position = "fixed";
+                textarea.style.top = "-9999px";
+                textarea.style.left = "-9999px";
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+
+                const copied = document.execCommand("copy");
+                document.body.removeChild(textarea);
+
+                if (!copied) {
+                    throw new Error("copy command failed");
+                }
+            }
+
+            async function copyToClipboard(text) {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                    return;
+                }
+
+                copyWithFallback(text);
+            }
+
+            copyButton.addEventListener("click", async function () {
+                const socialMessage = fitLinkedInComment(buildSocialMessage());
+
+                try {
+                    await copyToClipboard(socialMessage);
+                    copyButton.dataset.copied = "true";
+                    copyButton.textContent = "Copiado";
+                    copyStatus.textContent = "Mensaje copiado para redes (" + socialMessage.length + "/1.250 caracteres).";
+
+                    window.setTimeout(function () {
+                        copyButton.dataset.copied = "false";
+                        copyButton.textContent = "Copiar Redes";
+                    }, 2400);
+                } catch (error) {
+                    copyStatus.textContent = "No se pudo copiar automáticamente. Selecciona el enlace del documento y compártelo en redes.";
+                }
+            });
+        }());
+    </script>
 </body>
 </html>
