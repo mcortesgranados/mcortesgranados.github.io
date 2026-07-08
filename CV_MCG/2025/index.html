@@ -129,7 +129,8 @@
     .sidebar-link-list a:hover,
     .resource-card:hover,
     .detail-link:hover,
-    .button-row a:hover {
+    .button-row a:hover,
+    .button-row button:hover {
       transform: translateY(-2px);
       border-color: var(--line-strong);
       box-shadow: 0 14px 30px rgba(20, 52, 98, 0.12);
@@ -292,7 +293,8 @@
       gap: 0.7rem;
     }
 
-    .button-row a {
+    .button-row a,
+    .button-row button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -306,6 +308,11 @@
       font-size: 0.8rem;
     }
 
+    .button-row button {
+      cursor: pointer;
+      font-family: inherit;
+    }
+
     .primary-button {
       background: linear-gradient(90deg, var(--navy), var(--navy-soft));
       color: #ffffff;
@@ -315,6 +322,14 @@
     .secondary-button {
       background: rgba(255, 255, 255, 0.96);
       color: var(--navy);
+    }
+
+    .share-status {
+      margin: 0.78rem 0 0;
+      min-height: 1.4rem;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     .hero-aside {
@@ -984,7 +999,8 @@
         min-height: 300px;
       }
 
-      .button-row a {
+      .button-row a,
+      .button-row button {
         width: 100%;
       }
 
@@ -1123,7 +1139,9 @@
               <a class="primary-button" href="comparative_table_tab.html" target="_blank" rel="noopener">Open concise labor history</a>
               <a class="secondary-button" href="comprehensive_technical_proficiency_matrix.html" target="_blank" rel="noopener">View proficiency matrix</a>
               <a class="secondary-button" href="../mcg_presentation_letter.html" target="_blank" rel="noopener">Presentation letter</a>
+              <button class="secondary-button" id="share-social-button" type="button">Share Social Media</button>
             </div>
+            <p class="share-status" id="share-social-status" role="status" aria-live="polite"></p>
           </div>
 
           <aside class="hero-aside">
@@ -3303,6 +3321,70 @@
 
       window.addEventListener("resize", resizeCharts);
     })();
+  </script>
+  <script>
+    (function () {
+      var shareButton = document.getElementById("share-social-button");
+      var shareStatus = document.getElementById("share-social-status");
+      var publicUrl = "https://mcortesgranados.github.io/CV_MCG/2025/index.html";
+
+      if (!shareButton || !shareStatus) {
+        return;
+      }
+
+      function buildShareMessage() {
+        return [
+          "💼 Senior Software Engineer with 28+ years across Java / Spring Boot, Python, APIs, cloud, data, AI, and automation.",
+          "📄 CV hub:",
+          publicUrl,
+          "🎹 Also includes technical assessments, certifications, portfolio references, and supporting archive pages."
+        ].join("\n\n");
+      }
+
+      function copyWithFallback(text) {
+        var textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.top = "-9999px";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+
+        var copied = document.execCommand("copy");
+        document.body.removeChild(textarea);
+
+        if (!copied) {
+          throw new Error("copy command failed");
+        }
+      }
+
+      async function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+
+        copyWithFallback(text);
+      }
+
+      shareButton.addEventListener("click", async function () {
+        var shareMessage = buildShareMessage();
+
+        try {
+          await copyToClipboard(shareMessage);
+          shareButton.textContent = "Copied";
+          shareStatus.textContent = "Social media text copied (" + shareMessage.length + " characters).";
+
+          window.setTimeout(function () {
+            shareButton.textContent = "Share Social Media";
+          }, 2400);
+        } catch (error) {
+          shareStatus.textContent = publicUrl;
+        }
+      });
+    }());
   </script>
 </body>
 </html>
