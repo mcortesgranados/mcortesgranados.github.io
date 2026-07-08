@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <title>Peticiones al Santo Rosario | Visor</title>
+    <style>
+        :root {
+            --page-top: #dfe7f2;
+            --page-mid: #f8fafc;
+            --page-bottom: #ffffff;
+            --hero-bg: #142f60;
+            --hero-bg-soft: #1d447d;
+            --card: rgba(255, 255, 255, 0.96);
+            --card-soft: #eef4ff;
+            --line: #d7e2f1;
+            --line-strong: #bfd4ff;
+            --ink: #0f172a;
+            --ink-soft: #475569;
+            --blue: #1d4ed8;
+            --blue-soft: #2563eb;
+            --rose-soft: #fff7f8;
+            --shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+            --shadow-strong: 0 26px 60px rgba(15, 23, 42, 0.16);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top right, rgba(219, 39, 119, 0.12), transparent 20rem),
+                linear-gradient(180deg, var(--page-top), var(--page-mid) 42%, var(--page-bottom));
+        }
+
+        a,
+        button {
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .page-shell {
+            width: min(1560px, calc(100% - 1.4rem));
+            margin: 0 auto;
+            padding: 0.8rem 0 1rem;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .hero-panel,
+        .viewer-panel,
+        .info-card {
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            background: var(--card);
+        }
+
+        .hero-panel {
+            overflow: hidden;
+        }
+
+        .hero-band {
+            padding: 0.18rem;
+            border-radius: 28px;
+            background: linear-gradient(180deg, var(--hero-bg), var(--hero-bg-soft));
+        }
+
+        .hero-card {
+            border-radius: 24px;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+            gap: 0.9rem;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98));
+        }
+
+        .hero-main {
+            display: grid;
+            gap: 0.75rem;
+            align-content: center;
+        }
+
+        .hero-kicker {
+            margin: 0;
+            font-size: 0.8rem;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: #64748b;
+        }
+
+        .hero-title {
+            margin: 0;
+            font-size: clamp(2.15rem, 5vw, 4rem);
+            line-height: 0.95;
+            color: #0f4fa0;
+            text-wrap: balance;
+            max-width: 11ch;
+        }
+
+        .hero-text {
+            margin: 0;
+            font-size: 1.02rem;
+            line-height: 1.72;
+            color: #334155;
+            max-width: 58ch;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+        }
+
+        .hero-button,
+        .hero-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 3rem;
+            padding: 0.72rem 1.1rem;
+            border-radius: 999px;
+            border: 1px solid var(--line-strong);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .hero-link {
+            background: linear-gradient(90deg, var(--blue), var(--blue-soft));
+            color: #ffffff;
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.24);
+        }
+
+        .hero-button {
+            cursor: pointer;
+            background: linear-gradient(180deg, #ffffff, #f8fbff);
+            color: #0f4fa0;
+        }
+
+        .hero-link:hover,
+        .hero-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .hero-aside {
+            display: grid;
+            gap: 0.8rem;
+            align-content: start;
+        }
+
+        .info-card {
+            padding: 1rem;
+            background: linear-gradient(180deg, var(--card-soft), var(--rose-soft));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74);
+        }
+
+        .info-kicker {
+            margin: 0 0 0.45rem;
+            font-size: 0.76rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: #a21caf;
+        }
+
+        .visit-count {
+            margin: 0;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1;
+            color: #17386d;
+        }
+
+        .visit-caption,
+        .visit-status,
+        .info-copy {
+            margin: 0;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .visit-status {
+            min-height: 1.5rem;
+            font-size: 0.92rem;
+        }
+
+        .viewer-panel {
+            padding: 0.95rem;
+            background: linear-gradient(180deg, rgba(20, 47, 96, 0.04), rgba(255, 255, 255, 0.96));
+        }
+
+        .viewer-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.8rem;
+            align-items: center;
+            margin-bottom: 0.85rem;
+        }
+
+        .viewer-title-group {
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .viewer-title {
+            margin: 0;
+            font-size: 1.28rem;
+            color: #17386d;
+        }
+
+        .viewer-subtitle {
+            margin: 0;
+            color: var(--ink-soft);
+            line-height: 1.55;
+        }
+
+        .viewer-frame {
+            overflow: hidden;
+            border-radius: 22px;
+            border: 1px solid var(--line-strong);
+            background: #ffffff;
+            box-shadow: var(--shadow-strong);
+        }
+
+        .viewer-frame iframe {
+            display: block;
+            width: 100%;
+            min-height: calc(100vh - 19rem);
+            border: 0;
+            background: #ffffff;
+        }
+
+        .helper-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            margin-top: 0.85rem;
+        }
+
+        .helper-pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 2.6rem;
+            padding: 0.65rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: #ffffff;
+            color: #17386d;
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .helper-pill--muted {
+            color: #475569;
+        }
+
+        .copy-status {
+            margin: 0.55rem 0 0;
+            min-height: 1.45rem;
+            color: #475569;
+            font-size: 0.92rem;
+        }
+
+        @media (max-width: 1080px) {
+            .hero-card {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .page-shell {
+                width: min(100%, calc(100% - 0.4rem));
+                padding-top: 0.22rem;
+            }
+
+            .hero-card,
+            .viewer-panel,
+            .info-card {
+                padding: 0.85rem;
+            }
+
+            .viewer-frame iframe {
+                min-height: 72vh;
+            }
+
+            .hero-actions,
+            .helper-row {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .hero-link,
+            .hero-button,
+            .helper-pill {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page-shell">
+        <section class="hero-panel">
+            <div class="hero-band">
+                <div class="hero-card">
+                    <div class="hero-main">
+                        <p class="hero-kicker">Most-used access</p>
+                        <h1 class="hero-title">Peticiones al Santo Rosario para evitar la destruccion del genero humano</h1>
+                        <p class="hero-text">
+                            Este visor web presenta el documento dentro de una pagina compartible y muestra un contador publico de visitas.
+                            El PDF original sigue disponible desde aqui como acceso secundario.
+                        </p>
+                        <div class="hero-actions">
+                            <a class="hero-link" href="#visor-documento">Abrir visor</a>
+                            <button class="hero-button" id="copy-viewer-link" type="button">Copiar enlace del visor</button>
+                            <a class="hero-button" href="PETICIONES-SANTO-ROSARIO.pdf" target="_blank" rel="noopener">Abrir PDF original</a>
+                        </div>
+                        <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+                    </div>
+
+                    <aside class="hero-aside">
+                        <section class="info-card" aria-label="Visit counter">
+                            <p class="info-kicker">Visitas registradas</p>
+                            <p class="visit-count" id="visit-count">--</p>
+                            <p class="visit-caption">Conteo del visor HTML compartible.</p>
+                            <p class="visit-status" id="visit-status">Cargando contador...</p>
+                        </section>
+
+                        <section class="info-card">
+                            <p class="info-kicker">Uso recomendado</p>
+                            <p class="info-copy">
+                                Comparte esta pagina cuando quieras mostrar el documento con un marco visor y una metrica publica de acceso.
+                            </p>
+                        </section>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <section class="viewer-panel" id="visor-documento">
+            <div class="viewer-header">
+                <div class="viewer-title-group">
+                    <h2 class="viewer-title">Visor del documento</h2>
+                    <p class="viewer-subtitle">
+                        Si el navegador no muestra el PDF embebido, puedes abrir el archivo original o descargarlo desde los accesos inferiores.
+                    </p>
+                </div>
+            </div>
+
+            <div class="viewer-frame">
+                <iframe
+                    src="PETICIONES-SANTO-ROSARIO.pdf#view=FitH"
+                    title="Visor del documento Peticiones al Santo Rosario"
+                    loading="eager"></iframe>
+            </div>
+
+            <div class="helper-row">
+                <a class="helper-pill" href="PETICIONES-SANTO-ROSARIO.pdf" target="_blank" rel="noopener">Ver PDF en una pestana nueva</a>
+                <a class="helper-pill helper-pill--muted" href="index.html#documentos">Volver al indice principal</a>
+                <a class="helper-pill helper-pill--muted" href="CHRISTIANITY/christianity_index.html">Abrir indice de Christianity</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        (function () {
+            const BASE_URL = "https://countapi.mileshilliard.com/api/v1";
+            const COUNTER_KEY = "mcortesgranados-peticiones-santo-rosario-html-visits";
+            const SESSION_KEY = COUNTER_KEY + "-counted";
+            const PUBLIC_VIEW_URL = "https://mcortesgranados.github.io/PETICIONES-SANTO-ROSARIO.html";
+            const visitCount = document.getElementById("visit-count");
+            const visitStatus = document.getElementById("visit-status");
+            const copyButton = document.getElementById("copy-viewer-link");
+            const copyStatus = document.getElementById("copy-status");
+
+            function setVisitState(value, message) {
+                if (visitCount) {
+                    visitCount.textContent = value;
+                }
+
+                if (visitStatus) {
+                    visitStatus.textContent = message;
+                }
+            }
+
+            async function requestCounter(endpoint) {
+                const response = await fetch(BASE_URL + endpoint, { cache: "no-store" });
+
+                if (!response.ok) {
+                    throw new Error("counter request failed");
+                }
+
+                return response.json();
+            }
+
+            async function loadCounter() {
+                const shouldIncrement = window.location.protocol !== "file:" && !sessionStorage.getItem(SESSION_KEY);
+
+                try {
+                    const data = shouldIncrement
+                        ? await requestCounter("/hit/" + COUNTER_KEY)
+                        : await requestCounter("/get/" + COUNTER_KEY);
+
+                    if (shouldIncrement) {
+                        sessionStorage.setItem(SESSION_KEY, "1");
+                    }
+
+                    setVisitState(String(data.value), shouldIncrement ? "Visita registrada correctamente." : "Contador consultado sin incrementar.");
+                } catch (error) {
+                    if (window.location.protocol === "file:") {
+                        setVisitState("--", "El contador se activara al abrir esta pagina desde GitHub Pages.");
+                        return;
+                    }
+
+                    try {
+                        const fallback = await requestCounter("/get/" + COUNTER_KEY);
+                        setVisitState(String(fallback.value), "No se pudo incrementar esta visita, pero el contador actual se mostro.");
+                    } catch (fallbackError) {
+                        setVisitState("--", "No fue posible obtener el contador de visitas en este momento.");
+                    }
+                }
+            }
+
+            async function copyViewerLink() {
+                try {
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(PUBLIC_VIEW_URL);
+                    } else {
+                        const textarea = document.createElement("textarea");
+                        textarea.value = PUBLIC_VIEW_URL;
+                        textarea.setAttribute("readonly", "");
+                        textarea.style.position = "fixed";
+                        textarea.style.top = "-9999px";
+                        textarea.style.left = "-9999px";
+                        document.body.appendChild(textarea);
+                        textarea.focus();
+                        textarea.select();
+                        document.execCommand("copy");
+                        document.body.removeChild(textarea);
+                    }
+
+                    copyStatus.textContent = "Enlace del visor copiado.";
+                } catch (error) {
+                    copyStatus.textContent = PUBLIC_VIEW_URL;
+                }
+            }
+
+            if (copyButton) {
+                copyButton.addEventListener("click", copyViewerLink);
+            }
+
+            loadCounter();
+        }());
+    </script>
+</body>
+</html>
