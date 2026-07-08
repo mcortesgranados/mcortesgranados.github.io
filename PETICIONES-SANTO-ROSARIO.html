@@ -79,15 +79,23 @@
             border-radius: 24px;
             padding: 1rem;
             display: grid;
-            grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+            grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.72fr);
             gap: 0.9rem;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98));
         }
 
         .hero-main {
             display: grid;
+            grid-template-columns: minmax(0, 1fr) clamp(220px, 24vw, 330px);
+            gap: 0.9rem;
+            align-items: stretch;
+        }
+
+        .hero-copy {
+            display: grid;
             gap: 0.75rem;
             align-content: center;
+            min-width: 0;
         }
 
         .hero-kicker {
@@ -114,6 +122,54 @@
             line-height: 1.72;
             color: #334155;
             max-width: 58ch;
+        }
+
+        .hero-rosary-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            border: 1px solid var(--line-strong);
+            background: linear-gradient(180deg, rgba(20, 47, 96, 0.96), rgba(29, 68, 125, 0.92) 52%, rgba(238, 244, 255, 0.98));
+            box-shadow: var(--shadow-strong);
+            min-height: 100%;
+            display: grid;
+            align-content: center;
+            justify-items: center;
+            padding: 1rem 0.85rem 1.1rem;
+            gap: 0.7rem;
+        }
+
+        .hero-rosary-card::before {
+            content: "";
+            position: absolute;
+            inset: auto auto -4rem -3rem;
+            width: 12rem;
+            height: 12rem;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0));
+            pointer-events: none;
+        }
+
+        .hero-rosary-image {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 255px);
+            filter: drop-shadow(0 26px 30px rgba(15, 23, 42, 0.38));
+            transform: scale(1.05);
+        }
+
+        .hero-rosary-note {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            padding: 0.7rem 0.78rem;
+            border-radius: 16px;
+            border: 1px solid rgba(191, 212, 255, 0.4);
+            background: rgba(255, 255, 255, 0.18);
+            color: #eff6ff;
+            text-align: center;
+            line-height: 1.58;
+            font-size: 0.94rem;
         }
 
         .hero-actions {
@@ -278,6 +334,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .hero-main {
+                grid-template-columns: 1fr;
+            }
+
             .hero-title {
                 max-width: none;
             }
@@ -319,18 +379,27 @@
             <div class="hero-band">
                 <div class="hero-card">
                     <div class="hero-main">
-                        <p class="hero-kicker">Most-used access</p>
-                        <h1 class="hero-title">Peticiones al Santo Rosario para evitar la destruccion del genero humano</h1>
-                        <p class="hero-text">
-                            Este visor web presenta el documento dentro de una pagina compartible y muestra un contador publico de visitas.
-                            El PDF original sigue disponible desde aqui como acceso secundario.
-                        </p>
-                        <div class="hero-actions">
-                            <a class="hero-link" href="#visor-documento">Abrir visor</a>
-                            <button class="hero-button" id="copy-viewer-link" type="button">Copiar enlace del visor</button>
-                            <a class="hero-button" href="PETICIONES-SANTO-ROSARIO.pdf" target="_blank" rel="noopener">Abrir PDF original</a>
+                        <div class="hero-copy">
+                            <p class="hero-kicker">Most-used access</p>
+                            <h1 class="hero-title">Peticiones al Santo Rosario para evitar la destruccion del genero humano</h1>
+                            <p class="hero-text">
+                                Este visor web presenta el documento dentro de una pagina compartible y muestra un contador publico de visitas.
+                                El PDF original sigue disponible desde aqui como acceso secundario.
+                            </p>
+                            <div class="hero-actions">
+                                <a class="hero-link" href="#visor-documento">Abrir visor</a>
+                                <button class="hero-button" id="copy-viewer-link" type="button">Copiar enlace del visor</button>
+                                <a class="hero-button" href="PETICIONES-SANTO-ROSARIO.pdf" target="_blank" rel="noopener">Abrir PDF original</a>
+                            </div>
+                            <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
                         </div>
-                        <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+
+                        <section class="hero-rosary-card" aria-label="Rosario destacado">
+                            <img class="hero-rosary-image" src="rosary_01.png" alt="Rosario catolico sobre fondo azul" loading="eager" decoding="async">
+                            <p class="hero-rosary-note">
+                                El rosario queda visible desde la cabecera para aprovechar mejor el espacio y reforzar el sentido espiritual del documento.
+                            </p>
+                        </section>
                     </div>
 
                     <aside class="hero-aside">
