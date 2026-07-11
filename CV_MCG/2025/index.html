@@ -760,6 +760,122 @@
       min-height: 390px;
     }
 
+    .chart-card-sunburst .chart-copy {
+      max-width: 72ch;
+    }
+
+    .chart-shell-sunburst {
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(250px, 0.62fr);
+      gap: 1rem;
+      align-items: stretch;
+      min-height: 470px;
+      padding: 1rem;
+    }
+
+    .chart-canvas-sunburst {
+      min-height: 430px;
+    }
+
+    .chart-side-notes {
+      display: grid;
+      align-content: center;
+      gap: 0.72rem;
+      min-width: 0;
+      padding: 0.2rem 0;
+    }
+
+    .chart-side-title {
+      margin: 0;
+      color: #17386d;
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .chart-side-copy {
+      margin: 0;
+      color: #475569;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .chart-note-row {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 0.72rem;
+      align-items: start;
+      padding: 0.84rem 0.9rem;
+      border-radius: 16px;
+      border: 1px solid rgba(191, 212, 255, 0.84);
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .chart-note-dot {
+      width: 0.78rem;
+      height: 0.78rem;
+      margin-top: 0.3rem;
+      border-radius: 999px;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.92);
+    }
+
+    .chart-note-body {
+      min-width: 0;
+    }
+
+    .chart-note-body strong {
+      display: block;
+      margin: 0;
+      color: #17386d;
+      font-size: 0.96rem;
+      font-weight: 800;
+      line-height: 1.24;
+    }
+
+    .chart-note-body span {
+      display: block;
+      margin-top: 0.22rem;
+      color: #475569;
+      font-size: 0.88rem;
+      line-height: 1.48;
+    }
+
+    .chart-note-value {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.25rem;
+      min-height: 2.25rem;
+      padding: 0.2rem 0.45rem;
+      border-radius: 999px;
+      color: #17386d;
+      font-size: 0.92rem;
+      font-weight: 900;
+      line-height: 1;
+      background: rgba(219, 234, 254, 0.92);
+    }
+
+    .chart-note-backend .chart-note-dot {
+      background: #2563eb;
+    }
+
+    .chart-note-frontend .chart-note-dot {
+      background: #db2777;
+    }
+
+    .chart-note-cloud .chart-note-dot {
+      background: #0f766e;
+    }
+
+    .chart-note-data .chart-note-dot {
+      background: #e9c7a1;
+    }
+
+    .chart-note-qa .chart-note-dot {
+      background: #0891b2;
+    }
+
     .chart-canvas,
     .chart-fallback {
       width: 100%;
@@ -931,6 +1047,20 @@
       .chart-card-wide .chart-shell {
         min-height: 360px;
       }
+
+      .chart-shell-sunburst {
+        grid-template-columns: 1fr;
+        min-height: 0;
+      }
+
+      .chart-canvas-sunburst {
+        min-height: 400px;
+      }
+
+      .chart-side-notes {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-content: start;
+      }
     }
 
     @media (max-width: 1120px) {
@@ -997,6 +1127,18 @@
       .chart-shell,
       .chart-card-wide .chart-shell {
         min-height: 300px;
+      }
+
+      .chart-shell-sunburst {
+        padding: 0.8rem;
+      }
+
+      .chart-canvas-sunburst {
+        min-height: 320px;
+      }
+
+      .chart-side-notes {
+        grid-template-columns: 1fr;
       }
 
       .button-row a,
@@ -1596,12 +1738,56 @@
             </div>
           </article>
 
-          <article class="chart-card chart-card-wide">
+          <article class="chart-card chart-card-wide chart-card-sunburst">
             <p class="chart-kicker">Chart 04 ✨</p>
             <h3>Technology taxonomy sunburst ☀️</h3>
             <p class="chart-copy">A hierarchical view of the core stacks surfaced by the ATS resume and the retained 2025 supporting materials.</p>
-            <div class="chart-shell">
-              <div class="chart-canvas" id="chart-technology-sunburst"></div>
+            <div class="chart-shell chart-shell-sunburst">
+              <div class="chart-canvas chart-canvas-sunburst" id="chart-technology-sunburst"></div>
+              <aside class="chart-side-notes" aria-label="Technology taxonomy reading guide">
+                <p class="chart-side-title">Reading guide</p>
+                <p class="chart-side-copy">The inner ring shows the five dominant capability families. The outer ring expands each one into the named stacks, platforms, and delivery tools that appear across the resume and archive.</p>
+                <div class="chart-note-row chart-note-backend">
+                  <span class="chart-note-dot" aria-hidden="true"></span>
+                  <div class="chart-note-body">
+                    <strong>Backend</strong>
+                    <span>Java, Spring Boot, Python, REST / OpenAPI, OAuth2 / JWT.</span>
+                  </div>
+                  <span class="chart-note-value">24</span>
+                </div>
+                <div class="chart-note-row chart-note-frontend">
+                  <span class="chart-note-dot" aria-hidden="true"></span>
+                  <div class="chart-note-body">
+                    <strong>Frontend</strong>
+                    <span>React, Angular, Next.js, React Native, TypeScript.</span>
+                  </div>
+                  <span class="chart-note-value">18</span>
+                </div>
+                <div class="chart-note-row chart-note-cloud">
+                  <span class="chart-note-dot" aria-hidden="true"></span>
+                  <div class="chart-note-body">
+                    <strong>Cloud &amp; Infra</strong>
+                    <span>AWS, Azure, GCP, Firebase, and cloud-native delivery patterns.</span>
+                  </div>
+                  <span class="chart-note-value">17</span>
+                </div>
+                <div class="chart-note-row chart-note-data">
+                  <span class="chart-note-dot" aria-hidden="true"></span>
+                  <div class="chart-note-body">
+                    <strong>Data &amp; Analytics</strong>
+                    <span>ETL / ELT, Athena, SECOP data, dashboards, and exports.</span>
+                  </div>
+                  <span class="chart-note-value">14</span>
+                </div>
+                <div class="chart-note-row chart-note-qa">
+                  <span class="chart-note-dot" aria-hidden="true"></span>
+                  <div class="chart-note-body">
+                    <strong>QA &amp; AI</strong>
+                    <span>Selenium, JUnit / pytest / Jest, and current AI-assisted tooling.</span>
+                  </div>
+                  <span class="chart-note-value">17</span>
+                </div>
+              </aside>
             </div>
           </article>
 
@@ -2457,13 +2643,16 @@
             series: [
               {
                 type: "sunburst",
-                radius: [0, "88%"],
+                radius: [0, "94%"],
                 sort: null,
                 emphasis: { focus: "ancestor" },
+                labelLayout: { hideOverlap: true },
                 label: {
-                  rotate: "radial",
+                  rotate: 0,
                   color: palette.ink,
-                  fontFamily: fontFamily
+                  fontFamily: fontFamily,
+                  minAngle: 6,
+                  overflow: "truncate"
                 },
                 itemStyle: {
                   borderWidth: 2,
@@ -2471,9 +2660,9 @@
                 },
                 levels: [
                   {},
-                  { r0: "0%", r: "20%", label: { rotate: 0, fontWeight: 800, color: palette.navy } },
-                  { r0: "20%", r: "50%", label: { rotate: "tangential", color: palette.ink } },
-                  { r0: "50%", r: "88%", label: { fontSize: 10, color: palette.slate } }
+                  { r0: "0%", r: "26%", label: { rotate: 0, fontWeight: 800, fontSize: 14, color: palette.navy } },
+                  { r0: "26%", r: "62%", label: { rotate: "tangential", fontSize: 12, color: palette.ink } },
+                  { r0: "62%", r: "94%", label: { rotate: "tangential", fontSize: 11, color: palette.slate } }
                 ],
                 data: [
                   {

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light">
-    <title>Peticiones al Santo Rosario | Visor</title>
+    <title>Peticiones al Santo Rosario | Micrositio</title>
     <style>
         :root {
             --page-top: #dfe7f2;
@@ -33,6 +33,7 @@
         body {
             margin: 0;
             min-height: 100%;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -329,6 +330,263 @@
             font-size: 0.92rem;
         }
 
+        .content-panel {
+            padding: 1rem;
+            background: linear-gradient(180deg, rgba(20, 47, 96, 0.04), rgba(255, 255, 255, 0.98));
+        }
+
+        .section-title-group {
+            display: grid;
+            gap: 0.42rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .section-kicker {
+            margin: 0;
+            font-size: 0.78rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: #a21caf;
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: clamp(1.7rem, 3vw, 2.4rem);
+            color: #17386d;
+            line-height: 1.08;
+            text-wrap: balance;
+        }
+
+        .section-text {
+            margin: 0;
+            color: var(--ink-soft);
+            line-height: 1.7;
+            max-width: 76ch;
+        }
+
+        .section-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            margin-top: 0.9rem;
+        }
+
+        .section-links--quicknav {
+            margin-top: 1rem;
+        }
+
+        .overview-grid,
+        .petition-grid {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .overview-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            margin-top: 1rem;
+        }
+
+        .overview-card,
+        .petition-card {
+            border-radius: 22px;
+            border: 1px solid var(--line);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(244, 248, 255, 0.98));
+            box-shadow: var(--shadow);
+        }
+
+        .overview-card {
+            padding: 1rem;
+        }
+
+        .overview-card h3,
+        .petition-card h3 {
+            margin: 0;
+            color: #17386d;
+            line-height: 1.2;
+        }
+
+        .overview-card p,
+        .petition-card p {
+            margin: 0;
+            color: var(--ink-soft);
+            line-height: 1.62;
+        }
+
+        .overview-card h3 + p,
+        .petition-card h3 + p {
+            margin-top: 0.45rem;
+        }
+
+        .petition-groups {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .petition-group {
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(240, 246, 255, 0.96));
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .petition-group-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 1rem;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .petition-group-summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .petition-group-copy {
+            display: grid;
+            gap: 0.35rem;
+            min-width: 0;
+        }
+
+        .petition-group-text {
+            margin: 0;
+            color: var(--ink-soft);
+            line-height: 1.6;
+            max-width: 70ch;
+        }
+
+        .petition-group-body {
+            display: grid;
+            gap: 0.8rem;
+            padding: 0 1rem 1rem;
+        }
+
+        .petition-group-title {
+            margin: 0;
+            font-size: 1.16rem;
+            color: #17386d;
+        }
+
+        .petition-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.1rem;
+            padding: 0.45rem 0.72rem;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--blue), var(--blue-soft));
+            color: #ffffff;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .petition-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .petition-card {
+            padding: 1rem;
+            display: grid;
+            gap: 0.72rem;
+            align-content: start;
+        }
+
+        .petition-card-head {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: 0.72rem;
+            align-items: start;
+        }
+
+        .petition-card-title {
+            font-size: 1rem;
+        }
+
+        .petition-code {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.5rem;
+            min-height: 2.5rem;
+            padding: 0.25rem 0.7rem;
+            border-radius: 999px;
+            border: 1px solid var(--line-strong);
+            background: rgba(255, 255, 255, 0.98);
+            color: #0f4fa0;
+            font-size: 0.88rem;
+            font-weight: 800;
+        }
+
+        .petition-summary {
+            font-size: 0.95rem;
+        }
+
+        .petition-focus {
+            margin: 0;
+            color: #17386d;
+            line-height: 1.62;
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        .petition-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+        }
+
+        .petition-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2rem;
+            padding: 0.35rem 0.68rem;
+            border-radius: 999px;
+            background: rgba(20, 47, 96, 0.08);
+            color: #17386d;
+            font-size: 0.76rem;
+            font-weight: 700;
+        }
+
+        .petition-chip--muted {
+            background: rgba(71, 85, 105, 0.08);
+            color: #475569;
+        }
+
+        .petition-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            margin-top: auto;
+        }
+
+        .petition-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.6rem;
+            padding: 0.62rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid var(--line-strong);
+            background: linear-gradient(90deg, var(--blue), var(--blue-soft));
+            color: #ffffff;
+            font-size: 0.84rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .petition-link--secondary {
+            background: #ffffff;
+            color: #17386d;
+        }
+
         @media (max-width: 1080px) {
             .hero-card {
                 grid-template-columns: 1fr;
@@ -340,6 +598,11 @@
 
             .hero-title {
                 max-width: none;
+            }
+
+            .overview-grid,
+            .petition-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
@@ -360,15 +623,23 @@
             }
 
             .hero-actions,
-            .helper-row {
+            .helper-row,
+            .section-links,
+            .petition-actions {
                 display: grid;
                 grid-template-columns: 1fr;
             }
 
             .hero-link,
             .hero-button,
-            .helper-pill {
+            .helper-pill,
+            .petition-link {
                 width: 100%;
+            }
+
+            .overview-grid,
+            .petition-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -381,15 +652,15 @@
                 <div class="hero-card">
                     <div class="hero-main">
                         <div class="hero-copy">
-                            <p class="hero-kicker">Most-used access</p>
+                            <p class="hero-kicker">Micrositio dedicado</p>
                             <h1 class="hero-title">Peticiones al Santo Rosario para evitar la destruccion del genero humano</h1>
                             <p class="hero-text">
-                                Este visor web presenta el documento dentro de una pagina compartible y muestra un contador publico de visitas.
-                                El PDF original sigue disponible desde aqui como acceso secundario.
+                                Este micrositio ofrece una lectura orante del documento, presenta cada peticion en bloques
+                                tematicos y conserva el PDF original como respaldo para quien desee recorrerlo completo.
                             </p>
                             <div class="hero-actions">
-                                <a class="hero-link" href="#visor-documento">Abrir visor</a>
-                                <button class="hero-button" id="copy-viewer-link" type="button">Copiar enlace del visor</button>
+                                <a class="hero-link" href="#micrositio-peticiones">Explorar peticiones</a>
+                                <button class="hero-button" id="copy-viewer-link" type="button">Copiar enlace del micrositio</button>
                                 <a class="hero-button" href="PETICIONES-SANTO-ROSARIO.pdf" target="_blank" rel="noopener">Abrir PDF original</a>
                             </div>
                             <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
@@ -404,14 +675,14 @@
                         <section class="info-card" aria-label="Visit counter">
                             <p class="info-kicker">Visitas registradas</p>
                             <p class="visit-count" id="visit-count">--</p>
-                            <p class="visit-caption">Conteo del visor HTML compartible.</p>
+                            <p class="visit-caption">Conteo publico del micrositio HTML compartible.</p>
                             <p class="visit-status" id="visit-status">Cargando contador...</p>
                         </section>
 
                         <section class="info-card">
                             <p class="info-kicker">Uso recomendado</p>
                             <p class="info-copy">
-                                Comparte esta pagina cuando quieras mostrar el documento con un marco visor y una metrica publica de acceso.
+                                Comparte esta pagina cuando quieras presentar el rosario con una lectura por bloques, una URL mas amable y una metrica publica de acceso.
                             </p>
                         </section>
                     </aside>
@@ -419,12 +690,52 @@
             </div>
         </section>
 
+        <section class="content-panel" id="micrositio-peticiones">
+            <div class="section-title-group">
+                <p class="section-kicker">Micrositio del documento</p>
+                <h2 class="section-title">Una lectura orante del rosario, peticion por peticion</h2>
+                <p class="section-text">
+                    Aqui el documento se presenta como un micrositio dedicado al Santo Rosario. Cada bloque resume la
+                    intencion espiritual de sus peticiones y enlaza a sus paginas individuales para una lectura mas serena.
+                    El PDF completo permanece mas abajo como fuente integra de consulta y respaldo.
+                </p>
+            </div>
+
+            <div class="section-links">
+                <a class="helper-pill" href="CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_INDEX.html" target="_blank" rel="noopener">Abrir indice historico de peticiones</a>
+                <a class="helper-pill helper-pill--muted" href="#visor-documento">Ir al PDF completo</a>
+            </div>
+
+            <div class="section-links section-links--quicknav" id="petition-quicknav"></div>
+
+            <div class="overview-grid">
+                <article class="overview-card">
+                    <h3>Peticiones introductorias</h3>
+                    <p>Las peticiones A, B y C disponen el corazon para recibir el documento con gratitud, responsabilidad y deseo de conversion.</p>
+                </article>
+                <article class="overview-card">
+                    <h3>Necesidades humanas y proteccion</h3>
+                    <p>Las primeras peticiones abrazan purgatorio, sustento, familia, paz, perdon y cuidado de quienes atraviesan mayor vulnerabilidad.</p>
+                </article>
+                <article class="overview-card">
+                    <h3>Iglesia, salud y evangelizacion</h3>
+                    <p>El bloque intermedio intercede por salud, clero, apostolados, consagracion mariana y obras dedicadas a difundir la fe.</p>
+                </article>
+                <article class="overview-card">
+                    <h3>Sociedad, migracion y humanidad</h3>
+                    <p>El tramo final ora por trabajo, migracion, inclusion pastoral, perseverancia espiritual y la reconciliacion de todo el genero humano.</p>
+                </article>
+            </div>
+
+            <div class="petition-groups" id="petition-groups"></div>
+        </section>
+
         <section class="viewer-panel" id="visor-documento">
             <div class="viewer-header">
                 <div class="viewer-title-group">
-                    <h2 class="viewer-title">Visor del documento</h2>
+                    <h2 class="viewer-title">Documento completo en PDF</h2>
                     <p class="viewer-subtitle">
-                        Si el navegador no muestra el PDF embebido, puedes abrir el archivo original o descargarlo desde los accesos inferiores.
+                        El PDF sigue disponible como archivo integral. Si el navegador no lo muestra embebido, puedes abrirlo en una pestana nueva desde los accesos inferiores.
                     </p>
                 </div>
             </div>
@@ -443,6 +754,159 @@
             </div>
         </section>
     </main>
+
+    <script>
+        (function () {
+            const groupsRoot = document.getElementById("petition-groups");
+            const quicknavRoot = document.getElementById("petition-quicknav");
+
+            if (!groupsRoot || !quicknavRoot) {
+                return;
+            }
+
+            const groups = [
+                {
+                    id: "grupo-introductorias",
+                    navLabel: "Intro",
+                    title: "Peticiones introductorias",
+                    description: "Abren el documento con una disposicion espiritual de recepcion responsable, gratitud, perseverancia y apertura a la providencia divina.",
+                    items: [
+                        {
+                            code: "A",
+                            title: "Por las personas que reciben y/o recibieron este documento",
+                            summary: "Iluminacion, responsabilidad espiritual y compromiso con el Santo Rosario para quien entra en contacto con el mensaje.",
+                            focus: "Recepcion espiritual del documento",
+                            href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_A.html"
+                        },
+                        {
+                            code: "B",
+                            title: "Accion de gracias a Dios Padre por lo mucho y por lo poco que se recibe",
+                            summary: "Gratitud, humildad, perdon y reconocimiento de la providencia divina en la vida cotidiana.",
+                            focus: "Gratitud y providencia",
+                            href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_B.html"
+                        },
+                        {
+                            code: "C",
+                            title: "Recepcion del documento y compromiso con el Santo Rosario",
+                            summary: "Lectura complementaria sobre la recepcion espiritual del documento y el llamado a perseverar en la oracion.",
+                            focus: "Compromiso perseverante",
+                            href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_C.html"
+                        }
+                    ]
+                },
+                {
+                    id: "grupo-1-10",
+                    navLabel: "1 a 10",
+                    title: "Peticiones 1 a 10",
+                    description: "Este bloque recorre necesidades humanas, familia, paz, perdon, conversion y proteccion de personas en vulnerabilidad.",
+                    items: [
+                        { code: "1", title: "Liberacion de las almas del purgatorio", summary: "Intercesion por las almas del purgatorio y memoria de la misericordia divina.", focus: "Misericordia y purgatorio", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_01.html" },
+                        { code: "2", title: "Necesidades fisicas de las personas", summary: "Alimento, bebida, refugio, salud y trabajo digno para toda persona.", focus: "Sustento material", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_02.html" },
+                        { code: "3", title: "Conversion masiva de paises donde el catolicismo no es predominante", summary: "Oracion por conversion y expansion de la fe en contextos donde no es mayoria.", focus: "Conversion y expansion de la fe", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_03.html" },
+                        { code: "4", title: "Aborto", summary: "Peticion orientada a la defensa de la vida humana y a la conversion de los corazones.", focus: "Defensa de la vida", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_04.html" },
+                        { code: "5", title: "Familias binarias/cisgenero con hijos", summary: "Intercesion por familias y por la estabilidad del hogar en clave cristiana.", focus: "Vida familiar", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_05.html" },
+                        { code: "6", title: "Malvados con poder", summary: "Peticion por el debilitamiento del mal ejercido desde posiciones de poder.", focus: "Poder y mal moral", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_06.html" },
+                        { code: "7", title: "Guerra y holocausto nuclear", summary: "Suplicas por paz y contencion de escenarios de destruccion global.", focus: "Paz mundial", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_07.html" },
+                        { code: "8", title: "Debilitamiento de apostasia, ocultismo y celebraciones contrarias a la fe", summary: "Rechazo de practicas consideradas opuestas a la fe cristiana catolica.", focus: "Combate espiritual", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_08.html" },
+                        { code: "9", title: "Bendiciones a conocidos y perdon a quienes han ofendido", summary: "Bendicion, reconciliacion y ejercicio del perdon dentro de las relaciones humanas.", focus: "Perdon y reconciliacion", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_09.html" },
+                        { code: "10", title: "Habitantes de calle y consumidores de sustancias psicoactivas", summary: "Intercesion por personas en extrema vulnerabilidad, calle y consumo problematico.", focus: "Vulnerabilidad social", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_10.html" }
+                    ]
+                },
+                {
+                    id: "grupo-11-20",
+                    navLabel: "11 a 20",
+                    title: "Peticiones 11 a 20",
+                    description: "Aqui se concentran salud, clero, formacion religiosa, seguridad, tiendas y librerias catolicas, consagracion y evangelizacion digital.",
+                    items: [
+                        { code: "11", title: "Salud fisica de los enfermos y bendiciones al personal medico", summary: "Salud, recuperacion y bendiciones para medicos, enfermeros y personal sanitario.", focus: "Salud y cuidado", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_11.html" },
+                        { code: "12", title: "Debilitamiento de malos espiritus jueves, viernes y sabado", summary: "Oracion especifica sobre tiempos y combates espirituales vinculados a esos dias.", focus: "Combate espiritual", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_12.html" },
+                        { code: "13", title: "Agradecimiento por la peticion 12", summary: "Accion de gracias ligada al efecto espiritual buscado en la peticion anterior.", focus: "Gratitud liturgica", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_13.html" },
+                        { code: "14", title: "Clero catolico y centros de formacion religiosa", summary: "Intercesion por clerigos, seminarios, facultades de teologia y formacion presbiteral.", focus: "Iglesia y formacion", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_14.html" },
+                        { code: "15", title: "Cumplimiento efectivo de las peticiones rezadas en la manana", summary: "Peticion vinculada al horario de oracion y al cumplimiento durante el dia presente.", focus: "Fruto de la oracion diaria", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_15.html" },
+                        { code: "16", title: "Fuerzas militares, policia y vigilancia nocturna", summary: "Intercesion por quienes sirven en seguridad y vigilancia, especialmente de noche y madrugada.", focus: "Servicio y proteccion", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_16.html" },
+                        { code: "17", title: "Librerias catolicas y casas editoriales", summary: "Apoyo espiritual a espacios de difusion y publicacion de literatura catolica.", focus: "Difusion editorial", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_17.html" },
+                        { code: "18", title: "Tiendas catolicas y objetos benditos", summary: "Peticion por comercios de libros, imagenes, rosarios, escapularios y sacramentales.", focus: "Objetos devocionales", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_18.html" },
+                        { code: "19", title: "Difusion de la consagracion a la Santisima Virgen", summary: "Intercesion por la difusion del curso de consagracion y por personas consagradas a Maria.", focus: "Consagracion mariana", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_19.html" },
+                        { code: "20", title: "Creadores de contenido de evangelizacion catolica", summary: "Peticion por evangelizacion digital en redes, radio, video y plataformas online.", focus: "Evangelizacion digital", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_20.html" }
+                    ]
+                },
+                {
+                    id: "grupo-21-33",
+                    navLabel: "21 a 33",
+                    title: "Peticiones 21 a 33",
+                    description: "El cierre del documento abraza el trabajo diario, la mesa, la proteccion del orante, la misericordia con quienes sufren y el destino espiritual de la humanidad entera.",
+                    items: [
+                        { code: "21", title: "Hombres y mujeres que inician labores el dia presente", summary: "Intercesion por personas que comienzan su jornada laboral y por su sosten diario.", focus: "Trabajo cotidiano", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_21.html" },
+                        { code: "22", title: "Bendicion de las comidas del dia presente y de aqui en adelante", summary: "Accion de gracias y bendicion sobre alimentos, mesa y sustento cotidiano.", focus: "Mesa y alimento", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_22.html" },
+                        { code: "23", title: "Proteccion de la persona orante de estas peticiones", summary: "Peticion enfocada en la proteccion espiritual y personal de quien ora el documento.", focus: "Proteccion del orante", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_23.html" },
+                        { code: "24", title: "Jean-Claude Hollerich y comprension de la comunidad LGBTIQ+", summary: "Peticion por entendimiento e inclusion pastoral desde la dignidad humana.", focus: "Discernimiento pastoral", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_24.html" },
+                        { code: "25", title: "Conferencia Episcopal Alemana y Camino Sinodal", summary: "Peticion por el discernimiento de las propuestas del Camino Sinodal para la Iglesia.", focus: "Discernimiento eclesial", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_25.html" },
+                        { code: "26", title: "Organizaciones activistas catolicas", summary: "Intercesion por organizaciones activistas catolicas y su accion publica.", focus: "Accion publica catolica", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_26.html" },
+                        { code: "27", title: "Anulacion del poder infernal sobre ciertos elementos vegetales", summary: "Peticion por la anulacion de elementos considerados consagrados al mal para destruir almas y cuerpos.", focus: "Liberacion espiritual", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_27.html" },
+                        { code: "28", title: "Migracion de Venezuela, Gaza y personas desplazadas por guerras", summary: "Peticion por migrantes, refugiados y personas que perdieron sus hogares en conflictos recientes.", focus: "Migracion y refugio", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_28.html" },
+                        { code: "29", title: "Debilitamiento de espiritus inmundos reclutadores", summary: "Intercesion contra espiritus inmundos encargados de reclutar almas condenadas.", focus: "Combate espiritual", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_29.html" },
+                        { code: "30", title: "Trabajadores/as sexuales y mujeres con capacidad de embarazo", summary: "Peticion por personas que ejercen trabajo sexual y por su proteccion material y espiritual.", focus: "Dignidad y proteccion", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_30.html" },
+                        { code: "31", title: "Cristianos catolicos y protestantes bajo ataque espiritual", summary: "Peticion por fieles que sostienen oracion, ayuno y buenas obras bajo gran presion espiritual.", focus: "Resistencia en la fe", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_31.html" },
+                        { code: "32", title: "Los ricos y la conversion de la soberbia", summary: "Peticion dirigida a hombres y mujeres muy acomodados para combatir la soberbia.", focus: "Humildad y conversion", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_32.html" },
+                        { code: "33", title: "Todo el genero humano y supresion de la fuerza de Satanas", summary: "Peticion conclusiva por la humanidad entera para combatir la soberbia y el poder del mal.", focus: "Humanidad entera", href: "CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_33.html" }
+                    ]
+                }
+            ];
+
+            quicknavRoot.innerHTML = groups.map(function (group) {
+                return '<a class="helper-pill helper-pill--muted" href="#' + group.id + '">' + group.navLabel + '</a>';
+            }).join("");
+
+            groupsRoot.innerHTML = groups.map(function (group) {
+                return [
+                    '<details class="petition-group" id="' + group.id + '" open>',
+                    '<summary class="petition-group-summary">',
+                    '<div class="petition-group-copy">',
+                    '<h3 class="petition-group-title">' + group.title + '</h3>',
+                    '<p class="petition-group-text">' + group.description + '</p>',
+                    '</div>',
+                    '<span class="petition-badge">' + group.items.length + ' items</span>',
+                    '</summary>',
+                    '<div class="petition-group-body">',
+                    '<div class="petition-grid">',
+                    group.items.map(function (item) {
+                        var hasHtml = Boolean(item.href);
+                        var detailAction = item.href
+                            ? '<a class="petition-link" href="' + item.href + '" target="_blank" rel="noopener">Abrir analisis HTML</a>'
+                            : '<a class="petition-link petition-link--secondary" href="#visor-documento">Leer en el PDF</a>';
+                        var supportAction = hasHtml
+                            ? '<a class="petition-link petition-link--secondary" href="#visor-documento">Ver PDF completo</a>'
+                            : '<a class="petition-link petition-link--secondary" href="CHRISTIANITY/PETICIONES_SANTO_ROSARIO_MCG/PSR_INDEX.html" target="_blank" rel="noopener">Ver indice historico</a>';
+                        var availabilityChip = hasHtml
+                            ? '<span class="petition-chip">Analisis HTML disponible</span>'
+                            : '<span class="petition-chip petition-chip--muted">Desglose HTML pendiente</span>';
+
+                        return [
+                            '<article class="petition-card">',
+                            '<div class="petition-card-head">',
+                            '<span class="petition-code">' + item.code + '</span>',
+                            '<h3 class="petition-card-title">' + item.title + '</h3>',
+                            '</div>',
+                            '<p class="petition-summary">' + item.summary + '</p>',
+                            '<p class="petition-focus">Enfoque principal: ' + item.focus + '.</p>',
+                            '<div class="petition-meta">',
+                            availabilityChip,
+                            '<span class="petition-chip petition-chip--muted">Tema: ' + item.focus + '</span>',
+                            '</div>',
+                            '<div class="petition-actions">',
+                            detailAction,
+                            supportAction,
+                            '</div>',
+                            '</article>'
+                        ].join("");
+                    }).join(""),
+                    '</div>',
+                    '</div>',
+                    '</details>'
+                ].join("");
+            }).join("");
+        }());
+    </script>
 
     <script>
         (function () {
@@ -521,7 +985,7 @@
                         document.body.removeChild(textarea);
                     }
 
-                    copyStatus.textContent = "Enlace del visor copiado.";
+                    copyStatus.textContent = "Enlace del micrositio copiado.";
                 } catch (error) {
                     copyStatus.textContent = PUBLIC_VIEW_URL;
                 }
