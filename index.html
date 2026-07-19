@@ -556,6 +556,54 @@
             box-shadow: 0 12px 22px rgba(21, 128, 61, 0.22);
         }
 
+        .copy-social-select {
+            appearance: none;
+            width: min(100%, 30rem);
+            min-height: 3.25rem;
+            padding: 0.7rem 3rem 0.7rem 1.25rem;
+            border: 0;
+            border-radius: 999px;
+            cursor: pointer;
+            background:
+                linear-gradient(45deg, transparent 50%, #ffffff 50%) calc(100% - 1.35rem) calc(50% - 0.15rem) / 0.45rem 0.45rem no-repeat,
+                linear-gradient(135deg, #ffffff 50%, transparent 50%) calc(100% - 1rem) calc(50% - 0.15rem) / 0.45rem 0.45rem no-repeat,
+                linear-gradient(90deg, var(--rose), #f472b6);
+            color: #ffffff;
+            font: inherit;
+            font-size: 0.88rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-align: center;
+            text-transform: uppercase;
+            box-shadow: 0 12px 22px rgba(219, 39, 119, 0.24);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .copy-social-select:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 15px 26px rgba(219, 39, 119, 0.28);
+        }
+
+        .copy-social-select:focus-visible {
+            outline: 3px solid rgba(244, 114, 182, 0.38);
+            outline-offset: 3px;
+        }
+
+        .copy-social-select[data-copied="true"] {
+            background:
+                linear-gradient(45deg, transparent 50%, #ffffff 50%) calc(100% - 1.35rem) calc(50% - 0.15rem) / 0.45rem 0.45rem no-repeat,
+                linear-gradient(135deg, #ffffff 50%, transparent 50%) calc(100% - 1rem) calc(50% - 0.15rem) / 0.45rem 0.45rem no-repeat,
+                linear-gradient(90deg, #15803d, #22c55e);
+            box-shadow: 0 12px 22px rgba(21, 128, 61, 0.22);
+        }
+
+        .copy-social-select option {
+            background: #ffffff;
+            color: #172554;
+            font-weight: 700;
+            text-transform: none;
+        }
+
         .copy-social-status {
             min-height: 1.35rem;
             margin-top: -0.25rem !important;
@@ -1315,8 +1363,12 @@
                         <h2>PETICIONES AL SANTO ROSARIO PARA EVITAR LA DESTRUCCIÓN DEL GENERO HUMANO</h2>
                         <p>Main Spanish document, preserved intact inside a featured card.</p>
                         <a class="action-cta" href="PETICIONES-SANTO-ROSARIO.html" target="_blank" rel="noopener">Click here &gt;</a>
-                        <button class="copy-social-button" id="copy-social-button" type="button" aria-describedby="copy-social-status">Copiar Redes</button>
-                        <p class="copy-social-status" id="copy-social-status" role="status" aria-live="polite">Listo para LinkedIn (menos de 1.250 caracteres).</p>
+                        <select class="copy-social-select" id="copy-social-select" aria-label="Selecciona el texto que deseas copiar" aria-describedby="copy-social-status">
+                            <option value="" selected>Copiar Redes</option>
+                            <option value="venezuela">Copiar Texto - Terremoto Venezuela</option>
+                            <option value="despidos">Copiar Texto - Despidos súbitos del trabajo</option>
+                        </select>
+                        <p class="copy-social-status" id="copy-social-status" role="status" aria-live="polite">Selecciona una opción para copiar el texto de inmediato.</p>
                     </article>
 
                     <article class="action-card">
@@ -1550,25 +1602,90 @@
                 });
             }
 
-            registerCopyShareButton({
-                buttonId: "copy-social-button",
+            function registerCopyShareSelect(config) {
+                const select = document.getElementById(config.selectId);
+                const status = document.getElementById(config.statusId);
+
+                if (!select || !status) {
+                    return;
+                }
+
+                const placeholder = select.querySelector('option[value=""]');
+                const defaultLabel = placeholder ? placeholder.textContent : "Copiar Redes";
+
+                select.addEventListener("change", async function () {
+                    const selectedConfig = config.options[select.value];
+
+                    if (!selectedConfig) {
+                        return;
+                    }
+
+                    const socialMessage = fitLinkedInComment(
+                        selectedConfig.buildMessage(config.url),
+                        selectedConfig.linkLabel,
+                        config.url
+                    );
+
+                    try {
+                        await copyToClipboard(socialMessage);
+                        select.dataset.copied = "true";
+                        select.value = "";
+
+                        if (placeholder) {
+                            placeholder.textContent = "Texto copiado";
+                        }
+
+                        status.textContent = selectedConfig.successPrefix + " (" + socialMessage.length + "/1.250 caracteres).";
+
+                        window.setTimeout(function () {
+                            select.dataset.copied = "false";
+
+                            if (placeholder) {
+                                placeholder.textContent = defaultLabel;
+                            }
+                        }, 2400);
+                    } catch (error) {
+                        select.value = "";
+                        status.textContent = config.errorMessage;
+                    }
+                });
+            }
+
+            registerCopyShareSelect({
+                selectId: "copy-social-select",
                 statusId: "copy-social-status",
                 url: "https://mcortesgranados.github.io/PETICIONES-SANTO-ROSARIO.html",
-                linkLabel: "📖 Documento en visor web:",
-                defaultLabel: "Copiar Redes",
-                copiedLabel: "Copiado",
-                successPrefix: "Mensaje copiado para redes",
                 errorMessage: "No se pudo copiar automáticamente. Selecciona el enlace del documento y compártelo en redes.",
-                buildMessage: function (url) {
-                    return [
-                        "🙏🌹 Te invito a leer y compartir con respeto este documento: \"Peticiones al Santo Rosario para evitar la destrucción del género humano\".",
-                        "⚠️ En tiempos de catástrofes y tragedias, como terremotos en Venezuela y otros eventos dolorosos, necesitamos oración, reflexión y conversión para pedir protección, misericordia y paz.",
-                        "📖 Documento en visor web:",
-                        "Apoya nuestra Veeduria descargando este documento para promover la paz del mundo y la justicia:",
-                        SUPPORT_VEEDURIA_URL,
-                        url,
-                        "🕊️ Que esta lectura ayude a evitar más sufrimiento y a unir corazones en el Santo Rosario."
-                    ].join("\n\n");
+                options: {
+                    venezuela: {
+                        linkLabel: "📖 Documento en visor web:",
+                        successPrefix: "Texto sobre el terremoto en Venezuela copiado",
+                        buildMessage: function (url) {
+                            return [
+                                "🙏🌹 Te invito a leer y compartir con respeto este documento: \"Peticiones al Santo Rosario para evitar la destrucción del género humano\".",
+                                "⚠️ En tiempos de catástrofes y tragedias, como terremotos en Venezuela y otros eventos dolorosos, necesitamos oración, reflexión y conversión para pedir protección, misericordia y paz.",
+                                "📖 Documento en visor web:",
+                                "Apoya nuestra Veeduria descargando este documento para promover la paz del mundo y la justicia:",
+                                SUPPORT_VEEDURIA_URL,
+                                url,
+                                "🕊️ Que esta lectura ayude a evitar más sufrimiento y a unir corazones en el Santo Rosario."
+                            ].join("\n\n");
+                        }
+                    },
+                    despidos: {
+                        linkLabel: "📖 Documento en visor web:",
+                        successPrefix: "Texto sobre los despidos súbitos del trabajo copiado",
+                        buildMessage: function (url) {
+                            return [
+                                "🙏🌹 Te invito a leer y compartir con respeto este documento: \"Peticiones al Santo Rosario para evitar la destrucción del género humano\".",
+                                "💼 Ante los despidos súbitos del trabajo, recemos el Santo Rosario para pedir a Dios, por intercesión de la Santísima Virgen María, que quienes han perdido su empleo logren rápidamente un nuevo trabajo digno, estable y acorde con sus necesidades.",
+                                "🤝 Oremos también por los empleadores, los analistas de Recursos Humanos y los reclutadores en general: para que actúen con sabiduría, justicia, empatía y respeto por la dignidad de cada persona. Pidamos protección, bienestar y bendiciones para ellos y sus familias.",
+                                "📖 Documento en visor web:",
+                                url,
+                                "🕊️ Que esta lectura y oración acompañen a quienes atraviesan incertidumbre laboral y abran caminos de esperanza, sustento y paz."
+                            ].join("\n\n");
+                        }
+                    }
                 }
             });
 
