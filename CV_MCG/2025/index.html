@@ -1261,13 +1261,47 @@
   .archive-table th, .archive-table td { border: 1px solid #ccc; padding: 6px; }
   .archive-table th { background: #e3f2fd; color: #1565c0; }
   .footer-note { text-align: right; color: #888; font-size: 1em; margin-top: 40px; }
+  /* Header and compact page geometry matching TechnicalAssessmentNMFTAMCG25Jul2026/docs. */
+  .candidate-sticky-header { position: sticky; top: 0; z-index: 90; display: grid; grid-template-columns: auto minmax(285px, auto) minmax(0, 1fr); align-items: center; gap: 10px 14px; padding: 10px 12px; border-bottom: 1px solid #cbd5e1; background: rgba(255, 255, 255, 0.98); box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08); }
+  .candidate-photo { width: 66px; height: 66px; border: 2px solid #bfdbfe; border-radius: 50%; object-fit: cover; background: #e3f2fd; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.16); }
+  .candidate-identity { display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .candidate-identity strong { color: #1565c0; font-size: 1.28rem; font-weight: 950; white-space: nowrap; }
+  .candidate-identity span { color: #475569; font-size: 0.92rem; font-weight: 800; white-space: nowrap; }
+  .candidate-basic-data { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 3px; min-width: 0; }
+  .candidate-basic-data a, .candidate-basic-data span { display: inline-flex; align-items: center; min-height: 27px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 999px; background: #f8fafc; color: #334155; font-size: 0.82rem; font-weight: 850; line-height: 1.1; text-decoration: none; white-space: nowrap; }
+  .candidate-basic-data a:hover, .candidate-basic-data a:focus { border-color: #1565c0; background: #e3f2fd; color: #0d47a1; outline: 2px solid #93c5fd; outline-offset: 1px; }
+  .page-shell.container { width: 100%; max-width: none; margin: 0; padding: 16px 20px; border-radius: 0; box-shadow: none; }
   @media (max-width: 700px) {
     .metric-grid, .skills-grid, .highlight-grid, .credentials-grid, .resource-grid, .sidebar-mini-list { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .page-shell.container { padding: 10px 8px; }
+    .candidate-sticky-header { grid-template-columns: auto minmax(0, 1fr); gap: 3px 6px; padding: 4px 5px; }
+    .candidate-photo { width: 52px; height: 52px; }
+    .candidate-identity { justify-content: flex-start; flex-wrap: wrap; gap: 3px; }
+    .candidate-identity strong { font-size: 1.05rem; }
+    .candidate-identity span, .candidate-basic-data a, .candidate-basic-data span { font-size: 0.7rem; }
+    .candidate-basic-data { grid-column: 1 / -1; justify-content: center; gap: 2px; }
   }
 </style>
 <link rel="stylesheet" href="/veeduria-support-banner.css" data-veeduria-support="1">
 </head>
 <body>
+  <div class="candidate-sticky-header" id="candidate-sticky-header" aria-label="Manuela Cortes Granados basic information">
+    <img class="candidate-photo" src="../MCG_FEMALE_PHOTO_JUN_2026.png" alt="Manuela Cortes Granados profile photo" loading="eager" decoding="async">
+    <div class="candidate-identity">
+      <strong>Manuela Cortés Granados</strong>
+      <span>Senior Software Engineer Candidate</span>
+    </div>
+    <div class="candidate-basic-data">
+      <span>📍 Bogotá, Colombia</span>
+      <a href="mailto:manuelacortesgranados@gmail.com">✉️ manuelacortesgranados@gmail.com</a>
+      <span>💵 USD 4,800/month</span>
+      <span>🕒 Immediate / negotiable</span>
+      <a href="https://github.com/mcortesgranados" target="_blank" rel="noopener">💻 GitHub</a>
+      <a href="tech_assessments.html" target="_blank" rel="noopener">🧪 Assessments</a>
+    </div>
+  </div>
   <div class="page-shell container">
     <aside class="sidebar">
       <section class="sidebar-card panel">
