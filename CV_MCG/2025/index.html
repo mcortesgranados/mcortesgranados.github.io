@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Manuela Cortes Granados | ATS-Aligned CV Hub 2025</title>
+  <title>Manuela Cortes Granados | ATS-Aligned CV Hub 2026</title>
   <style>
     :root {
       --bg-top: #e7eef8;
@@ -1189,15 +1189,90 @@
         text-transform: uppercase;
       }
     }
-  </style>
+</style>
+<style>
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #fafbfc; color: #23272f; margin: 0; padding: 0; }
+  .container { max-width: 950px; margin: 40px auto; background: #fff; box-shadow: 0 8px 32px rgba(0,0,0,0.08); border-radius: 10px; padding: 32px 40px; }
+  h1 { color: #1565c0; }
+  h2 { color: #2e7d32; margin-top: 32px; }
+  h3 { color: #7b1fa2; margin-top: 24px; }
+  .note { background: #e3f2fd; border-left: 4px solid #1976d2; padding: 16px 20px; margin: 18px 0; border-radius: 7px; }
+  .note ul { list-style: disc inside; margin: 0; padding-left: 1.2em; }
+  .note li { margin-bottom: 3px; line-height: 1.35; }
+  .note p { margin: 0 0 6px 0; line-height: 1.5; }
+  .footer { text-align: right; color: #888; font-size: 1em; margin-top: 40px; }
+  .tag { background: #e3f2fd; color: #1565c0; border-radius: 4px; padding: 3px 8px; margin-left: 6px; font-size: 0.95em; }
+  dt { color: #2e7d32; font-weight: bold; margin-top: 10px; }
+  dd { margin-bottom: 10px; }
+  .params table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+  .params th, .params td { border: 1px solid #ccc; padding: 6px; }
+  .important { background: #fffde7; border-left: 4px solid #fbc02d; padding: 12px 18px; margin: 18px 0; border-radius: 5px; }
+  .sideEffects ul, .solid ul { margin: 0; padding-left: 20px; }
+  @media (max-width: 600px) { .container { padding: 16px 8px; } }
+  /* Code block styling */
+  pre { background: #f6f8fa; padding: 14px; border-radius: 8px; overflow: auto; font-size: 0.92em; }
+  code { font-family: Consolas, 'Courier New', monospace; }
+  .row { display:flex; gap:20px; flex-wrap:wrap; }
+  .col { flex:1 1 420px; }
+  /* Small visual helpers */
+  .endpoint { border: 1px solid #e0e0e0; padding: 12px 14px; border-radius: 8px; background: #fff; box-shadow: 0 3px 8px rgba(0,0,0,0.04); }
+  .json { white-space: pre; font-family: Consolas, 'Courier New', monospace; font-size: 0.95em; }
+  .success { color: #2e7d32; font-weight: 600; }
+  .error { color: #c62828; font-weight: 600; }
+
+  /* CV structure mapped to the requested visual system. */
+  .page-shell.container { display: block; width: min(950px, calc(100% - 2rem)); }
+  .sidebar { position: static; display: block; }
+  .sidebar-card, .section, .hero, .footer-note { padding: 0; }
+  .panel, .resource-card, .skill-card, .highlight-card, .credential-card, .chart-card,
+  .contact-list li, .credential-list li, .plain-list li, .metric-card { box-shadow: none; }
+  .panel, .resource-card, .skill-card, .highlight-card, .credential-card, .chart-card { border: 0; border-radius: 0; background: transparent; }
+  .sidebar-card { border-bottom: 1px solid #e0e0e0; margin-bottom: 18px; padding-bottom: 14px; }
+  .sidebar-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .sidebar-nav a, .sidebar-link-list a { display: inline-block; background: #e3f2fd; color: #1565c0; border: 0; border-radius: 4px; padding: 6px 9px; }
+  .sidebar-mini-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .sidebar-mini-list li { background: #f6f8fa; border: 1px solid #e0e0e0; border-radius: 7px; padding: 10px; }
+  .hero { background: transparent; }
+  .hero-grid { display: block; }
+  .hero-photo { display: none; }
+  .hero-main, .hero-aside { padding: 0; background: transparent; border: 0; color: inherit; }
+  .hero-main h1, .section-title, .hero-aside-title { color: #1565c0; }
+  .hero-main h1 { max-width: none; font-size: clamp(2.25rem, 7vw, 3.4rem); letter-spacing: -0.04em; }
+  .hero-role, .callout { width: auto; border-radius: 7px; }
+  .hero-role { background: #e3f2fd; color: #1565c0; border: 0; padding: 8px 12px; }
+  .hero-lead, .hero-support, .section-copy { color: #23272f; line-height: 1.5; }
+  .metric-grid, .skills-grid, .highlight-grid, .credentials-grid, .resource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .metric-card, .resource-card, .skill-card, .highlight-card, .credential-card, .chart-card { border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px 14px; background: #fff; }
+  .section { margin-top: 32px; }
+  .section-header { margin-bottom: 16px; }
+  .section-title { font-size: 1.8rem; margin-top: 0; }
+  .section-kicker, .eyebrow, .resource-card .resource-kicker, .highlight-period, .chart-kicker { color: #2e7d32; }
+  .section-badge, .pill, .skill-list span, .tag-list span, .insight-chip, .highlight-emoji-chip, .highlight-card-badge, .table-tag { background: #e3f2fd; color: #1565c0; border: 0; border-radius: 4px; }
+  .callout { background: #e3f2fd; border-left: 4px solid #1976d2; color: #23272f; padding: 16px 20px; }
+  .resource-card h3, .skill-card h3, .highlight-card h3, .credential-card h3, .chart-card h3 { color: #7b1fa2; margin-top: 0; }
+  .resource-card p, .skill-card p, .highlight-card p, .credential-card p, .chart-copy { color: #23272f; line-height: 1.5; }
+  #highlights, #insights { background: transparent; }
+  #highlights .section-title, #insights .section-title { color: #1565c0; font-size: 1.8rem; }
+  #highlights .section-copy, #insights .section-copy { color: #23272f; font-size: 1rem; }
+  #highlights .section-badge, #insights .section-badge { background: #e3f2fd; color: #1565c0; box-shadow: none; }
+  .highlight-card::before { display: none; }
+  .contact-list li, .credential-list li, .plain-list li { background: transparent; border: 0; border-radius: 0; padding: 5px 0; color: #23272f; }
+  .contact-list strong, .credential-list strong { color: #2e7d32; }
+  .archive-table th, .archive-table td { border: 1px solid #ccc; padding: 6px; }
+  .archive-table th { background: #e3f2fd; color: #1565c0; }
+  .footer-note { text-align: right; color: #888; font-size: 1em; margin-top: 40px; }
+  @media (max-width: 700px) {
+    .metric-grid, .skills-grid, .highlight-grid, .credentials-grid, .resource-grid, .sidebar-mini-list { grid-template-columns: 1fr; }
+  }
+</style>
 <link rel="stylesheet" href="/veeduria-support-banner.css" data-veeduria-support="1">
 </head>
 <body>
-  <div class="page-shell">
+  <div class="page-shell container">
     <aside class="sidebar">
       <section class="sidebar-card panel">
-        <p class="sidebar-kicker">CV Hub 2025</p>
-        <p class="sidebar-copy">Rebuilt around the 2026 ATS V5 resume while preserving the strongest archive links, career pages, and supporting references from the 2025 CV index.</p>
+        <p class="sidebar-kicker">CV Hub 2026</p>
+        <p class="sidebar-copy">Aligned with the 2026 ATS V7 resume while preserving the strongest archive links, career pages, and supporting references from the 2025 CV index.</p>
         <nav class="sidebar-nav" aria-label="CV navigation">
           <a href="#overview">Overview</a>
           <a href="#resources">Resources</a>
@@ -1248,16 +1323,16 @@
           <div class="hero-photo hero-card">
             <img src="../MCG_FEMALE_PHOTO_JUN_2026.png" alt="Portrait of Manuela Cortes Granados" loading="lazy" decoding="async">
             <div class="hero-photo-note">
-              ATS-aligned professional landing page grounded in the 2026 resume and connected to the preserved 2025 archive, music links, certifications, and detailed role history.
+              ATS-aligned professional landing page grounded in the 2026 ATS V7 resume and connected to the preserved 2025 archive, music links, certifications, and detailed role history.
             </div>
           </div>
 
           <div class="hero-main hero-card">
             <p class="eyebrow">ATS-aligned CV hub</p>
             <h1>Manuela Cortes Granados</h1>
-            <p class="hero-role">Senior Software Engineer | Java / Spring Boot | Python | Data &amp; AI Engineering | APIs &amp; Automation</p>
-            <p class="hero-lead">Senior software engineer and technical consultant with 28+ years of experience delivering enterprise software, integration platforms, cloud solutions, data engineering, Python automation, AI-enabled delivery, QA automation, and full-stack applications.</p>
-            <p class="hero-support">This redesigned 2025 CV page uses the 2026 ATS V5 resume as the primary narrative source while preserving the most valuable information already present in the 2025 page: direct career links, certifications, music references, matrix pages, concise labor history, and detailed company archive pages.</p>
+            <p class="hero-role">Senior Software Engineer | Advanced Java &amp; Spring Boot | Advanced Angular | Python | Data &amp; AI</p>
+            <p class="hero-lead">Senior software engineer and technical consultant with 28+ years of experience delivering enterprise software, integration platforms, cloud solutions, data engineering, AI-enabled delivery, QA automation, and full-stack applications.</p>
+            <p class="hero-support">Hands-on expertise includes Java 17/21/25, Spring Boot 3/4, Spring Security, secure REST APIs, advanced Angular 17/18, Python/FastAPI, cloud-native integration, data platforms, CI/CD, and production-ready engineering across international and enterprise environments.</p>
 
             <div class="metric-grid">
               <div class="metric-card">
@@ -1265,8 +1340,8 @@
                 <span>IT experience across enterprise platforms, middleware, cloud, data, and full-stack delivery.</span>
               </div>
               <div class="metric-card">
-                <strong>2019-present</strong>
-                <span>Recent emphasis on Spring Boot, secure APIs, cloud-native delivery, data workflows, and AI-assisted engineering.</span>
+                <strong>2014-present</strong>
+                <span>Recent focus on advanced Java/Spring, Angular, secure APIs, microservices, cloud, data, and AI-assisted engineering.</span>
               </div>
               <div class="metric-card">
                 <strong>24 linked roles</strong>
@@ -1315,8 +1390,8 @@
             </ul>
 
             <div class="pill-row">
-              <span class="pill">Java 17/21</span>
-              <span class="pill">Spring Boot</span>
+              <span class="pill">Java 17/21/25</span>
+              <span class="pill">Spring Boot 3/4</span>
               <span class="pill">Python</span>
               <span class="pill">React / Angular</span>
               <span class="pill">AWS / Azure / GCP</span>
@@ -1416,9 +1491,9 @@
       <section class="section panel" id="skills">
         <div class="section-header">
           <div>
-            <p class="section-kicker">ATS V5 core areas</p>
+            <p class="section-kicker">ATS V7 core areas</p>
             <h2 class="section-title">Technical profile aligned to the 2026 resume</h2>
-            <p class="section-copy">The skills below follow the technical structure and wording emphasis of the 2026 ATS resume while keeping continuity with the technologies already listed throughout the 2025 page.</p>
+            <p class="section-copy">The skills below follow the technical structure and wording emphasis of the 2026 ATS V7 resume while keeping continuity with the technologies already listed throughout the 2025 page.</p>
           </div>
           <div class="section-badge">Multi-stack / multi-cloud</div>
         </div>
@@ -1426,25 +1501,25 @@
         <div class="skills-grid">
           <article class="skill-card">
             <h3>Backend engineering</h3>
-            <p>Java and service-oriented engineering with strong coverage across Spring Boot, REST APIs, JEE, SOAP, persistence, and Python-based backend work.</p>
+            <p>Advanced Java and service-oriented engineering with Spring Boot 3/4, Spring MVC/Security, REST/SOAP APIs, persistence, messaging, and Python/FastAPI backend work.</p>
             <div class="skill-list">
-              <span>Java 17/21</span>
-              <span>Spring Boot</span>
+              <span>Java 17/21/25</span>
+              <span>Spring Boot 3/4</span>
               <span>Spring MVC</span>
               <span>Hibernate / JPA</span>
               <span>Python</span>
-              <span>FastAPI / Flask / Django</span>
-              <span>Node.js / Express</span>
+              <span>FastAPI</span>
+              <span>Kafka / WebSockets</span>
               <span>.NET / C# / ASP.NET</span>
             </div>
           </article>
 
           <article class="skill-card">
             <h3>Frontend and product delivery</h3>
-            <p>Modern UI delivery across web and mobile-friendly stacks, with preserved continuity from the React and Angular-heavy experience already shown in the 2025 archive.</p>
+            <p>Advanced Angular 17/18 delivery with TypeScript, Router, HttpClient, RxJS, standalone and modular components, Jasmine/Karma testing, plus React 19 and React Native.</p>
             <div class="skill-list">
               <span>React</span>
-              <span>Angular</span>
+              <span>Angular 17/18</span>
               <span>Next.js</span>
               <span>React Native</span>
               <span>TypeScript</span>
@@ -1501,7 +1576,7 @@
 
           <article class="skill-card">
             <h3>AI-assisted delivery and QA</h3>
-            <p>Active use of modern AI engineering tools together with strong automation, code-quality, and test-suite design practices.</p>
+            <p>AI-assisted engineering with human validation, secure design, code-quality review, test evidence, and production-readiness checks; complemented by automated quality engineering.</p>
             <div class="skill-list">
               <span>ChatGPT</span>
               <span>GitHub Copilot</span>
@@ -1538,17 +1613,17 @@
           <article class="highlight-card">
             <p class="highlight-card-badge">🚀 Product + AI momentum</p>
             <p class="highlight-period">Apr 2024 - Present</p>
-            <h3>InnovaSoftware</h3>
-            <p class="highlight-role">Systems Engineer / Java Software Developer / Python AI Developer</p>
-            <p>Designed Spring Boot 3 REST APIs with security, OpenAPI, OAuth2 and JWT validation; delivered SaaS integrations with PayPal, Airwallex, Twilio, WhatsApp Business, Firebase, Google Maps, Mailgun, and HubSpot; and supported AI automation workflows with Python, ManyChat, and cloud services.</p>
+            <h3>TechnovaSoftware</h3>
+            <p class="highlight-role">Systems Engineer / Advanced Java &amp; Angular Full-Stack Developer / Python AI Developer</p>
+            <p>Leads Java 17/25 and Spring Boot 3/4 delivery for health, commerce, governance, property management, and public-procurement analytics; builds secure APIs, payment and webhook workflows, advanced Angular 17/18 frontends, Python/FastAPI analytics, and durable agentic workflows.</p>
             <div class="tag-list">
               <span>Spring Boot</span>
               <span>Python</span>
               <span>React / Angular</span>
-              <span>AWS / Azure</span>
-              <span>ManyChat / HubSpot</span>
+              <span>Angular 17/18</span>
+              <span>Agentic workflows</span>
             </div>
-            <a class="detail-link" href="24_InnovaSoftware.html" target="_blank" rel="noopener">Open preserved detail page</a>
+            <a class="detail-link" href="24_InnovaSoftware.html" target="_blank" rel="noopener">Open historical detail page</a>
           </article>
 
           <article class="highlight-card">
@@ -1699,9 +1774,9 @@
           <div>
             <p class="section-kicker">Visual analytics 📈</p>
             <h2 class="section-title">Fifteen ECharts translating the resume into a portfolio intelligence view ✨</h2>
-            <p class="section-copy">These interactive charts turn the ATS V5 resume and the preserved 2025 archive into an expanded visual dashboard. Exact counts are used where the source is numeric; when the source is descriptive, the visuals use normalized intensity scores to summarize emphasis, breadth, direction, and comparative balance.</p>
+            <p class="section-copy">These interactive charts turn the ATS V7 resume and the preserved 2025 archive into an expanded visual dashboard. Exact counts are used where the source is numeric; when the source is descriptive, the visuals use normalized intensity scores to summarize emphasis, breadth, direction, and comparative balance.</p>
             <div class="insight-chip-row">
-              <span class="insight-chip">🧾 ATS V5 narrative</span>
+              <span class="insight-chip">🧾 ATS V7 narrative</span>
               <span class="insight-chip">🗂️ 2025 archive continuity</span>
               <span class="insight-chip">🔢 Exact counts when available</span>
               <span class="insight-chip">📉 Normalized strengths for descriptive areas</span>
@@ -1925,22 +2000,21 @@
             <tbody>
               <tr>
                 <td>24</td>
-                <td><a class="company-link" href="24_InnovaSoftware.html" target="_blank" rel="noopener">InnovaSoftware</a></td>
-                <td>Systems Engineer / Senior Fullstack Software Developer / Webflow Designer-Integrator</td>
+                <td><a class="company-link" href="24_InnovaSoftware.html" target="_blank" rel="noopener">TechnovaSoftware</a></td>
+                <td>Systems Engineer / Advanced Java &amp; Angular Full-Stack Developer / Python AI Developer</td>
                 <td>Apr 2024 - Present</td>
                 <td>
-                  Secure APIs, AI automation, SaaS integrations, frontend delivery, cloud deployment
+                  Java 17/25 and Spring Boot 3/4, secure APIs, Angular 17/18, Python/FastAPI analytics, AI workflows, SaaS integrations, and cloud delivery
                   <div class="table-tag-row">
-                    <span class="table-tag">Java</span>
-                    <span class="table-tag">Spring Boot</span>
+                    <span class="table-tag">Java 17/25</span>
+                    <span class="table-tag">Spring Boot 3/4</span>
                     <span class="table-tag">Python</span>
-                    <span class="table-tag">React</span>
-                    <span class="table-tag">Angular</span>
-                    <span class="table-tag">Webflow</span>
+                    <span class="table-tag">Angular 17/18</span>
+                    <span class="table-tag">FastAPI</span>
                   </div>
                 </td>
                 <td>Multi-project enterprise and integration work</td>
-                <td><a class="detail-link" href="24_InnovaSoftware.html" target="_blank" rel="noopener">Open</a></td>
+                <td><a class="detail-link" href="24_InnovaSoftware.html" target="_blank" rel="noopener">Historical page</a></td>
               </tr>
               <tr>
                 <td>23</td>
@@ -2302,7 +2376,7 @@
       </section>
 
       <section class="footer-note panel">
-        This page was rebuilt around the contents of <strong>CV_MCG_2026_ENGLISH_ATS_OK_V5.pdf</strong> while preserving important supporting links and role references from the prior <strong>CV_MCG/2025/index.html</strong> page and its related archive files.
+        This page is aligned with <strong>CV_MCG_2026_ENGLISH_ATS_OK_V7.docx</strong> while preserving important supporting links and role references from the prior <strong>CV_MCG/2025/index.html</strong> page and its related archive files.
       </section>
     </main>
   </div>
@@ -2557,7 +2631,7 @@
                   shadowColor: "rgba(37, 99, 235, 0.16)"
                 },
                 data: [
-                  { name: "InnovaSoftware", value: [90, 88, 54], itemStyle: { color: "#1d4ed8" } },
+                  { name: "TechnovaSoftware", value: [90, 88, 54], itemStyle: { color: "#1d4ed8" } },
                   { name: "IBG SaaS / QA", value: [86, 84, 50], itemStyle: { color: "#2563eb" } },
                   { name: "Wizeline", value: [77, 80, 42], itemStyle: { color: "#0891b2" } },
                   { name: "ScotiaGBS", value: [74, 76, 40], itemStyle: { color: "#0f766e" } },
@@ -3092,7 +3166,7 @@
                 },
                 emphasis: { focus: "adjacency" },
                 data: [
-                  { name: "InnovaSoftware", category: 0, symbolSize: 52, itemStyle: { color: palette.blueStrong } },
+                  { name: "TechnovaSoftware", category: 0, symbolSize: 52, itemStyle: { color: palette.blueStrong } },
                   { name: "IBG SaaS / QA", category: 0, symbolSize: 46, itemStyle: { color: palette.blue } },
                   { name: "Wizeline", category: 0, symbolSize: 42, itemStyle: { color: palette.cyan } },
                   { name: "ScotiaGBS", category: 0, symbolSize: 42, itemStyle: { color: palette.teal } },
@@ -3108,9 +3182,9 @@
                   { name: "AI-assisted delivery", category: 1, symbolSize: 28, itemStyle: { color: "#bfdbfe" } }
                 ],
                 links: [
-                  { source: "InnovaSoftware", target: "Secure APIs" },
-                  { source: "InnovaSoftware", target: "Cloud apps" },
-                  { source: "InnovaSoftware", target: "AI-assisted delivery" },
+                  { source: "TechnovaSoftware", target: "Secure APIs" },
+                  { source: "TechnovaSoftware", target: "Cloud apps" },
+                  { source: "TechnovaSoftware", target: "AI-assisted delivery" },
                   { source: "IBG SaaS / QA", target: "Frontend platforms" },
                   { source: "IBG SaaS / QA", target: "QA automation" },
                   { source: "IBG SaaS / QA", target: "Cloud apps" },
@@ -3163,7 +3237,7 @@
             },
             series: [
               {
-                name: "InnovaSoftware",
+                name: "TechnovaSoftware",
                 type: "parallel",
                 smooth: 0.4,
                 lineStyle: { width: 2.6, color: palette.blueStrong, opacity: 0.76 },
@@ -3423,7 +3497,7 @@
                           { name: "ScotiaGBS" },
                           { name: "Wizeline" },
                           { name: "IBG SaaS / QA" },
-                          { name: "InnovaSoftware" }
+                          { name: "TechnovaSoftware" }
                         ]
                       }
                     ]
