@@ -1274,9 +1274,11 @@
   .page-shell.container { width: 100%; max-width: none; margin: 0; padding: 16px 20px; border-radius: 0; box-shadow: none; }
   .rosary-message { position: relative; overflow: hidden; margin: 0; padding: 28px; border-bottom: 1px solid #bfdbfe; background: linear-gradient(120deg, #eff6ff 0%, #ffffff 48%, #f0fdf4 100%); box-shadow: 0 8px 22px rgba(21, 101, 192, 0.08); animation: rosary-message-enter 820ms cubic-bezier(.2, .8, .2, 1) both; text-align: center; }
   .rosary-message::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent 20%, rgba(255, 255, 255, 0.78) 48%, transparent 76%); transform: translateX(-120%); animation: rosary-message-shimmer 3.8s ease-in-out 550ms infinite; }
-  .rosary-message-content { position: relative; max-width: 1040px; margin: 0 auto; }
+  .rosary-message-content { position: relative; max-width: none; margin: 0 auto; padding: 0 1.5vw; }
   .rosary-message-content::before { content: '✝️  📿  ✨'; display: block; margin-bottom: 14px; color: #1565c0; font-size: 1.5rem; letter-spacing: 0.16em; animation: rosary-symbols-glow 2.8s ease-in-out infinite; }
-  .rosary-message p { margin: 0 auto 14px; color: #1f2937; font-size: 1rem; line-height: 1.7; }
+  .rosary-message p { margin: 0 auto 18px; color: #1f2937; font-family: 'Times New Roman', Times, serif; font-size: clamp(1.18rem, 1.45vw, 1.52rem); font-style: italic; line-height: 1.72; }
+  .rosary-message p::before { content: '✝️ '; font-style: normal; }
+  .rosary-message p::after { content: ' 🙏'; font-style: normal; }
   .rosary-message p:last-child { margin-bottom: 0; }
   .rosary-message .rosary-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; margin: 18px 0; }
   .rosary-message a { display: inline-flex; align-items: center; padding: 7px 10px; border: 1px solid #bfdbfe; border-radius: 999px; background: rgba(255, 255, 255, 0.88); color: #0d47a1; font-weight: 800; line-height: 1.2; text-decoration: none; transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease; }
@@ -1296,8 +1298,30 @@
     .candidate-identity span, .candidate-basic-data a, .candidate-basic-data span { font-size: 0.7rem; }
     .candidate-basic-data { grid-column: 1 / -1; justify-content: center; gap: 2px; }
     .rosary-message { padding: 18px 12px; }
-    .rosary-message p { font-size: 0.94rem; line-height: 1.6; }
+    .rosary-message-content { padding: 0; }
+    .rosary-message p { font-size: 1.08rem; line-height: 1.62; }
   }
+  /* Distinct, accessible color palette for the main CV sections. */
+  .section.panel { border: 1px solid var(--section-line, #dbeafe); border-left: 7px solid var(--section-accent, #1565c0); border-radius: 12px; padding: 20px; background: linear-gradient(135deg, var(--section-tint, #eff6ff), #ffffff 44%); }
+  .section .section-title { color: var(--section-title, #1565c0); }
+  .section .section-kicker { color: var(--section-accent, #1565c0); }
+  .section .section-badge { background: var(--section-accent, #1565c0); color: #fff; }
+  .section .resource-card, .section .skill-card, .section .highlight-card, .section .credential-card, .section .chart-card { border-color: var(--section-line, #dbeafe); background: var(--section-card, #ffffff); }
+  .section .resource-card h3, .section .skill-card h3, .section .highlight-card h3, .section .credential-card h3, .section .chart-card h3 { color: var(--section-title, #1565c0); }
+  .section .skill-list span, .section .tag-list span, .section .insight-chip, .section .highlight-emoji-chip, .section .highlight-card-badge, .section .table-tag { background: var(--section-chip, #dbeafe); color: var(--section-title, #1565c0); }
+  #resources { --section-accent:#7c3aed; --section-title:#5b21b6; --section-tint:#f5f3ff; --section-card:#fcfbff; --section-line:#ddd6fe; --section-chip:#ede9fe; }
+  #skills { --section-accent:#047857; --section-title:#065f46; --section-tint:#ecfdf5; --section-card:#fbfffd; --section-line:#a7f3d0; --section-chip:#d1fae5; }
+  #highlights { --section-accent:#c2410c; --section-title:#9a3412; --section-tint:#fff7ed; --section-card:#fffdfa; --section-line:#fed7aa; --section-chip:#ffedd5; background: linear-gradient(135deg, #fff7ed, #ffffff 44%); }
+  #credentials { --section-accent:#be185d; --section-title:#9d174d; --section-tint:#fff1f2; --section-card:#fffafb; --section-line:#fecdd3; --section-chip:#ffe4e6; }
+  #insights { --section-accent:#4338ca; --section-title:#3730a3; --section-tint:#eef2ff; --section-card:#fafbff; --section-line:#c7d2fe; --section-chip:#e0e7ff; background: linear-gradient(135deg, #eef2ff, #ffffff 44%); }
+  #archive { --section-accent:#b45309; --section-title:#92400e; --section-tint:#fffbeb; --section-card:#fffef9; --section-line:#fde68a; --section-chip:#fef3c7; }
+  .sidebar-nav a:nth-child(1) { border-left: 4px solid #7c3aed; }
+  .sidebar-nav a:nth-child(2) { border-left: 4px solid #047857; }
+  .sidebar-nav a:nth-child(3) { border-left: 4px solid #c2410c; }
+  .sidebar-nav a:nth-child(4) { border-left: 4px solid #be185d; }
+  .sidebar-nav a:nth-child(5) { border-left: 4px solid #4338ca; }
+  .sidebar-nav a:nth-child(6) { border-left: 4px solid #b45309; }
+  .sidebar-nav a:hover, .sidebar-nav a:focus { background: #ffffff; color: #0f172a; }
   @media (prefers-reduced-motion: reduce) {
     .rosary-message, .rosary-message::before, .rosary-message-content::before { animation: none; }
     .rosary-message a { transition: none; }
@@ -1315,10 +1339,10 @@
     <div class="candidate-basic-data">
       <span>📍 Bogotá, Colombia</span>
       <a href="mailto:manuelacortesgranados@gmail.com">✉️ manuelacortesgranados@gmail.com</a>
-      <span>💵 USD 4,800/month</span>
       <span>🕒 Immediate / negotiable</span>
       <a href="https://github.com/mcortesgranados" target="_blank" rel="noopener">💻 GitHub</a>
       <a href="tech_assessments.html" target="_blank" rel="noopener">🧪 Assessments</a>
+      <a href="current_processes.html">📋 Current processes</a>
     </div>
   </div>
   <section class="rosary-message" aria-label="Holy Rosary message">
