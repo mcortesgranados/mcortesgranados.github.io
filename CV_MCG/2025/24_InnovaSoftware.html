@@ -54,6 +54,16 @@
   .cv-update { margin: 24px 0; }
   .cv-update h2 { margin-top: 0; }
   .cv-update li { margin-bottom: 9px; line-height: 1.5; }
+  .quick-access { position: sticky; top: 0; z-index: 20; display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0; padding: 9px; border: 1px solid #bfdbfe; border-radius: 8px; background: rgba(255,255,255,.96); box-shadow: 0 3px 8px rgba(15,23,42,.07); }
+  .quick-access a { display: inline-flex; align-items: center; min-height: 30px; padding: 5px 9px; border-radius: 5px; background: #e3f2fd; color: #0d47a1; font-size: .84rem; font-weight: 800; text-decoration: none; }
+  .quick-access a:hover, .quick-access a:focus { background: #bbdefb; outline: 2px solid #93c5fd; outline-offset: 1px; }
+  .chart-card { margin: 18px 0; padding: 16px; border: 1px solid #d7e3f1; border-radius: 8px; background: linear-gradient(120deg,#f8fbff,#fff); }
+  .chart-card h2 { margin: 0 0 5px; color: #1565c0; font-size: 1.3rem; }.chart-card p { margin: 0 0 12px; color: #475569; }
+  #technova-skill-chart { width: 100%; height: 270px; }.chart-fallback { margin: 0; padding: 12px; border-left: 4px solid #1976d2; background: #e3f2fd; }
+  details.cv-section { margin: 14px 0; overflow: hidden; border: 1px solid #d7e3f1; border-radius: 8px; background: #fff; }
+  details.cv-section > summary { padding: 12px 14px; cursor: pointer; list-style: none; background: linear-gradient(90deg,#f4f9ff,#f7fcf8); color: #1f4f8c; font-size: 1.12rem; font-weight: 900; }
+  details.cv-section > summary::-webkit-details-marker { display: none; }details.cv-section > summary::before { content: '➕'; margin-right: 9px; }details.cv-section[open] > summary::before { content: '➖'; }details.cv-section[open] > summary { border-bottom: 1px solid #d7e3f1; background: #eaf5ff; }
+  details.cv-section > :not(summary) { margin-left: 18px; margin-right: 18px; }details.cv-section > h2 { display: none; }
   @media (max-width: 700px) { .container table { display: block; overflow-x: auto; } .container th, .container td { min-width: 150px; } }
 </style>
 </head>
@@ -65,6 +75,20 @@
 <p class="style1" data-start="144" data-end="171">At InnovaSoftware, I have led the backend and fullstack development of several high-impact applications designed to operate under <strong>high concurrency and demanding load conditions</strong>. My work has focused on <strong>building and scaling distributed backend systems</strong> using <strong>Java (Spring Boot)</strong>, <strong>Python (FastAPI, Flask, Django)</strong>, and <strong>Node.js</strong>, all deployed on <strong>AWS</strong> and <strong>Azure environments</strong> with services like <strong>Lambda</strong>, <strong>EC2</strong>, <strong>Docker</strong>, and<strong> Kubernetes</strong> to ensure elastic scalability, high availability, and fault tolerance. One notable project involved integrating real-time chat automation through ManyChat and Dapta.ai, which required handling thousands of concurrent webhook events and real-time user interactions. I implemented highly efficient, event-driven architectures using <strong>AWS Lambda</strong> and <strong>Azure Functions</strong> to process traffic peaks seamlessly, ensuring low-latency performance and zero downtime during marketing campaigns with thousands of simultaneous users. Additionally, I engineered RESTful APIs to support CRM and accounting integrations (e.g., HubSpot, Alegra, Siigo), optimizing request batching, caching, and pagination to handle large data transfers and ensure system responsiveness under stress. My designs consistently implemented asynchronous processing, queue-based load distribution using <strong>AWS SQS</strong> and <strong>Azure Service Bus</strong>, and scalable data persistence using <strong>PostgreSQL</strong>, <strong>MySQL</strong>, and <strong>MongoDB</strong>. These systems were monitored using <strong>Prometheus</strong> and <strong>Grafana</strong> and supported auto-scaling <strong>Kubernetes</strong> clusters for <strong>traffic spikes</strong>. While game development isn't part of my portfolio, I’ve architected systems that mirror the same traffic and concurrency challenges — supporting financial, eCommerce, and AI-driven platforms accessed by tens to hundreds of thousands of users. My experience ensures I can confidently contribute to backend services expected to perform reliably at scale in any high-load environment.</p>
 <p class="style1" data-start="172" data-end="269"><strong data-start="172" data-end="184">📌 Role:</strong>Systems  Engineer / Senior Fullstack Software Developer (Java/Python/NodeJS/Typescript/Angular/React)r<br data-start="227" data-end="230" />
     <strong data-start="230" data-end="246">📆 Duration:</strong> April 2024 – Present</p>
+<nav class="quick-access" aria-label="Quick access">
+  <a href="#technova-cv-update">2026 update</a>
+  <a href="#technova-chart">Capability chart</a>
+  <a href="#responsibilities">Responsibilities</a>
+  <a href="#technologies">Technologies</a>
+  <a href="#achievements">Additional experience</a>
+  <a href="#profile-table">Profile table</a>
+</nav>
+<section class="chart-card" id="technova-chart" aria-labelledby="technova-chart-title">
+  <h2 id="technova-chart-title">Technova delivery focus</h2>
+  <p>Compact visualization of the capabilities documented in this experience page.</p>
+  <div id="technova-skill-chart" role="img" aria-label="Bar chart showing Technova delivery focus across backend, frontend, cloud, integration, data and AI"></div>
+  <p class="chart-fallback" id="technova-chart-fallback">Backend engineering · Frontend delivery · Cloud &amp; DevOps · Integrations · Data · AI workflows</p>
+</section>
 <section class="note cv-update" aria-labelledby="technova-cv-update">
   <h2 id="technova-cv-update">TechnovaSoftware — 2026 CV update</h2>
   <p><strong>Systems Engineer / Advanced Java &amp; Angular Full-Stack Developer / Python AI Developer | Apr 2024 - Present</strong></p>
@@ -207,7 +231,7 @@
   <li data-start="4135" data-end="4183"><strong data-start="4137" data-end="4180">SSIS, IBM DataStage, Pentaho, Oracle BI</strong>.</li>
 </ul>
 <p>&nbsp;</p>
-<table data-start="166" data-end="3719">
+<table id="profile-table" data-start="166" data-end="3719">
   <thead data-start="166" data-end="212">
     <tr data-start="166" data-end="212">
       <th class="style1" data-start="166" data-end="197"><strong data-start="168" data-end="180">Category</strong></th>
@@ -340,6 +364,52 @@
 </table>
 <p class="style1">&nbsp;</p>
 <script src="/veeduria-support-banner.js" data-veeduria-support="1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+  <script>
+    (function () {
+      var headings = Array.prototype.slice.call(document.querySelectorAll('main.container > h2, .cv-update > h2'));
+      headings.forEach(function (heading, index) {
+        if (!heading.id) {
+          var text = heading.textContent;
+          heading.id = /Responsibilities/.test(text) ? 'responsibilities' : /Technologies/.test(text) ? 'technologies' : /Achievements/.test(text) ? 'achievements' : 'section-' + index;
+        }
+        var details = document.createElement('details');
+        details.className = 'cv-section';
+        details.id = heading.id;
+        var summary = document.createElement('summary');
+        summary.innerHTML = heading.innerHTML;
+        details.appendChild(summary);
+        heading.parentNode.insertBefore(details, heading);
+        var sibling = heading.nextSibling;
+        while (sibling && !(sibling.nodeType === 1 && sibling.tagName === 'H2')) {
+          var next = sibling.nextSibling;
+          details.appendChild(sibling);
+          sibling = next;
+        }
+        details.appendChild(heading);
+      });
+      Array.prototype.forEach.call(document.querySelectorAll('.quick-access a[href^="#"]'), function (link) {
+        link.addEventListener('click', function () {
+          var target = document.querySelector(link.getAttribute('href'));
+          if (target && target.tagName === 'DETAILS') { target.open = true; }
+        });
+      });
+      var node = document.getElementById('technova-skill-chart');
+      var fallback = document.getElementById('technova-chart-fallback');
+      if (node && window.echarts) {
+        fallback.hidden = true;
+        var chart = echarts.init(node);
+        chart.setOption({
+          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+          grid: { left: 110, right: 24, top: 14, bottom: 12 },
+          xAxis: { type: 'value', max: 100, show: false },
+          yAxis: { type: 'category', data: ['AI workflows', 'Data & analytics', 'Integrations', 'Cloud & DevOps', 'Frontend', 'Backend'], axisLine: { show: false }, axisTick: { show: false }, axisLabel: { color: '#334155', fontWeight: 700 } },
+          series: [{ type: 'bar', data: [84, 86, 91, 88, 89, 96], barWidth: 18, itemStyle: { borderRadius: [0, 8, 8, 0], color: function (params) { return ['#7b1fa2','#2e7d32','#ef6c00','#1565c0','#0284c7','#0d47a1'][params.dataIndex]; } }, label: { show: true, position: 'right', color: '#334155', formatter: '{c}%' } }]
+        });
+        window.addEventListener('resize', function () { chart.resize(); });
+      }
+    }());
+  </script>
 </main>
 </body>
 </html>
