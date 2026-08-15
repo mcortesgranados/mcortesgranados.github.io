@@ -1376,8 +1376,12 @@
                         <h2>PETITIONS TO THE HOLY ROSARY TO PREVENT THE DESTRUCTION OF HUMANITY</h2>
                         <p>English version presented with the same visual priority and the same strong entry point.</p>
                         <a class="action-cta" href="PETITIONS-HOLY-ROSARY.html" target="_blank" rel="noopener">Click here &gt;</a>
-                        <button class="copy-social-button" id="copy-social-button-en" type="button" aria-describedby="copy-social-status-en">Copy Share Link</button>
-                        <p class="copy-social-status" id="copy-social-status-en" role="status" aria-live="polite">Ready to share the English web viewer.</p>
+                        <select class="copy-social-select" id="copy-social-select-en" aria-label="Select the text you want to copy" aria-describedby="copy-social-status-en">
+                            <option value="" selected>Copy for Social Media</option>
+                            <option value="earthquakes">Copy Text - Venezuela and Colombia Earthquakes</option>
+                            <option value="layoffs">Copy Text - Sudden Job Layoffs</option>
+                        </select>
+                        <p class="copy-social-status" id="copy-social-status-en" role="status" aria-live="polite">Select an option to copy the text immediately.</p>
                     </article>
                 </div>
 
@@ -1690,25 +1694,42 @@
                 }
             });
 
-            registerCopyShareButton({
-                buttonId: "copy-social-button-en",
+            registerCopyShareSelect({
+                selectId: "copy-social-select-en",
                 statusId: "copy-social-status-en",
                 url: "https://mcortesgranados.github.io/PETITIONS-HOLY-ROSARY.html",
-                linkLabel: "📖 English web viewer:",
-                defaultLabel: "Copy Share Link",
-                copiedLabel: "Copied",
-                successPrefix: "Share message copied",
-                errorMessage: "The share message could not be copied automatically. Use the English viewer link manually.",
-                buildMessage: function (url) {
-                    return [
-                        "🙏🌹 I invite you to read and share this document respectfully: \"Petitions to the Holy Rosary to Prevent the Destruction of Humanity.\"",
-                        "⚠️ In times of catastrophes and tragedies, including earthquakes in Venezuela and other painful events, we need prayer, reflection, and conversion to ask for protection, mercy, and peace.",
-                        "📖 English web viewer:",
-                        "Support our citizen oversight work by sharing this document for peace in the world and justice:",
-                        SUPPORT_VEEDURIA_URL,
-                        url,
-                        "🕊️ May this reading help prevent more suffering and unite hearts in the Holy Rosary."
-                    ].join("\n\n");
+                errorMessage: "The text could not be copied automatically. Select the English document link and share it on social media.",
+                options: {
+                    earthquakes: {
+                        linkLabel: "📖 English web viewer:",
+                        successPrefix: "Text about the Venezuela and Colombia earthquakes copied",
+                        buildMessage: function (url) {
+                            return [
+                                "🙏🌹 I invite you to read and share this document respectfully: \"Petitions to the Holy Rosary to Prevent the Destruction of Humanity.\"",
+                                "⚠️ Recent earthquakes in Venezuela and the earthquake felt in Colombia call us to solidarity, prayer, reflection, and responsible preparedness.",
+                                "🌹 For those who share this faith, let us pray the Holy Rosary and read this document as a petition for protection, mercy, peace, and comfort for those affected.",
+                                "📖 English web viewer:",
+                                "Support our citizen oversight work by downloading and sharing this document to promote peace in the world and justice:",
+                                SUPPORT_VEEDURIA_URL,
+                                url,
+                                "🛟 Prayer goes hand in hand with prevention: always follow official guidance and emergency plans. Earthquakes cannot be predicted; preparedness and caring for others help reduce risk."
+                            ].join("\n\n");
+                        }
+                    },
+                    layoffs: {
+                        linkLabel: "📖 English web viewer:",
+                        successPrefix: "Text about sudden job layoffs copied",
+                        buildMessage: function (url) {
+                            return [
+                                "🙏🌹 I invite you to read and share this document respectfully: \"Petitions to the Holy Rosary to Prevent the Destruction of Humanity.\"",
+                                "💼 In the face of sudden job layoffs, let us pray the Holy Rosary and ask God, through the intercession of the Blessed Virgin Mary, that those who have lost their jobs quickly find dignified, stable work suited to their needs.",
+                                "🤝 Let us also pray for employers, Human Resources analysts, and recruiters: that they act with wisdom, justice, empathy, and respect for the dignity of every person.",
+                                "📖 English web viewer:",
+                                url,
+                                "🕊️ May this reading and prayer accompany those facing employment uncertainty and open paths of hope, livelihood, and peace."
+                            ].join("\n\n");
+                        }
+                    }
                 }
             });
         }());
