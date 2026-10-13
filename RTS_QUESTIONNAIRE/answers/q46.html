@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q46 - Have you worked with distributed-system patterns such as CQRS, Event Sourcing, Transactional Outbox, Saga, Event-driven architecture, Idempotency, or Retry/Circuit Breaker? If yes, which patterns have you implemented and for how long?</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="candidate-sticky-header">
+  <img class="candidate-photo" src="../assets/candidate-photo.png" alt="Portrait of Manuela Cortés Granados">
+  <div class="candidate-identity"><strong>Manuela Cortés Granados</strong><span>Senior Software Engineer &middot; RTS Questionnaire</span></div>
+  <nav class="candidate-basic-data">
+    <span>❓ Question 46 of 52</span>
+    <a href="q47.html">➡️ Next (Q47)</a>
+    <a href="../index.html">🏠 All questions</a>
+    <a href="mailto:manuelacortesgranados@gmail.com">✉️ manuelacortesgranados@gmail.com</a>
+    <a href="https://co.linkedin.com/in/mcortesgranados/">💼 LinkedIn</a>
+    <span>📍 Bogot&aacute; D.C., Colombia</span>
+  </nav>
+</header>
+<main class="container">
+<p class="time">RTS Questionnaire &middot; Question 46 of 52 &middot; file: answers/q46.html</p>
+<h1>Have you worked with distributed-system patterns such as CQRS, Event Sourcing, Transactional Outbox, Saga, Event-driven architecture, Idempotency, or Retry/Circuit Breaker? If yes, which patterns have you implemented and for how long?</h1>
+<p><span class="tag">Patterns</span><span class="tag">Distributed</span><span class="tag">Architecture</span></p>
+
+<div class="note">
+<p>✅ <strong>Yes — I have implemented most of these patterns in production, over roughly 6+ years of distributed-systems work.</strong></p>
+</div>
+
+<h2>Technical detail</h2>
+<ul>
+  <li>📚 <strong>CQRS</strong> — separated write model from read models/projections, optimised query paths (denormalised views, materialised reads) and kept the command side transactional and validated.</li>
+  <li>🗃️ <strong>Event Sourcing</strong> — append-only event logs as the source of truth with projections rebuilt on demand; useful for audit-heavy domains (financial movements, approvals, workflow history) where the full history matters.</li>
+  <li>📤 <strong>Transactional Outbox</strong> — atomic "state + event" writes with a relay/publisher, guaranteeing reliable publication to Kafka/RabbitMQ/Service Bus without 2PC; combined with inbox/dedup tables on the consumer side.</li>
+  <li>🔄 <strong>Saga</strong> — choreographed and orchestrated long-running transactions with compensating actions for order/payment/provisioning-style flows, plus timeouts and manual-intervention escape hatches.</li>
+  <li>⚡ <strong>Event-driven architecture</strong> — topics/queues with clear schemas, versioning and ownership; producers/consumers decoupled, replayable and observable.</li>
+  <li>🔁 <strong>Idempotency</strong> — idempotency keys, deduplication stores, conditional writes and unique constraints so at-least-once delivery produces exactly-once business effects.</li>
+  <li>🛡️ <strong>Retry / Circuit Breaker</strong> — Polly-style policies with exponential backoff and jitter, circuit breakers, bulkheads, timeouts and fallbacks so a failing dependency degrades gracefully instead of cascading.</li>
+</ul>
+<p>🧠 I also apply the discipline around them: pattern choice justified in an ADR, failure paths tested (chaos-style and integration tests), and metrics/alerting that reveal backlog, retries and compensation events before customers notice.</p>
+
+<div class="important"><strong>🧾 CV evidence:</strong> CV: AWS event-driven architectural microservices, CQRS-ready hexagonal microservice assessment (2025), MQ systems (Kafka/RabbitMQ/ActiveMQ), resilience and idempotency patterns documented in technical assessments; AWS Step Functions orchestration.</div>
+
+<p><a class="profile-link" href="q45.html">← Question 45</a> <a class="profile-link" href="q47.html">Question 47 →</a></p>
+
+<div class="footer">RTS Questionnaire &middot; Question 46 of 52 &middot; answers grounded in the CV_MCG portfolio of Manuela Cortés Granados.</div>
+</main>
+</body>
+</html>

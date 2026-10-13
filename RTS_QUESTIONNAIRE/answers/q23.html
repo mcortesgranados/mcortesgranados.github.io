@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q23 - How have you handled responsive design and differences in UI behavior across different viewports?</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="candidate-sticky-header">
+  <img class="candidate-photo" src="../assets/candidate-photo.png" alt="Portrait of Manuela Cortés Granados">
+  <div class="candidate-identity"><strong>Manuela Cortés Granados</strong><span>Senior Software Engineer &middot; RTS Questionnaire</span></div>
+  <nav class="candidate-basic-data">
+    <span>❓ Question 23 of 52</span>
+    <a href="q24.html">➡️ Next (Q24)</a>
+    <a href="../index.html">🏠 All questions</a>
+    <a href="mailto:manuelacortesgranados@gmail.com">✉️ manuelacortesgranados@gmail.com</a>
+    <a href="https://co.linkedin.com/in/mcortesgranados/">💼 LinkedIn</a>
+    <span>📍 Bogot&aacute; D.C., Colombia</span>
+  </nav>
+</header>
+<main class="container">
+<p class="time">RTS Questionnaire &middot; Question 23 of 52 &middot; file: answers/q23.html</p>
+<h1>How have you handled responsive design and differences in UI behavior across different viewports?</h1>
+<p><span class="tag">Responsive</span><span class="tag">Frontend</span><span class="tag">UX</span></p>
+
+<div class="note">
+<p>✅ <strong>My approach separates three concerns: layout adaptation, behavioural adaptation and performance per viewport.</strong></p>
+</div>
+
+<h2>Technical detail</h2>
+<ul>
+  <li>📐 <strong>Layout</strong> — mobile-first CSS with a documented breakpoint scale, fluid grids and space tokens, container queries for reusable components, and progressive enhancement so the smallest viewport gets the simplest correct structure.</li>
+  <li>🧠 <strong>Behaviour</strong> — beyond CSS, I change component behaviour with Angular CDK <code>BreakpointObserver</code> or a responsive service: navigation collapses to a drawer, tables switch to card lists, secondary panels become routes/modals on mobile, and heavy widgets (charts, maps) mount only when the viewport and connection can afford them.</li>
+  <li>🔁 <strong>State consistency</strong> — the same feature state drives every viewport, so switching devices mid-flow (or rotating a tablet) preserves context instead of resetting the user journey.</li>
+  <li>⚡ <strong>Performance</strong> — lazy-loading heavy components on small screens, virtual scrolling for long lists, <code>&#64;defer</code> blocks and code-splitting, responsive images and avoiding layout thrashing; trends are measured with Lighthouse and real-user metrics.</li>
+  <li>♿ <strong>Accessibility and input</strong> — keyboard, touch and pointer parity, focus management in overlays, and contrast/typography that hold up at every density.</li>
+</ul>
+<p>🧪 Finally, I encode the rules: a living style guide plus visual/regression checks in CI, so future contributions respect the responsive contract instead of re-inventing it per screen.</p>
+
+<div class="important"><strong>🧾 CV evidence:</strong> 2025 CV: advanced responsive UI and accessibility expertise; Angular CDK/Material delivery; performance-tuning competency listed in the CV architectural section.</div>
+
+<p><a class="profile-link" href="q22.html">← Question 22</a> <a class="profile-link" href="q24.html">Question 24 →</a></p>
+
+<div class="footer">RTS Questionnaire &middot; Question 23 of 52 &middot; answers grounded in the CV_MCG portfolio of Manuela Cortés Granados.</div>
+</main>
+</body>
+</html>
