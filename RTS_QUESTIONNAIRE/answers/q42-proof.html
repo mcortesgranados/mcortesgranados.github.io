@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q42 proof &middot; Low-Level Design: classes, behaviour, data, contracts and review</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q42 &middot; Low-Level Design proof</p>
+  <h1>Have you been involved in Low-Level Design (LLD)?</h1>
+  <p class="subtitle">The five parts of a low-level design as the answer describes them, worked through on one feature: classes with one responsibility each, the error paths drawn before coding, the data design the code will inherit, the contracts, and the review that happens before the first commit.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live LLD workflow</span>
+    <span class="tag">Classes &middot; Behaviour &middot; Data &middot; Contracts &middot; Review</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q42.html">Question 42 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>42. Low-Level Design (LLD)</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; LLD is where I spend a large part of my design effort, because it decides whether an implementation is clean and maintainable.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line claims the involvement. This page is the separate, detailed version: it works one feature from the design review to the artefacts it produced, and it shows the parts of LLD that are usually skipped &mdash; the sequence diagram for each <em>error</em> path, the transaction boundary drawn on the diagram, the open questions with an owner, and the pseudocode for the algorithm that is hard to get right.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, and LLD is where the maintainability of a system is actually decided, long before architecture diagrams are drawn. <strong>Class and component design</strong>: one responsibility per class, stated in a sentence a reviewer can disagree with, dependencies pointing inward through ports the calling layer owns, names taken from the ubiquitous language rather than from the ORM, and design patterns applied where they resolve a named force &mdash; a strategy because the rule varies, a decorator because the behaviour is cross-cutting &mdash; instead of because a catalogue exists. When a responsibility needs the word &ldquo;and&rdquo; to describe it, that is the design pointing out which two classes it wants to become. <strong>Behavioural design</strong>: a sequence diagram for the main flow and one for each way it can fail, a lifecycle expressed as an explicit state machine with the legal transitions named, the transaction boundary drawn on the diagram rather than discovered in the code, and the concurrency and idempotency rules stated in terms of what the database enforces. The error paths are the whole point, because that is where the ambiguity lives and where the implementer would otherwise have to guess. <strong>Data design</strong>: tables with the constraints that enforce the invariants, keys chosen for stability, the indexes derived from the queries the feature will actually run, a forward-only migration that applies while the previous version is still serving traffic, and an explicit mapping that keeps the persistence model, the domain object and the wire DTO from being conflated. <strong>Contract design</strong>: every endpoint designed before it is written, including which status code each failure returns, which validation rules belong at the edge and which in the domain, and how pagination behaves on the first and last page &mdash; plus versioned event schemas and the failure mode and timeout of every external integration. <strong>Deliverables and review</strong>: a design document a reviewer can disagree with, pseudocode for the algorithms that are hard to get right, testability notes written before the tests exist, and a design review before coding &mdash; after which the design evolves where the code does, in pull requests, rather than stopping at the first commit.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Part of the LLD</th><th>The deliverable</th><th>The ambiguity it removes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Class and component design</td><td>a responsibility sentence per class, ports, dependency direction</td><td>who owns the rule, and which way the dependencies point</td></tr>
+          <tr><td>Behavioural design</td><td>a sequence per flow including each error path, a state machine, the transaction boundary</td><td>what happens when it fails, and where the transaction opens and commits</td></tr>
+          <tr><td>Data design</td><td>constraints, keys, the indexes with their queries, the migration plan, the three mappings</td><td>whether an invariant lives in the schema or in code, and how the change ships without downtime</td></tr>
+          <tr><td>Contract design</td><td>every endpoint with all of its statuses, versioned event schemas, external integrations with failure modes</td><td>what the implementer does for each rejection, and what happens when a dependency is unavailable</td></tr>
+          <tr><td>Deliverables and review</td><td>the design document, pseudocode for the hard parts, testability notes, the review before coding</td><td>whether the design is agreed before it is expensive to change</td></tr>
+          <tr><td>Open questions</td><td>each with an owner and a date</td><td>decisions being made by whoever types first</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live low-level design workflow proof</h2>
+    <p>The running component below changes its part-of-the-design/result view through real event binding. Select a part to see the deliverable, the reasoning behind it, and the evidence that the detail is actually there.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="lld-workflow" id="lld-workflow" data-operation="classdesign" aria-labelledby="lld-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>LOW-LEVEL DESIGN WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="lld-workflow-title">Choose a part of the low-level design</h3>
+          <p>Select a part to inspect the deliverable, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Parts of the low-level design">
+            <button type="button" class="active" data-op="classdesign" aria-pressed="true">Class and component design</button>
+            <button type="button" data-op="behaviour" aria-pressed="false">Behavioural design</button>
+            <button type="button" data-op="data" aria-pressed="false">Data design</button>
+            <button type="button" data-op="contracts" aria-pressed="false">Contract design</button>
+            <button type="button" data-op="review" aria-pressed="false">Deliverables and review</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="lld-command">$ one responsibility per class &middot; ports and dependency direction &middot; ubiquitous-language naming &middot; patterns applied where they resolve a named force</code>
+            <p data-testid="lld-effect">Each class gets a responsibility that can be stated in a sentence a reviewer is able to disagree with, and the dependencies point inward through ports the calling layer owns. Patterns are applied where they resolve a named force &mdash; a strategy because the rule varies, a decorator because the behaviour is cross-cutting &mdash; rather than because a catalogue exists. When a responsibility needs the word "and" to describe it, that is the design pointing out which two classes it wants to become.</p>
+            <pre data-testid="lld-output">classes whose responsibility needs an "and" to state: 0
+ports owned by the calling layer: all
+patterns applied without a named force: 0
+names taken from the ubiquitous language rather than from the ORM: all
+ports a unit test needs to stand in for: 3, with no database involved</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What good LLD buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Write the responsibility of each class as a sentence somebody can argue with, because a responsibility nobody can dispute is a responsibility nobody has examined; draw a sequence diagram for every error path and not only for the happy one, since the main flow is the part everyone already agrees on; model any lifecycle as an explicit state machine so illegal transitions are refused in one place instead of half-checked in five; mark the transaction boundary on the diagram, because discovering it in code means discovering it after the first production incident; give every invariant that the schema can enforce to the schema, since that is the only check that survives concurrency; name the index with the query it serves, or it is a write cost with no reader; state the idempotency rule per operation rather than per system; write the pseudocode for the algorithm that is hard to get right, because the tie-break and the retry are where the defects live; and list the open questions with an owner and a date, so a decision cannot be made by whoever types first.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q42:</strong> this page covers the low-level design and its artefacts. The pattern catalogue and SOLID in their own right are on the <a href="q33-proof.html">Q33 proof page</a>; the API contract as a lifecycle is on <a href="q49-proof.html">Q49</a>; the database design in depth is on <a href="q47-proof.html">Q47</a>; and the design artefact types the next question mentions &mdash; ER diagrams, schemas, contracts, component and workflow design &mdash; are the subject of <a href="q43.html">Q43</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the design document itself with its error paths and open questions, the lifecycle as an executable state machine, and the pseudocode for the allocation algorithm with its invariants stated first.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q42 low-level design proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Covers all five parts of the low-level design the answer describes.</li>
+      <li>Draws a sequence for each error path and states the transaction boundary explicitly.</li>
+      <li>Shows an interactive proof of choosing a part and reading the evidence.</li>
+      <li>Assigns each invariant to the layer that can enforce it, and names the query behind every index.</li>
+      <li>Reviews the design before coding and carries open questions with an owner and a date.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q41.html">&larr; Question 41 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q42.html">Question 42 answer</a>
+    <a href="q43.html">Question 43 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 42 proof &middot; answers/q42-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/lld-workflow.js"></script>
+<script src="../assets/lab/q42-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

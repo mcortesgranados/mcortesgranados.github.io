@@ -1,0 +1,197 @@
+# Q42 — a low-level design document.
+#
+# Kept as structured data rather than as a word processor file because the parts that
+# matter are the parts a reviewer has to be able to disagree with: the responsibility of
+# each class, the error paths, the transaction boundary, the indexes the queries need, and
+# the open questions. A document that is only prose cannot be diffed, and a design that
+# cannot be diffed is a design nobody can see changing.
+#
+# Feature: confirm an order and begin fulfilment.
+version: 1
+feature: order-confirmation
+status: reviewed
+author: manuela.cortes
+reviewers: [tech-lead-orders, qa-lead, dba]
+designReviewedOn: '2026-03-02'      # before the first line of implementation
+implementationStartedOn: '2026-03-03'
+relatedDecisions: ['ADR-014', 'ADR-018']
+
+scope:
+  inScope:
+    - 'POST /api/v2/orders/{orderId}/confirm'
+    - 'the order lifecycle transitions up to confirmed'
+    - 'the event published when an order is confirmed'
+  outOfScope:
+    - 'fulfilment and shipping, which belong to another bounded context'
+    - 'payment capture, which the payments service owns'
+
+responsibilities:
+  # One sentence each, and a sentence a reviewer can argue with. If a responsibility needs
+  # "and", the design is asking for two classes.
+  - class: Order
+    responsibility: 'Owns the rules that decide whether an order may be confirmed.'
+    dependsOn: []
+  - class: ConfirmOrderHandler
+    responsibility: 'Orchestrates one use case: load, decide, persist, publish.'
+    dependsOn: [IOrderRepository, IUnitOfWork, IClock, IEventPublisher]
+  - class: EfOrderRepository
+    responsibility: 'Loads and persists orders through the ORM.'
+    dependsOn: [SalesDbContext]
+  - class: OrdersController
+    responsibility: 'Translates HTTP into a command and the outcome back into a response.'
+    dependsOn: [ISender, ICurrentUser]
+  - class: OrderConfirmedProjector
+    responsibility: 'Keeps the read model for the operations queue current.'
+    dependsOn: [IProjectionCheckpoint, INotificationBus]
+
+behaviour:
+  mainSequence:
+    - { step: 1, actor: OrdersController, does: 'binds the request, resolves the caller from validated claims, maps to ConfirmOrderCommand' }
+    - { step: 2, actor: ConfirmOrderHandler, does: 'opens the unit of work, loads the aggregate through IOrderRepository' }
+    - { step: 3, actor: Order, does: 'checks the transition against the state machine, refuses an illegal one, raises OrderConfirmed' }
+    - { step: 4, actor: ConfirmOrderHandler, does: 'stages the outbox row in the same transaction' }
+    - { step: 5, actor: IUnitOfWork, does: 'commits once' }
+    - { step: 6, actor: OrdersController, does: 'returns 204' }
+    - { step: 7, actor: outbox relay, does: 'publishes OrderConfirmed after the commit, out of band' }
+
+  errorSequences:
+    # One diagram per way this can fail. These are the diagrams nobody draws and the ones
+    # that remove the ambiguity: each row is a decision the implementer no longer has to make.
+    - failure: 'the order does not exist'
+      detectedAt: 'step 2'
+      response: '404 problem+json, indistinguishable from a foreign tenant''s order'
+      transaction: 'nothing written'
+    - failure: 'the order belongs to another tenant'
+      detectedAt: 'step 3, in the aggregate'
+      response: '404, so existence is not disclosed'
+      transaction: 'nothing written'
+    - failure: 'the order was already confirmed'
+      detectedAt: 'step 3'
+      response: '409 problem+json with the current state, and the transition is not performed twice'
+      transaction: 'nothing written'
+    - failure: 'the order was cancelled'
+      detectedAt: 'step 3'
+      response: '409 with the cancellation date'
+      transaction: 'nothing written'
+    - failure: 'two confirmations arrive concurrently'
+      detectedAt: 'step 5, on the row version'
+      response: 'the loser gets 409 and retries against fresh state'
+      transaction: 'one commit succeeds, the other is refused by the engine'
+    - failure: 'the commit succeeds but the publication fails'
+      detectedAt: 'step 7'
+      response: 'the relay retries; the consumer deduplicates by message id'
+      transaction: 'the state change stands, which is correct: it happened'
+    - failure: 'the client times out and retries the same request'
+      detectedAt: 'step 1'
+      response: 'the same state results, because the operation is idempotent in effect'
+      transaction: 'the second request finds the order already confirmed and answers 409 without side effects'
+
+  stateMachine:
+    states: [draft, open, confirmed, cancelled]
+    terminal: [cancelled]
+    transitions:
+      - { from: draft, to: open, event: OrderOpened, guard: 'at least one line' }
+      - { from: open, to: confirmed, event: OrderConfirmed, guard: 'the total is greater than zero and the order belongs to the caller''s tenant' }
+      - { from: open, to: cancelled, event: OrderCancelled, guard: 'the caller owns the order' }
+      - { from: confirmed, to: cancelled, event: OrderCancelled, guard: 'only within the cooling-off window' }
+    illegalTransitionsRefusedAt: 'the aggregate, in one switch, so no caller can bypass it'
+
+  transactionBoundary:
+    opens: 'step 2'
+    commits: 'step 5'
+    contains: ['the aggregate load', 'the outbox row', 'the state change']
+    excludes: ['the HTTP response', 'the event publication', 'any call to another service']
+    rationale: 'a network call inside the transaction would hold the lock for the duration of somebody else''s timeout'
+
+  concurrency:
+    mechanism: 'optimistic, on the row version'
+    onConflict: 'the loser receives 409 and the client retries against fresh state'
+    rationale: 'confirmations are rare and contention is expensive: the failure mode is a refusal, not a lost update'
+
+  idempotency:
+    operation: 'confirm'
+    rule: 'confirming an already confirmed order is a 409 with no side effect, so a retry cannot confirm twice'
+    clientKeyHonoured: true
+    keyLifetimeHours: 24
+
+data:
+  changes:
+    - table: dbo.Orders
+      change: 'add ConfirmedAt datetime2(3) NULL and a check constraint tying it to Status'
+      reversible: false
+      backfill: 'null for existing rows, which is correct: they were never confirmed'
+    - table: dbo.Outbox
+      change: 'no schema change: the existing outbox serves this event'
+  constraints:
+    - 'CK_Orders_StatusDates: a confirmed order must have ConfirmedAt, and an open one must not'
+    - 'UQ_Orders_TenantOrderNumber: unchanged, and it is what makes a retried create safe'
+  indexes:
+    # Each index names the query the feature will run, which is the only justification.
+    - name: IX_Orders_Tenant_Confirmed
+      on: '(TenantId, PlacedAt) INCLUDE (OrderNumber, TotalAmount) WHERE Status = 2'
+      serves: 'the operations queue screen: WHERE TenantId = @t AND OrderDate >= @from AND Status = 2'
+  migration:
+    style: 'forward-only'
+    downtime: 'none: the column is nullable and the constraint is added AFTER the code that writes it is deployed'
+    rollbackPlan: 'the previous version ignores the new column; no data is lost by rolling back'
+  mapping:
+    persistence: 'OrderEntity with its EF configuration, internal to infrastructure'
+    domain: 'Order aggregate, which knows nothing about EF or about JSON'
+    wire: 'OrderResponse DTO, which is the contract and changes on its own schedule'
+
+contracts:
+  endpoints:
+    - method: POST
+      path: '/api/v2/orders/{orderId}/confirm'
+      request: 'no body; the order id is in the path'
+      responses:
+        '204': 'confirmed'
+        '400': 'the order id is not a UUID'
+        '401': 'the token is missing or invalid for this audience'
+        '403': 'the caller lacks the orders:write scope'
+        '404': 'the order does not exist, or belongs to another tenant'
+        '409': 'the order is already confirmed or has been cancelled'
+        '429': 'the per-client rate limit was exceeded'
+      requiredScope: 'orders:write'
+      idempotentInEffect: true
+  events:
+    - name: OrderConfirmed
+      topic: 'orders.events.v2'
+      schemaVersion: 2
+      orderingKey: 'orderId'
+      consumers: ['billing', 'inventory', 'analytics']
+      payloadFields: [orderId, customerId, total, currency, confirmedAt, lines]
+  externalIntegrations: []
+
+testability:
+  # Written before the tests exist, because it is what makes the design reviewable.
+  - component: Order
+    testsWithout: 'a database, a container or a clock'
+    cases: ['each legal transition', 'each illegal transition', 'the cooling-off boundary']
+  - component: ConfirmOrderHandler
+    fakes: ['IOrderRepository in memory', 'a fake clock', 'a recording IEventPublisher']
+    cases: ['happy path', 'not found', 'foreign tenant', 'already confirmed', 'concurrency conflict surfaces as 409']
+  - component: EfOrderRepository
+    testedAgainst: 'a containerised engine, because a plan and a constraint are properties of the engine, not of the code'
+  - component: outbox relay
+    cases: ['publishes after the commit', 'a crash between publish and mark republishes and the consumer deduplicates']
+
+openQuestions:
+  # With an owner and a date, because an open question with neither is a decision that will
+  # be made by whoever writes the code first.
+  - question: 'Should the cooling-off window be configurable per tenant?'
+    owner: product
+    due: '2026-03-06'
+    resolution: 'not for this iteration: a fixed 24 h window, revisited with the returns work'
+  - question: 'Should the confirmation notify the customer synchronously?'
+    owner: tech-lead-orders
+    due: '2026-03-06'
+    resolution: 'no: the notification is a background job, so a slow mail provider cannot fail a confirmation'
+
+decisions:
+  - decision: 'the transition is a sub-resource receiving POST, not a verb in the URL'
+    alternatives: ['PATCH with a status field', 'POST /orders/{id}/confirmOrder']
+    reason: 'the resource model stays nouns and the transition stays visible in the path'
+  - decision: 'the event is published through the outbox rather than directly'
+    alternatives: ['publish inside the transaction', 'publish after the response']
+    reason: 'the first loses events on a rollback, the second invents them; the outbox makes the state change and the event atomic in one local transaction'
