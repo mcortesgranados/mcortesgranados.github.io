@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q23 proof &middot; Responsive approach and UI behaviour across viewports</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q23 &middot; Responsive-strategy proof</p>
+  <h1>How have you handled responsive design and differences in UI behavior across different viewports?</h1>
+  <p class="subtitle">A runnable review of the approach: three concerns kept apart &mdash; layout adaptation, behavioural adaptation and per-viewport performance &mdash; and the device matrix that verifies them.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live strategy workflow</span>
+    <span class="tag">Mobile-first &middot; Container queries &middot; a11y</span>
+    <a class="tag live-jump" href="#live-rwd-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q23.html">Question 23 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>23. Responsive approach and cross-viewport behaviour</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;My approach separates three concerns: layout adaptation, behavioural adaptation and performance per viewport.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line names the three concerns but not how each is implemented or where the boundary between them sits. This page is the separate, detailed version: it shows mobile-first layering, fluid before discrete breakpoints, container queries, the behaviour that must live in code rather than CSS, and the assets and accessibility work that goes with them.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      The approach separates three concerns so that a change in one does not fight the other two. <strong>Layout</strong>: mobile-first CSS with a named breakpoint scale, fluid grids and space tokens, container queries for anything reusable, and progressive enhancement so the smallest viewport receives the simplest correct structure. <strong>Behaviour</strong>: what CSS cannot express &mdash; navigation pattern, table versus card rendering, virtual scrolling and chart density &mdash; is driven by one observed viewport source (BreakpointObserver or matchMedia) exposed as a signal, so every component reads the same decision. <strong>Performance</strong>: responsive images with <code>srcset</code>/<code>sizes</code>, lazy loading below the fold, and per-viewport budgets for Core Web Vitals. Accessibility is verified at every breakpoint, not only on desktop: tap targets, focus order, 200% zoom and an accessibility tree that keeps its shape.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Concern</th><th>How it is handled</th><th>Why it is done this way</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Layout</td><td>mobile-first layers, named breakpoints, fluid tokens</td><td>The constrained case is the default, so it cannot be forgotten.</td></tr>
+          <tr><td>Fluidity vs steps</td><td><code>clamp()</code> and flexible grids; discrete changes only when behaviour changes</td><td>Removes most breakpoints entirely and reduces override debt.</td></tr>
+          <tr><td>Reusable components</td><td>container queries</td><td>A component adapts to its slot, so one card serves sidebar, modal and panel.</td></tr>
+          <tr><td>Behaviour</td><td>one observed viewport signal (BreakpointObserver/matchMedia)</td><td>Structural decisions are testable and identical across components.</td></tr>
+          <tr><td>Assets</td><td><code>srcset</code>/<code>sizes</code>, art direction, lazy loading</td><td>Mobile transports a fraction of the bytes without shrinking a desktop image.</td></tr>
+          <tr><td>Accessibility</td><td>44 px targets, zoom to 200%, identical a11y tree at every breakpoint</td><td>A layout change must never remove access for someone.</td></tr>
+          <tr><td>Verification</td><td>device matrix in CI with vitals budgets</td><td>Regressions are caught by the pipeline, not by a customer.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-rwd-title">
+    <h2 id="live-rwd-title">Live responsive-strategy workflow proof</h2>
+    <p>The running component below changes its decision/result view through real event binding. Select a step to see the approach, the reasoning behind it, and the measurement that shows it working.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="rwd-strategy-workflow" id="rwd-strategy-workflow" data-operation="mobileFirst" aria-labelledby="rwd-strategy-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>RWD STRATEGY WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="rwd-strategy-title">Choose a strategy step</h3>
+          <p>Select a step to inspect the approach, the reasoning and the measured result.</p>
+          <div class="task-buttons" aria-label="Responsive strategy steps">
+            <button type="button" class="active" data-op="mobileFirst" aria-pressed="true">Mobile-first base</button>
+            <button type="button" data-op="fluid" aria-pressed="false">Fluid before discrete</button>
+            <button type="button" data-op="container" aria-pressed="false">Container queries</button>
+            <button type="button" data-op="logic" aria-pressed="false">Behaviour, not only styling</button>
+            <button type="button" data-op="assetsA11y" aria-pressed="false">Assets &amp; accessibility</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="rwd-command">$ @include from('tablet') { &hellip; }   &mdash; the base layer is the smallest layout</code>
+            <p data-testid="rwd-effect">The smallest layout is the default and complexity is added upwards, so the constrained case is the one that cannot be forgotten and fewer properties get overridden.</p>
+            <pre data-testid="rwd-output">media-query overrides per component: 6 &rarr; 2
+320 px renders fully with no media query at all</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Where the line is drawn</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Write the smallest layout first; prefer continuous adaptation and reserve discrete breakpoints for behaviour changes; let reusable components adapt by container rather than by window; keep structural decisions in one observable viewport signal so they can be tested; serve the right asset size instead of scaling one down; verify accessibility at every breakpoint; and attach budgets so a responsive change cannot quietly cost performance.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q23:</strong> this page covers the responsive approach and cross-viewport behaviour. Design-system governance across teams, native mobile application design and A/B experimentation for layout variants are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of the same approach.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q23 responsive-strategy proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Separates layout, behaviour and per-viewport performance explicitly.</li>
+      <li>Starts from the smallest layout and adds complexity upwards.</li>
+      <li>Shows an interactive proof of choosing a strategy step and reading its measurement.</li>
+      <li>Keeps structural decisions in one observable, testable viewport signal.</li>
+      <li>Defers design-system governance, native mobile design and layout experimentation to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q22.html">&larr; Question 22 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q23.html">Question 23 answer</a>
+    <a href="q24.html">Question 24 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 23 proof &middot; answers/q23-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/rwd-strategy-workflow.js"></script>
+<script src="../assets/lab/q23-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

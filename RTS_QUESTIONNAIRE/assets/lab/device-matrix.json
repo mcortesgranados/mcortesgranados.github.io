@@ -1,0 +1,64 @@
+{
+  "matrix": "responsive-verification",
+  "purpose": "The device classes and conditions the UI is verified against, so behaviour is checked rather than assumed.",
+  "deviceClasses": [
+    {
+      "id": "mobile-small",
+      "viewport": "320x568",
+      "input": "touch",
+      "network": "slow-4g",
+      "checks": ["no horizontal scroll", "44px tap targets", "bottom-bar navigation", "cards instead of tables", "Lighthouse mobile budget"]
+    },
+    {
+      "id": "mobile",
+      "viewport": "375x812",
+      "input": "touch",
+      "network": "4g",
+      "checks": ["virtualised list active", "chart series <= 4", "images served at 480w"]
+    },
+    {
+      "id": "tablet-portrait",
+      "viewport": "834x1112",
+      "input": "touch",
+      "network": "wifi",
+      "checks": ["two columns", "navigation persistent", "table view enabled", "orientation change handled"]
+    },
+    {
+      "id": "laptop",
+      "viewport": "1440x900",
+      "input": "pointer",
+      "network": "wifi",
+      "checks": ["full shell with side nav", "tables show all columns", "density comfortable", "hover affordances present"]
+    },
+    {
+      "id": "desktop-wide",
+      "viewport": "2560x1440",
+      "input": "pointer",
+      "network": "wifi",
+      "checks": ["content capped at 1600px", "measure within 68ch", "container queries applied", "density compact with extra panels"]
+    },
+    {
+      "id": "high-zoom",
+      "viewport": "1280x720 at 200% zoom",
+      "input": "pointer",
+      "network": "wifi",
+      "checks": ["no clipped content", "focus order unchanged", "accessibility tree identical to 100%"]
+    },
+    {
+      "id": "reduced-motion",
+      "viewport": "any",
+      "input": "any",
+      "network": "any",
+      "checks": ["animations disabled", "no layout dependency on animation", "transitions under 100ms"]
+    }
+  ],
+  "portableBehaviour": {
+    "cssOwns": ["grid re-flow", "spacing and type scale", "visibility of decorative elements"],
+    "logicOwns": ["navigation pattern", "table versus cards", "virtual scrolling", "chart density"],
+    "rationale": "Anything that changes structure or the number of requests must be observable in a test; anything purely visual stays in CSS."
+  },
+  "targets": {
+    "coreWebVitals": { "lcp": "<= 2.5s on slow-4g", "cls": "<= 0.05", "inp": "<= 200ms" },
+    "accessibility": "WCAG 2.2 AA at every breakpoint, verified with axe plus manual keyboard checks"
+  }
+}
