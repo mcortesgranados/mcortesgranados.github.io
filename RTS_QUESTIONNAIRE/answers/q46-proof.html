@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q46 proof &middot; Distributed-system patterns: which ones, and for how long</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q46 &middot; Distributed-system patterns proof</p>
+  <h1>Have you worked with distributed-system patterns such as CQRS, Event Sourcing, Transactional Outbox, Saga, Event-driven architecture, Idempotency, or Retry/Circuit Breaker? If yes, which patterns have you implemented and for how long?</h1>
+  <p class="subtitle">The inventory the question asks for: every pattern in production, what the duration is counted from, how deep the usage actually goes, and the failure paths that are tested rather than assumed.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live pattern inventory</span>
+    <span class="tag">7 patterns &middot; 6+ years &middot; failure paths tested</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q46.html">Question 46 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>46. Which patterns, and for how long</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; I have implemented most of these patterns in production, over roughly 6+ years of distributed-systems work.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The question asks two things and the second one is the hard part, because a year count alone is not checkable and a per-pattern figure to one decimal would be precise and false. This page states what the count is counted from, which patterns are foundational as opposed to selectively applied, and &mdash; the part that separates having read about a pattern from having run one &mdash; which failure paths are exercised by tests.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes &mdash; all seven, in production. <strong>CQRS</strong> wherever the read shape and the write shape genuinely differ: a transactional, validated write model through the aggregate, and denormalised projections or materialised views for the reads, so the write model is never shaped by a report. <strong>Event Sourcing</strong> applied selectively, where the history <em>is</em> the requirement &mdash; financial movements, approvals, workflow history &mdash; with the log as the source of truth, snapshots so a long-lived aggregate does not replay forever, and upcasting on read so the log is never rewritten; deliberately not applied to CRUD-shaped data, which is the most common way the pattern is over-used. <strong>Transactional Outbox</strong> on every state change that has to publish an event, combined with an inbox and a dedup key on the consumer side, which is how at-least-once delivery produces exactly-once business effects without a distributed transaction. <strong>Saga</strong> in both styles &mdash; orchestrated where the process has a business owner who needs to read it or where there are four or more steps, choreographed below that &mdash; with a compensation designed alongside every step, a timeout that treats a silent participant as failed, and a queue a human can drain, because a compensation that cannot complete is a business problem rather than an exception. <strong>Event-driven architecture</strong> chosen per boundary rather than applied to everything: schemas published and versioned, a named owning team per topic, replayable consumers, and the backlog with the age of its oldest message as first-class metrics. <strong>Idempotency</strong> three times over &mdash; a client key, a unique constraint as the real arbiter, and a conditional write &mdash; because exactly-once is a property of the effect and not of the delivery. <strong>Retry and circuit breaker</strong> composed in a deliberate order: timeout outermost, then the bulkhead, then the retry, then the breaker, since a retry outside its bulkhead amplifies an outage and a breaker outside its retry trips on a single exhausted request. Durations are counted from the same condition as Q44 &mdash; a service that was independently deployable and owned its data &mdash; which is 6+ years, with the integration period before that where the messaging and idempotency habits came from.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Pattern</th><th>In production</th><th>Depth and frequency</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>CQRS</td><td>yes &mdash; 6+ years</td><td>foundational, wherever the read and write shapes differ</td></tr>
+          <tr><td>Event Sourcing</td><td>yes &mdash; 6 years</td><td>selective: audit-heavy domains only, never on CRUD-shaped data</td></tr>
+          <tr><td>Transactional Outbox</td><td>yes &mdash; 6 years (2020 &rarr; present)</td><td>foundational: every state change that publishes an event</td></tr>
+          <tr><td>Saga</td><td>yes &mdash; 6 years (2020 &rarr; present)</td><td>foundational: order, payment and provisioning flows spanning services</td></tr>
+          <tr><td>Event-driven architecture</td><td>yes &mdash; 6+ years</td><td>foundational, chosen per boundary rather than applied to everything</td></tr>
+          <tr><td>Idempotency</td><td>yes &mdash; 6+ years</td><td>foundational: every consumer, every retried write, every payment path</td></tr>
+          <tr><td>Retry / Circuit Breaker</td><td>yes &mdash; 6+ years</td><td>foundational: every outbound call, in both the earlier and the current stacks</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>How the durations are counted.</strong> From the same condition used for Q44: a service that was independently deployable and owned its data. The bands overlap and are deliberately approximate, because a per-pattern year count to one decimal would be precise and false. The period before the microservices model &mdash; service-oriented, message-driven integration &mdash; is considerably longer, and it is where the messaging, idempotency and failure-handling habits originated; those patterns are marked 6+ because they carried across both periods.
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live pattern-inventory workflow proof</h2>
+    <p>The running component below changes its pattern-group/result view through real event binding. Select a group to see what was implemented, the reasoning behind the choice, and the duration together with the depth of usage.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="pattern-inventory-workflow" id="pattern-inventory-workflow" data-operation="cqrs" aria-labelledby="pat-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>PATTERN INVENTORY WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="pat-workflow-title">Choose a group of patterns</h3>
+          <p>Select a group to inspect what was implemented, the reasoning and the duration.</p>
+          <div class="task-buttons" aria-label="Distributed-system patterns">
+            <button type="button" class="active" data-op="cqrs" aria-pressed="true">CQRS and Event Sourcing</button>
+            <button type="button" data-op="outbox" aria-pressed="false">Outbox and Idempotency</button>
+            <button type="button" data-op="saga" aria-pressed="false">Saga</button>
+            <button type="button" data-op="eventdriven" aria-pressed="false">Event-driven architecture</button>
+            <button type="button" data-op="resilience" aria-pressed="false">Retry and circuit breaker</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="pat-command">$ write model: transactional, validated &middot; read models: denormalised projections and materialised views &middot; an append-only log where the history is the point</code>
+            <p data-testid="pat-effect">CQRS is applied wherever the read shape and the write shape genuinely differ, and event sourcing only where the history is the point: financial movements, approvals, workflow history. The log becomes the source of truth, the write model validates and appends with an expected version, and every read model &mdash; including the ones behind the dashboards &mdash; is a projection that can be rebuilt from zero.</p>
+            <pre data-testid="pat-output">CQRS in production: 6+ years, wherever the read and write shapes differ
+Event Sourcing in production: 6 years, applied selectively to audit-heavy domains
+projections rebuildable from the log: all
+event sourcing used on CRUD-shaped data: 0 places
+justification recorded per adoption: an ADR</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the discipline around them buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Justify the pattern choice in an ADR that records the alternatives that were rejected, because a pattern with no written reasoning is a pattern nobody can safely change; event-source only where the history is a business requirement, since the log is permanent and the schema becomes an API; never publish inside the transaction and never reach for a distributed transaction across a service boundary; design the compensation at the same time as the step, because reverse-engineering the undo during an incident is how money is lost; make the effect idempotent and let the database be the arbiter rather than the application's timing; compose the resilience policies in an order that has been reasoned about and tested, not assembled in the order the library documents them; and test the failure paths deliberately &mdash; duplicate delivery, out-of-order, a compensation that fails, a breaker that opens, a process killed mid-message &mdash; because those are the cases that decide whether the pattern is running or merely present.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q46:</strong> this page is the inventory &mdash; which patterns, where and for how long, plus the failure paths behind them. The mechanism level is on the pages it belongs to: saga state, compensation and the outbox relay on <a href="q35-proof.html">Q35</a>; the resilience pipeline and delivery guarantees on <a href="q34-proof.html">Q34</a>; read models and the isolation choices on <a href="q36-proof.html">Q36</a>; the fabric around all of it on <a href="q45-proof.html">Q45</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the pattern inventory with the durations and trade-offs, the event-sourced aggregate and its append contract, and the tests that exercise the failure paths.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q46 distributed patterns proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names which patterns were implemented and answers the duration question for each.</li>
+      <li>States what the duration is counted from, rather than giving a figure that cannot be checked.</li>
+      <li>Shows an interactive proof of choosing a pattern group and reading the evidence.</li>
+      <li>Distinguishes foundational use from selective use instead of presenting everything as equal.</li>
+      <li>Exercises the failure paths with tests and says how the patterns are observed in production.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q45.html">&larr; Question 45 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q46.html">Question 46 answer</a>
+    <a href="q47.html">Question 47 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 46 proof &middot; answers/q46-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/pattern-inventory-workflow.js"></script>
+<script src="../assets/lab/q46-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

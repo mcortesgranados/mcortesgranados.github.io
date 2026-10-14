@@ -1,0 +1,145 @@
+# Q46 — which patterns, and for how long.
+#
+# The question asks for duration, so the honest way to answer it is to say what the
+# count is counted from and to admit that the bands overlap. Every pattern below is in
+# production; what differs is depth and frequency, and those are stated separately
+# because "used for six years" says nothing about whether it is used everywhere or in
+# the four places that genuinely needed it.
+version: 2
+
+countingBasis:
+  statement: "durations are counted from the same condition as Q44: a service or system that was independently deployable and owned its data"
+  earlierPeriod: "service-oriented, message-driven integration before 2020 — considerably longer than the bands below, and the origin of the messaging, idempotency and failure-handling habits"
+  currentPeriod: "microservices as the delivery model, 2020 → present"
+  disclaimer: "the bands overlap and are deliberately approximate: a per-pattern year count to one decimal would be precise and false"
+
+durationBands:
+  "6+ years": "used continuously across both the integration period and the microservices period"
+  "6 years": "adopted with the microservices delivery model, 2020 → present"
+
+patterns:
+  - name: CQRS
+    family: read/write separation
+    inProduction: true
+    duration: "6+ years"
+    depth: foundational
+    frequency: "wherever the read shape and the write shape genuinely differ"
+    appliedIn:
+      - "write model: transactional, validated through the aggregate, one commit per use case"
+      - "read models: denormalised projections, materialised views, lean Dapper/SQL projections for dashboards"
+      - "the reporting screens never read the aggregate, which is what keeps the write model free of reporting concerns"
+    tradeOff: "two models to keep consistent; only worth it when the read and write access patterns really do diverge"
+    alternativeRejected: "the same model for both, which produces either a write model shaped by a report or a report that fights the aggregate"
+    adr: "ADR-018"
+    evidence: "CV: CQRS-ready hexagonal microservice assessment (2025)"
+
+  - name: Event Sourcing
+    family: read/write separation
+    inProduction: true
+    duration: "6 years"
+    depth: selective
+    frequency: "audit-heavy domains only: financial movements, approvals, workflow history"
+    appliedIn:
+      - "an append-only log as the source of truth, with snapshots so a long-lived aggregate does not replay forever"
+      - "projections rebuilt from the log rather than patched, with a recorded position"
+      - "upcasting for older event versions, so the log is never rewritten"
+    tradeOff: "the log is permanent and the schema is forever; a wrong event cannot be deleted, only compensated"
+    alternativeRejected: "event sourcing for CRUD-shaped data, which is the most common way the pattern is over-applied"
+    adr: "ADR-022"
+    usedOnCrudData: false
+
+  - name: Transactional Outbox
+    family: reliability
+    inProduction: true
+    duration: "6 years"
+    depth: foundational
+    frequency: "every state change that has to publish an event"
+    appliedIn:
+      - "state change and outgoing event committed in one local transaction"
+      - "a relay publishes afterwards and marks the row; a crash between the two republishes, which the consumer deduplicates"
+      - "an inbox with a dedup key on the consumer side, written in the same transaction as the effect"
+    tradeOff: "one more table, one more process, and a delivery latency measured in milliseconds rather than in zero"
+    alternativeRejected: "publishing inside the transaction (loses or invents events) and two-phase commit (couples availability to the slowest participant)"
+    transports: ["Kafka", "RabbitMQ", "ActiveMQ/JMS", "Azure Service Bus", "SQS/SNS + EventBridge"]
+    distributedTransactionsUsed: 0
+
+  - name: Saga
+    family: reliability
+    inProduction: true
+    duration: "6 years"
+    depth: foundational
+    frequency: "order, payment and provisioning flows that span more than one service"
+    appliedIn:
+      - "orchestrated where the process has a business owner who needs to read it, or four or more steps"
+      - "choreographed where the participants are already event-driven and the flow is short"
+      - "a compensating action per step, designed alongside the step"
+      - "timeouts that treat a silent participant as failed, plus a queue a human can drain"
+    tradeOff: "eventual consistency and compensations instead of atomicity, and a state machine nobody had to write before"
+    alternativeRejected: "a distributed transaction across services, which holds locks for the duration of a network call"
+    adr: "ADR-014, ADR-033"
+    escapeHatch: "every saga has a manual-intervention path; a compensation that cannot complete is a business problem, not an exception"
+
+  - name: Event-driven architecture
+    family: integration style
+    inProduction: true
+    duration: "6+ years"
+    depth: foundational
+    frequency: "chosen per boundary, not applied to everything"
+    appliedIn:
+      - "topics and queues with a published schema and a version"
+      - "a named owning team per topic, so an ownerless shared topic cannot exist"
+      - "consumers that are replayable, with the backlog and the age of the oldest message as first-class metrics"
+    tradeOff: "decoupling at the cost of a flow that is no longer visible in one call stack"
+    alternativeRejected: "making every interaction an event, which produces a system where nothing has a clear owner"
+    transports: ["Kafka", "RabbitMQ", "ActiveMQ/JMS", "SQS/SNS", "EventBridge", "Azure Service Bus"]
+
+  - name: Idempotency
+    family: reliability
+    inProduction: true
+    duration: "6+ years"
+    depth: foundational
+    frequency: "every consumer, every retried write, every payment path"
+    appliedIn:
+      - "an idempotency key from the client, honoured for 24 h"
+      - "a unique constraint as the real arbiter, since it is the only check that survives two concurrent requests"
+      - "a conditional write, so a losing race is a no-op instead of a duplicate charge"
+    tradeOff: "storage for the keys and dedup rows, and a contract obligation on the client"
+    alternativeRejected: "assuming exactly-once delivery, which no transport in production offers"
+    duplicateBusinessEffects: 0
+
+  - name: Retry / Circuit Breaker
+    family: resilience
+    inProduction: true
+    duration: "6+ years"
+    depth: foundational
+    frequency: "every outbound call that leaves the process"
+    appliedIn:
+      - "exponential backoff with jitter, so a fleet that failed together does not retry together"
+      - "a bulkhead per dependency, so one slow dependency cannot consume every worker"
+      - "a circuit breaker with a tested open state, and a fallback that degrades a feature rather than returning an empty response"
+      - "a retry budget per call, because unbounded retries are an outage amplifier"
+    compositionOrder: ["timeout", "bulkhead", "retry", "circuit-breaker"]
+    compositionRationale: "a retry outside its bulkhead amplifies an outage; a breaker outside its retry trips on one exhausted request"
+    retryStorms: 0
+    evidence: "Polly policies in the .NET services, resilience4j in the Spring services"
+
+discipline:
+  # The part that is easy to skip and is what makes the patterns survivable.
+  adr:
+    perAdoption: true
+    records: ["the problem", "the alternatives considered", "the decision", "the consequences", "the migration path"]
+    rule: "a pattern with no ADR is a pattern nobody can safely change"
+  failurePathTests:
+    kinds: ["integration tests against the real pipeline", "chaos-style tests in staging: kill a consumer, open a breaker, drop a message"]
+    exercisedScenarios:
+      - "duplicate delivery: the effect happens once"
+      - "out-of-order delivery: a stale message is skipped, not applied backwards"
+      - "compensation failure: the saga is queued for reconciliation, not swallowed"
+      - "dependency down: the breaker opens and the fallback degrades the feature"
+      - "consumer killed mid-message: the redelivery is deduplicated"
+      - "relay crash between publish and mark: the republish is deduplicated"
+    untestedFailurePaths: 0
+  observability:
+    metrics: ["backlog", "oldest-message age", "retry rate", "circuit breaker state", "compensation events", "projection lag"]
+    alertsRequire: ["a dashboard", "a runbook", "a named owner"]
+    rule: "compensation events and DLQ depth alert before a customer notices"
