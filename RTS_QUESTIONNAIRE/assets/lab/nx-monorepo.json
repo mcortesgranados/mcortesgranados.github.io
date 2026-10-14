@@ -1,0 +1,124 @@
+{
+  "$comment": "Q30 — the Nx-style monorepo that hosts the front-end architecture. The tags here are the same vocabulary the import matrix in import-boundaries.ts enforces, so a boundary has one name in the workspace, in lint and in CI. `affected` is what keeps the pipeline proportional to the change instead of rebuilding the world.",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "version": 2,
+  "npmScope": "acme",
+  "workspaceLayout": { "appsDir": "apps", "libsDir": "libs" },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "production": ["default", "!{projectRoot}/**/*.spec.ts", "!{projectRoot}/test-setup.ts"],
+    "sharedGlobals": ["{workspaceRoot}/tsconfig.base.json", "{workspaceRoot}/eslint.config.ts"],
+    "styles": ["{workspaceRoot}/tailwind.config.ts", "{workspaceRoot}/libs/design-tokens/**/*"]
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
+      "cache": true,
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "test": {
+      "inputs": ["default", "^production"],
+      "cache": true
+    },
+    "lint": {
+      "inputs": ["default", "{workspaceRoot}/eslint.config.ts", "{workspaceRoot}/libs/import-boundaries/**/*"],
+      "cache": true
+    }
+  },
+  "projects": {
+    "web": {
+      "projectType": "application",
+      "root": "apps/web",
+      "sourceRoot": "apps/web/src",
+      "tags": ["type:app", "scope:web"],
+      "targets": {
+        "build": { "executor": "@angular-devkit/build-angular:application" },
+        "serve": { "executor": "@angular-devkit/build-angular:dev-server" },
+        "lint": { "executor": "@nx/eslint:lint" }
+      }
+    },
+    "marketing-ssr": {
+      "projectType": "application",
+      "root": "apps/marketing-ssr",
+      "sourceRoot": "apps/marketing-ssr/src",
+      "tags": ["type:app", "scope:marketing", "render:ssr"],
+      "$comment": "ADR-029: server-rendered only because these six pages must be indexable."
+    },
+    "orders": {
+      "projectType": "library",
+      "root": "libs/features/orders",
+      "sourceRoot": "libs/features/orders/src",
+      "tags": ["type:feature", "scope:orders"],
+      "targets": {
+        "build": { "executor": "@nx/angular:ng-packagr-lite" },
+        "test": { "executor": "@nx/vite:test" }
+      }
+    },
+    "billing": {
+      "projectType": "library",
+      "root": "libs/features/billing",
+      "sourceRoot": "libs/features/billing/src",
+      "tags": ["type:feature", "scope:billing"]
+    },
+    "orders-data-access": {
+      "projectType": "library",
+      "root": "libs/features/orders/data-access",
+      "tags": ["type:data-access", "scope:orders"]
+    },
+    "ui-kit": {
+      "projectType": "library",
+      "root": "libs/ui/kit",
+      "sourceRoot": "libs/ui/kit/src",
+      "tags": ["type:ui", "scope:shared", "publishable:true"],
+      "$comment": "The shared component library from ADR-021. Published as @acme/ui-kit with semantic versioning; consumed by four applications.",
+      "targets": {
+        "build": { "executor": "@nx/angular:package" },
+        "test": { "executor": "@nx/vite:test" },
+        "visual": { "executor": "@nx/storybook:build" },
+        "release": { "executor": "nx-release-publish", "options": { "packageRoot": "dist/libs/ui/kit" } }
+      }
+    },
+    "design-tokens": {
+      "projectType": "library",
+      "root": "libs/design-tokens",
+      "tags": ["type:shared", "scope:shared"],
+      "$comment": "One source of truth for colour, spacing, typography and elevation, consumed by ui-kit and by every remote."
+    },
+    "core": {
+      "projectType": "library",
+      "root": "libs/core",
+      "tags": ["type:core", "scope:shared"],
+      "$comment": "The shared kernel: auth, http interceptors, config, logging. Deliberately small."
+    },
+    "import-boundaries": {
+      "projectType": "library",
+      "root": "libs/import-boundaries",
+      "tags": ["type:core", "scope:tooling"],
+      "$comment": "The rules in import-boundaries.ts, so the same vocabulary is used by lint and by the boundary graph."
+    }
+  },
+  "affected": {
+    "defaultBase": "origin/main",
+    "parallel": 3,
+    "$comment": "A pull request that touches orders builds orders and its dependents, not the workspace."
+  },
+  "ci": {
+    "jobs": {
+      "affected": "nx affected --target=lint,test,build --base=origin/main",
+      "graph": "nx graph --file=dist/graph.html",
+      "budgets": "nx run web:budgets",
+      "deployPreview": "nx affected --target=deploy-preview"
+    },
+    "rules": {
+      "oneFeatureAreaPerRelease": "a release may touch exactly one scope:* project or it needs an explicit exception in the release manifest",
+      "noDirectFeatureEdges": "verified by nx graph against FEATURE_EDGE_ALLOWLIST"
+    }
+  },
+  "successCriteria": {
+    "deployIndependence": { "metric": "share of releases touching exactly one feature area", "baseline": "38%", "target": "80%" },
+    "buildTime": { "metric": "p50 wall clock for a one-feature change", "baseline": "19 min", "target": "under 6 min" },
+    "changeFailureRate": { "metric": "releases needing a fix or rollback", "baseline": "11%", "target": "under 8%" },
+    "timeToFirstFeature": { "metric": "working days from access to a merged feature", "baseline": "9 days", "target": "under 5 days" }
+  }
+}

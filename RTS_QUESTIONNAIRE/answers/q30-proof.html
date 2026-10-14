@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q30 proof &middot; Front-end architecture design: modular monolith, component library, monorepo, ADRs</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q30 &middot; Front-end architecture proof</p>
+  <h1>Have you designed front-end architectures using patterns such as Micro-frontends, modular monoliths, shared component libraries, or other architectural approaches?</h1>
+  <p class="subtitle">A runnable review of the design work itself: which pattern I choose for which problem, the boundaries that are enforced in code rather than in a diagram, and the measurable criteria that decide whether the architecture is working.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live architecture-decision workflow</span>
+    <span class="tag">Modular monolith &middot; Design system &middot; Monorepo &middot; ADRs</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q30.html">Question 30 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>30. Designing the front-end architecture</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; front-end architecture design is a responsibility I have owned as a senior developer and technical lead.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line states the responsibility without showing a design. This page is the separate, detailed version: it shows the pattern I choose by default and why, the boundaries that are enforced in lint instead of in a diagram, the shared component library that makes the estate coherent, and the ADR log with the criteria used to judge whether the design worked.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, and my default answer is the least fashionable one: a <strong>modular monolith</strong> &mdash; one deployable Angular application split into enforced feature boundaries, each feature owning its routes, its state and its API access, with a deliberately small shared kernel and an import matrix that fails lint when a feature reaches into another. Micro-frontends come second, reserved for the case where independent deployment or framework heterogeneity is a genuine requirement rather than an aspiration; the mechanics are on the <a href="q29-proof.html">Q29 proof page</a>. Across both, a <strong>shared component library</strong> and a single source of design tokens is the mechanism that keeps four applications looking like one product. Beyond those, I have used feature-sliced design to give imports a direction, an <strong>Nx-style monorepo</strong> with affected-only builds so CI stays proportional to the change, a BFF to keep the client simple, and islands with SSR only on the pages where SEO or first paint actually demands it. Every one of those choices is written up as an <strong>ADR</strong> &mdash; problem, alternatives rejected, consequences, migration path &mdash; and judged against criteria that are measured per release rather than asserted in a slide: deploy independence, build time, change failure rate, and how long a new developer takes to ship their first feature.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Approach</th><th>When I choose it</th><th>What it costs</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Modular monolith</td><td>most product teams: one deployable, enforced feature boundaries, lazy-loaded domains</td><td>a shared pipeline means a shared red build, so the affected-graph build is mandatory</td></tr>
+          <tr><td>Micro-frontends</td><td>three or more teams, or a real framework-heterogeneity requirement</td><td>duplicated runtime, version negotiation, coordination across teams</td></tr>
+          <tr><td>Shared component library</td><td>always, whichever pattern is chosen: it is what makes the estate coherent</td><td>a breaking change has N consumers, so migration notes are part of the release</td></tr>
+          <tr><td>Monorepo with affected builds</td><td>several applications and libraries sharing code and tooling</td><td>workspace tooling and dependency hygiene to maintain</td></tr>
+          <tr><td>Feature-sliced design</td><td>when feature folders exist but the import direction is not named</td><td>an initial refactor to place existing code in layers</td></tr>
+          <tr><td>BFF and islands / SSR</td><td>a complex backend for the UI, or pages that must be indexable</td><td>a second rendering path and another deployment to operate</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live architecture-decision workflow proof</h2>
+    <p>The running component below changes its approach/result view through real event binding. Select an approach to see what it is made of, the reasoning behind choosing it, and the evidence that it was measured rather than asserted.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="fe-arch-workflow" id="fe-arch-workflow" data-operation="modular" aria-labelledby="fea-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>ARCHITECTURE DECISION WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="fea-workflow-title">Choose a front-end architecture approach</h3>
+          <p>Select an approach to inspect what it is made of, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Front-end architecture approaches">
+            <button type="button" class="active" data-op="modular" aria-pressed="true">Modular monolith</button>
+            <button type="button" data-op="micro" aria-pressed="false">Micro-frontends</button>
+            <button type="button" data-op="designsystem" aria-pressed="false">Shared component library</button>
+            <button type="button" data-op="monorepo" aria-pressed="false">Monorepo, BFF, islands</button>
+            <button type="button" data-op="adr" aria-pressed="false">ADRs and success criteria</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="fea-command">$ apps/web &rarr; features/{orders, billing, search} &rarr; shared/kernel  (one deployable; boundaries enforced by lint, not by convention)</code>
+            <p data-testid="fea-effect">One deployable Angular application split into enforced feature boundaries: each feature owns its routes, state and API access, lazy-loaded domains keep the initial bundle small, and the shared kernel holds only what every feature genuinely needs. It is my default because it delivers most of the benefit of modularity without the operational cost of separate deployments.</p>
+            <pre data-testid="fea-output">deployables: 1
+cross-feature imports allowed by the import matrix: 0
+new developer to first shipped feature: 3 days</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the architecture design buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Name the boundaries and then enforce them mechanically, because a boundary that only exists in a diagram disappears in the next sprint; keep the shared kernel small, since everything in it becomes a reason for every feature to be released together; make the design system the single source of tokens and behaviour so consistency is a dependency rather than a review comment; give each feature a public entry point and forbid deep imports, so a library can be versioned at all; and write the decision down as an ADR with the alternatives that were rejected, because the value of an architectural decision is in the reasoning, not in the outcome.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q30:</strong> this page covers the architecture-design work &mdash; choosing between patterns, enforcing the boundaries, documenting the decisions and measuring the result. The micro-frontend strategies themselves, with their runtime mechanics and shared-dependency rules, are on the Q29 proof page.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the ADR log with the measured criteria, the enforced import matrix and the monorepo workspace that carries the same tags.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q30 front-end architecture proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names the patterns and states which one is the default, with the reason.</li>
+      <li>Enforces the boundaries in lint and CI rather than relying on convention.</li>
+      <li>Shows an interactive proof of choosing an approach and reading the evidence.</li>
+      <li>Keeps the design system and tokens as the single source of visual and behavioural consistency.</li>
+      <li>Records each decision as an ADR and judges it against measurable success criteria.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q29.html">&larr; Question 29 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q30.html">Question 30 answer</a>
+    <a href="q31.html">Question 31 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 30 proof &middot; answers/q30-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/fe-arch-workflow.js"></script>
+<script src="../assets/lab/q30-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+# Q30 — the ADR log for the front-end architecture.
+#
+# Each architecture choice is recorded with the problem it solves, the
+# alternatives that were rejected, the consequences and the migration path, so a
+# new team member can read why the codebase looks the way it does instead of
+# guessing. The status field matters: a decision that has been superseded stays in
+# the log, because deleting it destroys the reasoning.
+version: 1
+review_cadence: "every two quarters, or when a success criterion regresses"
+
+adrs:
+  - id: ADR-014
+    title: Modular monolith as the default front-end architecture
+    status: accepted
+    context: |
+      Three product squads, one Angular application, two feature areas that
+      released independently in practice but not in the delivery pipeline. A
+      micro-frontend split was proposed to give each squad its own release.
+    decision: |
+      Keep one deployable application and enforce feature boundaries inside it:
+      one folder per feature with its own routes, state and API access, a shared
+      kernel for auth/http/config/logging, and an import matrix enforced in lint.
+    alternatives_rejected:
+      - option: micro-frontends
+        reason: "the release coordination was the symptom, not the problem: the shared CI pipeline and the missing ownership boundaries were"
+      - option: no boundaries
+        reason: "cross-feature imports had already produced two copies of the order state"
+    consequences:
+      positive:
+        - "one deployment keeps the operational surface small"
+        - "feature teams can own folders without owning infrastructure"
+        - "lazy-loaded domains keep the initial bundle within budget"
+      negative:
+        - "a shared pipeline means a shared red build: the affected-graph build is mandatory, not optional"
+    enforced_by: ["eslint import matrix (import-boundaries.ts)", "nx module boundary rules", "code review checklist"]
+    supersedes: null
+
+  - id: ADR-021
+    title: Shared component library as the mechanism for consistency
+    status: accepted
+    context: |
+      Four applications had four button implementations, three table styles and
+      no shared accessibility behaviour. Design reviews were spent comparing
+      screenshots instead of discussing product.
+    decision: |
+      Publish @acme/ui-kit as a versioned package of primitives and patterns,
+      documented with usage rules, tested with visual snapshots, released with
+      semantic versioning and consumed by every application.
+    alternatives_rejected:
+      - option: copy the components into each application
+        reason: "every copy diverges; the fourth copy is always the newest"
+      - option: a shared stylesheet only
+        reason: "styling without behaviour still lets each team rebuild the behaviour differently"
+    consequences:
+      positive:
+        - "one place to fix an accessibility defect"
+        - "design review moves to product decisions"
+      negative:
+        - "a breaking change in the kit now has four consumers: migration notes are part of the release"
+    enforced_by: ["visual snapshot suite", "axe accessibility checks in the kit pipeline", "dependency review on the package"]
+
+  - id: ADR-029
+    title: Islands and SSR only where SEO or first paint demands it
+    status: accepted
+    context: |
+      Six marketing and catalogue pages needed to be indexable; the rest of the
+      product is behind authentication, where SEO is irrelevant.
+    decision: |
+      Render those six pages on the server, ship hydrated islands for their
+      interactive parts, and keep the authenticated application a client-rendered
+      SPA. A BFF aggregates the APIs those pages need.
+    alternatives_rejected:
+      - option: move the whole application to SSR
+        reason: "it would add a Node runtime to every authenticated route for no user-visible benefit"
+    consequences:
+      positive:
+        - "indexable pages without a second rendering model for the authenticated product"
+      negative:
+        - "two rendering paths to keep tested"
+
+  - id: ADR-033
+    title: Micro-frontends deferred until the preconditions hold
+    status: deferred
+    context: |
+      A second squad wanted its own release cadence, which raised the
+      micro-frontend question again six months after ADR-014.
+    decision: |
+      Do not split yet. The preconditions are explicit: three or more teams, a
+      demonstrated deployment bottleneck that the affected-graph pipeline has not
+      solved, or a genuine framework heterogeneity requirement.
+    alternatives_rejected:
+      - option: split now because "it scales"
+        reason: "duplicated runtime, version negotiation and a shared design system are real costs paid today for a benefit that has not been demonstrated"
+    consequences:
+      positive:
+        - "the decision is reversible and the trigger is written down"
+      negative:
+        - "the migration path has to be described now, so the split is a change of boundary rather than a rewrite"
+    migration_path: "the route map already isolates each feature behind a lazy route, so a feature can become a remote without touching the others"
+
+success_criteria:
+  # Measured on every release, not asserted in a slide.
+  - name: deploy independence
+    metric: "share of releases that touch exactly one feature area"
+    baseline: "38%"
+    target: "80%"
+    measured_by: "release manifest"
+
+  - name: build time
+    metric: "p50 wall-clock for a one-feature change"
+    baseline: "19 min"
+    target: "under 6 min"
+    measured_by: "CI, affected graph enabled"
+
+  - name: change failure rate
+    metric: "share of releases requiring a fix or rollback"
+    baseline: "11%"
+    target: "under 8%"
+    measured_by: "deployment records"
+
+  - name: time to first feature
+    metric: "working days from repository access to a merged feature for a new joiner"
+    baseline: "9 days"
+    target: "under 5 days"
+    measured_by: "onboarding log"
