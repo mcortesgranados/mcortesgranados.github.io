@@ -69,6 +69,10 @@
       'yield self not and or is pass global nonlocal assert del while break continue').split(' ')
   };
 
+  // TSX/JSX uses the TypeScript token set: the markup is tokenised as identifiers,
+  // strings and numbers, which is enough to read the component structure.
+  KEYWORDS.tsx = KEYWORDS.typescript;
+
   // The identifier/string/number part is shared; only the line-comment syntax differs
   // between languages (// in C-family code, -- in SQL).
   var TOKEN_BODY = "('(?:[^'\\\\]|\\\\.)*'|\"(?:[^\"\\\\]|\\\\.)*\")|\\b(0x[0-9a-fA-F]+|\\d+(?:\\.\\d+)?)\\b|(@[A-Za-z_]\\w*)|\\b([A-Za-z_$][\\w$]*)\\b";

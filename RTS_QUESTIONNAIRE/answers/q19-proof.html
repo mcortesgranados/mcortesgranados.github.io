@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q19 proof &middot; Other SPA frameworks: React, Next.js and Vue</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q19 &middot; SPA proof</p>
+  <h1>What other Single Page Application (SPA) frameworks or technologies have you worked with?</h1>
+  <p class="subtitle">A runnable review of what carries across frameworks: the same state, derivation and rendering ideas expressed in React, Next.js and Vue &mdash; and the quality bar that does not change when the renderer does.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live SPA workflow</span>
+    <span class="tag">React 19 &middot; Next.js &middot; Vue 3</span>
+    <a class="tag live-jump" href="#live-spa-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q19.html">Question 19 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>19. Other SPA frameworks and technologies</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Beyond Angular, I have delivered SPAs with React and Next.js, and worked with additional frameworks and micro-frontend techniques.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line names frameworks but not what the work consists of. This page is the separate, detailed version: it shows the same problem solved in React, Next.js and Vue, and the mobile and quality practices that stay constant across them.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Beyond Angular, I work in <strong>React 19</strong> (function components and hooks, context plus reducer for shared state, custom hooks, <code>React.lazy</code>/<code>Suspense</code> code splitting, error boundaries, React Router, and Jest/React Testing Library) and <strong>Next.js</strong> (app router, server and client components, SSG/ISR/SSR chosen per route, route handlers and image optimisation). I have also delivered with <strong>Vue 3</strong> using the composition API and Pinia, built <strong>React Native</strong> screens for a mobile app that shares its domain package with the web client, and used <strong>micro-frontend</strong> techniques (module federation, web components/Angular Elements) to compose independently deployed front ends. Across all of them the constant is the engineering: accessibility, testing, bundle budgets and Core Web Vitals.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Decision</th><th>Where it is applied</th><th>Why it is done this way</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>State and derivation</td><td>hooks, reactive/computed, signals</td><td>One source of truth; everything else is derived instead of duplicated.</td></tr>
+          <tr><td>Rendering strategy</td><td>SSG / ISR / SSR / CSR per route</td><td>Static where possible, server-rendered where needed, client only when interactive.</td></tr>
+          <tr><td>Failed subtrees</td><td>error boundaries + suspense fallbacks</td><td>One broken panel degrades itself instead of blanking the screen.</td></tr>
+          <tr><td>Code splitting</td><td>route-level lazy loading</td><td>The first paint ships only what the first route needs.</td></tr>
+          <tr><td>Mobile reuse</td><td>shared domain package with React Native</td><td>Validation and behaviour cannot drift between platforms.</td></tr>
+          <tr><td>Micro-frontends</td><td>module federation, web components</td><td>Teams deploy independently behind a composed shell.</td></tr>
+          <tr><td>Quality bar</td><td>Testing Library, axe, budgets, Core Web Vitals</td><td>The standard belongs to the team, not to the framework.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-spa-title">
+    <h2 id="live-spa-title">Live SPA framework workflow proof</h2>
+    <p>The running component below changes its framework/result view through real event binding. Select a step to see the decision, the reasoning behind it, and the measurement that proves it.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="spa-workflow" id="spa-workflow" data-operation="react" aria-labelledby="spa-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>SPA WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="spa-workflow-title">Choose a framework step</h3>
+          <p>Select a step to inspect the decision, the reasoning and the measured result.</p>
+          <div class="task-buttons" aria-label="SPA framework steps">
+            <button type="button" class="active" data-op="react" aria-pressed="true">React 19 + hooks</button>
+            <button type="button" data-op="nextjs" aria-pressed="false">Next.js rendering modes</button>
+            <button type="button" data-op="vue" aria-pressed="false">Vue 3 composition API</button>
+            <button type="button" data-op="mobile" aria-pressed="false">React Native reuse</button>
+            <button type="button" data-op="quality" aria-pressed="false">Cross-framework quality bar</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="spa-command">$ const { data, error, isLoading } = useOrders(customerId);   // hooks, suspense-ready</code>
+            <p data-testid="spa-effect">React for component-driven interfaces: hooks with explicit dependencies, derived state instead of duplicated state, and error boundaries around the risky subtrees.</p>
+            <pre data-testid="spa-output">re-renders 4 &rarr; 2 after memoising the selector
+route-level chunk 48 KB</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What transfers between frameworks</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Keep one source of truth and derive the rest; choose the rendering mode per route instead of per application; isolate failure in a boundary so one panel cannot blank the screen; split the bundle at the route; share the domain layer between web and mobile rather than reimplementing it; and hold every framework to the same accessibility, testing and performance budgets. Frameworks change; these constraints are what a team actually accumulates as experience.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q19:</strong> this page covers SPA frameworks and composition techniques. Framework-migration project plans, micro-frontend governance across many teams and design-system ownership models are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of the same decisions.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q19 SPA proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names React, Next.js and Vue with the context each was used in.</li>
+      <li>Distinguishes state modelling, rendering mode, failure isolation and reuse.</li>
+      <li>Shows an interactive proof of choosing a framework step and reading its measurement.</li>
+      <li>Keeps one source of truth and derives the rest in whatever framework is used.</li>
+      <li>Defers migration plans, micro-frontend governance and design-system ownership to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q18.html">&larr; Question 18 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q19.html">Question 19 answer</a>
+    <a href="q20.html">Question 20 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 19 proof &middot; answers/q19-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/spa-workflow.js"></script>
+<script src="../assets/lab/q19-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
