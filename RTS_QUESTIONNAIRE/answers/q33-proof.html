@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q33 proof &middot; SOLID principles and object-oriented design patterns</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q33 &middot; SOLID proof</p>
+  <h1>Have you worked with SOLID principles and common object-oriented design patterns?</h1>
+  <p class="subtitle">Each principle shown as a refactor: the design that violates it, the design that satisfies it, and a number that shows the change was real. Plus the pattern catalogue, with the place each pattern is applied and the principle it serves.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live SOLID refactor workflow</span>
+    <span class="tag">S &middot; O &middot; L &middot; I &middot; D &middot; 13 patterns</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q33.html">Question 33 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>33. SOLID and object-oriented design patterns</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; SOLID and classic design patterns are the foundation of my code and architectural decisions.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> Naming the principles proves nothing, because every developer has read the same twenty-page summary. This page is the separate, detailed version: each principle is shown as a before/after refactor of one realistic class, and the pattern catalogue names where each pattern is applied and which principle it serves.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, and I treat SOLID as a set of forces rather than a checklist. <strong>Single Responsibility</strong>: one reason to change per class &mdash; a service that prices, computes tax, persists, notifies and logs is five reasons to change and five reviewers for one file. <strong>Open/Closed</strong>: new behaviour arrives as a new implementation registered in the container, not as another <code>else if</code> in an existing method, so the class that passed review last month is not re-reviewed for a segment it never heard of. <strong>Liskov Substitution</strong>: an implementation that throws <code>NotSupportedException</code> from an inherited member has not satisfied the contract, and the fix is a narrower interface, not a better message &mdash; which is why the contract is stated as a test every implementation runs. <strong>Interface Segregation</strong>: a read port and a write port instead of a fourteen-member <code>IRepository&lt;T&gt;</code>, so a read-only screen depends on four members and every test double stops implementing methods it will never call. <strong>Dependency Inversion</strong>: high-level policy depends on abstractions it declares, and the composition root is the only file in the solution that names a concrete type. All five are what make the pattern catalogue usable rather than decorative: strategy, specification, decorator, adapter, factory, builder, facade, mediator, observer, template method, singleton through the container, CQRS and saga each resolve a specific force, and the same vocabulary transfers directly between .NET, Java/Spring and Python.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Principle</th><th>The violation</th><th>The refactor</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>S &mdash; Single Responsibility</td><td>one service pricing, taxing, persisting, notifying and logging</td><td>one class per rule, one reason to change each</td></tr>
+          <tr><td>O &mdash; Open/Closed</td><td>a new <code>else if</code> per customer segment in a reviewed method</td><td>a strategy implementation registered in the container</td></tr>
+          <tr><td>L &mdash; Liskov Substitution</td><td>a subtype that throws from a member it inherited</td><td>narrower contracts, enforced by a shared contract test suite</td></tr>
+          <tr><td>I &mdash; Interface Segregation</td><td>a fourteen-member repository interface every client depends on</td><td>a read port and a write port, plus a query port per screen</td></tr>
+          <tr><td>D &mdash; Dependency Inversion</td><td><code>new SqlConnection(...)</code> inside the business class</td><td>constructor injection of ports, resolved at the composition root</td></tr>
+          <tr><td>Patterns</td><td>patterns named in a document and applied nowhere</td><td>each entry in the catalogue names its application and the force it resolves</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live SOLID refactor workflow proof</h2>
+    <p>The running component below changes its principle/result view through real event binding. Select a principle to see the before/after contrast, the reasoning behind the refactor, and the number that changed.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="solid-workflow" id="solid-workflow" data-operation="srp" aria-labelledby="solid-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>SOLID REFACTOR WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="solid-workflow-title">Choose a principle</h3>
+          <p>Select a principle to inspect the violation, the refactor and the evidence.</p>
+          <div class="task-buttons" aria-label="SOLID principles">
+            <button type="button" class="active" data-op="srp" aria-pressed="true">S &mdash; Single Responsibility</button>
+            <button type="button" data-op="ocp" aria-pressed="false">O &mdash; Open/Closed</button>
+            <button type="button" data-op="lsp" aria-pressed="false">L &mdash; Liskov Substitution</button>
+            <button type="button" data-op="isp" aria-pressed="false">I &mdash; Interface Segregation</button>
+            <button type="button" data-op="dip" aria-pressed="false">D &mdash; Dependency Inversion</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="solid-command">$ before: OrderService (pricing + tax + persistence + email + logging) &rarr; after: OrderPricing, TaxPolicy, IOrderRepository, INotifier</code>
+            <p data-testid="solid-effect">One reason to change per class. A service that prices an order, computes tax, writes to the database, sends the confirmation and logs is five reasons to change and five people touching one file. Splitting it gives the pricing rule one home and the persistence concern another, which is what makes either of them reviewable.</p>
+            <pre data-testid="solid-output">reasons to change in the pricing class: 1 (from 5)
+unit tests that need no database or mail server: 34
+classes named Manager, Helper or Util: 0</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What applying SOLID buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Give each class one reason to change and check it by naming the person who would ask for the next change; add behaviour by adding an implementation rather than a branch; state contracts as tests that every implementation runs, so substitution is verified instead of assumed; split interfaces by client rather than by entity, because the client is what depends on them; inject everything the policy does not own, so the composition root is the single place where a concrete technology is chosen; and require every pattern in the catalogue to name where it is applied, since a pattern applied for its own sake is decoration.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q33:</strong> this page covers the SOLID principles as refactors and the catalogue of object-oriented patterns. The Repository and Unit of Work implementations themselves are on the <a href="q32-proof.html">Q32 proof page</a>, and dependency-injection container mechanics, lifetimes and validation are on the <a href="q07-proof.html">Q07 proof page</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the next two are the same class before and after the refactor, with each violation marked; the last is the pattern catalogue as data.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q33 SOLID proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Shows each principle as a violation and its refactor, not as a definition.</li>
+      <li>Quantifies the change, so the refactor is evidence rather than opinion.</li>
+      <li>Shows an interactive proof of choosing a principle and reading the result.</li>
+      <li>Names where each pattern is applied and which principle it serves.</li>
+      <li>Verifies substitutability with contract tests rather than assuming it.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q32.html">&larr; Question 32 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q33.html">Question 33 answer</a>
+    <a href="q34.html">Question 34 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 33 proof &middot; answers/q33-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/solid-workflow.js"></script>
+<script src="../assets/lab/q33-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
