@@ -1,0 +1,105 @@
+# Q45 — the API gateway policy.
+#
+# The gateway is a shared piece of infrastructure that every request crosses, so its
+# configuration is treated as production code: reviewed, versioned, and deployed
+# through a pipeline like everything else. The rule that governs what belongs here is
+# narrow and worth stating: transport, identity and traffic shaping are the gateway's
+# job; anything that decides something about the business is not.
+version: 2
+gateway:
+  product: "AWS API Gateway in front of the public surface, YARP for the internal edge"
+  notes:
+    - "two gateways, one policy source: the same routes and limits are generated for both"
+    - "Azure API Management is the equivalent in the Azure landing zone, with the same policy expressed in its own dialect"
+  forbidden:
+    - "business rules or branching on domain state"
+    - "data transformation beyond headers, paths and mechanical mapping"
+    - "per-request calls to a database or a domain service"
+    - "a secret written into the policy rather than read from the vault at deploy time"
+  forbiddenCount: 0
+
+edge:
+  tls: { minVersion: "1.2", hsts: true }
+  requestLimits:
+    maxBodyBytes: 10485760
+    maxHeaderBytes: 16384
+    requestTimeoutMs: 15000
+  cors:
+    allowedOrigins: ["https://app.example.com", "https://admin.example.com"]
+    allowWildcard: false
+    rationale: "a wildcard origin with credentials is the most common gateway misconfiguration there is"
+  correlation:
+    header: "x-correlation-id"
+    behaviour: "generate when absent, overwrite when present, propagate downstream"
+    trustClientValue: false
+    rationale: "a client-supplied id that is trusted can be used to forge trace continuity"
+
+routes:
+  - name: orders-public
+    match: { path: "/api/v2/orders/**", methods: ["GET", "POST", "PUT", "DELETE"] }
+    upstream: "http://orders-api.orders.svc.cluster.local:8080"
+    auth:
+      mode: "jwt-validation-at-edge"          # OAuth2/OIDC: the edge validates, the service still enforces
+      issuer: "https://auth.example.com"
+      audience: "orders-api"
+      requiredScopes: { read: ["orders:read"], write: ["orders:write"] }
+      propagateToken: true                    # the service re-validates and enforces its own policy
+      stripInboundAuthHeaders: true           # a client cannot smuggle an internal identity header
+    rateLimit:
+      perConsumer: true                       # keyed on the client id claim, not on the IP
+      default: { requestsPerMinute: 600, burst: 60 }
+      overrides:
+        - { consumer: "partner-acme", requestsPerMinute: 3000, burst: 300 }
+        - { consumer: "free-tier", requestsPerMinute: 60, burst: 10 }
+    retry:
+      attempts: 2
+      onlyOn: ["GET", "HEAD", "PUT", "DELETE"]   # POST is not retried: it is not idempotent
+      on: [502, 503, 504]
+      backoff: { kind: exponential, jitter: true }
+      rationale: "retrying a POST at the edge is how a gateway creates duplicate orders"
+    canary:
+      upstream: "http://orders-api-canary.orders.svc.cluster.local:8080"
+      weightPercent: 5
+      analysisGate: "error rate and p95 against the baseline, automatic rollback"
+    transforms:
+      pathRewrite: { stripPrefix: "/api/v2" }
+      headerAdd: { "x-edge": "public-gateway" }
+      headerRemove: ["x-internal-identity", "x-forwarded-for-original"]
+      bodyTransform: none
+      note: "mechanical only: the gateway never reshapes a domain payload"
+
+  - name: inventory-internal
+    match: { path: "/internal/inventory/**" }
+    upstream: "http://inventory-api.inventory.svc.cluster.local:8080"
+    auth:
+      mode: "mtls"                            # service-to-service: no user in the picture
+      clientCertificatesFrom: "internal-ca"
+      requiredScopes: { read: ["inventory:read"], write: ["inventory:adjust"] }
+    rateLimit: { perConsumer: true, default: { requestsPerMinute: 6000 } }
+    retry: { attempts: 3, onlyOn: ["GET", "PUT"], backoff: { kind: exponential, jitter: true } }
+    exposure: "cluster-internal only; not reachable from the public gateway"
+
+  - name: partners-partner-api
+    match: { path: "/partner/v1/**", methods: ["POST"] }
+    upstream: "http://partners-adapter.partners.svc.cluster.local:8080"
+    auth:
+      mode: "api-key-plus-oauth"
+      apiKeyHeader: "x-api-key"
+      issuer: "https://auth.example.com"
+      requiredScopes: { write: ["partner:submit"] }
+    rateLimit: { perConsumer: true, default: { requestsPerMinute: 300, burst: 30 } }
+    transforms:
+      headerAdd: { "x-partner-contract": "v1" }
+      bodyTransform: "none"
+
+observability:
+  accessLog:
+    fields: ["timestamp", "route", "consumerId", "status", "durationMs", "correlationId", "upstream", "canary"]
+    logBodies: false
+    rationale: "bodies contain personal data; the fields above answer every question the access log is actually used for"
+  metrics: ["requests per route", "status class per route", "upstream latency", "rate-limit rejections per consumer", "canary vs baseline"]
+  traces: "the gateway opens the span, every service continues it with the same correlation id"
+  alerts:
+    - { name: "gateway-5xx", condition: "5xx ratio > 1% for 5 min", severity: page }
+    - { name: "rate-limit-storm", condition: "rejections > 5% of traffic for 10 min", severity: ticket, note: "usually a consumer whose contract changed, not an attack" }
+    - { name: "canary-regression", condition: "canary p95 or error rate beyond the baseline", severity: page, action: "automatic rollback" }

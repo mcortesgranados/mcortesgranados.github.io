@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q45 proof &middot; Service-to-service communication, gateways, identity, discovery and distributed processing</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q45 &middot; Service fabric proof</p>
+  <h1>Have you designed systems involving service-to-service communication, API gateways, authentication, service discovery, messaging, and distributed processing?</h1>
+  <p class="subtitle">The five nouns of the question, one operation each: how services talk, what the gateway owns and what it must never own, how identity travels between them, how they find each other, and how work is spread across the processes that do it.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live service-fabric workflow</span>
+    <span class="tag">Gateways &middot; Identity &middot; Discovery &middot; Partitions</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q45.html">Question 45 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>45. The service fabric: communication, gateways, identity, discovery, processing</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; these are the standard building blocks of the distributed systems I design: communication, gateways, identity across hops, discovery, messaging and distributed processing, all of it observable.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line lists the building blocks. This page is the separate, detailed version, and it is organised around what each one is <em>for</em>: what belongs in a gateway and what belongs nowhere near it, which of the three identity cases a call is, why discovery is now a DNS problem, and which three numbers decide whether a consumer group is correct and fast.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, and the fabric is a set of decisions rather than a list of products. <strong>Service-to-service communication</strong>: typed clients over REST with a deadline and a retry policy as the default, because it is debuggable and every team has the tooling; gRPC where the edge is internal, chatty and latency-sensitive, contract-first so the schema <em>is</em> the interface; and asynchronous messaging wherever the caller does not need an answer now, because a synchronous chain couples the availability of two services. I keep the synchronous hops needed to serve one user request to three or fewer. <strong>API gateways</strong> own what every service would otherwise repeat &mdash; TLS, routing, token validation at the edge, per-consumer rate limits, request size limits, correlation id injection, canary splitting &mdash; and hold no business logic, because logic in a gateway cannot be unit tested, versioned or rolled back with the service that owns the rule. One detail worth naming: retries at the gateway are enabled for idempotent methods only, since retrying a POST at the edge is how a gateway creates duplicate orders. <strong>Authentication</strong> distinguishes three cases: a user request validated at the edge and re-validated by every service downstream with its own policy; a service acting <em>on behalf of</em> that user, propagating the identity so the audit trail names the human; and a pure machine call using client credentials or mTLS with its own narrow scopes. Credentials live in a vault, tokens are never logged, and no service reads an identity from the request body. <strong>Discovery</strong> is a DNS problem on Kubernetes: a Service resolves to healthy endpoints and unready pods leave the rotation, so a client-side registry only earns its place where the platform provides nothing &mdash; and an unhealthy dependency degrades one feature rather than failing the request. <strong>Distributed processing</strong> is three numbers and a policy: the partition count caps parallelism, the ordering key decides what "in order" means (per aggregate, never global), and the commit point decides whether a crash loses or duplicates work &mdash; so commits happen after the side effect, handlers are idempotent, a dead-letter queue carries the failure, and replay is a documented operation rather than an incident.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Building block</th><th>Decision</th><th>The mistake it avoids</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Communication</td><td>typed clients with deadlines; gRPC for internal latency-sensitive edges; messaging when no answer is needed now</td><td>a synchronous chain where one slow service takes its callers down</td></tr>
+          <tr><td>API gateway</td><td>transport, identity and traffic shaping only; per-consumer limits; retries on idempotent methods only</td><td>business logic in an untestable layer, and duplicate POSTs from an edge retry</td></tr>
+          <tr><td>Identity</td><td>three cases stated explicitly: user, on-behalf-of, machine; vault-held credentials; identity never from the payload</td><td>a service that trusts its caller, and an authorisation bypass through a body field</td></tr>
+          <tr><td>Discovery</td><td>Kubernetes Services and readiness gates; client-side registries only where needed</td><td>static host lists that break on every rollout</td></tr>
+          <tr><td>Messaging</td><td>partitions and consumer groups; ordering per aggregate key; commit after the side effect</td><td>committing before the work lands, which loses messages a broker believes were handled</td></tr>
+          <tr><td>Observability</td><td>one correlation id from the edge across every hop, plus per-route and per-queue metrics</td><td>a request that cannot be followed past the first service</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live service-fabric workflow proof</h2>
+    <p>The running component below changes its building-block/result view through real event binding. Select a building block to see the decision, the reasoning behind it, and the evidence that it holds.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="service-fabric-workflow" id="service-fabric-workflow" data-operation="comm" aria-labelledby="fabric-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>SERVICE FABRIC WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="fabric-workflow-title">Choose a building block of the fabric</h3>
+          <p>Select a building block to inspect the decision, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Service fabric building blocks">
+            <button type="button" class="active" data-op="comm" aria-pressed="true">Service-to-service communication</button>
+            <button type="button" data-op="gateway" aria-pressed="false">API gateways</button>
+            <button type="button" data-op="identity" aria-pressed="false">Authentication and authorization</button>
+            <button type="button" data-op="discovery" aria-pressed="false">Service discovery and resilience</button>
+            <button type="button" data-op="processing" aria-pressed="false">Distributed processing</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="fabric-command">$ typed HTTP clients with a deadline &middot; gRPC where latency and throughput matter &middot; asynchronous messaging for decoupled flows</code>
+            <p data-testid="fabric-effect">The default is a typed client over REST carrying a deadline and a retry policy, because it is debuggable and every team already has the tooling. gRPC is used where the call is internal, chatty and latency-sensitive, contract-first so the schema is the interface. Anything that does not need an answer right now goes to a message, because a synchronous chain couples the availability of two services.</p>
+            <pre data-testid="fabric-output">synchronous hops to serve one user request: at most 3
+outbound calls without a deadline: 0
+clients generated from a contract: all
+transport choice recorded per edge: yes</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the fabric buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Put a deadline on every synchronous call and keep the number of them serving one request small, because each hop multiplies the chance of being slow and the difficulty of finding out why; keep the gateway to transport, identity and traffic shaping, since anything else there is logic that cannot be tested with the service that owns it; retry at the edge only where the method is idempotent; state which identity case a call is and never read an identity from the payload; let the platform do discovery and gate traffic on readiness rather than on a ping; derive throughput from partitions and consumer groups instead of bigger workers; commit after the side effect, never before; make every handler idempotent, because a rebalance at 3 a.m. will test it; and carry one correlation id from the edge through every hop, so the request can still be followed when it is the only thing anybody has.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q45:</strong> this page covers the connectivity fabric &mdash; transport, gateways, identity across hops, discovery and consumer-group mechanics. The architecture itself, its boundaries and its data ownership are on the <a href="q44-proof.html">Q44 proof page</a>; the distributed-system patterns (CQRS, event sourcing, outbox, saga) and their durations are the subject of the <a href="q46.html">Q46 question</a>; and the resilience pipeline and delivery guarantees are on <a href="q34-proof.html">Q34</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the gateway policy with its limits and canary weights, the identity handler covering the three call cases, and the consumer-group topology with its partitions, ordering key and commit point.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q45 service fabric proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Addresses all six elements the question lists, each with a decision behind it.</li>
+      <li>Keeps the gateway free of business logic and its retries confined to idempotent methods.</li>
+      <li>Shows an interactive proof of choosing a building block and reading the evidence.</li>
+      <li>Separates the three identity cases and never derives identity from the request payload.</li>
+      <li>States the partition, ordering and commit decisions that make distributed processing correct.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q44.html">&larr; Question 44 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q45.html">Question 45 answer</a>
+    <a href="q46.html">Question 46 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 45 proof &middot; answers/q45-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/service-fabric-workflow.js"></script>
+<script src="../assets/lab/q45-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
