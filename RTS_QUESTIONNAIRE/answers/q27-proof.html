@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q27 proof &middot; Architectural layers: API/Presentation, Application/Business, Domain, Infrastructure/Data Access</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q27 &middot; Architectural layers proof</p>
+  <h1>Have you worked with architectural layers such as API/Presentation, Application/Business, Domain, and Infrastructure/Data Access?</h1>
+  <p class="subtitle">The four layers as a runnable checklist: what each one owns, one request traced end to end through all of them, and the same separation expressed in .NET, Spring Boot and FastAPI.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live layer-flow workflow</span>
+    <span class="tag">Api &middot; Application &middot; Domain &middot; Data Access</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q27.html">Question 27 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>27. Architectural layers API / Application / Domain / Data Access</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; that four-layer model (API/Presentation, Application/Business, Domain, Infrastructure/Data Access) is my default architecture on .NET, Spring Boot and FastAPI projects.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line names the layers without showing what each one owns or how a single request moves through them. This page is the separate, detailed version: it walks the four layers, traces one request across all of them, and shows the same pattern in the three stacks.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, on .NET, Spring Boot and FastAPI alike. <strong>API / Presentation</strong> handles transport only: routing, model binding, edge validation, authentication, RFC 7807 problem details and the wire contract, expressed as DTOs so no persistence entity ever escapes. <strong>Application / Business</strong> owns one use case per operation and declares the ports it needs &mdash; repository, unit of work, clock, event publisher &mdash; which keeps the technology choice outside the use case. <strong>Domain</strong> holds the entities, aggregates, value objects and invariants with no framework reference at all, so the rules are executable documentation. <strong>Infrastructure / Data Access</strong> implements those ports: EF Core, Spring Data JPA or SQLAlchemy, messaging, storage, outbound HTTP and the composition root. The dependency direction is always inward, each responsibility belongs to exactly one layer, and the boundaries are asserted by architecture tests rather than by convention.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>Owns</th><th>Must not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>API / Presentation</td><td>routing, model binding, edge validation, authn/authz, DTOs, problem details</td><td>hold business rules or open a database connection</td></tr>
+          <tr><td>Application / Business</td><td>one use case per operation, orchestration, transaction boundary, ports</td><td>reference an ORM, an HTTP client or infrastructure types</td></tr>
+          <tr><td>Domain</td><td>entities, aggregates, value objects, invariants, domain events</td><td>reference any framework, I/O or serialisation package</td></tr>
+          <tr><td>Infrastructure / Data Access</td><td>port implementations, ORM configuration, migrations, messaging, storage, composition root</td><td>be referenced by API, Application or Domain code</td></tr>
+          <tr><td>Contracts between layers</td><td>interfaces declared by the inner layer, DTOs at the boundary</td><td>let an entity shape the public API contract</td></tr>
+          <tr><td>Enforcement</td><td>architecture tests, project or package boundaries, review checklist</td><td>depend on discipline alone, which erodes under deadline</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live layer-flow workflow proof</h2>
+    <p>The running component below changes its layer/result view through real event binding. Select a layer, a request trace or the cross-stack mapping to see what it owns, the reasoning behind the boundary, and the evidence that the boundary holds.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="layer-flow-workflow" id="layer-flow" data-operation="catalog" aria-labelledby="layerflow-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>LAYER FLOW WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="layerflow-workflow-title">Choose a layer, a trace or the cross-stack mapping</h3>
+          <p>Select a step to inspect what it owns, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Layers, request trace and cross-stack mapping">
+            <button type="button" class="active" data-op="catalog" aria-pressed="true">The four layers</button>
+            <button type="button" data-op="request" aria-pressed="false">Trace one request</button>
+            <button type="button" data-op="api" aria-pressed="false">API / Presentation</button>
+            <button type="button" data-op="data" aria-pressed="false">Infrastructure / Data Access</button>
+            <button type="button" data-op="mapping" aria-pressed="false">Same layers, three stacks</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="layerflow-command">$ API/Presentation &rarr; Application/Business &rarr; Domain &larr; Infrastructure/Data Access</code>
+            <p data-testid="layerflow-effect">The four layers in the order a request travels: transport at the edge, use cases in the middle, business rules at the core and the adapters that touch the outside world. Each responsibility belongs to exactly one layer.</p>
+            <pre data-testid="layerflow-output">layers: 4
+responsibilities owned by exactly one layer: 4
+layers that may be skipped: 0</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the layering buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Give every responsibility exactly one home so a change has one place to land; declare ports in the inner layer and implement them outside, so the technology is a decision made at the edge; keep the wire contract in its own DTO type so the schema never becomes the API; keep the domain free of framework references so its rules can be tested without a database or a container; and enforce the direction with architecture tests, because a boundary nobody checks is a boundary that disappears in the next sprint.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q27:</strong> this page covers the layer catalog, the flow of one request through the layers and the cross-stack equivalence. Module decomposition by bounded context, distributed deployment of the layers, event-driven choreography between them and team-ownership models are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others declare the layer catalog, the presentation layer in .NET, and the same four layers mapped across .NET, Spring Boot and FastAPI.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q27 architectural-layers proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names all four layers and what each one owns.</li>
+      <li>Traces one request through every layer, in order, without skipping or repeating one.</li>
+      <li>Shows an interactive proof of choosing a layer, a trace or the cross-stack mapping and reading the evidence.</li>
+      <li>Keeps the dependency direction inward and the wire contract free of entities.</li>
+      <li>Shows the same separation in .NET, Spring Boot and FastAPI rather than a single stack.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q26.html">&larr; Question 26 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q27.html">Question 27 answer</a>
+    <a href="q28.html">Question 28 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 27 proof &middot; answers/q27-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/layer-flow-workflow.js"></script>
+<script src="../assets/lab/q27-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

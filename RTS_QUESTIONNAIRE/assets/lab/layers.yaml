@@ -1,0 +1,107 @@
+# Q27 — the same four layers in the three stacks I use.
+#
+# The names change; the responsibilities and the dependency direction do not.
+# This file is the checklist I walk through when I join a codebase: for every
+# layer it says where the equivalent code is expected to live.
+version: 1
+
+layers:
+  - name: api
+    also_known_as: Presentation
+    owns:
+      - transport
+      - request/response contracts
+      - edge validation
+      - authentication and authorisation entry points
+    must_not:
+      - hold business rules
+      - open a database connection
+    stacks:
+      dotnet:
+        projects: ["Sales.Api"]
+        types: ["ASP.NET Core Controller", "Minimal API endpoint", "DTO record"]
+        # [ApiController] + ProblemDetails + OpenAPI; nothing else.
+      spring_boot:
+        packages: ["com.acme.api"]
+        types: ["@RestController", "@ControllerAdvice", "DTO record"]
+        # The controller returns ResponseEntity and delegates to a service.
+      fastapi:
+        packages: ["app.api"]
+        types: ["APIRouter", "Pydantic request/response models"]
+        # Dependency-injected service comes from app.api.dependencies.
+
+  - name: application
+    also_known_as: Business
+    owns:
+      - one use case per operation
+      - orchestration and transaction boundary
+      - ports for persistence, clock and messaging
+      - authorisation decisions
+    must_not:
+      - reference an ORM or an HTTP client type
+    stacks:
+      dotnet:
+        projects: ["Sales.Application"]
+        types: ["ConfirmOrderHandler", "IOrderRepository", "IUnitOfWork", "Result<T>"]
+      spring_boot:
+        packages: ["com.acme.application"]
+        types: ["@Service OrderService", "OrderRepository (interface)", "OrderMapper"]
+      fastapi:
+        packages: ["app.application"]
+        types: ["ConfirmOrderUseCase", "OrderRepository (Protocol)", "unit_of_work"]
+
+  - name: domain
+    also_known_as: Core
+    owns:
+      - entities, aggregates, value objects
+      - invariants
+      - domain events
+    must_not:
+      - reference any framework or I/O package
+    stacks:
+      dotnet:
+        projects: ["Sales.Domain"]
+        types: ["Order aggregate", "OrderLine", "Money", "DomainException", "IDomainEvent"]
+      spring_boot:
+        packages: ["com.acme.domain"]
+        types: ["Order entity in the domain sense", "OrderLine", "Money (record)", "OrderConfirmed"]
+      fastapi:
+        packages: ["app.domain"]
+        types: ["Order dataclass", "OrderLine", "Money", "DomainRuleError"]
+
+  - name: infrastructure
+    also_known_as: Data Access
+    owns:
+      - implementations of the ports
+      - ORM configuration and migrations
+      - messaging, storage and outbound integrations
+      - the composition root
+    must_not:
+      - be referenced by api, application or domain code
+    stacks:
+      dotnet:
+        projects: ["Sales.Infrastructure"]
+        types: ["EfOrderRepository", "SalesDbContext", "SystemClock", "InfrastructureRegistration"]
+      spring_boot:
+        packages: ["com.acme.infrastructure"]
+        types: ["OrderJpaRepository", "@Configuration PersistenceConfig", "SystemClockAdapter"]
+      fastapi:
+        packages: ["app.infrastructure"]
+        types: ["SqlAlchemyOrderRepository", "database.py", "SystemClock", "container"]
+
+dependency_rule:
+  direction: inward
+  allowed:
+    api: [application]
+    application: [domain]
+    domain: []
+    infrastructure: [application, domain]
+  enforced_by:
+    dotnet: ["NetArchTest architecture tests", "project references in the .sln"]
+    spring_boot: ["ArchUnit rules", "Maven/Gradle module boundaries"]
+    fastapi: ["import-linter contract", "separate Python packages"]
+
+evidence:
+  aggregated_request_trace: "POST /orders/{id}/confirm enters all four layers once, in order"
+  business_rules_outside_domain: 0
+  orm_types_outside_data_access: 0
