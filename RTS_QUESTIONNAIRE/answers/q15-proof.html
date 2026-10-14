@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q15 proof &middot; Generative AI, agentic workflows and MCP</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q15 &middot; GenAI proof</p>
+  <h1>Have you worked with Generative AI, Agentic AI, or MCP (Model Context Protocol)?</h1>
+  <p class="subtitle">A runnable review of how these systems are built to be trustworthy: retrieval before generation, typed tools for agents, guardrails around the model and evaluation before every release.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live GenAI workflow</span>
+    <span class="tag">RAG &middot; Agents &middot; MCP</span>
+    <a class="tag live-jump" href="#live-genai-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q15.html">Question 15 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>15. Generative AI, agentic AI and MCP</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; RAG, embeddings, Llama-3 QLoRA fine-tuning, agentic workflows and MCP servers.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line lists techniques but not the engineering that makes them dependable. This page is the separate, detailed version: it shows retrieval-grounded answering, the honest choice between fine-tuning and prompting, typed tool-calling for agents, and the guardrails and evals that keep a probabilistic system inside its bounds.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes &mdash; this is active practice, not theory. I build <strong>RAG pipelines</strong> (chunking strategy, embeddings, vector search over pgvector/FAISS-style stores, citation-forced prompting, context-window and cost control), run <strong>fine-tuning only where it earns its keep</strong> (QLoRA adapters on Llama-3-class models for style and format, never to patch missing knowledge), wire <strong>agentic workflows through MCP</strong> with schema-typed tools and confirmation on anything that writes, and put <strong>guardrails</strong> around the model: PII redaction before the prompt, prompt-injection checks on retrieved text, tool allow-lists and strict output schemas. Every prompt or model change is measured against a golden set with regression checks, and cost and latency are tracked per request.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Decision</th><th>Typical implementation</th><th>Why it is done this way</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Grounding</td><td>retrieve &rarr; prompt with context &rarr; cite the source</td><td>An answer the business can verify, instead of text from memory.</td></tr>
+          <tr><td>Retrieval</td><td>chunking with overlap, hybrid vector + keyword search</td><td>Puts the right passage in context and nothing else.</td></tr>
+          <tr><td>Fine-tuning</td><td>QLoRA adapter for style and format</td><td>Shapes output without pretending to add knowledge.</td></tr>
+          <tr><td>Agents</td><td>MCP tools with typed schemas</td><td>The model's reach is exactly the tool contract &mdash; no more.</td></tr>
+          <tr><td>Write actions</td><td>confirmation step + optimistic concurrency</td><td>Autonomy stays bounded where state actually changes.</td></tr>
+          <tr><td>Privacy &amp; safety</td><td>PII redaction, injection checks, output schema</td><td>Guardrails around the model, not promises inside the prompt.</td></tr>
+          <tr><td>Quality gate</td><td>golden set + LLM-as-judge + regression</td><td>A prompt change is released with evidence, like any other change.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-genai-title">
+    <h2 id="live-genai-title">Live GenAI delivery workflow proof</h2>
+    <p>The running component below changes its decision/result view through real event binding. Select a step to see the technique, the reasoning behind it, and the measurement that keeps it honest.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="genai-workflow" id="genai-workflow" data-operation="rag" aria-labelledby="genai-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>GENAI WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="genai-workflow-title">Choose a GenAI step</h3>
+          <p>Select a step to inspect the decision, the reasoning and the measured result.</p>
+          <div class="task-buttons" aria-label="Generative AI steps">
+            <button type="button" class="active" data-op="rag" aria-pressed="true">Retrieval-grounded answers</button>
+            <button type="button" data-op="finetune" aria-pressed="false">Fine-tune vs prompt</button>
+            <button type="button" data-op="agent" aria-pressed="false">Agentic tools over MCP</button>
+            <button type="button" data-op="guardrails" aria-pressed="false">Guardrails &amp; privacy</button>
+            <button type="button" data-op="evals" aria-pressed="false">Evaluation &amp; cost</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="genai-command">$ embed(query) &rarr; vector search (top-k) &rarr; prompt with context &rarr; answer with citations</code>
+            <p data-testid="genai-effect">The model answers from retrieved context and cites it, instead of answering from memory. That is what makes an answer verifiable and auditable by the business.</p>
+            <pre data-testid="genai-output">top-8 of 12,400 chunks  &middot;  recall@8 0.94
+6 of 6 claims resolve to a source</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Why the system is built this way</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Retrieve before generating and force a citation; keep knowledge in the index rather than in the weights; expose capability to an agent only as schema-typed tools, with confirmation on write actions; minimise data before the prompt and validate whatever comes back; measure every change against a golden set; and track cost and latency per request. The model is a component with a probabilistic boundary &mdash; the surrounding engineering is what makes it usable in a business process.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q15:</strong> this page covers applied GenAI delivery &mdash; retrieval, adaptation, agents and evaluation. Model pre-training, GPU infrastructure sizing and provider-specific commercial terms are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of the same decisions.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q15 GenAI proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Distinguishes retrieval, fine-tuning, agentic tool use, guardrails and evaluation.</li>
+      <li>Requires a citation for every claim instead of answering from memory.</li>
+      <li>Shows an interactive proof of choosing a GenAI step and reading its measurement.</li>
+      <li>Keeps writes behind confirmation and output behind a strict schema.</li>
+      <li>Defers pre-training, GPU infrastructure sizing and commercial terms to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q14.html">&larr; Question 14 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q15.html">Question 15 answer</a>
+    <a href="q16.html">Question 16 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 15 proof &middot; answers/q15-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/genai-workflow.js"></script>
+<script src="../assets/lab/q15-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
