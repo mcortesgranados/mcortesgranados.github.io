@@ -1,0 +1,181 @@
+# Q34 — the event contract, written as the consumers see it.
+#
+# An event is a published interface with the same obligations as an HTTP contract:
+# a schema, a version, an ordering guarantee, a delivery guarantee and an explicit
+# failure destination. The parts a consumer cannot negotiate are stated here rather
+# than discovered in production, which is where the two most common distributed
+# bugs come from: assuming exactly-once delivery, and assuming global ordering.
+asyncapi: 3.0.0
+
+info:
+  title: Order events
+  version: 2.1.0
+  description: |
+    Domain events published by the orders service. Consumers are independent
+    bounded contexts: billing, inventory and analytics. A breaking change is a new
+    major version on a new topic, never an edit to this one.
+
+servers:
+  production:
+    host: kafka.internal:9092
+    protocol: kafka-secure
+    description: 6 partitions, replication factor 3, min.insync.replicas 2.
+  aws-native:
+    host: events.internal
+    protocol: sqs
+    description: Fan-out to AWS consumers through SNS plus EventBridge rules.
+
+channels:
+  orderEvents:
+    address: orders.events.v2
+    description: |
+      Partitioned by aggregate id, so ordering is guaranteed per order and only per
+      order. Two orders have no relative order, and no consumer may assume one.
+    messages:
+      orderConfirmed:
+        $ref: '#/components/messages/OrderConfirmed'
+      orderCancelled:
+        $ref: '#/components/messages/OrderCancelled'
+
+operations:
+  publishOrderConfirmed:
+    action: send
+    channel:
+      $ref: '#/channels/orderEvents'
+    summary: The orders service publishes after the local commit.
+
+  consumeOrderConfirmed:
+    action: receive
+    channel:
+      $ref: '#/channels/orderEvents'
+    summary: |
+      Billing, inventory and analytics subscribe independently. A new consumer can
+      replay from the beginning of retention, which is why the payload is a fact
+      rather than an instruction.
+
+components:
+  messages:
+    OrderConfirmed:
+      name: OrderConfirmed
+      contentType: application/json
+      headers:
+        type: object
+        required: [x-message-id, x-correlation-id, x-schema-version, x-aggregate-id, x-aggregate-version]
+        properties:
+          x-message-id:
+            type: string
+            format: uuid
+            description: The dedup key. Stable across redeliveries of the same event.
+          x-correlation-id:
+            type: string
+            description: Ties this event to the originating request in every log and trace.
+          x-causation-id:
+            type: string
+            description: The message that caused this one, for building the chain.
+          x-schema-version:
+            type: string
+            description: Consumer selects its parser from this, not from the topic name.
+          x-aggregate-id:
+            type: string
+            description: Partition key. Preserves per-order ordering.
+          x-aggregate-version:
+            type: integer
+            description: Monotonic per order, so a reordered message can be detected and skipped.
+          x-tenant-id:
+            type: string
+      payload:
+        $ref: '#/components/schemas/OrderConfirmedPayload'
+
+    OrderCancelled:
+      name: OrderCancelled
+      contentType: application/json
+      headers:
+        type: object
+        required: [x-message-id, x-correlation-id, x-schema-version, x-aggregate-id, x-aggregate-version]
+      payload:
+        $ref: '#/components/schemas/OrderCancelledPayload'
+
+  schemas:
+    OrderConfirmedPayload:
+      type: object
+      required: [orderId, customerId, total, currency, confirmedAt]
+      # Deliberately open: a consumer must ignore fields it does not know, because
+      # that is the only way an additive change stays backward compatible. Closing
+      # the schema here would turn every new field into a breaking change.
+      properties:
+        orderId:
+          type: string
+          format: uuid
+        customerId:
+          type: string
+          format: uuid
+        total:
+          type: number
+          description: Gross total in the major unit of the currency. Money is never sent as a formatted string.
+        currency:
+          type: string
+          pattern: '^[A-Z]{3}$'
+        confirmedAt:
+          type: string
+          format: date-time
+        lines:
+          type: array
+          items:
+            type: object
+            required: [sku, quantity, unitPrice]
+            properties:
+              sku: { type: string }
+              quantity: { type: integer, minimum: 1 }
+              unitPrice: { type: number }
+
+    OrderCancelledPayload:
+      type: object
+      required: [orderId, reason, cancelledAt]
+      properties:
+        orderId:
+          type: string
+          format: uuid
+        reason:
+          type: string
+          maxLength: 256
+        cancelledAt:
+          type: string
+          format: date-time
+
+# ---------------------------------------------------------------------------
+# The guarantees. These are the parts a consumer cannot choose, so they are
+# written down once, here, instead of being rediscovered per team.
+# ---------------------------------------------------------------------------
+x-policies:
+  ordering:
+    scope: per-aggregate
+    key: x-aggregate-id
+    guarantee: "messages for one order arrive in order; messages across orders have no defined order"
+  delivery:
+    guarantee: at-least-once
+    duplicateRate: "assume non-zero; x-aggregate-version and x-message-id are both safe dedup keys"
+    exactlyOnceClaimed: false
+  consumerObligations:
+    - "acknowledge only after the side effect is committed"
+    - "write the dedup row in the same local transaction as the effect"
+    - "skip a message whose x-aggregate-version is not greater than the last applied version"
+    - "be safe to run twice; the transport will redeliver after a crash"
+  producerObligations:
+    - "publish only after the local commit, through the outbox, never inside the transaction"
+    - "keep the payload a fact about the past, not an instruction to another service"
+    - "bump the major version and open a new topic for a breaking change"
+  retry:
+    transportRedelivery: "5 attempts, exponential backoff with jitter"
+    applicationRetries: "none inside the consumer: redelivery is the retry"
+    rationale: "a retry inside an already redelivering consumer multiplies attempts instead of adding resilience"
+  deadLetter:
+    destination: orders.events.v2.dlq
+    after: "transport attempt budget exhausted"
+    payload: "original message plus failure type, failure message and the consuming service version"
+    alert: "DLQ depth greater than 0 for 5 minutes pages the owning team"
+  schemaCompatibility: backward
+  compatibilityRules:
+    - "add an optional field, never a required one"
+    - "never rename or retype a field in place: add the new one and stop writing the old"
+    - "never narrow an enum: adding a value is safe, removing one is not"
+    - "consumers ignore unknown fields, which is what makes the rules above sufficient"

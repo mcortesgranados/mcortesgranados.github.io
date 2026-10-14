@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q34 proof &middot; Distributed systems: topology, messaging, resilience and operability</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q34 &middot; Distributed systems proof</p>
+  <h1>Have you worked on distributed systems?</h1>
+  <p class="subtitle">A runnable review of how the parts are divided, how they talk synchronously and asynchronously, what happens when a part fails slowly rather than cleanly, and how the whole thing is operated.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live distributed-systems workflow</span>
+    <span class="tag">Kafka &middot; gRPC &middot; Kubernetes &middot; OpenTelemetry</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q34.html">Question 34 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>34. Distributed systems</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; distributed systems are the core of my architecture experience, across enterprise middleware, microservices and cloud-native platforms.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line claims the experience without showing a system. This page is the separate, detailed version: it shows the division into bounded contexts, the synchronous and asynchronous contracts, the resilience pipeline with its ordering explained, and the operational properties that decide whether a service can actually be run.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, across enterprise middleware and cloud-native platforms. The <strong>division</strong> follows bounded contexts rather than layering: services own their data, no database is shared, and the <strong>event-driven backbone</strong> between contexts replaces the synchronous chain that would otherwise couple their availability. <strong>Synchronous</strong> calls are used only where the caller genuinely needs the answer now, and every one carries a deadline and a retry budget, because a slow dependency without a deadline becomes thread-pool exhaustion in the caller. <strong>Asynchronous</strong> messaging carries the rest: a schema, a version and an ordering key, partitioned by aggregate id so ordering is per entity rather than global, with the consumer acknowledging only after the side effect is committed. <strong>Reliability</strong> is a pipeline rather than a collection of tricks &mdash; timeout, bulkhead, retry with jitter, circuit breaker, dead-letter queue &mdash; whose <em>order</em> is the design, wrapped around consumers that are idempotent by construction because at-least-once is a property of the transport and cannot be negotiated away. <strong>Operability</strong> is what makes it real: stateless services, scale signals that predict load rather than merely exist (queue depth for consumers, not CPU), rollouts that drain in-flight work, and one correlation id following a request across every hop. The failures I plan for are the unglamorous ones: messages arriving twice, arriving out of order, a consumer killed mid-message, and a dependency that is slow rather than down.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Concern</th><th>Decision</th><th>What it prevents</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Division</td><td>bounded context per service, its own data, events between contexts</td><td>the distributed monolith: services that must be deployed together</td></tr>
+          <tr><td>Synchronous calls</td><td>a deadline and a small retry budget on every outbound call</td><td>thread-pool exhaustion in the caller when a dependency slows down</td></tr>
+          <tr><td>Asynchronous messaging</td><td>schema plus version plus ordering key, partitioned by aggregate id</td><td>assuming global ordering, which is a guarantee no broker gives</td></tr>
+          <tr><td>Delivery semantics</td><td>assume at-least-once, dedup by message id in the same transaction as the effect</td><td>duplicate side effects after a redelivery</td></tr>
+          <tr><td>Failure handling</td><td>timeout, bulkhead, jittered retry, breaker, DLQ in that order</td><td>retry storms after an outage and one poison message blocking a partition</td></tr>
+          <tr><td>Operability</td><td>stateless services, load-predicting scale signals, graceful shutdown, one correlation id</td><td>backlogs nobody can see and requests lost during a rollout</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live distributed-systems workflow proof</h2>
+    <p>The running component below changes its concern/result view through real event binding. Select a concern to see the design, the reasoning behind it, and the evidence that it holds.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="distributed-workflow" id="distributed-workflow" data-operation="topology" aria-labelledby="dist-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>DISTRIBUTED SYSTEMS WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="dist-workflow-title">Choose a concern of the distributed design</h3>
+          <p>Select a concern to inspect the design, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Distributed system concerns">
+            <button type="button" class="active" data-op="topology" aria-pressed="true">Architecture styles</button>
+            <button type="button" data-op="sync" aria-pressed="false">Synchronous contracts</button>
+            <button type="button" data-op="async" aria-pressed="false">Asynchronous messaging</button>
+            <button type="button" data-op="resilience" aria-pressed="false">Reliability engineering</button>
+            <button type="button" data-op="operability" aria-pressed="false">Scale and observability</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="dist-command">$ three bounded contexts as services &middot; event-driven backbone between them &middot; Oracle SOA on-premises &harr; AWS in the cloud</code>
+            <p data-testid="dist-effect">Microservices where a bounded context and its owning team justify the split, an event-driven backbone between contexts instead of synchronous chains, and an explicit hybrid path where on-premises middleware has to coexist with cloud services. The style follows the boundary rather than the fashion.</p>
+            <pre data-testid="dist-output">services owning exactly one bounded context: 3
+shared database between services: 0
+on-prem &harr; cloud integration paths: 2 (message bridge, API gateway)</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the distributed design buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Let the boundary decide the service rather than the org chart, and give each service its own data so no one is tempted into a distributed join; put a deadline on every synchronous call, because an unbounded wait is a resource leak with a dependency attached; state the delivery guarantee explicitly and assume at-least-once, since exactly-once is not on offer; order the resilience strategies deliberately, because a retry outside its breaker and its bulkhead amplifies an outage instead of absorbing it; make every consumer idempotent and version-aware so redelivery and reordering are ordinary events; and require each alert to have a dashboard, a runbook and a named owner, because an alert nobody can act on is noise that trains the team to ignore the page.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q34:</strong> this page covers distributed systems in general &mdash; division, communication, resilience and operability. Consistency across services, compensating actions and sagas are the subject of the <a href="q35.html">Q35 question</a>, and the infrastructure side (IaC, CI identity, budgets) is on the <a href="q12-proof.html">Q12 proof page</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the resilience pipeline with its idempotent consumer, the event contract the consumers see, and the running topology with its scale signals and observability.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q34 distributed systems proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Divides the system by bounded context and keeps data ownership per service.</li>
+      <li>Bounds every synchronous call with a deadline and a small retry budget.</li>
+      <li>Shows an interactive proof of choosing a concern and reading the evidence.</li>
+      <li>States the delivery and ordering guarantees, and makes consumers idempotent and version-aware.</li>
+      <li>Describes how the system is scaled and observed, not only how it is written.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q33.html">&larr; Question 33 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q34.html">Question 34 answer</a>
+    <a href="q35.html">Question 35 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 34 proof &middot; answers/q34-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/distributed-workflow.js"></script>
+<script src="../assets/lab/q34-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

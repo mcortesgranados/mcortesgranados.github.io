@@ -1,0 +1,119 @@
+{
+  "$comment": "Q34 — the running topology. What is asserted here is not the technology list but the operational properties: which signal each service scales on, what a rollout does to in-flight work, where the synchronous deadlines are, and which signals are actually watched. A service missing any of those is not operable, whatever it is written in.",
+  "topologyVersion": "3.4.0",
+  "region": "us-east-1 + on-premises (bog-dc1)",
+  "entryPoints": {
+    "gateway": {
+      "kind": "api-gateway",
+      "owns": ["tls termination", "rate limiting", "request size limits", "correlation id injection", "routing"],
+      "timeoutMs": 15000,
+      "correlationHeader": "x-correlation-id"
+    },
+    "messageBridge": {
+      "kind": "bridge",
+      "purpose": "on-premises Oracle SOA queue \u2194 cloud topics, so the on-prem path keeps working while services migrate",
+      "direction": "bidirectional",
+      "guarantee": "at-least-once, per-aggregate ordering preserved through the bridge"
+    }
+  },
+  "services": [
+    {
+      "name": "orders-api",
+      "boundedContext": "orders",
+      "runs": ["container", "eks"],
+      "stateless": true,
+      "replicas": { "min": 3, "max": 12 },
+      "scaling": { "signal": "requests-per-second + cpu", "targetUtilization": 65 },
+      "probes": {
+        "liveness": "/health/live (no dependencies: process is up)",
+        "readiness": "/health/ready (checks the database and the broker, so traffic only lands on a pod that can serve)"
+      },
+      "shutdown": {
+        "gracePeriodSeconds": 30,
+        "behaviour": "stop accepting, drain in-flight requests, commit or roll back, then exit",
+        "inFlightRequestsDroppedOnRollout": 0
+      },
+      "stateInMemory": ["nothing that must survive a pod: no session, no cache of record"],
+      "outboundContracts": [
+        { "target": "payments-api", "protocol": "grpc", "deadlineMs": 1000, "retryBudget": 2, "circuitBreaker": true },
+        { "target": "inventory-api", "protocol": "grpc", "deadlineMs": 800, "retryBudget": 2, "circuitBreaker": true },
+        { "target": "billing-api", "protocol": "rest", "deadlineMs": 2000, "retryBudget": 1, "circuitBreaker": true }
+      ],
+      "publishes": ["orders.events.v2"]
+    },
+    {
+      "name": "billing-consumer",
+      "boundedContext": "billing",
+      "runs": ["container", "eks"],
+      "stateless": true,
+      "replicas": { "min": 2, "max": 10 },
+      "scaling": {
+        "signal": "queue-depth",
+        "mechanism": "KEDA on consumer lag, not CPU",
+        "rationale": "CPU stays low while consumers stall on a slow dependency; lag is the signal that predicts the backlog"
+      },
+      "consumer": {
+        "topic": "orders.events.v2",
+        "consumerGroup": "billing",
+        "acknowledge": "after the local commit",
+        "idempotent": true,
+        "dedupKey": "x-message-id",
+        "orderingKey": "x-aggregate-id",
+        "staleMessagePolicy": "skip when x-aggregate-version is not greater than the last applied version"
+      },
+      "shutdown": {
+        "gracePeriodSeconds": 60,
+        "behaviour": "stop fetching, finish the current message, commit or leave unacked, then exit",
+        "messageLostOnRollout": 0
+      },
+      "deadLetter": {
+        "destination": "orders.events.v2.dlq",
+        "alertAbove": 0,
+        "alertWindowMinutes": 5
+      }
+    },
+    {
+      "name": "analytics-projector",
+      "boundedContext": "analytics",
+      "runs": ["container", "eks"],
+      "stateless": true,
+      "replicas": { "min": 1, "max": 6 },
+      "scaling": { "signal": "consumer lag" },
+      "consumer": {
+        "topic": "orders.events.v2",
+        "consumerGroup": "analytics",
+        "acknowledge": "after the projection is written",
+        "idempotent": true,
+        "replayable": "can rebuild the entire projection from topic retention, which is why the payload is a fact and not an instruction"
+      },
+      "reads": { "store": "read-replica + partitioned warehouse table", "consistency": "eventually consistent, lag alerted above 60 s" }
+    }
+  ],
+  "onPremises": {
+    "notes": "the Oracle SOA / OSB integration is reached through the bridge, not called directly by cloud services",
+    "services": [
+      { "name": "soa-integration", "protocol": "soap-over-jms", "reachableFromCloud": "only through messageBridge" }
+    ]
+  },
+  "observability": {
+    "correlationId": "injected at the gateway, propagated through every synchronous call and every message header",
+    "tracing": { "instrumentation": "OpenTelemetry", "sampling": "10% baseline, 100% on error, exporter: OTLP" },
+    "logging": { "format": "structured", "fields": ["correlationId", "service", "version", "tenant", "latency", "outcome"] },
+    "signalsPerService": ["latency p50/p95/p99", "error rate", "saturation", "queue depth or in-flight requests"],
+    "slos": [
+      { "service": "orders-api", "slo": "99.9% of requests under 300 ms", "budgetWindowDays": 30, "alertOn": "burn rate > 2 over 1 h" },
+      { "service": "billing-consumer", "slo": "99% of events processed within 30 s", "budgetWindowDays": 30, "alertOn": "lag > 5000 for 10 min" }
+    ],
+    "alertsRequire": ["a dashboard", "a runbook", "a named owner"],
+    "alertsWithoutRunbook": 0
+  },
+  "failureModel": {
+    "assumed": [
+      "the network drops messages and delays them arbitrarily",
+      "a consumer will be killed mid-message",
+      "a dependency will be slow rather than down, which is the harder case",
+      "a clock will disagree between services"
+    ],
+    "notAssumed": ["exactly-once delivery", "global ordering", "a synchronous call that always answers", "a shared transaction"]
+  }
+}
