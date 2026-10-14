@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q12 proof &middot; Cloud platforms: AWS, Azure, GCP and Oracle Cloud</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q12 &middot; Cloud proof</p>
+  <h1>Have you worked with cloud platforms such as Azure, AWS, or GCP? Please specify the platforms and number of years of experience.</h1>
+  <p class="subtitle">A runnable review of how a service is actually put into production: infrastructure declared as code, identity in the pipeline, observability wired to SLOs, and scaling set together with its cost.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live cloud workflow</span>
+    <span class="tag">AWS 6+ &middot; Azure 4+ &middot; GCP 3+ yrs</span>
+    <a class="tag live-jump" href="#live-cloud-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q12.html">Question 12 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>12. Cloud platforms and years of experience</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; AWS 6+ yrs (certified), Azure 4+ yrs (AZ-204/500) and GCP 3+ yrs (cloud architect).&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line lists platforms and years but not what the work consists of. This page is the separate, detailed version: it shows the delivery path on the platform &mdash; code, pipeline identity, runtime choice, observability and cost &mdash; rather than a service inventory.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes &mdash; <strong>AWS</strong> for 6+ years (certified across Solutions Architect Professional, Security, Database, DevOps Engineer Professional and Advanced Networking), <strong>Azure</strong> for 4+ years (AZ-204 and AZ-500) and <strong>GCP</strong> for 3+ years, plus Oracle Cloud exposure. The work covers the full path to production: VPC and network design, IAM and least privilege, containers on ECS/EKS and AKS, serverless for event-shaped work, managed data services (RDS, DynamoDB, DocumentDB, Neptune, Cosmos DB, Cloud SQL/BigQuery), messaging (SQS/SNS, EventBridge, Service Bus, Pub/Sub), infrastructure as code with CDK, CloudFormation and Terraform, and pipelines that authenticate through OIDC instead of long-lived keys.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Decision</th><th>Where it is applied</th><th>Why it is done this way</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Infrastructure as code</td><td>CDK / CloudFormation / Terraform</td><td>Environments are reproducible and reviewed; no console edit becomes drift.</td></tr>
+          <tr><td>Runtime shape</td><td>ECS/EKS, AKS, Cloud Run, Lambda</td><td>Functions for event work, containers for steady services, managed data behind them.</td></tr>
+          <tr><td>Pipeline identity</td><td>OIDC federation to a short-lived role</td><td>No static cloud credential exists in the repo or in CI variables.</td></tr>
+          <tr><td>Observability</td><td>CloudWatch / App Insights / Cloud Monitoring + OpenTelemetry</td><td>Dashboards, traces and SLO alarms ship with the deployable unit.</td></tr>
+          <tr><td>Network &amp; perimeter</td><td>private subnets, security groups, WAF, private endpoints</td><td>Data services are never reachable from the public internet.</td></tr>
+          <tr><td>Scaling &amp; cost</td><td>auto scaling with budgets and alarms</td><td>Growth is automatic and its cost is visible before the invoice.</td></tr>
+          <tr><td>Portability</td><td>same architecture mapped across AWS, Azure and GCP</td><td>Multi-cloud experience is the ability to re-map the design, not to memorise service names.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-cloud-title">
+    <h2 id="live-cloud-title">Live cloud delivery workflow proof</h2>
+    <p>The running component below changes its decision/result view through real event binding. Select a step to see the platform decision, the reasoning behind it, and the measurement the environment reports.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="cloud-workflow" id="cloud-workflow" data-operation="iac" aria-labelledby="cloud-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>CLOUD WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="cloud-workflow-title">Choose a delivery step</h3>
+          <p>Select a step to inspect the platform decision, the reasoning and the measured result.</p>
+          <div class="task-buttons" aria-label="Cloud delivery steps">
+            <button type="button" class="active" data-op="iac" aria-pressed="true">Infrastructure as code</button>
+            <button type="button" data-op="compute" aria-pressed="false">Choose the runtime</button>
+            <button type="button" data-op="pipeline" aria-pressed="false">Identity in CI/CD</button>
+            <button type="button" data-op="observability" aria-pressed="false">Observability &amp; alarms</button>
+            <button type="button" data-op="scale" aria-pressed="false">Scale &amp; cost</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="cloud-command">$ cdk deploy  /  terraform apply   &mdash; same stack for dev, staging and prod</code>
+            <p data-testid="cloud-effect">Environments are declared as code, so a change is reviewed in a pull request, reproducible in another account, and never an undocumented console edit.</p>
+            <pre data-testid="cloud-output">stack v42 deployed to dev + prod
+manual changes pending: 0  &middot;  drift detected: none</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What "cloud experience" means in practice</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Design the network and the identity model before the compute; keep every resource in code with the same stack promoted per environment; let the pipeline assume a role through OIDC instead of storing keys; put data services in private subnets; ship dashboards, traces and SLO alarms with the service; and set the scaling policy next to the budget alarm. Then the platform choice becomes an implementation detail rather than a lock-in.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q12:</strong> this page covers delivery on the platforms and the architecture around it. Certification-by-certification service inventories, landing-zone re-design for an existing enterprise estate and multi-region active/active topology are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of the same decisions.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q12 cloud proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names AWS, Azure and GCP with the years and the certifications behind each.</li>
+      <li>Distinguishes infrastructure, runtime choice, pipeline identity, observability and cost.</li>
+      <li>Shows an interactive proof of choosing a delivery step and reading its measurement.</li>
+      <li>Keeps identity keyless (OIDC) and data services off the public internet.</li>
+      <li>Defers service inventories, landing-zone redesign and multi-region topology to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q11.html">&larr; Question 11 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q12.html">Question 12 answer</a>
+    <a href="q13.html">Question 13 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 12 proof &middot; answers/q12-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/cloud-workflow.js"></script>
+<script src="../assets/lab/q12-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

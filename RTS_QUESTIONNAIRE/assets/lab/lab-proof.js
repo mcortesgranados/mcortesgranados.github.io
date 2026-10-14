@@ -60,7 +60,9 @@
       'function trigger begin commit rollback transaction isolation level read write snapshot with as case when then else end union ' +
       'all distinct top explain analyze vacuum int bigint smallint numeric decimal varchar nvarchar char text date timestamp boolean ' +
       'jsonb primary key foreign references default constraint cascade statistics fullscan').split(' '),
-    json: 'true false null'.split(' ')
+    json: 'true false null'.split(' '),
+    yaml: ('name on push branches workflow_dispatch permissions id-token contents concurrency group cancel-in-progress jobs ' +
+      'runs-on steps uses with run needs environment if always strategy matrix timeout-minutes outputs defaults').split(' ')
   };
 
   // The identifier/string/number part is shared; only the line-comment syntax differs
@@ -68,6 +70,8 @@
   var TOKEN_BODY = "('(?:[^'\\\\]|\\\\.)*'|\"(?:[^\"\\\\]|\\\\.)*\")|\\b(0x[0-9a-fA-F]+|\\d+(?:\\.\\d+)?)\\b|(@[A-Za-z_]\\w*)|\\b([A-Za-z_$][\\w$]*)\\b";
   var TOKEN_RE = new RegExp('(\\/\\/[^\\n]*)|' + TOKEN_BODY, 'g');
   var SQL_TOKEN_RE = new RegExp('(--[^\\n]*)|' + TOKEN_BODY, 'g');
+  var YAML_TOKEN_RE = new RegExp('(#[^\\n]*)|' + TOKEN_BODY, 'g');
+  var TOKEN_PATTERNS = { sql: SQL_TOKEN_RE, yaml: YAML_TOKEN_RE };
 
   function escapeHtml(value) {
     return value.replace(/[&<>]/g, function (ch) {
@@ -83,7 +87,7 @@
 
   function tokenise(text, language) {
     var keywords = KEYWORDS[language] || [];
-    var pattern = language === 'sql' ? SQL_TOKEN_RE : TOKEN_RE;
+    var pattern = TOKEN_PATTERNS[language] || TOKEN_RE;
     var out = '';
     var lastIndex = 0;
     var match;

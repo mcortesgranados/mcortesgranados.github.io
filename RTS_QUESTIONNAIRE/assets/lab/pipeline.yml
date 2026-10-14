@@ -1,0 +1,56 @@
+# Deploy pipeline: no long-lived cloud credentials, and a rollback that is not manual.
+name: api-deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  id-token: write     # OIDC federation: the runner assumes a role, no access keys exist
+  contents: read
+
+concurrency:
+  group: api-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet restore
+      - run: dotnet build --no-restore --configuration Release
+      - run: dotnet test --no-build --configuration Release --logger "trx;LogFileName=results.trx"
+      - run: dotnet list package --vulnerable --include-transitive
+
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: prod                  # protected environment: approval recorded in the audit log
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/gha-api-deploy
+          aws-region: us-east-1
+          role-duration-seconds: 900   # 15 minutes, least privilege per environment
+      - run: ./scripts/push-image.sh "${{ github.sha }}"   # immutable tag per commit
+      - run: ./infra/deploy.sh prod "${{ github.sha }}"
+
+      - name: Smoke test the deployed revision
+        run: ./scripts/smoke.sh "https://api.example.com/health" --expect 200 --timeout 60
+
+      - name: Roll back on failed smoke test
+        if: failure()
+        run: ./infra/rollback.sh prod        # previous task definition, not a rebuild
+
+  notify:
+    needs: [verify, deploy]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - run: ./scripts/notify.sh "${{ job.status }}" "#team-api"
