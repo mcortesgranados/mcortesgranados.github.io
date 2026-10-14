@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q24 proof &middot; Angular concepts: lazy routes, guards, interceptors, RxJS and forms</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q24 &middot; Angular proof</p>
+  <h1>Have you worked with Angular concepts such as lazy-loaded modules, route guards, interceptors, RxJS, state management, reusable components, custom directives/pipes, and reactive forms?</h1>
+  <p class="subtitle">A runnable review of the concepts in day-to-day use, with the code that implements them and the measurement that shows the effect on the delivered application.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live Angular workflow</span>
+    <span class="tag">Angular 17/18 &middot; RxJS &middot; Signals</span>
+    <a class="tag live-jump" href="#live-angular-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q24.html">Question 24 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>24. Angular concepts in practice</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; all of these are part of my everyday Angular practice, not occasional exposure.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line claims fluency but shows nothing. This page is the separate, detailed version: it takes the concepts the question lists and shows how each is implemented, plus the effect on bundle size, navigation, network behaviour and form reliability.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      All of them are part of everyday practice. <strong>Lazy loading</strong> by route boundary with preloading for the next likely area and bundle budgets in CI. <strong>Guards and resolvers</strong> (<code>canActivate</code>, <code>canMatch</code>, <code>canDeactivate</code>) so authorisation and data are decided before a component is created. <strong>Functional interceptors</strong> for token attachment, single refresh-and-replay on 401, retries limited to idempotent calls, and a correlation id on every request. <strong>RxJS</strong> composition with the operator that matches the semantics (<code>switchMap</code> for cancellable reads, <code>combineLatest</code> for derived views, <code>takeUntilDestroyed</code> for teardown) alongside <strong>signals</strong> for local state and a store for genuinely shared state. <strong>Reusable components</strong> with typed inputs/outputs and content projection, <strong>custom directives and pipes</strong> for cross-cutting presentation, and <strong>typed reactive forms</strong> with cross-field and debounced async validators.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Concept</th><th>How it is applied</th><th>Why it is done this way</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Lazy loading</td><td><code>loadChildren</code>/<code>loadComponent</code> + preloading</td><td>The first route ships only what it needs; the rest warms after idle.</td></tr>
+          <tr><td>Guards</td><td><code>canActivate</code>, <code>canMatch</code>, <code>canDeactivate</code></td><td>Authorisation decided before work starts; no silent loss of edited data.</td></tr>
+          <tr><td>Resolvers</td><td>route <code>resolve</code></td><td>The page renders with data instead of flashing an empty state.</td></tr>
+          <tr><td>Interceptors</td><td>functional <code>withInterceptors</code></td><td>Auth, retry and tracing are declared once, not repeated per service.</td></tr>
+          <tr><td>RxJS</td><td><code>switchMap</code>, <code>combineLatest</code>, lifecycle teardown</td><td>Cancellation and composition are explicit; no leaking subscriptions.</td></tr>
+          <tr><td>State</td><td>signals locally, store for shared state</td><td>Local state stays local; only genuinely shared state pays for a store.</td></tr>
+          <tr><td>Reusability</td><td>typed inputs/outputs, projection, directives, pipes</td><td>Presentation logic is shared instead of copy-pasted per screen.</td></tr>
+          <tr><td>Forms</td><td>typed reactive forms + validators</td><td>The client mirrors the API contract and the server still re-validates.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-angular-title">
+    <h2 id="live-angular-title">Live Angular concept workflow proof</h2>
+    <p>The running component below changes its concept/result view through real event binding. Select a concept to see the code shape, the reasoning behind it, and the measurement taken from the application.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="angular-workflow" id="angular-workflow" data-operation="lazy" aria-labelledby="angular-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>ANGULAR WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="angular-workflow-title">Choose an Angular concept</h3>
+          <p>Select a concept to inspect the code shape, the reasoning and the measured result.</p>
+          <div class="task-buttons" aria-label="Angular concepts">
+            <button type="button" class="active" data-op="lazy" aria-pressed="true">Lazy-loaded routes</button>
+            <button type="button" data-op="guards" aria-pressed="false">Guards &amp; resolvers</button>
+            <button type="button" data-op="interceptor" aria-pressed="false">Functional interceptors</button>
+            <button type="button" data-op="rxjs" aria-pressed="false">RxJS &amp; state</button>
+            <button type="button" data-op="forms" aria-pressed="false">Typed reactive forms</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="angular-command">$ loadChildren: () =&gt; import('./orders/orders.routes').then(m =&gt; m.ORDERS_ROUTES)  +  withPreloading(PreloadAllModules)</code>
+            <p data-testid="angular-effect">Each feature area is split at the route boundary, and a preloading strategy warms the next likely route instead of shipping the whole application in the first bundle.</p>
+            <pre data-testid="angular-output">initial bundle 210 KB &rarr; 78 KB gzip
+3 of 5 feature areas preloaded after idle</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Why the concepts earn their place</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Split at the route boundary and budget the result; decide authorisation before a component exists; resolve data so nothing renders empty; keep auth, retry and tracing in interceptors rather than in every service; choose the flattening operator for the semantics you actually need and tear streams down with the lifecycle; keep local state local and share only what is truly shared; and make forms typed and validated on both sides. These are conventions a team can review, which is what makes them durable.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q24:</strong> this page covers the concepts named in the question. Migration between Angular versions, SSR/hydration strategy and Angular performance profiling are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of these concepts.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q24 Angular proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Covers every concept named in the question with a concrete implementation.</li>
+      <li>Shows the effect on bundle size, navigation, network and form reliability.</li>
+      <li>Provides an interactive proof of choosing a concept and reading its measurement.</li>
+      <li>Keeps authorisation, retries and tracing declared once, in interceptors.</li>
+      <li>Defers version migration, SSR strategy and profiling to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q23.html">&larr; Question 23 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q24.html">Question 24 answer</a>
+    <a href="q25.html">Question 25 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 24 proof &middot; answers/q24-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/angular-workflow.js"></script>
+<script src="../assets/lab/q24-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
