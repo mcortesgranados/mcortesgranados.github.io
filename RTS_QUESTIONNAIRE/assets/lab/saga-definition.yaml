@@ -1,0 +1,114 @@
+# Q35 — the fulfilment saga declared as data.
+#
+# The definition is checked in and reviewed like code, because a saga that exists
+# only as an if-tree in a handler is a process nobody can read end to end. The
+# registry below is also what the reconciliation job reads: it has to know which
+# steps exist and which are reversible in order to compare the two sides of a
+# business transaction.
+#
+# Two rules are enforced mechanically by the loader:
+#   - every step that is compensable: true must declare a compensation
+#   - a step that is compensable: false must appear after the last step that can fail
+version: 1
+name: order-fulfilment
+owner: orders-team
+trigger:
+  event: orders.events.v2 / OrderConfirmed
+  idempotencyKey: "saga:{{orderId}}:fulfilment"
+  semanticLock:
+    aggregate: order
+    token: "{{sagaId}}"
+    timeoutSeconds: 300
+    onTimeout: compensate
+    rationale: "the lock is held on one aggregate with an expiry, never across services"
+
+steps:
+  - order: 1
+    name: reserve-stock
+    participant: inventory-service
+    action: POST /reservations
+    compensation: DELETE /reservations/{reference}
+    idempotent: true
+    timeoutSeconds: 5
+    retry: { maxAttempts: 3, backoff: exponential, jitter: true }
+    compensable: true
+    notes: "reservation reference is persisted so the release can always be addressed"
+
+  - order: 2
+    name: charge-payment
+    participant: payments-service
+    action: POST /charges
+    compensation: POST /charges/{reference}/refund
+    idempotencyKeyHeader: Idempotency-Key
+    idempotent: true
+    timeoutSeconds: 8
+    retry: { maxAttempts: 2, backoff: exponential, jitter: true }
+    compensable: true
+    notes: "the refund is keyed on the original charge, so a duplicate refund is rejected rather than credited"
+
+  - order: 3
+    name: book-shipment
+    participant: shipping-service
+    action: POST /shipments
+    compensation: POST /shipments/{reference}/cancel
+    idempotent: true
+    timeoutSeconds: 10
+    retry: { maxAttempts: 2, backoff: exponential, jitter: true }
+    compensable: true
+
+  - order: 4
+    name: notify-customer
+    participant: notification-service
+    action: POST /emails/order-fulfilment-started
+    compensation: null
+    idempotent: true
+    timeoutSeconds: 5
+    retry: { maxAttempts: 3, backoff: linear, jitter: false }
+    compensable: false
+    mustBeLast: true
+    rationale: |
+      An email cannot be unsent, so this step runs only after the last point at which
+      the saga can still fail. Failure here does not compensate the saga: it is
+      retried and, if it never succeeds, raised as a notification defect — the order
+      is fulfilled, the customer just did not hear about it.
+
+compensationPolicy:
+  order: reverse
+  onFailure: queue-for-reconciliation
+  boundedBy: 60s total
+  rationale: "a compensation that cannot complete is a divergence somebody has to see, not an error to swallow"
+  retriedCompensations: { maxAttempts: 5, backoff: exponential, jitter: true }
+
+timeoutPolicy:
+  participantTimeout: fromStep
+  sagaLingerMinutes: 5
+  sweep: every 1 min
+  onStalled: compensate with a bounded deadline
+  rationale: "an unbounded wait turns a saga into an orphan holding a lock nobody releases"
+
+consistency:
+  model: eventual
+  readYourWritesFor: ["order status page", "payment confirmation screen"]
+  mechanism: "route the read to the primary for the writing session, or echo the pending state in the response"
+  reconciliation:
+    schedule: "02:00 daily, plus ad hoc per order"
+    compares:
+      - "saga state vs payments-service ledger"
+      - "saga state vs inventory reservations"
+      - "saga state vs shipments"
+    repairs:
+      - "re-run a compensation that never completed"
+      - "flag an order that is fulfilled but has no charge"
+    alertOnDivergence: true
+    divergencesLastQuarter: 3
+
+boundaries:
+  twoPhaseCommit:
+    allowedInside: "a single transactional resource (one database, or tightly coupled resources in one TransactionScope)"
+    forbiddenAcross: "a service boundary"
+    rationale: |
+      Across services, 2PC makes every participant's availability depend on the
+      slowest one and holds locks for the duration of a network call. Compensation
+      plus idempotency trades a stronger guarantee for an achievable one: the system
+      converges, and the divergences are visible.
+  transactionsInsideALocalStep: "ordinary ACID, as on the Q35 proof page's .NET implementation"

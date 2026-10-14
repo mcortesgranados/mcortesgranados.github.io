@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q35 proof &middot; Distributed transactions: saga, compensation, outbox and idempotent effects</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q35 &middot; Distributed transactions proof</p>
+  <h1>Have you worked on systems involving distributed transactions?</h1>
+  <p class="subtitle">How consistency is achieved across services without holding a lock across them: the saga and its compensating actions, the transactional outbox, idempotent effects, and the reconciliation that catches whatever escapes.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live consistency workflow</span>
+    <span class="tag">Saga &middot; Outbox &middot; Compensation &middot; Idempotency</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q35.html">Question 35 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>35. Distributed transactions</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; I have designed and implemented consistency across multiple services and databases, using saga-style coordination rather than fragile two-phase commit.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line names the pattern and the rejection. This page is the separate, detailed version: it shows the saga with its state and compensations, why exactly-once is a property of the effect rather than of the delivery, how the outbox removes the need for a distributed lock, and the reconciliation job that exists because compensation is best-effort by nature.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, and the honest framing is that I do not use distributed transactions across service boundaries at all. Across services I use a <strong>saga</strong>: a long-running process modelled as a sequence of local transactions, each paired with a <strong>compensating action</strong> designed at the same time as the step rather than after the incident. Orchestration when the process has more than a handful of steps or a business owner who needs to read it, choreography when the flow is genuinely simple and the participants are already event-driven. The saga state is persisted after every step, so a process that dies mid-way resumes rather than silently stopping, and a participant timeout is treated as a failure because an unbounded wait turns a saga into an orphan holding a lock nobody releases. The <strong>transactional outbox</strong> is what makes the forward path reliable without a distributed lock: the state change and the outgoing event commit in one local transaction, and a relay publishes afterwards. <strong>Exactly-once is a property of the effect, not of the delivery</strong> &mdash; the transport is at-least-once, so the effect is made idempotent three times over with a client key, a unique constraint as the arbiter, and a conditional write. Finally I accept <strong>eventual consistency</strong> and engineer around it: read-your-writes where a user would notice the lag, a reconciliation job that compares both sides of every process and repairs the divergences, and a DLQ with an owner. Two-phase commit still has a place inside a single transactional resource; across a service boundary it would make every participant's availability depend on the slowest one.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Concern</th><th>Mechanism</th><th>What it buys</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Multi-step process</td><td>saga, orchestrated or choreographed, with persisted state</td><td>a business process that resumes instead of stopping halfway</td></tr>
+          <tr><td>Undoing a step</td><td>a compensation designed with the step, run in reverse order</td><td>semantic rollback without a lock held across services</td></tr>
+          <tr><td>State change plus event</td><td>transactional outbox, committed in one local transaction</td><td>no lost event and no phantom event, without 2PC</td></tr>
+          <tr><td>Retries and redelivery</td><td>idempotency key, unique constraint, conditional write</td><td>exactly-once effects on an at-least-once transport</td></tr>
+          <tr><td>User-visible lag</td><td>read-your-writes routing, pending state echoed in the response</td><td>eventual consistency the customer never has to notice</td></tr>
+          <tr><td>Whatever escapes</td><td>reconciliation job with an alert, plus a DLQ with a named owner</td><td>divergence becomes a repaired incident, not a customer complaint</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live consistency workflow proof</h2>
+    <p>The running component below changes its mechanism/result view through real event binding. Select a mechanism to see how it works, the reasoning behind the choice, and the evidence that it holds.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="distributed-tx-workflow" id="distributed-tx-workflow" data-operation="saga" aria-labelledby="saga-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>DISTRIBUTED TRANSACTIONS WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="saga-workflow-title">Choose a consistency mechanism</h3>
+          <p>Select a mechanism to inspect how it works, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Consistency mechanisms">
+            <button type="button" class="active" data-op="saga" aria-pressed="true">Saga: orchestration vs choreography</button>
+            <button type="button" data-op="compensation" aria-pressed="false">Compensating actions</button>
+            <button type="button" data-op="outbox" aria-pressed="false">Transactional outbox</button>
+            <button type="button" data-op="idempotency" aria-pressed="false">Idempotent effects</button>
+            <button type="button" data-op="consistency" aria-pressed="false">Consistency and 2PC</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="saga-command">$ orchestration: OrderFulfilmentSaga drives 5 steps &middot; choreography: each service reacts to the previous event</code>
+            <p data-testid="saga-effect">A long-running business process spanning payment, stock, shipping and notification is modelled as a sequence of local transactions, each paired with a compensating action, with no lock held across services. Orchestration keeps the process visible in one place; choreography removes the coordinator but makes the flow emergent, so I orchestrate when there are more than three steps or a business owner who needs to read the process.</p>
+            <pre data-testid="saga-output">steps in the fulfilment saga: 5
+distributed locks held across services: 0
+services that must be available at the same time: 0
+process readable in one file: yes (orchestration)</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the approach buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Design the compensation with the step, because reverse-engineering the undo during an incident is how money gets lost; persist the saga state after every step, since a process that cannot resume is a process that silently stops; treat a participant timeout as a failure, because waiting forever is how a lock is never released; push non-compensable steps after the last point of failure, since an email cannot be unsent; make the effect idempotent three times over and let the database be the arbiter, because the transport is at-least-once no matter what the documentation promises; and keep a reconciliation job with a real alert, because eventual consistency without reconciliation is just hoping.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q35:</strong> this page covers consistency <em>across</em> services &mdash; saga, compensation, outbox and idempotent effects. Comparing that with transactions inside a single application or database is the subject of the <a href="q36.html">Q36 question</a>, the messaging and resilience machinery around it is on the <a href="q34-proof.html">Q34 proof page</a>, and the unit-of-work boundary inside one service is on the <a href="q32-proof.html">Q32 proof page</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the orchestrated saga with its compensations, the saga declared as reviewable data, and the outbox relay with the reconciliation job.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q35 distributed transactions proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>States the consistency model and the mechanism that delivers it.</li>
+      <li>Pairs every forward step with a compensating action, and orders non-compensable steps last.</li>
+      <li>Shows an interactive proof of choosing a mechanism and reading the evidence.</li>
+      <li>Makes effects idempotent and names the arbiter, rather than relying on delivery guarantees.</li>
+      <li>Includes reconciliation and an owner for what escapes, and says where 2PC still applies.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q34.html">&larr; Question 34 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q35.html">Question 35 answer</a>
+    <a href="q36.html">Question 36 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 35 proof &middot; answers/q35-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/distributed-tx-workflow.js"></script>
+<script src="../assets/lab/q35-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
