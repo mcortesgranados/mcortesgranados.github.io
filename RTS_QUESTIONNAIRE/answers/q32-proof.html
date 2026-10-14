@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q32 proof &middot; Repository and Unit of Work: contract, transactional boundary and composition</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q32 &middot; Repository &amp; Unit of Work proof</p>
+  <h1>Have you implemented design patterns such as Repository and Unit of Work?</h1>
+  <p class="subtitle">A runnable review of both patterns as they are actually implemented: the repository contract that expresses intent, the transactional boundary per use case, how they compose with CQRS, specifications and decorators, and where the patterns should stop.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live repository &amp; UoW workflow</span>
+    <span class="tag">.NET &middot; Java &middot; Python</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q32.html">Question 32 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>32. Repository and Unit of Work</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; Repository and Unit of Work are patterns I have implemented across .NET, Java and Python codebases.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line claims the patterns and the three stacks without showing either. This page is the separate, detailed version: it shows the repository contract, the transactional boundary, how the two patterns compose with CQRS, the specification pattern and decorators, and the cases where adding a repository would make the code worse.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, in all three stacks, and the mechanics differ while the intent does not. <strong>Repository</strong>: the interface is declared by the domain and named for the question being asked (<code>GetActiveByPlanAsync</code>), never for the mechanism; complex filtering becomes a named <strong>specification</strong> instead of a leaking <code>IQueryable</code>; and the implementation is the only place that names EF Core, Spring Data JPA or SQLAlchemy. <strong>Unit of Work</strong>: one transactional boundary per use case &mdash; an explicit <code>SaveChangesAsync</code> in EF Core, the proxied <code>@Transactional</code> method and its persistence context in Spring, a session wrapped in a context manager in SQLAlchemy &mdash; with the outbox row written inside that same transaction so an event can never be published for a change that rolled back. The two compose with <strong>CQRS</strong> (write side through aggregates, read side through projections), with <strong>decorators</strong> for caching and logging so cross-cutting code never enters the repository, and with <strong>domain events</strong> raised inside the transaction but dispatched only after the commit. And they stop where they stop earning their place: no generic <code>IRepository&lt;T&gt;</code> CRUD over every entity, no repository wrapping a repository, no forcing a reporting screen through the domain model, and no abstraction over an ORM that is already an abstraction.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Aspect</th><th>.NET</th><th>Java / Spring</th><th>Python</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Repository</td><td>domain interface + EF Core implementation</td><td>port interface + Spring Data / JPA adapter</td><td><code>Protocol</code> + SQLAlchemy implementation</td></tr>
+          <tr><td>Unit of work</td><td><code>DbContext</code> change tracking + one <code>SaveChanges</code></td><td>proxied <code>@Transactional</code> method and persistence context</td><td>session wrapped in a context manager</td></tr>
+          <tr><td>Query variation</td><td><code>ISpecification&lt;T&gt;</code> to an expression tree</td><td>Spring Data <code>Specification</code></td><td>a <code>select()</code>-returning specification object</td></tr>
+          <tr><td>Cross-cutting</td><td>decorator around the interface, registered in the composition root</td><td>AOP advice or an explicit decorator bean</td><td>decorator implementing the same protocol</td></tr>
+          <tr><td>Events</td><td>raised in the aggregate, published after <code>SaveChanges</code></td><td><code>@TransactionalEventListener(AFTER_COMMIT)</code></td><td>staged on the UoW, published after <code>commit()</code></td></tr>
+          <tr><td>Reporting read</td><td>Dapper projection</td><td>projection query, <code>readOnly = true</code></td><td>column projection, aggregate never materialised</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live repository &amp; unit-of-work workflow proof</h2>
+    <p>The running component below changes its pattern/result view through real event binding. Select an aspect to see the code shape, the reasoning behind the decision, and the evidence that it holds.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="repository-uow-workflow" id="repository-uow-workflow" data-operation="repository" aria-labelledby="repo-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>REPOSITORY &amp; UNIT OF WORK</strong><span>RUNNING</span>
+          </div>
+          <h3 id="repo-workflow-title">Choose an aspect of the two patterns</h3>
+          <p>Select an aspect to inspect the code shape, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Repository and unit-of-work aspects">
+            <button type="button" class="active" data-op="repository" aria-pressed="true">Repository</button>
+            <button type="button" data-op="uow" aria-pressed="false">Unit of Work</button>
+            <button type="button" data-op="composition" aria-pressed="false">Composition with other patterns</button>
+            <button type="button" data-op="pragmatism" aria-pressed="false">Where the patterns stop</button>
+            <button type="button" data-op="testing" aria-pressed="false">Testing the transaction</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="repo-command">$ ICustomerRepository &rarr; GetActiveByPlanAsync(plan, ct) &middot; matching(ISpecification&lt;Customer&gt;)</code>
+            <p data-testid="repo-effect">The interface belongs to the domain and expresses intent, so the caller names the question it is asking instead of assembling a query object. The implementation lives in infrastructure, where EF Core, Dapper, Spring Data or SQLAlchemy can be swapped without the domain noticing.</p>
+            <pre data-testid="repo-output">query objects reaching the domain layer: 0
+repository implementations per stack: 3 (EF Core, Spring Data JPA, SQLAlchemy)
+public surface: intent-named methods + specifications, no IQueryable</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What implementing the patterns buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Declare the repository where it is needed and name its methods for the question, not the query; put every varying predicate in a specification so the rule has one home; keep one commit per use case and stage events inside the transaction so a rollback cannot leave a published lie; make cross-cutting behaviour a decorator instead of an edit to the repository; send reporting through a projection rather than through aggregates; and refuse the generic CRUD base, because a repository that only forwards Add/Update/Delete is a layer that costs a layer and explains nothing.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q32:</strong> this page covers the Repository and Unit of Work patterns, their composition and their limits. Selecting between ORM and data-access frameworks (EF Core, Dapper, JPA, SQLAlchemy) is on the <a href="q06-proof.html">Q06 proof page</a>, and SOLID and the wider catalogue of object-oriented patterns are Q33.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others implement the two patterns in .NET, Java/Spring and Python, because the mechanics differ while the contract does not.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q32 repository &amp; unit-of-work proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Declares the repository in the layer that needs it and names its methods for intent.</li>
+      <li>Keeps one transactional boundary per use case, with events staged inside it and dispatched after the commit.</li>
+      <li>Shows an interactive proof of choosing an aspect and reading the evidence.</li>
+      <li>Implements the same contract in .NET, Java and Python rather than describing it once.</li>
+      <li>States where a repository stops earning its place and refuses the generic CRUD base.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q31.html">&larr; Question 31 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q32.html">Question 32 answer</a>
+    <a href="q33.html">Question 33 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 32 proof &middot; answers/q32-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/repository-uow-workflow.js"></script>
+<script src="../assets/lab/q32-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

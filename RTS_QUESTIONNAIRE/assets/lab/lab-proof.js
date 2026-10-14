@@ -55,6 +55,10 @@
     csharp: ('using namespace public private protected internal sealed static readonly const class record interface struct enum new ' +
       'return if else for foreach while switch case break continue try catch finally throw async await var this base null true false ' +
       'void string int bool double decimal long Task ValueTask Guid TimeSpan DateTime Random JsonSerializer IDatabase When').split(' '),
+    // Java uses // line comments like the C family; only the keyword set differs.
+    java: ('package import public private protected static final abstract class interface enum record extends implements new ' +
+      'return if else for while switch case break continue try catch finally throw throws var this super null true false void ' +
+      'int long double boolean String List Map Optional Service Component Transactional Override Clock UUID').split(' '),
     sql: ('select from where and or not null is in exists join inner left right outer full on group by having order asc desc limit ' +
       'offset insert into values update set delete create alter drop index unique clustered nonclustered include table view procedure ' +
       'function trigger begin commit rollback transaction isolation level read write snapshot with as case when then else end union ' +
