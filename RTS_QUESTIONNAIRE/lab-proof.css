@@ -1,0 +1,450 @@
+/* ============================================================================
+   lab-proof.css — components for the interactive proof pages (RTS questionnaire)
+
+   Ported from the Angular reference workspace:
+     E:\ANGULAR\apps\angular-basic\src\styles.scss                       (.page-hero,
+       .eyebrow, .subtitle, .meta-row, .live-meta, .live-jump, .live-preview-*)
+     E:\ANGULAR\apps\angular-basic\src\styles\_question-page.scss        (.breadcrumb,
+       blockquote, .canonical-answer, .checklist markers, .question-navigation)
+     ...\features\questions\basic-004\cli-workflow.scss                  (.task-buttons,
+       .runtime-status, .command-result)
+     ...\shared\readonly-code-explorer\readonly-code-explorer.scss       (.code-explorer,
+       .file-tree, .source-pane, .code-viewer)
+     ...\styles\_question-page.scss                                      (.code-line, .token-*)
+
+   The base design system (body, .container, h1-h3, .note, .important, .tag,
+   .params, pre, code, .footer) stays in styles.css and is loaded first; the
+   rules below only add the proof-specific components on top of it.
+   ========================================================================== */
+
+/* --- Page hero ------------------------------------------------------------ */
+.page-hero {
+  padding: 14px 10px;
+  border-bottom: 1px solid #dce6ed;
+  background: linear-gradient(100deg, rgb(21 101 192 / 13%), rgb(46 125 50 / 8%)), #fff;
+}
+
+.page-hero .eyebrow {
+  margin: 0 0 5px;
+  color: #2e7d32;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.page-hero h1 {
+  max-width: 1000px;
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.08;
+}
+
+.page-hero .subtitle {
+  max-width: 950px;
+  margin: 8px 0 0;
+  color: #52616b;
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.live-meta {
+  border-color: #81c784;
+  background: #e8f5e9;
+  color: #1b5e20;
+  font-weight: 800;
+}
+
+.live-jump {
+  border-color: #2e7d32;
+  background: #2e7d32;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.live-jump:hover,
+.live-jump:focus-visible {
+  background: #1b5e20;
+  color: #fff;
+}
+
+/* --- Question-page primitives -------------------------------------------- */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  color: #607d8b;
+  font-size: 0.84rem;
+}
+
+blockquote {
+  margin: 10px 0;
+  padding: 14px 18px;
+  border-left: 4px solid #90a4ae;
+  background: #f6f8fa;
+  color: #455a64;
+}
+
+.canonical-answer {
+  padding: 16px 18px;
+  border-left: 4px solid #2e7d32;
+  border-radius: 7px;
+  background: #f1f8e9;
+  font-size: 1.04rem;
+}
+
+.checklist {
+  padding-left: 0;
+  list-style: none;
+}
+
+.checklist li {
+  position: relative;
+  padding-left: 26px;
+}
+
+.checklist li::before {
+  position: absolute;
+  left: 0;
+  color: #2e7d32;
+  content: '\2713';
+  font-weight: 800;
+}
+
+.question-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.question-navigation span {
+  color: #78909c;
+}
+
+/* --- Live preview shell --------------------------------------------------- */
+.live-preview-shell {
+  overflow: hidden;
+  border: 2px solid #43a047;
+  border-radius: 10px;
+  background: #f4fbf5;
+  box-shadow: 0 5px 18px rgb(27 94 32 / 12%);
+}
+
+.live-preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #a5d6a7;
+  background: #e8f5e9;
+  color: #1b5e20;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.live-preview-toolbar div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-preview-toolbar .live-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2e7d32;
+  box-shadow: 0 0 0 4px rgb(46 125 50 / 14%);
+  animation: preview-pulse 1.8s ease-out infinite;
+}
+
+.running-badge {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #2e7d32;
+  color: #fff;
+  font-weight: 800;
+}
+
+.live-preview-message {
+  margin: 0;
+  padding: 8px 12px;
+  border-bottom: 1px solid #c8e6c9;
+  background: #fff;
+  color: #37543a;
+  font-size: 0.84rem;
+}
+
+.live-preview-canvas {
+  padding: 12px;
+  background-color: #f7faf7;
+  background-image: radial-gradient(#c8e6c9 0.8px, transparent 0.8px);
+  background-size: 16px 16px;
+}
+
+@keyframes preview-pulse {
+  0% { box-shadow: 0 0 0 0 rgb(46 125 50 / 38%); }
+  70%, 100% { box-shadow: 0 0 0 7px rgb(46 125 50 / 0%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-preview-toolbar .live-dot { animation: none; }
+}
+
+/* --- Interactive cache workflow (proof component) ------------------------ */
+.cache-workflow {
+  padding: 18px;
+  border: 2px solid #90caf9;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #fff, #f3f9ff);
+}
+
+.runtime-status {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 7px;
+  margin-bottom: 12px;
+  padding: 5px 9px;
+  border: 1px solid #81c784;
+  border-radius: 999px;
+  background: #e8f5e9;
+  color: #1b5e20;
+  font-size: 0.72rem;
+}
+
+.runtime-status span:last-child { font-weight: 800; }
+
+.runtime-status .live-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #2e7d32;
+  box-shadow: 0 0 0 4px rgb(46 125 50 / 14%);
+}
+
+.cache-workflow h3 {
+  margin: 0;
+  color: #0d47a1;
+}
+
+.task-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.task-buttons button {
+  min-height: 40px;
+  padding: 7px 12px;
+  border: 1px solid #1565c0;
+  border-radius: 7px;
+  background: #fff;
+  color: #0d47a1;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.task-buttons button:hover,
+.task-buttons button.active {
+  background: #1565c0;
+  color: #fff;
+}
+
+.command-result {
+  padding: 13px;
+  border-left: 4px solid #2e7d32;
+  border-radius: 6px;
+  background: #102a43;
+  color: #eaf4ff;
+}
+
+.command-result > code {
+  color: #9ee493;
+  font-weight: 700;
+}
+
+.command-result p { margin: 10px 0; }
+
+/* Overrides the light `pre` from the base stylesheet inside the dark console. */
+.command-result pre {
+  overflow-x: auto;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: #d6e8ff;
+  white-space: pre-wrap;
+}
+
+/* --- Read-only source explorer ------------------------------------------ */
+.code-explorer {
+  display: grid;
+  grid-template-columns: 235px minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  background: #0d1117;
+  box-shadow: 0 5px 16px rgb(0 0 0 / 14%);
+}
+
+.file-tree {
+  min-width: 0;
+  overflow: auto;
+  border-right: 1px solid #30363d;
+  background: #161b22;
+  color: #c9d1d9;
+}
+
+.tree-heading,
+.workspace-folder {
+  padding: 9px 10px;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.tree-heading {
+  border-bottom: 1px solid #30363d;
+  color: #f0f6fc;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.workspace-folder { color: #58a6ff; }
+
+.file-tree ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.file-tree button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 6px;
+  padding: 7px 10px 7px 24px;
+  border: 0;
+  background: transparent;
+  color: #c9d1d9;
+  cursor: pointer;
+  font: 0.72rem Consolas, 'Courier New', monospace;
+  text-align: left;
+}
+
+.file-tree button:hover { background: #21262d; }
+
+.file-tree button.selected {
+  padding-left: 21px;
+  border-left: 3px solid #58a6ff;
+  background: #1f6feb33;
+  color: #fff;
+}
+
+.source-pane { min-width: 0; }
+
+.source-pane header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 52px;
+  padding: 7px 11px;
+  border-bottom: 1px solid #30363d;
+  background: #161b22;
+  color: #e6edf3;
+}
+
+.source-pane header div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.source-pane strong {
+  color: #58a6ff;
+  font: 700 0.8rem Consolas, 'Courier New', monospace;
+}
+
+.source-pane header span {
+  overflow: hidden;
+  color: #8b949e;
+  font: 0.66rem Consolas, 'Courier New', monospace;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.source-pane .language-badge {
+  padding: 3px 7px;
+  border: 1px solid #30363d;
+  border-radius: 999px;
+  color: #7ee787;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.code-viewer {
+  min-width: 0;
+  max-height: 430px;
+  overflow: auto;
+  background: #0d1117;
+}
+
+.code-viewer code {
+  display: block;
+  counter-reset: code-line;
+  padding: 10px 0;
+  color: #e6edf3;
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.code-line {
+  display: block;
+  min-height: 1.45em;
+  padding-right: 12px;
+}
+
+.code-line::before {
+  display: inline-block;
+  width: 42px;
+  margin-right: 14px;
+  border-right: 1px solid #30363d;
+  color: #7d8590;
+  content: counter(code-line);
+  counter-increment: code-line;
+  text-align: right;
+}
+
+.token-keyword { color: #ff7b72; }
+.token-string { color: #a5d6ff; }
+.token-decorator { color: #d2a8ff; }
+.token-number { color: #79c0ff; }
+.token-comment { color: #8b949e; font-style: italic; }
+
+@media (max-width: 760px) {
+  .code-explorer { grid-template-columns: 1fr; }
+
+  .file-tree {
+    max-height: 230px;
+    border-right: 0;
+    border-bottom: 1px solid #30363d;
+  }
+
+  .page-hero { padding: 16px 10px; }
+}
+
+@media (max-width: 600px) {
+  .cache-workflow { padding: 12px; }
+}

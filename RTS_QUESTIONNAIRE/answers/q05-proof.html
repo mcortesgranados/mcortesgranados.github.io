@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q05 proof &middot; Cache strategies: Redis and Memcached</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q05 &middot; Caching proof</p>
+  <h1>Have you worked with caching technologies such as Redis or Memcached?</h1>
+  <p class="subtitle">A runnable review of the cache strategies behind the answer: the operations I use in production, the code that implements them, and the criteria the answer is held to.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live cache workflow</span>
+    <span class="tag">Redis &middot; Memcached &middot; .NET</span>
+    <a class="tag live-jump" href="#live-cache-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q05.html">Question 5 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>5. Cache strategies: Redis and Memcached</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; Redis (cache-aside, TTL, pub/sub, cluster), plus Memcached and CDN caching.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line is accurate but compressed &mdash; the questionnaire caps each answer at one short line, so it names the technologies without the discipline behind them. This page is the separate, detailed version: it shows the exact operations, the implementation in code, and the rules that keep a cache from turning into a source of stale data.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes. Redis is my primary distributed cache and I apply it with cache-aside reads, write-through updates and an explicit invalidation contract built on TTLs, jittered expirations and pub/sub invalidation. Memcached I use for the same key/value cache-aside model where a slim, non-persistent store is enough, and I add in-process <code>IMemoryCache</code> memoisation for the hot in-node layer plus HTTP/CDN caching at the edge.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Strategy</th><th>Typical operation</th><th>What it is for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Cache-aside (read)</td><td><code>GET</code> &rarr; on miss <code>SETEX</code></td><td>Serves repeated reads without touching the database.</td></tr>
+          <tr><td>Write-through</td><td><code>SET &hellip; EX &lt;ttl&gt;</code></td><td>Keeps the entry fresh after the database write succeeds.</td></tr>
+          <tr><td>Jittered expiry</td><td>TTL + random offset</td><td>Stops a whole keyspace from expiring in the same second.</td></tr>
+          <tr><td>Pub/sub invalidation</td><td><code>PUBLISH</code> / <code>SUBSCRIBE</code></td><td>Every node drops its own copy, so no stale replica survives.</td></tr>
+          <tr><td>Single-flight lock</td><td><code>SET &hellip; NX PX</code></td><td>Turns a stampede of misses into one database query.</td></tr>
+          <tr><td>In-process memoisation</td><td><code>IMemoryCache</code></td><td>Removes even the network hop for the hottest values.</td></tr>
+          <tr><td>Edge / HTTP caching</td><td><code>Cache-Control</code>, <code>ETag</code></td><td>Answers static and cacheable API responses before the origin.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-cache-title">
+    <h2 id="live-cache-title">Live cache workflow proof</h2>
+    <p>The running component below changes its command/result view through real event binding. Select an operation to see the exact Redis command, what the application does around it, and the observable result the caller receives.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="cache-workflow" id="cache-workflow" data-operation="hit" aria-labelledby="cache-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>CACHE WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="cache-workflow-title">Choose a cache operation</h3>
+          <p>Select an operation to inspect the exact Redis command and its observable result.</p>
+          <div class="task-buttons" aria-label="Cache operations">
+            <button type="button" class="active" data-op="hit" aria-pressed="true">Read (hit)</button>
+            <button type="button" data-op="miss" aria-pressed="false">Read (miss)</button>
+            <button type="button" data-op="ttl" aria-pressed="false">Write + TTL</button>
+            <button type="button" data-op="invalidate" aria-pressed="false">Invalidate (pub/sub)</button>
+            <button type="button" data-op="lock" aria-pressed="false">Distributed lock</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="cache-command">$ GET user:42:profile</code>
+            <p data-testid="cache-effect">Cache-aside read: the value is in Redis, so the database is never touched and the request stays in the sub-millisecond range.</p>
+            <pre data-testid="cache-output">HIT  &middot;  0.4 ms  &middot;  TTL 267 s left
+{"id":42,"name":"M. Cortes","plan":"senior"}</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How caching fits this answer</h2>
+    <div class="note">
+      <strong>Why an invalidation contract comes first.</strong> A cache is only as good as its worst stale read. Before adding one I define how entries expire and how they are invalidated &mdash; TTL plus jitter for normal expiry, an event for explicit invalidation, and a single-flight lock for the moment of a miss &mdash; and then I measure hit ratio and p95 latency to confirm the cache actually earns its complexity.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q05:</strong> this page covers caching technologies and the strategy around them. Cluster topology sizing, provider-specific failover configuration and cost modelling for managed Redis services are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of the same strategy.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q05 caching proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names Redis and Memcached and the cache-aside model they share.</li>
+      <li>Distinguishes read-through, write-through, invalidation and lock operations.</li>
+      <li>Shows an interactive proof of choosing a cache operation and reading its result.</li>
+      <li>Documents the expiration and invalidation rules before the cache is introduced.</li>
+      <li>Defers cluster sizing, provider failover and cost modelling to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q05.html">&larr; Question 5 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q06.html">Question 6 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 05 proof &middot; answers/q05-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/cache-workflow.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
