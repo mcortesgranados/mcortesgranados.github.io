@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q28 proof &middot; RESTful APIs in .NET: resources, HTTP semantics, contract and verification</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q28 &middot; REST API proof</p>
+  <h1>Have you designed and implemented RESTful APIs using .NET?</h1>
+  <p class="subtitle">A runnable review of the API design: how the resources are modelled, what each HTTP method promises, how collections and errors behave, and the contract tests that check the implementation still matches the published document.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live REST design workflow</span>
+    <span class="tag">.NET &middot; ASP.NET Core &middot; OpenAPI</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q28.html">Question 28 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>28. RESTful APIs with .NET</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; I have designed and implemented RESTful APIs in .NET/ASP.NET Core, from endpoints and contracts through security, testing and deployment.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line claims the capability without showing the design decisions behind it. This page is the separate, detailed version: it shows the resource model, what each method and status code promises, the collection and error conventions, and the tests that hold the implementation to the contract.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, on ASP.NET Core. The API is designed resource-first: URLs are nouns, the hierarchy lives in the path, and a state transition is modelled as a sub-resource that receives a POST rather than a verb grafted onto the URL. The HTTP method carries the meaning &mdash; GET, PUT, DELETE and HEAD are idempotent, POST is not, a state conflict answers 409 while a failed precondition answers 412 and a missing one 428 &mdash; so a client can retry safely without reading the documentation. Collections are never returned unbounded: cursor pagination with a hard page-size ceiling and a documented filter/sort grammar. Every failure returns one payload shape, RFC 7807 problem details with a type, a title, a status and a traceId that matches the server log. Security is explicit per endpoint (a bearer JWT validated against the issuer's JWKS, an authorisation policy, a per-caller rate limit) and identity always comes from validated claims, never from the body. Finally, the OpenAPI document is generated from the endpoints, the SPA consumes a typed client generated from that document, and contract plus integration tests through <code>WebApplicationFactory</code> against a containerised database fail the build when the two drift apart.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Concern</th><th>Convention I apply</th><th>Why it matters</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Resource model</td><td>nouns in the path, hierarchy expressed in the URI, transitions as sub-resources</td><td>the API reads as a map of the domain instead of a list of procedures</td></tr>
+          <tr><td>Methods and status codes</td><td>GET/PUT/DELETE idempotent, POST not, 201 + Location, 204 on delete, 409 / 412 / 428 for state and precondition failures</td><td>clients and proxies can retry correctly without reading the docs</td></tr>
+          <tr><td>Collections</td><td>cursor pagination, hard page-size ceiling, one filter and sort grammar</td><td>no endpoint can be used to pull the whole table by accident</td></tr>
+          <tr><td>Errors</td><td>RFC 7807 problem details for every failure mode, with a traceId</td><td>one parser on the client and one correlation key in the logs</td></tr>
+          <tr><td>Security</td><td>explicit policy per endpoint, JWT claims as the identity source, per-caller rate limit, CORS allow-list</td><td>identity cannot be spoofed through the payload and abuse is bounded</td></tr>
+          <tr><td>Contract and verification</td><td>OpenAPI generated from code, typed client for the SPA, contract + integration tests in CI</td><td>the documented contract is the tested contract</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live REST design workflow proof</h2>
+    <p>The running component below changes its design/result view through real event binding. Select a step to see the decision, the reasoning behind it, and the evidence that the API actually behaves that way.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="rest-api-workflow" id="rest-api-workflow" data-operation="resource" aria-labelledby="rest-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>REST DESIGN WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="rest-workflow-title">Choose a step of the API design</h3>
+          <p>Select a step to inspect the decision, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="REST design steps">
+            <button type="button" class="active" data-op="resource" aria-pressed="true">Model the resources</button>
+            <button type="button" data-op="verbs" aria-pressed="false">HTTP semantics</button>
+            <button type="button" data-op="paging" aria-pressed="false">Collections and errors</button>
+            <button type="button" data-op="security" aria-pressed="false">Security, limits, versioning</button>
+            <button type="button" data-op="verify" aria-pressed="false">Contract and verification</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="rest-command">$ POST /orders &middot; GET /orders/{orderId} &middot; GET /orders/{orderId}/lines &middot; POST /orders/{orderId}/confirm</code>
+            <p data-testid="rest-effect">Resources are nouns and the hierarchy lives in the path. The one verb-like segment is a state transition, and it is modelled as a sub-resource that receives a POST instead of inventing /confirmOrder. Every path resolves to exactly one aggregate.</p>
+            <pre data-testid="rest-output">aggregates exposed: 2 (order, order lines)
+verbs appearing in a URI: 0
+state transitions modelled as sub-resources: 1</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the API design buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Design the resource model before writing an endpoint, so verbs never end up in the URL; let the method carry the guarantee, so retries are safe by construction; require versioning in the path so a breaking change cannot reach an existing client by accident; keep a single error shape and always return a traceId, so one log query correlates the client report with the server event; take the caller identity from validated claims instead of the payload; and generate the OpenAPI document from the endpoints rather than maintaining it by hand, because a hand-written contract drifts silently.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q28:</strong> this page covers designing and implementing RESTful APIs on ASP.NET Core &mdash; resource modelling, HTTP semantics, collections, errors, security envelope and contract verification. GraphQL or gRPC alternatives, API gateway topology, service-to-service messaging and deployment topology are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the published contract, the ASP.NET Core endpoints and the contract tests that hold the two together.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q28 REST API proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Models resources as nouns and expresses state transitions as sub-resources.</li>
+      <li>Makes the idempotency of each method real, with the matching status codes.</li>
+      <li>Shows an interactive proof of choosing a design step and reading the evidence.</li>
+      <li>Bounds collections, standardises errors on RFC 7807 and never discloses another tenant's resource.</li>
+      <li>Ties the implementation to the published contract with tests that fail on drift.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q27.html">&larr; Question 27 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q28.html">Question 28 answer</a>
+    <a href="q29.html">Question 29 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 28 proof &middot; answers/q28-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/rest-api-workflow.js"></script>
+<script src="../assets/lab/q28-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
