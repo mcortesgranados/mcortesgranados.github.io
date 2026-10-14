@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q13 proof &middot; TypeScript and JavaScript experience</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q13 &middot; TypeScript proof</p>
+  <h1>How many years of experience do you have with TypeScript and JavaScript?</h1>
+  <p class="subtitle">A runnable review of how the years are actually spent: strict compilation, domain modelling with unions and generics, validation at the boundary, async that cannot hang, and a bundle that stays inside its budget.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live TypeScript workflow</span>
+    <span class="tag">JavaScript 20+ &middot; TypeScript 8+ yrs</span>
+    <a class="tag live-jump" href="#live-ts-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q13.html">Question 13 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>13. TypeScript and JavaScript experience</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;JavaScript: 20+ years. TypeScript: 8+ years of continuous professional use.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> A number of years says nothing about how the language is used. This page is the separate, detailed version: it shows the compiler configuration the code is held to, the modelling style, and where the type system stops and runtime validation begins.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      <strong>JavaScript 20+ years</strong> &mdash; from ES3/ES5 and DOM-era engineering through modern ES2015+: modules, closures and the event loop, promises and async/await, functional composition, WebSockets/real-time flows, Node.js services and Jest-based testing. <strong>TypeScript 8+ years</strong> of continuous professional use &mdash; strict compilation, discriminated unions and generics, branded types, exhaustive switches, typed API clients, typed lint rules and typed Angular/React components, with runtime validation only where data crosses a boundary. The two overlap: TypeScript above all is JavaScript whose behaviour at runtime still has to be understood.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Decision</th><th>Where it is applied</th><th>Why it is done this way</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Strict compilation</td><td><code>strict</code> + <code>noUncheckedIndexedAccess</code></td><td>Null and undefined mistakes are caught at build time, not by a user.</td></tr>
+          <tr><td>Domain modelling</td><td>discriminated unions, generics, brands</td><td>Illegal states become unrepresentable and every branch must be handled.</td></tr>
+          <tr><td>Boundary validation</td><td>schema parse on HTTP, queue and storage input</td><td>Types are erased at runtime, so untrusted data is proven before use.</td></tr>
+          <tr><td>Async discipline</td><td><code>allSettled</code>, timeouts, cancellation, async iterators</td><td>A slow dependency degrades one part instead of hanging the request.</td></tr>
+          <tr><td>Error shape</td><td><code>Result&lt;T, E&gt;</code> instead of thrown exceptions</td><td>The failure branch cannot be forgotten by a caller.</td></tr>
+          <tr><td>Tooling</td><td>typed ESLint, Prettier, <code>tsc --noEmit</code> in CI</td><td>Consistency is enforced by the pipeline, not by review alone.</td></tr>
+          <tr><td>Bundle budget</td><td>Vite/esbuild budgets in the pipeline</td><td>Payload size is a measured constraint as the application grows.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-ts-title">
+    <h2 id="live-ts-title">Live TypeScript workflow proof</h2>
+    <p>The running component below changes its configuration/result view through real event binding. Select a step to see the decision, the reasoning behind it, and the measurement that proves it.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="ts-workflow" id="ts-workflow" data-operation="strict" aria-labelledby="ts-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>TYPESCRIPT WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="ts-workflow-title">Choose a TypeScript step</h3>
+          <p>Select a step to inspect the decision, the reasoning and the measured result.</p>
+          <div class="task-buttons" aria-label="TypeScript steps">
+            <button type="button" class="active" data-op="strict" aria-pressed="true">Strict compiler</button>
+            <button type="button" data-op="model" aria-pressed="false">Model the domain</button>
+            <button type="button" data-op="boundary" aria-pressed="false">Validate the boundary</button>
+            <button type="button" data-op="async" aria-pressed="false">Concurrency &amp; cancellation</button>
+            <button type="button" data-op="quality" aria-pressed="false">Tooling &amp; bundle budget</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="ts-command">$ "strict": true, "noUncheckedIndexedAccess": true, "exactOptionalPropertyTypes": true</code>
+            <p data-testid="ts-effect">Strict mode is non-negotiable: null checks, no implicit any and verified indexed access, so type errors surface at build time instead of in production.</p>
+            <pre data-testid="ts-output">tsc: 0 errors  &middot;  0 implicit any
+any occurrences in src: 3 (all at the infrastructure boundary)</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How the years translate into practice</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Turn strict mode on and keep the <code>any</code> count at the infrastructure boundary only; model with unions so illegal states cannot be constructed; parse everything that crosses a boundary; write async code with explicit timeouts, cancellation and partial-failure handling; prefer a <code>Result</code> over a thrown exception on expected failure paths; and let the pipeline &mdash; typed lint, <code>tsc --noEmit</code> and bundle budgets &mdash; enforce the standard. Deep JavaScript knowledge is what makes this possible: the type system is a design tool, not a substitute for understanding the runtime.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q13:</strong> this page covers language and type-system practice. Monorepo build orchestration at scale, migration of a large untyped codebase and framework-specific rendering strategies are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of the same practice.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q13 TypeScript proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>States the years of experience for JavaScript and TypeScript separately.</li>
+      <li>Distinguishes strict compilation, modelling, boundary validation, async and tooling.</li>
+      <li>Shows an interactive proof of choosing a TypeScript step and reading its measurement.</li>
+      <li>Keeps runtime validation at the boundary and the failure branch in the type.</li>
+      <li>Defers monorepo orchestration, untyped-codebase migration and render strategies to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q12.html">&larr; Question 12 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q13.html">Question 13 answer</a>
+    <a href="q14.html">Question 14 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 13 proof &middot; answers/q13-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/ts-workflow.js"></script>
+<script src="../assets/lab/q13-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
