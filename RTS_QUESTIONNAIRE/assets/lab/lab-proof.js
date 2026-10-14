@@ -62,7 +62,9 @@
       'jsonb primary key foreign references default constraint cascade statistics fullscan').split(' '),
     json: 'true false null'.split(' '),
     yaml: ('name on push branches workflow_dispatch permissions id-token contents concurrency group cancel-in-progress jobs ' +
-      'runs-on steps uses with run needs environment if always strategy matrix timeout-minutes outputs defaults').split(' ')
+      'runs-on steps uses with run needs environment if always strategy matrix timeout-minutes outputs defaults').split(' '),
+    graphql: ('schema query mutation subscription type interface union enum input scalar directive implements extend fragment on ' +
+      'true false null').split(' ')
   };
 
   // The identifier/string/number part is shared; only the line-comment syntax differs
@@ -71,7 +73,7 @@
   var TOKEN_RE = new RegExp('(\\/\\/[^\\n]*)|' + TOKEN_BODY, 'g');
   var SQL_TOKEN_RE = new RegExp('(--[^\\n]*)|' + TOKEN_BODY, 'g');
   var YAML_TOKEN_RE = new RegExp('(#[^\\n]*)|' + TOKEN_BODY, 'g');
-  var TOKEN_PATTERNS = { sql: SQL_TOKEN_RE, yaml: YAML_TOKEN_RE };
+  var TOKEN_PATTERNS = { sql: SQL_TOKEN_RE, yaml: YAML_TOKEN_RE, graphql: YAML_TOKEN_RE };
 
   function escapeHtml(value) {
     return value.replace(/[&<>]/g, function (ch) {

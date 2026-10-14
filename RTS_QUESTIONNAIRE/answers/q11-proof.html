@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q11 proof &middot; GraphQL schema, resolvers and execution limits</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q11 &middot; GraphQL proof</p>
+  <h1>Have you worked with GraphQL? If yes, for how long and in what context?</h1>
+  <p class="subtitle">A runnable review of the GraphQL decisions behind the answer: the schema as a contract, batching in the resolvers, the limits that protect the database, and how errors and subscriptions behave.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live GraphQL workflow</span>
+    <span class="tag">GraphQL &middot; SDL &middot; DataLoader</span>
+    <a class="tag live-jump" href="#live-graphql-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q11.html">Question 11 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>11. GraphQL: experience and context</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; ~4 years: schema design, resolvers, DataLoader, subscriptions, federation.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line lists the topics but not the engineering behind them. This page is the separate, detailed version: it shows the schema contract, how the resolvers avoid N+1, and which limits keep arbitrary client queries from harming the database.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes &mdash; roughly four years, mainly in enterprise back ends where a single endpoint has to serve several clients. That work covers <strong>schema-first SDL</strong> (types, interfaces, enums, input objects, cursor/Relay-style connections and explicit nullability) as well as <strong>code-first</strong> definitions in C# (Hot Chocolate / GraphQL.NET style) and Python (Strawberry / Ariadne style); <strong>resolvers</strong> with request-scoped context and DataLoader batching; <strong>execution governance</strong> with depth, cost and persisted-query allow-lists; <strong>subscriptions</strong> over WebSocket for change notifications; and per-field tracing so the slowest resolver is identified from data rather than guessed.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Decision</th><th>Typical implementation</th><th>Why it is done this way</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Schema as contract</td><td>SDL with explicit nullability</td><td>Clients can only request what the model allows, and breaking changes are caught in CI.</td></tr>
+          <tr><td>Pagination</td><td>cursor connections, never unbounded lists</td><td>A large list cannot be requested in one query by accident.</td></tr>
+          <tr><td>N+1 prevention</td><td>DataLoader, batched per request</td><td>A nested selection costs a fixed number of queries, not one per row.</td></tr>
+          <tr><td>Execution limits</td><td>depth + cost analysis + allow-list</td><td>An expensive or unexpected operation is rejected before it reaches the database.</td></tr>
+          <tr><td>Error contract</td><td><code>userErrors</code> in the payload, codes in <code>extensions</code></td><td>Partial success is explicit and the client can degrade one field.</td></tr>
+          <tr><td>Live updates</td><td>subscriptions over WebSocket</td><td>Only what changed is pushed, instead of clients polling.</td></tr>
+          <tr><td>Observability</td><td>per-field tracing, trace id per operation</td><td>Optimisation targets the resolver that actually owns the latency.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-graphql-title">
+    <h2 id="live-graphql-title">Live GraphQL workflow proof</h2>
+    <p>The running component below changes its operation/result view through real event binding. Select a step to see the schema or runtime decision, the reasoning behind it, and the measurement that proves it.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="graphql-workflow" id="graphql-workflow" data-operation="schema" aria-labelledby="graphql-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>GRAPHQL WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="graphql-workflow-title">Choose a GraphQL step</h3>
+          <p>Select a step to inspect the decision, the reasoning and the measured result.</p>
+          <div class="task-buttons" aria-label="GraphQL steps">
+            <button type="button" class="active" data-op="schema" aria-pressed="true">Schema-first contract</button>
+            <button type="button" data-op="resolve" aria-pressed="false">Resolvers + DataLoader</button>
+            <button type="button" data-op="limits" aria-pressed="false">Depth, cost &amp; allow-list</button>
+            <button type="button" data-op="errors" aria-pressed="false">Errors &amp; partial data</button>
+            <button type="button" data-op="subscriptions" aria-pressed="false">Subscriptions &amp; tracing</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="graphql-command">$ type Order { id: ID!  lines: [OrderLine!]! }   &middot;   query { orders(first: 20, after: $cursor) { &hellip; } }</code>
+            <p data-testid="graphql-effect">The schema is the contract: types, nullability and cursor pagination are designed before the resolvers, so a client can only ask for what the model allows.</p>
+            <pre data-testid="graphql-output">SDL 412 lines  &middot;  breaking-change check in CI
+nullable fields reviewed per query</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How the API is kept predictable</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Design the schema before the resolvers and treat it as a published contract; paginate every list; batch every relationship through a request-scoped loader; cap depth and cost and allow-list operations in production; report domain failures as typed payload errors instead of exceptions; and trace per field so the slow resolver is found with evidence. GraphQL gives the client flexibility, and those rules are what keep that flexibility from becoming a liability.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q11:</strong> this page covers schema design and execution behaviour. Federation topology across many teams, gateway-level caching strategy and client-side cache normalisation are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of the same decisions.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q11 GraphQL proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>States the years of GraphQL experience and the context it was used in.</li>
+      <li>Distinguishes schema design, resolver batching, execution limits, errors and subscriptions.</li>
+      <li>Shows an interactive proof of choosing a GraphQL step and reading its measurement.</li>
+      <li>Keeps every list paginated and every nested selection batched.</li>
+      <li>Defers federation topology, gateway caching and client cache normalisation to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q10.html">&larr; Question 10 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q11.html">Question 11 answer</a>
+    <a href="q12.html">Question 12 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 11 proof &middot; answers/q11-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/graphql-workflow.js"></script>
+<script src="../assets/lab/q11-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

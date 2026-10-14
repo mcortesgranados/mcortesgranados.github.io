@@ -1,0 +1,101 @@
+# Schema-first contract: types, nullability and pagination are decided here,
+# before any resolver exists. Breaking changes are rejected in CI.
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+scalar DateTime
+
+enum OrderStatus {
+  OPEN
+  CONFIRMED
+  SHIPPED
+  CLOSED
+}
+
+type OrderLine {
+  id: ID!
+  sku: String!
+  quantity: Int!
+  unitPrice: Decimal!
+  total: Decimal!
+}
+
+type Order {
+  id: ID!
+  status: OrderStatus!
+  createdAt: DateTime!
+  total: Decimal!
+  # Bounded connection: a client cannot ask for an unbounded list.
+  lines(first: Int = 20, after: String): OrderLineConnection!
+  customer: Customer!
+}
+
+type OrderLineConnection {
+  edges: [OrderLineEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type OrderLineEdge {
+  node: OrderLine!
+  cursor: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  endCursor: String
+}
+
+type Customer {
+  id: ID!
+  name: String!
+  orders(first: Int = 20, after: String, status: OrderStatus): OrderConnection!
+}
+
+type OrderConnection {
+  edges: [OrderEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type OrderEdge {
+  node: Order!
+  cursor: String!
+}
+
+type Query {
+  order(id: ID!): Order
+  customer(id: ID!): Customer
+  orders(status: OrderStatus, first: Int = 20, after: String): OrderConnection!
+}
+
+input ConfirmOrderInput {
+  orderId: ID!
+  expectedVersion: Int!
+}
+
+type Mutation {
+  confirmOrder(input: ConfirmOrderInput!): ConfirmOrderPayload!
+}
+
+type ConfirmOrderPayload {
+  order: Order
+  # Errors are part of the contract, not a thrown exception.
+  userErrors: [UserError!]!
+}
+
+type UserError {
+  field: String
+  code: String!
+  message: String!
+}
+
+type Subscription {
+  orderStatusChanged(orderId: ID!): Order!
+}
+
+directive @cost(weight: Int!) on FIELD_DEFINITION
