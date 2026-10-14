@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q07 proof &middot; IoC/DI containers such as Autofac or StructureMap</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q07 &middot; Dependency-injection proof</p>
+  <h1>Have you worked with IoC/DI containers such as Autofac, StructureMap, or similar frameworks?</h1>
+  <p class="subtitle">A runnable review of the inversion-of-control decisions behind the answer: how the graph is registered, which lifetime each service gets, and how configuration errors are caught at start-up.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live DI workflow</span>
+    <span class="tag">.NET DI &middot; Autofac &middot; Spring</span>
+    <a class="tag live-jump" href="#live-di-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q07.html">Question 7 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>7. IoC and DI containers</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; built-in .NET DI, Autofac/StructureMap-style containers and Spring's IoC container.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line names the containers but not the discipline that makes them useful. This page is the separate, detailed version: it shows the registrations, the lifetimes, the decorators and the start-up validation that keeps the graph healthy.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes. <code>Microsoft.Extensions.DependencyInjection</code> is my baseline container &mdash; interface-to-implementation bindings, explicit singleton/scoped/transient lifetimes, factory delegates for runtime parameters, decorators for cross-cutting behaviour and a composition root kept at the application boundary. I have also worked with Autofac-style modules (assembly scanning, keyed registrations, lifetime scopes, register-decorator) and legacy StructureMap-family containers in older codebases, plus Spring's IoC container on the Java track and FastAPI's <code>Depends</code> graph / NestJS providers on Python and Node services.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Decision</th><th>Typical registration</th><th>Why it is done this way</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Interface binding</td><td><code>AddScoped&lt;IFoo, Foo&gt;()</code></td><td>Callers depend on the abstraction, so implementations can be swapped.</td></tr>
+          <tr><td>Lifetimes</td><td>Singleton / Scoped / Transient</td><td>Instance reuse per application, per request, or per resolve.</td></tr>
+          <tr><td>Constructor injection</td><td><code>public Foo(IBar bar, ILogger&lt;Foo&gt; log)</code></td><td>Dependencies are explicit and testable; no service locator, no static state.</td></tr>
+          <tr><td>Decorators</td><td><code>Decorate&lt;IFoo, CachedFoo&gt;()</code></td><td>Caching, logging, retries and transactions stay out of the business class.</td></tr>
+          <tr><td>Factory delegates</td><td><code>AddTransient&lt;Func&lt;string, IExporter&gt;&gt;(...)</code></td><td>Runtime parameters are chosen by code, not resolved from the container.</td></tr>
+          <tr><td>Graph validation</td><td><code>ValidateOnBuild</code> + <code>ValidateScopes</code></td><td>Captive dependencies fail at start-up instead of in production.</td></tr>
+          <tr><td>Modules / scanning</td><td>Autofac <code>Module</code>, StructureMap registry</td><td>Feature registrations are grouped and packaged together.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-di-title">
+    <h2 id="live-di-title">Live dependency-injection workflow proof</h2>
+    <p>The running component below changes its registration/result view through real event binding. Select a step to see the registration or resolution call, the reasoning behind it, and the observable result from the container.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="di-workflow" id="di-workflow" data-operation="register" aria-labelledby="di-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>DI WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="di-workflow-title">Choose a container step</h3>
+          <p>Select a step to inspect the registration or resolution, the reasoning and the result the host produces.</p>
+          <div class="task-buttons" aria-label="Dependency-injection steps">
+            <button type="button" class="active" data-op="register" aria-pressed="true">Register services</button>
+            <button type="button" data-op="lifetime" aria-pressed="false">Choose lifetimes</button>
+            <button type="button" data-op="resolve" aria-pressed="false">Resolve the graph</button>
+            <button type="button" data-op="decorator" aria-pressed="false">Decorate (cross-cutting)</button>
+            <button type="button" data-op="validate" aria-pressed="false">Validate at startup</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="di-command">$ services.AddScoped&lt;IOrderService, OrderService&gt;();</code>
+            <p data-testid="di-effect">Maps an abstraction to an implementation with an explicit lifetime, so callers depend on the interface and never construct their collaborators.</p>
+            <pre data-testid="di-output">3 registrations  &middot;  scope: per request
+validateOnBuild: true  &middot;  validateScopes: true</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How the container is kept healthy</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> A composition root at the application boundary and nowhere else, one explicit lifetime per registration, constructor injection instead of a service locator, decorators for everything cross-cutting, and <code>ValidateOnBuild</code> plus <code>ValidateScopes</code> so a captive dependency is rejected before the first request. The payoff is infrastructure that can be swapped or faked in tests without touching business logic.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q07:</strong> this page covers containers, lifetimes and registration patterns. Per-request scope management inside background jobs, third-party container migration strategy and container-performance benchmarking are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of the same registrations.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q07 container proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names the .NET container and the Autofac/StructureMap-style alternatives.</li>
+      <li>Distinguishes registration, lifetime selection, resolution and validation.</li>
+      <li>Shows an interactive proof of choosing a container step and reading its result.</li>
+      <li>Defines lifetimes explicitly and rejects captive dependencies at start-up.</li>
+      <li>Defers scope handling in background jobs, migrations and benchmarking to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q07.html">&larr; Question 7 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q08.html">Question 8 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 07 proof &middot; answers/q07-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/di-workflow.js"></script>
+<script src="../assets/lab/q07-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
