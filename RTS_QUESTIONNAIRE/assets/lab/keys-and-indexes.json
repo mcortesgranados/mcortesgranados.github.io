@@ -1,0 +1,69 @@
+{
+  "table": "sales-single-table",
+  "comment": "Key schema derived from the access patterns, not from the entity list.",
+  "entities": ["Customer", "Order", "OrderLine", "Outbox"],
+  "baseKey": {
+    "partitionKey": "PK",
+    "sortKey": "SK",
+    "examples": {
+      "customer": "PK = CUSTOMER#42, SK = PROFILE",
+      "order": "PK = CUSTOMER#42, SK = ORDER#2026-10-14#8842",
+      "orderLines": "PK = CUSTOMER#42, SK = ORDER#2026-10-14#8842#LINE#01"
+    }
+  },
+  "accessPatterns": [
+    {
+      "id": "AP-1",
+      "description": "Orders of one customer, newest first",
+      "key": "PK = CUSTOMER#<id> AND begins_with(SK, 'ORDER#')",
+      "index": "base table",
+      "consistency": "eventually",
+      "measured": "Query \u00b7 137 items \u00b7 3.1 ms \u00b7 1 RCU"
+    },
+    {
+      "id": "AP-2",
+      "description": "Open orders by creation date",
+      "key": "GSI1PK = STATUS#Open, range on GSI1SK",
+      "index": "GSI1",
+      "consistency": "eventually",
+      "measured": "GSI1 queried \u00b7 item collection 137"
+    },
+    {
+      "id": "AP-3",
+      "description": "Read one order with its lines",
+      "key": "PK = CUSTOMER#<id> AND begins_with(SK, 'ORDER#<id>')",
+      "index": "base table",
+      "consistency": "strongly consistent",
+      "measured": "1 round trip \u00b7 aggregate embedded"
+    },
+    {
+      "id": "AP-4",
+      "description": "Publish a domain event without losing it",
+      "key": "same partition as the aggregate (outbox item)",
+      "index": "base table",
+      "consistency": "strongly consistent",
+      "measured": "TransactWriteItems \u00b7 all-or-nothing"
+    }
+  ],
+  "secondaryIndexes": [
+    {
+      "name": "GSI1",
+      "partitionKey": "GSI1PK",
+      "sortKey": "GSI1SK",
+      "projection": "KEYS_ONLY plus status",
+      "serves": "AP-2"
+    },
+    {
+      "name": "LSI1",
+      "partitionKey": "PK",
+      "sortKey": "createdAt",
+      "projection": "ALL",
+      "serves": "alternative sort order inside the same partition"
+    }
+  ],
+  "capacity": {
+    "mode": "on-demand",
+    "steadyState": { "readsPerSecond": 340, "writesPerSecond": 120 },
+    "guardRails": ["auto scaling ceiling", "hot partition alarm", "TTL on transient items"]
+  }
+}

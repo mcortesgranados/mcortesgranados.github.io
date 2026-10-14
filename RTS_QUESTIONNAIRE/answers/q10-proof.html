@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q10 proof &middot; NoSQL: MongoDB, DynamoDB and Cassandra-style stores</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q10 &middot; NoSQL proof</p>
+  <h1>Have you worked with NoSQL databases such as MongoDB, Cassandra, or similar technologies? How many years of experience do you have?</h1>
+  <p class="subtitle">A runnable review of the NoSQL decisions behind the answer: how the key schema follows the access patterns, when to embed or reference, and how the design avoids hot partitions.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live NoSQL workflow</span>
+    <span class="tag">MongoDB &middot; DynamoDB &middot; Cassandra</span>
+    <a class="tag live-jump" href="#live-nosql-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q10.html">Question 10 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>10. NoSQL databases and years of experience</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; 8+ years: MongoDB, DynamoDB, DocumentDB, Neptune and Cassandra/Keyspaces.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line names the engines and the duration but not the modelling discipline they require. This page is the separate, detailed version: it shows how the key schema is derived, when data is embedded, and how capacity and hot keys are handled.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes &mdash; eight plus years, mostly with <strong>MongoDB</strong> (embedding versus referencing, compound and text indexes, aggregation pipelines, TTL indexes, replica sets) and <strong>Amazon DynamoDB</strong> (single-table design, partition and sort key strategy, GSIs/LSIs, on-demand versus provisioned capacity, streams and conditional writes). I have also worked with <strong>DocumentDB</strong> for document workloads, <strong>Neptune</strong> for graph modelling and <strong>Keyspaces / Cassandra</strong> for wide-column, high-write partitions with tunable consistency. The constant across all of them is that the data model starts from the access patterns, not from the entity list.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Decision</th><th>Typical implementation</th><th>Why it is done this way</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Key schema</td><td><code>PK</code> + <code>SK</code> composite, single table</td><td>Every screen becomes a Query against one partition; no Scan on a read path.</td></tr>
+          <tr><td>Secondary indexes</td><td>GSI/LSI, MongoDB compound index</td><td>Each index exists to serve a named access pattern, and its cost is counted.</td></tr>
+          <tr><td>Embed vs reference</td><td>embed bounded lines, reference shared data</td><td>Data read together is stored together, unless the list is unbounded or shared.</td></tr>
+          <tr><td>Consistency</td><td>eventual by default, strong where required</td><td>Cost and latency follow the requirement, not the other way round.</td></tr>
+          <tr><td>Idempotency</td><td>conditional writes, outbox item, streams</td><td>A retried write cannot double-apply; events are never lost.</td></tr>
+          <tr><td>Capacity</td><td>on-demand or auto-scaled provisioned</td><td>Traffic spikes are absorbed without throttling a paying customer.</td></tr>
+          <tr><td>Hot partitions</td><td>high-cardinality keys, write sharding, TTL</td><td>The partition key decides whether the table scales horizontally.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-nosql-title">
+    <h2 id="live-nosql-title">Live NoSQL modelling workflow proof</h2>
+    <p>The running component below changes its design/result view through real event binding. Select a step to see the decision, the reasoning behind it, and the measurement that proves it.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="nosql-workflow" id="nosql-workflow" data-operation="access" aria-labelledby="nosql-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>NOSQL WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="nosql-workflow-title">Choose a modelling step</h3>
+          <p>Select a step to inspect the decision, the reasoning and the measured result.</p>
+          <div class="task-buttons" aria-label="NoSQL modelling steps">
+            <button type="button" class="active" data-op="access" aria-pressed="true">Model from access patterns</button>
+            <button type="button" data-op="index" aria-pressed="false">Secondary indexes</button>
+            <button type="button" data-op="embed" aria-pressed="false">Embed vs reference</button>
+            <button type="button" data-op="consistency" aria-pressed="false">Transactions &amp; idempotency</button>
+            <button type="button" data-op="capacity" aria-pressed="false">Capacity &amp; hot keys</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="nosql-command">$ PK = CUSTOMER#42   SK = ORDER#2026-10-14#8842</code>
+            <p data-testid="nosql-effect">The key schema is derived from the access patterns first: one table with composite keys and overloaded GSIs, instead of one table per entity.</p>
+            <pre data-testid="nosql-output">Query (single partition)  &middot;  137 items  &middot;  3.1 ms  &middot;  1 RCU
+no Scan anywhere on the read path</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How the model is kept honest</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> List the access patterns before writing a line of schema; make each screen a partition-scoped Query; justify every index with the query it serves; embed only bounded, co-read data; keep a conditional write or an outbox item for anything that must happen exactly once; and pick the partition key as if the table will one day be 100&times; larger.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q10:</strong> this page covers document, key-value and wide-column modelling. Cross-store migration, graph-traversal algorithm design on Neptune and multi-region global-table topology are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of the same decisions.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q10 NoSQL proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names MongoDB, DynamoDB and Cassandra-style stores and the years behind them.</li>
+      <li>Distinguishes key-schema design, indexing, embedding, consistency and capacity.</li>
+      <li>Shows an interactive proof of choosing a modelling step and reading its measurement.</li>
+      <li>Derives the schema from access patterns and keeps every read path free of Scans.</li>
+      <li>Defers cross-store migration, graph algorithms and global-table topology to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q10.html">&larr; Question 10 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q11.html">Question 11 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 10 proof &middot; answers/q10-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/nosql-workflow.js"></script>
+<script src="../assets/lab/q10-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

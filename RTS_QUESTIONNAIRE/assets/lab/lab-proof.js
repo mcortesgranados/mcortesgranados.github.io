@@ -59,7 +59,8 @@
       'offset insert into values update set delete create alter drop index unique clustered nonclustered include table view procedure ' +
       'function trigger begin commit rollback transaction isolation level read write snapshot with as case when then else end union ' +
       'all distinct top explain analyze vacuum int bigint smallint numeric decimal varchar nvarchar char text date timestamp boolean ' +
-      'jsonb primary key foreign references default constraint cascade statistics fullscan').split(' ')
+      'jsonb primary key foreign references default constraint cascade statistics fullscan').split(' '),
+    json: 'true false null'.split(' ')
   };
 
   // The identifier/string/number part is shared; only the line-comment syntax differs
