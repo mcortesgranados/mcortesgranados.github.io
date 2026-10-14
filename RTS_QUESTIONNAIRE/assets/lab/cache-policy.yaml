@@ -1,0 +1,128 @@
+# Q48 — the cache inventory.
+#
+# Every cache entry in the system, with the three things that decide whether it is an
+# asset or a bug: what invalidates it, how it behaves when it is cold, and what hit
+# ratio justifies the memory it holds. An entry that cannot answer all three is not
+# added — a cache is a second copy of the truth, and a second copy with no invalidation
+# contract is a second truth.
+version: 2
+
+rules:
+  - "no cache without a written invalidation contract"
+  - "the cache is never the source of truth: losing it costs latency, never data"
+  - "TTLs carry jitter, so a fleet of entries does not expire in the same second"
+  - "the hit ratio is measured per layer, and a cache below its target is removed rather than tuned indefinitely"
+  - "a cold cache is a scenario, not an incident: the load test runs with an empty cache"
+
+layers:
+  - name: L0-in-process
+    technology: "IMemoryCache / ConcurrentDictionary"
+    scope: "one process"
+    useFor: "immutable or very slowly changing data read on every request: feature flags, tax tables, currency rates"
+    risk: "stale for the lifetime of the process and inconsistent between instances; acceptable only where the value is not authorisation-relevant"
+  - name: L1-distributed
+    technology: "Redis (cluster mode) / ElastiCache"
+    scope: "the estate"
+    useFor: "shared state, sessions, computed fragments, rate-limit counters"
+    risk: "a network hop, a hot key, and the invalidation contract that everybody forgets"
+  - name: L2-http
+    technology: "response caching with ETag and Cache-Control"
+    scope: "per client and per intermediary"
+    useFor: "public and semi-public GET responses"
+    risk: "an ETag that does not change when the body does, which is worse than no cache"
+  - name: L3-edge
+    technology: "CDN"
+    scope: "global"
+    useFor: "static assets, images, and anonymous catalogue pages"
+    risk: "personalised content cached for everybody, which is how a cache becomes a data leak"
+
+entries:
+  - key: "catalogue:product:{sku}"
+    layer: L1-distributed
+    pattern: cache-aside
+    ttl: "10 min"
+    jitter: "± 90 s"
+    invalidation:
+      contract: "invalidated by the products.events.v1 handler on ProductUpdated and ProductRetired"
+      backstop: "the TTL is the guarantee: an invalidation message that is lost costs 10 minutes of staleness, not a permanent one"
+    stampede: "single-flight lock per key: one loader, the rest wait on the same task"
+    hitRatioTarget: "> 92%"
+    coldCache: "the loader is bounded by a concurrency limiter, so a cold start does not become a database stampede"
+    measuredHitRatio: "96%"
+
+  - key: "customer-summary:{customerId}"
+    layer: L1-distributed
+    pattern: cache-aside
+    ttl: "10 min"
+    jitter: "± 60 s"
+    invalidation:
+      contract: "written through on CustomerUpdated; personal data is never cached in a shared key without a tenant prefix"
+    stampede: "single-flight lock per key"
+    hitRatioTarget: "> 85%"
+    note: "this is a read model of a neighbour's data, so it is legitimate for it to be briefly stale"
+
+  - key: "orders:list:{tenant}:{cursor}"
+    layer: L1-distributed
+    pattern: cache-aside
+    ttl: "30 s"
+    jitter: "± 10 s"
+    invalidation:
+      contract: "short TTL only: no explicit invalidation, because a cursor page has too many shapes to enumerate"
+      rationale: "30 seconds of staleness on a list is invisible; enumerating every cursor a tenant might request is not"
+    stampede: "jittered TTL plus a lock per tenant, not per cursor: the lock cardinality has to be bounded"
+    hitRatioTarget: "> 60%"
+    note: "deliberately low target: the point is to absorb a burst, not to be the primary path"
+
+  - key: "session:{sessionId}"
+    layer: L1-distributed
+    pattern: write-through
+    ttl: "sliding 30 min"
+    jitter: "none: a sliding expiry is already staggered by usage"
+    invalidation:
+      contract: "write-through on every mutation, and explicit removal on logout so a revoked session cannot survive in a cache"
+    stampede: "not applicable: reads are single-key point lookups"
+    hitRatioTarget: "> 99%"
+    note: "the one entry where write-through is required: a stale session is an authorisation bug, not a UX detail"
+
+  - key: "ratelimit:{consumerId}:{window}"
+    layer: L1-distributed
+    pattern: "counter with atomic increment"
+    ttl: "the window: 60 s"
+    jitter: "none: the window is the contract"
+    invalidation: "expiry only, by design"
+    stampede: "not applicable"
+    note: "the counter is a control, not a cache: losing it loosens the limit for one window, which is why the gateway limit is enforced again at the service"
+
+  - key: "flags:{tenant}"
+    layer: L0-in-process
+    pattern: "memoised with a short refresh"
+    ttl: "60 s in process, 5 min distributed"
+    invalidation: "background refresh, so a flag change is visible within a minute without a restart"
+    hitRatioTarget: "> 99%"
+    coldCache: "the flags are loaded at startup and the service refuses readiness until they are: a flag read that blocks a request would be in the request path"
+
+  - key: "asset:{hash}"
+    layer: L3-edge
+    pattern: "immutable, content-addressed"
+    ttl: "1 year"
+    invalidation: "the key contains the content hash, so the cache can never be stale: a change produces a new key"
+    hitRatioTarget: "> 99%"
+    note: "the only entry with no invalidation problem, because the URL changes when the content does"
+
+  - key: "catalogue-page:anonymous:{path}"
+    layer: L3-edge
+    pattern: "CDN with a surrogate key"
+    ttl: "5 min"
+    invalidation: "purged by surrogate key when the catalogue changes"
+    stampede: "not applicable"
+    guardrails:
+      - "never cached for an authenticated request: the cache key includes no identity, so a personalised response here would be served to the next visitor"
+      - "verified by a test that asserts no response with an Authorization header is stored"
+
+monitoring:
+  metricsPerLayer: ["hit ratio", "miss ratio", "evictions", "memory used", "keys per prefix", "p99 latency of a lookup", "single-flight waits"]
+  alerts:
+    - { name: "hit-ratio-degraded", condition: "hit ratio below target for 15 min", severity: ticket, note: "usually an invalidation change or a new access pattern, not a cache failure" }
+    - { name: "cache-error-rate", condition: "Redis error rate > 0.5%", severity: page }
+    - { name: "hot-key", condition: "a single key above 20% of the layer's traffic", severity: ticket, note: "the fix is a local layer or a sharded key, not a bigger instance" }
+  loadTestWith: ["a warm cache", "an empty cache", "a cache that fails entirely (the system must be slower, not broken)"]

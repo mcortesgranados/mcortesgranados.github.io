@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q48 proof &middot; Database scaling: the ladder from measurement to sharding</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q48 &middot; Database scaling proof</p>
+  <h1>Have you worked with database scaling strategies such as read replicas, horizontal partitioning/sharding, and caching?</h1>
+  <p class="subtitle">The scaling ladder in the order it gets climbed: measure the constraint, then the reversible levers &mdash; cache, replicas, offload &mdash; and sharding last, because it is the one that cannot be undone.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live scaling-ladder workflow</span>
+    <span class="tag">Replicas &middot; Caching &middot; Offload &middot; Sharding last</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q48.html">Question 48 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>48. Database scaling strategies</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; I apply these scaling strategies together, choosing based on measured bottlenecks rather than preference.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line names the strategies and the method. This page is the separate, detailed version, and its organising idea is the <em>order</em>: measure first, then climb the reversible rungs &mdash; caching, read replicas, offload &mdash; and shard last, because it is the only one that cannot be undone. Every rung carries the number that justifies it and the cost it adds.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, and the discipline is in the order rather than in the list. <strong>Measure first</strong>: the p95 and p99 of the endpoints that matter, the hit ratio of every cache layer, the replication lag, and the wait types consuming the database's time &mdash; with the constraint written down before anything changes, because a scaling change with no baseline is a change nobody can attribute a result to. <strong>Read replicas</strong> take the read-heavy traffic that genuinely tolerates a stale answer: listings, reports, analytics. Every read path declares its lag tolerance, a read that follows the caller's own write is pinned to the primary for a short window, and the replication lag is a monitored number with a budget and an automatic fallback &mdash; a replica beyond its budget is not used, because serving a slightly slower answer from the primary is better than serving a stale one and letting the user find out. <strong>Caching</strong> is layered so a hit at the cheapest layer costs nothing beyond it: in-process memoisation for the hottest immutable data, Redis with cache-aside for shared state and write-through where staleness is unacceptable, HTTP caching with validators, and a CDN for anonymous traffic. Every entry declares its TTL, its invalidation contract and its stampede protection; the invalidation contract is written <em>before</em> the cache is added, and the hit ratio is measured per layer rather than assumed. <strong>Offload before splitting</strong>: a read model for the expensive aggregation, a materialised view refreshed on a schedule, cold data archived by partition switch, pooling and batching to remove round trips, and search or analytics moved to an engine built for it &mdash; which together frequently remove the need to shard at all. <strong>Sharding last</strong>, because it is the point of no return: every query becomes shard-local or a scatter-gather, transactions stop spanning shards, and the key choice is effectively permanent. The key is chosen from the access pattern with the cross-shard cost written down and a rebalancing plan agreed before the first shard exists; in DynamoDB or Cassandra the same distribution is expressed directly in the partition key, which makes hot-partition avoidance the same discipline under a different name. And in all cases the new topology is validated by a load test that includes the two unpleasant scenarios &mdash; an empty cache and a cache that has failed entirely &mdash; before it is released.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Rung</th><th>What it is for</th><th>What it costs</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Measure</td><td>naming the constraint: latency percentiles, hit ratio, replication lag, lock waits, pool saturation</td><td>the effort of not guessing, which is where most of the value is</td></tr>
+          <tr><td>Cache</td><td>absorbing repeated reads at the cheapest possible layer</td><td>a second copy of the truth, an invalidation contract, and a cold-start scenario to test</td></tr>
+          <tr><td>Read replicas</td><td>moving lag-tolerant reads off the primary</td><td>lag to monitor, read-your-writes to pin, and a fallback path to prove</td></tr>
+          <tr><td>Offload</td><td>removing the work entirely: read models, materialised views, archival, batching, separate engines</td><td>a projection to keep current, and a report that is seconds slower but stops competing with checkout</td></tr>
+          <tr><td>Shard</td><td>the last resort when a single primary's write volume or working set is genuinely the limit</td><td>cross-shard queries, no cross-shard transactions, and a key choice that is effectively permanent</td></tr>
+          <tr><td>Validate</td><td>load-testing the new topology, including an empty and a failed cache</td><td>test time, and the discipline of recording the result against the decision</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live scaling-ladder workflow proof</h2>
+    <p>The running component below changes its rung/result view through real event binding. Select a rung to see the decision, the reasoning behind it, and the number that justifies it.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="scaling-ladder-workflow" id="scaling-ladder-workflow" data-operation="measure" aria-labelledby="scale-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>SCALING LADDER WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="scale-workflow-title">Choose a rung of the scaling ladder</h3>
+          <p>Select a rung to inspect the decision, the reasoning and the number behind it.</p>
+          <div class="task-buttons" aria-label="Scaling ladder rungs">
+            <button type="button" class="active" data-op="measure" aria-pressed="true">Measure before scaling</button>
+            <button type="button" data-op="replicas" aria-pressed="false">Read replicas and lag</button>
+            <button type="button" data-op="cache" aria-pressed="false">Multi-layer caching</button>
+            <button type="button" data-op="offload" aria-pressed="false">Offload before sharding</button>
+            <button type="button" data-op="shard" aria-pressed="false">Sharding last, and NoSQL keys</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="scale-command">$ p95 and p99 latency &middot; cache hit ratio per layer &middot; replication lag &middot; lock waits by type &middot; the constraint named before the fix</code>
+            <p data-testid="scale-effect">A scaling change answers a measured constraint rather than a feeling: the p95 and p99 of the endpoints that matter, the hit ratio of every cache layer, the replication lag in seconds, and the wait types holding work up on the database. The bottleneck is written down before anything changes, because a scaling change without a baseline is a change nobody can attribute a result to.</p>
+            <pre data-testid="scale-output">scaling decisions taken with a baseline: 100%
+constraint named in writing before the change: yes
+"the database is slow" accepted as a diagnosis: never
+signals watched: p95, p99, hit ratio, lag, lock waits, pool saturation</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the ladder buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Name the constraint before choosing the fix, because "the database is slow" is a symptom and scaling the wrong thing is expensive; prefer the reversible rung, since a cache can be removed and a replica pool can be resized but a shard key cannot be changed; declare the lag tolerance of every read path rather than saying that reads go to a replica; pin read-your-writes to the primary, because a user who cannot see their own change will not believe the change happened; never add a cache without the invalidation contract, and never let a cache be the source of truth; measure the hit ratio per layer, since an in-process cache at 20% is memory held for nothing; try the four cheaper rungs before sharding, and if sharding is genuinely required, choose the key with the access pattern in front of you and agree the rebalancing plan before the first shard exists; and validate the new topology with a load test that includes an empty cache and a failed cache, because those are the two states a deploy will produce.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q48:</strong> this page covers the scaling levers. The database design itself &mdash; ER modelling, key and constraint design, index design and partition schemes &mdash; is on the <a href="q47-proof.html">Q47 proof page</a>; query-level tuning is on <a href="q09-proof.html">Q09</a>; the caching implementation inside the application is on <a href="q05-proof.html">Q05</a>; and the NoSQL access-pattern design is on <a href="q10-proof.html">Q10</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the read routing with its lag budget and read-your-writes pinning, the cache inventory with its invalidation contracts, and the load test that validates the topology together with the record of every scaling decision.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q48 database scaling proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Covers read replicas, sharding and caching, and states the method that chooses between them.</li>
+      <li>Declares the lag tolerance of every read path and pins read-your-writes to the primary.</li>
+      <li>Shows an interactive proof of choosing a rung and reading the number behind it.</li>
+      <li>Requires an invalidation contract before a cache exists, and measures the hit ratio per layer.</li>
+      <li>Treats sharding as the last rung, with the key and the rebalancing plan agreed in advance.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q47.html">&larr; Question 47 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q48.html">Question 48 answer</a>
+    <a href="q49.html">Question 49 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 48 proof &middot; answers/q48-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/scaling-ladder-workflow.js"></script>
+<script src="../assets/lab/q48-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
