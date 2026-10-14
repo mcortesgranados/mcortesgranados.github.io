@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q06 proof &middot; EF Core, Dapper and other data-access frameworks</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q06 &middot; Data-access proof</p>
+  <h1>Have you worked with EF Core, Dapper, or other ORM/data-access frameworks?</h1>
+  <p class="subtitle">A runnable review of the data-access decisions behind the answer: which tool handles which read or write, the SQL each one generates, and the criteria the answer is held to.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live ORM workflow</span>
+    <span class="tag">EF Core &middot; Dapper &middot; .NET</span>
+    <a class="tag live-jump" href="#live-orm-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q06.html">Question 6 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>6. ORM and data-access frameworks</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; EF Core (code-first, migrations, LINQ) and Dapper, plus Hibernate/JPA and SQLAlchemy.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line is accurate but compressed &mdash; it names the frameworks without the reasoning that decides between them. This page is the separate, detailed version: it shows the call each one is used for, the SQL it produces, and the rules that keep persistence out of the domain.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes. EF Core is my default for domain modelling and transactional writes &mdash; code-first entities, migrations under source control, LINQ translated to set-based SQL, <code>Include</code> with split queries for relationships, and explicit transactions committed through a Unit of Work. Dapper takes the result-set-shaped reads: reporting queries, multi-mapping over joins and stored-procedure paths where I want exact SQL with minimal mapping overhead. Behind both sits the same repository abstraction, which is also how I bring Hibernate/JPA on Java and SQLAlchemy on Python into the same shape.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Decision</th><th>Typical call</th><th>Why this tool</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Domain writes</td><td><code>DbContext</code> + Unit of Work</td><td>Change tracking and one transaction per business operation.</td></tr>
+          <tr><td>Relationship loading</td><td><code>Include</code> + <code>AsSplitQuery</code></td><td>Removes N+1 round trips without a cartesian explosion.</td></tr>
+          <tr><td>Hot read path</td><td><code>AsNoTracking</code> + compiled query</td><td>No tracking allocation and a reused query plan.</td></tr>
+          <tr><td>Reporting read</td><td><code>QueryAsync&lt;T&gt;</code> (Dapper)</td><td>Projects straight to a DTO with exact, parameterised SQL.</td></tr>
+          <tr><td>Schema versioning</td><td><code>dotnet ef migrations add</code></td><td>The schema evolves with the code and is reviewable.</td></tr>
+          <tr><td>Other runtimes</td><td>JPA/Hibernate, SQLAlchemy</td><td>The same repository boundary across .NET, Java and Python.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-orm-title">
+    <h2 id="live-orm-title">Live data-access workflow proof</h2>
+    <p>The running component below changes its call/SQL view through real event binding. Select an operation to see the data-access call, the reasoning behind it, and the observable result &mdash; generated SQL, row counts and timings.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="orm-workflow" id="orm-workflow" data-operation="linq" aria-labelledby="orm-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>ORM WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="orm-workflow-title">Choose a data-access operation</h3>
+          <p>Select an operation to inspect the call, the reasoning and the SQL or result it produces.</p>
+          <div class="task-buttons" aria-label="Data-access operations">
+            <button type="button" class="active" data-op="linq" aria-pressed="true">EF Core LINQ</button>
+            <button type="button" data-op="nplus1" aria-pressed="false">Fix N+1</button>
+            <button type="button" data-op="compiled" aria-pressed="false">No-tracking + compiled</button>
+            <button type="button" data-op="dapper" aria-pressed="false">Dapper hot path</button>
+            <button type="button" data-op="uow" aria-pressed="false">Unit of Work commit</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="orm-command">$ db.Orders.Where(o =&gt; o.CustomerId == 42).OrderByDescending(o =&gt; o.CreatedAt).Take(20).ToListAsync()</code>
+            <p data-testid="orm-effect">EF Core translates the expression tree to set-based SQL, so filtering and paging happen in the database instead of in memory.</p>
+            <pre data-testid="orm-output">SELECT TOP(20) [o].[Id], [o].[CustomerId], [o].[CreatedAt], [o].[Total]
+FROM [Orders] AS [o]
+WHERE [o].[CustomerId] = @__customerId_0
+ORDER BY [o].[CreatedAt] DESC
+-- 4 ms  &middot;  20 rows</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How the choice is made</h2>
+    <div class="note">
+      <strong>Rule of thumb.</strong> EF Core for the majority of the domain and every transactional write, Dapper where the query is defined by its result set rather than by an entity graph, and hand-tuned SQL only when the optimiser needs explicit guidance. Whatever the tool, the query is reviewed against its execution plan before release, and persistence stays behind an interface so it can be swapped or mocked in tests.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q06:</strong> this page covers the ORM and micro-ORM choice and the data-access patterns around it. Provider-specific tuning, migration strategies for large production schemas and ORM-versus-stored-procedure benchmarking are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of the same decisions.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q06 data-access proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names EF Core and Dapper and the role each one is given.</li>
+      <li>Distinguishes tracked writes, no-tracking reads and result-set-shaped reads.</li>
+      <li>Shows an interactive proof of choosing a data-access operation and reading its result.</li>
+      <li>Demonstrates the N+1 fix and the Unit of Work commit path.</li>
+      <li>Defers provider tuning, large-schema migrations and benchmarking to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q06.html">&larr; Question 6 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q07.html">Question 7 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 06 proof &middot; answers/q06-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/orm-workflow.js"></script>
+<script src="../assets/lab/q06-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

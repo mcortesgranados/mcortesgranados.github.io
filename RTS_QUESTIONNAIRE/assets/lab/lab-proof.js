@@ -16,7 +16,7 @@
 (function (global) {
   'use strict';
 
-  var SOURCES = [
+  var BUILT_IN_SOURCES = [
     {
       name: 'cache-workflow.js',
       path: 'assets/lab/cache-workflow.js',
@@ -36,6 +36,13 @@
       source: "import { OPERATIONS, selectOperation } from './cache-workflow';\n\n/**\n * Contract tests for the Q05 cache proof.\n * They assert the rules the answer claims: every operation is documented,\n * every write carries an expiration, and invalidation is event-based.\n */\ndescribe('cache-workflow', () => {\n  it('publishes a command, an effect and an observable result per operation', () => {\n    Object.values(OPERATIONS).forEach((operation) => {\n      expect(operation.command.length).toBeGreaterThan(0);\n      expect(operation.effect.length).toBeGreaterThan(0);\n      expect(operation.output.length).toBeGreaterThan(0);\n    });\n  });\n\n  it('documents an expiration on every write path', () => {\n    expect(OPERATIONS.ttl.command).toContain('EX ');\n    expect(OPERATIONS.ttl.output).toContain('TTL');\n  });\n\n  it('invalidates through pub/sub instead of deleting behind other nodes', () => {\n    expect(OPERATIONS.invalidate.command).toContain('PUBLISH');\n    expect(OPERATIONS.invalidate.effect).toMatch(/every node|invalidation/i);\n  });\n\n  it('protects the database from a stampede with a single-flight lock', () => {\n    expect(OPERATIONS.lock.command).toContain('NX PX');\n    expect(OPERATIONS.lock.effect).toMatch(/single-flight|stampede/i);\n  });\n\n  it('switches the rendered result when another operation is selected', () => {\n    document.body.innerHTML = `\n      <section id=\"cache-workflow\" data-operation=\"hit\">\n        <div class=\"task-buttons\"><button data-op=\"hit\" class=\"active\">Read (hit)</button><button data-op=\"lock\">Lock</button></div>\n        <div class=\"command-result\">\n          <code data-testid=\"cache-command\"></code>\n          <p data-testid=\"cache-effect\"></p>\n          <pre data-testid=\"cache-output\"></pre>\n        </div>\n      </section>`;\n\n    const root = document.getElementById('cache-workflow') as HTMLElement;\n    selectOperation(root, 'lock');\n\n    expect(root.querySelector('[data-testid=\"cache-command\"]')?.textContent).toContain('NX PX');\n    expect(root.getAttribute('data-operation')).toBe('lock');\n    expect(root.querySelector('[data-op=\"lock\"]')?.classList.contains('active')).toBe(true);\n  });\n});\n"
     }
   ];
+
+  // A page can supply its own file set by defining window.LAB_SOURCES before this
+  // script loads (see assets/lab/q06-sources.js). Otherwise the built-in Q05 set
+  // above is used, so existing proof pages keep working unchanged.
+  var SOURCES = (Array.isArray(global.LAB_SOURCES) && global.LAB_SOURCES.length > 0)
+    ? global.LAB_SOURCES
+    : BUILT_IN_SOURCES;
 
   var KEYWORDS = {
     javascript: ('import from export default class const let var function return new if else for of in while switch case break ' +
