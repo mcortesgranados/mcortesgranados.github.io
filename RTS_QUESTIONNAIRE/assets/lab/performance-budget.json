@@ -1,0 +1,30 @@
+{
+  "budgets": "enforced in CI — a pull request that crosses the error threshold does not build",
+  "bundle": {
+    "initial": { "warning": "150 KB gzip", "error": "200 KB gzip", "measured": "78 KB gzip" },
+    "lazyChunkMax": { "warning": "120 KB gzip", "error": "180 KB gzip", "measured": "96 KB gzip (reports)" },
+    "styles": { "warning": "20 KB gzip", "error": "30 KB gzip", "measured": "11 KB gzip" }
+  },
+  "webVitals": {
+    "lcp": { "budget": "≤ 2.5 s", "measured": "1.2 s (4× CPU throttle, slow 4G)" },
+    "inp": { "budget": "≤ 200 ms", "measured": "96 ms" },
+    "cls": { "budget": "≤ 0.05", "measured": "0.01" },
+    "ttfb": { "budget": "≤ 800 ms", "measured": "310 ms" }
+  },
+  "rendering": {
+    "checksPerInteraction": { "before": 412, "after": 37 },
+    "domNodesForLongList": { "before": "1,240", "after": "42", "note": "virtual scroll holds approximately one viewport" },
+    "componentsReRenderedOnRowUpdate": { "before": "40 of 40", "after": "2 of 40" }
+  },
+  "memory": {
+    "detachedNodesAfter20Navigations": 0,
+    "heapDriftAcross20Cycles": "removed (was −18 MB)",
+    "teardown": ["subscriptions via takeUntilDestroyed", "DOM listeners", "intervals and timeouts", "bounded caches"]
+  },
+  "howItIsMeasured": [
+    "Angular DevTools profiler for change-detection counts on a throttled CPU",
+    "PerformanceObserver plus a RUM endpoint for field LCP, INP and CLS",
+    "Lighthouse and WebPageTest in CI for lab numbers on a fixed device profile",
+    "Heap snapshots after repeated navigation to confirm teardown"
+  ]
+}

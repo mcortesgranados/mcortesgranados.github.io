@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q25 proof &middot; Angular performance optimisation for large applications</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q25 &middot; Performance proof</p>
+  <h1>Have you worked on Angular performance optimization for large or complex applications?</h1>
+  <p class="subtitle">A runnable review of the optimisation loop: change detection, rendering cost, bundle budgets, field measurement and memory teardown &mdash; each step justified by a number.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live performance workflow</span>
+    <span class="tag">OnPush &middot; Virtual scroll &middot; Core Web Vitals</span>
+    <a class="tag live-jump" href="#live-perf-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q25.html">Question 25 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>25. Angular performance optimisation</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; performance tuning on large Angular applications is a documented part of my practice.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line states the claim without the numbers that support it. This page is the separate, detailed version: it shows what was changed, in what order, and the measured before/after for each change.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, and always in the same order: <strong>measure first</strong> (Angular DevTools profiler plus field LCP, INP and CLS), then fix <strong>change detection</strong> (OnPush across presentational components, signals and pure pipes instead of template function calls, detached detection for high-frequency widgets), then <strong>rendering cost</strong> (stable <code>track</code> in <code>@for</code>, virtual scrolling for long lists, <code>@defer</code> for heavy panels), then the <strong>bundle</strong> (route-level splitting, budgets in the build, dependency review), and finally <strong>memory</strong> (every subscription, listener, timer and cache released with the component). A change is only accepted with a number attached, measured on a throttled CPU and a slow network.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Area</th><th>What is changed</th><th>Measured effect</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Change detection</td><td>OnPush, signals, pure pipes, no template calls</td><td>412 &rarr; 37 checks per interaction; 2 of 40 components re-render on a row update.</td></tr>
+          <tr><td>Rendering</td><td><code>track</code>, virtual scroll, <code>@defer</code></td><td>1,240 &rarr; 42 DOM nodes for the same list.</td></tr>
+          <tr><td>Bundle</td><td>route splitting, budgets, dependency review</td><td>210 &rarr; 78 KB gzip initial; +52 KB recovered from one dependency swap.</td></tr>
+          <tr><td>Measurement</td><td>profiler + PerformanceObserver in production</td><td>LCP 3.4 &rarr; 1.2 s under 4&times; CPU throttling; INP 340 &rarr; 96 ms.</td></tr>
+          <tr><td>Memory</td><td>lifecycle-bound teardown, bounded caches</td><td>0 detached nodes after 20 navigations; 18 MB heap drift removed.</td></tr>
+          <tr><td>Guard rails</td><td>budgets in CI, regression alarm on vitals</td><td>A performance regression fails the build or raises an alert, not a ticket.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-perf-title">
+    <h2 id="live-perf-title">Live Angular performance workflow proof</h2>
+    <p>The running component below changes its technique/result view through real event binding. Select a step to see what is changed, the reasoning behind it, and the measured before/after.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="angular-perf-workflow" id="angular-perf-workflow" data-operation="changeDetection" aria-labelledby="perf-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>PERFORMANCE WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="perf-workflow-title">Choose an optimisation step</h3>
+          <p>Select a step to inspect the change, the reasoning and the measured result.</p>
+          <div class="task-buttons" aria-label="Performance steps">
+            <button type="button" class="active" data-op="changeDetection" aria-pressed="true">Change detection</button>
+            <button type="button" data-op="rendering" aria-pressed="false">Rendering cost</button>
+            <button type="button" data-op="bundle" aria-pressed="false">Bundle budget</button>
+            <button type="button" data-op="measurement" aria-pressed="false">Measure, then optimise</button>
+            <button type="button" data-op="memory" aria-pressed="false">Leaks &amp; teardown</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="perf-command">$ changeDetection: OnPush  +  signals/computed  +  pure pipes  &mdash;  no template function calls</code>
+            <p data-testid="perf-effect">Change detection runs only when something actually changes: OnPush everywhere, signals for derived values, pure pipes instead of template methods, and detached detection for high-frequency widgets.</p>
+            <pre data-testid="perf-output">checks per interaction: 412 &rarr; 37
+components re-rendered on one row update: 2 of 40</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How optimisation is kept honest</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Never optimise without a measurement on a throttled CPU; fix the change-detection work before touching the data layer; make long lists cost a viewport instead of a dataset; ship the bundle as a budget that can fail the build; verify with field data rather than one lab run; and treat a growing heap as a defect, not as a fact of life. Every entry in the table above is reproducible from a profile.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q25:</strong> this page covers client-side Angular optimisation. Server-side rendering strategy, CDN and edge configuration, and backend query performance for the same screens are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of these techniques.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q25 performance proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Covers change detection, rendering, bundle, measurement and memory.</li>
+      <li>Attaches a before/after number to every change claimed.</li>
+      <li>Shows an interactive proof of choosing an optimisation step and reading its result.</li>
+      <li>Keeps budgets in the build so a regression cannot ship silently.</li>
+      <li>Defers SSR strategy, CDN configuration and backend tuning to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q24.html">&larr; Question 24 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q25.html">Question 25 answer</a>
+    <a href="q26.html">Question 26 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 25 proof &middot; answers/q25-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/angular-perf-workflow.js"></script>
+<script src="../assets/lab/q25-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
