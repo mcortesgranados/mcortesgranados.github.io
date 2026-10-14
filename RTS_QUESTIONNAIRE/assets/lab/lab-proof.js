@@ -66,7 +66,9 @@
     graphql: ('schema query mutation subscription type interface union enum input scalar directive implements extend fragment on ' +
       'true false null').split(' '),
     python: ('def class import from return async await with as None True False for in if elif else try except finally raise lambda ' +
-      'yield self not and or is pass global nonlocal assert del while break continue').split(' ')
+      'yield self not and or is pass global nonlocal assert del while break continue').split(' '),
+    scss: ('media supports mixin include each use extend forward error return if else true false null and not only screen print ' +
+      'container grid flex none block inline auto important').split(' ')
   };
 
   // TSX/JSX uses the TypeScript token set: the markup is tokenised as identifiers,

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q22 proof &middot; Responsive UIs across mobile, tablet, laptop and desktop</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q22 &middot; Responsive proof</p>
+  <h1>Have you worked on responsive UIs for different viewport sizes such as mobile, tablet, laptop, and desktop?</h1>
+  <p class="subtitle">A runnable review of what each viewport class actually requires &mdash; and of how the behaviour is verified rather than eyeballed, across a measured viewport matrix.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live viewport workflow</span>
+    <span class="tag">Mobile &middot; Tablet &middot; Laptop &middot; Desktop</span>
+    <a class="tag live-jump" href="#live-responsive-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q22.html">Question 22 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>22. Responsive UIs across viewport sizes</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; mobile, tablet, laptop and desktop, validated for behaviour, a11y and speed.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line states the viewports but not what changes at each one or how it is proven. This page is the separate, detailed version: it shows the concrete requirements per class and the matrix that verifies them in CI.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes &mdash; responsive delivery is a baseline in all my UI work, and I treat it as behaviour rather than only styling. In practice: <strong>mobile (320&ndash;480 px)</strong> single column, tap targets of at least 44 px, bottom-sheet navigation, tables transformed into cards and virtualised lists; <strong>tablet (601&ndash;1024 px)</strong> two columns with navigation that becomes persistent; <strong>laptop (1025&ndash;1599 px)</strong> the full shell with side navigation, real data-table columns and density mode; <strong>desktop/wide (1600 px+)</strong> a capped measure instead of stretched content, with container queries so components adapt to their slot rather than to the viewport. Everything is verified with a viewport matrix in CI plus accessibility and performance budgets, and touch, hover, orientation and reduced-motion preferences are all handled.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Viewport class</th><th>What changes</th><th>Why it is done this way</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Mobile 320&ndash;480 px</td><td>1 column, 44 px targets, cards instead of tables</td><td>Thumb reach and no horizontal scroll at the smallest supported width.</td></tr>
+          <tr><td>Tablet 601&ndash;1024 px</td><td>2 columns, persistent navigation</td><td>Uses the extra space without becoming a different application.</td></tr>
+          <tr><td>Laptop 1025&ndash;1599 px</td><td>full shell, real table columns, density mode</td><td>Information density once the screen can afford it.</td></tr>
+          <tr><td>Desktop 1600 px+</td><td>measure capped, container queries</td><td>Long lines hurt reading; components adapt to their slot, not the window.</td></tr>
+          <tr><td>Input &amp; preference</td><td>touch, pointer, orientation, reduced motion</td><td>The same UI behaves correctly for every way it is used.</td></tr>
+          <tr><td>Verification</td><td>viewport matrix in CI, axe, Lighthouse budgets</td><td>Layout regressions are caught by the pipeline, not by a user report.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-responsive-title">
+    <h2 id="live-responsive-title">Live responsive workflow proof</h2>
+    <p>The running component below changes its viewport/result view through real event binding. Select a viewport class to see the requirement, the reasoning behind it, and the measurement taken at that size.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="responsive-workflow" id="responsive-workflow" data-operation="mobile" aria-labelledby="responsive-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>RESPONSIVE WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="responsive-workflow-title">Choose a viewport class</h3>
+          <p>Select a class to inspect the requirement, the reasoning and the measured result.</p>
+          <div class="task-buttons" aria-label="Viewport classes">
+            <button type="button" class="active" data-op="mobile" aria-pressed="true">Mobile 360-480</button>
+            <button type="button" data-op="tablet" aria-pressed="false">Tablet 601-1024</button>
+            <button type="button" data-op="laptop" aria-pressed="false">Laptop 1025-1599</button>
+            <button type="button" data-op="desktop" aria-pressed="false">Desktop 1600+</button>
+            <button type="button" data-op="verification" aria-pressed="false">Verification matrix</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="responsive-command">$ @media (max-width: 600px) { 1 column &middot; 44 px tap targets &middot; base 16 px }</code>
+            <p data-testid="responsive-effect">Phone first: one column, tap targets of at least 44&times;44 px, no hover-only affordance, and no horizontal scroll even at 320 px.</p>
+            <pre data-testid="responsive-output">375&times;812  &middot;  scrollWidth 375 (no overflow)
+tap target 44 px  &middot;  base font 16 px</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How responsive work is kept honest</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Design mobile-first and let the layout grow; use a named breakpoint scale instead of magic numbers; cap the measure on wide screens rather than stretching text; make components adapt to their container with container queries; never force a horizontal scroll on a table; keep 44 px touch targets everywhere; and verify the whole matrix in CI with accessibility and performance budgets rather than checking one device by hand.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q22:</strong> this page covers responsive layout and behaviour. Design-system governance, brand-level visual redesign and device-lab hardware matrices are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of the same decisions.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q22 responsive proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names each viewport class and what changes at it.</li>
+      <li>Keeps touch targets at 44 px and avoids horizontal scroll on small screens.</li>
+      <li>Shows an interactive proof of choosing a viewport class and reading its measurement.</li>
+      <li>Caps the measure on wide screens and adapts components by container, not viewport.</li>
+      <li>Defers design-system governance, brand redesign and device-lab matrices to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q21.html">&larr; Question 21 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q22.html">Question 22 answer</a>
+    <a href="q23.html">Question 23 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 22 proof &middot; answers/q22-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/responsive-workflow.js"></script>
+<script src="../assets/lab/q22-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

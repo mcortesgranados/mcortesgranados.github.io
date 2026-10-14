@@ -1,0 +1,102 @@
+// ---------------------------------------------------------------------------
+// Responsive layout: one set of components that re-flows from 320 px to 2560 px.
+// Mobile-first, with breakpoints named for the device class they actually serve.
+// ---------------------------------------------------------------------------
+
+$breakpoints: (
+  'mobile': 360px,
+  'tablet': 601px,
+  'laptop': 1025px,
+  'desktop': 1600px,
+);
+
+@mixin from($name) {
+  $width: map-get($breakpoints, $name);
+
+  @if $width == null {
+    @error 'Unknown breakpoint #{$name}';
+  }
+
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+// Fluid typography: clamps between a readable minimum and a comfortable maximum,
+// so no text ever needs a breakpoint of its own.
+:root {
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --step-2: clamp(1.25rem, 1.1rem + 0.75vw, 1.75rem);
+  --gutter: clamp(16px, 2vw, 32px);
+  --measure: 68ch;              // line length cap, independent of viewport width
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 1fr;    // mobile default: single column
+  gap: var(--gutter);
+  padding: var(--gutter);
+
+  @include from('tablet') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    .shell__nav { position: sticky; top: 0; }
+  }
+
+  @include from('laptop') {
+    grid-template-columns: 240px minmax(0, 1fr);
+
+    .shell__table { display: table; }          // real columns only when they fit
+  }
+
+  @include from('desktop') {
+    max-inline-size: 1600px;                   // cap the measure instead of stretching
+    margin-inline: auto;
+    grid-template-columns: 240px minmax(0, 1fr) 320px;
+  }
+}
+
+// Touch targets: 44 px minimum on any input class, not only on small screens.
+.button,
+.field,
+.nav__link {
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  font-size: var(--step-0);
+}
+
+// Container query: the card adapts to its own slot, which is what makes it
+// reusable in a narrow sidebar and in a full-width panel alike.
+.card {
+  container-type: inline-size;
+}
+
+@container (min-width: 480px) {
+  .card__body { display: grid; grid-template-columns: 1fr auto; }
+}
+
+// Tables become cards on small screens instead of forcing horizontal scrolling.
+@media (max-width: 600px) {
+  .data-table {
+    display: block;
+
+    thead { position: absolute; clip-path: inset(50%); }   // keep it for screen readers
+
+    tr {
+      display: block;
+      border: 1px solid #d7e3f1;
+      border-radius: 8px;
+      margin-block-end: 10px;
+    }
+
+    td::before {
+      content: attr(data-label) ': ';
+      font-weight: 700;
+    }
+  }
+}
+
+// Respect the user's motion preference in every layout above.
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
