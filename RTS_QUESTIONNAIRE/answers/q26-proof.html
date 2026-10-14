@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q26 proof &middot; Multi-layered .NET: loose coupling and separation of concerns</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q26 &middot; Layered .NET proof</p>
+  <h1>Have you developed multi-layered .NET applications? [with a focus on loose coupling, high cohesion, and separation of concerns?]</h1>
+  <p class="subtitle">A runnable review of the layering: four layers with dependencies pointing inward, the rule that each one owns, and the architecture tests that stop the boundaries from eroding.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live layering workflow</span>
+    <span class="tag">Api &middot; Application &middot; Domain &middot; Infrastructure</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q26.html">Question 26 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>26. Multi-layered .NET applications</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; layered .NET solutions with explicit separation of concerns are exactly how I structure applications.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line states the approach without showing the rule that makes layering useful. This page is the separate, detailed version: it shows each layer's responsibility, the direction dependencies are allowed to travel, and the tests that enforce it.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes. A typical solution is <strong>Api</strong> (controllers/endpoints, model binding, problem details, authentication &mdash; no business rules), <strong>Application</strong> (use cases, orchestration, validation, DTOs, the ports the use case needs), <strong>Domain</strong> (entities, value objects, aggregates, invariants, domain events &mdash; zero framework references) and <strong>Infrastructure</strong> (EF Core or ADO.NET, external services, messaging, storage, composition root). Dependencies point <em>inward</em>: Infrastructure implements interfaces declared by Application and Domain, never the reverse. Loose coupling comes from those ports; high cohesion comes from keeping a use case and the rules it protects together; separation of concerns is what makes the domain testable without a database, and the boundaries are checked by architecture tests in the build.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>Owns</th><th>Must not</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Api</td><td>transport, auth, validation at the edge, DTOs</td><td>contain business rules or query the database directly</td></tr>
+          <tr><td>Application</td><td>use cases, orchestration, ports, transactions</td><td>reference EF Core, HTTP or any outer implementation</td></tr>
+          <tr><td>Domain</td><td>invariants, aggregates, value objects, domain events</td><td>reference any framework or infrastructure package</td></tr>
+          <tr><td>Infrastructure</td><td>adapters: repositories, gateways, messaging, composition root</td><td>be depended upon by Domain or Application</td></tr>
+          <tr><td>Cross-cutting</td><td>logging, tracing, caching behind interfaces</td><td>leak framework types into the inner layers</td></tr>
+          <tr><td>Enforcement</td><td>architecture tests + boundary contracts</td><td>rely on convention alone, which erodes over time</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live layering workflow proof</h2>
+    <p>The running component below changes its layer/result view through real event binding. Select a layer to see what it owns, the reasoning behind the boundary, and the evidence that the boundary holds.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="layered-dotnet-workflow" id="layered-workflow" data-operation="layers" aria-labelledby="layers-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>LAYERING WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="layers-workflow-title">Choose a layer or boundary rule</h3>
+          <p>Select a step to inspect what it owns, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Layers and boundary rules">
+            <button type="button" class="active" data-op="layers" aria-pressed="true">The four layers</button>
+            <button type="button" data-op="domain" aria-pressed="false">Domain invariants</button>
+            <button type="button" data-op="application" aria-pressed="false">Application use cases</button>
+            <button type="button" data-op="infrastructure" aria-pressed="false">Infrastructure adapters</button>
+            <button type="button" data-op="enforce" aria-pressed="false">Enforce the boundaries</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="layers-command">$ Api &rarr; Application &rarr; Domain   &larr;   Infrastructure   (dependencies point inward)</code>
+            <p data-testid="layers-effect">Four layers with a single dependency direction: the domain knows nothing about EF Core or HTTP, and infrastructure implements the interfaces the inner layers declare.</p>
+            <pre data-testid="layers-output">package references inside the domain project: 0
+architecture test violations: 0</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the layering buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Let the domain own the rules and depend on nothing; declare ports in the inner layer and implement them outside; keep the composition root as the only place that names a concrete type; map entities to DTOs at the boundary so the database shape never becomes the API contract; and enforce all of it with architecture tests, because a boundary nobody checks is a boundary that disappears in the next sprint.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q26:</strong> this page covers layering and the dependency rule in .NET solutions. Module decomposition by bounded context, distributed deployment of those layers and team-ownership models are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other three are the layers as they exist in the solution.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q26 layered .NET proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names the layers and what each one owns.</li>
+      <li>Keeps dependencies pointing inward, with ports declared by the inner layers.</li>
+      <li>Shows an interactive proof of choosing a layer and reading the evidence.</li>
+      <li>Keeps the domain free of framework references and the API contract free of entities.</li>
+      <li>Enforces the boundaries with tests, not with convention.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q25.html">&larr; Question 25 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q26.html">Question 26 answer</a>
+    <a href="q27.html">Question 27 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 26 proof &middot; answers/q26-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/layered-dotnet-workflow.js"></script>
+<script src="../assets/lab/q26-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
