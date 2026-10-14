@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q43 proof &middot; Design documentation: ER diagrams, schemas, contracts, architecture, workflows</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q43 &middot; Design documentation proof</p>
+  <h1>Have you created and maintained design documentation such as ER diagrams, database schemas, API contracts, component/service architecture diagrams, and business workflows?</h1>
+  <p class="subtitle">The five artefact types, each with the same three answers: what it contains, who reads it, and the mechanism that stops it going stale. The argument running through all of them is that an artefact written beside the thing it describes will always lose.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live design-documentation workflow</span>
+    <span class="tag">Docs as code &middot; Generated artefacts &middot; Staleness gates</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q43.html">Question 43 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>43. Design documentation and its artefacts</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; I create and maintain these artefacts, and I treat keeping them current as part of the work rather than as an afterthought.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line names the artefacts and the intention. This page is the separate, detailed version, and it takes the harder half seriously: <em>maintained</em> means a mechanism, not a resolution. Each artefact has one declared source of truth, is generated from it wherever a generator exists, is regenerated in the same pull request that changes the source, and is guarded by a gate that fails when the two disagree.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, and the design decision behind all five artefacts is the same one: put the truth in one place and derive everything else from it. <strong>ER diagrams</strong> are a view of the schema rather than a document beside it &mdash; generated from the migrations, so the picture cannot show a dropped column or miss one added on a Friday &mdash; at two levels because there are two audiences, a conceptual model the business can read and a physical one with types and keys that the team reviews the change against. <strong>Database schemas</strong> are the DDL itself under version control, with forward-only migrations applied by CI and a data dictionary generated from it; the column comment is the only place a change of meaning gets recorded, so it is part of the review rather than an ornament. <strong>API contracts</strong> are machine-readable documents with a generator on one side and a validator on the other, which is what distinguishes them from a specification in a wiki: OpenAPI generated from the implementation or written first and asserted against it, event schemas in a registry with a compatibility mode, and a breaking-change diff in CI. <strong>Component and service architecture</strong> follows the C4 levels so each diagram answers one question, with the container and component views generated from the deployment manifests and the service catalogue &mdash; because the manifests are executed by the platform and therefore cannot be wrong &mdash; and with ownership and dependencies recorded as data so a review can ask whether an edge is permitted rather than squinting at a picture. <strong>Business workflows</strong> are the exception to generation, because the value is the shared understanding: the process is modelled with the owner rather than presented to them, in a versioned model that includes the exception and escalation paths, which is where the process actually lives. And the mechanism that holds it together: a documentation pipeline in the repository, where a generated artefact is regenerated in the same pull request as its source, the docs site is built from the repository on every merge so a document cannot exist outside version control, and prose is reserved for the one thing no generator can produce &mdash; the why.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Artefact</th><th>Source of truth</th><th>How it is kept current</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ER diagram</td><td>the migrations</td><td>generated; the committed file is compared against the generator output in CI</td></tr>
+          <tr><td>Database schema</td><td>the DDL under version control</td><td>forward-only migrations reviewed in a pull request; the dictionary is generated and shows <code>missing</code> where a comment is absent</td></tr>
+          <tr><td>API contract</td><td>the implementation, or the spec asserted against it</td><td>drift test against the running application, plus a breaking-change diff on every change</td></tr>
+          <tr><td>Architecture diagrams</td><td>the deployment manifests and the service catalogue</td><td>generated in CI; findings open a ticket with an owner instead of failing the build</td></tr>
+          <tr><td>Business workflows</td><td>the process model agreed with the owner</td><td>versioned in the repository; a process change requires the model to change in the same pull request</td></tr>
+          <tr><td>The mechanism</td><td>the documentation pipeline</td><td>one declared source per artefact, generation in CI, and prose only for the why</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live design-documentation workflow proof</h2>
+    <p>The running component below changes its artefact/result view through real event binding. Select an artefact to see what it contains, who reads it, and the mechanism that keeps it true.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="design-artefacts-workflow" id="design-artefacts-workflow" data-operation="er" aria-labelledby="docs-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>DESIGN DOCUMENTATION WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="docs-workflow-title">Choose a design artefact</h3>
+          <p>Select an artefact to inspect what it contains, who reads it and how it stays current.</p>
+          <div class="task-buttons" aria-label="Design artefact types">
+            <button type="button" class="active" data-op="er" aria-pressed="true">ER diagrams</button>
+            <button type="button" data-op="schema" aria-pressed="false">Database schemas</button>
+            <button type="button" data-op="contracts" aria-pressed="false">API contracts</button>
+            <button type="button" data-op="architecture" aria-pressed="false">Component and service architecture</button>
+            <button type="button" data-op="workflows" aria-pressed="false">Business workflows</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="docs-command">$ entities, attributes and cardinality &middot; generated from the migrations rather than drawn &middot; a conceptual view for the business and a physical one for the team</code>
+            <p data-testid="docs-effect">The ER diagram is a view of the schema rather than a separate document: it is generated from the migrations, so it cannot show a table that no longer exists or miss one that was added on a Friday afternoon. There are two levels because there are two audiences &mdash; the conceptual model the business can read, and the physical one with types and keys that the team reviews the change against.</p>
+            <pre data-testid="docs-output">hand-drawn ER diagrams that can go stale: 0
+the physical diagram generated from the migrations: on every release
+conceptual models reviewed with the business owner: yes
+an entity in a diagram with no table behind it: 0</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the documentation discipline buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Declare one source of truth per artefact and derive everything else from it, because two copies of the same truth means one of them is wrong; generate every artefact a generator can produce, since a diagram drawn once is a diagram that was current once; regenerate the artefact in the same pull request as the source change, because a separate documentation ticket never competes successfully with the next feature; keep the generated file in the repository so its diff is visible in review; reserve prose for the why &mdash; alternatives rejected, constraints, consequences &mdash; and accept that everything else is regenerable; name the audience of each artefact, because a document written for everybody is read by nobody; build the docs site from the repository on every merge so a document cannot exist outside version control; and give each finding an owner, since a report addressed to nobody is a report nobody fixes.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q43:</strong> this page covers the artefact types and the mechanism that keeps them current. The low-level design work itself &mdash; responsibilities, error-path sequences, the review before coding &mdash; is on the <a href="q42-proof.html">Q42 proof page</a>; the API contract as a lifecycle is on <a href="q49-proof.html">Q49</a>; the schema design decisions are on <a href="q47-proof.html">Q47</a>; and the service catalogue the architecture view is generated from is on <a href="q44-proof.html">Q44</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the ER and dictionary generator, the architecture diagram generator with its drift report, and the documentation pipeline that declares a source of truth and a staleness gate per artefact.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q43 design documentation proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Covers all five artefact types the question names, each with its audience.</li>
+      <li>Declares one source of truth per artefact and generates what can be generated.</li>
+      <li>Shows an interactive proof of choosing an artefact and reading the mechanism.</li>
+      <li>Regenerates in the same pull request and gates on staleness rather than on good intentions.</li>
+      <li>Models business workflows with the process owner, including the exception paths.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q42.html">&larr; Question 42 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q43.html">Question 43 answer</a>
+    <a href="q44.html">Question 44 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 43 proof &middot; answers/q43-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/design-artefacts-workflow.js"></script>
+<script src="../assets/lab/q43-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

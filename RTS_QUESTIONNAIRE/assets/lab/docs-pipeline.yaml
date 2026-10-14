@@ -1,0 +1,103 @@
+# Q43 — the documentation pipeline: one source of truth per artefact.
+#
+# The reason diagrams and documents go stale is that they are written *beside* the thing
+# they describe, and the thing keeps changing. So each artefact below declares where its
+# truth lives, what generates it, where it is published, and — the field that makes the
+# rest work — the gate that fails when the generated output no longer matches the source.
+#
+# The rule that follows from this table: anything a generator can produce is generated;
+# prose is reserved for the part no generator can produce, which is *why*.
+version: 3
+
+principles:
+  - "one source of truth per artefact, declared here rather than agreed verbally"
+  - "if it can be generated, it is generated, and the generated file is committed so a diff is visible in review"
+  - "a generated artefact is regenerated in the same pull request that changes its source"
+  - "prose is for the why: alternatives rejected, constraints, consequences. The what is generated."
+  - "every artefact names its audience, because a document written for everybody is read by nobody"
+
+artefacts:
+  - name: er-diagram
+    audience: ["engineering", "dba", "business (conceptual level only)"]
+    sourceOfTruth: "db/migrations/**/*.sql"
+    generator: "tools/docs/erd-from-schema.ts"
+    produces: ["docs/erd.mmd", "docs/data-dictionary.md"]
+    views:
+      - { level: conceptual, note: "entities and relationships, reviewed with the business owner" }
+      - { level: physical, note: "types, keys and indexes, reviewed against the change" }
+    stalenessGate: "CI fails when the committed artefact differs from the generator output"
+    reviewedBy: ["the author of the migration", "the dba on schema changes"]
+    handWritten: "none: both views are generated"
+
+  - name: database-schema
+    audience: ["engineering", "dba"]
+    sourceOfTruth: "db/migrations/**/*.sql"
+    generator: "the DDL itself; the dictionary is generated from it"
+    produces: ["docs/data-dictionary.md"]
+    stalenessGate: "column comments are required, and the dictionary marks a missing one as **missing** rather than blank"
+    reviewedBy: ["the reviewer of the migration"]
+    rules:
+      - "forward-only, versioned migrations applied by CI"
+      - "a destructive change needs a two-step deploy: add and write, then read and remove"
+      - "the comment on the column is the only place the meaning of a change is recorded, so it is part of the review"
+
+  - name: api-contract
+    audience: ["front-end and partner developers", "QA", "product"]
+    sourceOfTruth: "the implementation, or the specification written first and asserted against it"
+    generator: "Swashbuckle/NSwag, springdoc-openapi, FastAPI"
+    produces: ["spec/openapi.yaml", "the published portal entry", "generated typed clients"]
+    views:
+      - { level: reference, note: "the OpenAPI document, browsable in Swagger UI" }
+      - { level: narrative, note: "the guide pages: authentication, pagination, error handling, versioning policy" }
+    stalenessGate: "the drift test compares the running application against the published document, and a breaking-change diff runs on every change"
+    reviewedBy: ["the owning team", "the consumer team when the change is not purely additive"]
+    handWritten: "only the guide pages: the reference is generated"
+
+  - name: component-service-architecture
+    audience: ["engineering", "architecture review", "on-call"]
+    sourceOfTruth: "deploy/k8s/**/*.yaml plus service-catalogue.yaml"
+    generator: "tools/docs/architecture-diagram.py"
+    produces: ["docs/architecture-container.mmd", "docs/architecture-<service>.mmd", "docs/architecture-report.json"]
+    c4Levels:
+      - { level: context, note: "hand-drawn: who uses the system and which external systems it talks to" }
+      - { level: container, note: "generated from the manifests: services, technology, data stores, replicas" }
+      - { level: component, note: "generated from the catalogue: the modules inside a service" }
+    stalenessGate: "the report is generated in CI; findings open a ticket with an owner rather than failing the build"
+    reviewedBy: ["the owning team for its own service", "architecture review for a new dependency"]
+    rationale: "the container and component views are generated because they change most often and are wrong most often when drawn"
+
+  - name: business-workflow
+    audience: ["the process owner", "product", "engineering", "support"]
+    sourceOfTruth: "the process definition agreed with the owner, held as a model"
+    format: "BPMN 2.0 XML, held in the repository next to the code that implements the automated steps"
+    generator: "rendered to a diagram by CI; the model is the source, the picture is an output"
+    producedFor: ["docs/workflows/<process>.bpmn", "the rendered image in the process guide"]
+    mustInclude:
+      - "the exception and escalation paths, which is where the process actually lives"
+      - "which steps are automated and which are still people"
+      - "the owner of each step, not only of the process"
+      - "the data each step reads and writes, so a change can be traced to the affected screens"
+    stalenessGate: "a change to a process requires the model to be updated in the same pull request; the process owner reviews it"
+    reviewedBy: ["the process owner", "support, who work the exceptions"]
+    rule: "built with the owner rather than presented to them: a model they have corrected is one they will use"
+
+review:
+  inTheSamePullRequest:
+    - "the source change"
+    - "the regenerated artefacts"
+    - "the ADR or the LLD record, when a decision changed"
+  never:
+    - "a generated artefact edited by hand: the next regeneration overwrites it silently"
+    - "a diagram added to a slide deck and nowhere else: it is stale on the day it is presented"
+    - "a document with no audience field"
+  freshness:
+    metric: "share of artefacts whose generated output matches their source at the time of the release"
+    target: "100%"
+    measuredBy: "the staleness gates in the pipeline"
+
+tooling:
+  # The stack that makes the table above enforceable rather than aspirational.
+  diagramRendering: ["Mermaid in the repository, rendered by the docs site", "Structurizr for the hand-written context view"]
+  bpmn: ["bpmn-js for the browser", "the XML in the repository as the source"]
+  publishing: "the docs site is built from the repository on every merge, so a document cannot exist outside version control"
+  search: "the site index includes the generated reference and the guides, so a search finds the current version"
