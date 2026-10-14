@@ -1,0 +1,110 @@
+# Q47 — the database topology and its operating record.
+#
+# The topology is chosen from the recovery objective rather than from a preference for
+# one engine: what the business can afford to lose, and how long it can be unavailable,
+# decides between asynchronous streaming, synchronous commit and log shipping. The
+# drills are the part that turns "we have a standby" into a capability — an untested
+# failover is a plan, and a plan is not an RTO.
+version: 3
+
+standards:
+  # Applied to every schema, so a review has a checklist rather than a taste.
+  naming:
+    tables: "plural, PascalCase; schemas group by bounded context"
+    indexes: "IX_<Table>_<Columns>, UQ_ for unique, filtered indexes named for the predicate"
+    constraints: "PK_, FK_, CK_, DF_ prefixed so a violation names itself in the error"
+  types:
+    money: "decimal(19,4) — never float, never a formatted string"
+    timestamps: "datetime2(3) in UTC; the time zone is a presentation concern"
+    identifiers: "surrogate uniqueidentifier or bigint per table, plus the natural unique key"
+    booleans: "NOT NULL with a default; a nullable boolean is a third state nobody planned for"
+  integrity:
+    "foreign keys": "declared, never implied by the application"
+    "check constraints": "for every invariant a row can violate on its own"
+    "row versioning": "rowversion or xmin on every table an application updates"
+  migrations:
+    style: "forward-only, versioned, applied by CI"
+    destructiveChange: "requires a backfill plan and a two-step deploy: add and write, then read and remove"
+
+databases:
+  - name: orders
+    engine: "SQL Server 2022"
+    purpose: "transactional: orders, lines, outbox"
+    topology:
+      mode: "primary + one synchronous secondary + one asynchronous secondary in another region"
+      synchronousCommit: true
+      rationale: "an order must not be acknowledged and then lost with the primary; the second async replica exists for the regional failure, not for durability"
+    recovery:
+      rpo: "0 for the acknowledged write (synchronous commit)"
+      rto: "5 minutes, measured"
+      lastFailoverDrill: "quarterly, timed, recorded with who ran it"
+      pitr: "verified monthly by restoring to a timestamp inside the log backup chain"
+      backup: { full: "nightly", differential: "every 6 h", log: "every 15 min", retention: "35 days", offsite: true }
+    partitioning:
+      scheme: "range right on OrderDate, monthly boundaries added 5 days ahead by a job that alerts if it fails"
+      purpose: ["manageability", "archiving by partition switch", "partition elimination on date-scoped reads"]
+      archive: "the previous quarter is switched out to the archive filegroup, then to cold storage"
+    capacity:
+      baseline: "measured p95 across a full business cycle, refreshed quarterly"
+      headroom: "the alert fires at 70% of the measured ceiling, not at an arbitrary number"
+      growth: "monthly row growth and index growth tracked, with the partition count reviewed at 200"
+
+  - name: reporting
+    engine: "PostgreSQL 16"
+    purpose: "analytic and reporting reads, projections rebuilt from the event log"
+    topology:
+      mode: "primary + two read replicas"
+      synchronousCommit: false
+      rationale: "a report is eventually consistent by nature; paying synchronous latency for it would slow the writes it reads"
+    recovery:
+      rpo: "1 minute"
+      rto: "30 minutes: a replica promoted, with the lag published on the dashboard"
+      pitr: "WAL archiving with a restore verified each quarter"
+    consistency:
+      model: "eventual, with the lag exposed"
+      note: "a report shows the projection timestamp in its footer, so a reader can see how current it is"
+
+  - name: catalogue
+    engine: "DynamoDB"
+    purpose: "high-volume catalogue reads at single-digit-millisecond latency"
+    topology:
+      mode: "single-table design, no sharding layer"
+      rationale: "the distribution is expressed in the key design instead: PK/SK chosen from the access patterns, so there is nothing to rebalance"
+    keyDesign:
+      partitionKey: "entity type and tenant, so a tenant's data is addressable together"
+      sortKey: "the access pattern's ordering, so the query is a range read and never a scan"
+      hotPartitionGuard: "reviewed against the largest tenant's key distribution; an unbounded counter would be a hot partition"
+    recovery:
+      rpo: "point-in-time recovery, 35-day window"
+      rto: "restore to a new table and repoint: 20 minutes, rehearsed"
+    accessPatternsDocumentedBeforeKeyChoice: true
+
+  - name: search-index
+    engine: "OpenSearch"
+    purpose: "derived: rebuilt from orders.events.v2"
+    topology:
+      mode: "3 data nodes, 1 replica per shard, shard count fixed at index creation"
+      rationale: "a shard count that has to grow means a reindex, so it is chosen from the projected volume rather than from the current one"
+    recovery:
+      rpo: "acceptable to rebuild from the log"
+      rto: "30 minutes by replay"
+      note: "no backup is relied on: the source of truth is the event log, which is a stronger guarantee than a snapshot"
+
+drills:
+  # Scheduled and recorded, because an untested recovery path is a belief.
+  - { drill: "failover to the synchronous secondary", frequency: "quarterly", measured: "rto", recorded: true }
+  - { drill: "point-in-time recovery of the orders database", frequency: "monthly", measured: "wall clock and correctness", recorded: true }
+  - { drill: "restore the archive filegroup and query it", frequency: "twice a year", measured: "does the archive answer a real report", recorded: true }
+  - { drill: "promote a read replica for reporting", frequency: "quarterly", measured: "rto", recorded: true }
+  - { drill: "rebuild the search index from the log", frequency: "quarterly", measured: "duration and correctness against a checksum", recorded: true }
+untestedRecoveryPaths: 0
+
+reviews:
+  cadence: "quarterly, per database, with the plan evidence attached"
+  checks:
+    - "unused indexes: any index with a read count of zero over four weeks is removed"
+    - "missing indexes: the query inventory is joined against the plan cache, and any hot query doing a scan is either fixed or documented"
+    - "statistics and fragmentation: refreshed on the measured schedule, not a calendar"
+    - "growth and headroom against the measured baseline"
+    - "the partition boundary job has run and the next boundaries exist"
+  artefacts: ["the execution plan before and after every index change", "the query inventory joined against index usage"]

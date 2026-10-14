@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q47 proof &middot; Complex database architecture: ER modelling, indexing, partitioning, replication, sharding, tuning</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q47 &middot; Database architecture proof</p>
+  <h1>Have you designed complex database architectures, including ER modeling, indexing, partitioning, replication, sharding, and performance optimization?</h1>
+  <p class="subtitle">The six areas the question names, as design decisions with their evidence: the model, the keys, the index set derived from a query inventory, partitioning for manageability, the topology chosen from the recovery objective, and the plan-based triage that validates all of it.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live database-architecture workflow</span>
+    <span class="tag">SQL Server &middot; PostgreSQL &middot; DynamoDB &middot; OpenSearch</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q47.html">Question 47 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>47. Complex database architectures</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; database architecture and tuning are long-standing strengths across relational and NoSQL platforms.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line lists the areas. This page is the separate, detailed version, and the thread through all of it is a single habit: every decision is taken from evidence &mdash; the query inventory, the execution plan, the measured load, the timed drill &mdash; rather than from intuition. An index nobody measured and a failover nobody executed are both beliefs, and this page is about not holding them.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, across Oracle, SQL Server, MySQL and PostgreSQL as well as MongoDB, DynamoDB, DocumentDB, Neptune and Cassandra/Keyspaces. <strong>ER modelling</strong> is done in three passes with three audiences: conceptual with the business, logical normalised to third normal form with every denormalisation written down beside the read it serves, and physical with the types, the partitioning and the index set. History is a design decision rather than an afterthought &mdash; audited tables get temporal or append-only history, because reconstructing what a row looked like in March is impossible if nobody kept the log &mdash; and all migrations are forward-only and versioned. <strong>Keys and constraints</strong>: a surrogate primary key so references stay stable, plus the natural unique key that makes a duplicate impossible rather than unlikely, foreign keys and check constraints declared rather than implied by the application, and <code>rowversion</code> on every table an application updates. <strong>Indexing</strong> is derived from an inventory of the queries that actually run, in their real shapes and frequencies: composite columns in equality-then-range order, <code>INCLUDE</code> so a read is answered from the index alone, filtered indexes for the sparse predicate, fragmentation and statistics maintained on a measured schedule &mdash; and an index with no reader removed, because it is a write cost with nothing on the other side. <strong>Partitioning</strong> is used for manageability first: range by date, list by tenant, hash for an even spread, with partition switching so archiving a 40 GB month is a metadata operation instead of a delete that locks and bloats, and with the queries designed to follow the scheme so the partition elimination actually happens. <strong>Replication</strong> follows the recovery objective &mdash; what the business can lose and how long it can be down decides between asynchronous streaming, synchronous commit and log shipping &mdash; and is then proven by drills: failover, point-in-time restore and archive restore, all timed and recorded. <strong>Sharding</strong> is a key-design decision with the access pattern in front of it, in relational engines or expressed directly in a NoSQL key design (DynamoDB partition and sort keys, Cassandra partition keys) that achieves the same distribution without a routing layer to rebalance. <strong>Performance optimisation</strong> is a discipline with evidence at each step: triage from the plan cache ordered by reads, one query at a time, measured before and after, with the write cost of every index included in the arithmetic.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Area</th><th>The decision</th><th>The evidence it rests on</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ER modelling</td><td>3NF with denormalisation justified per read; temporal or append-only history for audited tables</td><td>the documented list of denormalisations and the query each one serves</td></tr>
+          <tr><td>Keys and constraints</td><td>surrogate key plus natural unique key; constraints in the schema, not only in code</td><td>a duplicate or an impossible row is refused by the engine, not by an application check</td></tr>
+          <tr><td>Indexing</td><td>derived from the query inventory; covering, filtered, equality-then-range</td><td>the execution plan before and after, plus the read/write ratio per index</td></tr>
+          <tr><td>Partitioning</td><td>range by date, list by tenant, hash for spread; switching for archive</td><td>archive time in seconds and no lock on the live partition</td></tr>
+          <tr><td>Replication</td><td>topology chosen from RPO and RTO, synchronous commit where a lost write is unacceptable</td><td>quarterly failover and monthly PITR drills, timed and recorded</td></tr>
+          <tr><td>Sharding</td><td>shard or partition key chosen with the access pattern and the cross-shard cost written down</td><td>zero cross-shard reads on the hot path; a documented rebalancing plan</td></tr>
+          <tr><td>Performance</td><td>triage from the plan cache by logical reads; one change at a time, measured</td><td>before-and-after plans attached to every index migration</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live database-architecture workflow proof</h2>
+    <p>The running component below changes its area/result view through real event binding. Select an area to see the decision, the reasoning behind it, and the evidence that holds it up.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="database-architecture-workflow" id="database-architecture-workflow" data-operation="model" aria-labelledby="dba-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>DATABASE ARCHITECTURE WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="dba-workflow-title">Choose an area of the database architecture</h3>
+          <p>Select an area to inspect the decision, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Database architecture areas">
+            <button type="button" class="active" data-op="model" aria-pressed="true">ER modelling and schema evolution</button>
+            <button type="button" data-op="keys" aria-pressed="false">Keys, constraints, distribution key</button>
+            <button type="button" data-op="indexes" aria-pressed="false">Index design from query patterns</button>
+            <button type="button" data-op="partition" aria-pressed="false">Partitioning and archiving</button>
+            <button type="button" data-op="topology" aria-pressed="false">Replication, recovery and triage</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="dba-command">$ conceptual &rarr; logical &rarr; physical &middot; 3NF with justified denormalisation &middot; temporal history for audited tables &middot; versioned, forward-only migrations</code>
+            <p data-testid="dba-effect">The model is built in three passes, each for a different audience: the conceptual one with the business, the logical one normalised to third normal form with every denormalisation written down beside the read it serves, and the physical one with types, partitioning and the index set. History is a design decision rather than an afterthought, because reconstructing what a row looked like in March is impossible if nobody kept the log.</p>
+            <pre data-testid="dba-output">denormalisations applied: 3, each with the query it serves
+rows that can dangle because only the application checks: 0
+history reconstructable for the audited tables: all of it
+migrations: forward-only, versioned, applied by CI
+destructive migration shipped without a backfill plan: 0</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the design discipline buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Model before you type, and normalise first because denormalising a normalised schema is a decision while normalising a denormalised one is a project; give every business table both a stable surrogate key and the natural unique key, since that is what makes a retried create safe rather than lucky; leave the invariants the engine can enforce to the engine, because a check constraint survives two concurrent requests and an application check does not; derive the index set from an inventory of real queries and delete the ones with no reader; partition for manageability so archiving is a switch rather than a delete; choose the topology from the recovery objective and then execute the failover on a schedule, since an untested failover is a plan and a plan is not an RTO; pick the shard or partition key with the access pattern in front of you and write down the cross-shard cost before committing; and change one thing at a time with the plan captured before and after, because a tuning change that was not measured is a change nobody can attribute a result to.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q47:</strong> this page covers database architecture and design &mdash; the model, the keys, the indexes, the partitions and the topology. The scaling levers specifically, meaning read replicas for scale-out, sharding as a capacity response and caching layers, are the subject of the <a href="q48.html">Q48 question</a>; the query-level tuning techniques (sargability, parameter sniffing, statistics) are on the <a href="q09-proof.html">Q09 proof page</a>; and the NoSQL access-pattern design is on <a href="q10-proof.html">Q10</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the physical model as DDL with every index naming the query it serves, the topology with its recovery objectives and drills, and the execution-plan assertions that keep the model honest.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q47 database architecture proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Addresses all six areas the question names, each with a decision behind it.</li>
+      <li>Derives the index set from a query inventory and removes the indexes with no reader.</li>
+      <li>Shows an interactive proof of choosing an area and reading the evidence.</li>
+      <li>Chooses the topology from a stated recovery objective and proves it with a timed drill.</li>
+      <li>Validates every performance change with an execution plan captured before and after.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q46.html">&larr; Question 46 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q47.html">Question 47 answer</a>
+    <a href="q48.html">Question 48 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 47 proof &middot; answers/q47-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/database-architecture-workflow.js"></script>
+<script src="../assets/lab/q47-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
