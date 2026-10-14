@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q38 proof &middot; Asynchronous and background processing: workers, schedulers, queues and batch pipelines</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q38 &middot; Background processing proof</p>
+  <h1>Have you worked with asynchronous/background processing or job-processing frameworks?</h1>
+  <p class="subtitle">What is moved off the request path and why, how in-process workers drain instead of truncating, what a cron expression does not answer, which platform fits which shape of work, and what makes a job reliable rather than merely queued.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live background-jobs workflow</span>
+    <span class="tag">Workers &middot; Schedulers &middot; Queues &middot; Airflow</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q38.html">Question 38 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>38. Asynchronous and background processing</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; asynchronous and scheduled processing is a recurring part of my designs on .NET, Java, Python and cloud platforms.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line lists the frameworks, which is the easy half. This page is the separate, detailed version: the rule that decides what leaves the request path, the three questions a cron expression never answers, the platform choice by shape of work, and the job-level reliability concerns &mdash; lease, heartbeat, quarantine, backlog age and graceful drain &mdash; that separate a job that runs from a job that can be operated.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, across .NET, Java/Spring, Python and cloud-native platforms, and the framework is the least interesting part of any of it. The first decision is <strong>what leaves the request path</strong>, and I apply it mechanically: anything whose duration is decided by somebody else &mdash; a mail server, a PDF render, an export over a million rows, a third-party sync, an ETL, a model &mdash; is enqueued with an id, the response returns that id immediately, and the client polls or subscribes for the outcome. A slow dependency then degrades one screen instead of exhausting the request threads. In-process, a <strong>bounded <code>Channel&lt;T&gt;</code> behind a <code>BackgroundService</code></strong> is right for work that must not survive a restart: backpressure instead of unbounded growth, a configurable consumer count, and a shutdown token honoured so a rolling deploy drains and requeues rather than truncating. For anything that has to survive a restart it stops being a channel and becomes a real queue. <strong>Scheduled jobs</strong> raise three questions a cron expression does not answer: which instance runs it (a distributed lock with a fencing token), what happens if the previous run is still going (a concurrency policy: skip, queue or replace, decided per job), and what happens if the schedule fired while the service was down (an explicit misfire policy). The <strong>platform</strong> follows the shape of the work: a plain queue for independent tasks (SQS/SNS, Kafka consumer groups, Celery), a state machine for multi-step work with retries (Step Functions), a DAG for a batch pipeline with dependencies and a backfill story (Airflow), and an in-process scheduler only where a failed job is cosmetic. Finally <strong>reliability</strong> is what makes the queue trustworthy: an idempotent handler because delivery is at-least-once, a visibility timeout extended by a heartbeat so a long job is not redelivered mid-flight to a second worker, a poison message quarantined after its attempt budget instead of retried forever, and the backlog together with the age of its oldest message as a metric with an alert &mdash; because a queue that is filling up and a queue that is being worked look identical from the outside until it is too late.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Shape of work</th><th>Mechanism</th><th>Why not the alternative</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Must not leave the request path</td><td>enqueue with a job id, return it, expose status</td><td>a slow dependency inside a request consumes the request threads of every other user</td></tr>
+          <tr><td>In-process, may be lost on restart</td><td><code>BackgroundService</code> + a bounded <code>Channel&lt;T&gt;</code></td><td>an unbounded queue turns a slow dependency into an out-of-memory kill with a delay on the fuse</td></tr>
+          <tr><td>Recurring, exactly once across replicas</td><td>scheduler with a distributed lock and a fencing token</td><td>three replicas and a cron expression means three runs and three reports</td></tr>
+          <tr><td>Independent tasks that must survive a deploy</td><td>a real queue with a consumer group</td><td>an in-process channel loses accepted work on every rollout</td></tr>
+          <tr><td>Multi-step with retries and branching</td><td>a state machine (Step Functions) or a DAG (Airflow)</td><td>chaining jobs by hand hides the dependency graph and the retry semantics</td></tr>
+          <tr><td>Batch with a backfill story</td><td>DAG with partitions derived from the logical date</td><td>appending on re-run double-counts the day, silently</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live background-jobs workflow proof</h2>
+    <p>The running component below changes its aspect/result view through real event binding. Select an aspect to see the mechanism, the reasoning behind the decision, and the evidence that it holds.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="background-jobs-workflow" id="background-jobs-workflow" data-operation="offload" aria-labelledby="jobs-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>BACKGROUND JOBS WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="jobs-workflow-title">Choose an aspect of background processing</h3>
+          <p>Select an aspect to inspect the mechanism, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Background processing aspects">
+            <button type="button" class="active" data-op="offload" aria-pressed="true">What leaves the request path</button>
+            <button type="button" data-op="inprocess" aria-pressed="false">In-process workers</button>
+            <button type="button" data-op="scheduled" aria-pressed="false">Scheduled and recurring jobs</button>
+            <button type="button" data-op="platforms" aria-pressed="false">Queues, batch and orchestration</button>
+            <button type="button" data-op="reliability" aria-pressed="false">Job reliability</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="jobs-command">$ emails &middot; PDF generation &middot; exports &middot; third-party sync &middot; ETL &middot; AI inference &rarr; enqueue + job id &rarr; the UI polls or subscribes for status</code>
+            <p data-testid="jobs-effect">The rule is mechanical rather than a judgement call: anything whose duration is decided by somebody else &mdash; a mail server, a report over a million rows, a model &mdash; does not run inside a request. It is enqueued with an id, the response returns that id immediately, and the client polls or subscribes for the result, so a slow dependency degrades one screen instead of exhausting the request threads.</p>
+            <pre data-testid="jobs-output">job types moved off the request path: 9
+request timeouts caused by background work: 0
+jobs that block until they return a result: 0
+status visible to the user for every job type: yes</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What background processing buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Move anything with somebody else's timing off the request path and return an id, because a synchronous dependency is a request thread held hostage; bound every queue so pressure produces a refusal instead of an out-of-memory kill; decide per job whether losing it is acceptable, and let that answer choose between an in-process channel and a real queue; make the handler idempotent rather than wishing for exactly-once delivery; extend the lease with a heartbeat while a long job runs, so it is not handed to a second worker mid-flight; quarantine a deterministic failure after its attempt budget instead of retrying it forever into a backlog; derive batch partitions from the logical date so a re-run overwrites instead of double-counting; and alert on backlog and the age of the oldest message, because filling and draining look the same until the queue is the incident.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q38:</strong> this page covers job and batch processing. Service-to-service messaging, delivery guarantees and the resilience pipeline around them are on the <a href="q34-proof.html">Q34 proof page</a>; the outbox relay and the reconciliation job are on <a href="q35-proof.html">Q35</a>; and the read model that a job often feeds is on <a href="q36-proof.html">Q36</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the .NET worker with its lease, drain and quarantine behaviour, the Airflow ETL DAG, and the job topology with its leases, attempt budgets and alerts.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q38 background processing proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>States the rule that decides what is asynchronous, rather than listing frameworks.</li>
+      <li>Bounds every queue and drains on shutdown, so a deploy does not discard accepted work.</li>
+      <li>Shows an interactive proof of choosing an aspect and reading the evidence.</li>
+      <li>Answers the scheduling questions a cron expression leaves open: instance, overlap and misfire.</li>
+      <li>Makes jobs idempotent, quarantines poison messages and alerts on backlog age.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q37.html">&larr; Question 37 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q38.html">Question 38 answer</a>
+    <a href="q39.html">Question 39 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 38 proof &middot; answers/q38-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/background-jobs-workflow.js"></script>
+<script src="../assets/lab/q38-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

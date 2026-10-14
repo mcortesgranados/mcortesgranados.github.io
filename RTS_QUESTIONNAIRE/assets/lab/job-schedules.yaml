@@ -1,0 +1,123 @@
+# Q38 — the job topology.
+#
+# One file for every asynchronous and scheduled job in the system, so the questions
+# that are usually answered per job in different places are answered once, here:
+# what triggers it, how many may run at once, how long its lease is, what happens
+# after its attempts run out, whether losing it is acceptable, and who is woken up.
+#
+# A job that cannot answer all of those is a job that is not operable, whatever
+# framework runs it.
+version: 2
+conventions:
+  naming: "{domain}.{entity}.{verb}"
+  statuses: [queued, running, retrying, succeeded, quarantined, cancelled]
+  statusVisibleToUser: true
+  idempotentHandler: required
+  definitionsInVersionControl: true
+  forbidden:
+    - "a job with no owner"
+    - "an unbounded in-memory queue (backpressure must exist, even if it just refuses)"
+    - "a job whose failure is visible only in a log"
+    - "retrying a deterministic failure indefinitely"
+
+triggerKinds:
+  # The same job contract, expressed in whichever stack runs it.
+  in-process:
+    dotnet: "BackgroundService + bounded Channel<T>"
+    java: "@Async on a configured TaskExecutor"
+    python: "FastAPI BackgroundTasks"
+    use-when: "the work must not survive a restart and its failure is cosmetic"
+  scheduled:
+    dotnet: "Quartz.NET / Hangfire with a distributed lock"
+    java: "@Scheduled with a ShedLock-style lock"
+    python: "APScheduler with a persistent job store"
+    airflow: "a DAG schedule"
+    use-when: "recurring, and it must run exactly once across replicas"
+  queue:
+    aws: "SQS with a consumer, or SNS/EventBridge fan-out"
+    java: "Kafka consumer group, or JMS listener"
+    python: "Celery worker"
+    use-when: "independent tasks that must survive a deploy and be retried"
+  workflow:
+    aws: "Step Functions"
+    airflow: "a DAG with task dependencies"
+    use-when: "multi-step work needing retries, branching, or compensation"
+  event-triggered:
+    aws: "Lambda from S3, SQS, EventBridge or a CloudWatch schedule"
+    use-when: "the work is a reaction to an arriving artefact, and per-event scaling is wanted"
+
+jobs:
+  - name: sales.daily.etl
+    trigger: { kind: workflow, platform: airflow, schedule: "0 2 * * *", timezone: "America/Bogota" }
+    concurrency: { maxActiveRuns: 1, reason: "two overlapping runs would write the same partition" }
+    lease: { duration: "2 h", heartbeat: "every 60 s" }
+    attempts: { max: 5, backoff: exponential, jitter: true, maxDelay: "15 m" }
+    failure: { quarantine: false, escalate: "SLA miss after 2 h pages the data-platform on-call" }
+    canBeLost: false
+    slo: "curated partition available by 05:00 local, 99% of days"
+    owner: data-platform
+    backfill: "supported: a partition is derived from the logical date, so a re-run overwrites it"
+
+  - name: sales.export.generate
+    trigger: { kind: queue, platform: aws, queue: "exports.fifo", fifo: true }
+    concurrency: { consumers: 4, perMessageGroup: 1, reason: "two exports of the same report must not run together" }
+    lease: { visibilityTimeout: "10 m", heartbeat: "every 2 m while running" }
+    attempts: { max: 4, backoff: exponential, jitter: true }
+    failure: { quarantine: true, quarantineQueue: "exports.dlq", alertAbove: 0 }
+    canBeLost: false
+    slo: "95% of exports under 3 minutes"
+    owner: reporting
+    userVisible:
+      statusEndpoint: "GET /exports/{jobId}"
+      uiBehaviour: "the screen polls and shows queued, running, ready or failed with the artefact link"
+      rationale: "a job the user cannot see is indistinguishable from one that failed silently"
+
+  - name: notifications.email.send
+    trigger: { kind: queue, platform: aws, queue: "notifications.standard" }
+    concurrency: { consumers: 8 }
+    lease: { visibilityTimeout: "60 s", heartbeat: "not needed: the task is short" }
+    attempts: { max: 5, backoff: exponential, jitter: true }
+    failure: { quarantine: true, quarantineQueue: "notifications.dlq", alertAbove: 10 }
+    canBeLost: true
+    idempotency: { key: "message id", mechanism: "unique constraint on the provider response" }
+    owner: platform
+
+  - name: catalog.report.nightly
+    trigger: { kind: scheduled, platform: dotnet, cron: "30 3 * * *" }
+    concurrency: { policy: "skip if the previous run is still going", reason: "the report is derived from a snapshot, so a second run would add nothing" }
+    lease: { fencingToken: true, reason: "three replicas, one of which may run it" }
+    misfire: { policy: "fire once on restart", grace: "1 h", rationale: "a missed night should still be reported, once, not replayed for every missed tick" }
+    attempts: { max: 2, backoff: linear }
+    failure: { quarantine: false, escalate: "ticket after the second failure" }
+    canBeLost: false
+    owner: catalog
+    note: "an in-process scheduler is acceptable here because the work has no external side effect"
+
+  - name: image.thumbnail.render
+    trigger: { kind: event-triggered, platform: aws, event: "s3:ObjectCreated on uploads/" }
+    concurrency: { perEvent: "one Lambda invocation, reserved concurrency 20" }
+    lease: { visibilityTimeout: "not applicable: the invocation is the lease" }
+    attempts: { max: 3, backoff: exponential, jitter: true }
+    failure: { quarantine: true, quarantineQueue: "thumbs.dlq", alertAbove: 25 }
+    canBeLost: true
+    owner: media
+    note: "idempotent because the output key is derived from the input key, so a retry overwrites"
+
+  - name: search.index.refresh
+    trigger: { kind: in-process, platform: dotnet, cadence: "on cache miss, debounced 30 s" }
+    concurrency: { consumers: 2 }
+    queue: { capacity: 500, fullMode: "refuse", onFull: "the caller falls back to a direct query" }
+    attempts: { max: 1, rationale: "a cache refresh that failed will be triggered again by the next miss" }
+    canBeLost: true
+    canBeLostRationale: "the work is a cache improvement, not a record: losing it costs latency, not data"
+    owner: search
+
+observability:
+  metricsPerJob: ["started", "succeeded", "failed", "retried", "quarantined", "duration p50/p95", "backlog", "oldestMessageAgeSeconds"]
+  traceContext: "propagated from the enqueueing request, so a user-visible action and its background work share one trace"
+  alerts:
+    - { name: "queue-backlog", condition: "backlog > 1000 or oldestMessageAge > 15 min", severity: page }
+    - { name: "quarantine-non-empty", condition: "DLQ depth > 0 for 5 min", severity: page }
+    - { name: "job-failure-rate", condition: "failure ratio > 5% for 10 min", severity: page }
+    - { name: "etl-sla-miss", condition: "SLA miss callback", severity: page }
+  dashboards: ["job throughput per type", "backlog and age", "quarantine depth", "duration percentiles", "deploy-correlated failure spikes"]
