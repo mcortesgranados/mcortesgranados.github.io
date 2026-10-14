@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q44 proof &middot; Microservices architecture: decomposition, data ownership, independent deployability</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q44 &middot; Microservices proof</p>
+  <h1>Have you worked with microservices architecture? If yes, how many years of experience do you have?</h1>
+  <p class="subtitle">The years made checkable rather than numeric, and the three claims the style actually rests on: each service owns its data, each one can be released alone, and the boundary is drawn where the transaction ends.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live microservices workflow</span>
+    <span class="tag">6+ years &middot; Bounded contexts &middot; Independent deployability</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q44.html">Question 44 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>44. Microservices architecture, and how many years</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; I have worked with microservices architecture for 6+ years, and with service-oriented/distributed integration for considerably longer.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> A year count alone is not checkable, so this page states what the count is <em>counted from</em> and then shows the architecture itself: where the boundary is drawn, why data ownership is the line that decides whether the style works, and how independent deployability is demonstrated instead of asserted.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes &mdash; 6+ years with microservices as the delivery model, counted from the first service that had its own pipeline and its own database, plus a considerably longer period of service-oriented, message-driven integration before that, which is where the contracts, the idempotency and the failure-handling habits came from. The distinction matters, because a monolith behind an API gateway is not a microservice architecture and the years should not be counted from the first REST call. On the architecture itself: the <strong>boundary</strong> is drawn where the language changes and the transaction ends, a bounded context that owns its rules and its data becomes a service, and granularity is decided by the transaction that must stay atomic together with the team that must be able to deploy it &mdash; because both errors, too coarse and too fine, produce the same failure, a distributed monolith where everything ships together anyway. <strong>Data ownership</strong> is the line that decides whether the style works: one writer per data store, no cross-service joins, and other services reading through the contract or maintaining their own projection, which is what makes independent deployment possible rather than merely intended. <strong>Independent deployability</strong> is then demonstrated rather than claimed: one pipeline per service, consumer-driven contract tests that the provider verifies in its own build, and rolling, blue-green or canary releases chosen by the blast radius &mdash; if two services must be released together, that is a boundary defect and it shows up in the release manifest. <strong>Operations</strong> carry the same weight as the code: containers orchestrated with declared probes and limits, autoscaling on the signal that predicts load, secrets in a manager and rotated, and one correlation id across centralised logs, metrics and traces. And the <strong>boundaries are enforced mechanically</strong>, because the first urgent ticket is what removes them otherwise: an assembly reference between two services, a shared domain library and a public database context are all things a test refuses.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Period</th><th>What the work was</th><th>What it demonstrates</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2020 &rarr; present (6+ years)</td><td>microservices as the delivery model: bounded contexts, per-service data stores, per-service pipelines, sagas and the outbox for cross-context flows, containers on Kubernetes/ECS/AKS</td><td>designing, shipping and operating services that are released independently</td></tr>
+          <tr><td>Before 2020</td><td>service-oriented and message-driven integration: enterprise middleware, MQ systems, scheduled and batch processing, contracts between systems owned by different teams</td><td>the contracts, idempotency and failure-handling habits that microservices then reused</td></tr>
+          <tr><td>What does not count</td><td>a monolith behind a gateway, or services that share a database and a release train</td><td>the distinction the count is meant to make</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Axis</th><th>Decision</th><th>Distributed-monolith smell it prevents</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Decomposition</td><td>one bounded context per service, granularity by transaction and team</td><td>chatty services that only work together</td></tr>
+          <tr><td>Data ownership</td><td>one writer per store, no cross-service joins, contracts instead of schemas</td><td>a shared database with a join, which couples every release</td></tr>
+          <tr><td>Contracts</td><td>versioned interfaces and events; no shared domain library</td><td>a package that forces every service to redeploy together</td></tr>
+          <tr><td>Delivery</td><td>one pipeline per service, contract tests verified by the provider, canary gates</td><td>lockstep releases and a deploy window everybody waits for</td></tr>
+          <tr><td>Operations</td><td>probes, limits, autoscaling, secrets management, tracing with one correlation id</td><td>a release that needs somebody who knows the environment by heart</td></tr>
+          <tr><td>Enforcement</td><td>architecture tests over assembly references and a private database context</td><td>the boundary being removed one urgent ticket at a time</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live microservices workflow proof</h2>
+    <p>The running component below changes its axis/result view through real event binding. Select an axis to see the decision, the reasoning behind it, and the evidence that it holds.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="microservices-workflow" id="microservices-workflow" data-operation="decomposition" aria-labelledby="msvc-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>MICROSERVICES WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="msvc-workflow-title">Choose an axis of the microservice architecture</h3>
+          <p>Select an axis to inspect the decision, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Microservice architecture axes">
+            <button type="button" class="active" data-op="decomposition" aria-pressed="true">Decomposition</button>
+            <button type="button" data-op="ownership" aria-pressed="false">Data ownership</button>
+            <button type="button" data-op="delivery" aria-pressed="false">Independent deployability</button>
+            <button type="button" data-op="operations" aria-pressed="false">Platform and operations</button>
+            <button type="button" data-op="experience" aria-pressed="false">Six years of it, concretely</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="msvc-command">$ one bounded context per service &middot; a business capability as the boundary &middot; granularity decided by transaction and team, not by fashion</code>
+            <p data-testid="msvc-effect">The boundary is drawn where the language changes and the transaction ends: a bounded context that owns its rules and its data becomes a service, and a capability one team can own end to end becomes its unit of delivery. Granularity is decided by the transaction that has to stay atomic and by the team that has to be able to deploy it, because the failure mode in both directions is the same one: a distributed monolith where everything is deployed together anyway.</p>
+            <pre data-testid="msvc-output">services drawn around a bounded context: all
+services sharing a transaction with another service: 0
+distributed monolith smells tracked: 3 (chatty calls, lockstep deploys, shared-library churn)
+granularity revisited when two services always change together: yes</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the architecture buys &mdash; and what it costs</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Draw the boundary where the transaction ends and the language changes, then let one team own the service end to end, because a boundary that does not match an owner becomes a coordination cost; give each service its own data and refuse the join, since a shared database is a distributed monolith with a nicer diagram; publish versioned contracts rather than sharing types, because a shared library couples deployments through a package; verify your consumers' expectations in your own pipeline, so a breaking change fails in your build instead of in somebody else's production; enforce the boundary with a test over assembly references, because otherwise the first urgent ticket removes it; and accept the cost honestly &mdash; more infrastructure, more observability and more failure modes than a modular monolith, which is why I do not reach for microservices until the team count and the deployment independence justify them.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q44:</strong> this page covers the microservice architecture itself &mdash; boundaries, data ownership, independent deployability and operations. Service-to-service communication, API gateways, authentication and service discovery between them are the subject of the <a href="q45.html">Q45 question</a>; the runtime behaviour of a distributed system is on <a href="q34-proof.html">Q34</a>; consistency across services is on <a href="q35-proof.html">Q35</a>; and the pattern choice itself is on <a href="q30-proof.html">Q30</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the service catalogue that makes the claims checkable, the inside of one service with its boundary tests, and the contract tests that demonstrate independent deployability.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q44 microservices proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Answers the years question with a condition the claim is counted from, not just a number.</li>
+      <li>Names the boundary rule and the granularity decision behind the decomposition.</li>
+      <li>Shows an interactive proof of choosing an axis and reading the evidence.</li>
+      <li>Gives each service its own data and refuses cross-service joins and lockstep releases.</li>
+      <li>Demonstrates independent deployability with contract tests and enforced boundaries, and states the cost.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q43.html">&larr; Question 43 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q44.html">Question 44 answer</a>
+    <a href="q45.html">Question 45 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 44 proof &middot; answers/q44-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/microservices-workflow.js"></script>
+<script src="../assets/lab/q44-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

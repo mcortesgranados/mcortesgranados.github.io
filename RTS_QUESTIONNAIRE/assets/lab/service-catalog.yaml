@@ -1,0 +1,130 @@
+# Q44 — the service catalogue.
+#
+# A microservice architecture is a set of independent deployment units, so the
+# catalogue is not documentation: it is the register that makes the two claims the
+# style rests on checkable — that each service owns its data, and that each one can
+# be released on its own. Both are asserted here as fields rather than described in
+# a wiki, and a missing field fails the catalogue validation in CI.
+version: 3
+organisation:
+  # Conway's law is treated as a constraint, not as an observation: a service whose
+  # boundary does not match a team's ownership becomes a coordination cost.
+  model: "one owning team per service"
+  teams:
+    orders: { members: 5, onCall: "business hours + escalations" }
+    payments: { members: 4, onCall: "24x7" }
+    inventory: { members: 4, onCall: "24x7" }
+    notifications: { members: 3, onCall: "business hours" }
+    search: { members: 4, onCall: "business hours" }
+    dataPlatform: { members: 3, onCall: "business hours" }
+
+conventions:
+  serviceTemplate: "a shared skeleton (build, pipeline, probes, telemetry, config), not a shared domain library"
+  sharedLibraries: "platform concerns only: logging, telemetry, messaging envelope. Version churn here is tracked as a distributed-monolith smell."
+  forbidden:
+    - "a data store written by two services"
+    - "a production query that joins across two services"
+    - "two services that must be released together"
+    - "a service with no owner, no dashboard or no SLO"
+    - "synchronous call chains deeper than three hops to serve one user request"
+
+services:
+  - name: orders-api
+    boundedContext: orders
+    owner: orders
+    stack: dotnet
+    data:
+      store: "PostgreSQL (orders_* schemas)"
+      exclusivelyOwned: true
+    contracts:
+      published: ["OpenAPI v2 (REST)", "orders.events.v2 (Kafka, versioned payloads)"]
+      consumed: ["payments-api v1 (gRPC)", "inventory-api v1 (gRPC)"]
+      compatibility: "additive within a major version; a breaking change is a new major and a new topic"
+    deployment:
+      pipeline: "ci/orders.yml"
+      strategy: "canary with an analysis gate on the confirm endpoint; rolling elsewhere"
+      rollback: "automatic on the analysis gate failing; human-confirmed otherwise"
+    slo: { availability: "99.9%", latency: "95% < 300 ms" }
+    observability: { dashboard: "orders-overview", alertsOwner: orders, runbooks: 6 }
+
+  - name: payments-api
+    boundedContext: payments
+    owner: payments
+    stack: dotnet
+    data:
+      store: "PostgreSQL (payments_*, ledger_*)"
+      exclusivelyOwned: true
+      note: "the ledger is append-only; corrections are compensating entries, never updates"
+    contracts:
+      published: ["payments OpenAPI v1", "payments.events.v1"]
+      consumed: []
+    deployment:
+      pipeline: "ci/payments.yml"
+      strategy: "blue-green: the cost of a partial failure here is money"
+      rollback: "instant switch back, plus a reconciliation run"
+    slo: { availability: "99.95%", latency: "95% < 200 ms" }
+    observability: { dashboard: "payments-ledger", alertsOwner: payments, runbooks: 9 }
+
+  - name: inventory-api
+    boundedContext: inventory
+    owner: inventory
+    stack: java
+    data:
+      store: "PostgreSQL + Redis for reservation counters"
+      exclusivelyOwned: true
+    contracts:
+      published: ["inventory gRPC v1", "inventory.events.v1"]
+      consumed: ["orders.events.v2"]
+    deployment: { pipeline: "ci/inventory.yml", strategy: "rolling", rollback: "automatic on probe failure" }
+    slo: { availability: "99.9%", latency: "95% < 150 ms" }
+    observability: { dashboard: "inventory", alertsOwner: inventory, runbooks: 4 }
+
+  - name: search-api
+    boundedContext: search
+    owner: search
+    stack: dotnet
+    data:
+      store: "OpenSearch index, rebuilt from orders.events.v2"
+      exclusivelyOwned: true
+      note: "derived data: a rebuild is a supported operation, not an incident"
+    contracts:
+      published: ["search OpenAPI v1"]
+      consumed: ["orders.events.v2", "inventory.events.v1"]
+    deployment: { pipeline: "ci/search.yml", strategy: "rolling", rollback: "automatic on error-rate gate" }
+    slo: { availability: "99.5%", latency: "95% < 400 ms" }
+    observability: { dashboard: "search", alertsOwner: search, runbooks: 3 }
+
+  - name: notifications-worker
+    boundedContext: notifications
+    owner: notifications
+    stack: python
+    data:
+      store: "PostgreSQL (delivery attempts, suppression list)"
+      exclusivelyOwned: true
+    contracts:
+      published: []
+      consumed: ["orders.events.v2", "payments.events.v1"]
+    deployment: { pipeline: "ci/notifications.yml", strategy: "rolling with a drain period", rollback: "automatic" }
+    slo: { availability: "99.5%", deliveryWithin: "99% within 60 s" }
+    observability: { dashboard: "notifications", alertsOwner: notifications, runbooks: 2 }
+
+audit:
+  # The checks that keep the architecture from decaying into a distributed monolith.
+  sharedDatabases: 0
+  crossServiceJoins: 0
+  lockstepReleases: 0
+  synchronousChainsDeeperThanThree: 0
+  servicesWithoutOwner: 0
+  distributedMonolithSmells:
+    - { smell: "chatty calls", status: monitored, note: "request-count per user journey is on the journey dashboard" }
+    - { smell: "shared-library churn", status: monitored, note: "a platform library release that forces every service to redeploy is an incident" }
+    - { smell: "transaction across services", status: absent, note: "no distributed transaction anywhere; sagas and the outbox instead" }
+
+releaseIndependence:
+  # The claim, measured: how often a release touches exactly one service.
+  metric: "share of releases that touch exactly one service"
+  target: "85%"
+  lastQuarter: "88%"
+  exceptions:
+    - { release: "ledger schema migration", services: [payments-api, orders-api], reason: "the projection had to switch source in the same window" }
+    - { release: "platform library major version", services: "all", reason: "an intentional platform-wide change, announced a quarter ahead" }
