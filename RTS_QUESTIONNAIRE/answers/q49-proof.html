@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q49 proof &middot; OpenAPI/Swagger specifications and API documentation</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q49 &middot; OpenAPI proof</p>
+  <h1>Have you worked with OpenAPI/Swagger specifications and API documentation?</h1>
+  <p class="subtitle">The specification as the source of truth across its whole lifecycle: who authors it and how, the tools that consume it, the governance that keeps an estate navigable, the writing itself, and the pipeline that stops it from rotting.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live specification lifecycle</span>
+    <span class="tag">OpenAPI 3.1 &middot; Spectral &middot; Codegen &middot; Contract tests</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q49.html">Question 49 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>49. OpenAPI/Swagger specifications and API documentation</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; OpenAPI/Swagger is my standard way of defining, documenting and validating API contracts.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line names the standard. This page is the separate, detailed version, and its argument is that a specification is only worth its maintenance if three things hold: one source of truth per API, tools that actually consume the document, and a pipeline that fails when the implementation drifts from it. A document that is none of those is a wiki page with a schema syntax.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, and I use it as the contract rather than as the documentation that follows the contract. <strong>Authoring</strong>: design-first where a consumer outside the team depends on the API, because the largest value of a specification is agreeing the shape before anything is built; code-first from the implementation where the consumers are internal and the API is still moving, with Swashbuckle or NSwag in .NET, springdoc-openapi in Java and the native schema in FastAPI. What is never acceptable is both at once &mdash; a hand-written document beside a generated one &mdash; because that is how a specification becomes a guess. <strong>Tools</strong>: Swagger UI so QA and partners explore and call the API without a hand-written collection, a mock server generated from the document so front-end work starts before the endpoint exists, typed clients generated for the SPA and for partner integrations so no DTO is maintained by hand, and schema validation in the pipeline so the document cannot quietly become invalid. <strong>Governance</strong>: the versioning and deprecation policy expressed in the document itself rather than only in a wiki, one naming and pagination convention so a consumer learns it once, security schemes and rate limits documented with the actual numbers, and a catalogue generated from the documents so nobody has to ask which service and version to call. <strong>Style</strong> is written for the person integrating rather than for the person who wrote the code: every parameter and field says what it means and what happens when it is wrong, examples are realistic rather than <code>string</code>, the business rules a consumer would otherwise ask about are written where they will look, and every error status is enumerated with its payload so error handling is designed instead of discovered. <strong>Enforcement</strong> is what makes all of it true: a house ruleset linted on every pull request, validation against the OpenAPI dialect, a diff against the published version so a breaking change cannot ship inside an existing major version, contract tests that fail when the implementation drifts, and publication from the pipeline so the portal can never show a version that does not exist.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Stage</th><th>Decision</th><th>What it prevents</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Authoring</td><td>design-first with external consumers, code-first internally, one source of truth</td><td>a hand-written document drifting beside a generated one</td></tr>
+          <tr><td>Tooling</td><td>Swagger UI, mocks from the spec, generated typed clients, schema validation</td><td>hand-maintained DTOs and front-end work blocked on an unfinished endpoint</td></tr>
+          <tr><td>Governance</td><td>versioning and deprecation in the document, one convention, an API catalogue</td><td>every service inventing its own pagination and its own deprecation notice</td></tr>
+          <tr><td>Style</td><td>descriptions that answer questions, realistic examples, all error statuses enumerated</td><td>support tickets for things the document could have said</td></tr>
+          <tr><td>Enforcement</td><td>lint, dialect validation, breaking-change diff, contract tests, publish from CI</td><td>a contract that describes a previous version of the API</td></tr>
+          <tr><td>Deprecation</td><td>a date, a replacement and a <code>Sunset</code> header on every deprecated operation</td><td>a <code>deprecated: true</code> nobody can plan around</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live specification-lifecycle workflow proof</h2>
+    <p>The running component below changes its stage/result view through real event binding. Select a stage to see the decision, the reasoning behind it, and the evidence that holds it up.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="openapi-lifecycle-workflow" id="openapi-lifecycle-workflow" data-operation="authoring" aria-labelledby="oapi-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>SPECIFICATION LIFECYCLE</strong><span>RUNNING</span>
+          </div>
+          <h3 id="oapi-workflow-title">Choose a stage of the specification lifecycle</h3>
+          <p>Select a stage to inspect the decision, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Specification lifecycle stages">
+            <button type="button" class="active" data-op="authoring" aria-pressed="true">Authoring the specification</button>
+            <button type="button" data-op="tooling" aria-pressed="false">Tooling around the document</button>
+            <button type="button" data-op="governance" aria-pressed="false">Governance across services</button>
+            <button type="button" data-op="style" aria-pressed="false">Writing for the consumer</button>
+            <button type="button" data-op="enforcement" aria-pressed="false">CI enforcement and drift</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="oapi-command">$ design-first where an external consumer depends on it &middot; code-first (Swashbuckle/NSwag, springdoc-openapi, FastAPI) for internal contracts &middot; one source of truth per API</code>
+            <p data-testid="oapi-effect">The contract is authored design-first when a consumer outside the team depends on it, because the largest value of a specification is agreeing the shape before anything is built. It is generated code-first from the implementation where the consumers are internal and the API is still moving: Swashbuckle or NSwag in .NET, springdoc-openapi in Java, the native schema in FastAPI. What is never acceptable is both at once &mdash; a hand-written document beside a generated one &mdash; which is how a specification becomes a guess.</p>
+            <pre data-testid="oapi-output">APIs with a hand-written spec beside a generated one: 0
+design-first where an external consumer depends on the contract: yes
+code-first where the implementation is the source of truth: yes
+OpenAPI version in use: 3.1, with 3.0 only where a tool lags</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the specification buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Have one source of truth per API and make the pipeline refuse the alternative, because two documents that disagree are worse than one that is out of date; lint the document against a house ruleset rather than relying on a review, since a rule that depends on a reviewer is a rule that lapses on a busy week; require every operation to enumerate the failures a consumer must handle, because a happy-path document produces the defect at integration time; put a realistic example on every schema, since that is the part a consumer actually reads; express versioning and deprecation inside the document with a date and a replacement, because <code>deprecated: true</code> alone cannot be planned around; generate the catalogue from the documents so it can never list a version that does not exist; and diff against the published version on every change, so a breaking change needs a new major version rather than an apology.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q49:</strong> this page covers the API specification and its lifecycle. The REST design decisions behind the contract &mdash; resource modelling, HTTP semantics, status codes &mdash; are on the <a href="q28-proof.html">Q28 proof page</a>, and the broader technical and application design documentation is the subject of the <a href="q50.html">Q50 question</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the specification itself, the house ruleset that enforces it, and the tests that detect drift and reject a breaking change.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q49 OpenAPI proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Treats the specification as the contract, not as documentation written afterwards.</li>
+      <li>States when design-first and code-first apply, and refuses having both.</li>
+      <li>Shows an interactive proof of choosing a stage and reading the evidence.</li>
+      <li>Documents every failure a consumer must handle and shows a realistic example on every schema.</li>
+      <li>Enforces the contract in CI, including a breaking-change gate against the published version.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q48.html">&larr; Question 48 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q49.html">Question 49 answer</a>
+    <a href="q50.html">Question 50 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 49 proof &middot; answers/q49-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/openapi-lifecycle-workflow.js"></script>
+<script src="../assets/lab/q49-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
