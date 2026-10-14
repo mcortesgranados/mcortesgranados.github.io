@@ -1,0 +1,97 @@
+# Q37 — logging and observability for the API.
+#
+# Three signals with three different jobs, configured once: logs answer "what
+# happened to this request", traces answer "where did the time go", and metrics
+# answer "is this getting worse". The configuration is committed rather than set in
+# the cloud console, because an observability setup that exists only in a portal
+# cannot be reviewed or reproduced when the environment is rebuilt.
+version: 1
+service: orders-api
+
+logging:
+  format: json
+  fields:
+    required: ["timestamp", "level", "message", "service", "serviceVersion", "environment", "traceId", "spanId"]
+    contextual: ["correlationId", "tenantId", "endpoint", "httpStatus", "durationMs", "outcome"]
+  scopes:
+    - name: request
+      openedAt: "the first middleware in the pipeline"
+      carries: ["correlationId", "tenantId", "actorId"]
+      closedAt: "the response is written, including on failure"
+  rules:
+    - "log events, not sentences: structured properties so the sink can index them"
+    - "never concatenate a message with its values, which makes them unqueryable"
+    - "one log line per boundary crossing, not one per method"
+    - "expected outcomes (validation failure, not found, conflict) log at Information: an incident must not be buried in anticipatable noise"
+    - "unexpected failures log once, at Error, with the exception attached, server-side only"
+  levels:
+    default: Information
+    "Microsoft.AspNetCore": Warning
+    "System.Net.Http.HttpClient": Warning
+    note: "framework noise at Warning is what keeps the application's own lines readable"
+  redaction:
+    atSink: true
+    rationale: "redacting at each call site means one forgotten call site leaks; the sink is the only place that sees everything"
+    neverLogged: ["authorization header", "cookie", "password", "refresh token", "national id", "card number", "full address"]
+    hashedInsteadOfLogged: ["email", "phone", "customer id when it identifies a person"]
+    retention: { hot: 14 days, archive: 13 months, access: "audited, break-glass only" }
+
+tracing:
+  instrumentation: opentelemetry
+  propagators: [tracecontext, baggage]
+  sources:
+    - "Microsoft.AspNetCore"
+    - "System.Net.Http"
+    - "Npgsql"                        # or the provider in use: database spans
+    - "Confluent.Kafka"               # messaging spans, with a link to the producing span
+  correlationId:
+    header: x-correlation-id
+    origin: "injected at the gateway, or generated if absent; never trusted blindly from a client"
+    propagation: "every outbound call, every message header, every log line"
+  sampling:
+    baseline: 0.1
+    alwaysSampleOn: ["error", "httpStatus >= 500", "endpoint in the checkout path"]
+    rationale: "10% is enough to read latency distributions; errors are sampled at 100% because they are the ones anybody investigates"
+  resourceAttributes:
+    service.name: orders-api
+    service.version: "from the build, injected by CI: the trace must say which build produced it"
+    deployment.environment: "from the environment, not from config that can be wrong"
+  spanNamePolicy: "HTTP method and the route template (the route template, never the resolved path, which would explode cardinality)"
+  baggage: ["tenantId"]
+
+metrics:
+  protocol: prometheus          # scraped, so a dashboard and an alert use the same series
+  serviceLevelIndicators:
+    - { name: "http.server.request.duration", unit: seconds, dimensions: [route, method, status_class], histogram: true }
+    - { name: "http.server.requests", type: counter, dimensions: [route, method, status_class] }
+    - { name: "orders.confirmed", type: counter }
+    - { name: "db.client.operation.duration", unit: seconds, dimensions: [operation, table] }
+  cardinality:
+    forbiddenDimensions: ["userId", "orderId", "rawPath", "email"]
+    rationale: "one metric with a high-cardinality dimension is a metric nobody can afford to store or read"
+  slos:
+    - { name: "availability", target: "99.9%", window: 30d, indicator: "non-5xx requests / total requests" }
+    - { name: "latency", target: "95% under 300 ms", window: 30d, indicator: "http.server.request.duration" }
+
+health:
+  liveness: "/health/live"
+  livenessChecks: "process only: no database, no broker"
+  livenessRationale: "a liveness probe that checks a dependency restarts healthy pods when the dependency is down, turning a partial outage into a total one"
+  readiness: "/health/ready"
+  readinessChecks: ["database round trip", "broker connection", "migrations applied"]
+  startup: "/health/started"
+  responseBody: "status plus per-check detail, which is what makes the probe useful during an incident"
+
+alerts:
+  rule: "every alert has a dashboard, a runbook and a named owner, or it is deleted"
+  definitions:
+    - { name: "high-error-rate", condition: "5xx ratio > 1% for 5 min", severity: page, runbook: "RB-014" }
+    - { name: "latency-budget-burn", condition: "latency SLO burn rate > 2 over 1 h", severity: page, runbook: "RB-021" }
+    - { name: "deprecated-version-traffic", condition: "requests to a deprecated API version > 0", severity: ticket, runbook: "RB-033" }
+    - { name: "validation-spike", condition: "400 ratio doubles against the 7-day baseline", severity: notify, runbook: "RB-040" }
+  note: "the validation alert exists because a spike in 400s is usually a client contract change, not a broken client"
+
+dashboards:
+  - { name: "API overview", shows: ["rate", "errors", "duration p50/p95/p99", "saturation per endpoint"] }
+  - { name: "Business flow", shows: ["orders confirmed per minute", "saga steps in flight", "DLQ depth"] }
+  - { name: "Dependencies", shows: ["outbound latency and error rate per dependency", "circuit breaker state"] }

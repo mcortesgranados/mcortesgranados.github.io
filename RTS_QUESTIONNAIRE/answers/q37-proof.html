@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q37 proof &middot; API versioning, authz, validation, exception handling, logging and observability in .NET</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q37 &middot; API cross-cutting concerns proof</p>
+  <h1>Have you worked with API versioning, authentication/authorization, exception handling, validation, logging, and observability in .NET APIs?</h1>
+  <p class="subtitle">The six concerns the question lists, each stated as a rule rather than as a technology: what is decided once at the edge, what a client is allowed to learn, and what the server must record.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live API cross-cutting workflow</span>
+    <span class="tag">Versioning &middot; Authz &middot; Validation &middot; Errors &middot; Observability</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q37.html">Question 37 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>37. Versioning, authz, validation, errors, logging and observability</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; these six concerns are wired once in the composition root rather than recalled at each endpoint.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line claims the six concerns without showing a decision behind any of them. This page is the separate, detailed version: what is decided once instead of per endpoint, what a client is allowed to learn when something fails, where each validation rule lives, and what the server must record so a failure is debuggable without being leaked.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, and the organising principle is that a cross-cutting concern applied per endpoint is a concern that will be forgotten at one endpoint. <strong>Versioning</strong>: the version lives in the URL because that is what a client pins and can see in its logs, the <code>api-version</code> header is accepted as a second route for internal callers behind a gateway, and a missing version is a 400 rather than a silent default &mdash; because <code>AssumeDefaultVersionWhenUnspecified</code> looks helpful and is exactly how a new client binds to v1 forever. Deprecation is announced with a <code>Sunset</code> header plus telemetry on who is still calling it, and the OpenAPI document is generated per version. <strong>Authentication and authorization</strong>: a JWT validated against the issuer's JWKS, cached and refreshed on a key-id change, with a named policy per endpoint and a fallback policy so that a new endpoint is protected by default &mdash; the failure mode of forgetting should be an endpoint nobody can call, not one everybody can. Identity comes from validated claims and never from the payload, and a resource belonging to another tenant answers 404 rather than 403 so existence is not disclosed. <strong>Validation</strong> is three layers with three jobs: the edge checks shape and format and returns every failure at once, the domain checks the business rules and can only be reached through its aggregate, and the database keeps the constraint that survives two concurrent requests. A rule duplicated across layers is a bug. <strong>Exception handling</strong> is one handler for the pipeline that maps known failures to the right status with a machine-readable problem type, and turns an unexpected one into a 500 carrying a trace id and nothing else &mdash; no stack trace, no SQL text, no internal path. Known failures are mapped rather than caught, and expected outcomes log at Information so a real incident is not buried in anticipatable noise. <strong>Logging and observability</strong>: structured logs inside a correlation scope opened at the first middleware and closed even on failure, the same id propagated through every call and message, OpenTelemetry traces that carry it, metrics that answer rate/errors/duration per endpoint with high-cardinality dimensions deliberately forbidden, personal data redacted at the sink rather than at each call site, and health checks that separate liveness from readiness &mdash; because a liveness probe that checks a dependency restarts healthy pods when the dependency is down, which turns a partial outage into a total one.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Concern</th><th>Decision</th><th>Failure it prevents</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Versioning</td><td>URL primary, header accepted, no silent default, <code>Sunset</code> on deprecation</td><td>a client silently bound to v1 forever, and a breaking change nobody was warned about</td></tr>
+          <tr><td>Authentication</td><td>JWT validated against the issuer JWKS, cached, refreshed on key rotation</td><td>a key rotation that takes the API down, or validation disabled for speed</td></tr>
+          <tr><td>Authorization</td><td>a named policy per endpoint plus a fallback policy, claims never the payload</td><td>an endpoint added in a hurry that anyone can call</td></tr>
+          <tr><td>Validation</td><td>edge for shape, domain for rules, database constraint as the last defence</td><td>rules duplicated in three places, drifting apart with each change</td></tr>
+          <tr><td>Exception handling</td><td>one handler, mapped failures, 500 with a trace id and no internals</td><td>stack traces and SQL text reaching a client, or a 500 nobody can trace</td></tr>
+          <tr><td>Logging and observability</td><td>structured logs in a correlation scope, traces, RED metrics, redaction at the sink</td><td>an incident investigated by guessing, and PII in a log index</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live API cross-cutting workflow proof</h2>
+    <p>The running component below changes its concern/result view through real event binding. Select a concern to see the decision, the reasoning behind it, and the evidence that it holds.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="api-crosscutting-workflow" id="api-crosscutting-workflow" data-operation="versioning" aria-labelledby="apix-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>API CROSS-CUTTING WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="apix-workflow-title">Choose a cross-cutting concern</h3>
+          <p>Select a concern to inspect the decision, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="API cross-cutting concerns">
+            <button type="button" class="active" data-op="versioning" aria-pressed="true">API versioning</button>
+            <button type="button" data-op="authz" aria-pressed="false">Authentication and authorization</button>
+            <button type="button" data-op="validation" aria-pressed="false">Validation</button>
+            <button type="button" data-op="errors" aria-pressed="false">Exception handling</button>
+            <button type="button" data-op="observability" aria-pressed="false">Logging and observability</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="apix-command">$ /api/v1/orders (primary) &middot; api-version header (also supported) &middot; no version &rarr; 400 &middot; Sunset header on deprecated versions</code>
+            <p data-testid="apix-effect">The version lives in the URL because it is the version clients actually pin to, with the header accepted as a second route for internal callers. A request without a version is a 400 rather than a silent default, which is what stops a new client from accidentally binding to v1 forever. Deprecation is announced with a Sunset header plus telemetry on the callers still using it, and the OpenAPI document is generated per version.</p>
+            <pre data-testid="apix-output">versions served concurrently: 2
+requests without a version: 400, never a silent default
+callers on the deprecated version: tracked, by client id
+deprecation announced with a Sunset header: yes</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What wiring the concerns once buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Decide the concern once in the composition root, because a concern applied per endpoint is one that gets forgotten at one endpoint; make the default safe so that forgetting produces an endpoint nobody can call rather than one everybody can; never let the caller learn more than it can act on, and keep the diagnostic detail on the server with a trace id to connect the two; give every validation rule exactly one home and let the other layers only defend it; make the expected outcomes cheap to log and the unexpected ones expensive, so the signal is not drowned by the anticipatable; forbid high-cardinality dimensions in metrics, which is what makes a metric readable and affordable; and give every alert a dashboard, a runbook and an owner, or delete it.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q37:</strong> this page covers the six cross-cutting concerns in an ASP.NET Core API. The REST resource model, HTTP semantics and contract testing are on the <a href="q28-proof.html">Q28 proof page</a>, and the OAuth2/OIDC token validation and policy details are on the <a href="q08-proof.html">Q08 proof page</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the composition root that wires versioning, authz and validation, the single exception handler with its mapping table, and the observability configuration.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q37 API cross-cutting proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Addresses all six concerns the question lists, each with a decision behind it.</li>
+      <li>Makes the safe behaviour the default, so an omission fails closed rather than open.</li>
+      <li>Shows an interactive proof of choosing a concern and reading the evidence.</li>
+      <li>Keeps internals out of error responses and keeps the diagnostics on the server, linked by a trace id.</li>
+      <li>Configures logging and observability as reviewable code, with redaction and cardinality limits.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q36.html">&larr; Question 36 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q37.html">Question 37 answer</a>
+    <a href="q38.html">Question 38 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 37 proof &middot; answers/q37-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/api-crosscutting-workflow.js"></script>
+<script src="../assets/lab/q37-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>
