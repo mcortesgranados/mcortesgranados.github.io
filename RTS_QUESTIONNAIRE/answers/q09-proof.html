@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q09 proof &middot; Relational databases: SQL Server and PostgreSQL</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q09 &middot; Relational-database proof</p>
+  <h1>Have you worked with relational databases such as Microsoft SQL Server or PostgreSQL? How many years of experience do you have with them?</h1>
+  <p class="subtitle">A runnable review of how a slow screen is taken from a scan to a seek: the statements used, the measurements that prove the change, and the rules the answer is held to.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live query-tuning workflow</span>
+    <span class="tag">SQL Server &middot; PostgreSQL &middot; 20+ years</span>
+    <a class="tag live-jump" href="#live-sql-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q09.html">Question 9 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>9. Relational databases and years of experience</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; 20+ years: SQL Server, PostgreSQL, Oracle and MySQL: T-SQL, PL/pgSQL, tuning.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line states the engines and the duration but not what the experience actually consists of. This page is the separate, detailed version: it shows the tuning loop step by step &mdash; measure, rewrite, index, refresh estimates, choose isolation &mdash; with the reads and timings that prove the result.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes &mdash; more than 20 years with relational engines, and SQL Server and PostgreSQL as the two I know deepest. That covers T-SQL and PL/pgSQL development (stored procedures, functions, CTEs, window functions, JSONB modelling), schema and index design, execution-plan analysis, partitioning and statistics, ETL/ELT integration with SSIS and Airflow, plus the operational side: connection pooling, isolation choices, deadlock and blocking analysis, index maintenance, backup/restore and capacity planning. Oracle (9i&ndash;12c) and MySQL round out the same profile, and every hot query is validated against a real execution plan before release.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Decision</th><th>Typical statement</th><th>Why it is done this way</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Predicate shape</td><td>sargable ranges, no functions on columns</td><td>The optimiser can seek the index instead of scanning the table.</td></tr>
+          <tr><td>Plan review</td><td><code>SET STATISTICS IO, TIME</code> / <code>EXPLAIN (ANALYZE)</code></td><td>Changes are justified by measured reads and time, not by intuition.</td></tr>
+          <tr><td>Index design</td><td>key order + <code>INCLUDE</code></td><td>Covers the query shape and removes the key lookup.</td></tr>
+          <tr><td>Statistics</td><td><code>UPDATE STATISTICS &hellip; FULLSCAN</code> / <code>ANALYZE</code></td><td>Cardinality estimates decide the join strategy and memory grant.</td></tr>
+          <tr><td>Isolation</td><td>read-committed snapshot / snapshot</td><td>Readers stop blocking writers without weakening the write path.</td></tr>
+          <tr><td>Transactions</td><td>explicit scope + <code>rowversion</code></td><td>One atomic business operation with optimistic concurrency.</td></tr>
+          <tr><td>Operations</td><td>pooling, lock analysis, index maintenance</td><td>p95 latency and stability in production, not just correct results.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-sql-title">
+    <h2 id="live-sql-title">Live query-tuning workflow proof</h2>
+    <p>The running component below changes its statement/result view through real event binding. Select a step to see the exact statement, the reasoning behind it, and the measurement that proves the effect.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="sql-workflow" id="sql-workflow" data-operation="select" aria-labelledby="sql-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>SQL WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="sql-workflow-title">Choose a tuning step</h3>
+          <p>Select a step to inspect the statement, the reasoning and the measured result.</p>
+          <div class="task-buttons" aria-label="Query-tuning steps">
+            <button type="button" class="active" data-op="select" aria-pressed="true">Sargable query</button>
+            <button type="button" data-op="plan" aria-pressed="false">Read the plan</button>
+            <button type="button" data-op="index" aria-pressed="false">Design the index</button>
+            <button type="button" data-op="stats" aria-pressed="false">Refresh statistics</button>
+            <button type="button" data-op="isolation" aria-pressed="false">Isolation &amp; blocking</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="sql-command">$ SELECT o.Id, o.CreatedAt, o.Total FROM Orders o WHERE o.CustomerId = 42 AND o.Status = 'Open' ORDER BY o.CreatedAt DESC</code>
+            <p data-testid="sql-effect">Predicates are written sargable: no functions on indexed columns and no implicit conversions, so the optimiser can seek instead of scanning.</p>
+            <pre data-testid="sql-output">Index Seek (IX_Orders_Customer_Status, nonclustered)
+logical reads 24  &middot;  137 rows  &middot;  3 ms</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How the tuning loop is run</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Measure before touching anything; fix the query shape before adding an index; add an index only when the plan shows the seek it buys, and count its write cost; refresh statistics when estimates drift; choose isolation deliberately so readers do not block writers; and keep every business operation inside one explicit transaction with optimistic concurrency. The result is judged on p95 latency and logical reads, not on a single fast run on a warm cache.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q09:</strong> this page covers query and schema tuning on relational engines. Cross-engine migration projects, database-level high availability topology and cloud managed-service sizing are separate topics.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the other two are the production shapes of the same tuning session.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q09 relational-database proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names the relational engines worked with and the years behind them.</li>
+      <li>Distinguishes measuring, rewriting, indexing, refreshing statistics and isolation.</li>
+      <li>Shows an interactive proof of choosing a tuning step and reading its measurement.</li>
+      <li>Justifies every change with logical reads and timing, not with an opinion.</li>
+      <li>Defers cross-engine migration, HA topology and managed-service sizing to a later topic.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q09.html">&larr; Question 9 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q10.html">Question 10 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 09 proof &middot; answers/q09-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/sql-workflow.js"></script>
+<script src="../assets/lab/q09-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

@@ -54,10 +54,19 @@
       'expect describe it document').split(' '),
     csharp: ('using namespace public private protected internal sealed static readonly const class record interface struct enum new ' +
       'return if else for foreach while switch case break continue try catch finally throw async await var this base null true false ' +
-      'void string int bool double decimal long Task ValueTask Guid TimeSpan DateTime Random JsonSerializer IDatabase When').split(' ')
+      'void string int bool double decimal long Task ValueTask Guid TimeSpan DateTime Random JsonSerializer IDatabase When').split(' '),
+    sql: ('select from where and or not null is in exists join inner left right outer full on group by having order asc desc limit ' +
+      'offset insert into values update set delete create alter drop index unique clustered nonclustered include table view procedure ' +
+      'function trigger begin commit rollback transaction isolation level read write snapshot with as case when then else end union ' +
+      'all distinct top explain analyze vacuum int bigint smallint numeric decimal varchar nvarchar char text date timestamp boolean ' +
+      'jsonb primary key foreign references default constraint cascade statistics fullscan').split(' ')
   };
 
-  var TOKEN_RE = /(\/\/[^\n]*)|('(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")|\b(0x[0-9a-fA-F]+|\d+(?:\.\d+)?)\b|(@[A-Za-z_]\w*)|\b([A-Za-z_$][\w$]*)\b/g;
+  // The identifier/string/number part is shared; only the line-comment syntax differs
+  // between languages (// in C-family code, -- in SQL).
+  var TOKEN_BODY = "('(?:[^'\\\\]|\\\\.)*'|\"(?:[^\"\\\\]|\\\\.)*\")|\\b(0x[0-9a-fA-F]+|\\d+(?:\\.\\d+)?)\\b|(@[A-Za-z_]\\w*)|\\b([A-Za-z_$][\\w$]*)\\b";
+  var TOKEN_RE = new RegExp('(\\/\\/[^\\n]*)|' + TOKEN_BODY, 'g');
+  var SQL_TOKEN_RE = new RegExp('(--[^\\n]*)|' + TOKEN_BODY, 'g');
 
   function escapeHtml(value) {
     return value.replace(/[&<>]/g, function (ch) {
@@ -73,12 +82,13 @@
 
   function tokenise(text, language) {
     var keywords = KEYWORDS[language] || [];
+    var pattern = language === 'sql' ? SQL_TOKEN_RE : TOKEN_RE;
     var out = '';
     var lastIndex = 0;
     var match;
-    TOKEN_RE.lastIndex = 0;
+    pattern.lastIndex = 0;
 
-    while ((match = TOKEN_RE.exec(text)) !== null) {
+    while ((match = pattern.exec(text)) !== null) {
       out += escapeHtml(text.slice(lastIndex, match.index));
 
       var token = match[0];
