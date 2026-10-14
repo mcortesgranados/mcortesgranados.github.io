@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q29 proof &middot; Micro-frontends: Module Federation, Web Components, route-based orchestration and governance</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q29 &middot; Micro-frontend proof</p>
+  <h1>Have you worked with Micro-frontends? If yes, which architecture or framework did you use?</h1>
+  <p class="subtitle">A runnable review of the three micro-frontend strategies I have used, the governance that makes runtime composition survivable, and the check I run before recommending the split at all.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live micro-frontend workflow</span>
+    <span class="tag">Module Federation &middot; Web Components &middot; single-spa</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q29.html">Question 29 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>29. Micro-frontends: architecture and framework</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; I have worked with micro-frontend architectures and know how to choose between the available implementation strategies.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The question asks which architecture or framework, and the submitted line names none of them. This page is the separate, detailed version: it shows each strategy with its runtime mechanics, the shared-dependency rules that keep one framework on the page, the governance, and the threshold at which I advise against the split.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, with three complementary strategies. <strong>Module Federation</strong> (webpack/Vite) is the one I reach for first: a host shell resolves independently deployed remotes at runtime, with the framework, the reactivity library and the design system declared as shared singletons under strict version negotiation, so a remote can never bring a second copy of Angular onto the page and a version skew fails the pipeline rather than the user's session. <strong>Web Components / Angular Elements</strong> is the incremental-modernisation tool: a component is packaged as a framework-agnostic custom element with attributes in and custom events out and shadow DOM for style isolation, so a legacy page, a React host and an Angular host can all mount it. <strong>Route-based orchestration</strong> (single-spa style) is the composition model: each vertical is owned by one team, mounted under its own route and downloaded only when that route is active, while the shell keeps exactly what must be common &mdash; authentication and token refresh, navigation, theming, error boundaries and analytics. All three only work with governance: a versioned design system, events as the sole cross-team channel, no deep imports across remotes, one CI/CD pipeline per remote and per-remote observability with a named owner. And I say no to micro-frontends when the team count, the deployment independence or the framework heterogeneity do not justify the duplicated runtime and the coordination cost &mdash; a modular monolith with a shared component library is usually the better trade.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Strategy</th><th>How it composes</th><th>Best fit</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Module Federation (webpack/Vite)</td><td>host resolves remotes at runtime, shared singletons with strict version negotiation</td><td>several teams on the same framework shipping independently</td></tr>
+          <tr><td>Web Components / Angular Elements</td><td>framework-agnostic custom elements: attributes in, custom events out, shadow DOM</td><td>incremental modernisation, widget sharing across frameworks</td></tr>
+          <tr><td>Route-based orchestration (single-spa)</td><td>one vertical per route, lazily loaded, shell owns the cross-cutting concerns</td><td>verticals with clearly separate domains and owners</td></tr>
+          <tr><td>Shared dependencies</td><td>declared singletons, strict version negotiation at build time</td><td>keeping one copy of the framework, RxJS and the design system</td></tr>
+          <tr><td>Governance</td><td>versioned design system, contract-first events, one pipeline per remote, per-remote telemetry</td><td>making independent deployment real rather than nominal</td></tr>
+          <tr><td>Counter-check</td><td>team count, deployment independence, framework heterogeneity</td><td>deciding to stay a modular monolith with a shared component library</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live micro-frontend workflow proof</h2>
+    <p>The running component below changes its strategy/result view through real event binding. Select a strategy, a governance rule or the counter-check to see the mechanics, the reasoning behind the decision, and the evidence that it holds.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="mfe-workflow" id="mfe-workflow" data-operation="federation" aria-labelledby="mfe-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>MICRO-FRONTEND WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="mfe-workflow-title">Choose a strategy or a governance rule</h3>
+          <p>Select a step to inspect the mechanics, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Micro-frontend strategies and rules">
+            <button type="button" class="active" data-op="federation" aria-pressed="true">Module Federation</button>
+            <button type="button" data-op="elements" aria-pressed="false">Web Components / Elements</button>
+            <button type="button" data-op="orchestration" aria-pressed="false">Route-based orchestration</button>
+            <button type="button" data-op="governance" aria-pressed="false">Governance that makes it work</button>
+            <button type="button" data-op="decision" aria-pressed="false">When NOT to use it</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="mfe-command">$ ModuleFederationPlugin &rarr; remotes: { search, analytics, admin } &middot; shared: { @angular/core, rxjs, design-system } (singleton, strictVersion)</code>
+            <p data-testid="mfe-effect">A host shell loads independently deployed remotes at runtime. Framework libraries and the design system are shared singletons with strict version negotiation, so Angular, RxJS and the token stylesheet are instantiated once even with three remotes on the page.</p>
+            <pre data-testid="mfe-output">remotes loaded at runtime: 3
+copies of @angular/core on the page: 1
+version mismatch: fails the build, not the user session</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the micro-frontend split buys &mdash; and costs</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Make the shared surface explicit and small, because every shared singleton is a reason for two teams to release together; let each vertical expose a versioned contract and forbid deep imports across remotes, so the only cross-team channel is an event or the API; keep authentication, theming and error boundaries in the shell, since four implementations of token refresh is four ways to lock users out; give every remote its own pipeline, owner and telemetry so an incident has one team to page; and degrade a failed remote to a route-level fallback so one team's bad deploy cannot take the whole product down.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q29:</strong> this page covers the micro-frontend strategies, their runtime mechanics and the governance around them. Choosing between front-end architecture patterns in general &mdash; modular monolith, shared component library, micro-frontend &mdash; as a design exercise is Q30.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the Module Federation configuration, the shell bootstrap and the runtime manifest that records routes, ownership and governance.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q29 micro-frontend proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Names the strategies and the framework behind each one, not just the concept.</li>
+      <li>Keeps one copy of the shared framework and design system on the page.</li>
+      <li>Shows an interactive proof of choosing a strategy and reading the evidence.</li>
+      <li>Makes each vertical independently deployable, with an owner, a pipeline and telemetry.</li>
+      <li>States when a modular monolith with a shared component library is the better answer.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q28.html">&larr; Question 28 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q29.html">Question 29 answer</a>
+    <a href="q30.html">Question 30 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 29 proof &middot; answers/q29-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/mfe-workflow.js"></script>
+<script src="../assets/lab/q29-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

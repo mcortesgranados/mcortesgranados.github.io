@@ -1,0 +1,75 @@
+{
+  "$comment": "Q29 — the runtime manifest of the micro-frontend estate. The shell registers routes from this file and each remote's own pipeline publishes its entry. It is also the governance record: an entry without an owner, a pipeline or an exposed module is not independently deployable and the build rejects it.",
+  "manifestVersion": "2.1.0",
+  "shell": {
+    "name": "shell",
+    "entry": "https://cdn.example.com/shell/shell.js",
+    "owns": ["auth", "navigation", "theme", "errorBoundary", "analytics"],
+    "ownsAnyVertical": false
+  },
+  "sharedSingletons": [
+    { "name": "@angular/core", "requiredVersion": "^19.0.0", "singleton": true },
+    { "name": "@angular/common", "requiredVersion": "^19.0.0", "singleton": true },
+    { "name": "rxjs", "requiredVersion": "^7.8.0", "singleton": true },
+    { "name": "@acme/design-system", "requiredVersion": "^4.2.0", "singleton": true }
+  ],
+  "remotes": {
+    "search": {
+      "team": "search-experience",
+      "owner": "CODEOWNERS: @acme/search-experience",
+      "entry": "https://cdn.example.com/search/search.remote.js",
+      "filename": "search.remote.js",
+      "routes": ["/search", "/search/results", "/search/saved"],
+      "basePath": "/search",
+      "exposes": ["./App", "./routes", "./widgets/Filters"],
+      "shared": ["@angular/core", "@angular/common", "rxjs", "@acme/design-system"],
+      "technology": "angular@19",
+      "pipeline": "ci/search.yml",
+      "deploysWith": "search-experience only",
+      "observability": { "errors": "sentry/search", "rum": "acme-rum/search", "slo": "p95 2.5s" }
+    },
+    "analytics": {
+      "team": "insights",
+      "owner": "CODEOWNERS: @acme/insights",
+      "entry": "https://cdn.example.com/analytics/analytics.remote.js",
+      "filename": "analytics.remote.js",
+      "routes": ["/insights", "/insights/reports"],
+      "basePath": "/insights",
+      "exposes": ["./App", "./charts/RevenueChart"],
+      "shared": ["@angular/core", "rxjs", "@acme/design-system"],
+      "technology": "react@19 (mounted by the shell through a wrapper)",
+      "pipeline": "ci/analytics.yml",
+      "deploysWith": "insights only",
+      "observability": { "errors": "sentry/insights", "rum": "acme-rum/insights", "slo": "p95 3.0s" }
+    },
+    "admin": {
+      "team": "back-office",
+      "owner": "CODEOWNERS: @acme/back-office",
+      "entry": "https://cdn.example.com/admin/admin.remote.js",
+      "filename": "admin.remote.js",
+      "routes": ["/admin"],
+      "basePath": "/admin",
+      "exposes": ["./App", "./widgets/PermissionEditor"],
+      "shared": ["@angular/core", "@angular/common", "rxjs", "@acme/design-system"],
+      "technology": "angular@19",
+      "pipeline": "ci/admin.yml",
+      "deploysWith": "back-office only",
+      "observability": { "errors": "sentry/admin", "rum": "acme-rum/admin", "slo": "p95 2.0s" }
+    }
+  },
+  "communication": {
+    "rule": "remotes never import each other; only declared exposes are public",
+    "crossTeamChannel": "custom events on the shell bus, versioned payloads",
+    "events": [
+      { "name": "order:confirmed", "version": 2, "producer": "admin", "consumers": ["analytics"] },
+      { "name": "search:refined", "version": 1, "producer": "search", "consumers": ["analytics"] }
+    ],
+    "deepImportsAcrossRemotes": 0
+  },
+  "loadPolicy": {
+    "strategy": "route-based, lazy",
+    "prefetch": ["search"],
+    "remotesDownloadedForInactiveRoute": 0,
+    "failureMode": "route-level fallback rendered by the shell; other remotes unaffected"
+  }
+}
