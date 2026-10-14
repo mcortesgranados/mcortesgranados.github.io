@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q36 proof &middot; Local ACID transactions and cross-service consistency: where the boundary is</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../lab-proof.css">
+</head>
+<body>
+
+<header class="page-hero">
+  <p class="eyebrow">RTS questionnaire &middot; Q36 &middot; Transaction scope proof</p>
+  <h1>Have you worked with both transactions within a single application/database and transactions or consistency requirements spanning multiple services/databases?</h1>
+  <p class="subtitle">Both scopes and, more importantly, the line between them: the isolation level chosen per use case with its cost, the guards that actually hold under concurrency, and the read model that makes eventual consistency honest in the UI.</p>
+  <div class="meta-row">
+    <span class="tag">Status: reviewed</span>
+    <span class="tag live-meta">Live transaction-scope workflow</span>
+    <span class="tag">ACID &middot; Isolation levels &middot; Outbox &middot; Read models</span>
+    <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
+  </div>
+</header>
+
+<main class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Index</a><span aria-hidden="true">/</span>
+    <a href="q36.html">Question 36 answer</a><span aria-hidden="true">/</span>
+    <span>Interactive proof</span>
+  </nav>
+
+  <section>
+    <h2>36. Transactions inside one database and consistency across services</h2>
+    <h3>Answer as submitted</h3>
+    <blockquote>&ldquo;Yes &mdash; I handle both scopes routinely and I am explicit about where each belongs.&rdquo;</blockquote>
+    <div class="important">
+      <strong>Technical decision: expand.</strong> The submitted line claims both scopes; the interesting part is the rule that decides between them and the cost of the local side, which is the half usually left unsaid. This page is the separate, detailed version: the isolation level chosen per use case with the reason and the cost, the guards that survive real concurrency, the cross-service mechanisms with a pointer to their detail, and the read model that makes the eventual half trustworthy.
+    </div>
+  </section>
+
+  <section>
+    <h2>Expanded answer</h2>
+    <p class="canonical-answer">
+      Yes, and the two scopes are not alternatives: they are the two sides of one boundary, which is the transaction rather than the diagram. <strong>Inside one database</strong> a use case gets a real ACID boundary: one commit per use case, an explicit transaction only where the work spans several statements or aggregates, and EF Core's <code>DbContext</code> or Spring's <code>@Transactional</code> doing the work. <strong>The isolation level is chosen, not defaulted</strong>: read committed as the baseline because it is the level whose costs I can describe, snapshot where a multi-aggregate write or a long read needs a stable view and blocking writers would be worse, and serializable only where an invariant spans rows &mdash; always shipped with the retry policy its failure mode requires. <strong>In-process consistency</strong> is enforced by things that hold under concurrency rather than by things that read well: optimistic concurrency on a row version, a unique constraint as the last line of defence even when the code already checks, deadlock-aware retries with jitter, and transactions kept short so locks are released quickly. <strong>Across services</strong> the guarantee changes from atomic to convergent, so the mechanisms change with it: the outbox makes the state change and its event atomic in one local transaction, a saga rolls a business process back through compensations instead of a lock, consumers are idempotent because delivery is at-least-once, and reconciliation detects the divergence that escapes. There is no distributed lock in the design and no network call inside a database transaction. <strong>Read models</strong> close the loop: a projection is a function of the event log with a recorded position, so it can be rebuilt rather than patched, and where a user would notice the lag the response carries the position the write reached and the UI says &ldquo;confirming&rdquo; instead of showing a stale list. The rule in one sentence: strong consistency inside the boundary, well-governed eventual consistency across it, with observability good enough that divergence is found in minutes rather than at month-end.
+    </p>
+    <div class="params">
+      <table>
+        <thead>
+          <tr><th>Scope</th><th>Guarantee</th><th>Mechanism</th><th>Cost accepted</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>One database, ordinary use case</td><td>atomic</td><td>one commit, no explicit transaction</td><td>none beyond the commit itself</td></tr>
+          <tr><td>One database, several aggregates</td><td>atomic</td><td>snapshot isolation in an explicit transaction</td><td>version-store growth, write conflict on commit</td></tr>
+          <tr><td>One database, invariant across rows</td><td>atomic, serialised</td><td>serializable plus a jittered retry policy</td><td>retries under contention</td></tr>
+          <tr><td>Concurrent edits</td><td>no lost update</td><td>row version, plus a unique constraint as the last line of defence</td><td>a conflict returned to the caller instead of a silent overwrite</td></tr>
+          <tr><td>Two or more services</td><td>convergent</td><td>outbox, saga with compensation, idempotent consumers, reconciliation</td><td>temporary divergence, made visible and repaired</td></tr>
+          <tr><td>Derived read model</td><td>eventual</td><td>projection with a position, rebuildable from the log</td><td>lag, surfaced to the client instead of hidden</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="live-layers-title">
+    <h2 id="live-layers-title">Live transaction-scope workflow proof</h2>
+    <p>The running component below changes its scope/result view through real event binding. Select a scope to see the mechanism, the reasoning behind the choice, and the evidence that it holds.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="tx-scope-workflow" id="tx-scope-workflow" data-operation="local" aria-labelledby="tx-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>TRANSACTION SCOPE WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="tx-workflow-title">Choose a consistency scope</h3>
+          <p>Select a scope to inspect the mechanism, the reasoning and the evidence.</p>
+          <div class="task-buttons" aria-label="Consistency scopes">
+            <button type="button" class="active" data-op="local" aria-pressed="true">One use case, one ACID transaction</button>
+            <button type="button" data-op="isolation" aria-pressed="false">Isolation chosen, not defaulted</button>
+            <button type="button" data-op="inprocess" aria-pressed="false">In-process consistency</button>
+            <button type="button" data-op="crossservice" aria-pressed="false">Across services</button>
+            <button type="button" data-op="readmodel" aria-pressed="false">Read models and the boundary rule</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="tx-command">$ EF Core: DbContext + one SaveChangesAsync inside an explicit transaction &middot; ADO.NET: BeginTransaction for multi-statement work</code>
+            <p data-testid="tx-effect">Inside one database a use case gets a real ACID boundary: the aggregate is loaded, changed and committed once. An explicit transaction is opened only where the work spans several statements or several aggregates, because opening one out of habit means holding locks for longer than the work actually needs.</p>
+            <pre data-testid="tx-output">use cases with exactly one commit: 100%
+transactions that wrap a network call: 0
+SaveChanges calls per use case: 1
+transactions opened just in case: 0</pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What choosing the scope deliberately buys</h2>
+    <div class="note">
+      <strong>Rules I apply.</strong> Choose the isolation level per use case and write down its cost, because &ldquo;the default is fine&rdquo; is a decision made by omission; keep the transaction short, since lock duration is the only thing that makes two correct transactions contend; never hold a lock across a network call, which is the mistake that turns a slow dependency into a database incident; let a constraint be the last line of defence even when the code already checks, because it is the only check that survives two concurrent requests arriving at the same instant; state the guarantee for every cross-service operation and name how a divergence would be detected, since an undetectable divergence is not consistency but hope; and make derived data rebuildable, because data that can only be patched is data nobody dares to fix.
+    </div>
+    <div class="important">
+      <strong>Boundary for Q36:</strong> this page compares the two scopes and draws the line between them. The distributed mechanisms themselves &mdash; saga state, compensation, the outbox relay, the reconciliation job &mdash; are on the <a href="q35-proof.html">Q35 proof page</a>; the resilience machinery around them is on <a href="q34-proof.html">Q34</a>; and the unit-of-work read of the local side is on <a href="q32-proof.html">Q32</a>.
+    </div>
+  </section>
+
+  <section>
+    <h2>Source files</h2>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the local transaction boundary with its isolation choices and retry policy, the rebuildable read model, and the map of which operation gets which guarantee.</p>
+    <div class="code-explorer" id="code-explorer" data-selected="">
+      <nav class="file-tree" aria-label="Source files">
+        <div class="tree-heading">Explorer</div>
+        <div class="workspace-folder">RTS_QUESTIONNAIRE / Q36 transaction scope proof</div>
+        <ul id="file-list"></ul>
+      </nav>
+      <div class="source-pane">
+        <header>
+          <div><strong id="file-name"></strong><span id="file-path"></span></div>
+          <span class="language-badge" id="file-language"></span>
+        </header>
+        <div class="code-viewer" id="code-viewer" role="region" aria-label="Source code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Acceptance criteria</h2>
+    <ul class="checklist">
+      <li>Covers both scopes rather than choosing one and arguing for it.</li>
+      <li>States the isolation level and its cost per use case instead of relying on the default.</li>
+      <li>Shows an interactive proof of choosing a scope and reading the evidence.</li>
+      <li>Names the guarantee and the detection method for every cross-service operation.</li>
+      <li>Makes the read model rebuildable and surfaces its lag to the client instead of hiding it.</li>
+    </ul>
+  </section>
+
+  <nav class="question-navigation" aria-label="Question navigation">
+    <a href="q35.html">&larr; Question 35 answer</a>
+    <a href="../index.html">Back to index</a>
+    <a href="q36.html">Question 36 answer</a>
+    <a href="q37.html">Question 37 &rarr;</a>
+  </nav>
+
+  <div class="footer">RTS Questionnaire &middot; Question 36 proof &middot; answers/q36-proof.html &middot; answers grounded in the CV_MCG portfolio of Manuela Cort&eacute;s Granados.</div>
+</main>
+
+<script src="../assets/lab/tx-scope-workflow.js"></script>
+<script src="../assets/lab/q36-sources.js"></script>
+<script src="../assets/lab/lab-proof.js"></script>
+</body>
+</html>

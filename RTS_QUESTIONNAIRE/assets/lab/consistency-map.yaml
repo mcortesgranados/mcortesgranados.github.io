@@ -1,0 +1,96 @@
+# Q36 — where strong consistency ends and eventual consistency begins.
+#
+# The question asks about both scopes, so the useful artefact is not an argument for
+# one of them but the boundary: which operation needs which guarantee, what delivers
+# it, and how a divergence would be noticed. A scope that is chosen without its
+# detection method is a scope that is assumed rather than engineered.
+version: 2
+rule:
+  statement: "strong consistency inside the boundary, well-governed eventual consistency across it"
+  corollary: |
+    the boundary is the transaction, not the diagram: everything that one database can
+    commit atomically stays strong, and everything that requires two of them is
+    promoted to an explicitly designed convergent guarantee with compensation,
+    idempotency and detection.
+  forbidden:
+    - "a distributed lock held across a service call"
+    - "a network call inside a database transaction"
+    - "a read model that can only be patched, never rebuilt"
+    - "accepting a write with no way to tell when it will be visible"
+
+scopes:
+  - name: local-acid
+    guarantee: atomic
+    boundary: "one database, one use case"
+    mechanism:
+      - "one commit per use case (SaveChangesAsync / @Transactional)"
+      - "an explicit transaction only when the work spans statements or aggregates"
+      - "isolation chosen per use case, with the reason recorded"
+    isolation:
+      read-committed:
+        usedFor: "the default: ordinary reads and writes"
+        cost: "non-repeatable reads and phantoms inside a transaction"
+      snapshot:
+        usedFor: "multi-aggregate writes and reads that must see a stable view"
+        cost: "version-store growth, and a write conflict on commit instead of a block"
+      serializable:
+        usedFor: "invariants that span rows, such as an allocation that must not exceed a quota"
+        cost: "retries under contention, which is why it ships with a retry policy"
+      note: "RCSI is enabled on SQL Server so readers do not block writers"
+    operations:
+      - { name: "reserve one stock item", scope: local-acid, isolation: read-committed, guard: "rowversion + check constraint" }
+      - { name: "transfer stock between two items", scope: local-acid, isolation: snapshot, guard: "rowversion on both rows" }
+      - { name: "allocate quota across a pool", scope: local-acid, isolation: serializable, guard: "retry on conflict (1205/3960)" }
+      - { name: "create an order", scope: local-acid, isolation: read-committed, guard: "unique constraint on the client idempotency key" }
+
+  - name: cross-service
+    guarantee: convergent
+    boundary: "two or more services or databases"
+    mechanism:
+      - "transactional outbox: state change and event commit together"
+      - "saga with compensations: business rollback instead of a lock"
+      - "idempotent consumers: the effect is deduplicated, not the delivery"
+      - "reconciliation: divergence is detected and repaired, with an owner"
+    detail: "see the Q35 proof page for the mechanism implementations"
+    operations:
+      - { name: "fulfil an order", scope: cross-service, mechanism: saga, compensation: "release stock, refund, cancel shipment", detection: "reconciliation job, daily plus ad hoc" }
+      - { name: "publish a domain event", scope: cross-service, mechanism: outbox, detection: "relay backlog alert above 120 s" }
+      - { name: "consume an event", scope: cross-service, mechanism: "idempotent consumer, dedup by message id", detection: "DLQ depth alert, any depth for 5 minutes" }
+
+  - name: read-model
+    guarantee: eventual
+    boundary: "derived data used by a screen or a report"
+    mechanism:
+      - "projection with a recorded position, rebuildable from the event log"
+      - "idempotent apply, guarded by the aggregate version already folded in"
+      - "materialised views for reports, refreshed on a schedule with the lag published"
+    readYourOwnWrites:
+      mechanism: "the command response carries the position it reached; the client polls the projection as of that position"
+      uiBehaviour: "shows 'confirming…' rather than a stale list"
+      rationale: "a stale read that looks like a lost write is a support ticket, and the fix is in the response contract, not in the database"
+    operations:
+      - { name: "order status screen", scope: read-model, detection: "projection lag alert above 5 s" }
+      - { name: "monthly report", scope: read-model, detection: "materialised view refresh timestamp shown in the report footer" }
+
+escalation:
+  # When budget allows, a requirement moves up to a stronger scope; the trigger is
+  # written down so it is a decision rather than a debate every quarter.
+  promote:
+    - trigger: "a user-visible decision depends on the value"
+      action: "route the read to the primary for the writing session"
+    - trigger: "the invariant must hold across two aggregates in the same database"
+      action: "snapshot isolation with an explicit transaction"
+    - trigger: "the invariant must hold across two services"
+      action: "move the invariant into one service, or make it convergent and compensate — never a distributed lock"
+  demote:
+    - trigger: "a report only needs to be right by the next morning"
+      action: "read the replica, publish the lag"
+
+observability:
+  correlationId: "one id per business transaction, propagated through every call and every event header"
+  detectionTimes:
+    lostEvent: "seconds (relay backlog alert)"
+    duplicateEffect: "not expected; caught by the unique constraint and counted, not erupted"
+    divergence: "minutes (lag alerts), daily (reconciliation)"
+    unbalancedLedger: "daily at reconciliation, never at month-end"
+  monthEndSurprises: 0
