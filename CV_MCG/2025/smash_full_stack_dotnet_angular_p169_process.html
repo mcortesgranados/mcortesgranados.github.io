@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SMASH | Full Stack Developer .NET / Angular (P-169) Process</title>
+  <style>
+    :root { --blue:#1565c0; --green:#2e7d32; --purple:#7b1fa2; --red:#e02020; --ink:#23272f; --soft:#e3f2fd; --line:#d8e1ea; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#fafbfc; color:var(--ink); font-family:'Segoe UI',Arial,sans-serif; line-height:1.5; }
+    .skip-link { position:absolute; left:12px; top:8px; z-index:40; display:inline-block; padding:7px 13px; border:1px solid #93c5fd; border-radius:999px; background:#fff; color:#0d47a1; font-size:.85rem; font-weight:850; text-decoration:none; box-shadow:0 2px 6px rgba(15,23,42,.12); }
+    .skip-link:focus-visible { outline:3px solid #1565c0; outline-offset:2px; }
+    .header { position:sticky; top:0; z-index:10; display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:10px 14px; border-bottom:1px solid #cbd5e1; background:rgba(255,255,255,.98); box-shadow:0 2px 8px rgba(15,23,42,.08); }
+    .header .brand { display:inline-flex; align-items:center; gap:9px; text-decoration:none; }
+    .header .brand img { width:96px; height:auto; display:block; }
+    .header strong { color:var(--blue); font-size:1.05rem; }
+    .header .header-links { display:flex; flex-wrap:wrap; gap:7px; margin-left:auto; }
+    .header a:not(.brand) { padding:5px 9px; border:1px solid #cbd5e1; border-radius:999px; background:#f8fafc; color:#334155; font-size:.82rem; font-weight:800; text-decoration:none; }
+    .header a:not(.brand):hover { background:#eff6ff; border-color:#93c5fd; color:#0d47a1; }
+    .container { max-width:none; margin:0; padding:12px 16px; }
+    .hero,.card,.meta div { padding:20px; border:1px solid var(--line); border-radius:10px; background:#fff; box-shadow:0 3px 8px rgba(0,0,0,.04); }
+    .hero { background:linear-gradient(120deg,#fff5f5,#fff,#eff6ff); }
+    .hero .hero-brand { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-bottom:10px; }
+    .hero .hero-brand img { width:132px; height:auto; }
+    .hero .hero-brand span { color:#64748b; font-size:.85rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+    .hero h1 { margin:0; color:var(--blue); font-size:clamp(1.5rem,3.4vw,2.1rem); }
+    .hero p { margin:8px 0 0; max-width:88ch; }
+    .chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:12px; }
+    .chips span { padding:5px 10px; border:1px solid #cbd5e1; border-radius:999px; background:#f8fafc; color:#334155; font-size:.82rem; font-weight:800; }
+    .status { display:inline-block; margin-top:12px; padding:5px 10px; border-radius:999px; background:#f3e5f5; color:#6a1b9a; font-weight:850; }
+    .section-title { margin:22px 0 10px; color:var(--green); font-size:1.4rem; }
+    .section-title small { display:block; margin-top:3px; color:#64748b; font-size:.82rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+    .meta { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .meta div { padding:12px; }
+    .meta strong { display:block; color:var(--purple); font-size:.85rem; }
+    .card p { margin:0 0 10px; }
+    .card p:last-child { margin-bottom:0; }
+    .card h3 { margin:18px 0 8px; color:#17386d; font-size:1.05rem; }
+    .card h3:first-child { margin-top:0; }
+    .card ul { margin:0 0 12px; padding-left:22px; }
+    .card li { margin:6px 0; }
+    .card ul ul { margin-top:6px; padding-left:20px; }
+    .card ul ul li { margin:4px 0; }
+    .jd-note { color:#64748b; font-size:.9rem; }
+    .jd-disclaimer { margin-top:14px; padding:12px 14px; border-left:4px solid #93c5fd; border-radius:8px; background:#f8fbff; color:#334155; font-size:.92rem; }
+    .table-scroll { overflow-x:auto; }
+    .communication-table { width:100%; min-width:760px; border-collapse:collapse; }
+    .communication-table th,.communication-table td { padding:9px; border:1px solid var(--line); text-align:left; vertical-align:top; }
+    .communication-table th { background:var(--soft); color:#0d47a1; }
+    .communication-table td:first-child { white-space:nowrap; font-weight:800; color:#475569; }
+    .communication-table td strong { color:var(--purple); }
+    .quote { margin:0; padding:14px 16px; border:1px solid #e2e8f0; border-left:5px solid #7b1fa2; border-radius:8px; background:#fbf9fe; color:#2b2b38; }
+    .quote p { margin:0 0 10px; }
+    .quote p:last-child { margin-bottom:0; }
+    .apply-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 18px; padding:0; margin:0; list-style:none; }
+    .apply-grid li { padding:7px 10px; border:1px solid var(--line); border-radius:8px; background:#f8fafc; font-size:.92rem; }
+    .apply-grid li b { color:#17386d; }
+    .actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+    .button { display:inline-block; padding:8px 12px; border:1px solid #93c5fd; border-radius:6px; background:var(--soft); color:#0d47a1; font-weight:800; text-decoration:none; }
+    .button:hover { background:#bbdefb; }
+    .footer { margin-top:22px; color:#64748b; text-align:right; }
+    @media(max-width:900px) { .meta { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(max-width:700px) { .container { padding:8px; } .meta,.apply-grid { grid-template-columns:1fr; } .skip-link { position:static; margin:8px 8px 0; } .header .header-links { margin-left:0; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#job-description">Skip To Job Description</a>
+
+  <header class="header">
+    <a class="brand" href="https://smash.cr/" target="_blank" rel="noopener" aria-label="SMASH">
+      <img src="assets/smash_logo.png" alt="SMASH">
+    </a>
+    <strong>Manuela Cortés Granados · Recruitment process detail</strong>
+    <div class="header-links">
+      <a href="current_processes.html">← Current processes</a>
+      <a href="index.html">📄 CV</a>
+      <a href="https://smashcr.applytojob.com/apply/XX7V1q0p2P/Full-Stack-Developer-P169" target="_blank" rel="noopener">🔗 Original JD</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-brand">
+        <img src="assets/smash_logo.png" alt="SMASH">
+        <span>P-169</span>
+      </div>
+      <h1>Full Stack Developer – .NET / Angular</h1>
+      <p>Enterprise applications with .NET 8+, Angular 13+, C#, TypeScript and REST APIs, delivered for a US client from Bogotá, Colombia.</p>
+      <div class="chips">
+        <span>📍 Bogotá, Colombia</span>
+        <span>⏱️ Full Time</span>
+        <span>📈 Mid Level</span>
+        <span>🌐 English B2+</span>
+        <span>🏢 Remote from Bogotá · office when requested</span>
+      </div>
+      <span class="status">Current status: interview invitation received · reschedule requested for October 16 conflict</span>
+    </section>
+
+    <h2 class="section-title">Process record</h2>
+    <section class="meta">
+      <div><strong>Company</strong>SMASH</div>
+      <div><strong>Recruiter</strong>Maria Beita — Talent Acquisition, SMASH</div>
+      <div><strong>Position ID</strong>P-169 · Full Stack Developer – .NET / Angular</div>
+      <div><strong>Initial outreach</strong>September 16, 2026 · 8:55 PM (LinkedIn)</div>
+      <div><strong>Screening</strong>October 9, 2026 · 3:30 PM Colombia time</div>
+      <div><strong>Next milestone</strong>Interview reschedule pending confirmation</div>
+    </section>
+
+    <h2 class="section-title">Timeline of the process</h2>
+    <section class="card">
+      <div class="table-scroll">
+        <table class="communication-table">
+          <thead>
+            <tr><th>Date / time</th><th>Channel</th><th>Communication</th><th>Outcome</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sep 16, 2026<br>8:55 PM</td>
+              <td>LinkedIn</td>
+              <td><strong>Maria Beita</strong> introduced herself as a recruiter with SMASH, said she had reviewed the profile and was reaching out about a Full Stack position.</td>
+              <td>Interest registered.</td>
+            </tr>
+            <tr>
+              <td>Sep 17, 2026<br>1:10 PM</td>
+              <td>LinkedIn</td>
+              <td>Job description link shared: <a href="https://smashcr.applytojob.com/apply/XX7V1q0p2P/Full-Stack-Developer-P169" target="_blank" rel="noopener">Full Stack Developer – .NET / Angular (P-169)</a>. Position described as 100% remote at that point.</td>
+              <td>Application submitted through the JazzHR form.</td>
+            </tr>
+            <tr>
+              <td>Sep 29, 2026<br>8:36 PM</td>
+              <td>LinkedIn</td>
+              <td>Candidate reply sent in the same conversation.</td>
+              <td>Recorded; the message appears in the thread as an image preview.</td>
+            </tr>
+            <tr>
+              <td>Oct 8, 2026<br>10:50 AM</td>
+              <td>LinkedIn</td>
+              <td><strong>Maria Beita</strong> reported that the system had auto-rejected the application without her noticing, apologised, and confirmed continued interest from the client. She also relayed new client adjustments: the role starts remote and later requires office attendance.</td>
+              <td>Process reactivated.</td>
+            </tr>
+            <tr>
+              <td>Oct 8, 2026<br>11:19 AM</td>
+              <td>LinkedIn</td>
+              <td>Candidate confirmed that attending the office two to three times per week or per month is not a problem and that motivation for the role is unchanged.</td>
+              <td>Condition accepted.</td>
+            </tr>
+            <tr>
+              <td>Oct 8, 2026<br>12:51 PM – 2:01 PM</td>
+              <td>LinkedIn</td>
+              <td>Recruiter proposed a screening interview for the following day; candidate accepted.</td>
+              <td>Screening agreed.</td>
+            </tr>
+            <tr>
+              <td>Oct 9, 2026<br>11:04 AM</td>
+              <td>LinkedIn / email</td>
+              <td>Link sent for 4:00 PM Colombia time; candidate confirmed the slot.</td>
+              <td>Invitation received.</td>
+            </tr>
+            <tr>
+              <td>Oct 9, 2026<br>1:53 PM – 2:35 PM</td>
+              <td>LinkedIn / email</td>
+              <td>Recruiter moved the meeting to 2:30 PM Costa Rica / 3:30 PM Colombia time and emailed the new link.</td>
+              <td>Rescheduled and accepted.</td>
+            </tr>
+            <tr>
+              <td>Oct 12, 2026<br>7:39 PM</td>
+              <td>Email</td>
+              <td>Candidate sent the completed technical questionnaire (<code>RTS_Questionnaire_ANSWERS_MCG.xlsx</code>) with a link to the expanded public version at <a href="https://mcortesgranados.github.io/RTS_QUESTIONNAIRE/index.html" target="_blank" rel="noopener">RTS_QUESTIONNAIRE</a>.</td>
+              <td>Questionnaire delivered.</td>
+            </tr>
+            <tr>
+              <td>Oct 14, 2026<br>4:40 PM</td>
+              <td>LinkedIn</td>
+              <td>Candidate acknowledged the thread with reactions (👏 👍 😊). An interview had been invited for October 16.</td>
+              <td>Invitation under review.</td>
+            </tr>
+            <tr>
+              <td>Oct 14, 2026</td>
+              <td>Email</td>
+              <td>Reschedule request sent to the SMASH HR team because of an unforeseen commitment on October 16 at the scheduled time; the message reiterates interest and asks to speak with Javier Nunez.</td>
+              <td>Awaiting confirmation of a new date.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <h2 class="section-title">Reschedule request sent</h2>
+    <section class="card">
+      <div class="quote">
+        <p>Dear Smash HR Team,</p>
+        <p>Thank you very much for the invitation to interview for the Full Stack Developer – .NET / Angular (P-169) position. I sincerely appreciate this opportunity and your consideration.</p>
+        <p>Unfortunately, I have an unforeseen commitment on October 16th at the scheduled time. Would it be possible to reschedule the interview for another date or time that works best for your team?</p>
+        <p>I remain very interested in the position and would welcome the opportunity to speak with Javier Nunez and learn more about the role.</p>
+        <p>Thank you for your understanding and flexibility. I look forward to your response.</p>
+        <p>Kind regards,<br>Manuela Cortés Granados</p>
+      </div>
+    </section>
+
+    <h2 class="section-title" id="job-description">Job description (P-169)<small>Content published by SMASH on JazzHR</small></h2>
+    <section class="card">
+      <p class="jd-note">Literal content of the posting at <a href="https://smashcr.applytojob.com/apply/XX7V1q0p2P/Full-Stack-Developer-P169" target="_blank" rel="noopener">smashcr.applytojob.com</a>, reproduced here to keep the process record complete even if the posting is taken down.</p>
+
+      <h3>Location &amp; Work Arrangement</h3>
+      <ul>
+        <li><strong>Location:</strong> Bogotá, Colombia only</li>
+        <li><strong>Work arrangement:</strong> Remote from Bogotá, with availability to attend the office when requested</li>
+        <li><strong>English level:</strong> B2+ or higher</li>
+      </ul>
+
+      <h3>SMASH, Who we are?</h3>
+      <p>We help technology professionals build careers with US companies. We take the time to understand each candidate’s experience and career goals to find a strong technical and cultural match.</p>
+      <p>We aim to find the perfect match by pairing our talent with our US clients based not only on technical expertise, but also on cultural fit.</p>
+
+      <h3>Our Benefits</h3>
+      <ul>
+        <li>Wellness Coverage</li>
+        <li>Remote Work</li>
+        <li>Birthday day off</li>
+        <li>Recognition and rewards system</li>
+        <li>Referrals Program</li>
+        <li>Business skill coaching</li>
+        <li>English classes for Smashers and relatives</li>
+        <li>Learning opportunities</li>
+      </ul>
+      <p class="jd-note"><em>This position is open exclusively to candidates currently living and working in Bogotá, Colombia, who are legally authorized to work in Colombia and available to attend the Bogotá office when requested.</em></p>
+
+      <h3>Role summary</h3>
+      <p>We are looking for a <strong>Full Stack Developer</strong> based in Bogotá to design, develop, and enhance enterprise applications using modern <strong>.NET and Angular</strong> technologies.</p>
+      <p>This role requires strong hands-on expertise across both backend and frontend development, with particular emphasis on <strong>.NET 8+, Angular 13+, C#, TypeScript, REST APIs, databases, and modern software architecture</strong>.</p>
+      <p>You will build responsive user interfaces, backend services, integrations, and scalable application components while collaborating closely with Product, QA, and Engineering teams throughout the software development lifecycle.</p>
+
+      <h3>Responsibilities</h3>
+      <ul>
+        <li>Develop and maintain enterprise applications using <strong>.NET 8+ and Angular 13+</strong>.</li>
+        <li>Build responsive web interfaces using <strong>Angular, TypeScript, JavaScript, CSS3, and SCSS</strong>.</li>
+        <li>Develop Angular applications from initial architecture and project setup through production implementation.</li>
+        <li>Build reusable Angular components, modules, services, directives, and pipes.</li>
+        <li>Implement lazy loading, route guards, interceptors, RxJS, state management, and reactive forms.</li>
+        <li>Design and implement <strong>RESTful APIs</strong> and third-party integrations.</li>
+        <li>Develop multi-layered .NET applications with clear separation between API/presentation, business/application, and data-access responsibilities.</li>
+        <li>Apply software architecture principles including <strong>separation of concerns, loose coupling, and high cohesion</strong>.</li>
+        <li>Implement dependency injection and appropriate data-access/ORM patterns.</li>
+        <li>Develop secure authentication and authorization functionality.</li>
+        <li>Design, query, and optimize <strong>relational and NoSQL databases</strong>.</li>
+        <li>Write unit tests and participate in peer code reviews.</li>
+        <li>Troubleshoot and resolve application, database, API, and integration defects.</li>
+        <li>Diagnose issues across development, QA, and production environments.</li>
+        <li>Improve application <strong>performance, scalability, maintainability, and reliability</strong>.</li>
+        <li>Work with Docker, Kubernetes, and microservices-based environments.</li>
+        <li>Use Git and Azure DevOps as part of the development lifecycle.</li>
+        <li>Use <strong>AI-assisted development tools</strong> while independently reviewing, validating, and testing generated code.</li>
+        <li>Collaborate with Product, QA, Engineering, and US-based stakeholders throughout the SDLC.</li>
+        <li>Support production deployments and incident resolution when required.</li>
+      </ul>
+
+      <h3>Requirements – Must-haves</h3>
+      <ul>
+        <li><strong>Currently living in Bogotá, Colombia, and able to work from Bogotá.</strong></li>
+        <li><strong>Availability to attend the Bogotá office when requested.</strong></li>
+        <li>Legal authorization to work in Colombia.</li>
+        <li><strong>English proficiency at B2+ level or higher</strong>, with the ability to participate effectively in technical discussions with US-based teams.</li>
+        <li>Spanish C1.</li>
+        <li>Bachelor’s degree in Computer Science, Information Technology, or a related field.</li>
+        <li><strong>4+ years of professional full-stack software development experience.</strong></li>
+        <li>Current hands-on professional experience with <strong>.NET 8 or later</strong>.</li>
+        <li>Current hands-on professional experience with <strong>Angular 13 or later</strong>.</li>
+        <li>Experience building <strong>Angular applications from scratch</strong>, including initial architecture and project setup.</li>
+        <li>Experience working on Angular applications containing <strong>at least five modules</strong>.</li>
+        <li>Hands-on Angular experience with:
+          <ul>
+            <li>Lazy-loaded modules</li>
+            <li>Route guards</li>
+            <li>Interceptors</li>
+            <li>RxJS</li>
+            <li>State management</li>
+            <li>Reusable components</li>
+            <li>Custom directives and pipes</li>
+            <li>Reactive forms</li>
+          </ul>
+        </li>
+        <li>Strong programming skills in <strong>C#, TypeScript, and JavaScript</strong>.</li>
+        <li>Strong experience with <strong>CSS3 and SCSS</strong> for responsive UI development.</li>
+        <li>Experience with <strong>EF Core, Dapper, or another ORM/data-access framework</strong>.</li>
+        <li>Experience with dependency injection and IoC, including built-in .NET DI or comparable frameworks.</li>
+        <li>Experience implementing authentication and authorization using <strong>OAuth 2.0, OpenID Connect, or comparable technologies</strong>.</li>
+        <li>At least <strong>2 years of experience with relational databases</strong>, such as SQL Server or PostgreSQL.</li>
+        <li>At least <strong>1 year of experience with NoSQL databases</strong>, such as MongoDB.</li>
+        <li>Experience developing multi-layered .NET applications with clear API/presentation, business/application, and data-access layers.</li>
+        <li>Strong experience building and consuming <strong>RESTful APIs</strong>.</li>
+        <li>Experience with <strong>Git and Azure DevOps</strong>.</li>
+        <li>Experience with <strong>Docker, Kubernetes, and microservices architecture</strong>.</li>
+        <li>Hands-on experience using AI-assisted development tools such as <strong>GitHub Copilot, Cursor, Claude, or similar technologies</strong>.</li>
+        <li>Strong analytical, troubleshooting, communication, and collaboration skills.</li>
+      </ul>
+
+      <h3>Nice-to-haves (optional)</h3>
+      <ul>
+        <li>Experience with <strong>Python and Flask/FastAPI</strong>.</li>
+        <li>Experience with <strong>Node.js and Express.js</strong>.</li>
+        <li>Experience with <strong>Go</strong>.</li>
+        <li>Experience developing desktop applications with <strong>Electron</strong>.</li>
+        <li>Experience with <strong>Redis or Memcached</strong>.</li>
+        <li>Experience with <strong>React or other SPA technologies</strong>.</li>
+        <li>Experience with <strong>Microsoft Azure</strong> or another major cloud platform.</li>
+        <li>Experience with <strong>GraphQL</strong>.</li>
+        <li>Experience optimizing Angular application performance.</li>
+        <li>Familiarity with <strong>Generative AI, Agentic AI, or Model Context Protocol (MCP)</strong>.</li>
+        <li>Experience within the <strong>travel or transportation industry</strong>.</li>
+        <li>Experience supporting production deployments and incident resolution.</li>
+      </ul>
+
+      <div class="jd-disclaimer">
+        <strong>Reproduction note.</strong> The text above is copied from the public posting and is not an endorsement or an offer. Availability, benefits and requirements are set by SMASH and its client, and may change: the recruiter already confirmed on October 8, 2026 that the work arrangement moved from fully remote to remote plus office attendance.
+      </div>
+    </section>
+
+    <h2 class="section-title">Application form as published</h2>
+    <section class="card">
+      <p>The application is handled by <strong>JazzHR</strong> on behalf of SMASH. Required fields are marked with an asterisk on the original form.</p>
+      <ul class="apply-grid">
+        <li><b>First Name</b> *</li>
+        <li><b>Last Name</b> *</li>
+        <li><b>Email Address</b> *</li>
+        <li><b>Phone</b> *</li>
+        <li><b>Address</b> — street, city, state/province, postal code</li>
+        <li><b>Resume</b> * — attach or paste (.pdf, .doc, .docx, .odt, .txt, .rtf · limit 5 MB)</li>
+        <li><b>Are you located in CR, Argentina or Salvador?</b> * — Yes / No</li>
+        <li><b>Human Check</b> * — reCAPTCHA</li>
+      </ul>
+      <p class="jd-note" style="margin-top:12px">The form also exposes an attach/paste resume choice and a share link for the posting. Application status noted on October 8, 2026: the submission had been auto-rejected by the system and was reactivated manually by the recruiter.</p>
+    </section>
+
+    <h2 class="section-title">Next step</h2>
+    <section class="card">
+      <p><strong>Pending:</strong> confirmation of a new interview date after the October 16 conflict, with Javier Nunez as the interviewer named in the invitation.</p>
+      <p><strong>Prepared material:</strong> the completed technical questionnaire and its expanded public version, plus the CV and the technical-assessments portfolio.</p>
+      <div class="actions">
+        <a class="button" href="https://mcortesgranados.github.io/RTS_QUESTIONNAIRE/index.html" target="_blank" rel="noopener">RTS questionnaire (expanded)</a>
+        <a class="button" href="index.html">Open CV</a>
+        <a class="button" href="tech_assessments.html">Technical assessments</a>
+        <a class="button" href="current_processes.html">← Current processes</a>
+      </div>
+    </section>
+
+    <p class="footer">Process page built from the public job posting, the LinkedIn conversation with Maria Beita, and the questionnaire and reschedule emails.</p>
+  </main>
+</body>
+</html>
