@@ -12,11 +12,12 @@
 <header class="page-hero">
   <p class="eyebrow">RTS questionnaire &middot; Q46 &middot; Distributed-system patterns proof</p>
   <h1>Have you worked with distributed-system patterns such as CQRS, Event Sourcing, Transactional Outbox, Saga, Event-driven architecture, Idempotency, or Retry/Circuit Breaker? If yes, which patterns have you implemented and for how long?</h1>
-  <p class="subtitle">The inventory the question asks for: every pattern in production, what the duration is counted from, how deep the usage actually goes, and the failure paths that are tested rather than assumed.</p>
+  <p class="subtitle">The inventory the question asks for: every pattern in production, what the duration is counted from, how deep the usage actually goes, the failure paths that are tested rather than assumed &mdash; and a definition of each pattern, the seven the question names and the rest of the distributed-systems vocabulary they belong to.</p>
   <div class="meta-row">
     <span class="tag">Status: reviewed</span>
     <span class="tag live-meta">Live pattern inventory</span>
-    <span class="tag">7 patterns &middot; 6+ years &middot; failure paths tested</span>
+    <span class="tag">7 patterns asked &middot; 82 defined</span>
+    <span class="tag">6+ years &middot; failure paths tested</span>
     <a class="tag live-jump" href="#live-layers-title">Jump to live proof &darr;</a>
   </div>
 </header>
@@ -63,6 +64,53 @@
     </div>
   </section>
 
+  <section aria-labelledby="definitions-title">
+    <h2 id="definitions-title">Definitions: the seven patterns the question names</h2>
+    <p>A pattern named without its definition proves only that the acronym is familiar, and most of these names are used loosely in circulation: &ldquo;event&rdquo; means three different things depending on which part of the system is speaking, &ldquo;idempotency&rdquo; is usually described as a property of delivery rather than of the effect, and a saga is often presented as a workflow engine rather than as a sequence of local transactions with designed undos. Each definition below is the one this work is built on, followed by the condition under which the pattern was applied and the duration that is claimed for it.</p>
+    <div class="glossary-grid" id="named-definitions">
+      <!-- generated:named-definitions -->
+      <article class="glossary-term" data-pattern="cqrs">
+        <h4>CQRS &mdash; Command Query Responsibility Segregation</h4>
+        <p>Writing through one model and reading through others: commands go through a transactional, validated aggregate and commit one use case at a time, while queries are served by denormalised projections or materialised views shaped for whatever the screen actually needs. The separation exists so that the write model is never designed around a report &mdash; and so that the read side can be thrown away and rebuilt.</p>
+        <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6+ years &mdash; wherever the read shape and the write shape genuinely differ</span></p>
+      </article>
+      <article class="glossary-term" data-pattern="event-sourcing">
+        <h4>Event Sourcing</h4>
+        <p>Persisting state as the ordered sequence of events that produced it instead of as the current row: the append-only log is the source of truth and the present state is a fold over that log. Running it safely needs three things &mdash; an append that declares its expected version so two writers on one stream collide visibly, snapshots so a long-lived aggregate does not replay thousands of events, and upcasters applied on read, because the log is never rewritten.</p>
+        <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6 years &mdash; selectively, where the history itself is a business requirement</span></p>
+      </article>
+      <article class="glossary-term" data-pattern="transactional-outbox">
+        <h4>Transactional Outbox</h4>
+        <p>Writing the state change and the outgoing message inside the same local transaction &mdash; the message lands in an outbox table, not on the broker &mdash; and letting a relay publish from that table afterwards, marking rows as it goes. Publication is then at-least-once and can be neither lost nor emitted for a rollback, with no distributed transaction anywhere; the consumer side pairs it with an inbox and a dedup key, because at-least-once is durable all the way to the effect.</p>
+        <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6 years (2020 &rarr; present) &mdash; every state change that publishes an event</span></p>
+      </article>
+      <article class="glossary-term" data-pattern="saga">
+        <h4>Saga</h4>
+        <p>A long-running business transaction that spans services and is executed as a series of local transactions, each one carrying a compensating action that semantically undoes it. Orchestrated where a business owner needs to read the process or the flow is long, choreographed where the participants are already event-driven and the flow is short; a timeout treats a silent participant as failed, and a compensation that cannot complete escalates to a queue a human can drain rather than being swallowed.</p>
+        <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6 years (2020 &rarr; present) &mdash; order, payment and provisioning flows</span></p>
+      </article>
+      <article class="glossary-term" data-pattern="event-driven-architecture">
+        <h4>Event-driven architecture</h4>
+        <p>Producers publish events to a broker and consumers subscribe to them, with the producer neither knowing nor waiting for its consumers. Running it in production means schemas published and versioned as contracts, a named owning team per topic, replayable consumers, and the backlog plus the age of its oldest message as first-class metrics. It is a decision per boundary rather than a default: a system in which every interaction is an event is a system in which nothing has a clear owner.</p>
+        <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6+ years &mdash; MQ systems before 2020, then Kafka, RabbitMQ, Service Bus and EventBridge</span></p>
+      </article>
+      <article class="glossary-term" data-pattern="idempotency">
+        <h4>Idempotency</h4>
+        <p>The property that applying the same operation twice has the same effect as applying it once &mdash; a property of the effect, not of the delivery, which is why it cannot be delegated to the broker. Applied three times over on the paths that matter: a client-supplied key, a unique constraint so that the database is the arbiter rather than the application&rsquo;s timing, and a conditional write against the current state.</p>
+        <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6+ years &mdash; every consumer, every retried write, every payment path</span></p>
+      </article>
+      <article class="glossary-term" data-pattern="retry-and-circuit-breaker">
+        <h4>Retry / Circuit Breaker</h4>
+        <p>Retry re-attempts a transient failure a bounded number of times with exponential backoff and jitter, and only where the operation is idempotent and still inside its deadline. A circuit breaker is a state machine &mdash; closed, open, half-open &mdash; that stops calling a dependency which is failing, so callers fail fast or take a fallback instead of queueing behind a dead service. Neither works on its own: they are composed with a timeout and a bulkhead around them, in an order that has been reasoned about and tested.</p>
+        <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6+ years &mdash; every outbound call, in both the earlier and the current stacks</span></p>
+      </article>
+      <!-- /generated:named-definitions -->
+    </div>
+    <div class="note">
+      <strong>The durations, restated once.</strong> They are counted from the same condition used for Q44 &mdash; a service that was independently deployable and owned its data &mdash; and the bands overlap on purpose, because a per-pattern figure to one decimal would be precise and false. &ldquo;6+ years&rdquo; means the pattern was carried across both the earlier integration period and the microservices period; &ldquo;6 years (2020 &rarr; present)&rdquo; means it arrived with the microservices delivery model. Depth is stated separately from duration, because &ldquo;used for six years&rdquo; says nothing about whether it is used everywhere or in the four places that genuinely needed it.
+    </div>
+  </section>
+
   <section aria-labelledby="live-layers-title">
     <h2 id="live-layers-title">Live pattern-inventory workflow proof</h2>
     <p>The running component below changes its pattern-group/result view through real event binding. Select a group to see what was implemented, the reasoning behind the choice, and the duration together with the depth of usage.</p>
@@ -100,6 +148,226 @@ justification recorded per adoption: an ADR</pre>
     </div>
   </section>
 
+  <section aria-labelledby="glossary-live-title">
+    <h2 id="glossary-live-title">Live pattern-definition browser</h2>
+    <p>The component below filters the catalogue by group through real event binding. Select a group to read its summary, the definitions in it, and where each pattern sits relative to this work.</p>
+
+    <div class="live-preview-shell">
+      <div class="live-preview-toolbar">
+        <div><span class="live-dot" aria-hidden="true"></span><strong>LIVE PREVIEW</strong></div>
+        <span class="running-badge">RUNNING</span>
+      </div>
+      <div class="live-preview-canvas">
+        <section class="pattern-glossary-workflow" id="pattern-glossary-workflow" data-group="named" aria-labelledby="glossary-workflow-title">
+          <div class="runtime-status" role="status">
+            <span class="live-dot" aria-hidden="true"></span><strong>PATTERN GLOSSARY WORKFLOW</strong><span>RUNNING</span>
+          </div>
+          <h3 id="glossary-workflow-title">Definitions by group of patterns</h3>
+          <p>Select a group to read the definitions, the group summary and where each pattern sits relative to this work.</p>
+          <div class="task-buttons" aria-label="Distributed-system pattern groups">
+            <button type="button" class="active" data-group="named" aria-pressed="true">Named in the question</button>
+            <button type="button" data-group="messaging" aria-pressed="false">Messaging and delivery</button>
+            <button type="button" data-group="transactions" aria-pressed="false">Transactions and consistency</button>
+            <button type="button" data-group="data" aria-pressed="false">Data distribution and scaling</button>
+            <button type="button" data-group="resilience" aria-pressed="false">Resilience and failure handling</button>
+            <button type="button" data-group="topology" aria-pressed="false">Service and API topology</button>
+          </div>
+          <div class="command-result" aria-live="polite">
+            <code data-testid="glossary-command">$ the seven patterns named in the question &middot; definition, application condition and duration</code>
+            <p data-testid="glossary-effect">The definition, the condition under which the pattern is applied, and the duration claimed for it.</p>
+            <pre data-testid="glossary-output">definitions in this group: 7
+in production: 7
+inside a named pattern: 0
+platform-provided: 0
+deliberately not used: 0
+outside these systems: 0</pre>
+          </div>
+          <div class="glossary-grid glossary-board" data-testid="glossary-board" aria-live="polite">
+            <!-- generated:glossary-board -->
+            <article class="glossary-term" data-pattern="cqrs">
+              <h4>CQRS &mdash; Command Query Responsibility Segregation</h4>
+              <p>Writing through one model and reading through others: commands go through a transactional, validated aggregate and commit one use case at a time, while queries are served by denormalised projections or materialised views shaped for whatever the screen actually needs. The separation exists so that the write model is never designed around a report &mdash; and so that the read side can be thrown away and rebuilt.</p>
+              <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6+ years &mdash; wherever the read shape and the write shape genuinely differ</span></p>
+            </article>
+            <article class="glossary-term" data-pattern="event-sourcing">
+              <h4>Event Sourcing</h4>
+              <p>Persisting state as the ordered sequence of events that produced it instead of as the current row: the append-only log is the source of truth and the present state is a fold over that log. Running it safely needs three things &mdash; an append that declares its expected version so two writers on one stream collide visibly, snapshots so a long-lived aggregate does not replay thousands of events, and upcasters applied on read, because the log is never rewritten.</p>
+              <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6 years &mdash; selectively, where the history itself is a business requirement</span></p>
+            </article>
+            <article class="glossary-term" data-pattern="transactional-outbox">
+              <h4>Transactional Outbox</h4>
+              <p>Writing the state change and the outgoing message inside the same local transaction &mdash; the message lands in an outbox table, not on the broker &mdash; and letting a relay publish from that table afterwards, marking rows as it goes. Publication is then at-least-once and can be neither lost nor emitted for a rollback, with no distributed transaction anywhere; the consumer side pairs it with an inbox and a dedup key, because at-least-once is durable all the way to the effect.</p>
+              <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6 years (2020 &rarr; present) &mdash; every state change that publishes an event</span></p>
+            </article>
+            <article class="glossary-term" data-pattern="saga">
+              <h4>Saga</h4>
+              <p>A long-running business transaction that spans services and is executed as a series of local transactions, each one carrying a compensating action that semantically undoes it. Orchestrated where a business owner needs to read the process or the flow is long, choreographed where the participants are already event-driven and the flow is short; a timeout treats a silent participant as failed, and a compensation that cannot complete escalates to a queue a human can drain rather than being swallowed.</p>
+              <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6 years (2020 &rarr; present) &mdash; order, payment and provisioning flows</span></p>
+            </article>
+            <article class="glossary-term" data-pattern="event-driven-architecture">
+              <h4>Event-driven architecture</h4>
+              <p>Producers publish events to a broker and consumers subscribe to them, with the producer neither knowing nor waiting for its consumers. Running it in production means schemas published and versioned as contracts, a named owning team per topic, replayable consumers, and the backlog plus the age of its oldest message as first-class metrics. It is a decision per boundary rather than a default: a system in which every interaction is an event is a system in which nothing has a clear owner.</p>
+              <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6+ years &mdash; MQ systems before 2020, then Kafka, RabbitMQ, Service Bus and EventBridge</span></p>
+            </article>
+            <article class="glossary-term" data-pattern="idempotency">
+              <h4>Idempotency</h4>
+              <p>The property that applying the same operation twice has the same effect as applying it once &mdash; a property of the effect, not of the delivery, which is why it cannot be delegated to the broker. Applied three times over on the paths that matter: a client-supplied key, a unique constraint so that the database is the arbiter rather than the application&rsquo;s timing, and a conditional write against the current state.</p>
+              <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6+ years &mdash; every consumer, every retried write, every payment path</span></p>
+            </article>
+            <article class="glossary-term" data-pattern="retry-and-circuit-breaker">
+              <h4>Retry / Circuit Breaker</h4>
+              <p>Retry re-attempts a transient failure a bounded number of times with exponential backoff and jitter, and only where the operation is idempotent and still inside its deadline. A circuit breaker is a state machine &mdash; closed, open, half-open &mdash; that stops calling a dependency which is failing, so callers fail fast or take a fallback instead of queueing behind a dead service. Neither works on its own: they are composed with a timeout and a bulkhead around them, in an order that has been reasoned about and tested.</p>
+              <p class="glossary-where"><span class="rel rel-prod">in production</span><span>6+ years &mdash; every outbound call, in both the earlier and the current stacks</span></p>
+            </article>
+      <!-- /generated:glossary-board -->
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="catalogue-title">
+    <h2 id="catalogue-title">The wider distributed-systems pattern catalogue</h2>
+    <p>The question names seven patterns; the vocabulary around them is considerably larger, and a definition of each is more use than a list of acronyms. The five groups below are the whole of it as it is used here: what moves work between services, how state stays correct when more than one participant is involved, how data is spread and cached, how failure is contained, and how the services are put together at the edge. Every entry carries a definition and a statement of where it sits in this work &mdash; including the entries that sit nowhere in it, because a catalogue that claims everything proves nothing.</p>
+    <div class="params catalogue">
+      <!-- generated:catalogue -->
+      <h3 id="catalogue-messaging">Messaging and delivery &mdash; 17 definitions</h3>
+      <p>Broker semantics, consumption and the contract between a producer and its consumers. Every entry here exists because a message can arrive twice, arrive late, arrive after the world has moved on, or never arrive at all. The patterns decide which of those four outcomes is acceptable for a given flow, and what the code does about it when it happens at three in the morning.</p>
+      <table>
+        <thead>
+          <tr><th>Pattern</th><th>Definition</th><th>Where it sits</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Publish&ndash;Subscribe (topic fan-out)</strong></td><td>One published message reaches every interested subscriber, so the producer does not know who consumes it; the broker owns the fan-out, and each subscription keeps its own offset and its own backlog.</td><td><span class="rel rel-prod">in production</span> the default integration style between bounded contexts (Q34, Q45)</td></tr>
+            <tr><td><strong>Competing Consumers</strong></td><td>Several instances of the same consumer pull from one queue or share a topic&rsquo;s partitions, which is how a consumer scales out &mdash; and the reason the effect has to be idempotent, since one delivery can land on two instances.</td><td><span class="rel rel-prod">in production</span> every consumer runs as competing instances; the dedup key is what makes that safe</td></tr>
+            <tr><td><strong>Queue-Based Load Leveling</strong></td><td>A queue sits between a bursty producer and a slower consumer, absorbing the burst so it can be drained at a sustainable rate: latency is traded for stability instead of work being dropped.</td><td><span class="rel rel-prod">in production</span> background processing and bulk jobs (Q38)</td></tr>
+            <tr><td><strong>Queue versus Retained Log</strong></td><td>A queue removes a message once it is acknowledged; a log retains it and lets each consumer hold its own offset, which is what makes replay and a rebuildable read model possible at all.</td><td><span class="rel rel-prod">in production</span> both, chosen by whether the consumer needs to be able to replay</td></tr>
+            <tr><td><strong>Dead-Letter Channel</strong></td><td>A message that cannot be processed after its retries is moved to a separate channel with the failure attached, so that one poison message does not block the partition behind it and a human can inspect, fix and replay it.</td><td><span class="rel rel-prod">in production</span> every consumer has one, with depth and age alarmed (Q34, Q45)</td></tr>
+            <tr><td><strong>Poison-Message Classification</strong></td><td>A deterministic failure &mdash; a message that will never succeed &mdash; has to be told apart from a transient one; retrying the first forever is how a queue quietly becomes a black hole.</td><td><span class="rel rel-prod">in production</span> the classification decides retry-then-DLQ or immediate DLQ</td></tr>
+            <tr><td><strong>Idempotent Receiver (inbox)</strong></td><td>The receiving end recognises a message it has already processed &mdash; a dedup table keyed by message or business id, written in the same transaction as the effect &mdash; and returns the previous result instead of repeating the work.</td><td><span class="rel rel-inside">inside a named pattern</span> the inbox half of the outbox (Q35)</td></tr>
+            <tr><td><strong>Claim Check</strong></td><td>The message carries a reference to a payload held in a store rather than the payload itself, which keeps a large document inside the broker&rsquo;s message-size limit and out of its memory.</td><td><span class="rel rel-outside">outside these systems</span> used only where payloads exceed the broker limit; not a general design choice here</td></tr>
+            <tr><td><strong>Correlation Identifier</strong></td><td>A business identifier carried in the message headers and threaded through every hop, so that one logical flow can be reconstructed across services in logs and traces instead of being guessed at.</td><td><span class="rel rel-prod">in production</span> required on every event that participates in a multi-step flow (Q45)</td></tr>
+            <tr><td><strong>Message Sequencing and Resequencing</strong></td><td>Messages carry a sequence number and a resequencer buffers and releases them in order at the point where order matters, rather than assuming that a brokered topic preserves global ordering, which it does not.</td><td><span class="rel rel-prod">in production</span> in its bounded form &mdash; a per-aggregate version check rather than a full resequencer</td></tr>
+            <tr><td><strong>Request&ndash;Reply over Messaging</strong></td><td>A caller that must not block sends a request with a reply address and a correlation id and treats the reply as another asynchronous message, with a deadline enforced on its own side.</td><td><span class="rel rel-prod">in production</span> used where a synchronous call would hold a thread across a slow participant</td></tr>
+            <tr><td><strong>Backpressure</strong></td><td>The consumer signals that it is falling behind &mdash; by withholding acknowledgement, by a bounded internal queue, or by an explicit credit &mdash; so the producer slows down instead of the backlog growing without limit.</td><td><span class="rel rel-prod">in production</span> bounded channels and prefetch limits (Q38)</td></tr>
+            <tr><td><strong>Event Notification versus Event-Carried State Transfer</strong></td><td>Two different things wearing the same word: a thin &ldquo;something changed, come and look&rdquo; ping that keeps the consumer calling back, and an event that carries the state the consumer needs so that it never has to. Choosing the wrong one is how systems end up either chatty or stale.</td><td><span class="rel rel-prod">in production</span> thin notifications for reactive flows, state transfer where a consumer needs no call-back</td></tr>
+            <tr><td><strong>Change Data Capture (log tailing)</strong></td><td>Deriving events from the database&rsquo;s own replication log instead of from application code, so that no writer can forget to emit one &mdash; at the price of publishing the table rather than the domain, and of a schema that is now an API.</td><td><span class="rel rel-outside">outside these systems</span> applied only where a legacy writer could not be changed; the outbox is preferred everywhere else</td></tr>
+            <tr><td><strong>Message Routing and Aggregation (EIP)</strong></td><td>The routing vocabulary: content-based router, splitter, aggregator, scatter&ndash;gather and wire tap &mdash; decide the destination from the content, split one message into many, recombine related messages into one, broadcast and gather the responses, and copy a message to a side channel for inspection.</td><td><span class="rel rel-prod">in production</span> used individually where each one pays for itself; scatter&ndash;gather for parallel quotes</td></tr>
+            <tr><td><strong>Priority Channel</strong></td><td>Two or more channels for the same kind of work, drained in priority order, so that an interactive request is never queued behind a nightly batch.</td><td><span class="rel rel-prod">in production</span> used where a batch and an interactive flow share a worker pool (Q38)</td></tr>
+            <tr><td><strong>Broker Delivery Guarantees</strong></td><td>Idempotent producers and transactional writes give exactly-once delivery inside the broker&rsquo;s own boundary &mdash; not across the consumer&rsquo;s database, which is precisely why the dedup key lives with the effect.</td><td><span class="rel rel-platform">platform-provided</span> enabled where the broker offers it, and never relied on as the only defence</td></tr>
+        </tbody>
+      </table>
+      <h3 id="catalogue-transactions">Transactions and consistency &mdash; 20 definitions</h3>
+      <p>How state stays correct when more than one participant is involved. The question of what to do when a unit of work spans two databases is answered here in the negative first: a distributed transaction is rejected, and everything else in this group exists to make that rejection survivable &mdash; a compensation, an expected version, a dedup key, a quorum, and a written-down answer for what happens when two writers meet.</p>
+      <table>
+        <thead>
+          <tr><th>Pattern</th><th>Definition</th><th>Where it sits</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Two-Phase Commit</strong></td><td>A coordinator asks every participant to prepare, then to commit: atomic across services, but blocking, slow, and fragile when the coordinator dies between the two phases &mdash; which turns a business flow into an operational incident.</td><td><span class="rel rel-rejected">deliberately not used</span> across a service boundary &mdash; 0 distributed transactions (Q35)</td></tr>
+            <tr><td><strong>Three-Phase Commit</strong></td><td>A non-blocking variant of two-phase commit that adds a pre-commit phase to close the coordinator&rsquo;s blocking window; it still requires every participant to be alive and synchronous.</td><td><span class="rel rel-rejected">deliberately not used</span> known and rejected along with 2PC</td></tr>
+            <tr><td><strong>Compensating Transaction</strong></td><td>An action that semantically undoes a completed step &mdash; a refund, a release, a cancellation &mdash; rather than rolling back a transaction, which is why the undo is business logic and has to be designed at the same time as the step it undoes.</td><td><span class="rel rel-inside">inside a named pattern</span> one per saga step, designed alongside it (Q35)</td></tr>
+            <tr><td><strong>Try&ndash;Confirm&ndash;Cancel (TCC)</strong></td><td>Three explicit phases: reserve the resource, confirm it, or cancel the reservation &mdash; for the cases where a resource can genuinely be held, such as stock or credit, and the split is acceptable to the business.</td><td><span class="rel rel-prod">in production</span> the shape of reservation-style steps where inventory has to be held rather than compensated</td></tr>
+            <tr><td><strong>Delivery Guarantees (at-most-once, at-least-once)</strong></td><td>At-most-once may lose a message and at-least-once may duplicate it; neither is a business guarantee, which is why the guarantee is manufactured at the effect with a dedup key rather than negotiated with the transport.</td><td><span class="rel rel-prod">in production</span> at-least-once transport with idempotent effects, stated as the default (Q34)</td></tr>
+            <tr><td><strong>Exactly-Once Effects</strong></td><td>Not a delivery guarantee but a property of the effect: an operation that is applied exactly once because the duplicates are recognised, with the database as the arbiter rather than the application&rsquo;s timing.</td><td><span class="rel rel-prod">in production</span> the target everywhere; implemented with a unique constraint and a conditional write</td></tr>
+            <tr><td><strong>Optimistic Concurrency Control</strong></td><td>A writer declares the version it read and the store rejects the write if anything changed in the meantime, so that a conflict becomes a visible result instead of a silently lost update.</td><td><span class="rel rel-prod">in production</span> aggregate version on every append, row version or ETag on editable records</td></tr>
+            <tr><td><strong>Pessimistic Locking</strong></td><td>Holding a lock or a database row for the duration of the work: simple and correct, and it does not survive a slow participant, a lost connection or a process that never comes back.</td><td><span class="rel rel-prod">in production</span> used inside a single transaction only &mdash; the lock is never held across a network call</td></tr>
+            <tr><td><strong>Distributed Lock and Lease</strong></td><td>A lock in a shared store with a lease or expiry so that a crashed holder eventually releases it &mdash; and a fencing token, because a holder that has been paused can come back and write after it has lost the right to.</td><td><span class="rel rel-outside">outside these systems</span> used in its bounded form: a short lease on scheduled jobs so only one instance runs the batch</td></tr>
+            <tr><td><strong>Leader Election</strong></td><td>Participants agree on one active owner of a responsibility, which is how a scheduled job, a relay or a partition ends up with a single writer instead of several.</td><td><span class="rel rel-platform">platform-provided</span> broker partition assignment and the orchestration layer elect, not the application</td></tr>
+            <tr><td><strong>Consensus (Paxos, Raft)</strong></td><td>A cluster agreeing on a single order of operations even while members fail, which is what makes a replicated log and a stable leader possible in the first place.</td><td><span class="rel rel-platform">platform-provided</span> relied on, not implemented &mdash; Raft inside the coordination layer and the broker&rsquo;s controller</td></tr>
+            <tr><td><strong>Quorum Reads and Writes (R + W &gt; N)</strong></td><td>Reading and writing overlapping majorities so that a read always sees the latest write, at the cost of extra latency and of availability when the network partitions.</td><td><span class="rel rel-platform">platform-provided</span> a property of the replicated stores in use, not a per-query choice made here</td></tr>
+            <tr><td><strong>CAP and PACELC</strong></td><td>Under a partition you choose consistency or availability; PACELC adds that even without one you are still trading latency against consistency. It is useful as a way to state a decision in writing rather than as a design in itself.</td><td><span class="rel rel-prod">in production</span> used as the framing written into the ADR that rejects 2PC (Q35)</td></tr>
+            <tr><td><strong>Eventual Consistency</strong></td><td>Replicas and projections converge once the writes stop, which is the normal state of a read model; the engineering is in bounding how long that window is and being honest about it in the interface.</td><td><span class="rel rel-prod">in production</span> every projection, with lag measured rather than assumed (Q36)</td></tr>
+            <tr><td><strong>Read-Your-Writes and Monotonic Reads</strong></td><td>The two consistency guarantees a user actually notices: after your own write you must see it, and time must not appear to run backwards on your next read. Implemented by routing the writer&rsquo;s reads to the primary, or by carrying a version token.</td><td><span class="rel rel-prod">in production</span> the write path returns the version that the read path hands back</td></tr>
+            <tr><td><strong>Logical Clocks (Lamport, vector, hybrid)</strong></td><td>Ordering without a shared clock: Lamport timestamps give a total order consistent with causality, vector clocks detect writes that were concurrent, and hybrid logical clocks keep physical and logical time together across services.</td><td><span class="rel rel-inside">inside a named pattern</span> the reason every event carries a version and a correlation id; a full vector clock has not been needed</td></tr>
+            <tr><td><strong>Conflict-Free Replicated Data Type (CRDT)</strong></td><td>Data structures whose merge is commutative, so replicas converge with no coordination at all &mdash; at the price of giving up any invariant that needs a global view of the data.</td><td><span class="rel rel-rejected">deliberately not used</span> the invariants in these domains need one arbiter, which is what the unique constraint is for</td></tr>
+            <tr><td><strong>Conflict Resolution Policy</strong></td><td>A written rule for the same record written twice: version check and retry, last-write-wins with a clock, or a merge function. The wrong answer is &ldquo;whichever arrives last&rdquo;, which is a race with no owner and no record.</td><td><span class="rel rel-prod">in production</span> version check plus reject-and-retry; never last-write-wins</td></tr>
+            <tr><td><strong>Write-Ahead Log and Durability</strong></td><td>Durability as a design element rather than an assumption: the log, the flush policy, and exactly what a commit does and does not guarantee &mdash; the ground that both the outbox and the event log stand on.</td><td><span class="rel rel-prod">in production</span> commit durability and replication settings chosen deliberately</td></tr>
+            <tr><td><strong>MVCC and Isolation Levels</strong></td><td>How the store actually isolates concurrent work: snapshot isolation lets readers proceed without blocking writers, while locking serialises them &mdash; and a long transaction turns either one into a production incident.</td><td><span class="rel rel-prod">in production</span> the isolation level is chosen per use case (Q36)</td></tr>
+        </tbody>
+      </table>
+      <h3 id="catalogue-data">Data distribution and scaling &mdash; 14 definitions</h3>
+      <p>Where the data lives, how it is spread, and what it costs to read it back. Distribution is a data question before it is a services question: who owns which rows, what happens when one node can no longer hold them, and how a read is served without asking every participant. The caching entries are here because a cache is a replica with an expiry, and it fails in the same ways.</p>
+      <table>
+        <thead>
+          <tr><th>Pattern</th><th>Definition</th><th>Where it sits</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Database per Service</strong></td><td>Each service owns its schema and is its only writer; everyone else goes through its API or its events. Ownership is what makes independent deployability real rather than aspirational.</td><td><span class="rel rel-prod">in production</span> shared database between services: 0 (Q34, Q44)</td></tr>
+            <tr><td><strong>Sharding / Partitioning</strong></td><td>Splitting data across instances by a key &mdash; range or hash &mdash; so that one node does not have to hold everything; the price is that cross-shard queries and transactions become the application&rsquo;s problem.</td><td><span class="rel rel-prod">in production</span> horizontal partitioning and sharding are on Q47 and Q48</td></tr>
+            <tr><td><strong>Consistent Hashing</strong></td><td>A ring-based mapping from key to node, so that adding or removing a node moves only its share of the keys instead of rehashing the world and invalidating every cache behind it.</td><td><span class="rel rel-platform">platform-provided</span> the model behind partition assignment where the number of nodes changes</td></tr>
+            <tr><td><strong>Read Replica</strong></td><td>A follower database serving read-only traffic, offloading the primary at the price of a replication lag that the read path has to tolerate knowingly rather than discover in production.</td><td><span class="rel rel-prod">in production</span> heavy read and reporting paths (Q47, Q48)</td></tr>
+            <tr><td><strong>Materialised View</strong></td><td>A persisted, precomputed result of a query, refreshed incrementally or rebuilt from source: the cheapest way to serve a dashboard shape without recomputing the join on every request.</td><td><span class="rel rel-prod">in production</span> the read side of CQRS (Q36, Q48)</td></tr>
+            <tr><td><strong>Projection Rebuild by Replay</strong></td><td>Throwing a read model away and rebuilding it from the event log, which is only possible when the log really is the source of truth &mdash; and is the test of whether it is.</td><td><span class="rel rel-prod">in production</span> every projection is rebuildable from zero (Q36)</td></tr>
+            <tr><td><strong>Leader&ndash;Follower Replication</strong></td><td>One node accepts writes and the followers replicate them, giving a single writer and horizontal read scale, with replication lag as the number to watch.</td><td><span class="rel rel-prod">in production</span> the default topology for the relational stores in use (Q47)</td></tr>
+            <tr><td><strong>Multi-Leader and Leaderless Replication</strong></td><td>Several nodes accept writes and the conflicts are reconciled, or quorums are used instead of a leader; it buys availability and locality and costs a conflict story that has to be written down.</td><td><span class="rel rel-outside">outside these systems</span> no hand-rolled multi-leader writes; used only where the platform provides it</td></tr>
+            <tr><td><strong>Index Table</strong></td><td>A secondary index kept as its own table, so that a lookup by a key that is not the shard key does not have to fan out across every shard.</td><td><span class="rel rel-outside">outside these systems</span> recorded as the answer for when the lookup key differs from the shard key</td></tr>
+            <tr><td><strong>Cache-Aside</strong></td><td>Read the cache, fall back to the store on a miss, and let the application populate the cache itself: simple, predictable, and the default read strategy for a reason.</td><td><span class="rel rel-prod">in production</span> the default read cache (Q48)</td></tr>
+            <tr><td><strong>Read-Through, Write-Through, Write-Behind</strong></td><td>Read-through moves the population into the cache layer; write-through writes the cache and the store together; write-behind defers the store write and accepts that a lost cache is lost data.</td><td><span class="rel rel-prod">in production</span> write-through where a warm cache matters; write-behind never for anything that must not be lost</td></tr>
+            <tr><td><strong>Cache Stampede and Thundering Herd</strong></td><td>When a hot key expires, single-flight or a lock around the reload stops a thousand concurrent requests hitting the database at once, and TTL jitter stops the expiries happening together in the first place.</td><td><span class="rel rel-prod">in production</span> single-flight on hot keys plus TTL jitter (Q48)</td></tr>
+            <tr><td><strong>Negative Caching</strong></td><td>Caching the absence of a record for a short time, so that a lookup for something that does not exist does not reach the database on every single request.</td><td><span class="rel rel-prod">in production</span> used with a short TTL on high-volume lookup endpoints</td></tr>
+            <tr><td><strong>Event-Driven Cache Invalidation</strong></td><td>Invalidating or updating the cache from the same event that changes the data rather than from a timer, which is what stops a cache from silently serving a lie.</td><td><span class="rel rel-prod">in production</span> the write side publishes, the cache listens</td></tr>
+        </tbody>
+      </table>
+      <h3 id="catalogue-resilience">Resilience and failure handling &mdash; 10 definitions</h3>
+      <p>Bounding the blast radius of a dependency that slows down, fails or disappears. A dependency does not usually fail; it slows down, and the caller runs out of threads. Everything here is about turning that into a bounded, visible, degraded event rather than a cascade &mdash; and about proving it with a test instead of trusting the library defaults.</p>
+      <table>
+        <thead>
+          <tr><th>Pattern</th><th>Definition</th><th>Where it sits</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Timeout and Deadline Propagation</strong></td><td>Every remote call carries a deadline, and the remaining budget travels with the request so that downstream calls cannot outlive the caller&rsquo;s patience; a call without one is the classic beginning of a thread-pool death spiral.</td><td><span class="rel rel-prod">in production</span> the outermost policy in the pipeline (Q34)</td></tr>
+            <tr><td><strong>Bulkhead</strong></td><td>Isolating a dependency&rsquo;s resource pool so that one slow dependency exhausts only its own threads and connections instead of those of every caller in the process.</td><td><span class="rel rel-prod">in production</span> a separate pool per outbound dependency (Q34)</td></tr>
+            <tr><td><strong>Retry with Exponential Backoff and Jitter</strong></td><td>Waiting longer after each failure and randomising the wait, so that a recovering dependency is not immediately re-flooded by every client at the same instant &mdash; with a bounded attempt count and a budget per call.</td><td><span class="rel rel-prod">in production</span> jittered, bounded, and only on operations that are idempotent (Q34)</td></tr>
+            <tr><td><strong>Fallback and Graceful Degradation</strong></td><td>A designed degraded answer &mdash; cached, partial, or queued for later &mdash; instead of an error, so that a dependency outage is felt by the user as reduced functionality rather than as a failed request.</td><td><span class="rel rel-prod">in production</span> a degraded feature, never an empty response (Q34)</td></tr>
+            <tr><td><strong>Rate Limiting and Throttling</strong></td><td>Bounding how much work a caller may send inside a window &mdash; token bucket, leaky bucket, sliding window &mdash; to protect the service and to keep one consumer from owning it.</td><td><span class="rel rel-prod">in production</span> per-consumer limits at the gateway (Q45)</td></tr>
+            <tr><td><strong>Load Shedding</strong></td><td>Deliberately rejecting or dropping low-priority work when the system is saturated, because serving everybody badly is worse than serving the requests that matter well.</td><td><span class="rel rel-prod">in production</span> used at the entry points where a queue would otherwise grow without limit</td></tr>
+            <tr><td><strong>Health Endpoint Monitoring, Heartbeat, Watchdog</strong></td><td>A cheap endpoint reporting whether an instance can serve, used by the load balancer, the orchestrator and the alarm &mdash; plus the out-of-band watchdog for the case where the instance cannot answer at all.</td><td><span class="rel rel-prod">in production</span> liveness and readiness gates (Q45)</td></tr>
+            <tr><td><strong>Scheduler&ndash;Agent&ndash;Supervisor</strong></td><td>A supervisor distributes work to agents and monitors them, re-dispatching when an agent dies: the topology underneath background processing, and the reason a job does not disappear with its worker.</td><td><span class="rel rel-prod">in production</span> the shape of the background-job infrastructure (Q38)</td></tr>
+            <tr><td><strong>Chaos Engineering and Fault Injection</strong></td><td>Breaking a dependency on purpose &mdash; kill the broker, add latency, duplicate a delivery, kill a process mid-message &mdash; so that the failure paths are proved instead of assumed.</td><td><span class="rel rel-prod">in production</span> practised &mdash; the failure-path tests inject exactly these cases</td></tr>
+            <tr><td><strong>Static Stability</strong></td><td>The data path keeps working when the control plane does not, so a failed deployment system, autoscaler or DNS update cannot take the running system down with it.</td><td><span class="rel rel-outside">outside these systems</span> designed for in the way services depend on the platform, rather than claimed as a named adoption</td></tr>
+        </tbody>
+      </table>
+      <h3 id="catalogue-topology">Service and API topology &mdash; 14 definitions</h3>
+      <p>How the services are put together, reached and changed without a rewrite. These are the patterns that decide whether the rest can be operated: where identity and traffic shaping live, how a caller finds an instance, how a legacy interface is reached without its model leaking into the domain, and how a running system is migrated rather than replaced.</p>
+      <table>
+        <thead>
+          <tr><th>Pattern</th><th>Definition</th><th>Where it sits</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>API Gateway</strong></td><td>One entry point in front of the services, owning what every service would otherwise repeat: TLS, routing, token validation at the edge, per-consumer rate limits, request size limits and correlation-id injection.</td><td><span class="rel rel-prod">in production</span> the edge in the current stack; retries only on idempotent methods (Q45)</td></tr>
+            <tr><td><strong>Backend for Frontend</strong></td><td>A gateway per client type that composes and trims the APIs for that client, so that one client&rsquo;s needs do not bloat an API shared with all of them.</td><td><span class="rel rel-prod">in production</span> used where the client shapes diverged (Q45)</td></tr>
+            <tr><td><strong>API Composition / Aggregator</strong></td><td>A read served by calling several services and joining the results in memory, for the queries that span boundaries and have no single owner &mdash; kept thin so that it does not become a distributed monolith.</td><td><span class="rel rel-prod">in production</span> read composition behind the gateway (Q45)</td></tr>
+            <tr><td><strong>Service Registry and Discovery</strong></td><td>Instances register and callers resolve them by name, so that scaling and redeployment do not require configuration edits; server-side discovery puts the lookup behind the load balancer instead.</td><td><span class="rel rel-platform">platform-provided</span> Kubernetes Services and readiness gates, not a hand-rolled registry (Q45)</td></tr>
+            <tr><td><strong>Client-Side versus Server-Side Load Balancing</strong></td><td>Whether the caller picks the instance &mdash; one hop fewer, and a library in every client &mdash; or a proxy does it: simpler clients, one more hop, and one place to change the policy.</td><td><span class="rel rel-platform">platform-provided</span> server-side by default; client-side only where the platform provides nothing (Q45)</td></tr>
+            <tr><td><strong>Sidecar, Ambassador, Adapter</strong></td><td>Moving a cross-cutting concern into a process beside the service: the sidecar for proxy, mTLS and telemetry, the ambassador as an outbound proxy for a remote service, and the adapter to translate a legacy protocol.</td><td><span class="rel rel-prod">in production</span> as the fabric, with the adapter shape used to reach legacy interfaces (Q45)</td></tr>
+            <tr><td><strong>Service Mesh</strong></td><td>The sidecar fleet plus a control plane, pushing mTLS, retries, timeouts, traffic splitting and telemetry into the infrastructure instead of into every service&rsquo;s code.</td><td><span class="rel rel-platform">platform-provided</span> used for transport concerns; the application still owns its business-level policies</td></tr>
+            <tr><td><strong>Strangler Fig</strong></td><td>Migrating by putting the new implementation in front of the old one and routing a growing share of traffic to it, until the old one can be deleted &mdash; the opposite of a rewrite, which is how migrations usually fail.</td><td><span class="rel rel-prod">in production</span> how the legacy-to-current transition was sequenced (Q44)</td></tr>
+            <tr><td><strong>Anti-Corruption Layer</strong></td><td>A translation layer that keeps a legacy or third-party model out of the domain, so that their concepts do not leak in and their next change does not become your change.</td><td><span class="rel rel-prod">in production</span> one per legacy integration</td></tr>
+            <tr><td><strong>Ports and Adapters (hexagonal)</strong></td><td>The domain at the centre, ports as interfaces and adapters as technology at the edges, which is what keeps the persistence and broker choices swappable and the core testable.</td><td><span class="rel rel-prod">in production</span> the structural style of the services in this inventory (Q44)</td></tr>
+            <tr><td><strong>External Configuration Store and Feature Flags</strong></td><td>Configuration and toggles held outside the artefact so that behaviour changes without a deployment &mdash; with the discipline of removing the flag once the decision it guarded has become permanent.</td><td><span class="rel rel-prod">in production</span> configuration externalised; flags carry an expiry</td></tr>
+            <tr><td><strong>Contract-First APIs and Schema Registry</strong></td><td>Contracts and versions before code: an OpenAPI document or an event schema published, reviewed and validated in CI, so that a breaking change is a build failure instead of an incident.</td><td><span class="rel rel-prod">in production</span> clients are generated from the contract (Q37, Q49)</td></tr>
+            <tr><td><strong>Distributed Tracing and Correlation</strong></td><td>One trace id across every hop, with spans and baggage, so that the path of a saga can be read instead of guessed &mdash; the pattern that makes every other pattern on this page debuggable.</td><td><span class="rel rel-prod">in production</span> traces plus a correlation id on every event and call (Q37, Q45)</td></tr>
+            <tr><td><strong>Durable Execution / Process Manager</strong></td><td>State kept by an engine so that a long-running orchestration survives a restart and resumes at the step it had reached, instead of being reconstructed or repeated from the beginning.</td><td><span class="rel rel-prod">in production</span> used &mdash; Step Functions-style orchestration for the long-running flows (Q45)</td></tr>
+        </tbody>
+      </table>
+      <!-- /generated:catalogue -->
+    </div>
+    <div class="note">
+      <strong>How to read the relation.</strong> Five values are used, and they are not interchangeable.
+      <ul>
+        <li><span class="rel rel-prod">in production</span> &mdash; used in the systems described on this page and its sibling pages, which carry the mechanism-level evidence: <a href="q34-proof.html">Q34</a>, <a href="q35-proof.html">Q35</a>, <a href="q36-proof.html">Q36</a>, <a href="q37-proof.html">Q37</a>, <a href="q38-proof.html">Q38</a>, <a href="q44-proof.html">Q44</a>, <a href="q45-proof.html">Q45</a>, <a href="q47-proof.html">Q47</a>, <a href="q48-proof.html">Q48</a>.</li>
+        <li><span class="rel rel-inside">inside a named pattern</span> &mdash; in production, but as a component of CQRS, event sourcing, the outbox, the saga or the resilience pipeline rather than as a separate adoption.</li>
+        <li><span class="rel rel-platform">platform-provided</span> &mdash; the property comes from the broker, the database, the orchestrator or the coordination layer and is relied on rather than hand-written.</li>
+        <li><span class="rel rel-rejected">deliberately not used</span> &mdash; known, understood, and rejected, with the reason recorded in an ADR rather than left as an accident.</li>
+        <li><span class="rel rel-outside">outside these systems</span> &mdash; listed so the vocabulary is complete; no production claim is made for it, and the definition says why it is not needed here.</li>
+      </ul>
+    </div>
+    <div class="important">
+      <strong>Boundary for this catalogue:</strong> a definition is not a claim of tenure. The seven patterns named in the question carry the durations and the depth; the rest carry a relation, and several of them are marked as rejected or as outside these systems on purpose. The mechanism level of the ones that are in production lives on the pages it belongs to: saga state, compensation and the outbox relay on <a href="q35-proof.html">Q35</a>; the resilience pipeline and delivery guarantees on <a href="q34-proof.html">Q34</a>; read models and the isolation choices on <a href="q36-proof.html">Q36</a>; messaging and background processing on <a href="q38-proof.html">Q38</a>; the fabric around all of it on <a href="q45-proof.html">Q45</a>; partitioning, replication and caching on <a href="q47-proof.html">Q47</a> and <a href="q48-proof.html">Q48</a>.
+    </div>
+  </section>
+
   <section>
     <h2>What the discipline around them buys</h2>
     <div class="note">
@@ -112,7 +380,7 @@ justification recorded per adoption: an ADR</pre>
 
   <section>
     <h2>Source files</h2>
-    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first file is the code running the component above; the others are the pattern inventory with the durations and trade-offs, the event-sourced aggregate and its append contract, and the tests that exercise the failure paths.</p>
+    <p>Select a file to inspect the proof with syntax highlighting and line numbers. The first two files are the code running the components above &mdash; the pattern inventory and the definition browser; the third is the definition catalogue itself, as data; the rest are the pattern inventory with the durations and trade-offs, the event-sourced aggregate and its append contract, and the tests that exercise the failure paths.</p>
     <div class="code-explorer" id="code-explorer" data-selected="">
       <nav class="file-tree" aria-label="Source files">
         <div class="tree-heading">Explorer</div>
@@ -133,8 +401,10 @@ justification recorded per adoption: an ADR</pre>
     <h2>Acceptance criteria</h2>
     <ul class="checklist">
       <li>Names which patterns were implemented and answers the duration question for each.</li>
+      <li>Gives a definition of every pattern the question names, rather than assuming the acronym is the definition.</li>
+      <li>Extends the definitions to the wider distributed-systems vocabulary, and states for each one whether it is in production, platform-provided, deliberately rejected or outside these systems.</li>
       <li>States what the duration is counted from, rather than giving a figure that cannot be checked.</li>
-      <li>Shows an interactive proof of choosing a pattern group and reading the evidence.</li>
+      <li>Shows an interactive proof of choosing a pattern group and reading the evidence, and a second one for reading the definitions.</li>
       <li>Distinguishes foundational use from selective use instead of presenting everything as equal.</li>
       <li>Exercises the failure paths with tests and says how the patterns are observed in production.</li>
     </ul>
@@ -151,6 +421,7 @@ justification recorded per adoption: an ADR</pre>
 </main>
 
 <script src="../assets/lab/pattern-inventory-workflow.js"></script>
+<script src="../assets/lab/pattern-glossary-workflow.js"></script>
 <script src="../assets/lab/q46-sources.js"></script>
 <script src="../assets/lab/lab-proof.js"></script>
 </body>

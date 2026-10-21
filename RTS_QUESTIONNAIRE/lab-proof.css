@@ -232,6 +232,7 @@ blockquote {
 .microservices-workflow,
 .service-fabric-workflow,
 .pattern-inventory-workflow,
+.pattern-glossary-workflow,
 .database-architecture-workflow,
 .scaling-ladder-workflow,
 .openapi-lifecycle-workflow,
@@ -297,6 +298,7 @@ blockquote {
 .microservices-workflow h3,
 .service-fabric-workflow h3,
 .pattern-inventory-workflow h3,
+.pattern-glossary-workflow h3,
 .database-architecture-workflow h3,
 .scaling-ladder-workflow h3,
 .openapi-lifecycle-workflow h3,
@@ -501,6 +503,72 @@ blockquote {
 .token-number { color: #79c0ff; }
 .token-comment { color: #8b949e; font-style: italic; }
 
+/* --- Pattern definitions and the wider catalogue (Q46) ------------------- */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.glossary-term {
+  padding: 12px 14px;
+  border: 1px solid #c8e6c9;
+  border-left: 4px solid #2e7d32;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.glossary-term h4 {
+  margin: 0 0 6px;
+  color: #0d47a1;
+  font-size: 0.98rem;
+}
+
+.glossary-term p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.glossary-term .glossary-where {
+  margin-top: 8px;
+  color: #37474f;
+  font-size: 0.84rem;
+}
+
+.glossary-term .glossary-where span:last-child {
+  display: block;
+  margin-top: 4px;
+}
+
+.rel {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.rel-prod { background: #e8f5e9; color: #1b5e20; }
+.rel-inside { background: #e3f2fd; color: #0d47a1; }
+.rel-platform { background: #ede7f6; color: #4527a0; }
+.rel-rejected { background: #ffebee; color: #b71c1c; }
+.rel-outside { background: #eceff1; color: #37474f; }
+
+.catalogue h3 { margin-top: 28px; }
+
+.catalogue table { margin: 10px 0 24px; }
+
+.catalogue td { vertical-align: top; }
+
+.catalogue th:first-child { width: 19%; }
+
+.catalogue th:last-child { width: 24%; }
+
+.catalogue .rel { margin-right: 6px; }
+
 @media (max-width: 760px) {
   .code-explorer { grid-template-columns: 1fr; }
 
@@ -544,6 +612,7 @@ blockquote {
   .microservices-workflow,
   .service-fabric-workflow,
   .pattern-inventory-workflow,
+  .pattern-glossary-workflow,
   .database-architecture-workflow,
   .scaling-ladder-workflow,
   .openapi-lifecycle-workflow,
