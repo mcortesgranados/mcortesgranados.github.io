@@ -88,6 +88,19 @@
     .rubric th,.rubric td { padding:5px 7px; border:1px solid var(--line); text-align:left; vertical-align:top; }
     .rubric th { background:var(--soft); color:#0d47a1; }
     .rubric td:first-child { font-weight:800; color:#475569; white-space:nowrap; }
+    .gloss-tools { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:0 0 8px; }
+    .gloss-tools label { color:#64748b; font-size:.76rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
+    .gloss-tools input { flex:1 1 260px; min-height:32px; padding:5px 10px; border:1px solid #cbd5e1; border-radius:999px; background:#fff; color:var(--ink); font:inherit; font-size:.88rem; }
+    .gloss-tools input:focus-visible { outline:3px solid var(--blue); outline-offset:1px; border-color:#93c5fd; }
+    .gloss-count { color:#64748b; font-size:.8rem; font-weight:700; }
+    .gloss { width:100%; min-width:760px; border-collapse:collapse; font-size:.86rem; }
+    .gloss th,.gloss td { padding:5px 7px; border:1px solid var(--line); text-align:left; vertical-align:top; }
+    .gloss th { background:var(--soft); color:#0d47a1; }
+    .gloss tbody tr:nth-child(even) td { background:#fbfdff; }
+    .gloss tbody tr:hover td { background:#f1f8ff; }
+    .gloss td:first-child { font-weight:800; color:var(--teal); white-space:nowrap; }
+    .gloss td:nth-child(2) { color:#64748b; font-size:.78rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
+    .gloss tr.hidden { display:none; }
     .asklist { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; padding:0; margin:0; list-style:none; }
     .asklist li { padding:7px 9px; border:1px solid #9ccdc3; border-radius:6px; background:#f2faf7; font-size:.88rem; }
     .asklist li b { display:block; color:var(--teal); font-size:.78rem; letter-spacing:.04em; text-transform:uppercase; }
@@ -155,6 +168,7 @@
       <a href="#plan">30-minute plan</a>
       <a href="#snapshot">Company snapshot</a>
       <a href="#index">Index</a>
+      <a href="#glossary">Glossary</a>
       <a href="#part1">Part 1 · Q1–Q10</a>
       <a href="#part2">Part 2 · Q11–Q20</a>
       <a href="#mapping">JD to outcome</a>
@@ -224,6 +238,57 @@
 
     <p class="to-top"><a href="#top">↑ Back to top</a></p>
 
+    <h2 class="section-title" id="glossary">Glossary<small>Business vocabulary to use precisely — and the phrasing that betrays a newcomer</small></h2>
+    <section class="card">
+      <div class="gloss-tools">
+        <label for="gloss-filter">Filter</label>
+        <input type="search" id="gloss-filter" placeholder="Type a term, e.g. allotment, yield, AWB…" autocomplete="off">
+        <span class="gloss-count" id="gloss-count">32 terms</span>
+      </div>
+      <div class="table-scroll">
+        <table class="gloss" id="gloss-table">
+          <thead>
+            <tr><th>Term</th><th>Domain</th><th>Say it as</th><th>Avoid</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Revenue management</td><td>Commercial</td><td>Deciding who gets capacity that expires, at what price, for the best total margin.</td><td>“Dynamic pricing” — that is one lever, not the discipline.</td></tr>
+            <tr><td>Yield</td><td>Commercial</td><td>Revenue per unit of traffic sold — per passenger, per tonne, per kilogram.</td><td>Confusing it with revenue or with margin.</td></tr>
+            <tr><td>RASK</td><td>Commercial</td><td>Revenue per unit of capacity available, the measure that punishes selling cheap.</td><td>Quoting it without stating the unit.</td></tr>
+            <tr><td>Load factor / utilisation</td><td>Commercial</td><td>How much of the offered capacity was actually sold or used.</td><td>Treating it as a profit measure; full can still be unprofitable.</td></tr>
+            <tr><td>O&amp;D</td><td>Commercial</td><td>Origin and destination — the customer's real journey, which may cross several legs.</td><td>Managing each leg as if it were a separate market.</td></tr>
+            <tr><td>Leg</td><td>Commercial</td><td>One take-off to one landing, or one stop on a ferry or rail service.</td><td>Assuming the leg price is the value of the journey.</td></tr>
+            <tr><td>Bid price</td><td>Commercial</td><td>The marginal value of one more unit of capacity — the threshold for accepting a booking.</td><td>Calling it a cost, a floor fare, or a price list.</td></tr>
+            <tr><td>Displacement cost</td><td>Commercial</td><td>What we give up by selling this unit now instead of to someone else later.</td><td>Ignoring it because the flight “has space”.</td></tr>
+            <tr><td>Overbooking</td><td>Commercial</td><td>Selling above physical capacity to cover expected no-shows, against a known cost of denial.</td><td>Confusing it with overselling by mistake.</td></tr>
+            <tr><td>No-show</td><td>Commercial</td><td>Booked capacity that never turns up, whether passenger or shipment.</td><td>Assuming it is free revenue.</td></tr>
+            <tr><td>DCP / days to departure</td><td>Commercial</td><td>The point in the booking curve at which demand and controls are evaluated.</td><td>Comparing booking volumes without normalising by lead time.</td></tr>
+            <tr><td>Fare class / bucket</td><td>Commercial</td><td>A price level with rules, sold from a nested pool of availability.</td><td>Treating buckets as separate inventories.</td></tr>
+            <tr><td>Availability</td><td>Commercial</td><td>What the system is willing to sell right now, at a given price and condition.</td><td>Publishing raw capacity as if it were availability.</td></tr>
+            <tr><td>Unconstrained demand</td><td>Commercial</td><td>What customers would have bought if availability had not restricted them.</td><td>Forecasting from bookings alone and calling it demand.</td></tr>
+            <tr><td>Allotment / BSA</td><td>Cargo</td><td>Capacity contractually reserved for a customer, used or not.</td><td>Selling into committed space as if it were free.</td></tr>
+            <tr><td>Free sale</td><td>Cargo</td><td>The capacity that is genuinely open after commitments are honoured.</td><td>Reporting total capacity as sellable.</td></tr>
+            <tr><td>Contract rate / spot rate</td><td>Cargo</td><td>Agreed price for a period versus the price of the moment.</td><td>Mixing both in one yield figure without splitting.</td></tr>
+            <tr><td>AWB</td><td>Cargo</td><td>Air waybill — the shipment's contract and identifier.</td><td>Treating a shipment as a booking line.</td></tr>
+            <tr><td>Chargeable weight</td><td>Cargo</td><td>The greater of actual and volumetric weight; the commercial unit.</td><td>Pricing on gross weight alone.</td></tr>
+            <tr><td>Volumetric weight</td><td>Cargo</td><td>Volume converted to weight by the dimensional factor, so light bulky cargo pays its space.</td><td>Ignoring volume because the scale says otherwise.</td></tr>
+            <tr><td>ULD</td><td>Cargo</td><td>Unit load device — the container or pallet occupying a deck position.</td><td>Counting only weight and forgetting the physical envelope.</td></tr>
+            <tr><td>Cut-off time</td><td>Cargo</td><td>The latest moment a shipment can be accepted and still make the departure.</td><td>Promising space without checking the cut-off.</td></tr>
+            <tr><td>Transshipment</td><td>Cargo</td><td>A routing where the shipment changes aircraft or vehicle en route.</td><td>Pricing it as a direct service.</td></tr>
+            <tr><td>Embargo / DGR</td><td>Cargo</td><td>Commodity or route restrictions that remove capacity, including dangerous goods.</td><td>Discovering the restriction at acceptance.</td></tr>
+            <tr><td>Rating</td><td>Cargo</td><td>Turning a shipment and a tariff into a price, deterministically and reproducibly.</td><td>Recalculating slightly differently each time someone asks.</td></tr>
+            <tr><td>Lane metre</td><td>Ferry</td><td>Deck length occupied by a vehicle — the capacity unit on a ro-ro vessel.</td><td>Measuring ferry capacity only in passengers.</td></tr>
+            <tr><td>Berth / cabin grade</td><td>Ferry</td><td>Accommodation types sold separately from the crossing itself.</td><td>Treating the crossing as a single product.</td></tr>
+            <tr><td>Segment inventory</td><td>Rail</td><td>Capacity tracked per stretch of route, so a seat sold A→C also blocks B→C.</td><td>Managing inventory per whole trip only.</td></tr>
+            <tr><td>Change freeze</td><td>Delivery</td><td>A period agreed with the client when no risky change ships — schedule changeover, peak season.</td><td>Discovering the freeze the week of the release.</td></tr>
+            <tr><td>Reconciliation</td><td>Delivery</td><td>Proving two sources agree on counts and amounts before anyone decides on them.</td><td>Publishing a figure nobody has tied out.</td></tr>
+            <tr><td>Idempotency</td><td>Delivery</td><td>Processing the same message twice without counting it twice.</td><td>“We will just not send duplicates.”</td></tr>
+            <tr><td>UAT</td><td>Delivery</td><td>Acceptance run by the client's own users on their own data, before go-live.</td><td>Calling a demo an acceptance.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-bottom:0"><strong>How to use it.</strong> Pick three terms per answer at most; the value is precision, not volume. If he uses a term differently from this page, adopt his definition out loud — “so for you the control is at shipment level, not AWB level” — because matching the house vocabulary is itself the signal.</p>
+      <p class="to-top"><a href="#top">↑ Back to top</a></p>
+    </section>
     <h2 class="section-title" id="index">Index<small>Anchor links work per question</small></h2>
     <section class="card">
       <ol class="toc">
@@ -1115,6 +1180,28 @@
     })();
   </script>
 
+  <script>
+    (function () {
+      var input = document.getElementById('gloss-filter');
+      var table = document.getElementById('gloss-table');
+      var count = document.getElementById('gloss-count');
+      if (!input || !table) { return; }
+      var rows = Array.prototype.slice.call(table.querySelectorAll('tbody tr'));
+      var total = rows.length;
+      function update() {
+        var q = input.value.trim().toLowerCase();
+        var shown = 0;
+        rows.forEach(function (r) {
+          var hit = q === '' || r.textContent.toLowerCase().indexOf(q) !== -1;
+          r.classList.toggle('hidden', !hit);
+          if (hit) { shown++; }
+        });
+        if (count) { count.textContent = shown + ' of ' + total + ' terms'; }
+      }
+      input.addEventListener('input', update);
+      update();
+    })();
+  </script>
   <a class="totop-fab" href="#top" aria-label="Back to top">↑ Top</a>
 </body>
 </html>
