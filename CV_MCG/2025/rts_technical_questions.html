@@ -96,13 +96,24 @@
     .button { display:inline-block; padding:5px 9px; border:1px solid #93c5fd; border-radius:6px; background:var(--soft); color:#0d47a1; font-size:.86rem; font-weight:800; text-decoration:none; }
     .button:hover { background:#bbdefb; }
     .footer { margin-top:12px; color:#64748b; font-size:.82rem; text-align:right; }
+    .section-nav { display:flex; flex-wrap:wrap; align-items:center; gap:5px; margin:8px 0 2px; padding:6px 8px; border:1px solid var(--line); border-radius:8px; background:#f8fbff; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+    .section-nav .nav-label { color:#64748b; font-size:.72rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; margin-right:2px; }
+    .section-nav a { padding:3px 9px; border:1px solid #cbd5e1; border-radius:999px; background:#fff; color:#17386d; font-size:.79rem; font-weight:800; text-decoration:none; }
+    .section-nav a:hover, .section-nav a:focus-visible { background:#e3f2fd; border-color:#93c5fd; color:#0d47a1; }
+    .section-nav a.top { border-color:#9ccdc3; background:#eef8f5; color:var(--teal); }
+    .to-top { margin:8px 0 0; text-align:right; }
+    .to-top a { display:inline-block; padding:3px 10px; border:1px solid #cbd5e1; border-radius:999px; background:#f8fafc; color:#475569; font-size:.78rem; font-weight:800; text-decoration:none; }
+    .to-top a:hover, .to-top a:focus-visible { background:#e3f2fd; border-color:#93c5fd; color:#0d47a1; }
+    .totop-fab { position:fixed; right:14px; bottom:14px; z-index:30; display:inline-flex; align-items:center; padding:7px 12px; border:1px solid #93c5fd; border-radius:999px; background:#fff; color:#0d47a1; font-size:.8rem; font-weight:900; text-decoration:none; box-shadow:0 4px 12px rgba(15,23,42,.18); }
+    .totop-fab:hover, .totop-fab:focus-visible { background:#e3f2fd; }
+    [id] { scroll-margin-top:52px; }
     @media(max-width:900px) { .snapshot { grid-template-columns:repeat(2,minmax(0,1fr)); } .toc, .asklist, .interviewer { grid-template-columns:1fr; } }
     @media(max-width:700px) { .container { padding:7px; } .skip-link { position:static; margin:7px 7px 0; } .header .header-links { margin-left:0; } .snapshot { grid-template-columns:1fr; } }
-    @media print { .header { position:static; box-shadow:none; } .card, .hero, .qa { box-shadow:none; } .qa-toolbar { display:none; } details.answer { break-inside:auto; } }
+    @media print { .header { position:static; box-shadow:none; } .card, .hero, .qa { box-shadow:none; } .qa-toolbar { display:none; } details.answer { break-inside:auto; } .section-nav, .to-top, .totop-fab { display:none; } }
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#questions">Skip To Questions</a>
+  <a class="skip-link" href="#part1">Skip To Questions</a>
 
   <header class="header">
     <a class="brand" href="https://www.rtscorp.com" target="_blank" rel="noopener" aria-label="Revenue Technology Services">
@@ -118,7 +129,7 @@
   </header>
 
   <main class="container">
-    <section class="hero">
+    <section class="hero" id="top">
       <div class="hero-kicker">
         <span>Cargo revenue management</span>
         <span>30-minute conversation</span>
@@ -138,7 +149,21 @@
       </div>
     </section>
 
-    <h2 class="section-title">Who is asking<small>Calibrate depth to the interviewer, not to the technology</small></h2>
+    <nav class="section-nav" aria-label="Page sections">
+      <span class="nav-label">Quick access</span>
+      <a href="#interviewer">Who is asking</a>
+      <a href="#plan">30-minute plan</a>
+      <a href="#snapshot">Company snapshot</a>
+      <a href="#index">Index</a>
+      <a href="#part1">Part 1 · Q1–Q10</a>
+      <a href="#part2">Part 2 · Q11–Q20</a>
+      <a href="#mapping">JD to outcome</a>
+      <a href="#ask">Ask him</a>
+      <a href="#scoring">Scoring</a>
+      <a class="top" href="#top">↑ Start</a>
+    </nav>
+
+    <h2 class="section-title" id="interviewer">Who is asking<small>Calibrate depth to the interviewer, not to the technology</small></h2>
     <section class="card">
       <div class="interviewer">
         <div>
@@ -159,7 +184,9 @@
       </div>
     </section>
 
-    <h2 class="section-title">The 30 minutes, planned<small>Assume five or six of these questions, not ten</small></h2>
+    <p class="to-top"><a href="#top">↑ Back to top</a></p>
+
+    <h2 class="section-title" id="plan">The 30 minutes, planned<small>Assume five or six of these questions, not ten</small></h2>
     <section class="card">
       <div class="table-scroll">
         <table class="plan">
@@ -178,7 +205,9 @@
       <p class="note" style="margin-bottom:0"><strong>The answer formula used here.</strong> Business context in one sentence → the decision you would take → how you would know it worked → technical detail only if he asks. The box marked <em>Say it like this</em> is the sentence to keep if time collapses.</p>
     </section>
 
-    <h2 class="section-title">Company snapshot<small>Enough context to speak like someone who read the website</small></h2>
+    <p class="to-top"><a href="#top">↑ Back to top</a></p>
+
+    <h2 class="section-title" id="snapshot">Company snapshot<small>Enough context to speak like someone who read the website</small></h2>
     <section class="card">
       <div class="snapshot">
         <div><strong>Founded</strong>1991 · 35+ years in the domain</div>
@@ -193,7 +222,9 @@
       <p class="source-note">Vision: the leading one-stop provider of marketing and planning solutions to the airline, cruise ferry and rail industry. Mission: help customers increase margins, improve customer experience, enhance employee productivity and support growth. Source: <a href="http://www.rtscorp.com" target="_blank" rel="noopener">rtscorp.com</a> and the <a href="https://www.linkedin.com/company/revenue-technology-services/about/" target="_blank" rel="noopener">LinkedIn about page</a>, as provided for this preparation (verified August 5, 2026).</p>
     </section>
 
-    <h2 class="section-title">Index<small>Anchor links work per question</small></h2>
+    <p class="to-top"><a href="#top">↑ Back to top</a></p>
+
+    <h2 class="section-title" id="index">Index<small>Anchor links work per question</small></h2>
     <section class="card">
       <ol class="toc">
         <li><a href="#q1">Tell me about yourself, and why cargo revenue management</a></li>
@@ -220,13 +251,17 @@
       <p class="note" style="margin-bottom:0"><strong>How to use this page.</strong> Answers are collapsed. Part 1 (Q1–Q10) is the business conversation a cargo VP will actually have; part 2 (Q11–Q20) takes the job description line by line and shows the business problem, the solution and the number that proves it worked. Read the question, answer out loud, then expand and compare — if your version is longer, cut it.</p>
     </section>
 
+    <p class="to-top"><a href="#top">↑ Back to top</a></p>
+
     <div class="qa-toolbar">
       <button type="button" id="qa-expand">Expand all answers</button>
       <button type="button" id="qa-collapse">Collapse all</button>
       <span class="qa-count" id="qa-count">0 of 20 answers expanded</span>
     </div>
 
-    <h2 class="section-title" id="questions">Part 1 — the business conversation<small>Q1 to Q10 · client problems, with technical proof only where it helps</small></h2>
+    <p class="to-top"><a href="#top">↑ Back to top</a></p>
+
+    <h2 class="section-title" id="part1">Part 1 — the business conversation<small>Q1 to Q10 · client problems, with technical proof only where it helps</small></h2>
 
     <article class="qa" id="q1">
       <div class="q-head">
@@ -594,7 +629,9 @@
       </details>
     </article>
 
-    <h2 class="section-title">Part 2 — the job description, line by line<small>Each posting requirement turned into a business problem, a solution and a measure</small></h2>
+    <p class="to-top"><a href="#top">↑ Back to top</a></p>
+
+    <h2 class="section-title" id="part2">Part 2 — the job description, line by line<small>Each posting requirement turned into a business problem, a solution and a measure</small></h2>
 
     <article class="qa" id="q11">
       <div class="q-head">
@@ -955,7 +992,9 @@
       </details>
     </article>
 
-    <h2 class="section-title">Job description to business outcome<small>The mapping to use when the conversation turns to a specific requirement</small></h2>
+    <p class="to-top"><a href="#top">↑ Back to top</a></p>
+
+    <h2 class="section-title" id="mapping">Job description to business outcome<small>The mapping to use when the conversation turns to a specific requirement</small></h2>
     <section class="card">
       <div class="table-scroll">
         <table class="rubric">
@@ -978,7 +1017,9 @@
       </div>
       <p class="note" style="margin-bottom:0"><strong>How to use the mapping.</strong> When he mentions a specific requirement, answer with the middle column first — the business problem — then the deliverable, then the measure. That order is what separates a candidate who has owned outcomes from one who has implemented tickets.</p>
     </section>
-    <h2 class="section-title">Questions to ask him<small>Chosen for a cargo VP, not generic ones</small></h2>
+    <p class="to-top"><a href="#top">↑ Back to top</a></p>
+
+    <h2 class="section-title" id="ask">Questions to ask him<small>Chosen for a cargo VP, not generic ones</small></h2>
     <section class="card">
       <ul class="asklist">
         <li><b>First 90 days</b>What would a strong first three months look like in this role — and what would tell you the hire was the right one?</li>
@@ -993,7 +1034,9 @@
       <p class="note" style="margin-bottom:0"><strong>Pick three.</strong> In a thirty-minute slot there is room for three questions and one follow-up each; asking eight signals that you were not listening. The first, the third and the eighth are the highest-value ones for a VP.</p>
     </section>
 
-    <h2 class="section-title">How these answers are scored<small>Part 1 patterns here · part 2 is scored by the mapping table above</small></h2>
+    <p class="to-top"><a href="#top">↑ Back to top</a></p>
+
+    <h2 class="section-title" id="scoring">How these answers are scored<small>Part 1 patterns here · part 2 is scored by the mapping table above</small></h2>
     <section class="card">
       <div class="table-scroll">
         <table class="rubric">
@@ -1024,6 +1067,8 @@
         <a class="button" href="index.html">Open CV</a>
       </div>
     </section>
+
+    <p class="to-top"><a href="#top">↑ Back to top</a></p>
 
     <p class="footer">RTS-oriented interview preparation · cargo revenue management · business problems first, technology as proof.</p>
   </main>
@@ -1069,5 +1114,7 @@
       });
     })();
   </script>
+
+  <a class="totop-fab" href="#top" aria-label="Back to top">↑ Top</a>
 </body>
 </html>
