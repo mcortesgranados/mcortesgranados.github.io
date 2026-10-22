@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Airline Revenue Management — A Teaching Note with Charts, Diagrams and Formulas</title>
+  <style>
+    :root { --blue:#1565c0; --green:#2e7d32; --purple:#7b1fa2; --teal:#00695c; --ink:#23272f; --soft:#e3f2fd; --line:#d8e1ea; --amber:#b45309; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#fafbfc; color:var(--ink); font-family:'Segoe UI',Arial,sans-serif; line-height:1.45; font-size:.95rem; }
+    .skip-link { position:absolute; left:12px; top:8px; z-index:40; padding:6px 12px; border:1px solid #93c5fd; border-radius:999px; background:#fff; color:#0d47a1; font-size:.82rem; font-weight:850; text-decoration:none; }
+    .header { position:sticky; top:0; z-index:10; display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; padding:6px 10px; border-bottom:1px solid #cbd5e1; background:rgba(255,255,255,.98); box-shadow:0 2px 8px rgba(15,23,42,.08); }
+    .header .brand { display:inline-flex; align-items:center; gap:8px; text-decoration:none; }
+    .header .mark { display:inline-flex; align-items:center; justify-content:center; width:44px; height:30px; border-radius:7px; background:linear-gradient(135deg,#1565c0,#00695c); color:#fff; font-size:.82rem; font-weight:900; letter-spacing:.06em; }
+    .header strong { color:var(--blue); font-size:.95rem; }
+    .header .header-links { display:flex; flex-wrap:wrap; gap:5px; margin-left:auto; }
+    .header a:not(.brand) { padding:3px 8px; border:1px solid #cbd5e1; border-radius:999px; background:#f8fafc; color:#334155; font-size:.78rem; font-weight:800; text-decoration:none; }
+    .header a:not(.brand):hover { background:#eff6ff; border-color:#93c5fd; color:#0d47a1; }
+    .layout { display:grid; grid-template-columns:246px minmax(0,1fr); gap:10px; padding:7px 10px; align-items:start; }
+    .sidenav { position:sticky; top:48px; display:flex; flex-direction:column; max-height:calc(100vh - 58px); border:1px solid var(--line); border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.04); overflow:hidden; }
+    .sidenav-head { padding:6px 10px; border-bottom:1px solid var(--line); background:#f8fbff; }
+    .sidenav-head strong { color:#17386d; font-size:.76rem; letter-spacing:.08em; text-transform:uppercase; }
+    .sidenav-body { overflow:auto; padding:6px; }
+    .sidenav-body a { display:block; padding:3px 8px; border-left:3px solid transparent; border-radius:5px; color:#334155; font-size:.81rem; font-weight:700; text-decoration:none; }
+    .sidenav-body a:hover, .sidenav-body a:focus-visible { background:#eff6ff; color:#0d47a1; }
+    .sidenav-body a.active { border-left-color:var(--blue); background:#e3f2fd; color:#0d47a1; }
+    main { min-width:0; }
+    .hero { padding:14px 16px; border:1px solid var(--line); border-radius:8px; background:linear-gradient(120deg,#eff6ff,#fff,#e8f5f1); box-shadow:0 2px 5px rgba(0,0,0,.04); }
+    .hero .kicker { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:5px; color:#64748b; font-size:.75rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .hero h1 { margin:0; color:var(--blue); font-size:clamp(1.3rem,2.8vw,1.85rem); line-height:1.25; }
+    .hero p { margin:6px 0 0; max-width:100ch; }
+    .chips { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+    .chips span { padding:2px 8px; border:1px solid #cbd5e1; border-radius:999px; background:#f8fafc; color:#334155; font-size:.75rem; font-weight:800; }
+    h2 { margin:20px 0 6px; color:var(--green); font-size:1.22rem; scroll-margin-top:58px; }
+    h2 small { display:block; margin-top:2px; color:#64748b; font-size:.76rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    h3 { margin:14px 0 5px; color:#17386d; font-size:1rem; scroll-margin-top:58px; }
+    p { margin:0 0 9px; }
+    ul, ol { margin:0 0 9px; padding-left:20px; }
+    li { margin:3px 0; }
+    a { color:#0d47a1; }
+    .card { padding:12px 14px; border:1px solid var(--line); border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.04); margin-bottom:10px; }
+    .lead { border-left:4px solid var(--blue); background:#f5f9ff; padding:8px 11px; border-radius:6px; margin:0 0 10px; }
+    .callout { margin:10px 0; padding:9px 11px; border-left:4px solid var(--teal); border-radius:6px; background:#eef8f5; font-size:.9rem; color:#1f3b35; }
+    .callout b { color:var(--teal); }
+    .warn { border-left-color:var(--amber); background:#fffaf3; color:#4a3722; }
+    .warn b { color:var(--amber); }
+    .eq { margin:10px 0; padding:10px 12px; border:1px solid #cfe0f3; border-radius:7px; background:#f8fbff; overflow-x:auto; }
+    .eq-label { display:block; margin-bottom:6px; color:#64748b; font-size:.74rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+    .eq-line { font-size:1rem; line-height:2.1; color:#17386d; }
+    .eq-line + .eq-line { margin-top:4px; }
+    .var { font-style:italic; font-family:Georgia,'Times New Roman',serif; }
+    .frac { display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; margin:0 3px; font-size:.92em; line-height:1.25; }
+    .frac .num { padding:0 5px 1px; border-bottom:1.4px solid currentColor; }
+    .frac .den { padding:1px 5px 0; }
+    .eq-note { margin:7px 0 0; color:#475569; font-size:.87rem; }
+    .figure { margin:12px 0; padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:#fff; }
+    .figure svg { display:block; width:100%; height:auto; }
+    .figure figcaption { margin-top:6px; color:#64748b; font-size:.79rem; font-weight:700; }
+    .tbl { width:100%; min-width:560px; border-collapse:collapse; font-size:.86rem; }
+    .tbl th, .tbl td { padding:5px 7px; border:1px solid var(--line); text-align:left; vertical-align:top; }
+    .tbl th { background:var(--soft); color:#0d47a1; }
+    .tbl td.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+    .scroll { overflow-x:auto; }
+    .kpis { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; margin:10px 0; }
+    .kpis div { padding:8px 10px; border:1px solid var(--line); border-radius:7px; background:#f8fafc; font-size:.85rem; }
+    .kpis strong { display:block; color:var(--purple); font-size:.72rem; letter-spacing:.05em; text-transform:uppercase; margin-bottom:2px; }
+    .step { display:grid; grid-template-columns:26px minmax(0,1fr); gap:9px; margin:8px 0; }
+    .step .n { display:flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; background:var(--blue); color:#fff; font-size:.76rem; font-weight:900; }
+    .footer { margin:16px 0 8px; color:#64748b; font-size:.8rem; text-align:right; }
+    .totop-fab { position:fixed; right:14px; bottom:12px; z-index:30; padding:7px 12px; border:1px solid #93c5fd; border-radius:999px; background:#fff; color:#0d47a1; font-size:.8rem; font-weight:900; text-decoration:none; box-shadow:0 4px 12px rgba(15,23,42,.18); }
+    @media(max-width:1000px) { .layout { grid-template-columns:minmax(0,1fr); padding:7px; } .sidenav { position:static; max-height:none; } .sidenav-body { display:flex; flex-wrap:wrap; gap:4px; } .sidenav-body a { border:1px solid var(--line); border-left-width:1px; } }
+    @media(max-width:700px) { .kpis { grid-template-columns:1fr; } }
+    @media print { .header, .sidenav, .totop-fab { display:none; } .layout { display:block; padding:0; } .card, .hero, .figure { box-shadow:none; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#what">Skip to the article</a>
+
+  <header class="header">
+    <a class="brand" href="index.html"><span class="mark">RM</span></a>
+    <strong>Airline Revenue Management · a teaching note</strong>
+    <div class="header-links">
+      <a href="rts_technical_questions.html#glossary">← Glossary</a>
+      <a href="rts_technical_questions.html">RTS page</a>
+      <a href="index.html">📄 CV</a>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidenav" aria-label="Article sections">
+      <div class="sidenav-head"><strong>Contents</strong></div>
+      <nav class="sidenav-body">
+        <a href="#what">1 · What revenue management is</a>
+        <a href="#economics">2 · Why it exists at all</a>
+        <a href="#metrics">3 · Metrics and identities</a>
+        <a href="#forecast">4 · Forecasting and the booking curve</a>
+        <a href="#pricing">5 · Pricing and elasticity</a>
+        <a href="#allocation">6 · Inventory control: Littlewood and EMSR</a>
+        <a href="#overbooking">7 · Overbooking</a>
+        <a href="#network">8 · Network revenue management</a>
+        <a href="#cargo">9 · Cargo: when the unit is a kilogram</a>
+        <a href="#production">10 · From theory to production</a>
+        <a href="#example">11 · Worked example</a>
+        <a href="#sheet">12 · Formula sheet</a>
+        <a href="#sources">13 · Sources and caveats</a>
+      </nav>
+    </aside>
+
+    <main>
+      <section class="hero">
+        <div class="kicker"><span>A teaching note</span><span>Charts · diagrams · formulas</span></div>
+        <h1>Airline Revenue Management, explained from first principles</h1>
+        <p>Revenue management is the science and strategy behind how an airline decides ticket prices, allocates seats and extracts the most value from a flight that will depart whether or not anyone buys the last seat. This note builds the idea step by step: why the economics make it necessary, what the metrics mean, how demand is forecast, how prices and inventory are set, why overbooking exists, what changes in a network and what changes again in cargo. Every formula is derived and every chart uses one consistent example.</p>
+        <div class="chips">
+          <span>13 sections</span>
+          <span>8 charts and diagrams</span>
+          <span>14 formulas, all derived</span>
+          <span>English</span>
+        </div>
+      </section>
+
+      <h2 id="what">1 · What revenue management is<small>The four “rights” and the three decisions behind them</small></h2>
+      <section class="card">
+        <p class="lead">“Sell the right seat to the right customer at the right price at the right time.” It is a good definition because it names four variables, and each one is a real decision that has to be made before departure: which unit of capacity, which customer segment, which price, which moment.</p>
+        <p>The discipline emerged in the 1980s, when deregulation let airlines set their own fares and forced them to compete on price instead of on a regulated schedule. Two things then became visible at once: a seat that departs empty has no residual value, and different customers are willing to pay very different amounts for the same seat. Managing that gap is the whole business.</p>
+        <p>Underneath the four rights sit three decisions that the rest of this note develops:</p>
+        <div class="kpis">
+          <div><strong>Forecast</strong>How much demand will appear, at each price, and when.</div>
+          <div><strong>Price</strong>What to charge, and how to fence the segments apart.</div>
+          <div><strong>Allocation</strong>How much capacity to protect for demand that has not arrived yet.</div>
+        </div>
+        <p>A fourth decision — overbooking — belongs to the same family: how many bookings to accept when some of them will not turn up.</p>
+      </section>
+
+      <h2 id="economics">2 · Why it exists at all<small>Four economic conditions that make revenue management necessary</small></h2>
+      <section class="card">
+        <div class="step"><div class="n">1</div><div><strong>Capacity is fixed and expensive to change.</strong> An aircraft has a known number of seats (or tonnes) months in advance; adding capacity means a different aircraft or a different schedule, not a production line.</div></div>
+        <div class="step"><div class="n">2</div><div><strong>The unit is perishable.</strong> At departure the seat expires. Inventory does not carry over, so the cost of an empty seat is the revenue it could have earned — not its physical cost.</div></div>
+        <div class="step"><div class="n">3</div><div><strong>Marginal cost is close to zero.</strong> Carrying one more passenger costs a little fuel, a meal and a bag; the flight itself is already paid for. So almost any fare above marginal cost contributes to covering fixed cost.</div></div>
+        <div class="step"><div class="n">4</div><div><strong>Demand is segmented and arrives over time.</strong> Leisure travellers book early and are price sensitive; business travellers book late and pay for flexibility. They compete for the same seat, and they arrive in a predictable order.</div></div>
+        <p class="callout"><b>The consequence:</b> if you sell the first seats to whoever asks, the cheap early demand consumes the capacity that the expensive late demand would have paid for. Revenue management exists to hold capacity back — deliberately, with a number attached to the decision.</p>
+      </section>
+
+      <h2 id="metrics">3 · Metrics and identities<small>Yield, load factor and RASK are one equation, not three ideas</small></h2>
+      <section class="card">
+        <p>Three quantities appear in every revenue discussion, and they are related by an identity that is worth memorising because it explains most arguments about “we need higher load factors”.</p>
+        <ul>
+          <li><strong>RPK</strong> — revenue passenger kilometres: passengers × distance. What was actually sold.</li>
+          <li><strong>ASK</strong> — available seat kilometres: seats × distance. What was offered.</li>
+          <li><strong>Revenue</strong> — the money collected.</li>
+        </ul>
+        <div class="eq">
+          <span class="eq-label">Definitions</span>
+          <div class="eq-line"><span class="var">Load factor</span> = <span class="frac"><span class="num">RPK</span><span class="den">ASK</span></span> &nbsp;&nbsp; <span class="var">Yield</span> = <span class="frac"><span class="num">Revenue</span><span class="den">RPK</span></span> &nbsp;&nbsp; <span class="var">RASK</span> = <span class="frac"><span class="num">Revenue</span><span class="den">ASK</span></span></div>
+        </div>
+        <p>Now substitute: revenue = yield × RPK, and RPK = load factor × ASK. Divide both sides by ASK and the identity appears.</p>
+        <div class="eq">
+          <span class="eq-label">The identity, derived</span>
+          <div class="eq-line">RASK = <span class="frac"><span class="num">Revenue</span><span class="den">ASK</span></span> = <span class="frac"><span class="num">Yield × RPK</span><span class="den">ASK</span></span> = Yield × <span class="frac"><span class="num">RPK</span><span class="den">ASK</span></span> = <span class="var">Yield × Load factor</span></div>
+        </div>
+        <p>That single line settles a recurring argument. A flight can fly fuller and earn less, because the extra passengers were cheap. Two airlines with the same aircraft can have the same revenue per available seat kilometre while one of them carries far more people — or the same load factor with very different revenue.</p>
+        <figure class="figure">
+          <svg viewBox="0 0 620 250" role="img" aria-labelledby="raskT raskD">
+            <title id="raskT">Yield and RASK for two airlines with different load factors</title>
+            <desc id="raskD">Airline A has a yield of 8.5 cents per RPK and a load factor of 78 percent, giving a RASK of 6.63 cents. Airline B has a lower yield of 7.2 cents but a load factor of 88 percent, giving a RASK of 6.34 cents.</desc>
+            <line x1="60" y1="200" x2="580" y2="200" stroke="#94a3b8" stroke-width="1.5"/>
+            <line x1="60" y1="200" x2="60" y2="20" stroke="#94a3b8" stroke-width="1.5"/>
+            <g stroke="#e2e8f0" stroke-width="1">
+              <line x1="60" y1="140" x2="580" y2="140"/>
+              <line x1="60" y1="80" x2="580" y2="80"/>
+              <line x1="60" y1="20" x2="580" y2="20"/>
+            </g>
+            <g font-size="11" fill="#64748b" text-anchor="end">
+              <text x="52" y="204">0</text>
+              <text x="52" y="144">3</text>
+              <text x="52" y="84">6</text>
+              <text x="52" y="24">9</text>
+            </g>
+            <text x="70" y="16" font-size="11" fill="#64748b">cents per RPK / per ASK</text>
+            <rect x="120" y="30" width="46" height="170" fill="#1565c0"/>
+            <rect x="176" y="67" width="46" height="133" fill="#2e7d32"/>
+            <rect x="360" y="56" width="46" height="144" fill="#1565c0"/>
+            <rect x="416" y="73" width="46" height="127" fill="#2e7d32"/>
+            <g font-size="12" font-weight="700" fill="#17386d" text-anchor="middle">
+              <text x="143" y="24">8.5</text>
+              <text x="199" y="61">6.63</text>
+              <text x="383" y="50">7.2</text>
+              <text x="439" y="67">6.34</text>
+            </g>
+            <g font-size="12" fill="#334155" text-anchor="middle">
+              <text x="171" y="218">Airline A · 78% load factor</text>
+              <text x="411" y="218">Airline B · 88% load factor</text>
+            </g>
+            <g font-size="11" fill="#334155">
+              <rect x="60" y="232" width="11" height="11" fill="#1565c0"/>
+              <text x="76" y="242">Yield</text>
+              <rect x="130" y="232" width="11" height="11" fill="#2e7d32"/>
+              <text x="146" y="242">RASK = yield × load factor</text>
+            </g>
+            <text x="470" y="242" font-size="11" fill="#64748b">B flies fuller, earns less per seat-km.</text>
+          </svg>
+          <figcaption>Chart 1 · The same route, two strategies. Airline B wins on load factor and loses on RASK, because it sold capacity more cheaply. Load factor is an occupancy measure, not a profit measure.</figcaption>
+        </figure>
+        <p>For cargo the same logic runs on different units: revenue per kilogram or per tonne-kilometre, and a “load factor” that has to be measured in both weight and volume, because a full hold by volume can still be underweight.</p>
+      </section>
+
+      <h2 id="forecast">4 · Forecasting and the booking curve<small>Demand is not what you sold — and the difference is the whole discipline</small></h2>
+      <section class="card">
+        <p>Bookings accumulate over months, not at a single moment. Plot cumulative bookings against days before departure and you get the <strong>booking curve</strong>: slow at first, steep in the last weeks, flattening at the end. Each point on that curve is a forecast problem — how much more will arrive from here?</p>
+        <figure class="figure">
+          <svg viewBox="0 0 620 280" role="img" aria-labelledby="bcT bcD">
+            <title id="bcT">Cumulative booking curve against days before departure</title>
+            <desc id="bcD">Bookings rise slowly until about fifty days before departure, accelerate between fifty and fourteen days, and reach one hundred percent at departure. A marker at twenty-one days shows when inventory controls are published.</desc>
+            <line x1="60" y1="220" x2="580" y2="220" stroke="#94a3b8" stroke-width="1.5"/>
+            <line x1="60" y1="220" x2="60" y2="30" stroke="#94a3b8" stroke-width="1.5"/>
+            <g stroke="#e2e8f0" stroke-width="1">
+              <line x1="60" y1="40" x2="580" y2="40"/>
+              <line x1="60" y1="85" x2="580" y2="85"/>
+              <line x1="60" y1="130" x2="580" y2="130"/>
+              <line x1="60" y1="175" x2="580" y2="175"/>
+            </g>
+            <g font-size="11" fill="#64748b" text-anchor="end">
+              <text x="52" y="224">0</text>
+              <text x="52" y="179">25</text>
+              <text x="52" y="134">50</text>
+              <text x="52" y="89">75</text>
+              <text x="52" y="44">100%</text>
+            </g>
+            <line x1="60" y1="40" x2="580" y2="40" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3"/>
+            <text x="500" y="34" font-size="11" fill="#64748b">final bookings</text>
+            <polyline points="60,220 101.7,209.2 143.3,196.6 185,180.4 226.7,164.2 268.3,148 310,133.6 351.7,119.2 393.3,104.8 435,92.2 472.5,79.6 501.7,68.8 530.8,58 547.5,49 560,40"
+                      fill="none" stroke="#1565c0" stroke-width="2.6"/>
+            <line x1="472.5" y1="220" x2="472.5" y2="79.6" stroke="#7b1fa2" stroke-width="1.4" stroke-dasharray="5 3"/>
+            <circle cx="472.5" cy="79.6" r="4" fill="#7b1fa2"/>
+            <text x="466" y="248" font-size="11" fill="#7b1fa2" text-anchor="middle">21 days: controls published</text>
+            <g font-size="11" fill="#64748b" text-anchor="middle">
+              <text x="60" y="238">120</text>
+              <text x="185" y="238">90</text>
+              <text x="310" y="238">60</text>
+              <text x="435" y="238">30</text>
+              <text x="560" y="238">0</text>
+            </g>
+            <text x="330" y="266" font-size="11" fill="#64748b" text-anchor="middle">days before departure</text>
+            <text x="66" y="20" font-size="11" fill="#64748b">cumulative bookings</text>
+          </svg>
+          <figcaption>Chart 2 · A typical booking curve. The interesting part is the slope, not the level: a steep final two weeks means capacity decisions made earlier are irreversible.</figcaption>
+        </figure>
+
+        <h3>The censoring problem</h3>
+        <p>Here is the subtlety that separates a real forecast from a spreadsheet: what you sold is not what was demanded. Bookings are capped by the availability you published. If the cheap bucket closed, the missing demand is invisible — and if you forecast from bookings alone, the model learns your own restrictions and quietly ratifies them.</p>
+        <div class="eq">
+          <span class="eq-label">Observation model</span>
+          <div class="eq-line"><span class="var">B</span><sub>observed</sub> = min(<span class="var">D</span>, <span class="var">A</span>) &nbsp;&nbsp;where <span class="var">D</span> is true demand and <span class="var">A</span> is the availability offered</div>
+          <div class="eq-line">so when <span class="var">B</span><sub>observed</sub> = <span class="var">A</span>, the observation is <em>censored</em> and <span class="var">D</span> ≥ <span class="var">A</span> is all we know</div>
+        </div>
+        <figure class="figure">
+          <svg viewBox="0 0 620 250" role="img" aria-labelledby="cenT cenD">
+            <title id="cenT">Censored demand across six departures</title>
+            <desc id="cenD">True demand for six departures is 120, 95, 140, 88, 160 and 110 units against an availability cap of 100. Observed bookings equal demand where demand is below the cap and equal the cap where demand exceeds it, which hides the three largest demand values.</desc>
+            <line x1="60" y1="200" x2="580" y2="200" stroke="#94a3b8" stroke-width="1.5"/>
+            <line x1="60" y1="200" x2="60" y2="30" stroke="#94a3b8" stroke-width="1.5"/>
+            <line x1="60" y1="80" x2="580" y2="80" stroke="#b45309" stroke-width="1.6" stroke-dasharray="6 3"/>
+            <text x="62" y="74" font-size="11" fill="#b45309">availability = 100</text>
+            <g fill="#cbd5e1">
+              <rect x="90" y="32" width="34" height="168"/>
+              <rect x="170" y="86" width="34" height="114"/>
+              <rect x="250" y="32" width="34" height="168"/>
+              <rect x="330" y="94" width="34" height="106"/>
+              <rect x="410" y="32" width="34" height="168"/>
+              <rect x="490" y="68" width="34" height="132"/>
+            </g>
+            <g fill="#1565c0">
+              <rect x="90" y="80" width="34" height="120"/>
+              <rect x="170" y="86" width="34" height="114"/>
+              <rect x="250" y="80" width="34" height="120"/>
+              <rect x="330" y="94" width="34" height="106"/>
+              <rect x="410" y="80" width="34" height="120"/>
+              <rect x="490" y="80" width="34" height="120"/>
+            </g>
+            <g font-size="10" fill="#ffffff" text-anchor="middle" font-weight="700">
+              <text x="107" y="96">100</text><text x="267" y="96">100</text><text x="427" y="96">100</text>
+            </g>
+            <g font-size="11" fill="#475569" text-anchor="middle">
+              <text x="107" y="216">120</text><text x="187" y="216">95</text><text x="267" y="216">140</text>
+              <text x="347" y="216">88</text><text x="427" y="216">160</text><text x="507" y="216">110</text>
+            </g>
+            <text x="320" y="238" font-size="11" fill="#64748b" text-anchor="middle">true demand per departure</text>
+            <g font-size="11" fill="#475569">
+              <rect x="60" y="18" width="11" height="11" fill="#cbd5e1"/><text x="76" y="28">true demand</text>
+              <rect x="170" y="18" width="11" height="11" fill="#1565c0"/><text x="186" y="28">observed bookings</text>
+            </g>
+          </svg>
+          <figcaption>Chart 3 · Three departures demanded more than the 100 units offered. The recorder saw 100 three times: a forecast trained on the blue bars will conclude that demand is about 104 when it is about 135.</figcaption>
+        </figure>
+        <p>Unconstraining means estimating the hidden part — with refused/regret data where it exists, with statistical corrections where it does not. The practical test of any method: it must reproduce the demand of departures that were <em>not</em> constrained, and it must raise its estimate when availability was tight.</p>
+
+        <h3>Projecting the rest of the curve</h3>
+        <p>Once each class on each departure has a history of booking curves, the simplest usable model is exponential smoothing on the pick-up increments:</p>
+        <div class="eq">
+          <span class="eq-label">Exponential smoothing</span>
+          <div class="eq-line"><span class="var">F</span><sub>t+1</sub> = α·<span class="var">A</span><sub>t</sub> + (1 − α)·<span class="var">F</span><sub>t</sub>, &nbsp; 0 &lt; α ≤ 1</div>
+          <div class="eq-note">α is the weight given to the newest observation. α near 1 tracks shocks and noise; α near 0 is stable and slow. The right value is chosen by backtesting, not by taste.</div>
+        </div>
+        <p>Then the remaining demand is the sum of expected increments between now and departure, and forecast quality is judged on two numbers that answer different questions:</p>
+        <div class="eq">
+          <span class="eq-label">Forecast quality</span>
+          <div class="eq-line">MAPE = <span class="frac"><span class="num">1</span><span class="den">n</span></span> Σ <span class="frac"><span class="num">|F<sub>i</sub> − A<sub>i</sub>|</span><span class="den">A<sub>i</sub></span></span> &nbsp;&nbsp;&nbsp; Bias = <span class="frac"><span class="num">1</span><span class="den">n</span></span> Σ <span class="frac"><span class="num">F<sub>i</sub> − A<sub>i</sub></span><span class="den">A<sub>i</sub></span></span></div>
+          <div class="eq-note">MAPE measures the size of the miss; bias measures its direction. A forecast that is consistently 4% low has an acceptable MAPE and still leaks revenue on every departure.</div>
+        </div>
+        <p class="callout"><b>What to remember:</b> a forecast is not a number, it is a distribution. Every decision that follows — protection levels, bid prices, overbooking — needs the spread as much as the mean, which is why the normal approximation with a mean and a standard deviation appears in the next three sections.</p>
+      </section>
+
+      <h2 id="pricing">5 · Pricing and elasticity<small>Why the revenue-maximising price is not always the right price</small></h2>
+      <section class="card">
+        <p>The second decision is the price itself. Demand responds to price, and the response is summarised by elasticity:</p>
+        <div class="eq">
+          <span class="eq-label">Price elasticity of demand</span>
+          <div class="eq-line">ε = <span class="frac"><span class="num">ΔQ / Q</span><span class="den">ΔP / P</span></span></div>
+          <div class="eq-note">|ε| &gt; 1: demand is elastic, a 1% price rise loses more than 1% of volume, so revenue falls. |ε| &lt; 1: inelastic, a price rise gains revenue. Revenue is maximised where |ε| = 1.</div>
+        </div>
+        <p>Take a simple linear demand curve, <span class="var">Q</span> = 300 − 3<span class="var">P</span>. Revenue is <span class="var">R</span> = <span class="var">P</span>·<span class="var">Q</span> = 300<span class="var">P</span> − 3<span class="var">P</span>², a parabola whose maximum sits where the derivative is zero:</p>
+        <div class="eq">
+          <span class="eq-label">Revenue-maximising price</span>
+          <div class="eq-line"><span class="frac"><span class="num">dR</span><span class="den">dP</span></span> = 300 − 6<span class="var">P</span> = 0 &nbsp;⇒&nbsp; <span class="var">P</span>* = 50, &nbsp; <span class="var">Q</span>* = 150, &nbsp; <span class="var">R</span>* = 7,500</div>
+        </div>
+        <p>Now add the constraint that makes this an airline problem rather than a pricing exercise: the aircraft has 120 seats. Selling 150 at 50 is not available. The best price that still fills exactly the capacity available is higher, and the revenue is lower — the constraint costs money, and revenue management is the discipline of recovering as much of it as possible by selling to different customers at different prices instead of one price to everybody.</p>
+        <figure class="figure">
+          <svg viewBox="0 0 620 260" role="img" aria-labelledby="prcT prcD">
+            <title id="prcT">Revenue against price with and without a capacity constraint</title>
+            <desc id="prcD">Revenue peaks at 7,500 at a price of 50 with 150 seats of demand, but the aircraft has only 120 seats, so the feasible maximum is 7,200 at a price of 60.</desc>
+            <line x1="60" y1="220" x2="580" y2="220" stroke="#94a3b8" stroke-width="1.5"/>
+            <line x1="60" y1="220" x2="60" y2="30" stroke="#94a3b8" stroke-width="1.5"/>
+            <g stroke="#e2e8f0" stroke-width="1">
+              <line x1="60" y1="175" x2="580" y2="175"/>
+              <line x1="60" y1="130" x2="580" y2="130"/>
+              <line x1="60" y1="85" x2="580" y2="85"/>
+              <line x1="60" y1="40" x2="580" y2="40"/>
+            </g>
+            <g font-size="11" fill="#64748b" text-anchor="end">
+              <text x="52" y="224">0</text><text x="52" y="179">2k</text><text x="52" y="134">4k</text><text x="52" y="89">6k</text><text x="52" y="44">8k</text>
+            </g>
+            <polyline points="60,112 131.4,78.3 202.9,58 238.6,52.9 274.3,51.3 310,52.9 345.7,58 417.1,78.3 488.6,112 560,159.3"
+                      fill="none" stroke="#1565c0" stroke-width="2.6"/>
+            <circle cx="274.3" cy="51.3" r="4.5" fill="#7b1fa2"/>
+            <text x="274" y="40" font-size="11" fill="#7b1fa2" text-anchor="middle">7,500 at P = 50 · needs 150 seats</text>
+            <circle cx="345.7" cy="58" r="4.5" fill="#2e7d32"/>
+            <text x="352" y="78" font-size="11" fill="#2e7d32">7,200 at P = 60 · fits 120 seats</text>
+            <line x1="345.7" y1="58" x2="345.7" y2="220" stroke="#2e7d32" stroke-width="1.2" stroke-dasharray="4 3"/>
+            <g font-size="11" fill="#64748b" text-anchor="middle">
+              <text x="60" y="238">20</text><text x="202.9" y="238">40</text><text x="345.7" y="238">60</text><text x="488.6" y="238">80</text>
+            </g>
+            <text x="320" y="254" font-size="11" fill="#64748b" text-anchor="middle">price ($)</text>
+            <text x="66" y="20" font-size="11" fill="#64748b">revenue ($)</text>
+          </svg>
+          <figcaption>Chart 4 · The unconstrained revenue maximum is infeasible. With 120 seats the best single price earns 300 less — and that 300 is exactly the money segmentation can try to recover.</figcaption>
+        </figure>
+        <p>The recovery is <strong>segmentation</strong>: fences — advance purchase, Saturday stay, change restrictions, refundability — separate customers by willingness to pay, so the same seat is sold at several prices without one customer simply buying the cheaper one. The transcript's example is this mechanism in miniature: hold a few cheap seats early, then raise the price as the flight fills.</p>
+      </section>
+
+      <h2 id="allocation">6 · Inventory control: Littlewood and EMSR<small>How many seats to protect for demand that has not arrived</small></h2>
+      <section class="card">
+        <p>Pricing decides the menu; allocation decides how much of the aircraft is available at each price. The classic setting is two fare classes on one leg: a cheap fare <span class="var">f</span><sub>L</sub> that is available now, and a high fare <span class="var">f</span><sub>H</sub> whose demand arrives later and is uncertain.</p>
+        <p>Protect one more seat for the high fare and you gain <span class="var">f</span><sub>H</sub> if that demand materialises, or nothing if it does not:</p>
+        <div class="eq">
+          <span class="eq-label">Marginal value of protecting a seat</span>
+          <div class="eq-line">E[marginal revenue] = <span class="var">f</span><sub>H</sub> · P(<span class="var">D</span><sub>H</sub> &gt; <span class="var">y</span>)</div>
+          <div class="eq-note">y is the protection level: seats held back from the cheap fare. As y grows, the probability that high-fare demand exceeds it falls, so the marginal value falls.</div>
+        </div>
+        <p>Sell the seat cheaply instead and you receive <span class="var">f</span><sub>L</sub> with certainty. Accept the cheap booking only while the certain money beats the expected money:</p>
+        <div class="eq">
+          <span class="eq-label">Littlewood's rule (1972)</span>
+          <div class="eq-line">accept the low fare if &nbsp; <span class="var">f</span><sub>L</sub> ≥ <span class="var">f</span><sub>H</sub> · P(<span class="var">D</span><sub>H</sub> &gt; <span class="var">y</span>)</div>
+          <div class="eq-line">the optimal protection level <span class="var">y</span>* satisfies &nbsp; P(<span class="var">D</span><sub>H</sub> &gt; <span class="var">y</span>*) = <span class="frac"><span class="num"><span class="var">f</span><sub>L</sub></span><span class="den"><span class="var">f</span><sub>H</sub></span></span></div>
+          <div class="eq-note">With normal demand <span class="var">D</span><sub>H</sub> ~ N(μ, σ²): <span class="var">y</span>* = μ + σ·Φ⁻¹(1 − <span class="var">f</span><sub>L</sub>/<span class="var">f</span><sub>H</sub>).</div>
+        </div>
+        <p>Numerically: 180 seats, <span class="var">f</span><sub>H</sub> = 300, <span class="var">f</span><sub>L</sub> = 120, and high-fare demand N(40, 12²). The critical ratio is 120/300 = 0.40, so Φ⁻¹(0.60) = 0.253 and <span class="var">y</span>* = 40 + 0.253 × 12 ≈ 43 seats protected, leaving 137 sellable at the low fare.</p>
+        <figure class="figure">
+          <svg viewBox="0 0 620 260" role="img" aria-labelledby="lwT lwD">
+            <title id="lwT">Marginal value of protecting a seat against the protection level</title>
+            <desc id="lwD">The expected marginal revenue from protecting one more seat falls as the protection level rises and crosses the low fare of 120 at about 43 protected seats.</desc>
+            <line x1="60" y1="220" x2="580" y2="220" stroke="#94a3b8" stroke-width="1.5"/>
+            <line x1="60" y1="220" x2="60" y2="30" stroke="#94a3b8" stroke-width="1.5"/>
+            <g stroke="#e2e8f0" stroke-width="1">
+              <line x1="60" y1="175" x2="580" y2="175"/>
+              <line x1="60" y1="130" x2="580" y2="130"/>
+              <line x1="60" y1="85" x2="580" y2="85"/>
+              <line x1="60" y1="40" x2="580" y2="40"/>
+            </g>
+            <g font-size="11" fill="#64748b" text-anchor="end">
+              <text x="52" y="224">0</text><text x="52" y="179">75</text><text x="52" y="134">150</text><text x="52" y="89">225</text><text x="52" y="44">300</text>
+            </g>
+            <line x1="60" y1="148" x2="580" y2="148" stroke="#b45309" stroke-width="1.6" stroke-dasharray="6 3"/>
+            <text x="484" y="142" font-size="11" fill="#b45309">low fare = 120</text>
+            <polyline points="60,49 171,76.6 282,130 315.6,148 393,183.4 449,200.8 504,211.6 560,217"
+                      fill="none" stroke="#1565c0" stroke-width="2.6"/>
+            <circle cx="315.6" cy="148" r="4.5" fill="#7b1fa2"/>
+            <line x1="315.6" y1="148" x2="315.6" y2="220" stroke="#7b1fa2" stroke-width="1.2" stroke-dasharray="4 3"/>
+            <text x="315.6" y="238" font-size="11" fill="#7b1fa2" text-anchor="middle">y* ≈ 43</text>
+            <text x="120" y="100" font-size="11" fill="#1565c0">E[marginal revenue] = 300 · P(D &gt; y)</text>
+            <g font-size="11" fill="#64748b" text-anchor="middle">
+              <text x="60" y="238">20</text><text x="282" y="238">45</text><text x="449" y="238">60</text>
+            </g>
+            <text x="330" y="254" font-size="11" fill="#64748b" text-anchor="middle">seats protected for the high fare</text>
+          </svg>
+          <figcaption>Chart 5 · Littlewood's rule as the crossing of two numbers. Protect while the expected high-fare money exceeds the certain low-fare money; stop at 43.</figcaption>
+        </figure>
+
+        <h3>From two classes to five: EMSR-b</h3>
+        <p>Real cabins have several fares. <strong>EMSR-b</strong> applies Littlewood repeatedly, but treats all the classes above a given class as one aggregate competitor with a revenue-weighted average fare:</p>
+        <div class="eq">
+          <span class="eq-label">EMSR-b protection level for the class below j</span>
+          <div class="eq-line"><span class="var">S</span><sub>j</sub> = Σ<sub>i&lt;j</sub> <span class="var">f</span><sub>i</sub>·μ<sub>i</sub> &nbsp;&nbsp; μ<sub>j</sub> = Σ<sub>i&lt;j</sub> μ<sub>i</sub> &nbsp;&nbsp; σ<sub>j</sub> = √(Σ<sub>i&lt;j</sub> σ<sub>i</sub>²) &nbsp;&nbsp; <span class="var">f̄</span><sub>j</sub> = <span class="frac"><span class="num">S<sub>j</sub></span><span class="den">μ<sub>j</sub></span></span></div>
+          <div class="eq-line"><span class="var">y</span><sub>j</sub> = μ<sub>j</sub> + σ<sub>j</sub>·Φ⁻¹(1 − <span class="var">f</span><sub>j+1</sub> / <span class="var">f̄</span><sub>j</sub>)</div>
+          <div class="eq-note">Booking limit for the lower class = capacity − protection level above it. Limits nest: a booking at the cheap fare consumes capacity available to every higher fare too.</div>
+        </div>
+        <p>Second example, a 180-seat cabin with four fares (Y 400, M 250, K 150, L 90) and demand means 18, 25, 35 and open-ended respectively, with standard deviations 6, 8 and 10:</p>
+        <div class="scroll">
+          <table class="tbl">
+            <thead><tr><th>Step</th><th>Aggregate above</th><th class="num">μ</th><th class="num">σ</th><th class="num">f̄</th><th class="num">f<sub>below</sub>/f̄</th><th class="num">Protection y</th><th class="num">Booking limit</th></tr></thead>
+            <tbody>
+              <tr><td>Protect against L</td><td>Y + M + K</td><td class="num">78</td><td class="num">14.1</td><td class="num">239.7</td><td class="num">0.376</td><td class="num">83</td><td class="num">97</td></tr>
+              <tr><td>Protect against K</td><td>Y + M</td><td class="num">43</td><td class="num">10.0</td><td class="num">312.8</td><td class="num">0.480</td><td class="num">44</td><td class="num">136</td></tr>
+              <tr><td>Protect against M</td><td>Y</td><td class="num">18</td><td class="num">6.0</td><td class="num">400.0</td><td class="num">0.625</td><td class="num">16</td><td class="num">164</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="callout"><b>Read the table as a policy:</b> sell L while total bookings are below 97; between 97 and 136 only K and above are open; between 136 and 164 only M and above; above 164 only Y. The whole inventory policy of a departure is three numbers.</p>
+        <p class="callout warn"><b>What breaks it:</b> EMSR-b assumes independent demand between classes and a single leg. Both assumptions are wrong in a network — the same seat serves several O&amp;D markets — which is exactly why network optimisation exists.</p>
+      </section>
+
+      <h2 id="overbooking">7 · Overbooking<small>Trading a certain small gain against an uncertain large cost</small></h2>
+      <section class="card">
+        <p>Not everyone who books turns up. Some cancel, some simply do not appear. If the airline sells exactly the number of seats, it expects to depart with empty seats — so it sells more. The decision is not “should we overbook” but “how far”, and that question has a clean answer from inventory theory.</p>
+        <p>Let capacity be <span class="var">C</span>, bookings <span class="var">B</span>, and each booking's show probability <span class="var">p</span>, independent. Then the number of passengers who appear is binomial:</p>
+        <div class="eq">
+          <span class="eq-label">Show-ups</span>
+          <div class="eq-line"><span class="var">X</span><sub>B</sub> ~ Binomial(<span class="var">B</span>, <span class="var">p</span>) &nbsp;&nbsp; E[<span class="var">X</span><sub>B</sub>] = <span class="var">B</span>·<span class="var">p</span> &nbsp;&nbsp; Var[<span class="var">X</span><sub>B</sub>] = <span class="var">B</span>·<span class="var">p</span>·(1 − <span class="var">p</span>)</div>
+          <div class="eq-note">For B above about 30 the normal approximation with μ = Bp and σ = √(Bp(1−p)) is accurate enough for the decision.</div>
+        </div>
+        <p>Two costs pull in opposite directions:</p>
+        <ul>
+          <li><strong>Spoilage cost</strong> <span class="var">C</span><sub>s</sub>: the value lost when a seat departs empty because we refused a booking.</li>
+          <li><strong>Denial cost</strong> <span class="var">C</span><sub>d</sub>: compensation, rebooking, hotel and goodwill when a passenger is denied boarding.</li>
+        </ul>
+        <div class="eq">
+          <span class="eq-label">Expected cost of a booking level B</span>
+          <div class="eq-line">EC(<span class="var">B</span>) = <span class="var">C</span><sub>d</sub>·E[(<span class="var">X</span><sub>B</sub> − <span class="var">C</span>)<sup>+</sup>] + <span class="var">C</span><sub>s</sub>·E[(<span class="var">C</span> − <span class="var">X</span><sub>B</sub>)<sup>+</sup>]</div>
+          <div class="eq-note">The first term is the cost of having too many show up; the second is the cost of having too few.</div>
+        </div>
+        <p>This is the newsvendor problem with the signs reversed, so the optimality condition is the critical fractile:</p>
+        <div class="eq">
+          <span class="eq-label">Optimal overbooking level</span>
+          <div class="eq-line">P(<span class="var">X</span><sub>B*</sub> ≤ <span class="var">C</span>) = <span class="frac"><span class="num"><span class="var">C</span><sub>d</sub></span><span class="den"><span class="var">C</span><sub>d</sub> + <span class="var">C</span><sub>s</sub></span></span> &nbsp;&nbsp;⇔&nbsp;&nbsp; P(<span class="var">X</span><sub>B*</sub> &gt; <span class="var">C</span>) = <span class="frac"><span class="num"><span class="var">C</span><sub>s</sub></span><span class="den"><span class="var">C</span><sub>d</sub> + <span class="var">C</span><sub>s</sub></span></span></div>
+          <div class="eq-note">Denial expensive ⇒ the ratio approaches 1 ⇒ sell little beyond capacity. Spoilage expensive ⇒ the ratio approaches 0 ⇒ sell well beyond it.</div>
+        </div>
+        <p>Worked numerically: <span class="var">C</span> = 150, <span class="var">p</span> = 0.92, <span class="var">C</span><sub>s</sub> = 200, <span class="var">C</span><sub>d</sub> = 900. The critical fractile is 900/1,100 = 0.818. Searching B: at 159 bookings μ = 146.3, σ = 3.42, so P(X ≤ 150) ≈ Φ(1.08) = 0.86; at 160, P ≈ Φ(0.82) = 0.79. The optimum sits at about 160 bookings — roughly ten seats of deliberate overbooking.</p>
+        <figure class="figure">
+          <svg viewBox="0 0 620 260" role="img" aria-labelledby="ovbT ovbD">
+            <title id="ovbT">Expected cost of overbooking against the number of bookings accepted</title>
+            <desc id="ovbD">With a capacity of 150 seats and a 92 percent show rate, expected cost falls from 3,000 at 150 bookings to a minimum near 163 bookings and then rises steeply as denial costs dominate.</desc>
+            <line x1="60" y1="220" x2="580" y2="220" stroke="#94a3b8" stroke-width="1.5"/>
+            <line x1="60" y1="220" x2="60" y2="30" stroke="#94a3b8" stroke-width="1.5"/>
+            <g stroke="#e2e8f0" stroke-width="1">
+              <line x1="60" y1="164.6" x2="580" y2="164.6"/>
+              <line x1="60" y1="109.2" x2="580" y2="109.2"/>
+              <line x1="60" y1="53.8" x2="580" y2="53.8"/>
+            </g>
+            <g font-size="11" fill="#64748b" text-anchor="end">
+              <text x="52" y="224">0</text><text x="52" y="168.6">2k</text><text x="52" y="113.2">4k</text><text x="52" y="57.8">6k</text>
+            </g>
+            <polyline points="60,136.9 160,161.8 260,184 320,189 360,184.3 460,130.1 560,40"
+                      fill="none" stroke="#1565c0" stroke-width="2.6"/>
+            <circle cx="320" cy="189" r="4.5" fill="#2e7d32"/>
+            <line x1="320" y1="189" x2="320" y2="220" stroke="#2e7d32" stroke-width="1.2" stroke-dasharray="4 3"/>
+            <text x="320" y="238" font-size="11" fill="#2e7d32" text-anchor="middle">B* ≈ 163</text>
+            <text x="70" y="128" font-size="11" fill="#64748b">empty seats dominate</text>
+            <text x="392" y="112" font-size="11" fill="#64748b">denied boarding dominates</text>
+            <g font-size="11" fill="#64748b" text-anchor="middle">
+              <text x="60" y="238">150</text><text x="260" y="238">160</text><text x="460" y="238">170</text>
+            </g>
+            <text x="330" y="254" font-size="11" fill="#64748b" text-anchor="middle">bookings accepted</text>
+            <text x="66" y="20" font-size="11" fill="#64748b">expected cost ($)</text>
+          </svg>
+          <figcaption>Chart 6 · The cost curve is flat near the optimum and steep to the right: overbooking a little too much is far more expensive than overbooking a little too little. That asymmetry is why denial costs dominate the ratio.</figcaption>
+        </figure>
+        <p class="callout warn"><b>In cargo the same logic is weaker and stranger.</b> A shipment that does not appear leaves space that may still be filled by another shipment, and “no-show” cargo often simply rolls to the next flight. Overbooking exists, but it is negotiated through allotments more than calculated through a fractile.</p>
+      </section>
+
+      <h2 id="network">8 · Network revenue management<small>When the seat is shared by several markets, the leg is the wrong unit</small></h2>
+      <section class="card">
+        <p>On a connecting network, one seat on leg A–H is also part of the product A–B. Selling it to a local A–H passenger may block a much more valuable A–B passenger. Leg-based controls cannot see that; network controls price the leg by what it enables.</p>
+        <figure class="figure">
+          <svg viewBox="0 0 620 250" role="img" aria-labelledby="netT netD">
+            <title id="netT">A two-leg network with three markets</title>
+            <desc id="netD">Hub H connects A and B. Leg A to H has 120 seats, leg H to B has 100. Local markets A-H and H-B compete with a through market A-B that consumes capacity on both legs.</desc>
+            <line x1="150" y1="130" x2="450" y2="130" stroke="#1565c0" stroke-width="5"/>
+            <circle cx="150" cy="130" r="17" fill="#1565c0"/>
+            <circle cx="450" cy="130" r="17" fill="#1565c0"/>
+            <circle cx="300" cy="130" r="17" fill="#7b1fa2"/>
+            <text x="150" y="135" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">A</text>
+            <text x="300" y="135" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">H</text>
+            <text x="450" y="135" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">B</text>
+            <text x="225" y="120" font-size="11" fill="#334155" text-anchor="middle">leg A–H · 120 seats</text>
+            <text x="375" y="120" font-size="11" fill="#334155" text-anchor="middle">leg H–B · 100 seats</text>
+            <path d="M150 110 Q300 40 450 110" fill="none" stroke="#b45309" stroke-width="2" stroke-dasharray="6 4"/>
+            <text x="300" y="58" font-size="11" fill="#b45309" text-anchor="middle">through market A–B · fare 320 · uses both legs</text>
+            <text x="150" y="168" font-size="11" fill="#475569" text-anchor="middle">local fare 180</text>
+            <text x="450" y="168" font-size="11" fill="#475569" text-anchor="middle">local fare 150</text>
+            <rect x="70" y="196" width="480" height="40" rx="6" fill="#f8fbff" stroke="#cfe0f3"/>
+            <text x="82" y="212" font-size="11" fill="#17386d">Dual prices at the optimum: π(A–H) = 180 · π(H–B) = 150</text>
+            <text x="82" y="228" font-size="11" fill="#0d47a1">Bid price for A–B = 330 &gt; fare 320 ⇒ reject the through request</text>
+          </svg>
+          <figcaption>Diagram 1 · The hub-and-spoke structure that makes leg-based control insufficient. The through passenger consumes two scarce resources, so his fare must beat the sum of both shadow prices.</figcaption>
+        </figure>
+
+        <h3>The linear program and its duals</h3>
+        <p>Network allocation is a packing problem: choose how much of each market to accept so that no leg is oversold.</p>
+        <div class="eq">
+          <span class="eq-label">Network allocation LP</span>
+          <div class="eq-line">max Σ<sub>k</sub> <span class="var">f</span><sub>k</sub>·<span class="var">x</span><sub>k</sub> &nbsp;&nbsp; subject to &nbsp; Σ<sub>k</sub> <span class="var">a</span><sub>ik</sub>·<span class="var">x</span><sub>k</sub> ≤ <span class="var">C</span><sub>i</sub> for every leg i, &nbsp; 0 ≤ <span class="var">x</span><sub>k</sub> ≤ <span class="var">D</span><sub>k</sub></div>
+          <div class="eq-note">f<sub>k</sub> is the fare of market k, x<sub>k</sub> the quantity accepted, a<sub>ik</sub> = 1 if market k uses leg i, C<sub>i</sub> the leg capacity, D<sub>k</sub> the demand.</div>
+        </div>
+        <p>Every capacity constraint has a dual price <span class="var">π</span><sub>i</sub> ≥ 0: the marginal value of one more seat on that leg. Those duals are the <strong>bid prices</strong>, and they turn the optimisation into a rule a reservation system can apply in milliseconds:</p>
+        <div class="eq">
+          <span class="eq-label">Acceptance rule</span>
+          <div class="eq-line">accept request k if &nbsp; <span class="var">f</span><sub>k</sub> ≥ Σ<sub>i∈k</sub> <span class="var">π</span><sub>i</sub></div>
+          <div class="eq-note">A request that uses two legs must beat the sum of both shadow prices. This is why the same seat has a different minimum price depending on the itinerary.</div>
+        </div>
+
+        <h3>Worked example</h3>
+        <div class="scroll">
+          <table class="tbl">
+            <thead><tr><th>Market</th><th>Fare</th><th>Legs used</th><th>Demand</th><th>Leg-based test</th><th>Network test</th></tr></thead>
+            <tbody>
+              <tr><td>A–H local</td><td class="num">180</td><td>A–H</td><td class="num">200</td><td>180 ≥ 180 → accept</td><td>180 ≥ 180 → accept</td></tr>
+              <tr><td>H–B local</td><td class="num">150</td><td>H–B</td><td class="num">200</td><td>150 ≥ 150 → accept</td><td>150 ≥ 150 → accept</td></tr>
+              <tr><td>A–B through</td><td class="num">320</td><td>A–H + H–B</td><td class="num">100</td><td>320 ≥ 150 → accept</td><td>320 &lt; 330 → reject</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The comparison is instructive because both answers look defensible until you do the arithmetic:</p>
+        <ul>
+          <li><strong>Locals only:</strong> 120 × 180 + 100 × 150 = 21,600 + 15,000 = <strong>36,600</strong>.</li>
+          <li><strong>Through first:</strong> 100 × 320 = 32,000, plus the 20 seats left on A–H at 180 = 3,600 → <strong>35,600</strong>.</li>
+        </ul>
+        <p>A leg-based rule accepts the 320 through fare because it beats the 150 local fare on the second leg; it loses 1,000. The network rule rejects it, because the through passenger's true opportunity cost is 330. Raise the through fare to 360 and the decision flips: 100 × 360 + 20 × 180 = 39,600, so accept.</p>
+        <p class="callout"><b>The insight to carry into a conversation:</b> a bid price is not a price list and not a cost. It is the marginal value of capacity, and it changes as the booking horizon advances — which is why the same fare can be accepted in the morning and rejected at night.</p>
+      </section>
+
+      <h2 id="cargo">9 · Cargo: when the unit is a kilogram<small>Two constraints, chargeable weight, and commitments that outrank the optimiser</small></h2>
+      <section class="card">
+        <p>Cargo revenue management keeps the same loop — forecast, price, allocate, measure — but changes the unit of inventory. Capacity is consumed in <strong>kilograms and cubic metres at the same time</strong>, and often in container positions on the deck. Whichever runs out first is the real constraint.</p>
+        <div class="eq">
+          <span class="eq-label">Chargeable weight</span>
+          <div class="eq-line"><span class="var">W</span><sub>c</sub> = max(<span class="var">W</span><sub>actual</sub>, <span class="frac"><span class="num"><span class="var">V</span></span><span class="den">6,000</span></span>) &nbsp;&nbsp; with V in cm³ and W in kg</div>
+          <div class="eq-note">The divisor is the industry volumetric factor: 6,000 cm³ per kilogram, i.e. one cubic metre ≈ 166.7 kg. Light, bulky cargo pays for the space it occupies rather than the weight it registers.</div>
+        </div>
+        <div class="eq">
+          <span class="eq-label">Two-dimensional capacity constraint</span>
+          <div class="eq-line">Σ<sub>k</sub> <span class="var">w</span><sub>k</sub>·<span class="var">x</span><sub>k</sub> ≤ <span class="var">W</span><sub>max</sub> &nbsp;&nbsp; and &nbsp;&nbsp; Σ<sub>k</sub> <span class="var">v</span><sub>k</sub>·<span class="var">x</span><sub>k</sub> ≤ <span class="var">V</span><sub>max</sub></div>
+          <div class="eq-note">Both constraints must hold for every leg. A shipment that is fine on weight can still be refused because the hold is full of light cargo.</div>
+        </div>
+        <figure class="figure">
+          <svg viewBox="0 0 620 260" role="img" aria-labelledby="cgT cgD">
+            <title id="cgT">Weight and volume capacity with the chargeable weight boundary</title>
+            <desc id="cgD">The feasible region is bounded by 20,000 kilograms and 30 cubic metres. A diagonal line separates shipments charged on gross weight from those charged on volumetric weight; two example shipments sit on either side.</desc>
+            <line x1="60" y1="220" x2="580" y2="220" stroke="#94a3b8" stroke-width="1.5"/>
+            <line x1="60" y1="220" x2="60" y2="30" stroke="#94a3b8" stroke-width="1.5"/>
+            <rect x="60" y="85" width="400" height="135" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.4"/>
+            <line x1="60" y1="220" x2="160" y2="85" stroke="#b45309" stroke-width="1.6" stroke-dasharray="6 4"/>
+            <line x1="460" y1="85" x2="460" y2="220" stroke="#93c5fd" stroke-width="1.4"/>
+            <line x1="60" y1="85" x2="460" y2="85" stroke="#93c5fd" stroke-width="1.4"/>
+            <circle cx="120" cy="121" r="5" fill="#7b1fa2"/>
+            <circle cx="300" cy="139" r="5" fill="#2e7d32"/>
+            <text x="130" y="112" font-size="11" fill="#7b1fa2">3 t · 22 m³ → charged on volume</text>
+            <text x="310" y="156" font-size="11" fill="#2e7d32">12 t · 18 m³ → charged on weight</text>
+            <text x="86" y="76" font-size="11" fill="#b45309">chargeable = volume / 6,000</text>
+            <text x="372" y="212" font-size="11" fill="#0d47a1">W ≤ 20 t</text>
+            <text x="466" y="150" font-size="11" fill="#0d47a1">V ≤ 30 m³</text>
+            <g font-size="11" fill="#64748b" text-anchor="middle">
+              <text x="60" y="238">0</text><text x="260" y="238">10 t</text><text x="460" y="238">20 t</text>
+            </g>
+            <g font-size="11" fill="#64748b" text-anchor="end">
+              <text x="52" y="224">0</text><text x="52" y="134">20</text><text x="52" y="89">30</text><text x="52" y="44">40 m³</text>
+            </g>
+            <text x="330" y="254" font-size="11" fill="#64748b" text-anchor="middle">weight offered</text>
+            <text x="66" y="20" font-size="11" fill="#64748b">volume offered</text>
+          </svg>
+          <figcaption>Chart 7 · The feasible rectangle and the line where the two rating bases meet. Above and left of the line, volume binds; below and right, weight binds.</figcaption>
+        </figure>
+        <p>Two commercial structures then sit on top of the optimisation:</p>
+        <ul>
+          <li><strong>Allotments and block-space agreements.</strong> Capacity contractually reserved for a customer, used or not. Free sale is what remains. Any availability logic must respect the hierarchy — committed space first, then contracts with priority, then free sale — because selling into committed space is a contract breach, not an optimisation.</li>
+          <li><strong>Rating.</strong> The price is built from a tariff with minimum charges, weight breaks and pivot weights. It must be deterministic and reproducible: six weeks later, a disputed invoice has to recompute to the same number from the same inputs.</li>
+        </ul>
+        <div class="eq">
+          <span class="eq-label">Rating with a pivot weight</span>
+          <div class="eq-line">charge = max(<span class="var">W</span><sub>c</sub>·<span class="var">r</span><sub>normal</sub>, <span class="var">P</span>·<span class="var">r</span><sub>pivot</sub>, minimum charge)</div>
+          <div class="eq-note">Below the pivot weight the higher rate applies and the charge scales with the pivot; above it the normal rate takes over. This is why a heavier shipment can cost less than a lighter one.</div>
+        </div>
+      </section>
+
+      <h2 id="production">10 · From theory to production<small>Why the model is the easy part</small></h2>
+      <section class="card">
+        <p>In a live system the optimisation is a small step inside a daily cycle, and most failures happen around it rather than inside it.</p>
+        <figure class="figure">
+          <svg viewBox="0 0 620 130" role="img" aria-labelledby="cycT cycD">
+            <title id="cycT">The daily revenue management cycle</title>
+            <desc id="cycD">Five steps: feeds, forecast, optimise, publish and measure, connected in sequence and returning to the forecast the next day.</desc>
+            <defs>
+              <marker id="cycArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#94a3b8"/></marker>
+            </defs>
+            <g font-size="12" font-weight="700" fill="#17386d" text-anchor="middle">
+              <rect x="26" y="30" width="96" height="44" rx="6" fill="#f8fbff" stroke="#d8e1ea"/><text x="74" y="50">Feeds</text>
+              <rect x="144" y="30" width="96" height="44" rx="6" fill="#f8fbff" stroke="#d8e1ea"/><text x="192" y="50">Forecast</text>
+              <rect x="262" y="30" width="96" height="44" rx="6" fill="#f8fbff" stroke="#d8e1ea"/><text x="310" y="50">Optimise</text>
+              <rect x="380" y="30" width="96" height="44" rx="6" fill="#f8fbff" stroke="#d8e1ea"/><text x="428" y="50">Publish</text>
+              <rect x="498" y="30" width="96" height="44" rx="6" fill="#eef8f5" stroke="#9ccdc3"/><text x="546" y="50">Measure</text>
+            </g>
+            <g font-size="9" fill="#64748b" text-anchor="middle">
+              <text x="74" y="62">schedules, bookings</text>
+              <text x="192" y="62">curves, censoring</text>
+              <text x="310" y="62">LP, duals</text>
+              <text x="428" y="62">limits, bid prices</text>
+              <text x="546" y="62">revenue, spill</text>
+            </g>
+            <g stroke="#94a3b8" stroke-width="2" marker-end="url(#cycArrow)">
+              <line x1="124" y1="52" x2="140" y2="52"/><line x1="242" y1="52" x2="258" y2="52"/>
+              <line x1="360" y1="52" x2="376" y2="52"/><line x1="478" y1="52" x2="494" y2="52"/>
+            </g>
+            <path d="M546 78 L546 96 L74 96 L74 78" fill="none" stroke="#7b1fa2" stroke-width="1.6" stroke-dasharray="5 3" marker-end="url(#cycArrow)"/>
+            <text x="310" y="114" font-size="10" fill="#7b1fa2" text-anchor="middle">results become tomorrow's history</text>
+          </svg>
+          <figcaption>Diagram 2 · One cycle. The window between “optimise” and “publish” is the operational constraint: miss it and the day starts with yesterday's controls.</figcaption>
+        </figure>
+        <p>What tends to break, in order of frequency:</p>
+        <ul>
+          <li><strong>Data arriving late or short.</strong> A schedule file missing a hundred flights must fail the run, not become a plan with invisible gaps.</li>
+          <li><strong>Unconstrained demand computed from constrained observations.</strong> The feedback loop described in section 4, invisible in a demo and expensive over a year.</li>
+          <li><strong>Optimiser output nobody can explain.</strong> A planner who cannot see why a bid price moved will switch the control off. Explainability is a production requirement, not a nice-to-have.</li>
+          <li><strong>Latency at the availability layer.</strong> Controls are useless if the query path cannot return them in milliseconds; caching and pre-computation belong in the design from the start.</li>
+        </ul>
+      </section>
+
+      <h2 id="example">11 · Worked example, end to end<small>One flight, four fares, 150 seats</small></h2>
+      <section class="card">
+        <p>A single-leg flight with 150 seats. Fares and demand forecasts:</p>
+        <div class="scroll">
+          <table class="tbl">
+            <thead><tr><th>Class</th><th class="num">Fare</th><th class="num">μ demand</th><th class="num">σ</th><th class="num">Protection above</th><th class="num">Booking limit</th><th class="num">Seats at limit</th><th class="num">Revenue</th></tr></thead>
+            <tbody>
+              <tr><td>Y</td><td class="num">400</td><td class="num">25</td><td class="num">8</td><td class="num">22</td><td class="num">150</td><td class="num">22</td><td class="num">8,800</td></tr>
+              <tr><td>M</td><td class="num">250</td><td class="num">35</td><td class="num">10</td><td class="num">61</td><td class="num">128</td><td class="num">39</td><td class="num">9,750</td></tr>
+              <tr><td>K</td><td class="num">150</td><td class="num">45</td><td class="num">12</td><td class="num">111</td><td class="num">89</td><td class="num">50</td><td class="num">7,500</td></tr>
+              <tr><td>L</td><td class="num">90</td><td class="num">open</td><td class="num">—</td><td class="num">—</td><td class="num">39</td><td class="num">39</td><td class="num">3,510</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The protections come from the EMSR-b formula in section 6: against L, protect 111 (limit 39); against K, protect 61 (limit 89); against M, protect 22 (limit 128). If every class sells to its limit, the flight earns <strong>29,560</strong> — an average of 197 per seat.</p>
+        <div class="eq">
+          <span class="eq-label">The value of the policy, in one comparison</span>
+          <div class="eq-line">selling all 150 seats at the cheapest fare: 150 × 90 = <strong>13,500</strong></div>
+          <div class="eq-line">selling under the protection levels: <strong>29,560</strong> &nbsp; (2.2× more, same aircraft, same seats)</div>
+          <div class="eq-note">That gap is the entire business case for revenue management, and it is also its risk: the policy earns more only if the high-fare demand actually appears. If it does not, the protected seats depart empty.</div>
+        </div>
+        <p>Add the overbooking decision from section 7: with a 92% show rate and costs of 200 for spoilage and 900 for denial, the optimal booking level is about 160 — ten seats above capacity, accepting a small probability of denying boarding to avoid a much larger probability of flying with empty seats.</p>
+      </section>
+
+      <h2 id="sheet">12 · Formula sheet<small>Everything above, in one place</small></h2>
+      <section class="card">
+        <div class="scroll">
+          <table class="tbl">
+            <thead><tr><th>Concept</th><th>Expression</th><th>What it decides</th></tr></thead>
+            <tbody>
+              <tr><td>Load factor</td><td>RPK / ASK</td><td>Occupancy, not profitability</td></tr>
+              <tr><td>Yield</td><td>Revenue / RPK</td><td>Average price per unit sold</td></tr>
+              <tr><td>RASK</td><td>Revenue / ASK = yield × load factor</td><td>Revenue per unit of capacity offered</td></tr>
+              <tr><td>Elasticity</td><td>ε = (ΔQ/Q) / (ΔP/P)</td><td>Whether a price rise gains revenue</td></tr>
+              <tr><td>Revenue max (linear demand)</td><td>P* = a / 2b for Q = a − bP</td><td>Unconstrained price</td></tr>
+              <tr><td>Smoothing forecast</td><td>F<sub>t+1</sub> = αA<sub>t</sub> + (1−α)F<sub>t</sub></td><td>Projection of the remaining curve</td></tr>
+              <tr><td>Bias</td><td>mean((F − A) / A)</td><td>Systematic under- or over-forecasting</td></tr>
+              <tr><td>Littlewood</td><td>P(D<sub>H</sub> &gt; y*) = f<sub>L</sub>/f<sub>H</sub></td><td>Protection in two classes</td></tr>
+              <tr><td>Normal protection</td><td>y* = μ + σΦ⁻¹(1 − f<sub>L</sub>/f<sub>H</sub>)</td><td>Same, with a demand distribution</td></tr>
+              <tr><td>EMSR-b</td><td>y<sub>j</sub> = μ<sub>j</sub> + σ<sub>j</sub>Φ⁻¹(1 − f<sub>j+1</sub>/f̄<sub>j</sub>)</td><td>Protection with several classes</td></tr>
+              <tr><td>Overbooking</td><td>P(X ≤ C) = C<sub>d</sub>/(C<sub>d</sub> + C<sub>s</sub>)</td><td>How far beyond capacity to sell</td></tr>
+              <tr><td>Network LP</td><td>max Σ f<sub>k</sub>x<sub>k</sub> s.t. Σ a<sub>ik</sub>x<sub>k</sub> ≤ C<sub>i</sub></td><td>Capacity allocation across O&amp;D markets</td></tr>
+              <tr><td>Bid price rule</td><td>accept if f<sub>k</sub> ≥ Σ π<sub>i</sub></td><td>Real-time accept or reject</td></tr>
+              <tr><td>Chargeable weight</td><td>max(W, V/6,000)</td><td>Cargo rating basis</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <h2 id="sources">13 · Sources and caveats<small>What this note is, and what it is not</small></h2>
+      <section class="card">
+        <p><strong>Primary source.</strong> This note expands the transcript “What Is Airline Revenue Management?” (Global Insights 24), which introduces the definition, the 1980s deregulation context, forecasting, pricing, inventory control, segmentation and overbooking. The transcript is an overview; the mathematics, examples and charts here are built around it to make the concepts teachable.</p>
+        <p><strong>Standard results used.</strong> Littlewood's rule (1972) for two-class protection; EMSR and EMSR-b (Belobaba, 1989) for multi-class protection; the newsvendor critical fractile for overbooking; the network allocation LP and its dual prices for bid-price control. These are textbook results, presented here with their derivations rather than as citations of authority.</p>
+        <p class="callout warn"><b>Caveats.</b> All numbers are illustrative and internally consistent but not taken from an airline. Real implementations add constraints this note simplifies: time-dependent demand, competition, fare rules, connecting itineraries, cargo allotments, and forecasting error that is correlated across departures. Treat the formulas as the shape of the reasoning, not as an implementation specification.</p>
+      </section>
+
+      <p class="footer">Teaching note · airline revenue management · derived from a public explainer transcript, expanded with standard theory and worked examples.</p>
+    </main>
+  </div>
+
+  <a class="totop-fab" href="#what" aria-label="Back to top">↑ Top</a>
+
+  <script>
+    (function () {
+      var links = Array.prototype.slice.call(document.querySelectorAll('.sidenav-body a'));
+      if (!links.length) { return; }
+      var byId = {};
+      links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+      var targets = Object.keys(byId).map(function (id) { return document.getElementById(id); }).filter(Boolean);
+      var activeId = null;
+
+      function setActive(id) {
+        if (!id || id === activeId) { return; }
+        activeId = id;
+        links.forEach(function (a) { a.classList.toggle('active', a === byId[id]); });
+      }
+      function sync() {
+        var current = targets.length ? targets[0].id : null;
+        for (var i = 0; i < targets.length; i++) {
+          if (targets[i].getBoundingClientRect().top <= 130) { current = targets[i].id; } else { break; }
+        }
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4 && targets.length) {
+          current = targets[targets.length - 1].id;
+        }
+        setActive(current);
+      }
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (ticking) { return; }
+        ticking = true;
+        window.requestAnimationFrame(function () { sync(); ticking = false; });
+      }, { passive: true });
+      window.addEventListener('resize', sync);
+      sync();
+    })();
+  </script>
+</body>
+</html>
