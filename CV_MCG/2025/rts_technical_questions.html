@@ -88,6 +88,11 @@
     .rubric th,.rubric td { padding:5px 7px; border:1px solid var(--line); text-align:left; vertical-align:top; }
     .rubric th { background:var(--soft); color:#0d47a1; }
     .rubric td:first-child { font-weight:800; color:#475569; white-space:nowrap; }
+    .gloss-sub { margin:2px 0 6px; color:#17386d; font-size:.95rem; }
+    .concept-map { display:grid; gap:8px; margin:0 0 10px; }
+    .figure { margin:0; padding:8px 10px; border:1px solid var(--line); border-radius:8px; background:#fff; }
+    .figure svg { display:block; width:100%; height:auto; }
+    .figure figcaption { margin-top:5px; color:#64748b; font-size:.78rem; font-weight:700; }
     .gloss-tools { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:0 0 8px; }
     .gloss-tools label { color:#64748b; font-size:.76rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
     .gloss-tools input { flex:1 1 260px; min-height:32px; padding:5px 10px; border:1px solid #cbd5e1; border-radius:999px; background:#fff; color:var(--ink); font:inherit; font-size:.88rem; }
@@ -240,6 +245,93 @@
 
     <h2 class="section-title" id="glossary">Glossary<small>Business vocabulary to use precisely — and the phrasing that betrays a newcomer</small></h2>
     <section class="card">
+      <h3 class="gloss-sub">How the concepts relate</h3>
+      <div class="concept-map">
+
+        <figure class="figure">
+          <svg viewBox="0 0 680 416" role="img" aria-labelledby="dgm-loop-t dgm-loop-d">
+            <title id="dgm-loop-t">The revenue management loop</title>
+            <desc id="dgm-loop-d">Five steps: capacity and commitments, forecast, bid price, availability, results, returning to the forecast.</desc>
+            <line x1="76" y1="60" x2="76" y2="348" stroke="#cbd5e1" stroke-width="3"/>
+            <circle cx="76" cy="60" r="14" fill="#1565c0"/><text x="76" y="60" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#ffffff">1</text>
+            <circle cx="76" cy="132" r="14" fill="#1565c0"/><text x="76" y="132" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#ffffff">2</text>
+            <circle cx="76" cy="204" r="14" fill="#1565c0"/><text x="76" y="204" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#ffffff">3</text>
+            <circle cx="76" cy="276" r="14" fill="#1565c0"/><text x="76" y="276" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#ffffff">4</text>
+            <circle cx="76" cy="348" r="14" fill="#00695c"/><text x="76" y="348" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#ffffff">5</text>
+            <rect x="104" y="33" width="536" height="54" rx="7" fill="#f8fbff" stroke="#d8e1ea"/>
+            <text x="120" y="54" font-size="13" font-weight="700" fill="#17386d">Capacity and commitments</text>
+            <text x="120" y="73" font-size="12" fill="#5b6470">kilograms, cubic metres, ULD positions, allotments and block-space agreements</text>
+            <rect x="104" y="105" width="536" height="54" rx="7" fill="#f8fbff" stroke="#d8e1ea"/>
+            <text x="120" y="126" font-size="13" font-weight="700" fill="#17386d">Forecast</text>
+            <text x="120" y="145" font-size="12" fill="#5b6470">unconstrained demand per market and days to departure</text>
+            <rect x="104" y="177" width="536" height="54" rx="7" fill="#f8fbff" stroke="#d8e1ea"/>
+            <text x="120" y="198" font-size="13" font-weight="700" fill="#17386d">Bid price</text>
+            <text x="120" y="217" font-size="12" fill="#5b6470">displacement cost of one more unit — what we give up by selling now</text>
+            <rect x="104" y="249" width="536" height="54" rx="7" fill="#f8fbff" stroke="#d8e1ea"/>
+            <text x="120" y="270" font-size="13" font-weight="700" fill="#17386d">Availability</text>
+            <text x="120" y="289" font-size="12" fill="#5b6470">what is offered, to whom, at what price: fare class, bucket, free sale</text>
+            <rect x="104" y="321" width="536" height="54" rx="7" fill="#eef8f5" stroke="#9ccdc3"/>
+            <text x="120" y="342" font-size="13" font-weight="700" fill="#1f3b35">Results</text>
+            <text x="120" y="361" font-size="12" fill="#3d5c55">yield, RASK, load factor and utilisation — the numbers that start the next cycle</text>
+            <text x="40" y="400" font-size="12" fill="#64748b">The loop closes after departure: measured results become the history the next forecast learns from.</text>
+          </svg>
+          <figcaption>1 · The loop. Every other term on this page belongs to one of these five steps.</figcaption>
+        </figure>
+
+        <figure class="figure">
+          <svg viewBox="0 0 680 298" role="img" aria-labelledby="dgm-cap-t dgm-cap-d">
+            <title id="dgm-cap-t">From physical capacity to sellable availability</title>
+            <desc id="dgm-cap-d">Nested layers: physical capacity, then committed allotments, then free sale, then availability at a price.</desc>
+            <rect x="40" y="44" width="560" height="46" rx="6" fill="#eff6ff" stroke="#93c5fd"/>
+            <text x="52" y="67" font-size="13" font-weight="700" fill="#0d47a1">Physical capacity</text>
+            <text x="190" y="67" font-size="12" fill="#334155">weight, volume, ULD, lane metres, rail segments</text>
+            <rect x="40" y="100" width="470" height="46" rx="6" fill="#fbf9fe" stroke="#c4b5fd"/>
+            <text x="52" y="123" font-size="13" font-weight="700" fill="#4a2f66">Committed</text>
+            <text x="152" y="123" font-size="12" fill="#334155">allotments, block-space agreements, contract rates</text>
+            <rect x="40" y="156" width="350" height="46" rx="6" fill="#f4fbf5" stroke="#9ccfa4"/>
+            <text x="52" y="179" font-size="13" font-weight="700" fill="#1f4d29">Free sale</text>
+            <text x="136" y="179" font-size="12" fill="#334155">genuinely open after commitments</text>
+            <rect x="40" y="212" width="230" height="46" rx="6" fill="#eef8f5" stroke="#9ccdc3"/>
+            <text x="52" y="235" font-size="13" font-weight="700" fill="#1f3b35">Availability at a price</text>
+            <text x="52" y="251" font-size="11" fill="#3d5c55">fare class / bucket, rules, embargoes</text>
+            <text x="290" y="235" font-size="12" fill="#64748b">Each layer is a subset of the one above.</text>
+          </svg>
+          <figcaption>2 · The capacity stack. “We have space” is the top bar; what you can actually sell is the bottom one.</figcaption>
+        </figure>
+
+        <figure class="figure">
+          <svg viewBox="0 0 680 136" role="img" aria-labelledby="dgm-ship-t dgm-ship-d">
+            <title id="dgm-ship-t">From shipment to invoice</title>
+            <desc id="dgm-ship-d">Five steps: AWB, chargeable weight, routing and cut-off, rating, invoice and audit trail.</desc>
+            <defs>
+              <marker id="dgm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0 L10 5 L0 10 z" fill="#94a3b8"/>
+              </marker>
+            </defs>
+            <rect x="40" y="40" width="104" height="56" rx="6" fill="#f8fbff" stroke="#d8e1ea"/>
+            <text x="52" y="64" font-size="12" font-weight="700" fill="#17386d">AWB</text>
+            <text x="52" y="82" font-size="11" fill="#5b6470">shipment id</text>
+            <path d="M148 68 L160 68" stroke="#94a3b8" stroke-width="2" marker-end="url(#dgm-arrow)"/>
+            <rect x="164" y="40" width="104" height="56" rx="6" fill="#f8fbff" stroke="#d8e1ea"/>
+            <text x="176" y="64" font-size="12" font-weight="700" fill="#17386d">Chargeable</text>
+            <text x="176" y="82" font-size="11" fill="#5b6470">weight basis</text>
+            <path d="M272 68 L284 68" stroke="#94a3b8" stroke-width="2" marker-end="url(#dgm-arrow)"/>
+            <rect x="288" y="40" width="104" height="56" rx="6" fill="#f8fbff" stroke="#d8e1ea"/>
+            <text x="300" y="64" font-size="12" font-weight="700" fill="#17386d">Routing</text>
+            <text x="300" y="82" font-size="11" fill="#5b6470">cut-off, transit</text>
+            <path d="M396 68 L408 68" stroke="#94a3b8" stroke-width="2" marker-end="url(#dgm-arrow)"/>
+            <rect x="412" y="40" width="104" height="56" rx="6" fill="#f8fbff" stroke="#d8e1ea"/>
+            <text x="424" y="64" font-size="12" font-weight="700" fill="#17386d">Rating</text>
+            <text x="424" y="82" font-size="11" fill="#5b6470">tariff, pivot</text>
+            <path d="M520 68 L532 68" stroke="#94a3b8" stroke-width="2" marker-end="url(#dgm-arrow)"/>
+            <rect x="536" y="40" width="104" height="56" rx="6" fill="#eef8f5" stroke="#9ccdc3"/>
+            <text x="548" y="64" font-size="12" font-weight="700" fill="#1f3b35">Invoice</text>
+            <text x="548" y="82" font-size="11" fill="#3d5c55">audit trail</text>
+          </svg>
+          <figcaption>3 · The shipment. Weight and route decide the price; the audit trail is what settles the dispute.</figcaption>
+        </figure>
+
+      </div>
       <div class="gloss-tools">
         <label for="gloss-filter">Filter</label>
         <input type="search" id="gloss-filter" placeholder="Type a term, e.g. allotment, yield, AWB…" autocomplete="off">
