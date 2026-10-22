@@ -223,7 +223,7 @@
         <a href="#q20" class="snav-sub"><span aria-hidden="true">🛡️</span> Q20 · Faster without riskier</a>
         <a href="#part3" class="snav-group"><span aria-hidden="true">🏁</span> Part 3 · building from zero</a>
         <a href="#q21" class="snav-sub"><span aria-hidden="true">🅰️</span> Q21 · Angular from scratch</a>
-        <a href="#q22" class="snav-sub"><span aria-hidden="true">⚡</span> Q22 · .NET from scratch</a>
+        <a href="#q22" class="snav-sub"><span aria-hidden="true">⚡</span> Q22 · REST API in C#</a>
         <a href="#q23" class="snav-sub"><span aria-hidden="true">🔗</span> Q23 · Wiring both together</a>
         <a href="#mapping" class="snav-group"><span aria-hidden="true">🎯</span> JD to outcome</a>
         <a href="#ask"><span aria-hidden="true">❓</span> Questions to ask him</a>
@@ -490,7 +490,7 @@
         <li><a href="#q19">“Optimize databases, performance and reliability” — the monthly close gets slower every year</a></li>
         <li><a href="#q20">“AI-assisted development, code reviews, deployments, incidents” — going faster without going riskier</a></li>
         <li><a href="#q21">How would you structure an Angular application from scratch</a></li>
-        <li><a href="#q22">How would you structure a .NET 8 solution from scratch</a></li>
+        <li><a href="#q22">How would you design and build a REST API in C# from scratch</a></li>
         <li><a href="#q23">How do you wire Angular and .NET together from day one</a></li>
       </ol>
       <p class="note" style="margin-bottom:0"><strong>How to use this page.</strong> Answers are collapsed. Part 1 (Q1–Q10) is the business conversation a cargo VP will actually have; part 2 (Q11–Q20) takes the job description line by line, and part 3 (Q21–Q23) covers starting an Angular and .NET project from nothing and shows the business problem, the solution and the number that proves it worked. Read the question, answer out loud, then expand and compare — if your version is longer, cut it.</p>
@@ -1303,47 +1303,83 @@ tools/             OpenAPI client generation, lint presets</code></pre>
       <div class="q-head">
         <span class="q-num">Q22</span>
         <span class="q-tag">Architecture</span>
-        <span class="q-tag dom">.NET from scratch</span>
+        <span class="q-tag dom">REST API · C#</span>
       </div>
-      <h3>How would you structure a .NET 8 solution from scratch?</h3>
+      <h3>How would you design and build a REST API in C# from scratch?</h3>
 
       <div class="ask">
-        <b>Question:</b> “Same situation on the server: a new backend for a product that will live for years, with rules that a client will audit. How do you lay out the solution, and what do you put in place before the first endpoint?”
+        <b>Question:</b> “Now the server — and I am more interested in the API than in the folder tree. This API will be called by our own portal and by a partner's integration, and the pricing rules behind it get audited. How do you design the API, and what is in place before the first endpoint is exposed?”
       </div>
 
       <div class="probe">
-        <b>What he is really testing:</b> whether layering is a dependency rule or a folder diagram, and whether the non-functional pieces — configuration, validation, logging, migrations, tests — are designed or bolted on after the first incident.
+        <b>What he is really testing:</b> whether REST means a resource model and a contract clients can live with — status codes, error shape, pagination, concurrency, versioning — or just JSON over HTTP with one endpoint per screen. He is also listening for how deliberate the C# is: async and cancellation, DTO boundaries, and the platform pieces that stop an integration from breaking on a Friday.
       </div>
 
       <details class="answer">
-        <summary>Show answer <span class="summary-hint">· solution tree, dependency rule, cross-cutting, tests, pipeline</span></summary>
+        <summary>Show answer <span class="summary-hint">· resource model, HTTP contract, C# structure, endpoint, tests, pipeline</span></summary>
         <div class="answer-body">
-      <p>“I keep four projects and one rule: dependencies point inward, and the business rules never see HTTP, SQL or a framework type. Everything else is plumbing I put in place in the first week.”</p>
-      <pre><code>src/
-  Rts.Api/              minimal APIs, filters, ProblemDetails, auth policies, composition root
-  Rts.Application/      use cases, DTOs, validators, ports (interfaces)
-  Rts.Domain/           entities, value objects, pricing rules — zero framework references
-  Rts.Infrastructure/   EF Core, Dapper read models, integrations, migrations
-tests/
-  Rts.UnitTests/        domain and use cases, no database
-  Rts.IntegrationTests/ WebApplicationFactory + Testcontainers
-  Rts.ArchitectureTests/dependency rules asserted in code
-Directory.Build.props    nullable, analyzers, deterministic build
-Directory.Packages.props central package versions
-global.json              pinned SDK</code></pre>
+      <p>“A REST API is a contract, so I design the contract first and let the C# implementation follow it. The unit of design is the resource the business already names — shipment, quote, allotment, rate — not the screen that will consume it.”</p>
       <ul>
-        <li><strong>Feature slices inside the layers.</strong> Application code is grouped by use case (<code>Pricing/QuoteShipment</code>) rather than by technical type, so a rule change touches one folder.</li>
-        <li><strong>Cross-cutting, decided once.</strong> Global exception handling returning <code>ProblemDetails</code>; validation with FluentValidation auto-applied at the boundary; correlation id; Serilog to structured storage; OpenTelemetry traces; health checks split into liveness and readiness.</li>
-        <li><strong>Data.</strong> EF Core for writes with migrations reviewed like code, Dapper for reporting reads; <code>AsNoTracking</code> and projection on read paths; keyset pagination; secrets outside the repository (user-secrets locally, a vault in each environment).</li>
-        <li><strong>Security.</strong> JWT bearer validation against the identity provider's discovery document, policy-based authorization next to each endpoint, ownership checks inside the handler — not only role checks.</li>
-        <li><strong>Tests that catch regressions, not coverage.</strong> Unit tests on pricing rules with golden cases per client; integration tests against a real database in a container; architecture tests that fail when someone references Infrastructure from Domain.</li>
-        <li><strong>Pipeline.</strong> <code>dotnet build</code> with warnings as errors, <code>dotnet format --verify-no-changes</code>, unit and integration tests, container image built once and promoted, and a migration step that is additive and reversible before it is applied.</li>
+        <li><strong>Resources are business nouns, plural, and stable.</strong> <code>GET /v1/shipments?status=booked&amp;cursor=…</code>, <code>GET /v1/shipments/{awb}</code>, <code>POST /v1/shipments</code>, <code>POST /v1/shipments/{awb}/rating</code>. Anything that is not CRUD becomes an action sub-resource with a noun name (<code>/rating</code>, <code>/rebooking</code>), never <code>/doRate</code>.</li>
+        <li><strong>The contract is a file, not a controller.</strong> <code>contracts/openapi.yaml</code> reviewed with the consumer and versioned in git; the C# types and the TypeScript client are generated from it, and CI fails on an unannounced breaking change. Swagger UI is documentation, never the source of truth.</li>
+        <li><strong>Status codes are part of the contract.</strong> <code>201</code> with a <code>Location</code> when a shipment is created, <code>202</code> when rating goes to a queue, <code>204</code> on delete, <code>409</code> for a conflicting allotment, <code>412</code> when a rate changed under the caller, <code>422</code> for a business rule, <code>429</code> with <code>Retry-After</code> at the gateway. Returning <code>200</code> for everything forces every client to parse a payload to find out what happened.</li>
+        <li><strong>One error shape everywhere:</strong> RFC 9457 <code>ProblemDetails</code> plus <code>errorCode</code>, <code>traceId</code> and field-level details, so a partner's support team can quote an identifier and I find the request in one query.</li>
+        <li><strong>Collections:</strong> cursor pagination on a stable sort key (<code>?limit=50&amp;cursor=…</code>) instead of <code>OFFSET</code> on a table that is still being written; filters as allow-listed query parameters; total counts behind a flag, because counting is the expensive part.</li>
+        <li><strong>Writes that move money need idempotency:</strong> an <code>Idempotency-Key</code> header on <code>POST</code>, stored with the response, so a retried booking returns the original result and not a second shipment.</li>
+        <li><strong>Concurrency:</strong> <code>ETag</code>/<code>If-Match</code> on mutable commercial data — rates, allotments — so a lost update becomes a <code>412</code> instead of a silent price change.</li>
+        <li><strong>Versioning</strong> in the path (<code>/v1</code>) only for breaking changes; everything else evolves additively with optional fields and tolerant readers, and deprecation is announced with headers and a date.</li>
+        <li><strong>At the edge:</strong> JWT bearer validation against the discovery document, a policy per operation, ownership checks inside the handler, rate limiting per client, request-size limits, CORS restricted to known origins, and <code>Cache-Control</code>/<code>ETag</code> on reference data that is not user-specific.</li>
       </ul>
-      <p>The order matters: contract and configuration first, one vertical slice end to end second, then breadth. A solution that has authentication, logging, a migration and one tested endpoint working is a real foundation; twenty empty projects are not.</p>
-      <div class="say"><b>Say it like this:</b> “Four projects, dependencies pointing inward, business rules with no framework references — plus the non-functional pieces on day one: ProblemDetails, validation, structured logs, health checks, migrations and an architecture test that enforces the rule.”</div>
-      <div class="tech-line"><b>One line of proof, if asked:</b> “If someone in Domain needs <code>DbContext</code> to make the rule work, the model is wrong — that is the test I would rather fail in CI than discover in a client audit.”</div>
+      <p>The C# then follows that contract, with dependencies pointing inward and the business rules never seeing HTTP, SQL or a framework type:</p>
+      <pre><code>src/
+  Rts.Api/              ASP.NET Core Web API: endpoint groups, filters, ProblemDetails, auth policies, OpenAPI
+  Rts.Application/      use cases, request/response DTOs, validators, ports
+  Rts.Domain/           entities, value objects, rating and allotment rules — no framework types
+  Rts.Infrastructure/   EF Core writes, Dapper read models, outbound clients, migrations
+tests/
+  Rts.UnitTests/        rules and validators, no I/O
+  Rts.IntegrationTests/ WebApplicationFactory + Testcontainers, one test per contract behaviour
+  Rts.ArchitectureTests/Domain must not reference Infrastructure or ASP.NET
+contracts/openapi.yaml  the published contract
+Directory.Build.props   nullable, analyzers as errors, deterministic build
+global.json             pinned SDK</code></pre>
+      <p>One endpoint, written the way I would want it reviewed — the contract is visible in the signature, the failure modes are declared, and no EF entity leaves the handler:</p>
+      <pre><code>var shipments = app.MapGroup("/v1/shipments").RequireAuthorization("CargoWriter");
+
+shipments.MapPost("/", async (
+    CreateShipmentRequest request,
+    IValidator&lt;CreateShipmentRequest&gt; validator,
+    IIdempotencyStore idempotency,
+    IShipmentService service,
+    HttpContext http,
+    CancellationToken ct) =&gt;
+{
+    var validation = await validator.ValidateAsync(request, ct);
+    if (!validation.IsValid)
+        return Results.ValidationProblem(validation.ToDictionary());
+
+    var key = http.Request.Headers["Idempotency-Key"].ToString();
+    if (string.IsNullOrWhiteSpace(key))
+        return Results.Problem("Idempotency-Key header is required.", statusCode: 400);
+
+    var created = await idempotency.OnceAsync(key, () =&gt; service.CreateAsync(request, ct));
+
+    return Results.CreatedAtRoute("GetShipment", new { awb = created.Awb }, created);
+})
+.WithName("CreateShipment")
+.Produces&lt;ShipmentResponse&gt;(201)
+.ProducesProblem(400).ProducesProblem(409).ProducesProblem(422);</code></pre>
+      <ul>
+        <li><strong>Async all the way down, with the token honoured.</strong> The <code>CancellationToken</code> reaches EF Core and every outbound call, so an abandoned request stops holding a connection; outbound calls get a timeout, bounded retries with jitter and a circuit breaker, and a retry never repeats a non-idempotent write.</li>
+        <li><strong>DTOs at the boundary.</strong> Nothing in the response is an entity: the first column someone adds to the table should not silently appear in a partner's payload.</li>
+        <li><strong>Tests are contract tests.</strong> Per endpoint: happy path, validation failure, unauthorised, conflict, and a replayed <code>Idempotency-Key</code> — against a real PostgreSQL in Testcontainers. Architecture tests keep the domain framework-free, and the generated client compiling in a consumer test catches the break before the partner does.</li>
+        <li><strong>Pipeline:</strong> <code>dotnet build</code> with warnings as errors, <code>dotnet format --verify-no-changes</code>, unit and integration tests, the image built once and promoted, migrations additive and reversible, and the OpenAPI diff published on every pull request.</li>
+      </ul>
+      <p>Order of work: the contract, then one resource end to end — create a shipment, read it back, see the error shape and the log line — and only then breadth. An API with one honest vertical slice, correct status codes, a correlation id and a passing integration test is a foundation; twenty controllers returning <code>200</code> for everything is a liability.</p>
+      <div class="say"><b>Say it like this:</b> “Contract first: resources as business nouns, honest status codes, one error shape, cursor pagination, idempotency keys on writes, ETag on anything two people can overwrite — then ASP.NET Core with four projects and dependencies pointing inward, and integration tests that run against a real database.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “If the partner retries a booking because our gateway timed out, they get the original booking back, not a second one — that is the idempotency store, and it is the first test I write.”</div>
       <div class="followups">
-        <b>If he pushes:</b> Controllers or minimal APIs? · Where do you put a rule that spans two aggregates? · How do you handle a client-specific calculation without forking?
+        <b>If he pushes:</b> Minimal APIs or controllers? · How do you version an API without forking the code? · A stale rate: 409 or 412? · How do you keep the OpenAPI document honest? · Where does a client-specific calculation live?
       </div>
         </div>
       </details>
