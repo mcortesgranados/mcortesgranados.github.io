@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RTS | Technical Evaluation Questions — Revenue Management, Cargo, Ferry, Rail</title>
+  <style>
+    :root { --blue:#1565c0; --green:#2e7d32; --purple:#7b1fa2; --teal:#00695c; --ink:#23272f; --soft:#e3f2fd; --line:#d8e1ea; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#fafbfc; color:var(--ink); font-family:'Segoe UI',Arial,sans-serif; line-height:1.42; font-size:.95rem; }
+    .skip-link { position:absolute; left:12px; top:8px; z-index:40; display:inline-block; padding:6px 12px; border:1px solid #93c5fd; border-radius:999px; background:#fff; color:#0d47a1; font-size:.82rem; font-weight:850; text-decoration:none; box-shadow:0 2px 6px rgba(15,23,42,.12); }
+    .skip-link:focus-visible { outline:3px solid var(--blue); outline-offset:2px; }
+    .header { position:sticky; top:0; z-index:10; display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; padding:6px 10px; border-bottom:1px solid #cbd5e1; background:rgba(255,255,255,.98); box-shadow:0 2px 8px rgba(15,23,42,.08); }
+    .header .brand { display:inline-flex; align-items:center; gap:8px; text-decoration:none; }
+    .header .brand .mark { display:inline-flex; align-items:center; justify-content:center; width:44px; height:30px; border-radius:7px; background:linear-gradient(135deg,#1565c0,#00695c); color:#fff; font-size:.82rem; font-weight:900; letter-spacing:.06em; }
+    .header .brand .brand-note { color:#64748b; font-size:.7rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+    .header strong { color:var(--blue); font-size:.95rem; }
+    .header .header-links { display:flex; flex-wrap:wrap; gap:5px; margin-left:auto; }
+    .header a:not(.brand) { padding:3px 8px; border:1px solid #cbd5e1; border-radius:999px; background:#f8fafc; color:#334155; font-size:.78rem; font-weight:800; text-decoration:none; }
+    .header a:not(.brand):hover { background:#eff6ff; border-color:#93c5fd; color:#0d47a1; }
+    .container { max-width:none; margin:0; padding:7px 10px; }
+    .hero,.card { padding:12px 14px; border:1px solid var(--line); border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.04); }
+    .hero { background:linear-gradient(120deg,#eff6ff,#fff,#e8f5f1); }
+    .hero .hero-kicker { display:flex; flex-wrap:wrap; align-items:center; gap:9px; margin-bottom:5px; color:#64748b; font-size:.76rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .hero h1 { margin:0; color:var(--blue); font-size:clamp(1.28rem,2.6vw,1.7rem); }
+    .hero p { margin:5px 0 0; max-width:108ch; }
+    .chips { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+    .chips span { padding:2px 8px; border:1px solid #cbd5e1; border-radius:999px; background:#f8fafc; color:#334155; font-size:.76rem; font-weight:800; }
+    .section-title { margin:14px 0 7px; color:var(--green); font-size:1.18rem; }
+    .section-title small { display:block; margin-top:1px; color:#64748b; font-size:.76rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .snapshot { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; }
+    .snapshot div { padding:8px 10px; border:1px solid var(--line); border-radius:7px; background:#f8fafc; font-size:.86rem; }
+    .snapshot strong { display:block; color:var(--purple); font-size:.74rem; letter-spacing:.05em; text-transform:uppercase; margin-bottom:1px; }
+    .snapshot .wide { grid-column:1 / -1; }
+    .snapshot .wide span { display:block; }
+    .snapshot .wide b { color:#17386d; }
+    .source-note { margin:7px 0 0; color:#64748b; font-size:.8rem; }
+    .source-note a { color:#0d47a1; }
+    .toc { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px 12px; padding:0; margin:0; list-style:none; counter-reset:q; }
+    .toc li { counter-increment:q; padding:4px 8px; border:1px solid var(--line); border-radius:6px; background:#f8fafc; font-size:.86rem; line-height:1.3; }
+    .toc li::before { content:"Q" counter(q) " · "; color:var(--purple); font-weight:900; }
+    .toc a { color:#17386d; text-decoration:none; font-weight:700; }
+    .toc a:hover { color:var(--blue); text-decoration:underline; }
+    .qa-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:0 0 8px; }
+    .qa-toolbar button { min-height:30px; padding:3px 11px; border:1px solid var(--blue); border-radius:999px; background:var(--soft); color:#0d47a1; cursor:pointer; font:inherit; font-weight:800; font-size:.8rem; }
+    .qa-toolbar button:hover { background:var(--blue); color:#fff; }
+    .qa-toolbar button:focus-visible { outline:3px solid var(--blue); outline-offset:2px; }
+    .qa-toolbar .qa-count { color:#64748b; font-size:.8rem; font-weight:700; }
+    .qa { margin-top:44px; padding:10px 12px; border:1px solid var(--line); border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.04); }
+    .qa .q-head { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-bottom:8px; }
+    .qa .q-num { flex:0 0 auto; padding:2px 8px; border-radius:999px; background:var(--purple); color:#fff; font-size:.74rem; font-weight:900; letter-spacing:.05em; }
+    .qa .q-tag { padding:2px 7px; border:1px solid #cbd5e1; border-radius:999px; background:#f8fafc; color:#475569; font-size:.7rem; font-weight:800; letter-spacing:.03em; text-transform:uppercase; }
+    .qa .q-tag.dom { border-color:#9ccdc3; background:#eef8f5; color:var(--teal); }
+    .qa h3 { margin:0; color:#17386d; font-size:1.03rem; line-height:1.32; }
+    .ask { margin:5px 0; padding:2px 7px; line-height:1.38; border-left:4px solid var(--blue); border-radius:6px; background:#f5f9ff; color:#1e293b; font-size:.94rem; font-style:italic; }
+    .ask b { font-style:normal; }
+    .probe { margin:0 0 5px; padding:2px 7px; line-height:1.38; border:1px dashed #c4b5fd; border-radius:6px; background:#fbf9fe; font-size:.88rem; color:#3f3350; }
+    .probe b { color:var(--purple); }
+    .qa p { margin:0 0 9px; }
+    .qa ul, .qa ol { margin:0 0 9px; padding-left:20px; }
+    .qa li { margin:4px 0; }
+    pre { margin:2px 0 9px; padding:8px 9px; border:1px solid #d8e1ea; border-radius:6px; background:#0f172a; color:#e2e8f0; font-family:Consolas,'Courier New',monospace; font-size:.79rem; line-height:1.4; overflow-x:auto; }
+    code { padding:1px 4px; border-radius:4px; background:#eef2f7; color:#0d47a1; font-family:Consolas,'Courier New',monospace; font-size:.9em; }
+    pre code { padding:0; background:none; color:inherit; font-size:1em; }
+    details.answer { margin-top:6px; border:1px solid var(--line); border-radius:8px; background:#fbfdff; }
+    details.answer > summary { display:flex; flex-wrap:wrap; align-items:center; gap:7px; min-height:28px; padding:3px 9px; border-radius:7px; background:#eef5ff; color:#0d47a1; cursor:pointer; font-weight:850; font-size:.9rem; list-style:none; }
+    details.answer > summary::-webkit-details-marker { display:none; }
+    details.answer > summary::before { content:"+"; display:inline-flex; align-items:center; justify-content:center; flex:0 0 18px; width:18px; height:18px; border:1px solid #93c5fd; border-radius:5px; background:#fff; font-size:.82rem; font-weight:900; line-height:1; }
+    details.answer[open] > summary::before { content:"–"; }
+    details.answer > summary:hover { background:#e3f2fd; }
+    details.answer > summary:focus-visible { outline:3px solid var(--blue); outline-offset:2px; }
+    details.answer[open] > summary { border-radius:7px 7px 0 0; border-bottom:1px solid #dbe7f3; }
+    details.answer .summary-hint { color:#64748b; font-size:.76rem; font-weight:700; }
+    details.answer .answer-body { padding:7px 8px 2px; }
+    .lookfor { margin:10px 0 0; padding:6px 9px; border-left:4px solid var(--green); border-radius:6px; background:#f4fbf5; font-size:.87rem; color:#2b3a2f; }
+    .lookfor b { color:var(--green); }
+    .followups { margin:8px 0 0; padding:6px 9px; border:1px solid #fed7aa; border-radius:6px; background:#fffaf3; font-size:.87rem; }
+    .followups b { color:#b45309; }
+    .table-scroll { overflow-x:auto; }
+    .vocab, .rubric { width:100%; min-width:700px; border-collapse:collapse; font-size:.86rem; }
+    .vocab th,.vocab td,.rubric th,.rubric td { padding:5px 7px; border:1px solid var(--line); text-align:left; vertical-align:top; }
+    .vocab th,.rubric th { background:var(--soft); color:#0d47a1; }
+    .vocab td:first-child { white-space:nowrap; font-weight:800; color:var(--teal); }
+    .rubric td:first-child { font-weight:800; color:#475569; white-space:nowrap; }
+    .note { margin-top:8px; padding:8px 10px; border-left:4px solid #93c5fd; border-radius:6px; background:#f8fbff; color:#334155; font-size:.86rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+    .button { display:inline-block; padding:5px 9px; border:1px solid #93c5fd; border-radius:6px; background:var(--soft); color:#0d47a1; font-size:.86rem; font-weight:800; text-decoration:none; }
+    .button:hover { background:#bbdefb; }
+    .footer { margin-top:12px; color:#64748b; font-size:.82rem; text-align:right; }
+    @media(max-width:900px) { .snapshot { grid-template-columns:repeat(2,minmax(0,1fr)); } .toc { grid-template-columns:1fr; } }
+    @media(max-width:700px) { .container { padding:7px; } .skip-link { position:static; margin:7px 7px 0; } .header .header-links { margin-left:0; } .snapshot { grid-template-columns:1fr; } }
+    @media print { .header { position:static; box-shadow:none; } .card, .hero, .qa { box-shadow:none; } .qa-toolbar { display:none; } details.answer { break-inside:auto; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#questions">Skip To Questions</a>
+
+  <header class="header">
+    <a class="brand" href="https://www.rtscorp.com" target="_blank" rel="noopener" aria-label="Revenue Technology Services">
+      <span class="mark">RTS</span>
+      <span class="brand-note">Revenue Technology Services</span>
+    </a>
+    <strong>Manuela Cortés Granados · Technical evaluation questions</strong>
+    <div class="header-links">
+      <a href="smash_full_stack_dotnet_angular_p169_process.html">← P-169 process</a>
+      <a href="smash_p169_technical_questions.html">Platform question set</a>
+      <a href="index.html">📄 CV</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-kicker">
+        <span>Dallas, Texas · since 1991</span>
+        <span>Airline · Cargo · Cruise &amp; Ferry · Rail · Coach</span>
+      </div>
+      <h1>Technical Evaluation Questions — Oriented to RTS</h1>
+      <p>Ten questions written for the way Revenue Technology Services actually builds software: revenue management, scheduling, revenue planning and pricing for passenger and cargo domains, delivered to airlines, ferry, rail and coach operators, with operations research and business intelligence as the analytical core. Each question combines the domain expectation with the engineering answer RTS would be looking for.</p>
+      <div class="chips">
+        <span>10 questions</span>
+        <span>English</span>
+        <span>Revenue management</span>
+        <span>Forecasting</span>
+        <span>Optimization / OR</span>
+        <span>Cargo capacity</span>
+        <span>.NET · Angular</span>
+        <span>Data platforms</span>
+        <span>Legacy modernization</span>
+      </div>
+    </section>
+
+    <h2 class="section-title">Company snapshot<small>What the answers should sound aware of</small></h2>
+    <section class="card">
+      <div class="snapshot">
+        <div><strong>Founded</strong>1991 · 35+ years of domain logic</div>
+        <div><strong>Headquarters</strong>Dallas, Texas (LinkedIn: Plano, TX)</div>
+        <div><strong>Offices</strong>United States · UK · South Africa · India</div>
+        <div><strong>Size</strong>201–500 employees · ~247 on LinkedIn</div>
+        <div><strong>Industry</strong>Software development · travel technology</div>
+        <div><strong>Verticals</strong>Airline · Cargo · Cruise/Ferry · Rail · Coach</div>
+        <div><strong>Products</strong>Scheduling · revenue management · revenue planning · pricing</div>
+        <div><strong>Services</strong>Software, consulting, education, OR, technology services, IT development support</div>
+        <div class="wide">
+          <strong>Positioning</strong>
+          <span><b>Vision:</b> the leading one-stop provider of marketing and planning solutions to the airline, cruise ferry and rail industry through innovation and exemplary customer service.</span>
+          <span><b>Mission:</b> solutions and services that help customers increase margins, improve customer experience, enhance employee productivity and support their growth.</span>
+          <span><b>Differentiator to respect in the interview:</b> an executive team averaging 20 years of industry experience, and the combination of software, consulting and operations research — the code is never separable from the revenue decision it supports.</span>
+        </div>
+      </div>
+      <p class="source-note">Facts reproduced from the company overview provided for this preparation (verified August 5, 2026): <a href="http://www.rtscorp.com" target="_blank" rel="noopener">rtscorp.com</a> · <a href="https://www.linkedin.com/company/revenue-technology-services/about/" target="_blank" rel="noopener">LinkedIn about page</a>. Treated as background, not as an official statement.</p>
+    </section>
+
+    <h2 class="section-title">Index<small>Anchor links work per question</small></h2>
+    <section class="card">
+      <ol class="toc">
+        <li><a href="#q1">Revenue management explained: levers, objective, and where the software sits</a></li>
+        <li><a href="#q2">Demand forecasting pipeline: granularity, censoring, backtesting</a></li>
+        <li><a href="#q3">Operations research inside an operational window</a></li>
+        <li><a href="#q4">Integrations with reservation, schedule, GDS and accounting systems</a></li>
+        <li><a href="#q5">Batch performance on a full network before the planning deadline</a></li>
+        <li><a href="#q6">Angular for planner-facing grids with large data sets</a></li>
+        <li><a href="#q7">Cargo: capacity in weight and volume, allotments and rating</a></li>
+        <li><a href="#q8">Four verticals on one core: ferry, rail and coach differences</a></li>
+        <li><a href="#q9">Modernizing a product with decades of embedded domain logic</a></li>
+        <li><a href="#q10">Working across Plano, UK, South Africa and India, and supporting clients in peak season</a></li>
+      </ol>
+      <p class="note" style="margin-bottom:0"><strong>How to use this page.</strong> Answers are collapsed by default: read the question, say your own version out loud, then expand and compare. The domain answers are written to be spoken to a person with twenty years in revenue management — precision about the business matters as much as the technical detail.</p>
+    </section>
+
+    <div class="qa-toolbar">
+      <button type="button" id="qa-expand">Expand all answers</button>
+      <button type="button" id="qa-collapse">Collapse all</button>
+      <span class="qa-count" id="qa-count">0 of 10 answers expanded</span>
+    </div>
+
+    <h2 class="section-title" id="questions">The ten questions<small>Domain depth plus engineering judgement</small></h2>
+
+    <article class="qa" id="q1">
+      <div class="q-head">
+        <span class="q-num">Q1</span>
+        <span class="q-tag dom">Revenue management</span>
+        <span class="q-tag">Business model</span>
+      </div>
+      <h3>Explain revenue management in two minutes — and where does software actually sit in it?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “RTS has been selling revenue management, scheduling and pricing solutions to airlines, ferry and rail operators since 1991. Forget code for a moment: what is revenue management, what levers does it pull, and where does our software create the value?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> whether the candidate understands the business the code serves. The tell is language: capacity as a perishable asset, displacement cost, forecast feeding an optimizer feeding availability. A candidate who reduces it to “dynamic pricing” has the vocabulary of e-commerce, not of transport.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· definition, levers, leg vs O&amp;D, where software fits</span></summary>
+        <div class="answer-body">
+      <p>Revenue management is the practice of selling a <strong>fixed, perishable inventory</strong> to the right segment at the right time at the right price. A seat, a cabin, a ferry deck space or a rail segment that departs empty has zero residual value, and the cost of carrying one more passenger is close to zero, so the entire margin question is how capacity is allocated across willingness to pay. Software sits in the middle of that loop, not beside it: it forecasts demand, decides how much inventory to protect for higher-value demand, prices and makes availability visible, and then measures whether the decision worked.</p>
+      <p>The levers, in the order I would describe them to a non-technical stakeholder:</p>
+      <ul>
+        <li><strong>Forecasting</strong> — unconstrained demand per market, cabin and departure, at a given point before departure. Everything downstream is only as good as this number.</li>
+        <li><strong>Inventory control</strong> — how many units to sell at each fare level, which is where nested buckets, protection levels and <strong>bid price</strong> (the marginal value of one more unit of capacity) live.</li>
+        <li><strong>Overbooking</strong> — selling above capacity to cover no-shows, balanced against denied-boarding cost and regulation.</li>
+        <li><strong>Pricing</strong> — fare structure, fences and restrictions, and increasingly continuous pricing; the fare is the product, the inventory control decides who can buy it.</li>
+        <li><strong>Optimization</strong> — the network view: on an airline, a passenger flows over several legs, so the value of a seat is <strong>O&amp;D displacement cost</strong>, not a leg-local price. That is the difference between leg-based and network (O&amp;D) revenue management, and it is the part that makes the problem genuinely hard.</li>
+      </ul>
+      <p>Software therefore does four jobs: a <strong>batch cycle</strong> (forecast, optimize, publish controls) that must finish inside the airline's planning window, a <strong>real-time availability service</strong> that answers in milliseconds and must never contradict the published controls, a <strong>scenario and what-if layer</strong> so analysts can test a decision before committing it, and a <strong>reporting layer</strong> that closes the loop on load factor, yield and RASK.</p>
+      <p>The value statement I would make in the interview: the software does not invent revenue, it reduces the two expensive mistakes — selling cheap too early and departing with empty capacity — and it makes the trade-off visible and repeatable instead of depending on one analyst's intuition.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> perishable capacity, displacement cost, forecast → optimizer → availability as one loop, and the leg-based versus O&amp;D distinction raised without prompting.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How would you explain bid price to an airline analyst? · Why can a network control beat a leg control? · What is the cost of a forecast that is biased low? · Which KPI would you watch after a pricing change?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q2">
+      <div class="q-head">
+        <span class="q-num">Q2</span>
+        <span class="q-tag dom">Forecasting</span>
+        <span class="q-tag">Data pipeline</span>
+      </div>
+      <h3>Build the demand forecasting pipeline behind a revenue management system.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Everything in our products starts with a forecast. Walk me through how you would build and operate that pipeline: the data you need, the granularity, how you deal with incomplete history, and how you know the forecast is any good.”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> data engineering judgement in a domain where the history is censored. The classic failure is forecasting from bookings alone and never noticing that demand was capped by the controls the system itself published.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· sources, granularity, censoring, backtesting, ops</span></summary>
+        <div class="answer-body">
+      <p>I would start from the decision the forecast feeds, and work backwards. The optimizer needs demand per <strong>market (O&amp;D or leg), cabin, fare class and departure</strong>, at a given point before departure — the usual cut is by <strong>days-to-departure bucket</strong>, because demand behaviour close to departure is a different regime from demand ninety days out.</p>
+      <p><strong>Inputs.</strong> Bookings and cancellations with their transaction date (to reconstruct the booking curve), the schedule and any changes to it, fares and fare rules, capacity by cabin, no-show history, and the events that break the pattern: holidays, school breaks, major events, competitor schedule changes, strikes, weather. Station and market metadata matter too, because the same city pair behaves differently by season and by day of week.</p>
+      <p><strong>The censoring problem</strong> is the heart of it. Bookings are the <em>realised</em> demand, capped by the availability we published; if we closed a cheap bucket, the missing bookings are not absent demand. I handle it by combining bookings with refused/regret data where it exists, by unconstraining the observed bookings under the controls that were in force, and by keeping the controls themselves as features, so the model can distinguish “nobody wanted it” from “we did not sell it”. Without that step the system learns to forecast its own restrictions — a feedback loop that quietly flattens revenue.</p>
+      <p><strong>Model shape.</strong> A pick-up model per bucket — how much will still be sold between now and departure — is usually more defensible than a single black-box regressor, and it is explainable to an analyst. Seasonality, day-of-week and lead time enter as structure; a gradient-boosted model can be layered on residuals where the data supports it. I keep the model versioned with the dataset and the feature set that produced it, because “the forecast changed” must be explainable months later.</p>
+      <p><strong>Evaluation.</strong> Backtesting on rolling windows, scored with bias as well as error: MAPE and RMSE tell me the size of the miss, but a forecast that is consistently 4% low is a revenue leak even with a decent MAPE. I also track the <em>decision</em> metric — simulated revenue or load factor against the actual controls — because a forecast can improve statistically and still make the optimizer worse.</p>
+      <p><strong>Operations.</strong> Late schedule changes, cancellations of whole flights, duplicated bookings, station codes changing and time-zone shifts are normal, not edge cases: the pipeline needs reconciliation counts per run, a quarantine path for records that fail validation, idempotent reloads so a rerun does not double count, and a freshness SLA the batch can be measured against.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> unconstraining and the feedback loop named explicitly; bias treated as a first-class metric; the model tied to the decision it feeds; reconciliation and idempotency treated as part of the design.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How do you forecast a new route with no history? · What do you do when the schedule changes after the batch ran? · How would you detect data drift before the analyst does? · Where would Python fit next to a .NET pipeline?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q3">
+      <div class="q-head">
+        <span class="q-num">Q3</span>
+        <span class="q-tag dom">Operations research</span>
+        <span class="q-tag">Optimization</span>
+      </div>
+      <h3>Where does operations research earn its place — and how do you keep an optimizer inside the operational window?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Operations research is one of our capabilities. Tell me where you would use a formal optimization model rather than a heuristic, and then how you make it finish in time and keep it trustworthy for the planners who use it.”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> engineering realism around solvers. Anyone can call a solver; the judgement is in problem formulation, decomposition, time limits, and what happens when the model returns a worse answer than yesterday.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· formulation, LP vs heuristic, time budget, guardrails</span></summary>
+        <div class="answer-body">
+      <p>I use a formal model when the constraints interact — capacity shared across legs or crossings, allotments, crew or fleet continuity, minimum connection times — because that is exactly where a greedy rule silently sub-optimises. I use a heuristic when the decision is separable, the data is thin, or the deadline is measured in seconds; a rule that a planner can predict is often worth more than two percent of theoretical optimality.</p>
+      <p>The formulations I would expect to meet in this domain:</p>
+      <ul>
+        <li><strong>Network revenue optimization</strong> — a linear program over an O&amp;D network whose <strong>duals become bid prices</strong>; the duals are the product, not a by-product, so numerical stability matters.</li>
+        <li><strong>Capacity allocation and overbooking</strong> — protection levels per fare class, with a stochastic element for no-shows.</li>
+        <li><strong>Scheduling and fleet assignment</strong> — mixed-integer, where the model is large and the practical answer comes from decomposition or a column-generation style approach.</li>
+        <li><strong>Pricing and fare structure</strong> — often a search over discrete options with an elasticity model rather than a single closed-form optimum.</li>
+      </ul>
+      <p>On the time budget I work backwards from the window, not forwards from the model: if the batch must publish controls before the commercial day starts, the solver gets a hard wall-clock limit and everything around it — data prep, post-processing, publishing — is budgeted too. Then the techniques that make it fit: aggregate markets before solving and disaggregate afterwards, warm-start from the previous solution, re-optimize only the affected sub-network when a schedule change touches a few markets, run independent scenarios in parallel with bounded concurrency, and always keep the last good solution so a failed run is not an outage.</p>
+      <pre><code>// Optimization run as a job, with a budget and a safe fallback — not a request thread
+public async Task&lt;RunResult&gt; RunAsync(OptimizationRequest req, CancellationToken ct)
+{
+    var lastGood = await _runs.GetLastPublishedAsync(req.NetworkId, ct);
+    using var budget = CancellationTokenSource.CreateLinkedTokenSource(ct);
+    budget.CancelAfter(req.TimeBudget);                 // wall clock, set by the operating window
+    try
+    {
+        var solution = await _solver.SolveAsync(req, budget.Token);
+        return await _publisher.PublishAsync(solution, ct);   // validated before it becomes live
+    }
+    catch (OperationCanceledException) when (!ct.IsCancellationRequested)
+    {
+        _log.Warning("Optimization exceeded {Budget}; keeping previous controls", req.TimeBudget);
+        return RunResult.TimedOut(lastGood);            // degrade, do not fail the cycle
+    }
+}</code></pre>
+      <p>Trust is the other half. An optimizer that produces a number a planner cannot explain gets switched off, so I keep three guardrails: <strong>input validation</strong> (a missing capacity record must fail the run loudly, not become a zero), <strong>sanity checks on the output</strong> (bid prices within a plausible band, no market losing all availability), and <strong>explainability</strong> — the binding constraints and the top contributors behind a change, so the analyst can accept or reject with reasons. Changes above a threshold go out as a proposal for review rather than straight to production.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> a clear rule for LP versus heuristic, duals understood as the deliverable, decomposition and warm starts used for the time budget, and a deliberate fallback when the run times out.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How do you validate a solver before trusting it? · What breaks when demand is sparse? · How would you version and reproduce a published solution? · When would you tell a client that the model is the wrong tool?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q4">
+      <div class="q-head">
+        <span class="q-num">Q4</span>
+        <span class="q-tag dom">Integrations</span>
+        <span class="q-tag">Schedules · GDS · accounting</span>
+      </div>
+      <h3>Our products sit between reservation systems and airline operations. How do you integrate without losing or duplicating a single message?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Revenue management is only as good as the data it receives. We integrate with reservation and departure-control systems, schedule feeds, fare data and revenue accounting, and some of those sources are files on a schedule rather than an API. How do you design that so nothing is lost, duplicated or silently stale?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> distributed-data discipline in an environment that is partly file-based and partly real-time. The expected answer separates delivery semantics, data identity and reconciliation — three different problems often confused into one.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· idempotency, outbox, contracts, reconciliation, time zones</span></summary>
+        <div class="answer-body">
+      <p>I design for <strong>at-least-once delivery plus idempotent processing</strong>, because exactly-once across a queue, a database and an external system is a property nobody can actually promise. The message carries a stable business key — the record identity plus a version or sequence number — and the consumer writes into a table keyed by it, so a duplicate is a no-op instead of a double count. On the sending side, the outbox pattern: the transaction that changes state also writes the event to an outbox table in the same commit, and a dispatcher publishes it afterwards, so a crash between commit and publish cannot lose the event.</p>
+      <pre><code>// Consumer side: the business key makes replay safe
+public async Task HandleAsync(BookingEvent e, CancellationToken ct)
+{
+    if (await _store.ExistsAsync(e.BookingId, e.SequenceNumber, ct))
+        return;                                  // duplicate: drop it, do not re-apply
+
+    await _store.ApplyAsync(e, ct);               // same transaction as the version bump
+}</code></pre>
+      <p><strong>Batch interfaces need the same rigour as APIs.</strong> A nightly schedule file (think IATA SSIM-style schedule data, or a fare file dropped over SFTP) is a full snapshot with an effective date, so the loader is a replace-with-reconciliation, not an append: validate the file against its expected record counts and date range, load in a staging area, diff against what is live, apply in one transaction, and write a reconciliation report an analyst can read. If the file is short by a hundred flights, the loader must fail — silently loading a partial schedule is how an optimizer ends up optimizing an airline that does not exist.</p>
+      <p><strong>Contracts and change.</strong> Every inbound and outbound message is versioned, with additive changes only inside a major version; a new carrier-specific field does not break the consumer of the previous one. Where the counterparty can only do CSV, the validation is strict and the rejects are quarantined with the reason, not dropped.</p>
+      <p><strong>Reconciliation</strong> closes the loop: a daily count of bookings received against bookings expected, per source and per day, with an alert on divergence. That single report catches most silent integration failures before a client does — a feed that stopped at 02:00 looks exactly like a quiet day otherwise.</p>
+      <p><strong>Time.</strong> Everything is stored in UTC, with the local station time and the time zone of the airport or station kept as attributes, never inferred from the server. Departure dates are local business dates, which is precisely why daylight-saving transitions break naive implementations: a 02:30 local departure can exist twice or not at all. I make the time zone a column, test around the transition dates, and keep the conversion in one place in the codebase.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> idempotency keyed by business identity, outbox for the write/publish gap, snapshot-with-reconciliation for file feeds, and time zone treated as data rather than as a formatting concern.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> What is your alert when a feed stops silently? · How do you cut over to a new interface without a freeze? · How do you replay six months of history safely? · Which of these failures would you expect an analyst to catch first?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q5">
+      <div class="q-head">
+        <span class="q-num">Q5</span>
+        <span class="q-tag">Performance</span>
+        <span class="q-tag">.NET batch · SQL</span>
+      </div>
+      <h3>A network-wide optimization must finish before the planning window closes. Make the batch fast.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Picture a run over a full network — thousands of departures and tens of thousands of markets — that has to be published before the commercial day starts. It is taking too long. How do you find the time and where does it actually go?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> whether performance work is measurement or folklore. The strong answer knows that most of these runs are dominated by data movement and per-row logic, not by the solver, and that restartability is a performance feature.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· profiling first, set-based SQL, bounded parallelism, checkpointing</span></summary>
+        <div class="answer-body">
+      <p>I instrument before I optimize. The run gets stage timings — extract, transform, forecast, optimize, publish — with row counts and elapsed time per stage, written to a run log. In my experience on data-heavy batches the split is usually unflattering to the code and not the algorithm: extraction with chatty ORM queries, per-row updates, and serial loops over markets dominate, while the solver is a fraction of the wall clock. That measurement is also what makes the conversation honest, because “the optimizer is slow” is a common and usually wrong diagnosis.</p>
+      <p>Then, in order of payoff:</p>
+      <ul>
+        <li><strong>Set-based SQL instead of per-row.</strong> Bulk insert with a table-valued parameter or <code>SqlBulkCopy</code>, one <code>MERGE</code>/<code>UPDATE ... FROM</code> instead of a thousand statements, and <code>ExecuteUpdate</code>/<code>ExecuteDelete</code> where EF Core would otherwise materialise entities one by one.</li>
+        <li><strong>Stop paying for change tracking.</strong> <code>AsNoTracking</code>, projection straight to the shape the stage needs, and keyset pagination over large result sets so the process does not re-scan from the top.</li>
+        <li><strong>Bounded parallelism, not maximum.</strong> Markets are independent for forecasting, so they parallelise well — with a concurrency limit tied to the database's ability to absorb it, because unrestricted <code>Task.WhenAll</code> over ten thousand items simply moves the bottleneck into connection-pool timeouts.</li>
+        <li><strong>Incremental work.</strong> Only recompute markets whose inputs changed since the last run; a schedule change touching forty markets should not trigger a full recompute. Caching the expensive, stable parts (market definitions, fare structures) removes minutes with no loss of accuracy.</li>
+        <li><strong>Restartability.</strong> Stage checkpoints so a failure at 80% resumes at 80%, not at zero. On a nightly window this is worth more than a micro-optimisation, because the second attempt is what turns a delay into a missed deadline.</li>
+      </ul>
+      <p>I also fix the data path where the cheap wins are: correct indexes for the stage queries, no <code>SELECT *</code> into memory, streaming large extracts rather than buffering them, and <code>Span</code>/pooled buffers for the parsing loops that touch millions of rows. Then I guard the result with a performance test in CI over a representative data volume, so the next feature does not quietly give the time back.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> per-stage measurement before tuning, set-based data access, bounded concurrency with the database as the constraint, incremental recompute, and checkpointing framed as part of the SLA.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How do you decide the parallelism degree? · What would you cache and what must never be cached? · How do you test performance without a production-size database? · What is your rollback if the run completes but the controls look wrong?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q6">
+      <div class="q-head">
+        <span class="q-num">Q6</span>
+        <span class="q-tag">Angular</span>
+        <span class="q-tag">Planner UI · large grids</span>
+      </div>
+      <h3>Analysts live in dense grids. Build an Angular screen that stays usable with tens of thousands of rows.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Our users are revenue analysts and planners, not consumers. They work all day in grids: schedules, fare overrides, protection levels, allotments. What do you do in Angular when the grid has tens of thousands of rows, several editable columns, filters and validation?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> whether the candidate has built a data-dense internal tool rather than a marketing page. The signals are server-side paging, virtual scrolling, change-detection discipline, and respect for keyboard workflows.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· virtual scroll, server-side data, editing, keyboard, exports</span></summary>
+        <div class="answer-body">
+      <p>The rule is that the browser never holds ten thousand rows. Paging, filtering and sorting happen on the server; the grid asks for a window and renders a window. On the client, virtual scrolling (Angular CDK <code>cdk-virtual-scroll-viewport</code>, or the grid's own virtualisation) keeps the DOM at a few dozen rows regardless of the data set. That single decision removes most of the performance conversation.</p>
+      <p>Change detection comes next: <code>OnPush</code> everywhere, immutable updates, and signals for the local view state so a keystroke does not re-render the grid. Heavy derived work — formatting, grouping, client-side aggregations over the visible page — goes into <code>computed()</code> or a Web Worker when it is genuinely expensive, never into a getter called from the template.</p>
+      <p>Editing is where these screens fail. I use reactive forms with a <code>FormArray</code> only for the rows currently loaded, dirty-tracking per cell so only changed rows are sent, and optimistic save with an explicit conflict path (the row version is part of the payload; a 409 shows the other user's value instead of overwriting it). Unsaved-changes guards protect navigation, and validation errors are shown inline with the same validators used on the server, because the analyst must not discover them after a save.</p>
+      <pre><code>// Only the edited rows leave the browser, with their version for optimistic concurrency
+interface GridChange { id: string; version: number; field: string; value: unknown; }
+
+save(changes: GridChange[]) {
+  return this.api.patchProtections(changes).pipe(
+    catchError(err =&gt; err.status === 409
+      ? this.handleConflict(err.error)      // show both values, never silently overwrite
+      : throwError(() =&gt; err))
+  );
+}</code></pre>
+      <p>Then the things that make it a tool rather than a table: keyboard-first navigation with arrow keys, tab order, and copy/paste from Excel in both directions; column configuration saved per user; export of exactly what is filtered, not the whole table; a visible “as of” timestamp because the numbers come from last night's batch; and an accessible structure — real table semantics, focus management, and contrast that survives a beige office monitor.</p>
+      <p>Finally, feedback for slow operations: pessimistic actions get a progress state tied to the job, not a spinner on a button, and long-running server work returns a run id the UI polls or subscribes to.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> server-side paging plus virtualisation as the first move, <code>OnPush</code> and signals for the rest, per-row dirty tracking with a conflict path, and keyboard/Excel workflows treated as requirements.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How do you avoid a <code>FormArray</code> of ten thousand controls? · What would you move to a Web Worker? · How do you keep the grid in sync when the batch republishes? · What would you refuse to build in the browser?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q7">
+      <div class="q-head">
+        <span class="q-num">Q7</span>
+        <span class="q-tag dom">Cargo</span>
+        <span class="q-tag">Capacity · rating</span>
+      </div>
+      <h3>Cargo does not sell seats. Model capacity and pricing when the unit is a kilogram.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “You have worked on passenger problems. In cargo the unit of inventory is weight and volume, the products are shipments, and the commercial agreements are different. How would you model capacity, and what changes in the revenue logic?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> whether the candidate can transfer a model instead of repeating it. Cargo has dimensionality, allotments, routings and a rating engine — a candidate who maps seat inventory onto cargo one-to-one will get caught quickly.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· weight vs volume, ULD, allotments, rating, overbooking</span></summary>
+        <div class="answer-body">
+      <p>The first difference is that capacity is <strong>two-dimensional</strong>: kilograms and cubic metres, constrained together, plus the physical envelope of the aircraft — positions for unit load devices on the main deck and the bulk hold. A shipment consumes whichever resource binds first, so the model has to carry both and check both, otherwise the system promises volume that does not fit or weight that cannot take off. <strong>Chargeable weight</strong> is the commercial unit: the greater of actual and volumetric weight, which is where the dimensional factor enters the pricing logic rather than the capacity logic.</p>
+      <p>The second difference is <strong>structure of demand</strong>. Passenger demand is per market and per departure; cargo demand arrives as a <strong>shipment</strong> with an air waybill, a commodity, pieces, dimensions, a requested routing and often a cut-off time. It can be split across flights, routed with transshipment, and moved between flights by operations, so the inventory model needs to reason about legs and connections the way an O&amp;D model does — with the added complication that a shipment competes for space with others that may be re-routed at short notice.</p>
+      <p>The third is <strong>commercial commitment</strong>: <strong>allotments and block-space agreements</strong> reserve capacity for a customer whether or not it is used, and those obligations sit on top of free sale. Any availability logic has to respect the hierarchy — blocked space first, then contracts with priority rules, then free sale — because selling into capacity already committed is a contractual problem, not just a revenue one. Embargoes and dangerous-goods restrictions remove capacity for specific commodities and routes; no-shows behave differently from passengers and overbooking is a smaller, more negotiated lever.</p>
+      <p>Then <strong>rating</strong>: the price is built from a tariff and rules — minimum charges, weight breaks, pivot weights, surcharges, contract rates — and it must be deterministic, versioned and reproducible. When a customer disputes an invoice six weeks later, the system has to recompute the same number from the same inputs. That argues for a rating engine as a pure function over a versioned tariff, covered by golden-file tests, not for rate logic scattered through controllers.</p>
+      <p>What transfers from passenger revenue management is the discipline: forecast, allocate, price, measure. What does not transfer is the unit of inventory, the granularity of demand, and the weight of contractual commitments over pure optimisation.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> weight and volume as simultaneous constraints, ULD positions, allotment hierarchy above free sale, and rating treated as a deterministic versioned engine.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How would you allocate a shipment across two legs? · How do you price a shipment when the pivot weight changes? · What is the equivalent of a no-show in cargo? · How would you test a rating engine for regression?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q8">
+      <div class="q-head">
+        <span class="q-num">Q8</span>
+        <span class="q-tag dom">Four verticals</span>
+        <span class="q-tag">Ferry · Rail · Coach</span>
+      </div>
+      <h3>One core, four industries. What changes when the same product serves an airline, a ferry operator and a rail company?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “We sell into airline, cargo, cruise/ferry, rail and coach. If you were designing the product line, how would you keep one core instead of four forks — and what genuinely differs between the verticals?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> product architecture judgement. The weak answer is “we make it configurable”; the strong one names the specific dimension that varies, the abstraction that absorbs it, and what must not be abstracted.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· what varies per vertical, where to abstract, avoiding forks</span></summary>
+        <div class="answer-body">
+      <p>What stays the same across all four is the loop: capacity, demand, forecast, control, price, measure. What changes is the definition of three things — <strong>the unit of capacity</strong>, <strong>the shape of the journey</strong>, and <strong>the sales channel</strong>. So I would model those three as first-class concepts with per-vertical implementations, and keep forecasting, overbooking, optimization and reporting on one shared core.</p>
+      <ul>
+        <li><strong>Airline.</strong> Unit is a seat in a cabin; the journey is O&amp;D over legs with connections; multiple fare classes with nested availability; the highest-frequency, highest-volume case and the one that pushes performance hardest.</li>
+        <li><strong>Ferry and cruise.</strong> Capacity is composite: passenger seats or berths, cabin grades, and on many routes <strong>vehicle deck space</strong> (car, coach, freight), and the passenger and vehicle are coupled — a booking consumes both, and deck space is measured in lane metres, not units. Journeys are crossings with a departure time and a return leg that is often priced jointly; seasonality is extreme and the leisure share dominates, so price elasticity matters more than fare fences.</li>
+        <li><strong>Rail.</strong> Capacity is per segment and often per seat with reservations on top, so inventory has to reason over <strong>segment legs</strong> rather than whole trips; a passenger occupying a seat from A to C blocks B to C as well. Connections, rail passes and operator-specific reservation rules add constraints that do not exist in the air model.</li>
+        <li><strong>Coach.</strong> The simplest: a vehicle with seats, a timetable, mostly leg-based inventory, less fare complexity — the case where a heavy network optimizer is over-engineering and a clean allocation model wins.</li>
+      </ul>
+      <p>Architecturally, that means the capacity model is an interface with per-vertical implementations over a shared inventory core; the fare and rule evaluation is a shared engine parameterised by vertical; and the reporting layer maps to shared KPI definitions (yield, load factor, revenue per available unit) even where the unit differs. Configuration handles the data, not the logic — a vertical that needs different <em>behaviour</em> gets an implementation, not fifty flags.</p>
+      <p>And the discipline that keeps it one product: no client-specific branching in shared code. Carrier or operator specifics live in configuration, rule sets or a plugin boundary with its own tests, because the moment a fork exists, every future fix has to be made four times and one of them will be forgotten.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> the three named dimensions (unit of capacity, journey shape, channel), concrete ferry and rail details such as vehicle deck coupling and segment-leg inventory, and a firm rule against client-specific branches in the core.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> Where would you draw the plugin boundary? · How do you keep KPI definitions comparable across verticals? · What would you refuse to make configurable? · Which vertical would you onboard second and why?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q9">
+      <div class="q-head">
+        <span class="q-num">Q9</span>
+        <span class="q-tag">Modernization</span>
+        <span class="q-tag">Legacy · .NET 8 · Angular</span>
+      </div>
+      <h3>A product from 1991 with decades of domain logic in it. Modernize it without a rewrite.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Some of what we maintain has been in production for a very long time, and the domain rules inside it are the company's real asset — some of them exist only as behaviour. If you were asked to move it to .NET 8 and Angular, how would you do it without betting the business on a big-bang rewrite?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> whether the candidate understands that the risk is losing behaviour, not losing code. Characterization tests, seams and parallel running are the vocabulary of someone who has done this rather than read about it.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· strangler fig, characterization tests, golden data, expand/contract</span></summary>
+        <div class="answer-body">
+      <p>I treat the existing system as the specification. Before moving anything I build <strong>characterization tests</strong>: capture real inputs and the outputs the business has accepted, freeze them as golden files, and run any new implementation against them. That converts “the rules exist only as behaviour” into an executable contract — and it is the only way to prove equivalence when nobody can fully articulate the rule, which is the normal state of a thirty-year-old pricing or allocation engine.</p>
+      <p>Then the <strong>strangler fig</strong>: pick a seam at the edge of the domain — a report, a read-only screen, one market type — and route that path through the new implementation while the old one keeps serving everything else. Coexistence is explicit: an anti-corruption layer translates between the two models so the legacy schema does not leak into the new code, and a routing switch selects old or new per tenant or per capability, not per deployment.</p>
+      <ul>
+        <li><strong>Parallel run before cutover</strong>: both paths compute, the new one is compared against the old one in production for a defined period, and differences are triaged — a genuine bug, a rounding difference, or a rule nobody documented.</li>
+        <li><strong>Database by expand and contract</strong>: add the new column or table, dual-write, backfill, read from the new path, then remove the old one in a later release. Never a destructive migration in the same step as a deploy.</li>
+        <li><strong>API surface versioned</strong> from the first release, so clients of the old interface are not forced to move in step with the internal refactor.</li>
+        <li><strong>Deterministic cores first</strong>: rating, proration and allocation logic are the highest-value and best-testable targets, because they are pure functions over data and their equivalence can be proven with golden files.</li>
+      </ul>
+      <p>What I would explicitly not do: rewrite the whole thing in parallel with a feature freeze, or start from the UI. A new Angular front end over the same tangled services usually delivers a modern look with the same defect rate, and it removes the pressure that makes the backend work possible.</p>
+      <p>Success is measured by defect rate, lead time for a rule change and the share of traffic on the new path — not by lines of code migrated. And each step has to be reversible: if the switch can only be turned on, it is not a controlled migration.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> golden-file characterization of undocumented rules, routing by capability with parallel run, expand/contract migrations, and a refusal to start from the UI.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How do you get golden data out of a system nobody fully understands? · When do you delete the legacy path? · How do you keep two codebases from diverging for a year? · What would make you stop the migration?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q10">
+      <div class="q-head">
+        <span class="q-num">Q10</span>
+        <span class="q-tag dom">Delivery</span>
+        <span class="q-tag">Distributed teams · support</span>
+      </div>
+      <h3>Plano, the UK, South Africa and India — plus airline clients in peak season. How do you work and how do you support?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “The team is spread across Dallas, the UK, South Africa and India, and our clients operate 24/7 with seasonal peaks. How do you work effectively in that setup, and what do you do when something breaks during an airline's busiest week?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> asynchronous communication discipline and production maturity. In a distributed team, the written artefact <em>is</em> the coordination mechanism; in a 24/7 operation, the runbook and the rollback path are the product.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· async by default, decision records, severity model, peak freezes</span></summary>
+        <div class="answer-body">
+      <p>I assume overlap is scarce and make the written record carry the work: a short spec or ticket with the acceptance criteria and the data shape before coding, decisions as one-page records (context, options, decision, consequence), and pull requests sized so a reviewer in another time zone can finish them in one sitting. Anything urgent gets a synchronous call, but the outcome goes back into the written record — a decision that exists only in a call is lost by the next handover.</p>
+      <p>For a client-facing role I also keep the escalation path explicit: who talks to the client, which channel, and in what language. With US-based stakeholders and B2+ English expected, I would rather say “I don't know yet, I will confirm by 16:00 your time” than improvise an answer that has to be retracted.</p>
+      <p>On support, I work from a <strong>severity definition everyone agrees on</strong>, not from whoever shouts loudest:</p>
+      <ul>
+        <li><strong>Sev 1</strong> — revenue decisions wrong or unavailable in a peak window: mitigate first (rollback, fall back to the last published controls, disable the feature flag), communicate a status on a fixed cadence, then diagnose.</li>
+        <li><strong>Sev 2</strong> — degraded: a client affected but able to operate; workaround documented while the fix is developed.</li>
+        <li><strong>Sev 3</strong> — non-urgent defect, planned into the next release.</li>
+      </ul>
+      <p>Every Sev 1 gets a runbook entry before the postmortem: symptom, what to check in what order, the exact rollback step, who to call, and the client-facing message. Data corrections are treated as a separate risk class — a script that fixes rows in a client's production database runs with a reviewed statement, a transaction, a before/after count, and a full record of what changed, because an unaudited data fix is indistinguishable from corruption afterwards.</p>
+      <p>Finally, the calendar is part of the engineering plan. Airlines and ferry operators run on seasonal schedules and peak demand periods, so releases respect change freezes around schedule changeover and holidays, and anything risky ships with enough time to observe it before the peak rather than during it. That is a conversation to have at planning time, not at 23:00 on a Friday.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> written artefacts as the coordination mechanism across time zones, an agreed severity model with mitigation before diagnosis, runbooks and audited data fixes, and release timing tied to the client's commercial calendar.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How do you hand over an incident to another region? · What would you automate first in the support path? · How do you push back on a release during a freeze? · What do you document after a Sev 2?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <h2 class="section-title">Domain vocabulary<small>Use these words precisely — imprecision is audible to this audience</small></h2>
+    <section class="card">
+      <div class="table-scroll">
+        <table class="vocab">
+          <thead>
+            <tr><th>Term</th><th>Meaning to use</th><th>Mistake to avoid</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Revenue management</td><td>Allocating perishable capacity across willingness to pay: forecast, control, price, measure.</td><td>Calling it “dynamic pricing”, which is one lever of several.</td></tr>
+            <tr><td>O&amp;D</td><td>Origin and destination market — the passenger's real journey, which may span several legs.</td><td>Treating a connection as two independent sales.</td></tr>
+            <tr><td>Bid price</td><td>Marginal value of one more unit of capacity, produced by the network optimization duals.</td><td>Describing it as a cost or a floor fare.</td></tr>
+            <tr><td>DCP / days to departure</td><td>The point in the booking curve at which demand and controls are evaluated.</td><td>Comparing bookings without normalising by lead time.</td></tr>
+            <tr><td>Overbooking</td><td>Selling beyond capacity to cover no-shows, against a denied-boarding cost.</td><td>Confusing it with overselling by mistake.</td></tr>
+            <tr><td>Load factor</td><td>Units sold over units available.</td><td>Presenting it as a revenue metric.</td></tr>
+            <tr><td>Yield / RASK</td><td>Revenue per unit of traffic (yield); revenue per available unit of capacity (RASK).</td><td>Optimising load factor and losing revenue per unit.</td></tr>
+            <tr><td>Allotment / BSA</td><td>Capacity contractually reserved for a customer, above free sale.</td><td>Selling into committed space as if it were free.</td></tr>
+            <tr><td>AWB</td><td>Air waybill — the cargo contract and shipment identifier.</td><td>Treating a shipment as a booking line.</td></tr>
+            <tr><td>ULD</td><td>Unit load device — the container or pallet occupying a deck position.</td><td>Counting only weight and ignoring the physical envelope.</td></tr>
+            <tr><td>Chargeable weight</td><td>Greater of actual and volumetric weight.</td><td>Pricing on gross weight alone.</td></tr>
+            <tr><td>SSIM-style schedule data</td><td>Standardised schedule exchange format, delivered as an effective-dated snapshot.</td><td>Loading it as an append instead of a reconciled replace.</td></tr>
+            <tr><td>GDS / res system</td><td>Distribution and reservation systems that hold availability and bookings.</td><td>Assuming they push changes in real time.</td></tr>
+            <tr><td>Operations research</td><td>Formal models (LP, MILP, stochastic) plus heuristics where the window demands it.</td><td>Using “OR” as a synonym for “a clever algorithm”.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <h2 class="section-title">Evaluation rubric<small>What a strong answer contains, per question</small></h2>
+    <section class="card">
+      <div class="table-scroll">
+        <table class="rubric">
+          <thead>
+            <tr><th>Question</th><th>Must contain</th><th>Weak answer sounds like</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Q1 · Revenue management</td><td>Perishable capacity; displacement cost; forecast → optimizer → availability; leg versus O&amp;D.</td><td>“It is about charging the right price at the right time”, with no inventory control.</td></tr>
+            <tr><td>Q2 · Forecasting</td><td>DCP granularity; unconstraining and the controls feedback loop; bias as a metric; reconciliation.</td><td>“We train a model on historical bookings and measure accuracy.”</td></tr>
+            <tr><td>Q3 · OR</td><td>LP versus heuristic criteria; duals as the deliverable; decomposition and warm starts; a timeout fallback.</td><td>Naming a solver as the answer, with no time budget or guardrails.</td></tr>
+            <tr><td>Q4 · Integrations</td><td>Idempotent consumers; outbox; snapshot-with-reconciliation; UTC plus station time zones.</td><td>“We use a queue, so it is reliable.”</td></tr>
+            <tr><td>Q5 · Batch performance</td><td>Stage measurement; set-based data access; bounded parallelism; incremental runs; checkpoints.</td><td>“We would optimise the SQL and add indexes” with no measurement.</td></tr>
+            <tr><td>Q6 · Angular grids</td><td>Server-side paging plus virtualisation; <code>OnPush</code>/signals; dirty tracking and conflict handling; keyboard and Excel flows.</td><td>Rendering everything and adding pagination in the component.</td></tr>
+            <tr><td>Q7 · Cargo</td><td>Weight and volume together; ULD envelope; allotment hierarchy; deterministic versioned rating.</td><td>Mapping seat inventory one-to-one onto kilograms.</td></tr>
+            <tr><td>Q8 · Verticals</td><td>Unit of capacity, journey shape and channel as the variables; ferry vehicles and rail segments; no client-specific branches.</td><td>“We make it configurable”, with no design consequence.</td></tr>
+            <tr><td>Q9 · Modernization</td><td>Characterization tests and golden data; strangler routing; parallel run; expand/contract migrations.</td><td>A rewrite plan, or a new UI over the same services presented as modernization.</td></tr>
+            <tr><td>Q10 · Delivery &amp; support</td><td>Written artefacts across time zones; agreed severity model; runbooks and audited data fixes; release timing around peak.</td><td>Heroic debugging, or support defined by who is loudest.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <strong>Scope note.</strong> This is preparation material built from the public company overview (vision, mission, verticals, products, size and locations) and from general revenue-management practice; it is not RTS's interview script and implies no insider knowledge. Domain statements are the candidate's own understanding, to be corrected by the interviewer where the company's implementation differs — asking “how do you do it here?” after each answer is part of the strategy.
+      </div>
+      <div class="actions">
+        <a class="button" href="smash_p169_technical_questions.html">Platform question set (10)</a>
+        <a class="button" href="smash_full_stack_dotnet_angular_p169_process.html">← Back to the P-169 process</a>
+        <a class="button" href="https://mcortesgranados.github.io/RTS_QUESTIONNAIRE/index.html" target="_blank" rel="noopener">RTS questionnaire (expanded)</a>
+        <a class="button" href="https://www.rtscorp.com" target="_blank" rel="noopener">rtscorp.com</a>
+        <a class="button" href="index.html">Open CV</a>
+      </div>
+    </section>
+
+    <p class="footer">RTS-oriented technical evaluation page · Revenue Technology Services (since 1991) · airline, cargo, cruise/ferry, rail and coach.</p>
+  </main>
+
+  <script>
+    (function () {
+      var answers = Array.prototype.slice.call(document.querySelectorAll('details.answer'));
+      var counter = document.getElementById('qa-count');
+      var expandButton = document.getElementById('qa-expand');
+      var collapseButton = document.getElementById('qa-collapse');
+      var opened = [];
+
+      function sync() {
+        var open = answers.filter(function (d) { return d.open; }).length;
+        if (counter) counter.textContent = open + ' of ' + answers.length + ' answers expanded';
+      }
+
+      if (expandButton) {
+        expandButton.addEventListener('click', function () {
+          answers.forEach(function (d) { d.open = true; });
+          sync();
+        });
+      }
+      if (collapseButton) {
+        collapseButton.addEventListener('click', function () {
+          answers.forEach(function (d) { d.open = false; });
+          sync();
+        });
+      }
+      answers.forEach(function (d) { d.addEventListener('toggle', sync); });
+      sync();
+
+      window.addEventListener('beforeprint', function () {
+        opened = [];
+        answers.forEach(function (d, i) {
+          if (!d.open) { opened.push(i); d.open = true; }
+        });
+      });
+      window.addEventListener('afterprint', function () {
+        opened.forEach(function (i) { answers[i].open = false; });
+        opened = [];
+        sync();
+      });
+    })();
+  </script>
+</body>
+</html>

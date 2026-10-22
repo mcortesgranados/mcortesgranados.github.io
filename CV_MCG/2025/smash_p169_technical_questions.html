@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SMASH P-169 | Technical Evaluation Questions (.NET 8 / Angular 13+)</title>
+  <style>
+    :root { --blue:#1565c0; --green:#2e7d32; --purple:#7b1fa2; --ink:#23272f; --soft:#e3f2fd; --line:#d8e1ea; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#fafbfc; color:var(--ink); font-family:'Segoe UI',Arial,sans-serif; line-height:1.42; font-size:.95rem; }
+    .skip-link { position:absolute; left:12px; top:8px; z-index:40; display:inline-block; padding:7px 13px; border:1px solid #93c5fd; border-radius:999px; background:#fff; color:#0d47a1; font-size:.85rem; font-weight:850; text-decoration:none; box-shadow:0 2px 6px rgba(15,23,42,.12); }
+    .skip-link:focus-visible { outline:3px solid var(--blue); outline-offset:2px; }
+    .header { position:sticky; top:0; z-index:10; display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; padding:6px 10px; border-bottom:1px solid #cbd5e1; background:rgba(255,255,255,.98); box-shadow:0 2px 8px rgba(15,23,42,.08); }
+    .header .brand { display:inline-flex; align-items:center; gap:9px; text-decoration:none; }
+    .header .brand img { width:82px; height:auto; display:block; }
+    .header strong { color:var(--blue); font-size:.98rem; }
+    .header .header-links { display:flex; flex-wrap:wrap; gap:5px; margin-left:auto; }
+    .header a:not(.brand) { padding:3px 8px; border:1px solid #cbd5e1; border-radius:999px; background:#f8fafc; color:#334155; font-size:.78rem; font-weight:800; text-decoration:none; }
+    .header a:not(.brand):hover { background:#eff6ff; border-color:#93c5fd; color:#0d47a1; }
+    .container { max-width:none; margin:0; padding:7px 10px; }
+    .hero,.card { padding:12px 14px; border:1px solid var(--line); border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.04); }
+    .hero { background:linear-gradient(120deg,#fff5f5,#fff,#eff6ff); }
+    .hero .hero-brand { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:6px; }
+    .hero .hero-brand img { width:108px; height:auto; }
+    .hero .hero-brand span { color:#64748b; font-size:.78rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .hero h1 { margin:0; color:var(--blue); font-size:clamp(1.3rem,2.6vw,1.7rem); }
+    .hero p { margin:5px 0 0; max-width:110ch; }
+    .chips { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+    .chips span { padding:2px 8px; border:1px solid #cbd5e1; border-radius:999px; background:#f8fafc; color:#334155; font-size:.76rem; font-weight:800; }
+    .section-title { margin:14px 0 7px; color:var(--green); font-size:1.18rem; }
+    .section-title small { display:block; margin-top:1px; color:#64748b; font-size:.76rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .toc { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px 12px; padding:0; margin:0; list-style:none; counter-reset:q; }
+    .toc li { counter-increment:q; padding:4px 8px; border:1px solid var(--line); border-radius:6px; background:#f8fafc; font-size:.86rem; line-height:1.3; }
+    .toc li::before { content:"Q" counter(q) " · "; color:var(--purple); font-weight:900; }
+    .toc a { color:#17386d; text-decoration:none; font-weight:700; }
+    .toc a:hover { color:var(--blue); text-decoration:underline; }
+    .qa { margin-top:44px; padding:10px 12px; border:1px solid var(--line); border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.04); }
+    .qa .q-head { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-bottom:8px; }
+    .qa .q-num { flex:0 0 auto; padding:2px 8px; border-radius:999px; background:var(--purple); color:#fff; font-size:.74rem; font-weight:900; letter-spacing:.05em; }
+    .qa .q-tag { padding:2px 7px; border:1px solid #cbd5e1; border-radius:999px; background:#f8fafc; color:#475569; font-size:.7rem; font-weight:800; letter-spacing:.03em; text-transform:uppercase; }
+    .qa h3 { margin:0; color:#17386d; font-size:1.03rem; line-height:1.32; }
+    .ask { margin:5px 0; padding:2px 7px; line-height:1.38; border-left:4px solid var(--blue); border-radius:6px; background:#f5f9ff; color:#1e293b; font-size:.94rem; font-style:italic; }
+    .ask b { font-style:normal; }
+    .probe { margin:0 0 5px; padding:2px 7px; line-height:1.38; border:1px dashed #c4b5fd; border-radius:6px; background:#fbf9fe; font-size:.88rem; color:#3f3350; }
+    .probe b { color:var(--purple); }
+    .qa h4 { margin:10px 0 4px; color:var(--green); font-size:.88rem; letter-spacing:.04em; text-transform:uppercase; }
+    .qa p { margin:0 0 9px; }
+    .qa ul, .qa ol { margin:0 0 9px; padding-left:20px; }
+    .qa li { margin:4px 0; }
+    pre { margin:2px 0 9px; padding:8px 9px; border:1px solid #d8e1ea; border-radius:6px; background:#0f172a; color:#e2e8f0; font-family:Consolas,'Courier New',monospace; font-size:.79rem; line-height:1.4; overflow-x:auto; }
+    code { padding:1px 5px; border-radius:4px; background:#eef2f7; color:#0d47a1; font-family:Consolas,'Courier New',monospace; font-size:.9em; }
+    pre code { padding:0; background:none; color:inherit; font-size:1em; }
+    .qa-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:0 0 8px; }
+    .qa-toolbar button { min-height:30px; padding:3px 11px; border:1px solid var(--blue); border-radius:999px; background:var(--soft); color:#0d47a1; cursor:pointer; font:inherit; font-weight:800; font-size:.8rem; }
+    .qa-toolbar button:hover { background:var(--blue); color:#fff; }
+    .qa-toolbar button:focus-visible { outline:3px solid var(--blue); outline-offset:2px; }
+    .qa-toolbar .qa-count { color:#64748b; font-size:.8rem; font-weight:700; }
+    details.answer { margin-top:6px; border:1px solid var(--line); border-radius:8px; background:#fbfdff; }
+    details.answer > summary { display:flex; flex-wrap:wrap; align-items:center; gap:7px; min-height:28px; padding:3px 9px; border-radius:7px; background:#eef5ff; color:#0d47a1; cursor:pointer; font-weight:850; font-size:.9rem; list-style:none; }
+    details.answer > summary::-webkit-details-marker { display:none; }
+    details.answer > summary::before { content:"+"; display:inline-flex; align-items:center; justify-content:center; flex:0 0 18px; width:18px; height:18px; border:1px solid #93c5fd; border-radius:5px; background:#fff; font-size:.82rem; font-weight:900; line-height:1; }
+    details.answer[open] > summary::before { content:"–"; }
+    details.answer > summary:hover { background:#e3f2fd; }
+    details.answer > summary:focus-visible { outline:3px solid var(--blue); outline-offset:2px; }
+    details.answer[open] > summary { border-radius:7px 7px 0 0; border-bottom:1px solid #dbe7f3; }
+    details.answer .summary-hint { color:#64748b; font-size:.76rem; font-weight:700; }
+    details.answer .answer-body { padding:7px 8px 2px; }
+    .lookfor { margin:10px 0 0; padding:6px 9px; border-left:4px solid var(--green); border-radius:6px; background:#f4fbf5; font-size:.87rem; color:#2b3a2f; }
+    .lookfor b { color:var(--green); }
+    .followups { margin:8px 0 0; padding:6px 9px; border:1px solid #fed7aa; border-radius:6px; background:#fffaf3; font-size:.87rem; }
+    .followups b { color:#b45309; }
+    .table-scroll { overflow-x:auto; }
+    .rubric { width:100%; min-width:720px; border-collapse:collapse; font-size:.88rem; }
+    .rubric th,.rubric td { padding:5px 7px; border:1px solid var(--line); text-align:left; vertical-align:top; }
+    .rubric th { background:var(--soft); color:#0d47a1; }
+    .rubric td:first-child { font-weight:800; color:#475569; white-space:nowrap; }
+    .note { margin-top:8px; padding:8px 10px; border-left:4px solid #93c5fd; border-radius:6px; background:#f8fbff; color:#334155; font-size:.86rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+    .button { display:inline-block; padding:5px 9px; border:1px solid #93c5fd; border-radius:6px; background:var(--soft); color:#0d47a1; font-size:.86rem; font-weight:800; text-decoration:none; }
+    .button:hover { background:#bbdefb; }
+    .footer { margin-top:12px; color:#64748b; font-size:.82rem; text-align:right; }
+    @media(max-width:900px) { .toc { grid-template-columns:1fr; } }
+    @media(max-width:700px) { .container { padding:8px; } .skip-link { position:static; margin:8px 8px 0; } .header .header-links { margin-left:0; } }
+    @media print { .header { position:static; box-shadow:none; } .card, .hero, .qa { box-shadow:none; } .qa-toolbar { display:none; } details.answer { break-inside:auto; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#questions">Skip To Questions</a>
+
+  <header class="header">
+    <a class="brand" href="https://smash.cr/" target="_blank" rel="noopener" aria-label="SMASH">
+      <img src="assets/smash_logo.png" alt="SMASH">
+    </a>
+    <strong>Manuela Cortés Granados · Technical evaluation questions</strong>
+    <div class="header-links">
+      <a href="smash_full_stack_dotnet_angular_p169_process.html">← P-169 process</a>
+      <a href="rts_technical_questions.html">🏷️ RTS-oriented set</a>
+      <a href="current_processes.html">Current processes</a>
+      <a href="index.html">📄 CV</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-brand">
+        <img src="assets/smash_logo.png" alt="SMASH">
+        <span>P-169 · Interview preparation</span>
+      </div>
+      <h1>Technical Evaluation Questions — .NET 8 / Angular 13+</h1>
+      <p>Ten interview questions derived from the P-169 must-haves: Angular architecture from scratch, RxJS fundamentals and reactive patterns, state management, reactive forms, multi-layer .NET 8 APIs, OIDC/OAuth 2.0 security, relational and NoSQL data design, testing and CI/CD, and container-based production support. Each question includes what the interviewer is actually probing, a structured answer, and the follow-ups to expect.</p>
+      <div class="chips">
+        <span>10 questions</span>
+        <span>English</span>
+        <span>Angular 13+</span>
+        <span>RxJS</span>
+        <span>State management</span>
+        <span>Reactive forms</span>
+        <span>.NET 8+</span>
+        <span>EF Core / Dapper</span>
+        <span>SQL / NoSQL</span>
+        <span>Testing / CI-CD</span>
+        <span>Docker / Kubernetes</span>
+        <span>OAuth 2.0 / OIDC</span>
+      </div>
+    </section>
+
+    <h2 class="section-title">Index<small>Jump to any question · anchor links work per question</small></h2>
+    <section class="card">
+      <ol class="toc">
+        <li><a href="#q1">Angular architecture from scratch: modules, lazy loading, guards, interceptors</a></li>
+        <li><a href="#q2">RxJS: type-ahead search without backend flooding or leaked subscriptions</a></li>
+        <li><a href="#q3">Multi-layer .NET 8 API: DI, layering, EF Core vs Dapper</a></li>
+        <li><a href="#q4">Authentication and authorization with OAuth 2.0 / OpenID Connect</a></li>
+        <li><a href="#q5">Production incident in Docker/Kubernetes, and AI-assisted code review</a></li>
+        <li><a href="#q6">Definition of RxJS: observable sequences, core building blocks, when not to use it</a></li>
+        <li><a href="#q7">State management: service + signals, component store, or NgRx</a></li>
+        <li><a href="#q8">Reactive forms: custom validators, cross-field rules, reusable controls</a></li>
+        <li><a href="#q9">Relational modelling, indexing and query tuning; when NoSQL instead</a></li>
+        <li><a href="#q10">Testing strategy and CI/CD gates with Git and Azure DevOps</a></li>
+      </ol>
+      <p class="note" style="margin-bottom:0"><strong>How to read this page.</strong> Answers are <strong>collapsed by default</strong>: read the question, think your own answer, then expand to compare. The wording in the <em>Question</em> block is the phrasing an interviewer would typically use; each answer is written in the candidate's own voice, first person, and is meant to be spoken in 60–120 seconds with the code sketch used only as a whiteboard aid.</p>
+    </section>
+
+    <div class="qa-toolbar">
+      <button type="button" id="qa-expand">Expand all answers</button>
+      <button type="button" id="qa-collapse">Collapse all</button>
+      <span class="qa-count" id="qa-count">0 of 10 answers expanded</span>
+    </div>
+
+    <h2 class="section-title" id="questions">The ten questions<small>Technical depth mapped to the job description</small></h2>
+
+    <article class="qa" id="q1">
+      <div class="q-head">
+        <span class="q-num">Q1</span>
+        <span class="q-tag">Angular architecture</span>
+        <span class="q-tag">Lazy loading · guards · interceptors</span>
+      </div>
+      <h3>How do you structure a new Angular application from scratch with at least five feature modules?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “This role sets up Angular applications from scratch and works on apps with at least five modules. Walk me through your initial architecture: folder layout, routing with lazy loading, and where guards, interceptors, and shared code live. Why that structure?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> whether the structure is a habit or a decision. The interviewer listens for a clear dependency rule (feature isolation, no cross-feature imports), a bootstrapping sequence (routing first, then auth, then design system), and the ability to explain trade-offs instead of listing folders.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· structure, code, strong signal, follow-ups</span></summary>
+        <div class="answer-body">
+      <p>I start from the boundaries of the domain, not from the framework. Before writing code I list the business capabilities, and each capability becomes one lazily loaded feature module. Everything that is not a capability goes into three technical buckets:</p>
+      <ul>
+        <li><strong><code>core/</code></strong> — singleton infrastructure loaded once: authentication, HTTP interceptors, guards, error handling, configuration, and logging. No UI here, no <code>AppModule</code> imports into features.</li>
+        <li><strong><code>shared/</code></strong> — reusable but stateless: presentational components, custom directives and pipes, form validators, utility functions. A feature may import a shared item; shared never imports a feature.</li>
+        <li><strong><code>features/&lt;name&gt;/</code></strong> — one folder per capability, each with its own routing module, services, state, and components. Features never import each other directly; if two features must collaborate, the contract moves into <code>core/</code> or a shared service with an explicit interface.</li>
+      </ul>
+      <p>Routing is where the architecture becomes enforceable: the root router only declares the shell and one <code>loadChildren</code> per feature, so a new module cannot be added without also being isolated in its own chunk. Route guards protect at the feature boundary, and interceptors are registered once in <code>core</code> in a deliberate order — token attachment first, then retry/refresh, then error normalisation — because the first interceptor in the array is the outermost handler for the request and the innermost for the response.</p>
+      <pre><code>// app-routing.module.ts — the shell declares features, never their internals
+const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./features/dashboard/dashboard.module').then(m =&gt; m.DashboardModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'billing',
+    loadChildren: () => import('./features/billing/billing.module').then(m =&gt; m.BillingModule),
+    canActivate: [AuthGuard],
+    canMatch: [RoleMatchGuard],          // Angular 14+: avoids downloading a chunk the user cannot use
+    data: { roles: ['billing-admin'] }
+  },
+  { path: '**', component: NotFoundComponent }
+];
+
+// app.module.ts — interceptor order is a design decision, not an accident
+providers: [
+  { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: ErrorNormalizerInterceptor, multi: true }
+]</code></pre>
+      <p>Two more decisions I make explicitly at setup: a preloading strategy (<code>PreloadAllModules</code> or a custom one that preloads only the routes a user is likely to visit, so lazy loading does not cost a visible delay), and a strict TypeScript and lint baseline from day one — <code>strict: true</code>, <code>noImplicitAny</code>, template type checking — because retrofitting strictness into a five-module app is much more expensive than starting with it.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> the candidate states a rule that a reviewer could enforce in code review (“features never import features”) and connects each folder to a runtime consequence (chunk size, singleton lifetime, guard timing) rather than only to tidiness.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> When would you skip feature modules and use standalone components? · How do you prevent a shared module from becoming a dumping ground? · What breaks if a guard returns an Observable that emits twice? · How do you share state between two lazily loaded features?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q2">
+      <div class="q-head">
+        <span class="q-num">Q2</span>
+        <span class="q-tag">RxJS</span>
+        <span class="q-tag">Reactive forms · memory</span>
+      </div>
+      <h3>Build a type-ahead search that hits the API on every keystroke — and explain how you keep it clean.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “A user types in a search box and results must update as they type, calling a REST endpoint. Show me how you would implement it with RxJS. Then tell me how you make sure the component does not leak subscriptions or show stale results.”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> operator fluency and, more importantly, an understanding of <em>cancellation</em> and <em>lifecycle</em>. The stale-response problem is the real test: a candidate who debounces but does not cancel will sometimes render the answer to an older keystroke.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· pipeline, operator choice, leaks, follow-ups</span></summary>
+        <div class="answer-body">
+      <p>The stream comes from the form control, not from a DOM event, so validation and the request share one source of truth. The pipeline is: debounce to reduce requests, drop repeats, ignore empty input, cancel the in-flight request, and recover from errors without killing the stream.</p>
+      <pre><code>readonly results$ = this.searchControl.valueChanges.pipe(
+  debounceTime(300),
+  map(term =&gt; (term ?? '').trim()),
+  distinctUntilChanged(),
+  filter(term =&gt; term.length === 0 || term.length &gt;= 2),
+  tap(() =&gt; this.loading.set(true)),
+  switchMap(term =&gt; term.length === 0
+    ? of([])
+    : this.searchService.search(term).pipe(
+        catchError(() =&gt; of([]))            // fail the request, not the stream
+      )),
+  finalize(() =&gt; this.loading.set(false))
+);</code></pre>
+      <p><code>switchMap</code> is the important choice: it unsubscribes from the previous inner observable, so a slow response for “ang” can never overwrite the fresh response for “angular”. If the requirement changed to “run every search, do not cancel”, the operator changes to <code>mergeMap</code>; if it must ignore new input while one request runs, <code>exhaustMap</code>. Choosing between them is the actual answer to the question.</p>
+      <p>On leaks: the template consumes <code>results$</code> through the <code>async</code> pipe, which unsubscribes automatically; I only subscribe manually when I need a side effect, and then the subscription is tied to the component lifecycle — <code>takeUntilDestroyed(this.destroyRef)</code> on Angular 16+, or the <code>Subject&lt;void&gt; + takeUntil</code> pattern on Angular 13/14. I avoid nested <code>subscribe</code> calls entirely, because they hide both the cancellation and the error path.</p>
+      <p>For repeated reads across components I add <code>shareReplay({ bufferSize: 1, refCount: true })</code> so the same request is not duplicated, and I keep the HTTP layer thin: the service returns the raw payload, the component maps to view state.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> the candidate immediately names the stale-response risk and picks the operator by the required concurrency semantics, not by habit; and can explain <code>refCount</code> and why an unhandled <code>catchError</code> inside <code>switchMap</code> would terminate the outer stream.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> Difference between <code>mergeMap</code>, <code>concatMap</code>, and <code>exhaustMap</code> in this exact UI? · How would you add retry with backoff without retrying 4xx? · When is a <code>BehaviorSubject</code> the wrong state container? · How do you test this pipeline deterministically?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q3">
+      <div class="q-head">
+        <span class="q-num">Q3</span>
+        <span class="q-tag">.NET 8</span>
+        <span class="q-tag">Layering · DI · EF Core</span>
+      </div>
+      <h3>Lay out a multi-layer .NET 8 API — and justify EF Core versus Dapper.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “The job requires multi-layered .NET applications with clear separation between API, business, and data access, plus dependency injection and an ORM. How do you organise the solution, how do you choose service lifetimes, and when do you reach for Dapper instead of EF Core?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> whether “layers” means folders or dependency direction. The lifetime question is the classic trap (a scoped <code>DbContext</code> captured by a singleton); the ORM question separates people who have tuned a query from people who have only used the default behaviour.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· layers, DI lifetimes, EF Core vs Dapper, follow-ups</span></summary>
+        <div class="answer-body">
+      <p>I keep four projects and one rule: dependencies point inward. <code>Api</code> depends on <code>Application</code>; <code>Application</code> defines the interfaces it needs; <code>Infrastructure</code> implements them; <code>Domain</code> depends on nothing. The API project contains controllers or endpoints, filters, middleware, and the composition root — nothing else. Business rules live in <code>Application</code> and never see <code>HttpContext</code> or <code>DbContext</code> types.</p>
+      <pre><code>// Application: the port. No EF Core reference leaks into business code.
+public interface IInvoiceRepository
+{
+    Task&lt;Invoice?&gt; GetAsync(Guid id, CancellationToken ct);
+    Task&lt;PagedResult&lt;InvoiceSummary&gt;&gt; ListAsync(InvoiceFilter filter, CancellationToken ct);
+}
+
+// Infrastructure: the adapter. EF Core for writes, Dapper for reporting reads.
+internal sealed class InvoiceRepository : IInvoiceRepository
+{
+    private readonly BillingDbContext _db;      // scoped
+    private readonly IDbConnectionFactory _sql; // scoped connection factory
+
+    public async Task&lt;Invoice?&gt; GetAsync(Guid id, CancellationToken ct) =&gt;
+        await _db.Invoices
+                 .AsNoTracking()
+                 .Include(i =&gt; i.Lines)
+                 .FirstOrDefaultAsync(i =&gt; i.Id == id, ct);
+}</code></pre>
+      <ul>
+        <li><strong>Lifetimes.</strong> <code>DbContext</code> and repositories are scoped — one per request, so change tracking stays coherent. Stateless services (token validation, clock, mappers) are singleton. I treat a singleton that takes a scoped dependency as a defect, and I verify with <code>ValidateScopes</code> and <code>ValidateOnBuild</code> enabled outside production so the container fails at startup instead of at 3 a.m.</li>
+        <li><strong>EF Core by default</strong> for aggregates, writes, and anything that benefits from tracking, migrations, and LINQ composability. <code>AsNoTracking</code> on every read path, projection to DTOs with <code>Select</code> instead of loading entities, keyset pagination instead of <code>Skip/Take</code> on large tables, and <code>ExecuteUpdateAsync</code> for bulk changes.</li>
+        <li><strong>Dapper for read models</strong>: dashboards, exports, and joins across five tables where hand-written SQL is shorter, faster, and easier to profile than the generated plan. The rule I state out loud is “EF Core for behaviour, Dapper for reporting”, so the team does not end up with two competing write paths.</li>
+      </ul>
+      <p>Cross-cutting behaviour goes in middleware or filters, not in every action: a global exception handler that returns <code>ProblemDetails</code>, request validation with FluentValidation, correlation IDs, and <code>async</code> all the way down with <code>CancellationToken</code> passed from the endpoint to the query so an abandoned request stops consuming a connection.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> the candidate talks about dependency direction and captive dependencies without prompting, and gives a concrete trigger for Dapper (reporting read model) rather than “when EF is slow”.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How do you handle a transaction that spans two repositories? · Where does validation belong? · How do you detect an N+1 in production? · What is your migration strategy for a zero-downtime deploy?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q4">
+      <div class="q-head">
+        <span class="q-num">Q4</span>
+        <span class="q-tag">Security</span>
+        <span class="q-tag">OAuth 2.0 · OIDC</span>
+      </div>
+      <h3>Secure an Angular SPA and a .NET API with OpenID Connect — end to end.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “We need authentication and authorization using OAuth 2.0 / OpenID Connect. Describe the flow you would implement for a browser application calling our own API, where the tokens live, and how the API validates and enforces permissions.”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> whether the candidate knows the difference between <em>authenticating</em> and <em>authorizing</em>, whether they would put a client secret in a SPA (a common and serious answer), and whether permissions are enforced server-side rather than by hiding buttons.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· PKCE flow, token handling, API policies, follow-ups</span></summary>
+        <div class="answer-body">
+      <p>Authorization Code with PKCE. The SPA is a public client: no client secret, no implicit flow, no password grant. The SPA redirects to the identity provider, comes back with a code, exchanges it for an access token and an ID token, and keeps the access token in memory — not in <code>localStorage</code>, because any script on the page could read it. A silent renewal (iframe or refresh token with rotation, depending on the provider) keeps the session alive, and the ID token is used only to read identity claims, never to authorize an API call.</p>
+      <p>On the API side, validation is delegated to the framework and never hand-rolled:</p>
+      <pre><code>builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(o =&gt;
+    {
+        o.Authority = "https://login.example.com/tenant";   // discovery document drives key rotation
+        o.Audience  = "billing-api";
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true, ValidateAudience = true,
+            ValidateLifetime = true, ValidateIssuerSigningKey = true,
+            ClockSkew = TimeSpan.FromSeconds(30)
+        };
+        o.MapInboundClaims = false;                          // keep original claim names
+    });
+
+builder.Services.AddAuthorization(o =&gt;
+{
+    o.AddPolicy("invoices:write", p =&gt; p
+        .RequireAuthenticatedUser()
+        .RequireClaim("scope", "invoices.write"));           // scopes from the token
+});</code></pre>
+      <p>Authorization is policy-based and lives next to the endpoint, so a new route cannot be added without a decision: <code>[Authorize(Policy = "invoices:write")]</code>. Roles from the token are convenient but coarse; for tenant isolation I also verify the resource's owner claim against the caller, otherwise a valid token for tenant A can read tenant B by changing an id — the most common real vulnerability in this pattern.</p>
+      <p>Remaining pieces: CORS restricted to the known front-end origins with credentials only where needed; no tokens in logs; refresh-token rotation with reuse detection; short access-token lifetimes; and, when the SPA can be served behind the same site, the BFF pattern so the browser only holds an HttpOnly cookie and the server holds the tokens.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> PKCE and “no secret in the browser” stated unprompted, plus server-side ownership checks. A candidate who mentions hiding routes in Angular as a security control is showing a front-end-only mental model.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> Access token versus ID token — which one does the API trust? · How do you handle logout across SPA and API? · What changes if the API is called by a machine instead of a user? · How do you test that a 403 path actually returns 403?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q5">
+      <div class="q-head">
+        <span class="q-num">Q5</span>
+        <span class="q-tag">Operations</span>
+        <span class="q-tag">Docker · Kubernetes · AI review</span>
+      </div>
+      <h3>p95 latency tripled after a deploy. Diagnose it — and tell me how you use AI tools without outsourcing judgement.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “You are on support and get an alert: p95 latency on the main API tripled ten minutes after a deployment. Walk me through your first thirty minutes. The role also expects Docker, Kubernetes, and AI-assisted development — how do those fit into your diagnosis and your code review?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> operational maturity under time pressure: stabilise first, then diagnose, then prevent recurrence. The AI part tests whether tooling is used as an accelerator with a verification step, or as an authority.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· triage order, Kubernetes checks, AI review gates, follow-ups</span></summary>
+        <div class="answer-body">
+      <p>First I protect users, then I investigate. The correlation with a deployment is strong enough that the fastest mitigation is usually to roll back or shift traffic to the previous revision, because a five-minute rollback is cheaper than a thirty-minute root cause with users affected. Only after the bleeding stops do I ask why.</p>
+      <ol>
+        <li><strong>Scope it.</strong> Is it one endpoint, one tenant, one node pool, or everything? Compare the p95 curve against the deploy timestamp and against request volume — a latency rise that tracks traffic is saturation, one that does not is a code or dependency change.</li>
+        <li><strong>Check the platform before the code.</strong> In Kubernetes: pod restarts and readiness-probe failures, CPU throttling against the limits, memory pressure and OOM kills, HPA not scaling because the metric is wrong, and DNS or connection-pool exhaustion toward the database.</li>
+        <li><strong>Check the released diff.</strong> New query without an index, an <code>Include</code> that turned one query into forty, a synchronous call added to a hot path, a cache removed “temporarily”, or an interceptor retrying requests and doubling load.</li>
+        <li><strong>Use telemetry, not intuition.</strong> Distributed traces to find the span that grew — API, database, or a third-party call — and structured logs keyed by correlation id so the slow requests can be sampled individually.</li>
+      </ol>
+      <p>Container hygiene is designed in, not debugged later: a slim multi-stage image, non-root user, pinned base tags, configuration from environment or a secret store rather than the image, and distinct liveness (is the process alive?) and readiness (can it serve?) endpoints — conflating them is what turns a slow dependency into a restart loop. And deployment-wise, rolling updates with a <code>maxUnavailable</code> that leaves capacity, so a bad revision never removes the good one before it is proven.</p>
+      <p>On AI-assisted development: I use it where it compresses low-judgement work — reading a stack trace, summarising a pod's logs, drafting a repository method, proposing test cases for an edge condition — and I treat its output as a draft from a fast junior colleague. Three non-negotiables: the diff is reviewed line by line before it is committed, every generated query is checked against the execution plan, and nothing merges without a test that fails when the fix is removed. The judgement about blast radius and data safety stays with the engineer; that is exactly the part the tool cannot own.</p>
+      <p>Then the part interviewers rarely hear: a short blameless postmortem — timeline, contributing factors, the one alert or check that would have caught it earlier, and an owner with a date. If a query regression caused it, the action is an index plus a performance test in CI, not “be more careful”.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> mitigation before diagnosis, platform-level checks before code-level guesses, and a concrete follow-through (index, test, alert). On AI, the candidate names a verification gate rather than either rejecting the tools or trusting them.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How would you prove the rollback is safe for in-flight requests? · What would you instrument first if you had no tracing? · Give me a case where AI-generated code was wrong and you caught it. · How do you keep a postmortem from becoming a blame exercise?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q6">
+      <div class="q-head">
+        <span class="q-num">Q6</span>
+        <span class="q-tag">RxJS fundamentals</span>
+        <span class="q-tag">Definition · Observable · operators</span>
+      </div>
+      <h3>What is RxJS, and what problem does it actually solve?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Before we go deeper into reactive code — define RxJS for me. What is it, what are its core building blocks, and why would a team use it instead of promises and event listeners?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> precision of the definition and correct vocabulary. A candidate who says “it's the library Angular uses for HTTP” has used RxJS but does not own the model; the interview then usually moves to what happens on unsubscribe, or to the difference between a cold and a hot observable.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· definition, building blocks, cold vs hot, when not to use it</span></summary>
+        <div class="answer-body">
+      <p><strong>RxJS — Reactive Extensions for JavaScript</strong> — is a library for composing asynchronous and event-based programs by using <strong>observable sequences</strong>. Its own documentation states the intent precisely: it treats “the best of the Observer pattern, the Iterator pattern and functional programming with collections” as one model, so that any stream of values over time — an HTTP response, keystrokes, a WebSocket feed, a timer — is handled with the same vocabulary: a source, a set of transformations, and a subscription that can be cancelled.</p>
+      <p>The distinction that makes the definition useful is <strong>push versus pull</strong>. A function or an iterator is pull-based: the consumer decides when to ask, and gets one value (or iterates on demand). An Observable is push-based: it emits <strong>zero to many values over time</strong> and signals termination on one of three channels — <code>next</code>, <code>error</code>, <code>complete</code>. A Promise is a degenerate case of the same idea: exactly one value, not cancellable, no repeated emissions.</p>
+      <p>The building blocks an interviewer expects to hear named:</p>
+      <ul>
+        <li><strong>Observable</strong> — a lazy blueprint of a producer. Nothing runs until someone subscribes; each subscription gets its own execution of a cold source.</li>
+        <li><strong>Observer</strong> — the consumer contract: <code>next</code>, <code>error</code>, <code>complete</code>.</li>
+        <li><strong>Subscription</strong> — the handle that represents a running execution. <code>unsubscribe()</code> is first-class cancellation, which is the main practical reason RxJS exists in a UI.</li>
+        <li><strong>Operators</strong> — pure functions that take an Observable and return a new one (<code>map</code>, <code>filter</code>, <code>debounceTime</code>, <code>switchMap</code>, <code>catchError</code>). They do not execute anything by themselves; they describe the pipeline.</li>
+        <li><strong>Subject</strong> — an Observable that is also an Observer, used for multicasting. <code>BehaviorSubject</code> holds a current value (state), <code>ReplaySubject</code> replays history, <code>AsyncSubject</code> emits only the last value.</li>
+        <li><strong>Scheduler</strong> — controls when emissions are delivered (time-based operators, and virtual time in tests).</li>
+      </ul>
+      <p><strong>Cold versus hot</strong> is the consequence of that laziness: a cold Observable creates a new producer per subscriber (two subscriptions to the same HTTP call mean two requests), while a hot Observable shares one external producer (a DOM event, a socket), so late subscribers miss earlier values unless the stream is replayed or shared.</p>
+      <pre><code>// Pull: the consumer asks, once, and cannot cancel
+const value = await fetchOne();
+
+// Push: the producer decides when values arrive; the pipeline is declarative
+const clicks$ = fromEvent(button, 'click').pipe(
+  debounceTime(250),
+  scan(count =&gt; count + 1, 0),
+  takeUntilDestroyed()
+);
+
+const sub = clicks$.subscribe({
+  next: count =&gt; render(count),
+  error: err =&gt; report(err),
+  complete: () =&gt; log('stream finished')
+});
+
+sub.unsubscribe();   // stops the producer — no boolean flag, no race</code></pre>
+      <p>Concretely, it solves four problems that otherwise leak into component code as ad-hoc flags: <strong>composition</strong> of several asynchronous sources into one result, <strong>cancellation</strong> of in-flight work, <strong>time</strong> as a first-class input (debounce, throttle, retry with backoff, timeout), and <strong>error recovery</strong> inside the stream rather than around it.</p>
+      <p>And the part that shows judgement: when <em>not</em> to use it. A single request with no cancellation, retry or combination requirement is clearer with <code>async/await</code> or <code>firstValueFrom</code>. Simple component state is often clearer as an Angular signal. The heuristic I state is “RxJS for streams and orchestration, signals for state, promises where there is exactly one value and no cancellation”.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> the definition names observable sequences and push vs pull, the six building blocks are correct, cancellation is given as the practical driver, and the candidate can say when RxJS is unnecessary.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> Difference between <code>Subject</code> and <code>BehaviorSubject</code> in a shared service? · What does <code>shareReplay({ refCount: true })</code> change about a cold HTTP stream? · Why does an operator not run until subscription? · Where does RxJS still make sense if the app uses signals?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q7">
+      <div class="q-head">
+        <span class="q-num">Q7</span>
+        <span class="q-tag">State management</span>
+        <span class="q-tag">Signals · BehaviorSubject · NgRx</span>
+      </div>
+      <h3>Choose a state management approach for a five-module Angular application.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “State management is in the requirements. On a five-module Angular app, how do you decide between local component state, a service with a <code>BehaviorSubject</code>, Angular signals, and a full store like NgRx? Give me the decision rule, not the library names.”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> whether the candidate has paid the maintenance cost of an over-engineered store. The expected shape is an escalation ladder with explicit triggers, plus comfort with immutability and change detection.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· escalation ladder, immutability, derived state, testing</span></summary>
+        <div class="answer-body">
+      <p>I escalate in four levels and only move up when a stated trigger is met.</p>
+      <ol>
+        <li><strong>Component state</strong> — anything only one screen needs. No service, no abstraction; a signal or a plain property is enough.</li>
+        <li><strong>Feature service</strong> — state shared by components inside one feature: a root- or feature-scoped service exposing a read-only signal or an <code>asObservable()</code>, with mutations behind methods. This covers most of a five-module app, and it is where I start.</li>
+        <li><strong>Component store / feature store</strong> — when a feature has several independent async sources, needs effects, or its state is genuinely complex (wizard flows, editors, optimistic updates). Scoped to the feature, discarded with it.</li>
+        <li><strong>NgRx or an equivalent global store</strong> — when state is cross-feature and long-lived (session, cart, permissions), several unrelated actors mutate it, or the team needs a single auditable action log with devtools time travel. That is the real trigger: <em>many writers plus auditability</em>, not “the app is big”.</li>
+      </ol>
+      <p>Two rules apply at every level. First, <strong>updates are immutable</strong> — always a new reference — so <code>OnPush</code> and signal-based change detection stay correct; mutation in place is the most common source of “the UI doesn't update” bugs. Second, <strong>derived state is computed, never stored</strong>: totals, filtered lists and permissions are <code>computed()</code> or selectors, so they cannot drift out of sync with their source.</p>
+      <pre><code>@Injectable({ providedIn: 'root' })
+export class CartStore {
+  private readonly _items = signal&lt;readonly CartItem[]&gt;([]);
+  readonly items = this._items.asReadonly();
+  readonly total = computed(() =&gt;
+    this._items().reduce((sum, i) =&gt; sum + i.price * i.quantity, 0));
+
+  add(item: CartItem): void {
+    this._items.update(list =&gt; [...list, item]);   // new reference, OnPush-safe
+  }
+  remove(id: string): void {
+    this._items.update(list =&gt; list.filter(i =&gt; i.id !== id));
+  }
+}</code></pre>
+      <p>I also keep server data out of the store unless it is genuinely shared: the HTTP service owns the cache (with a TTL or an invalidation call), and the component owns the view model. Duplicating server entities into a store is how teams end up reconciling two sources of truth by hand.</p>
+      <p>On the cost side: NgRx adds actions, reducers, effects, selectors and facades — worth it when the audit trail and the discipline pay for themselves, expensive when a feature needs one boolean. I say that out loud in the interview because choosing the smaller tool is a decision, not a gap.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> an explicit trigger for the store (multiple writers + auditability), immutable updates tied to change detection, derived state as <code>computed</code>, and a stated boundary between server cache and client state.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How do you prevent a shared service from becoming a global variable? · Signals versus <code>BehaviorSubject</code> — what actually changes for the component? · How would you test this store? · How do you handle optimistic updates and rollback?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q8">
+      <div class="q-head">
+        <span class="q-num">Q8</span>
+        <span class="q-tag">Reactive forms</span>
+        <span class="q-tag">Validators · reusable controls</span>
+      </div>
+      <h3>Build a typed reactive form with cross-field rules and a reusable control.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Walk me through a complex form: cross-field validation, an asynchronous check against the API, and one field that must be reused in three places. How do you keep the validation logic out of the template and testable?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> fluency with reactive forms beyond <code>FormGroup</code> basics — validator composition, where group-level rules belong, the <code>ControlValueAccessor</code> contract, and whether validation is treated as a domain rule or as template markup.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· typed forms, validators, CVA, testability</span></summary>
+        <div class="answer-body">
+      <p>I build the model first with typed forms (<code>FormBuilder</code> with non-nullable controls on Angular 14+), because the type of the form tells you what the template is allowed to read. Cross-field rules live on the <strong>group</strong>, not on a single control — a validator on one control cannot see its siblings, which is why teams end up with duplicated comparisons in the markup.</p>
+      <pre><code>const rangeValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null =&gt; {
+  const from = group.get('from')?.value;
+  const to = group.get('to')?.value;
+  return from != null &amp;&amp; to != null &amp;&amp; from &gt; to ? { rangeInverted: true } : null;
+};
+
+this.form = this.fb.group({
+  from: [null as Date | null, Validators.required],
+  to: [null as Date | null, Validators.required],
+  email: ['', [Validators.required, Validators.email], [this.uniqueEmailValidator]]
+}, { validators: rangeValidator });</code></pre>
+      <p>For the asynchronous check (an email that must not already exist), the validator returns an Observable that must <strong>complete</strong>, debounces its own input, and maps errors to <code>null</code> instead of throwing, so a failed request does not lock the form. I keep it out of the control's <code>updateOn</code> hot path by using <code>updateOn: 'blur'</code> for that field.</p>
+      <p>For the field reused in three places, I write a <code>ControlValueAccessor</code>: it is the only supported way to make a custom component behave like a form control — including validation state, disabled state, and <code>ngModel</code>-style binding. The contract is four methods plus the provider registration; everything else (masking, formatting, currency) stays inside the component.</p>
+      <pre><code>@Component({
+  selector: 'app-money-input',
+  templateUrl: './money-input.component.html',
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() =&gt; MoneyInputComponent),
+    multi: true
+  }]
+})
+export class MoneyInputComponent implements ControlValueAccessor {
+  writeValue(value: number | null): void { this.text = value == null ? '' : value.toFixed(2); }
+  registerOnChange(fn: (v: number | null) =&gt; void): void { this.onChange = fn; }
+  registerOnTouched(fn: () =&gt; void): void { this.onTouched = fn; }
+  setDisabledState(isDisabled: boolean): void { this.disabled = isDisabled; }
+}</code></pre>
+      <p>Presentation stays declarative: one error-message component that maps <code>control.errors</code> keys to messages, so the template contains no validation logic, and <code>markAllAsTouched()</code> on submit so the user sees the errors that already exist. Submission is guarded by <code>form.valid</code>, but the server is still the authority — client validation is a UX feature, not a security control.</p>
+      <p><strong>Testability</strong> is the reason for all of this: validators are pure functions tested directly, the CVA is tested through its host form with <code>TestBed</code>, and the group rules are tested without rendering anything. Template-driven forms are fine for two-field filters; they are the wrong tool the moment rules span fields.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> group-level validators, async validator lifecycle (must complete, debounced, errors not thrown), correct CVA contract, and validation kept out of the template.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> Why must an async validator complete? · How do you validate a <code>FormArray</code> of dynamic rows? · What does <code>updateOn</code> change, and when would you use it? · How do you surface server-side field errors on the right control?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q9">
+      <div class="q-head">
+        <span class="q-num">Q9</span>
+        <span class="q-tag">Data</span>
+        <span class="q-tag">SQL tuning · NoSQL modelling</span>
+      </div>
+      <h3>A report query got slow. Tune it — and tell me when this data belongs in MongoDB instead.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “You have two years with SQL Server or PostgreSQL and at least one with a NoSQL database. A reporting query that used to take 200 ms now takes four seconds. How do you approach indexes and the query itself? And when would you have modelled this in MongoDB instead?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> method rather than folklore. “Add an index” is not an answer; reading the plan, sargability, composite column order and write-cost trade-offs are. The NoSQL half tests whether the choice follows the access pattern.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· plan reading, index design, N+1, document modelling</span></summary>
+        <div class="answer-body">
+      <p>I start with the plan, not with an index. The actual execution plan tells me whether the cost is a scan, a bad join order, a sort spilling to disk, or a cardinality estimate that is wrong because statistics are stale. The second question is what changed: data volume, a new filter, a parameter that hits a different plan (parameter sniffing), or a query that became an N+1 after a refactor.</p>
+      <p>Then the query itself. A predicate is only index-friendly if it is <strong>sargable</strong>: wrapping the column in a function or a cast (<code>WHERE YEAR(CreatedAt) = 2026</code>, <code>WHERE CAST(Id AS varchar) = @id</code>) forces a scan even when the index exists; rewriting it as a range restores the index. The same applies to leading wildcards and to <code>OR</code> across different columns.</p>
+      <p>Index design follows the shape of the query: <strong>equality columns first, then the range, then the sort</strong>, and the selected columns either in the key or in an <code>INCLUDE</code> to make it covering. Every index is a write cost and a maintenance cost, so I add the one the plan needs rather than one per column.</p>
+      <pre><code>-- Query: latest paid orders of a customer, newest first
+SELECT Id, Total, Currency, CreatedAt
+FROM   Orders
+WHERE  CustomerId = @customerId
+  AND  Status     = 'Paid'
+  AND  CreatedAt &gt;= @from
+ORDER  BY CreatedAt DESC;
+
+-- Covering index: equality, equality, range, then the sort direction
+CREATE INDEX IX_Orders_Customer_Status_CreatedAt
+  ON Orders (CustomerId, Status, CreatedAt DESC)
+  INCLUDE (Total, Currency);</code></pre>
+      <p>For the ORM side I watch the same failure from a different angle: an <code>Include</code> chain that produces a cartesian explosion, lazy loading firing inside a loop, or <code>Skip/Take</code> on a large offset. The fixes are projection to a DTO, <code>AsSplitQuery</code> where it applies, and keyset pagination. And for a report that is read ten thousand times a day and written once, a pre-aggregated table or a cache is cheaper than any index.</p>
+      <p><strong>Relational or document?</strong> I choose by access pattern. This invoice/order data is relational: several entities, invariants enforced across them, ad-hoc reporting and aggregates that change shape — a normalised model with joins is exactly right. MongoDB earns its place when the aggregate is read and written as one document, the shape varies per record (catalogues, form submissions, device payloads), and the access pattern is “fetch the whole thing by key”. Modelling is then by query: embed what is always read together, reference what is unbounded or shared, and accept deliberate duplication because there are no joins to reconcile it — the application owns consistency instead of the database.</p>
+      <p>What I do <em>not</em> do is treat NoSQL as a default. Multi-entity transactions, constraints, and reporting across dimensions are still where relational engines are strongest, and moving a report there means giving up the guarantee that pays for it.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> plan first, sargability and composite column order explained with a real query, write cost acknowledged, and the NoSQL decision argued from the access pattern (aggregate shape, read-by-key) rather than from scale claims.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How do you find an N+1 in production? · What would you do about parameter sniffing? · When is denormalising the relational schema the right call? · How do you migrate a document model when the shape changes?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q10">
+      <div class="q-head">
+        <span class="q-num">Q10</span>
+        <span class="q-tag">Quality</span>
+        <span class="q-tag">Testing · Azure DevOps</span>
+      </div>
+      <h3>How do you test a full-stack feature, and what gates does the pipeline enforce?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Unit tests and peer code reviews are part of the role, and so are Git and Azure DevOps. Take a feature that spans the Angular UI and a .NET API: what do you test at each level, what runs in the pipeline, and what actually blocks a merge?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> whether testing is a strategy or a ritual. The strongest answers name what they deliberately do <em>not</em> test, use real infrastructure for integration tests, and describe gates that a person cannot bypass.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· test pyramid, integration with containers, pipeline gates, review focus</span></summary>
+        <div class="answer-body">
+      <p>I test where the risk is, and I keep the pyramid honest. Most tests are unit tests over logic that has no framework in it: domain rules in <code>Application</code> (xUnit, FluentAssertions), pure validators, mappers, and RxJS pipelines with marble testing so timing and cancellation are deterministic. Angular components get <code>TestBed</code> tests for the behaviour a user can observe — validation messages, disabled states, emitted events — not for internal method calls.</p>
+      <p>Integration tests carry the weight that unit tests cannot: the API through <code>WebApplicationFactory</code> against a real database in a container (<code>Testcontainers</code>), so migrations, SQL, constraints and the actual EF Core mapping are exercised. That is where the defects that reach production usually live. A handful of end-to-end tests (Playwright or Cypress) cover the two or three journeys the business cannot afford to break — login, checkout, the report the client asks about — and nothing more, because E2E suites are the most expensive thing to keep green.</p>
+      <p>What I deliberately do not do: assert on private methods, mock the database into meaninglessness, or chase a coverage number. Coverage is a signal for finding untested branches, never a target — a suite at 85% that passes when the feature is broken is worse than one at 60% that fails.</p>
+      <pre><code># azure-pipelines.yml — the gates that block a merge
+trigger:
+  branches: { include: [ main ] }
+
+stages:
+  - stage: ci
+    jobs:
+      - job: build_and_test
+        steps:
+          - script: dotnet restore &amp;&amp; dotnet build --configuration Release
+          - script: dotnet test ./tests --logger trx --collect "Code Coverage"
+          - script: npm ci &amp;&amp; npm run lint
+          - script: npm run test -- --watch=false --browsers=ChromeHeadless
+          - script: npm run build -- --configuration production
+          - task: PublishTestResults@2
+            inputs: { testResultsFormat: VSTest, testResultsFiles: '**/*.trx' }</code></pre>
+      <p>On Git and Azure DevOps: trunk-based with short-lived branches, protected <code>main</code> that requires a green build plus at least one review, small pull requests, and build artifacts promoted between environments instead of rebuilt. Branch policies are what make the gates real — a pipeline nobody can bypass is a gate; a pipeline that can be skipped is a suggestion.</p>
+      <p>In review I look for, in this order: correctness on the unhappy path (nulls, empty lists, timeouts, concurrency), security (authorization on the new endpoint, input validation, no secrets), data safety (migrations, transactions, destructive updates), test quality (does the new test fail if the fix is reverted?), and only then readability. Formatting and naming are automated — spending review attention there is a waste of the reviewer's scarcest resource.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> integration tests against real infrastructure, deterministic RxJS tests, an explicit “what I don't test”, and gates enforced by branch policy rather than by discipline.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> How do you test an interceptor that retries on 401? · What do you do with a flaky test? · How do you keep integration tests fast enough to run on every PR? · Which single test would you keep if you could keep only one?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <h2 class="section-title">Evaluation rubric<small>What a strong answer contains, per question</small></h2>
+    <section class="card">
+      <div class="table-scroll">
+        <table class="rubric">
+          <thead>
+            <tr><th>Question</th><th>Must contain</th><th>Weak answer sounds like</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Q1 · Architecture</td>
+              <td>A folder rule tied to a runtime consequence; lazy loading at feature boundaries; interceptor order explained; explicit bootstrap decisions (preloading, strict mode).</td>
+              <td>Listing folders and saying “modules keep things organised”.</td>
+            </tr>
+            <tr>
+              <td>Q2 · RxJS</td>
+              <td>Cancellation via <code>switchMap</code>; stale-response risk named; error handling that does not kill the stream; a declared teardown strategy.</td>
+              <td>Debounce only, plus “I unsubscribe in ngOnDestroy” with no mechanism.</td>
+            </tr>
+            <tr>
+              <td>Q3 · .NET layering</td>
+              <td>Dependency direction; lifetime correctness; EF Core tuning shown through concrete options; a stated Dapper boundary.</td>
+              <td>“Three-tier architecture” with no rule about who may reference whom.</td>
+            </tr>
+            <tr>
+              <td>Q4 · Security</td>
+              <td>Authorization Code + PKCE; no secret in the browser; server-side token validation; ownership checks beyond roles.</td>
+              <td>Implicit flow, tokens in <code>localStorage</code>, or route guards presented as security.</td>
+            </tr>
+            <tr>
+              <td>Q5 · Operations</td>
+              <td>Mitigate, then diagnose; platform checks before code guesses; readiness versus liveness; AI used with an explicit verification gate.</td>
+              <td>Debugging in production first, or accepting generated code because it compiles.</td>
+            </tr>
+            <tr>
+              <td>Q6 · RxJS definition</td>
+              <td>Observable sequences; push vs pull; Observable, Observer, Subscription, operators, Subject, Scheduler named correctly; cold vs hot; a stated case where RxJS is unnecessary.</td>
+              <td>“RxJS is the library Angular uses for HTTP”, or an operator list with no underlying model.</td>
+            </tr>
+            <tr>
+              <td>Q7 · State</td>
+              <td>An escalation ladder with explicit triggers; immutable updates tied to change detection; derived state computed; a boundary between server cache and client state.</td>
+              <td>A store by default, or global state kept in a service “just in case”.</td>
+            </tr>
+            <tr>
+              <td>Q8 · Forms</td>
+              <td>Group-level cross-field validators; async validator that completes and debounces; full <code>ControlValueAccessor</code> contract; validation absent from the template.</td>
+              <td>Validation duplicated in markup, or a custom field that only works with <code>ngModel</code>.</td>
+            </tr>
+            <tr>
+              <td>Q9 · Data</td>
+              <td>Plan reading; sargable predicates; composite index order and covering columns; index write cost; NoSQL chosen from the aggregate and access pattern.</td>
+              <td>“Add an index to every filtered column”, or NoSQL justified only by volume.</td>
+            </tr>
+            <tr>
+              <td>Q10 · Testing &amp; CI</td>
+              <td>Test pyramid with real infrastructure behind integration tests; deterministic async tests; gates enforced by branch policy; review focused on risk, not formatting.</td>
+              <td>Coverage percentage as the goal, or manual QA as the only gate.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <strong>Scope note.</strong> These ten preparation questions are written from the public P-169 job description; they are not the client's actual interview script and no confidentiality is implied. Questions 1–5 cover architecture, platform and security; 6–10 cover language fundamentals, state, forms, data and quality. New questions are appended as the process advances, keeping this page the single index for the technical track.
+      </div>
+      <div class="actions">
+        <a class="button" href="smash_full_stack_dotnet_angular_p169_process.html">← Back to the P-169 process</a>
+        <a class="button" href="https://mcortesgranados.github.io/RTS_QUESTIONNAIRE/index.html" target="_blank" rel="noopener">RTS questionnaire (expanded)</a>
+        <a class="button" href="tech_assessments.html">Technical assessments</a>
+        <a class="button" href="index.html">Open CV</a>
+      </div>
+    </section>
+
+    <p class="footer">Technical evaluation page for SMASH P-169 · Full Stack Developer .NET / Angular · questions mapped to the published must-haves.</p>
+  </main>
+
+  <script>
+    (function () {
+      var answers = Array.prototype.slice.call(document.querySelectorAll('details.answer'));
+      var counter = document.getElementById('qa-count');
+      var expandButton = document.getElementById('qa-expand');
+      var collapseButton = document.getElementById('qa-collapse');
+      var opened = [];
+
+      function sync() {
+        var open = answers.filter(function (d) { return d.open; }).length;
+        if (counter) counter.textContent = open + ' of ' + answers.length + ' answers expanded';
+      }
+
+      if (expandButton) {
+        expandButton.addEventListener('click', function () {
+          answers.forEach(function (d) { d.open = true; });
+          sync();
+        });
+      }
+      if (collapseButton) {
+        collapseButton.addEventListener('click', function () {
+          answers.forEach(function (d) { d.open = false; });
+          sync();
+        });
+      }
+      answers.forEach(function (d) { d.addEventListener('toggle', sync); });
+      sync();
+
+      // Printing must not lose the answers: open everything, then restore.
+      window.addEventListener('beforeprint', function () {
+        opened = [];
+        answers.forEach(function (d, i) {
+          if (!d.open) { opened.push(i); d.open = true; }
+        });
+      });
+      window.addEventListener('afterprint', function () {
+        opened.forEach(function (i) { answers[i].open = false; });
+        opened = [];
+        sync();
+      });
+    })();
+  </script>
+</body>
+</html>
