@@ -125,15 +125,16 @@
         <span>Business first, technology second</span>
       </div>
       <h1>Interview Questions — Solving RTS Business Problems</h1>
-      <p>Ten questions written for the person who will actually be in the room: a cargo technology executive with two decades inside RTS, not a front-end specialist. The emphasis is on how software changes a client's margin, how an analyst's problem becomes a product that works for several carriers, and how risk is managed when the customer operates 24/7. Each answer is meant to be spoken in about a minute, with one sentence of technical proof where it adds credibility.</p>
+      <p>Twenty questions written for the person who will actually be in the room: a cargo technology executive with two decades inside RTS, not a front-end specialist. The emphasis is on how software changes a client's margin, how an analyst's problem becomes a product that works for several carriers, and how risk is managed when the customer operates 24/7. Each answer is meant to be spoken in about a minute, with one sentence of technical proof where it adds credibility. Part 1 covers the business conversation; part 2 takes each line of the posted job description and turns it into a client-facing problem with a solution and a way to measure it.</p>
       <div class="chips">
-        <span>10 questions</span>
+        <span>20 questions</span>
         <span>English</span>
         <span>Cargo domain</span>
         <span>Client outcomes</span>
         <span>Product judgement</span>
         <span>Delivery risk</span>
         <span>Communication</span>
+        <span>JD mapping</span>
       </div>
     </section>
 
@@ -205,17 +206,27 @@
         <li><a href="#q8">Something breaks in a client's peak week</a></li>
         <li><a href="#q9">Where AI helps the business, and where it creates risk</a></li>
         <li><a href="#q10">Working across Dallas, the UK, South Africa and India</a></li>
+        <li><a href="#q11">“Develop and maintain enterprise applications using .NET 8+ and Angular 13+” — paying for a platform upgrade</a></li>
+        <li><a href="#q12">“Build responsive web interfaces” — when the analysts work on laptops and the ramp uses tablets</a></li>
+        <li><a href="#q13">“Angular applications from scratch” — a new product line with a small team and a fixed budget</a></li>
+        <li><a href="#q14">“Reusable components, modules, services, directives, pipes” — four verticals, one screen</a></li>
+        <li><a href="#q15">“Lazy loading, guards, interceptors, RxJS, state, reactive forms” — slowness, wrong visibility, lost edits</a></li>
+        <li><a href="#q16">“RESTful APIs and third-party integrations” — a carrier wants our rates in their own portal</a></li>
+        <li><a href="#q17">“Multi-layered .NET, separation of concerns, DI, ORM” — two carriers, one calculation, two answers</a></li>
+        <li><a href="#q18">“Secure authentication and authorization” — the auditor asks who changed the rate</a></li>
+        <li><a href="#q19">“Optimize databases, performance and reliability” — the monthly close gets slower every year</a></li>
+        <li><a href="#q20">“AI-assisted development, code reviews, deployments, incidents” — going faster without going riskier</a></li>
       </ol>
-      <p class="note" style="margin-bottom:0"><strong>How to use this page.</strong> Answers are collapsed. Read the question, answer it out loud in your own words, then expand and compare. If your version is longer than the one here, cut it: the goal is a minute of substance, not completeness.</p>
+      <p class="note" style="margin-bottom:0"><strong>How to use this page.</strong> Answers are collapsed. Part 1 (Q1–Q10) is the business conversation a cargo VP will actually have; part 2 (Q11–Q20) takes the job description line by line and shows the business problem, the solution and the number that proves it worked. Read the question, answer out loud, then expand and compare — if your version is longer, cut it.</p>
     </section>
 
     <div class="qa-toolbar">
       <button type="button" id="qa-expand">Expand all answers</button>
       <button type="button" id="qa-collapse">Collapse all</button>
-      <span class="qa-count" id="qa-count">0 of 10 answers expanded</span>
+      <span class="qa-count" id="qa-count">0 of 20 answers expanded</span>
     </div>
 
-    <h2 class="section-title" id="questions">The ten questions<small>Business problems, with technical proof only where it helps</small></h2>
+    <h2 class="section-title" id="questions">Part 1 — the business conversation<small>Q1 to Q10 · client problems, with technical proof only where it helps</small></h2>
 
     <article class="qa" id="q1">
       <div class="q-head">
@@ -583,6 +594,390 @@
       </details>
     </article>
 
+    <h2 class="section-title">Part 2 — the job description, line by line<small>Each posting requirement turned into a business problem, a solution and a measure</small></h2>
+
+    <article class="qa" id="q11">
+      <div class="q-head">
+        <span class="q-num">Q11</span>
+        <span class="q-tag">JD: .NET 8+ / Angular 13+</span>
+        <span class="q-tag dom">Platform upgrade</span>
+      </div>
+      <h3>“Develop and maintain enterprise applications using .NET 8+ and Angular 13+.” Make that a business case, not a version number.</h3>
+
+      <div class="ask">
+        <b>Question:</b> “The posting says .NET 8 and Angular 13 or later. A client does not care about the version. How would you explain to them — or to me — why moving is worth the money?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether you can attach a platform decision to risk and velocity. He has watched upgrades consume a year; the answer he wants includes what happens if we do not move.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· risk, velocity, funding model, how to prove it</span></summary>
+        <div class="answer-body">
+      <p>“I would never sell it as a version upgrade. I would sell it as two business risks and one number.”</p>
+      <ul>
+        <li><strong>The risk of standing still.</strong> Unsupported runtimes stop receiving security fixes, and in a system that holds a carrier's commercial data that becomes an audit finding, not an engineering preference. It also gets harder to hire for, and every integration the client asks for next year costs more than it should.</li>
+        <li><strong>The velocity cost.</strong> Old platforms make small changes slow, so the client waits longer for the requests they actually care about. That is the argument that gets budget: not “we are on an old framework”, but “each change costs us twice what it should”.</li>
+        <li><strong>The funding model.</strong> A separate modernization project competes with features and loses. I would ring-fence a slice of capacity — around a fifth of the team — and attach a visible client benefit to each slice: one report, one screen, one integration. Funded from the roadmap, not from a hope.</li>
+      </ul>
+      <p>The sequence that usually works is to separate the front end from the services first, because the UI delivers visible value quickly and the back end can move underneath it without changing what the client sees. Then each release modernizes one path end to end instead of half of everything.</p>
+      <p>And I would commit to numbers before starting: incidents per quarter, average time to deliver a client change, and support hours per client. If those three do not improve, the programme is not working, whatever the version says.</p>
+      <div class="say"><b>Say it like this:</b> “It is not a version upgrade — it is a security and audit risk on one side, and the cost of every future client change on the other. I would fund it as a slice of roadmap capacity and prove it with lead time and incidents.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “In practice: upgrade the services behind the existing contracts, keep API versions so clients do not move in lockstep, and ship the front end in routes rather than as a big-bang replacement.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> What if the client refuses to pay? · How do you keep features shipping meanwhile? · What would make you stop and re-plan?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q12">
+      <div class="q-head">
+        <span class="q-num">Q12</span>
+        <span class="q-tag">JD: responsive UI, CSS3/SCSS</span>
+        <span class="q-tag dom">Adoption</span>
+      </div>
+      <h3>“Build responsive web interfaces.” Where does responsiveness actually pay for itself in a cargo operation?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Responsive design sounds like a design concern. In our world, where does it change a client's operation — or their cost?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether you see the two different workplaces behind the request. Analysts work in dense grids on large screens; acceptance staff work standing up, on a tablet, with gloves on.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· two work modes, error cost, what to measure</span></summary>
+        <div class="answer-body">
+      <p>“Responsiveness is an adoption question before it is a CSS question. In cargo there are two workplaces, and they need opposite things.”</p>
+      <ul>
+        <li><strong>Desk mode.</strong> Revenue analysts and planners in front of large screens, comparing many rows. Here responsiveness means density and control — more information per screen, keyboard navigation, no wasted whitespace.</li>
+        <li><strong>Field mode.</strong> Cargo acceptance and warehouse staff on a tablet or handheld, entering weight and dimensions next to the shipment. Here it means large targets, few fields per step, and tolerance for an interrupted connection.</li>
+      </ul>
+      <p>Both come from one codebase with a shared style layer — tokens for spacing and type, breakpoints that switch layout rather than shrink it, and components that declare their density. The trap is “make it smaller”: a dense grid squeezed onto a tablet is unusable, and a warehouse form stretched onto a desktop wastes the screen.</p>
+      <p>The business case is in errors and time. A weight entered on the wrong shipment costs a re-rating and a customer complaint; a screen that takes six taps instead of two costs minutes per shipment across a shift. So I would measure <strong>entries per hour</strong>, <strong>correction rate</strong> and <strong>support calls about the screen</strong> — and I would sit with acceptance staff before designing anything, because their constraints are physical, not aesthetic.</p>
+      <div class="say"><b>Say it like this:</b> “Two workplaces, two designs: density for the analyst at a large screen, and a task-by-task flow with big targets for acceptance staff on a tablet — measured in entries per hour and correction rate.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “One codebase, one SCSS token layer, breakpoints that change the layout instead of shrinking it, and components that declare their own density.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> Would you build a separate mobile app? · How do you test this without field access? · What is the first screen you would fix?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q13">
+      <div class="q-head">
+        <span class="q-num">Q13</span>
+        <span class="q-tag">JD: Angular from scratch</span>
+        <span class="q-tag dom">New product</span>
+      </div>
+      <h3>“Angular applications from scratch, including initial architecture.” A new product line, a small team, a fixed budget — how do you scope it?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Suppose we want a first product for coach operators — a market we serve but where the needs are simpler. Small team, fixed budget, one year. How do you decide what exists at the end?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether you scope by business decisions rather than by feature list, and whether you can say what will deliberately not be built.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· minimum viable value, capability modules, pilot operator, what to defer</span></summary>
+        <div class="answer-body">
+      <p>“With a fixed budget I would fix the scope, never the date, and I would define scope by the decisions the operator needs to make — not by screens.”</p>
+      <p>For a coach operator the first release probably needs three decisions to be supported: what to charge for a departure, how much capacity to release at each price, and how the week actually performed. That is a fares screen with guardrails, a simple allocation view, and one report. Everything else — optimizers, complex fare rules, multi-currency, deep integrations — waits for evidence that someone is using the first three.</p>
+      <ul>
+        <li><strong>One pilot operator with a named counterpart.</strong> Their real timetable and fares as the only data set for the pilot. It keeps the scope honest and gives a reference client.</li>
+        <li><strong>Capability per module.</strong> Angular set up with one lazily loaded area per capability, so the second and third releases add routes instead of restructuring.</li>
+        <li><strong>Configuration over cleverness.</strong> Coach is the simplest vertical; the product should win by being quick to configure per operator, not by matching airline sophistication.</li>
+        <li><strong>A visible first release in eight to twelve weeks.</strong> Something the operator uses daily, even if narrow. A year-long build with nothing to show loses its sponsor before it ships.</li>
+      </ul>
+      <p>The number that matters at the end is not features delivered but whether the pilot operator runs their week in the tool. If they still keep the spreadsheet alongside it, the scope was wrong regardless of what was built.</p>
+      <div class="say"><b>Say it like this:</b> “With a fixed budget I fix scope by the decisions the operator must make, ship something usable in eight to twelve weeks, and let the pilot's usage — not a feature list — decide release two.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “Angular from scratch with one lazy area per capability, a strict TypeScript baseline from day one, and configuration per operator instead of branches per client.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> What would you cut first if the budget shrinks? · How do you avoid rebuilding the airline product? · Who owns the roadmap decisions?
+      </div>
+        </div>
+      </details>
+    </article>
+    <article class="qa" id="q14">
+      <div class="q-head">
+        <span class="q-num">Q14</span>
+        <span class="q-tag">JD: reusable components, modules, services, directives, pipes</span>
+        <span class="q-tag dom">Cost of delivery</span>
+      </div>
+      <h3>“Build reusable components, modules, services, directives and pipes.” Four verticals need the same screen — how does that save money?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Airline, cargo, ferry and rail all need a rate screen, but not the same one. How do you build it once without it becoming a compromise nobody likes?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether you can reuse without over-abstracting, and whether you can express the saving in days or in euros rather than in principles.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· shared core plus per-vertical configuration, the three-use rule, the saving</span></summary>
+        <div class="answer-body">
+      <p>“The saving is real but it only appears if the shared part is the boring part. What differs between verticals is the unit — a seat, a kilogram, a lane metre, a berth — and the vocabulary around it.”</p>
+      <p>So I split the screen in two layers:</p>
+      <ul>
+        <li><strong>Shared:</strong> the table mechanics — paging, filtering, editing, validation display, keyboard navigation, export, audit of changes. None of that is vertical-specific, and it is where most of the effort goes.</li>
+        <li><strong>Per vertical:</strong> a configuration of columns, units, labels and rules, plus at most one custom cell component where the domain genuinely differs. Configuration, not a fork.</li>
+      </ul>
+      <p>My working rule against over-abstraction is three uses: the second time I copy something I leave it alone, the third time I extract it. Extracting on the first sighting produces abstractions shaped by one carrier's exception, and those cost more than the duplication they replaced.</p>
+      <p>The business argument is simple arithmetic: if a screen costs three weeks the first time, the second and third vertical should cost days, not weeks. I would track <strong>days per new screen per vertical</strong> as the measure — if it stays flat, the reuse is theoretical. And the practical side benefit is consistency: an analyst moving from an airline product to a cargo one recognizes the same interactions, which shortens training on every new client.</p>
+      <div class="say"><b>Say it like this:</b> “Share the mechanics, configure the meaning. The first vertical pays for the screen, the next ones should cost days — and I would track days per screen to prove it.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “A shared component library with per-vertical configuration, directives and pipes for the formatting rules, and the three-use rule to keep the abstraction honest.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> When would you accept a copy instead of a component? · How do you version the library across products? · What if one vertical needs a completely different interaction?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q15">
+      <div class="q-head">
+        <span class="q-num">Q15</span>
+        <span class="q-tag">JD: lazy loading, guards, interceptors, RxJS, state, reactive forms</span>
+        <span class="q-tag dom">Three client complaints</span>
+      </div>
+      <h3>“Lazy loading, route guards, interceptors, RxJS, state management, reactive forms.” Which client complaints do those six items actually fix?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Those are the buzzwords in the posting. Translate them for me: what does a client stop complaining about when they are done well?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether you can map technical mechanisms to symptoms a client reports. This is the question where a candidate either sounds like a framework manual or like someone who has run support.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· slow open, wrong visibility, lost edits — and the measure for each</span></summary>
+        <div class="answer-body">
+      <p>“Three complaints, in the order clients usually raise them.”</p>
+      <ul>
+        <li><strong>“It takes forever to open.”</strong> Lazy loading and a smaller first bundle. The analyst logs in to check one market before a meeting; if the whole application loads first, those minutes are the product's fault. Measure: time to the first useful screen.</li>
+        <li><strong>“I can see another carrier's rates.”</strong> Route guards plus authorization on the server — the guard hides the screen, the API refuses the data. In a multi-tenant product this is not a UI nicety; it is commercial confidentiality, and a single incident costs a client relationship. Interceptors carry the identity and the correlation id so an incident can be traced. Measure: entitlement defects, which should be zero.</li>
+        <li><strong>“I entered it twice and it disappeared.”</strong> State management and reactive forms with dirty tracking, so a refresh or a timeout does not silently discard work, and a second user's change is shown as a conflict instead of being overwritten. Measure: rework tickets and repeated entries.</li>
+      </ul>
+      <p>RxJS is the connective tissue in all three: cancellation so a stale response cannot overwrite a fresh one, debouncing so typing does not flood the API, and a single place to handle a session expiry instead of every screen inventing its own behaviour. The technical choices are ordinary; the point is that each one has a symptom attached, and I would only adopt the heavier ones — a store, for instance — when a symptom justifies it.</p>
+      <div class="say"><b>Say it like this:</b> “Slow open, wrong visibility, lost edits — lazy loading, guards with server-side authorization, and dirty tracking with conflict handling. Each has a number attached, and none of them is worth doing without the symptom.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “In Angular that is lazy routes per feature, a guard for navigation and a policy on the API, an HTTP interceptor for identity and correlation, and RxJS with <code>switchMap</code> so obsolete responses are cancelled.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> Where would you not use a full state store? · How do you prove a tenant can never see another's data? · What is your first fix on a slow screen?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q16">
+      <div class="q-head">
+        <span class="q-num">Q16</span>
+        <span class="q-tag">JD: REST APIs, third-party integrations</span>
+        <span class="q-tag dom">Partner channel</span>
+      </div>
+      <h3>“Design and implement RESTful APIs and third-party integrations.” A carrier wants our rates inside their own portal. What do you deliver, and what do you refuse?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “A good customer asks us to expose rates and availability so their own sales portal can quote directly. Commercially it is attractive. How would you scope it?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether you can say yes to the commercial intent while protecting the product — and whether you think about load, support and the contract before the endpoint.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· read versus write, contract, limits, support model</span></summary>
+        <div class="answer-body">
+      <p>“I would say yes to the intent and be precise about the boundary: we publish what they need to quote, and we do not let an external system drive pricing.”</p>
+      <ul>
+        <li><strong>Read, not write.</strong> Rates and availability out; no external writes into pricing rules or capacity. The moment a partner can change a fare through an API, every dispute becomes our problem.</li>
+        <li><strong>A contract before code.</strong> Agreed fields, refresh expectations, error behaviour and versioning. A documented contract is what makes an integration supportable two years later, when the person who built it has moved on.</li>
+        <li><strong>Commercial limits.</strong> Rate limits, quotas and caching expectations, written into the agreement. A portal that polls every second is a capacity problem for every other client on the platform.</li>
+        <li><strong>Identity per client.</strong> Their own credentials, scoped to their data only, with logging of what was requested — that is also what protects us in a billing or entitlement discussion.</li>
+      </ul>
+      <p>The business upside is concrete: fewer manual quote requests by email, faster response on spot business, and a switching cost for the carrier because our data is already inside their tool. The measure is <strong>manual quotes per week going down</strong>, and the support tickets per integration staying flat — if the integration generates tickets, the contract was too vague.</p>
+      <p>And what I would refuse, politely, with an alternative: real-time write access, unbounded historical queries, or a per-client custom endpoint that only one carrier uses. Those three are where integration projects go to die.</p>
+      <div class="say"><b>Say it like this:</b> “Read out, never write in, with a documented contract, quotas and per-client credentials — the win is fewer manual quotes, and the guardrail is that an external system never drives our pricing.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “Contract-first OpenAPI, OAuth client credentials scoped per carrier, rate limiting and a documented error model — versioned so a partner's integration does not break when we ship.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> What SLA would you commit? · How do you handle an outage on their side? · Would you charge for the integration?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q17">
+      <div class="q-head">
+        <span class="q-num">Q17</span>
+        <span class="q-tag">JD: multi-layered .NET, SoC, DI, ORM</span>
+        <span class="q-tag dom">Rules and disputes</span>
+      </div>
+      <h3>“Multi-layered .NET, separation of concerns, dependency injection, ORM.” Two carriers calculate the same charge differently — how do you keep that maintainable?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Two carriers insist on different calculations for what is nominally the same charge. Both are right for their business. How do you build that without the code becoming unmaintainable?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether layering means something to you operationally — specifically that a calculation rule can be isolated, tested and traced to the shipment it priced.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· rule as a policy, per-carrier configuration, audit, what to avoid</span></summary>
+        <div class="answer-body">
+      <p>“The calculation is the product, so it should live in one place, be named after the rule, and be replaceable per carrier without touching the rest of the system.”</p>
+      <ul>
+        <li><strong>Layer it.</strong> Rates arrive through an API layer, the calculation sits in a domain layer that knows nothing about HTTP or the database, and persistence sits behind an interface. That separation is what lets me test a rule without a server or a database.</li>
+        <li><strong>Make the rule a policy, not an if.</strong> One implementation per carrier-specific rule, selected by configuration. Adding a carrier becomes a new class plus its test cases, not an edit to a method that nine carriers already depend on.</li>
+        <li><strong>Keep the evidence.</strong> Every priced shipment records which rule version produced the number and the inputs used. When an invoice is disputed six weeks later, the answer is a lookup, not an investigation — and that is a client-facing benefit, not a technical nicety.</li>
+        <li><strong>Avoid the two failure modes.</strong> A giant conditional inside a shared method is unmaintainable after the third carrier; a fork of the product per client is unmaintainable after the second. Configuration with tests is the narrow path between them.</li>
+      </ul>
+      <p>The business outcome is the one to say out loud: dispute resolution goes from days to minutes, onboarding a new carrier becomes configuration instead of a project, and a rule change can be released for one client without a regression risk for the others.</p>
+      <div class="say"><b>Say it like this:</b> “The calculation is the product: one rule per carrier as a policy, selected by configuration, with the rule version recorded on every priced shipment — so a dispute is a lookup, not an investigation.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “Domain layer with no framework dependency, rule implementations behind an interface and registered in DI, EF Core or Dapper at the edge, and golden cases per carrier in the test suite.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> What if the client's rule changes mid-contract? · How do you test rules nobody documented? · Where do you draw the line on configurability?
+      </div>
+        </div>
+      </details>
+    </article>
+    <article class="qa" id="q18">
+      <div class="q-head">
+        <span class="q-num">Q18</span>
+        <span class="q-tag">JD: authentication and authorization</span>
+        <span class="q-tag dom">Audits</span>
+      </div>
+      <h3>“Develop secure authentication and authorization.” A carrier's auditor asks who changed a rate, and when. Can the system answer?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Security in the posting. In client terms: an auditor arrives and asks who changed a rate last quarter, from which office, and under what approval. What does the client need from us?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether security means “login works” to you or “the evidence exists”. For carriers, auditability of commercial decisions is a real cost line.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· identity, least privilege, audit trail, the audit-week saving</span></summary>
+        <div class="answer-body">
+      <p>“Two different things bundled together: who is allowed in, and what we can prove afterwards.”</p>
+      <ul>
+        <li><strong>Identity through their own provider.</strong> Single sign-on over OIDC where the carrier already has an identity provider means joiners and leavers are handled by their HR process, not by us emailing passwords. Fewer shared accounts is the cheapest security win and it removes a recurring audit finding.</li>
+        <li><strong>Least privilege that matches the organisation.</strong> Roles by function and by office or region, so a pricing analyst in one market cannot edit another's rates. Access reviews then take an hour instead of a week.</li>
+        <li><strong>An audit trail of commercial changes.</strong> Every rate, allocation or allotment change records who, when, from where, the previous value, the new value and the reason. That is one immutable log, written in the same transaction as the change — a log written afterwards is a log that will be wrong.</li>
+        <li><strong>A report the auditor can read.</strong> If answering the question requires an engineer to write a query, the client pays for it every audit cycle.</li>
+      </ul>
+      <p>The business case is not abstract: audit preparation drops from days of emails to a filtered report, disputes about a rate change get answered from evidence, and access reviews stop being a project. I would put it to a client exactly that way, and I would volunteer that the log itself can never be edited — otherwise the evidence is worth nothing.</p>
+      <div class="say"><b>Say it like this:</b> “Two things: who gets in, and what we can prove afterwards. SSO with their provider, least privilege by office, and an immutable log of every commercial change written with the change itself.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “OIDC with the carrier's identity provider, policy-based authorization per function and region, and the audit row committed in the same transaction as the update.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> What if the client has no identity provider? · How long do you keep the log? · Where does personal data come into this?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q19">
+      <div class="q-head">
+        <span class="q-num">Q19</span>
+        <span class="q-tag">JD: databases, performance, reliability</span>
+        <span class="q-tag dom">Operational cost</span>
+      </div>
+      <h3>“Optimize databases, performance and reliability.” The monthly close gets slower every year. What do you do about it?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “A client says the month-end process took six hours last year and nine this year, and it will keep growing. They want it back under four. How do you approach that?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether you treat performance as an operational cost with a business deadline, and whether you measure before proposing anything.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· stage timings, data access, archiving, a performance budget</span></summary>
+        <div class="answer-body">
+      <p>“A monthly process that degrades predictably is a data-growth problem, not a mystery. I would profile the stages before proposing anything, because the fix is different if the time is in extraction, calculation or reporting.”</p>
+      <ul>
+        <li><strong>Stage timings first.</strong> Extract, transform, calculate, publish — with row counts. Most of these runs lose their time in data movement and per-record logic, not in the calculation itself.</li>
+        <li><strong>Fix the data access.</strong> Set-based statements instead of row-by-row loops, correct indexes for the filters actually used, and no query that loads a whole table to use twenty rows.</li>
+        <li><strong>Reduce the work.</strong> Recalculate only what changed, aggregate incrementally instead of from scratch, and archive closed periods out of the hot path. The cheapest month-end is the one that does less.</li>
+        <li><strong>Protect the gain.</strong> A performance budget for the process, tested against a realistic data volume, and an alert when a stage exceeds it — otherwise the next three features quietly give the time back.</li>
+      </ul>
+      <p>The business framing matters: this is finance overtime, decisions made on yesterday's numbers, and a client who starts asking whether the platform can cope. Getting the close to four hours is worth more in confidence than any new screen — and it is usually achievable without touching the calculation logic at all.</p>
+      <div class="say"><b>Say it like this:</b> “Nine hours growing every year is a data-growth problem: profile the stages, fix the data access, do less work by recalculating only what changed, and set a budget so the gain is not lost.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “Set-based SQL over per-row updates, keyset pagination instead of large offsets, partition or archive closed periods, and a performance test in the pipeline at production-like volume.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> What if the bottleneck is a third-party system? · Would you ever move this to a different database? · How do you prove the numbers still reconcile after optimising?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q20">
+      <div class="q-head">
+        <span class="q-num">Q20</span>
+        <span class="q-tag">JD: AI tools, reviews, deployments, incidents</span>
+        <span class="q-tag dom">Speed versus risk</span>
+      </div>
+      <h3>“AI-assisted development, peer reviews, production deployments and incident resolution.” How do you go faster without becoming riskier?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “The posting asks for AI-assisted development, code reviews, deployments and incident support. Put together: how do you increase delivery speed in a small team without increasing the number of incidents our clients see?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether you understand that speed and safety are produced by the same mechanisms — small changes, automated checks and the ability to reverse — rather than by working harder.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· small batches, automated gates, AI with review, reversibility</span></summary>
+        <div class="answer-body">
+      <p>“Speed comes from small changes and reversibility; safety comes from the same two things. AI helps with the volume of work around the change, not with the judgement about releasing it.”</p>
+      <ul>
+        <li><strong>Small batches.</strong> A change a colleague can review in twenty minutes ships the same day. A change that takes a week to review is where risk and delay both accumulate.</li>
+        <li><strong>Gates that cannot be skipped.</strong> Build, unit and integration tests, static analysis and a security scan, enforced by branch policy rather than by good intentions. If a check can be bypassed under pressure, it will be — on the worst possible day.</li>
+        <li><strong>AI where it is draft work.</strong> Test cases, documentation, log summaries, a first version of a query or a refactor. Reviewed line by line, with a test that fails if the fix is removed. It buys hours per week; it does not decide whether a pricing rule is correct.</li>
+        <li><strong>Reversibility by design.</strong> Feature flags, expand-then-contract database changes, and a rollback that one person can perform at night without a meeting. Most incidents become small when going back is easy.</li>
+        <li><strong>Incidents as input.</strong> Every incident ends with one missing check and one runbook line, which is how the same failure stops recurring without blaming anyone.</li>
+      </ul>
+      <p>I would report three numbers to a VP rather than a story about velocity: <strong>time from request to production</strong>, <strong>change failure rate</strong>, and <strong>time to restore</strong>. If the first falls and the second does not rise, the team is genuinely faster. That combination is what a client feels as reliability.</p>
+      <div class="say"><b>Say it like this:</b> “Small batches, gates nobody can skip, and every change reversible — with AI drafting the work around the change. I would report lead time, change failure rate and time to restore, not a velocity story.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “Trunk-based work with short branches, a pipeline that blocks the merge on red, feature flags per capability, and a rollback step written in the runbook before the release.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> What would you automate first? · How do you convince a team that has been burned by releases? · Where do you still allow manual approval?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <h2 class="section-title">Job description to business outcome<small>The mapping to use when the conversation turns to a specific requirement</small></h2>
+    <section class="card">
+      <div class="table-scroll">
+        <table class="rubric">
+          <thead>
+            <tr><th>Posting requirement</th><th>Business problem it solves</th><th>First deliverable</th><th>Measure</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>.NET 8+ / Angular 13+</td><td>Security and audit exposure; cost of every future client change.</td><td>One path modernized end to end behind flags.</td><td>Lead time per change; incidents per quarter.</td></tr>
+            <tr><td>Responsive UI, CSS3/SCSS</td><td>Field staff work on tablets; data entry errors and slow screens.</td><td>One field-mode screen with large targets.</td><td>Entries per hour; correction rate.</td></tr>
+            <tr><td>Angular from scratch</td><td>New vertical with a fixed budget and no reference client.</td><td>Three decisions supported for one pilot operator.</td><td>Pilot runs their week in the tool.</td></tr>
+            <tr><td>Reusable components and modules</td><td>Same screen rebuilt per vertical; rising cost per client.</td><td>Shared table mechanics plus per-vertical configuration.</td><td>Days per new screen per vertical.</td></tr>
+            <tr><td>Lazy loading, guards, interceptors, RxJS, state, forms</td><td>Slow open; cross-tenant visibility risk; lost edits.</td><td>Lazy routes, server-side authorization, dirty tracking.</td><td>Time to first screen; entitlement defects at zero; rework tickets.</td></tr>
+            <tr><td>REST APIs and integrations</td><td>Manual quoting by email; slow response on spot business.</td><td>Read-only rate and availability API with a contract.</td><td>Manual quotes per week; tickets per integration.</td></tr>
+            <tr><td>Multi-layer .NET, DI, ORM</td><td>Carrier-specific rules; invoice disputes; onboarding cost.</td><td>Rule as a policy per carrier, with version recorded.</td><td>Dispute resolution time; onboarding as configuration.</td></tr>
+            <tr><td>Authentication and authorization</td><td>Access reviews and audit findings; who changed what.</td><td>SSO plus immutable audit of commercial changes.</td><td>Audit preparation: days to hours.</td></tr>
+            <tr><td>Database, performance, reliability</td><td>Month-end overtime; decisions on stale numbers.</td><td>Stage profiling, set-based access, incremental close.</td><td>Close duration; jobs failing; SLA breaches.</td></tr>
+            <tr><td>AI tools, reviews, deployments, incidents</td><td>Pressure to deliver more without more outages.</td><td>Pipeline gates, flags, rollback in the runbook.</td><td>Lead time, change failure rate, time to restore.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="margin-bottom:0"><strong>How to use the mapping.</strong> When he mentions a specific requirement, answer with the middle column first — the business problem — then the deliverable, then the measure. That order is what separates a candidate who has owned outcomes from one who has implemented tickets.</p>
+    </section>
     <h2 class="section-title">Questions to ask him<small>Chosen for a cargo VP, not generic ones</small></h2>
     <section class="card">
       <ul class="asklist">
@@ -598,7 +993,7 @@
       <p class="note" style="margin-bottom:0"><strong>Pick three.</strong> In a thirty-minute slot there is room for three questions and one follow-up each; asking eight signals that you were not listening. The first, the third and the eighth are the highest-value ones for a VP.</p>
     </section>
 
-    <h2 class="section-title">How this conversation is scored<small>What a strong business answer sounds like</small></h2>
+    <h2 class="section-title">How these answers are scored<small>Part 1 patterns here · part 2 is scored by the mapping table above</small></h2>
     <section class="card">
       <div class="table-scroll">
         <table class="rubric">
