@@ -67,6 +67,9 @@
     .qa p { margin:0 0 9px; }
     .qa ul, .qa ol { margin:0 0 9px; padding-left:20px; }
     .qa li { margin:4px 0; }
+    pre { margin:8px 0; padding:9px 11px; border:1px solid #d8e1ea; border-radius:6px; background:#0f172a; color:#e2e8f0; font-family:Consolas,'Courier New',monospace; font-size:.77rem; line-height:1.45; overflow-x:auto; }
+    code { padding:1px 4px; border-radius:4px; background:#eef2f7; color:#0d47a1; font-family:Consolas,'Courier New',monospace; font-size:.9em; }
+    pre code { padding:0; background:none; color:inherit; font-size:1em; }
     details.answer { margin-top:6px; border:1px solid var(--line); border-radius:8px; background:#fbfdff; }
     details.answer > summary { display:flex; flex-wrap:wrap; align-items:center; gap:7px; min-height:28px; padding:3px 9px; border-radius:7px; background:#eef5ff; color:#0d47a1; cursor:pointer; font-weight:850; font-size:.9rem; list-style:none; }
     details.answer > summary::-webkit-details-marker { display:none; }
@@ -218,6 +221,10 @@
         <a href="#q18" class="snav-sub"><span aria-hidden="true">🔐</span> Q18 · The auditor's question</a>
         <a href="#q19" class="snav-sub"><span aria-hidden="true">🗄️</span> Q19 · Month-end close</a>
         <a href="#q20" class="snav-sub"><span aria-hidden="true">🛡️</span> Q20 · Faster without riskier</a>
+        <a href="#part3" class="snav-group"><span aria-hidden="true">🏁</span> Part 3 · building from zero</a>
+        <a href="#q21" class="snav-sub"><span aria-hidden="true">🅰️</span> Q21 · Angular from scratch</a>
+        <a href="#q22" class="snav-sub"><span aria-hidden="true">⚡</span> Q22 · .NET from scratch</a>
+        <a href="#q23" class="snav-sub"><span aria-hidden="true">🔗</span> Q23 · Wiring both together</a>
         <a href="#mapping" class="snav-group"><span aria-hidden="true">🎯</span> JD to outcome</a>
         <a href="#ask"><span aria-hidden="true">❓</span> Questions to ask him</a>
         <a href="#scoring"><span aria-hidden="true">📊</span> Scoring</a>
@@ -231,9 +238,9 @@
         <span>Business first, technology second</span>
       </div>
       <h1>Interview Questions — Solving RTS Business Problems</h1>
-      <p>Twenty questions written for the person who will actually be in the room: a cargo technology executive with two decades inside RTS, not a front-end specialist. The emphasis is on how software changes a client's margin, how an analyst's problem becomes a product that works for several carriers, and how risk is managed when the customer operates 24/7. Each answer is meant to be spoken in about a minute, with one sentence of technical proof where it adds credibility. Part 1 covers the business conversation; part 2 takes each line of the posted job description and turns it into a client-facing problem with a solution and a way to measure it.</p>
+      <p>Twenty-three questions written for the person who will actually be in the room: a cargo technology executive with two decades inside RTS, not a front-end specialist. The emphasis is on how software changes a client's margin, how an analyst's problem becomes a product that works for several carriers, and how risk is managed when the customer operates 24/7. Each answer is meant to be spoken in about a minute, with one sentence of technical proof where it adds credibility. Part 1 covers the business conversation; part 2 takes each line of the posted job description and turns it into a client-facing problem with a solution and a way to measure it; part 3 covers how a project is structured from zero, on both sides of the stack.</p>
       <div class="chips">
-        <span>20 questions</span>
+        <span>23 questions</span>
         <span>English</span>
         <span>Cargo domain</span>
         <span>Client outcomes</span>
@@ -482,8 +489,11 @@
         <li><a href="#q18">“Secure authentication and authorization” — the auditor asks who changed the rate</a></li>
         <li><a href="#q19">“Optimize databases, performance and reliability” — the monthly close gets slower every year</a></li>
         <li><a href="#q20">“AI-assisted development, code reviews, deployments, incidents” — going faster without going riskier</a></li>
+        <li><a href="#q21">How would you structure an Angular application from scratch</a></li>
+        <li><a href="#q22">How would you structure a .NET 8 solution from scratch</a></li>
+        <li><a href="#q23">How do you wire Angular and .NET together from day one</a></li>
       </ol>
-      <p class="note" style="margin-bottom:0"><strong>How to use this page.</strong> Answers are collapsed. Part 1 (Q1–Q10) is the business conversation a cargo VP will actually have; part 2 (Q11–Q20) takes the job description line by line and shows the business problem, the solution and the number that proves it worked. Read the question, answer out loud, then expand and compare — if your version is longer, cut it.</p>
+      <p class="note" style="margin-bottom:0"><strong>How to use this page.</strong> Answers are collapsed. Part 1 (Q1–Q10) is the business conversation a cargo VP will actually have; part 2 (Q11–Q20) takes the job description line by line, and part 3 (Q21–Q23) covers starting an Angular and .NET project from nothing and shows the business problem, the solution and the number that proves it worked. Read the question, answer out loud, then expand and compare — if your version is longer, cut it.</p>
     </section>
 
     <p class="to-top"><a href="#top">↑ Back to top</a></p>
@@ -491,7 +501,7 @@
     <div class="qa-toolbar">
       <button type="button" id="qa-expand">Expand all answers</button>
       <button type="button" id="qa-collapse">Collapse all</button>
-      <span class="qa-count" id="qa-count">0 of 20 answers expanded</span>
+      <span class="qa-count" id="qa-count">0 of 23 answers expanded</span>
     </div>
 
     <p class="to-top"><a href="#top">↑ Back to top</a></p>
@@ -1229,6 +1239,165 @@
 
     <p class="to-top"><a href="#top">↑ Back to top</a></p>
 
+    <h2 class="section-title" id="part3">Part 3 — building from zero<small>Three questions about starting a project properly, with the artefacts that prove it</small></h2>
+
+    <article class="qa" id="q21">
+      <div class="q-head">
+        <span class="q-num">Q21</span>
+        <span class="q-tag">Architecture</span>
+        <span class="q-tag dom">Angular from scratch</span>
+      </div>
+      <h3>How would you structure an Angular application from scratch?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “You join a team that has to start a new Angular front end for one of our products. Nothing exists yet. What do you set up in the first two weeks, and how do you make sure the structure still works when the team doubles?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether you have started projects rather than only joined them. The tells are decisions made before code — rendering model, module boundaries, the HTTP layer, the quality gates — and a folder structure that encodes a rule instead of a filing convention.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· decisions, folder tree, HTTP layer, quality gates, tooling</span></summary>
+        <div class="answer-body">
+      <p>“I start with four decisions that are expensive to change later, then generate the skeleton so the decisions are enforced by the structure rather than by documentation.”</p>
+      <ul>
+        <li><strong>Rendering model.</strong> SPA for an authenticated planning tool; SSR only if the product needs public discoverability or first-paint on slow networks. That single choice decides most of the deployment story.</li>
+        <li><strong>Standalone components and signals</strong> (Angular 15+/17+) as the default: fewer modules, clearer imports, less indirection. NgModules only where a legacy library forces them.</li>
+        <li><strong>One folder per business capability</strong>, lazily loaded, with the rule that features never import each other. Cross-feature needs go to <code>shared</code> or <code>core</code>.</li>
+        <li><strong>Strictness from day one</strong>: <code>strict: true</code>, <code>noImplicitAny</code>, template type checking, and lint rules that fail the build. Retrofitting strictness into a five-feature app costs more than starting with it.</li>
+      </ul>
+      <p>The layout that follows from those decisions:</p>
+      <pre><code>src/
+  app/
+    core/          singletons: auth, interceptors, guards, config, error handling
+    shared/        stateless UI: data grid, money pipe, validators, buttons
+    layout/        shell, header, command palette
+    features/
+      pricing/     one folder per capability, loaded on demand
+        pricing.routes.ts
+        data/      typed API client + signal store
+        ui/        screens and smart components
+    app.config.ts  providers: router, http, auth, telemetry
+    app.routes.ts  one lazy entry per feature
+  styles/          design tokens, typography, grid
+e2e/               Playwright journeys on the two critical flows
+tools/             OpenAPI client generation, lint presets</code></pre>
+      <p>Then the parts that decide whether it ages well:</p>
+      <ul>
+        <li><strong>HTTP layer</strong>: one typed client generated from the API's OpenAPI contract, plus an interceptor chain — identity, correlation id, error normalisation, retry with backoff. No component ever calls <code>HttpClient</code> directly.</li>
+        <li><strong>State</strong>: signals in a feature-scoped service; a store only when several actors write the same state or an audit trail is required. Server data stays in the service cache, not duplicated into a global store.</li>
+        <li><strong>Quality gates in CI</strong>: lint, unit tests, a Playwright smoke on the login and the main grid, accessibility checks with axe, and a bundle budget that fails when a feature grows past its allowance.</li>
+        <li><strong>Tooling</strong>: Angular CLI with pinned Node via <code>.nvmrc</code>, ESLint + Prettier, Husky with lint-staged for pre-commit, Conventional Commits, Renovate for dependency updates, Sentry for runtime errors, and a runtime config file so the same build promotes between environments.</li>
+      </ul>
+      <div class="say"><b>Say it like this:</b> “Four decisions before code — SPA, standalone and signals, one lazy folder per capability, strict from day one — then a generated skeleton where the folder rules are the architecture, and CI gates that fail on lint, tests, budget or accessibility.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “The rule I enforce in review is that a feature never imports another feature; if it needs to, the contract belongs in <code>shared</code> or the API.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> When would you choose NgRx over signals? · How do you structure a shared design system for four verticals? · What breaks first when the team doubles?
+      </div>
+        </div>
+      </details>
+    </article>
+
+    <article class="qa" id="q22">
+      <div class="q-head">
+        <span class="q-num">Q22</span>
+        <span class="q-tag">Architecture</span>
+        <span class="q-tag dom">.NET from scratch</span>
+      </div>
+      <h3>How would you structure a .NET 8 solution from scratch?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Same situation on the server: a new backend for a product that will live for years, with rules that a client will audit. How do you lay out the solution, and what do you put in place before the first endpoint?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether layering is a dependency rule or a folder diagram, and whether the non-functional pieces — configuration, validation, logging, migrations, tests — are designed or bolted on after the first incident.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· solution tree, dependency rule, cross-cutting, tests, pipeline</span></summary>
+        <div class="answer-body">
+      <p>“I keep four projects and one rule: dependencies point inward, and the business rules never see HTTP, SQL or a framework type. Everything else is plumbing I put in place in the first week.”</p>
+      <pre><code>src/
+  Rts.Api/              minimal APIs, filters, ProblemDetails, auth policies, composition root
+  Rts.Application/      use cases, DTOs, validators, ports (interfaces)
+  Rts.Domain/           entities, value objects, pricing rules — zero framework references
+  Rts.Infrastructure/   EF Core, Dapper read models, integrations, migrations
+tests/
+  Rts.UnitTests/        domain and use cases, no database
+  Rts.IntegrationTests/ WebApplicationFactory + Testcontainers
+  Rts.ArchitectureTests/dependency rules asserted in code
+Directory.Build.props    nullable, analyzers, deterministic build
+Directory.Packages.props central package versions
+global.json              pinned SDK</code></pre>
+      <ul>
+        <li><strong>Feature slices inside the layers.</strong> Application code is grouped by use case (<code>Pricing/QuoteShipment</code>) rather than by technical type, so a rule change touches one folder.</li>
+        <li><strong>Cross-cutting, decided once.</strong> Global exception handling returning <code>ProblemDetails</code>; validation with FluentValidation auto-applied at the boundary; correlation id; Serilog to structured storage; OpenTelemetry traces; health checks split into liveness and readiness.</li>
+        <li><strong>Data.</strong> EF Core for writes with migrations reviewed like code, Dapper for reporting reads; <code>AsNoTracking</code> and projection on read paths; keyset pagination; secrets outside the repository (user-secrets locally, a vault in each environment).</li>
+        <li><strong>Security.</strong> JWT bearer validation against the identity provider's discovery document, policy-based authorization next to each endpoint, ownership checks inside the handler — not only role checks.</li>
+        <li><strong>Tests that catch regressions, not coverage.</strong> Unit tests on pricing rules with golden cases per client; integration tests against a real database in a container; architecture tests that fail when someone references Infrastructure from Domain.</li>
+        <li><strong>Pipeline.</strong> <code>dotnet build</code> with warnings as errors, <code>dotnet format --verify-no-changes</code>, unit and integration tests, container image built once and promoted, and a migration step that is additive and reversible before it is applied.</li>
+      </ul>
+      <p>The order matters: contract and configuration first, one vertical slice end to end second, then breadth. A solution that has authentication, logging, a migration and one tested endpoint working is a real foundation; twenty empty projects are not.</p>
+      <div class="say"><b>Say it like this:</b> “Four projects, dependencies pointing inward, business rules with no framework references — plus the non-functional pieces on day one: ProblemDetails, validation, structured logs, health checks, migrations and an architecture test that enforces the rule.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “If someone in Domain needs <code>DbContext</code> to make the rule work, the model is wrong — that is the test I would rather fail in CI than discover in a client audit.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> Controllers or minimal APIs? · Where do you put a rule that spans two aggregates? · How do you handle a client-specific calculation without forking?
+      </div>
+        </div>
+      </details>
+    </article>
+    <article class="qa" id="q23">
+      <div class="q-head">
+        <span class="q-num">Q23</span>
+        <span class="q-tag">Architecture</span>
+        <span class="q-tag dom">Angular + .NET together</span>
+      </div>
+      <h3>How do you wire Angular and .NET together from day one?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “Now the whole thing: a new product with an Angular front end and a .NET back end, one team, no legacy. How do you connect the two so that neither side becomes the other's bottleneck — and where do your tools, including AI, fit?”
+      </div>
+
+      <div class="probe">
+        <b>What he is really testing:</b> whether you think in contracts and environments rather than in two codebases that happen to talk. Also whether AI shows up as a controlled part of the workflow or as enthusiasm.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· contract first, repo layout, local stack, auth, deploy order, AI guardrails</span></summary>
+        <div class="answer-body">
+      <p>“The boundary is the contract, not a conversation. I write the API contract first, generate both sides from it, and make the local environment one command so a new joiner is productive on day one.”</p>
+      <pre><code>repo/
+  contracts/
+    openapi.yaml          the boundary: TS client and C# DTOs generated from it
+    examples/             one request/response per endpoint, used as test fixtures
+  apps/
+    api/                  .NET solution (Domain, Application, Infrastructure, Api)
+    web/                  Angular workspace (core, shared, features)
+  infra/
+    compose/              api + sql + identity provider + log sink, one command up
+    pipelines/            build, test, image, deploy
+  docs/
+    adr/                  one page per architectural decision</code></pre>
+      <ul>
+        <li><strong>Contract-first, versioned.</strong> OpenAPI is reviewed before implementation; the TypeScript client is generated in CI so a breaking change fails the front-end build instead of reaching QA. Additive changes inside a version, a new version for anything breaking.</li>
+        <li><strong>One command locally.</strong> Docker Compose brings up the API, the database, an identity provider container and a log sink; Angular runs with a dev proxy to the API, which removes CORS from the daily workflow and makes the browser see one origin.</li>
+        <li><strong>Authentication end to end from the first week.</strong> Authorization Code + PKCE in the SPA, tokens in memory, JWT validation in the API against the same discovery document, scopes and policies checked server-side. Doing this early avoids the usual month-three rewrite of every screen that assumed a fake user.</li>
+        <li><strong>Two builds, one deployment order.</strong> The API ships backward compatible first, the SPA after; database changes follow expand-then-contract so both versions can run during a rollout. Feature flags decouple release from deployment.</li>
+        <li><strong>Observability across the boundary.</strong> One correlation id generated in the browser, propagated through the API and into SQL logs, so a support ticket becomes a trace instead of a guess.</li>
+      </ul>
+      <p><strong>AI in the workflow, with a gate.</strong> It drafts scaffolding, tests, migration scripts, log summaries and the first version of a query; it also reviews a diff for missing null checks or an endpoint without authorization. The rule I keep: no client data in public tools, generated code reviewed line by line, a test that fails when the fix is removed, and a named person accountable for anything that reaches a client. Repository-level instructions (an <code>AGENTS.md</code> with the folder rules and conventions) make the suggestions consistent with the architecture instead of generic.</p>
+      <p><strong>The toolchain I would set up in week one:</strong> Visual Studio or Rider plus VS Code, Docker Desktop, Bruno or <code>.http</code> files for API calls, Azure DevOps or GitHub Actions for pipelines, SonarQube for static analysis, Renovate for dependency updates, Playwright for the two critical journeys, Testcontainers for integration tests, k6 for a baseline load test, and Seq or Grafana for logs and traces.</p>
+      <p><strong>The first two weeks, in order:</strong> contract and ADRs → API skeleton with auth, logging, one endpoint, one migration → Angular shell with routing, layout and the generated client against that endpoint → Compose file and CI pipeline → deploy to QA together. From there every slice is vertical: contract, endpoint, screen, test, deploy.</p>
+      <div class="say"><b>Say it like this:</b> “Contract first, one command for the local stack, authentication wired in week one, API deployed before the SPA with expand-then-contract migrations — and AI drafting the work around the change while a person owns every line that ships.”</div>
+      <div class="tech-line"><b>One line of proof, if asked:</b> “The test of the integration is boring and decisive: delete the local database, run one command, and a new joiner has the app, the identity provider and the data in ten minutes.”</div>
+      <div class="followups">
+        <b>If he pushes:</b> Monorepo or two repositories? · How do you version the contract without breaking a client? · What would you not let AI generate?
+      </div>
+        </div>
+      </details>
+    </article>
     <h2 class="section-title" id="mapping">Job description to business outcome<small>The mapping to use when the conversation turns to a specific requirement</small></h2>
     <section class="card">
       <div class="table-scroll">
