@@ -58,6 +58,13 @@
     .actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
     .button { display:inline-block; padding:8px 12px; border:1px solid #93c5fd; border-radius:6px; background:var(--soft); color:#0d47a1; font-weight:800; text-decoration:none; }
     .button:hover { background:#bbdefb; }
+    .ref-lang { display:inline-block; padding:2px 9px; border:1px solid #cbd5e1; border-radius:999px; background:#f1f5f9; color:#334155; font-size:.74rem; font-weight:900; letter-spacing:.06em; }
+    .ref-lang.es { border-color:#fdba74; background:#fff7ed; color:#9a3412; }
+    .ref-lang.en { border-color:#93c5fd; background:#eff6ff; color:#0d47a1; }
+    .ref-table td:nth-child(1) { width:40px; text-align:center; }
+    .ref-table td:nth-child(2) { min-width:330px; }
+    .ref-table .ref-desc { display:block; margin-top:5px; color:#475569; font-size:.9rem; font-weight:400; line-height:1.45; }
+    .ref-table a.ref-link { white-space:nowrap; }
     .footer { margin-top:22px; color:#64748b; text-align:right; }
     @media(max-width:900px) { .meta { grid-template-columns:repeat(2,minmax(0,1fr)); } }
     @media(max-width:700px) { .container { padding:8px; } .meta,.apply-grid { grid-template-columns:1fr; } .skip-link { position:static; margin:8px 8px 0; } .header .header-links { margin-left:0; } }
@@ -341,10 +348,58 @@
         <a class="button" href="smash_p169_technical_questions.html">🎯 Technical evaluation questions (10)</a>
         <a class="button" href="rts_technical_questions.html">🏷️ RTS business questions (10)</a>
         <a class="button" href="https://mcortesgranados.github.io/RTS_QUESTIONNAIRE/index.html" target="_blank" rel="noopener">RTS questionnaire (expanded)</a>
+        <a class="button" href="#references">📚 Published references (4)</a>
         <a class="button" href="index.html">Open CV</a>
         <a class="button" href="tech_assessments.html">Technical assessments</a>
         <a class="button" href="current_processes.html">← Current processes</a>
       </div>
+    </section>
+
+    <h2 class="section-title" id="references">References · published articles<small>Four articles on the RTS case · Spanish and English · external links open in a new tab</small></h2>
+    <section class="card">
+      <p>These are the four published articles used as background for the business side of this process: what RTS sells, how an air-cargo price is actually decided, who runs cargo technology there, and what the data can support. All four are <strong>advertorials</strong> built from public sources and client-supplied material — they are not interviews with RTS, and the product capabilities in them are as published by the vendor.</p>
+      <div class="table-scroll">
+        <table class="communication-table ref-table">
+          <thead>
+            <tr><th>#</th><th>Article</th><th>Language</th><th>Link</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>RTS: decidir rápido y cobrar bien en carga aérea
+                <span class="ref-desc">Ten sections on the core distinction between <em>pricing</em> and <em>rating</em>, what Velocity, AcceleRate, Foresight and Compass each decide, the IATA 2026 figures, and the Colombian market: 74.2% of national air cargo through El Dorado and flowers as the dominant export.</span>
+              </td>
+              <td><span class="ref-lang es">ES</span></td>
+              <td><a class="ref-link" href="https://www.technovasoftware.website/articulos/rts-carga-aerea-revenue-management/" target="_blank" rel="noopener">Open ↗</a></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>RTS: deciding fast and pricing right in air cargo
+                <span class="ref-desc">English version of the same advertorial. Use this one if the interview is in English and you want the vocabulary — yield, load factor, RATK, quote-to-book — in the form he will hear it.</span>
+              </td>
+              <td><span class="ref-lang en">EN</span></td>
+              <td><a class="ref-link" href="https://www.technovasoftware.website/en/articulos/rts-carga-aerea-revenue-management/" target="_blank" rel="noopener">Open ↗</a></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Mahesh Vemula at RTS: four years, measured
+                <span class="ref-desc">Public-record profile of the interviewer: the 2022 anniversary post and its six technical claims, the path from Senior Director to VP Cargo Technology, five airline agreements between 2022 and 2025, the Saudia Cargo go-live — and an explicit section on why correlation is not attribution.</span>
+              </td>
+              <td><span class="ref-lang en">EN</span></td>
+              <td><a class="ref-link" href="https://www.technovasoftware.website/en/articulos/mahesh-vemula-rts-cargo-technology/" target="_blank" rel="noopener">Open ↗</a></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>More signals, less noise: what air cargo data can decide
+                <span class="ref-desc">A 46.0% load factor while revenue grows 7.2% on flat volume; five data sources mapped to the single decision each one should improve; forecast error by lane and horizon rather than an average; the ONE Record standard; ten diagnostic thresholds.</span>
+              </td>
+              <td><span class="ref-lang en">EN</span></td>
+              <td><a class="ref-link" href="https://www.technovasoftware.website/en/articulos/more-signals-less-noise-air-cargo/" target="_blank" rel="noopener">Open ↗</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="jd-note" style="margin-top:14px"><strong>Reading order before the interview:</strong> 1 and 2 for the business framing, in whichever language the conversation will happen; 3 to calibrate who is in the room and what his roadmap owns; 4 for the data argument — the part that turns “I write Angular and .NET” into “I understand what your pricing analysts need the system to decide”.</p>
     </section>
 
     <p class="footer">Process page built from the public job posting, the LinkedIn conversation with Maria Beita, and the questionnaire and reschedule emails.</p>
