@@ -133,6 +133,32 @@
     [id] { scroll-margin-top:52px; }
     @media(max-width:900px) { .snapshot { grid-template-columns:repeat(2,minmax(0,1fr)); } .toc, .asklist, .interviewer { grid-template-columns:1fr; } }
     @media(max-width:700px) { .container { padding:7px; } .skip-link { position:static; margin:7px 7px 0; } .header .header-links { margin-left:0; } .snapshot { grid-template-columns:1fr; } }
+    .layout { display:grid; grid-template-columns:248px minmax(0,1fr); gap:10px; padding:7px 10px; align-items:start; }
+    .container { padding:0; }
+    .sidenav { position:sticky; top:48px; z-index:20; display:flex; flex-direction:column; max-height:calc(100vh - 58px); border:1px solid var(--line); border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,.04); overflow:hidden; }
+    .sidenav-head { display:flex; align-items:center; justify-content:space-between; gap:6px; padding:6px 10px; border-bottom:1px solid var(--line); background:#f8fbff; }
+    .sidenav-head strong { color:#17386d; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; }
+    .sidenav-close { display:none; width:26px; height:26px; border:1px solid #cbd5e1; border-radius:6px; background:#fff; color:#475569; font-size:1rem; line-height:1; cursor:pointer; }
+    .sidenav-body { overflow:auto; padding:6px; }
+    .sidenav-body a { display:block; padding:3px 8px; border-left:3px solid transparent; border-radius:5px; color:#334155; font-size:.81rem; font-weight:700; text-decoration:none; }
+    .sidenav-body a:hover, .sidenav-body a:focus-visible { background:#eff6ff; color:#0d47a1; }
+    .sidenav-body a.active { border-left-color:var(--blue); background:#e3f2fd; color:#0d47a1; }
+    .sidenav-body a.snav-group { margin-top:7px; color:#17386d; font-size:.74rem; font-weight:900; letter-spacing:.05em; text-transform:uppercase; }
+    .sidenav-body a.snav-sub { padding-left:17px; font-size:.78rem; font-weight:600; color:#475569; }
+    .sidenav-body a.snav-sub.active { color:#0d47a1; font-weight:800; }
+    .nav-toggle { display:none; position:fixed; left:12px; bottom:12px; z-index:32; padding:7px 12px; border:1px solid #93c5fd; border-radius:999px; background:#fff; color:#0d47a1; font:inherit; font-size:.8rem; font-weight:900; box-shadow:0 4px 12px rgba(15,23,42,.18); cursor:pointer; }
+    .nav-toggle:hover, .nav-toggle:focus-visible { background:#e3f2fd; }
+    .nav-backdrop { display:none; }
+    @media(min-width:1001px) { .section-nav { display:none; } }
+    @media(max-width:1000px) {
+      .layout { grid-template-columns:minmax(0,1fr); padding:7px; }
+      .sidenav { position:fixed; top:0; left:0; bottom:0; width:min(86vw,300px); max-height:none; z-index:35; border-radius:0; transform:translateX(-102%); transition:transform .18s ease; }
+      .sidenav.open { transform:none; }
+      .sidenav-close { display:inline-flex; align-items:center; justify-content:center; }
+      .nav-toggle { display:inline-flex; }
+      .nav-backdrop.open { display:block; position:fixed; inset:0; z-index:34; background:rgba(15,23,42,.35); }
+    }
+    @media (prefers-reduced-motion: reduce) { .sidenav { transition:none; } }
     @media print { .header { position:static; box-shadow:none; } .card, .hero, .qa { box-shadow:none; } .qa-toolbar { display:none; } details.answer { break-inside:auto; } .section-nav, .to-top, .totop-fab { display:none; } }
   </style>
 </head>
@@ -152,7 +178,47 @@
     </div>
   </header>
 
-  <main class="container">
+  <div class="layout">
+    <aside class="sidenav" id="sidenav" aria-label="Page navigation">
+      <div class="sidenav-head">
+        <strong>Sections</strong>
+        <button type="button" class="sidenav-close" id="nav-close" aria-label="Close navigation">×</button>
+      </div>
+      <nav class="sidenav-body">
+        <a href="#top">Start</a>
+        <a href="#interviewer">Who is asking</a>
+        <a href="#plan">30-minute plan</a>
+        <a href="#snapshot">Company snapshot</a>
+        <a href="#glossary">Glossary · 32 terms</a>
+        <a href="#index">Index</a>
+        <a href="#part1" class="snav-group">Part 1 · the conversation</a>
+        <a href="#q1" class="snav-sub">Q1 · About you and cargo</a>
+        <a href="#q2" class="snav-sub">Q2 · Cargo RM in plain words</a>
+        <a href="#q3" class="snav-sub">Q3 · Volumes up, revenue flat</a>
+        <a href="#q4" class="snav-sub">Q4 · Analyst problem to software</a>
+        <a href="#q5" class="snav-sub">Q5 · One carrier's request</a>
+        <a href="#q6" class="snav-sub">Q6 · Bad or late data</a>
+        <a href="#q7" class="snav-sub">Q7 · Modernize without risk</a>
+        <a href="#q8" class="snav-sub">Q8 · Peak-week incident</a>
+        <a href="#q9" class="snav-sub">Q9 · AI: value and limits</a>
+        <a href="#q10" class="snav-sub">Q10 · Distributed team</a>
+        <a href="#part2" class="snav-group">Part 2 · the job description</a>
+        <a href="#q11" class="snav-sub">Q11 · .NET 8 / Angular 13</a>
+        <a href="#q12" class="snav-sub">Q12 · Responsive UI</a>
+        <a href="#q13" class="snav-sub">Q13 · Angular from scratch</a>
+        <a href="#q14" class="snav-sub">Q14 · Reusable components</a>
+        <a href="#q15" class="snav-sub">Q15 · Slow, wrong, lost</a>
+        <a href="#q16" class="snav-sub">Q16 · APIs and partners</a>
+        <a href="#q17" class="snav-sub">Q17 · Two carriers, one charge</a>
+        <a href="#q18" class="snav-sub">Q18 · The auditor's question</a>
+        <a href="#q19" class="snav-sub">Q19 · Month-end close</a>
+        <a href="#q20" class="snav-sub">Q20 · Faster without riskier</a>
+        <a href="#mapping" class="snav-group">JD to outcome</a>
+        <a href="#ask">Questions to ask him</a>
+        <a href="#scoring">Scoring</a>
+      </nav>
+    </aside>
+    <main class="container">
     <section class="hero" id="top">
       <div class="hero-kicker">
         <span>Cargo revenue management</span>
@@ -1235,7 +1301,11 @@
     <p class="to-top"><a href="#top">↑ Back to top</a></p>
 
     <p class="footer">RTS-oriented interview preparation · cargo revenue management · business problems first, technology as proof.</p>
-  </main>
+    </main>
+  </div>
+
+  <button type="button" class="nav-toggle" id="nav-toggle" aria-controls="sidenav" aria-expanded="false">☰ Sections</button>
+  <div class="nav-backdrop" id="nav-backdrop"></div>
 
   <script>
     (function () {
@@ -1299,6 +1369,56 @@
       }
       input.addEventListener('input', update);
       update();
+    })();
+  </script>
+  <script>
+    (function () {
+      var nav = document.getElementById('sidenav');
+      var links = Array.prototype.slice.call(document.querySelectorAll('.sidenav-body a'));
+      if (!nav || !links.length) { return; }
+
+      var byId = {};
+      links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+      var targets = Object.keys(byId).map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+      function setActive(id) {
+        links.forEach(function (a) { a.classList.toggle('active', a === byId[id]); });
+      }
+
+      if ('IntersectionObserver' in window) {
+        var visible = {};
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+          for (var i = 0; i < targets.length; i++) {
+            if (visible[targets[i].id]) { setActive(targets[i].id); return; }
+          }
+        }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+        targets.forEach(function (t) { io.observe(t); });
+      }
+
+      var toggle = document.getElementById('nav-toggle');
+      var closeBtn = document.getElementById('nav-close');
+      var backdrop = document.getElementById('nav-backdrop');
+
+      function openNav() {
+        nav.classList.add('open');
+        if (backdrop) { backdrop.classList.add('open'); }
+        if (toggle) { toggle.setAttribute('aria-expanded', 'true'); }
+      }
+      function shutNav() {
+        nav.classList.remove('open');
+        if (backdrop) { backdrop.classList.remove('open'); }
+        if (toggle) { toggle.setAttribute('aria-expanded', 'false'); }
+      }
+      if (toggle) { toggle.addEventListener('click', function () { nav.classList.contains('open') ? shutNav() : openNav(); }); }
+      if (closeBtn) { closeBtn.addEventListener('click', shutNav); }
+      if (backdrop) { backdrop.addEventListener('click', shutNav); }
+      links.forEach(function (a) {
+        a.addEventListener('click', function () {
+          if (window.matchMedia('(max-width:1000px)').matches) { shutNav(); }
+        });
+      });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { shutNav(); } });
     })();
   </script>
   <a class="totop-fab" href="#top" aria-label="Back to top">↑ Top</a>
