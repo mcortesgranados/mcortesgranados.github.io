@@ -55,6 +55,22 @@
     .apply-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 18px; padding:0; margin:0; list-style:none; }
     .apply-grid li { padding:7px 10px; border:1px solid var(--line); border-radius:8px; background:#f8fafc; font-size:.92rem; }
     .apply-grid li b { color:#17386d; }
+    .resp-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 14px; margin:10px 0 14px; }
+    .resp-card { padding:10px 12px 12px; border:1px solid var(--line); border-left:4px solid #94a3b8; border-radius:8px; background:#fbfcfe; }
+    .resp-card.c-core { border-left-color:#37474f; }
+    .resp-card.c-angular { border-left-color:#dd0031; }
+    .resp-card.c-dotnet { border-left-color:#512bd4; }
+    .resp-card.c-api { border-left-color:#1565c0; }
+    .resp-card.c-data { border-left-color:#00695c; }
+    .resp-card.c-arch { border-left-color:#2e7d32; }
+    .resp-card.c-sec { border-left-color:#b45309; }
+    .resp-card.c-test { border-left-color:#7b1fa2; }
+    .resp-card.c-ops { border-left-color:#0277bd; }
+    .resp-card.c-ai { border-left-color:#4a148c; }
+    .resp-card h4 { display:flex; flex-wrap:wrap; align-items:center; gap:7px; margin:0 0 8px; color:#17386d; font-size:.96rem; }
+    .resp-card h4 .n { padding:1px 8px; border-radius:999px; background:#e2e8f0; color:#475569; font-size:.72rem; font-weight:900; }
+    .resp-card ul { margin:0; padding-left:18px; }
+    .resp-card li { margin:4px 0; font-size:.94rem; }
     .actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
     .button { display:inline-block; padding:8px 12px; border:1px solid #93c5fd; border-radius:6px; background:var(--soft); color:#0d47a1; font-weight:800; text-decoration:none; }
     .button:hover { background:#bbdefb; }
@@ -66,7 +82,7 @@
     .ref-table .ref-desc { display:block; margin-top:5px; color:#475569; font-size:.9rem; font-weight:400; line-height:1.45; }
     .ref-table a.ref-link { white-space:nowrap; }
     .footer { margin-top:22px; color:#64748b; text-align:right; }
-    @media(max-width:900px) { .meta { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(max-width:900px) { .meta { grid-template-columns:repeat(2,minmax(0,1fr)); } .resp-grid { grid-template-columns:1fr; } }
     @media(max-width:700px) { .container { padding:8px; } .meta,.apply-grid { grid-template-columns:1fr; } .skip-link { position:static; margin:8px 8px 0; } .header .header-links { margin-left:0; } }
   </style>
 </head>
@@ -240,28 +256,79 @@
       <p>You will build responsive user interfaces, backend services, integrations, and scalable application components while collaborating closely with Product, QA, and Engineering teams throughout the software development lifecycle.</p>
 
       <h3>Responsibilities</h3>
-      <ul>
-        <li>Develop and maintain enterprise applications using <strong>.NET 8+ and Angular 13+</strong>.</li>
-        <li>Build responsive web interfaces using <strong>Angular, TypeScript, JavaScript, CSS3, and SCSS</strong>.</li>
-        <li>Develop Angular applications from initial architecture and project setup through production implementation.</li>
-        <li>Build reusable Angular components, modules, services, directives, and pipes.</li>
-        <li>Implement lazy loading, route guards, interceptors, RxJS, state management, and reactive forms.</li>
-        <li>Design and implement <strong>RESTful APIs</strong> and third-party integrations.</li>
-        <li>Develop multi-layered .NET applications with clear separation between API/presentation, business/application, and data-access responsibilities.</li>
-        <li>Apply software architecture principles including <strong>separation of concerns, loose coupling, and high cohesion</strong>.</li>
-        <li>Implement dependency injection and appropriate data-access/ORM patterns.</li>
-        <li>Develop secure authentication and authorization functionality.</li>
-        <li>Design, query, and optimize <strong>relational and NoSQL databases</strong>.</li>
-        <li>Write unit tests and participate in peer code reviews.</li>
-        <li>Troubleshoot and resolve application, database, API, and integration defects.</li>
-        <li>Diagnose issues across development, QA, and production environments.</li>
-        <li>Improve application <strong>performance, scalability, maintainability, and reliability</strong>.</li>
-        <li>Work with Docker, Kubernetes, and microservices-based environments.</li>
-        <li>Use Git and Azure DevOps as part of the development lifecycle.</li>
-        <li>Use <strong>AI-assisted development tools</strong> while independently reviewing, validating, and testing generated code.</li>
-        <li>Collaborate with Product, QA, Engineering, and US-based stakeholders throughout the SDLC.</li>
-        <li>Support production deployments and incident resolution when required.</li>
-      </ul>
+      <p class="jd-note">The twenty responsibilities of the posting, reordered into ten technology groups. Wording is unchanged and every item appears once, so the set stays faithful to the published text.</p>
+      <div class="resp-grid">
+        <div class="resp-card c-core">
+          <h4><span aria-hidden="true">🎯</span> Full-stack core <span class="n">1</span></h4>
+          <ul>
+            <li>Develop and maintain enterprise applications using <strong>.NET 8+ and Angular 13+</strong>.</li>
+          </ul>
+        </div>
+        <div class="resp-card c-angular">
+          <h4><span aria-hidden="true">🅰️</span> Angular &amp; frontend <span class="n">4</span></h4>
+          <ul>
+            <li>Build responsive web interfaces using <strong>Angular, TypeScript, JavaScript, CSS3, and SCSS</strong>.</li>
+            <li>Develop Angular applications from initial architecture and project setup through production implementation.</li>
+            <li>Build reusable Angular components, modules, services, directives, and pipes.</li>
+            <li>Implement lazy loading, route guards, interceptors, RxJS, state management, and reactive forms.</li>
+          </ul>
+        </div>
+        <div class="resp-card c-dotnet">
+          <h4><span aria-hidden="true">🟣</span> .NET 8 · C# backend <span class="n">2</span></h4>
+          <ul>
+            <li>Develop multi-layered .NET applications with clear separation between API/presentation, business/application, and data-access responsibilities.</li>
+            <li>Implement dependency injection and appropriate data-access/ORM patterns.</li>
+          </ul>
+        </div>
+        <div class="resp-card c-api">
+          <h4><span aria-hidden="true">🔌</span> REST APIs &amp; integrations <span class="n">1</span></h4>
+          <ul>
+            <li>Design and implement <strong>RESTful APIs</strong> and third-party integrations.</li>
+          </ul>
+        </div>
+        <div class="resp-card c-data">
+          <h4><span aria-hidden="true">🗄️</span> Data &amp; persistence <span class="n">1</span></h4>
+          <ul>
+            <li>Design, query, and optimize <strong>relational and NoSQL databases</strong>.</li>
+          </ul>
+        </div>
+        <div class="resp-card c-arch">
+          <h4><span aria-hidden="true">🧱</span> Architecture &amp; non-functional <span class="n">2</span></h4>
+          <ul>
+            <li>Apply software architecture principles including <strong>separation of concerns, loose coupling, and high cohesion</strong>.</li>
+            <li>Improve application <strong>performance, scalability, maintainability, and reliability</strong>.</li>
+          </ul>
+        </div>
+        <div class="resp-card c-sec">
+          <h4><span aria-hidden="true">🔐</span> Security <span class="n">1</span></h4>
+          <ul>
+            <li>Develop secure authentication and authorization functionality.</li>
+          </ul>
+        </div>
+        <div class="resp-card c-test">
+          <h4><span aria-hidden="true">✅</span> Testing, review &amp; defects <span class="n">3</span></h4>
+          <ul>
+            <li>Write unit tests and participate in peer code reviews.</li>
+            <li>Troubleshoot and resolve application, database, API, and integration defects.</li>
+            <li>Diagnose issues across development, QA, and production environments.</li>
+          </ul>
+        </div>
+        <div class="resp-card c-ops">
+          <h4><span aria-hidden="true">🐳</span> Platform &amp; DevOps <span class="n">3</span></h4>
+          <ul>
+            <li>Work with Docker, Kubernetes, and microservices-based environments.</li>
+            <li>Use Git and Azure DevOps as part of the development lifecycle.</li>
+            <li>Support production deployments and incident resolution when required.</li>
+          </ul>
+        </div>
+        <div class="resp-card c-ai">
+          <h4><span aria-hidden="true">🤖</span> AI-assisted delivery &amp; collaboration <span class="n">2</span></h4>
+          <ul>
+            <li>Use <strong>AI-assisted development tools</strong> while independently reviewing, validating, and testing generated code.</li>
+            <li>Collaborate with Product, QA, Engineering, and US-based stakeholders throughout the SDLC.</li>
+          </ul>
+        </div>
+      </div>
 
       <h3>Requirements – Must-haves</h3>
       <ul>
