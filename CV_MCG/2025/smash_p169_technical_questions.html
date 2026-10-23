@@ -81,6 +81,9 @@
     .footer { margin-top:12px; color:#64748b; font-size:.82rem; text-align:right; }
     @media(max-width:900px) { .toc { grid-template-columns:1fr; } }
     @media(max-width:700px) { .container { padding:8px; } .skip-link { position:static; margin:8px 8px 0; } .header .header-links { margin-left:0; } }
+    .figure { margin:10px 0 12px; padding:8px; border:1px solid var(--line); border-radius:10px; background:#fff; }
+    .figure svg { display:block; width:100%; height:auto; }
+    .figure figcaption { margin-top:6px; color:#475569; font-size:.84rem; line-height:1.4; }
     @media print { .header { position:static; box-shadow:none; } .card, .hero, .qa { box-shadow:none; } .qa-toolbar { display:none; } details.answer { break-inside:auto; } }
   </style>
 </head>
@@ -166,47 +169,312 @@
       </div>
 
       <details class="answer">
-        <summary>Show answer <span class="summary-hint">· structure, code, strong signal, follow-ups</span></summary>
+        <summary>Show answer <span class="summary-hint">· architecture diagram, dependency rule, routing, guards, interceptors, state, quality gates, follow-ups</span></summary>
         <div class="answer-body">
-      <p>I start from the boundaries of the domain, not from the framework. Before writing code I list the business capabilities, and each capability becomes one lazily loaded feature module. Everything that is not a capability goes into three technical buckets:</p>
-      <ul>
-        <li><strong><code>core/</code></strong> — singleton infrastructure loaded once: authentication, HTTP interceptors, guards, error handling, configuration, and logging. No UI here, no <code>AppModule</code> imports into features.</li>
-        <li><strong><code>shared/</code></strong> — reusable but stateless: presentational components, custom directives and pipes, form validators, utility functions. A feature may import a shared item; shared never imports a feature.</li>
-        <li><strong><code>features/&lt;name&gt;/</code></strong> — one folder per capability, each with its own routing module, services, state, and components. Features never import each other directly; if two features must collaborate, the contract moves into <code>core/</code> or a shared service with an explicit interface.</li>
-      </ul>
-      <p>Routing is where the architecture becomes enforceable: the root router only declares the shell and one <code>loadChildren</code> per feature, so a new module cannot be added without also being isolated in its own chunk. Route guards protect at the feature boundary, and interceptors are registered once in <code>core</code> in a deliberate order — token attachment first, then retry/refresh, then error normalisation — because the first interceptor in the array is the outermost handler for the request and the innermost for the response.</p>
-      <pre><code>// app-routing.module.ts — the shell declares features, never their internals
-const routes: Routes = [
+      <p>I start from the boundaries of the domain, not from the framework. Before writing code I list the business capabilities the product sells — for this client that would be dashboard, shipments, billing, reports, admin — and each capability becomes one lazily loaded feature. Everything that is not a capability goes into three technical buckets: <code>core/</code> (singletons), <code>shared/</code> (stateless reuse), <code>layout/</code> (the shell). The rule that makes the structure real is a dependency rule a reviewer can enforce in a pull request: <strong>features may import from core and shared; shared never imports a feature; core imports neither.</strong></p>
+
+      <figure class="figure">
+        <svg viewBox="0 0 980 612" role="img" aria-labelledby="q1title q1desc">
+          <title id="q1title">Angular application architecture: bootstrap, shell, router, lazy features, core, shared and the HTTP chain</title>
+          <desc id="q1desc">Bootstrap loads the runtime configuration and registers the global error handler, the shell renders the layout with the router outlet, the root router lazily loads five independent feature chunks, the features may import the shared UI kit and the core singletons but never each other, and every HTTP call passes through an ordered interceptor chain before reaching the API.</desc>
+          <defs>
+            <marker id="q1arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="#546e7a"></path>
+            </marker>
+            <marker id="q1arrow-d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="#7b1fa2"></path>
+            </marker>
+            <marker id="q1arrow-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="#2e7d32"></path>
+            </marker>
+          </defs>
+          <rect x="0" y="0" width="980" height="612" fill="#ffffff"></rect>
+
+          <!-- bootstrap -->
+          <rect x="16" y="12" width="300" height="56" rx="8" fill="#fff8e1" stroke="#f9a825"></rect>
+          <text x="30" y="33" font-family="Segoe UI, Arial" font-size="12.5" font-weight="700" fill="#7c4d00">index.html → main.ts</text>
+          <text x="30" y="52" font-family="Segoe UI, Arial" font-size="11" fill="#5d4037">bootstrapApplication(AppComponent, appConfig)</text>
+
+          <rect x="336" y="12" width="300" height="56" rx="8" fill="#fff8e1" stroke="#f9a825"></rect>
+          <text x="350" y="33" font-family="Segoe UI, Arial" font-size="12.5" font-weight="700" fill="#7c4d00">Runtime configuration</text>
+          <text x="350" y="52" font-family="Segoe UI, Arial" font-size="11" fill="#5d4037">assets/config.json · APP_INITIALIZER before first render</text>
+
+          <rect x="656" y="12" width="308" height="56" rx="8" fill="#fff8e1" stroke="#f9a825"></rect>
+          <text x="670" y="33" font-family="Segoe UI, Arial" font-size="12.5" font-weight="700" fill="#7c4d00">Global error handler</text>
+          <text x="670" y="52" font-family="Segoe UI, Arial" font-size="11" fill="#5d4037">correlation id · logging · telemetry</text>
+
+          <line x1="316" y1="40" x2="332" y2="40" stroke="#546e7a" stroke-width="1.5" marker-end="url(#q1arrow)"></line>
+          <line x1="636" y1="40" x2="652" y2="40" stroke="#546e7a" stroke-width="1.5" marker-end="url(#q1arrow)"></line>
+          <line x1="166" y1="68" x2="166" y2="88" stroke="#546e7a" stroke-width="1.5" marker-end="url(#q1arrow)"></line>
+
+          <!-- shell -->
+          <rect x="16" y="92" width="948" height="74" rx="9" fill="#e3f2fd" stroke="#1565c0"></rect>
+          <text x="30" y="115" font-family="Segoe UI, Arial" font-size="12.5" font-weight="700" fill="#0d47a1">Shell · AppComponent + LayoutComponent</text>
+          <text x="30" y="136" font-family="Segoe UI, Arial" font-size="11" fill="#1e3a5f">header · breadcrumbs · sidenav · toast host · &lt;router-outlet&gt;</text>
+          <text x="30" y="154" font-family="Segoe UI, Arial" font-size="10.5" fill="#546e7a">owns layout and session chrome only — never feature data</text>
+          <line x1="490" y1="166" x2="490" y2="186" stroke="#546e7a" stroke-width="1.5" marker-end="url(#q1arrow)"></line>
+
+          <!-- router band -->
+          <rect x="16" y="190" width="948" height="46" rx="9" fill="#eceff1" stroke="#607d8b"></rect>
+          <text x="30" y="211" font-family="Segoe UI, Arial" font-size="12.5" font-weight="700" fill="#37474f">Root router · app.routes.ts</text>
+          <text x="30" y="229" font-family="Segoe UI, Arial" font-size="11" fill="#455a64">one lazy entry per capability · canMatch checks the role before the chunk is downloaded · canActivate after it loads</text>
+
+          <!-- features -->
+          <line x1="104" y1="236" x2="104" y2="252" stroke="#2e7d32" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#q1arrow-g)"></line>
+          <line x1="297" y1="236" x2="297" y2="252" stroke="#2e7d32" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#q1arrow-g)"></line>
+          <line x1="490" y1="236" x2="490" y2="252" stroke="#2e7d32" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#q1arrow-g)"></line>
+          <line x1="683" y1="236" x2="683" y2="252" stroke="#2e7d32" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#q1arrow-g)"></line>
+          <line x1="876" y1="236" x2="876" y2="252" stroke="#2e7d32" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#q1arrow-g)"></line>
+
+          <rect x="16" y="256" width="176" height="88" rx="8" fill="#e8f5e9" stroke="#2e7d32"></rect>
+          <text x="28" y="277" font-family="Segoe UI, Arial" font-size="12" font-weight="700" fill="#1b5e20">features/dashboard</text>
+          <text x="28" y="297" font-family="Segoe UI, Arial" font-size="10.5" fill="#33691e">chunk A · default route</text>
+          <text x="28" y="314" font-family="Segoe UI, Arial" font-size="10.5" fill="#33691e">routes · state · data · ui</text>
+          <text x="28" y="331" font-family="Segoe UI, Arial" font-size="10" fill="#558b2f">eager (first paint)</text>
+
+          <rect x="209" y="256" width="176" height="88" rx="8" fill="#e8f5e9" stroke="#2e7d32"></rect>
+          <text x="221" y="277" font-family="Segoe UI, Arial" font-size="12" font-weight="700" fill="#1b5e20">features/shipments</text>
+          <text x="221" y="297" font-family="Segoe UI, Arial" font-size="10.5" fill="#33691e">chunk B · lazy</text>
+          <text x="221" y="314" font-family="Segoe UI, Arial" font-size="10.5" fill="#33691e">routes · state · data · ui</text>
+          <text x="221" y="331" font-family="Segoe UI, Arial" font-size="10" fill="#558b2f">own guard + resolver</text>
+
+          <rect x="402" y="256" width="176" height="88" rx="8" fill="#e8f5e9" stroke="#2e7d32"></rect>
+          <text x="414" y="277" font-family="Segoe UI, Arial" font-size="12" font-weight="700" fill="#1b5e20">features/billing</text>
+          <text x="414" y="297" font-family="Segoe UI, Arial" font-size="10.5" fill="#33691e">chunk C · lazy + role</text>
+          <text x="414" y="314" font-family="Segoe UI, Arial" font-size="10.5" fill="#33691e">routes · state · data · ui</text>
+          <text x="414" y="331" font-family="Segoe UI, Arial" font-size="10" fill="#558b2f">canMatch: billing-admin</text>
+
+          <rect x="595" y="256" width="176" height="88" rx="8" fill="#e8f5e9" stroke="#2e7d32"></rect>
+          <text x="607" y="277" font-family="Segoe UI, Arial" font-size="12" font-weight="700" fill="#1b5e20">features/reports</text>
+          <text x="607" y="297" font-family="Segoe UI, Arial" font-size="10.5" fill="#33691e">chunk D · lazy</text>
+          <text x="607" y="314" font-family="Segoe UI, Arial" font-size="10.5" fill="#33691e">routes · state · data · ui</text>
+          <text x="607" y="331" font-family="Segoe UI, Arial" font-size="10" fill="#558b2f">heavy libs isolated here</text>
+
+          <rect x="788" y="256" width="176" height="88" rx="8" fill="#e8f5e9" stroke="#2e7d32"></rect>
+          <text x="800" y="277" font-family="Segoe UI, Arial" font-size="12" font-weight="700" fill="#1b5e20">features/admin</text>
+          <text x="800" y="297" font-family="Segoe UI, Arial" font-size="10.5" fill="#33691e">chunk E · lazy + role</text>
+          <text x="800" y="314" font-family="Segoe UI, Arial" font-size="10.5" fill="#33691e">routes · state · data · ui</text>
+          <text x="800" y="331" font-family="Segoe UI, Arial" font-size="10" fill="#558b2f">never imported by features</text>
+
+          <!-- forbidden arrow between features -->
+          <line x1="385" y1="300" x2="402" y2="300" stroke="#b71c1c" stroke-width="1.6"></line>
+          <line x1="389" y1="292" x2="398" y2="308" stroke="#b71c1c" stroke-width="1.6"></line>
+          <line x1="398" y1="292" x2="389" y2="308" stroke="#b71c1c" stroke-width="1.6"></line>
+
+          <!-- dependency arrows -->
+          <line x1="250" y1="344" x2="250" y2="372" stroke="#7b1fa2" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#q1arrow-d)"></line>
+          <line x1="730" y1="344" x2="730" y2="372" stroke="#7b1fa2" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#q1arrow-d)"></line>
+          <text x="258" y="362" font-family="Segoe UI, Arial" font-size="10" fill="#6a1b9a">may import</text>
+          <text x="738" y="362" font-family="Segoe UI, Arial" font-size="10" fill="#6a1b9a">may import</text>
+
+          <!-- core and shared -->
+          <rect x="16" y="376" width="466" height="104" rx="9" fill="#e3f2fd" stroke="#1565c0"></rect>
+          <text x="30" y="398" font-family="Segoe UI, Arial" font-size="12.5" font-weight="700" fill="#0d47a1">core/ — singletons, instantiated once</text>
+          <text x="30" y="416" font-family="Segoe UI, Arial" font-size="10.5" fill="#1e3a5f">auth (OIDC · PKCE) · guards · interceptors · config tokens · telemetry</text>
+          <text x="30" y="436" font-family="Segoe UI, Arial" font-size="10" fill="#546e7a">provided in root · no UI components · no feature imports</text>
+          <text x="30" y="458" font-family="Segoe UI, Arial" font-size="9.5" fill="#78909c">a second instance here means a duplicated session or token refresh</text>
+
+          <rect x="498" y="376" width="466" height="104" rx="9" fill="#f3e5f5" stroke="#7b1fa2"></rect>
+          <text x="512" y="398" font-family="Segoe UI, Arial" font-size="12.5" font-weight="700" fill="#4a148c">shared/ — stateless and reusable</text>
+          <text x="512" y="416" font-family="Segoe UI, Arial" font-size="10.5" fill="#4a148c">ui kit · directives · pipes · form validators · table abstractions</text>
+          <text x="512" y="436" font-family="Segoe UI, Arial" font-size="10" fill="#6a1b9a">no providers · no HTTP · no business vocabulary</text>
+          <text x="512" y="458" font-family="Segoe UI, Arial" font-size="9.5" fill="#8e24aa">if it needs data it is a container, and containers are feature code</text>
+
+          <!-- http chain -->
+          <line x1="249" y1="480" x2="249" y2="502" stroke="#546e7a" stroke-width="1.5" marker-end="url(#q1arrow)"></line>
+          <rect x="16" y="506" width="640" height="66" rx="9" fill="#fff3e0" stroke="#ef6c00"></rect>
+          <text x="30" y="527" font-family="Segoe UI, Arial" font-size="12" font-weight="700" fill="#e65100">HttpClient · interceptor chain (request order, response reversed)</text>
+          <text x="30" y="547" font-family="Segoe UI, Arial" font-size="10.5" fill="#6d4c41">AuthToken → RefreshOn401 → Retry(idempotent) → CorrelationId → ErrorNormalizer</text>
+          <text x="30" y="564" font-family="Segoe UI, Arial" font-size="9.5" fill="#8d6e63">order is a design decision: the refresh must sit inside the token interceptor to replay with the new token</text>
+
+          <line x1="656" y1="539" x2="672" y2="539" stroke="#546e7a" stroke-width="1.5" marker-end="url(#q1arrow)"></line>
+          <rect x="676" y="506" width="288" height="66" rx="9" fill="#eceff1" stroke="#546e7a"></rect>
+          <text x="690" y="527" font-family="Segoe UI, Arial" font-size="12" font-weight="700" fill="#37474f">REST API / BFF</text>
+          <text x="690" y="547" font-family="Segoe UI, Arial" font-size="10.5" fill="#455a64">ProblemDetails · versioned · idempotent writes</text>
+          <text x="690" y="564" font-family="Segoe UI, Arial" font-size="9.5" fill="#607d8b">authorisation is enforced here too, never only in the guard</text>
+
+          <!-- legend -->
+          <rect x="16" y="584" width="12" height="12" fill="#e3f2fd" stroke="#1565c0"></rect>
+          <text x="34" y="594" font-family="Segoe UI, Arial" font-size="10" fill="#37474f">singleton</text>
+          <rect x="104" y="584" width="12" height="12" fill="#f3e5f5" stroke="#7b1fa2"></rect>
+          <text x="122" y="594" font-family="Segoe UI, Arial" font-size="10" fill="#37474f">stateless reuse</text>
+          <rect x="228" y="584" width="12" height="12" fill="#e8f5e9" stroke="#2e7d32"></rect>
+          <text x="246" y="594" font-family="Segoe UI, Arial" font-size="10" fill="#37474f">lazy feature chunk</text>
+          <line x1="360" y1="590" x2="388" y2="590" stroke="#2e7d32" stroke-width="1.5" stroke-dasharray="4 3"></line>
+          <text x="394" y="594" font-family="Segoe UI, Arial" font-size="10" fill="#37474f">lazy load</text>
+          <line x1="470" y1="590" x2="498" y2="590" stroke="#7b1fa2" stroke-width="1.5" stroke-dasharray="4 3"></line>
+          <text x="504" y="594" font-family="Segoe UI, Arial" font-size="10" fill="#37474f">allowed dependency</text>
+          <line x1="628" y1="590" x2="656" y2="590" stroke="#b71c1c" stroke-width="1.6"></line>
+          <text x="662" y="594" font-family="Segoe UI, Arial" font-size="10" fill="#37474f">forbidden import</text>
+        </svg>
+        <figcaption><strong>Figure 1.</strong> The five decisions that define the structure: what the shell owns, where routing becomes enforceable, how a feature is isolated as its own chunk, what may depend on what, and the only place where HTTP leaves the application.</figcaption>
+      </figure>
+
+      <h4>The dependency rule, written down</h4>
+      <p>A folder diagram is decoration unless it comes with a rule and a way to fail the build when the rule breaks. This is the table I put in the repository's <code>README</code> or <code>ARCHITECTURE.md</code>:</p>
+      <div class="table-scroll">
+        <table class="rubric">
+          <thead>
+            <tr><th>Importer</th><th>May import core/</th><th>May import shared/</th><th>May import another feature</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>core/</td><td>—</td><td>No</td><td>No</td></tr>
+            <tr><td>shared/</td><td>Only tokens and types</td><td>—</td><td>No</td></tr>
+            <tr><td>features/&lt;x&gt;</td><td>Yes</td><td>Yes</td><td>No — move the contract to core/</td></tr>
+            <tr><td>app shell</td><td>Yes</td><td>Yes</td><td>Only through a lazy route, never by importing internals</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Enforcement is cheap if it exists from day one: <code>@typescript-eslint</code> with <code>no-restricted-imports</code> patterns, or <code>dependency-cruiser</code> with a forbidden rule, plus a CI step that fails on a violation. A written rule that only lives in a wiki is a rule that lasts until the first Friday deadline.</p>
+
+      <h4>1 · Bootstrap: what happens before the first pixel</h4>
+      <ol>
+        <li><code>index.html</code> loads <code>main.ts</code>. With standalone bootstrapping the entry point is one call: <code>bootstrapApplication(AppComponent, appConfig)</code>.</li>
+        <li><strong>Runtime configuration is loaded before render</strong> — an <code>APP_INITIALIZER</code> (or <code>provideAppInitializer</code> in newer versions) fetches <code>assets/config.json</code> with the API base URL and feature flags. That is what lets the same built artefact be promoted from QA to production instead of rebuilding per environment.</li>
+        <li><strong>The global <code>ErrorHandler</code> is registered before any route resolves</strong>, so a failure in a resolver is reported with the same shape as a failure in a click handler.</li>
+        <li>The shell renders: header, navigation, breadcrumbs, toast host and a single <code>&lt;router-outlet&gt;</code>. The shell never fetches feature data; it owns layout and session chrome.</li>
+        <li>The initial route is the only feature that can be part of the main chunk. Everything else waits for the user to navigate.</li>
+      </ol>
+
+      <h4>2 · Routing is the architecture</h4>
+      <p>The root router declares the shell and one entry per capability. Two guard types do different jobs and it is worth being precise about them, because the difference is measurable in kilobytes: <code>canMatch</code> runs <em>before</em> the lazy chunk is downloaded, <code>canActivate</code> runs <em>after</em> it loads. A role check belongs in <code>canMatch</code>, otherwise an unauthorised user downloads the module they will never see.</p>
+      <pre><code>// app.routes.ts — the shell declares features, never their internals
+export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
   {
     path: 'dashboard',
-    loadChildren: () => import('./features/dashboard/dashboard.module').then(m =&gt; m.DashboardModule),
-    canActivate: [AuthGuard]
+    loadChildren: () => import('./features/dashboard/dashboard.routes').then(m =&gt; m.DASHBOARD_ROUTES),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'shipments',
+    loadChildren: () => import('./features/shipments/shipments.routes').then(m =&gt; m.SHIPMENTS_ROUTES),
+    canMatch: [roleMatchGuard(['ops', 'pricing'])],   // Angular 14+: no chunk download for the wrong role
+    canActivate: [authGuard],
+    resolve: { reference: referenceDataResolver }
   },
   {
     path: 'billing',
-    loadChildren: () => import('./features/billing/billing.module').then(m =&gt; m.BillingModule),
-    canActivate: [AuthGuard],
-    canMatch: [RoleMatchGuard],          // Angular 14+: avoids downloading a chunk the user cannot use
-    data: { roles: ['billing-admin'] }
+    loadChildren: () => import('./features/billing/billing.routes').then(m =&gt; m.BILLING_ROUTES),
+    canMatch: [roleMatchGuard(['billing-admin'])],
+    data: { title: 'Billing' }
   },
   { path: '**', component: NotFoundComponent }
-];
+];</code></pre>
+      <p>Three decisions around routing that I make at setup rather than later:</p>
+      <ul>
+        <li><strong>Preloading strategy.</strong> <code>PreloadAllModules</code> is fine for five small features; with heavy reporting or mapping libraries I use a custom strategy that preloads only the routes the current user's role can reach, and never on a metered connection.</li>
+        <li><strong>Route-level providers.</strong> A feature declares its own service instances (<code>providers: [ShipmentStore]</code>) so leaving the route disposes them. That is the cheapest way to avoid leaks in a long-lived SPA.</li>
+        <li><strong>Titles, scroll and breadcrumbs</strong> come from router events once, in the shell, not from each component.</li>
+      </ul>
 
-// app.module.ts — interceptor order is a design decision, not an accident
-providers: [
-  { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: ErrorNormalizerInterceptor, multi: true }
-]</code></pre>
-      <p>Two more decisions I make explicitly at setup: a preloading strategy (<code>PreloadAllModules</code> or a custom one that preloads only the routes a user is likely to visit, so lazy loading does not cost a visible delay), and a strict TypeScript and lint baseline from day one — <code>strict: true</code>, <code>noImplicitAny</code>, template type checking — because retrofitting strictness into a five-module app is much more expensive than starting with it.</p>
+      <h4>3 · Guards: four jobs, four places</h4>
+      <div class="table-scroll">
+        <table class="rubric">
+          <thead><tr><th>Guard</th><th>Question it answers</th><th>Where it lives</th></tr></thead>
+          <tbody>
+            <tr><td><code>canMatch</code></td><td>Does this route exist for this user at all?</td><td>Root, next to the lazy entry</td></tr>
+            <tr><td><code>canActivate</code></td><td>May this user enter this screen?</td><td>Feature route</td></tr>
+            <tr><td><code>canDeactivate</code></td><td>Can the user leave with unsaved work?</td><td>On the form route</td></tr>
+            <tr><td><code>resolve</code></td><td>What data does the screen need to render once?</td><td>Feature route</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Two details that separate a working guard from a bug report: a guard must complete (<code>first()</code>, <code>take(1)</code> or a promise) because an observable that emits twice cancels and re-runs navigation; and a guard is a UX boundary, not a security boundary — the API authorises every request again, because the browser is the user's machine.</p>
+
+      <h4>4 · The interceptor chain is ordered on purpose</h4>
+      <pre><code>// app.config.ts — order is a design decision, not an accident
+provideHttpClient(
+  withInterceptors([
+    authTokenInterceptor,      // 1. attach the bearer token
+    refreshOn401Interceptor,   // 2. refresh once, then replay the request
+    retryIdempotentInterceptor,// 3. retry GETs with backoff, never POSTs
+    correlationIdInterceptor,  // 4. one id per request, echoed in the response
+    errorNormalizerInterceptor // 5. map ProblemDetails to a domain error
+  ])
+)</code></pre>
+      <p>For a request the array reads top-down; for the response it unwinds bottom-up. That is why the refresh sits <em>inside</em> the token interceptor: the replayed request has to pass through it again to pick up the new token. And it is why error normalisation is last — every failure, including a failed refresh, arrives at the same shape and the same toast.</p>
+
+      <h4>5 · State: local first, shared only when it is shared</h4>
+      <ul>
+        <li><strong>Component state</strong> — signals or plain fields. Most of the state in a business application is this.</li>
+        <li><strong>Feature state</strong> — a service provided at the feature route, holding the list, the filters and the selected record. It dies when the user leaves the feature.</li>
+        <li><strong>Cross-feature state</strong> — a small facade in <code>core/</code> with an explicit interface: session, permissions, tenant, reference data. Features subscribe to it; they do not reach into each other.</li>
+        <li><strong>A store (NgRx, ComponentStore)</strong> only when there is real need: optimistic updates, undo, many actors over the same data, or devtools as a requirement. A store introduced "for consistency" in a five-module app usually becomes the place where every feature is coupled to every other.</li>
+      </ul>
+
+      <h4>6 · The folder tree I would actually create</h4>
+      <pre><code>src/
+  app/
+    core/                      singletons — no UI, no feature imports
+      auth/                    oidc client, token storage, session facade
+      http/                    api client, interceptors, problem-details mapping
+      guards/                  auth.guard.ts · role-match.guard.ts · unsaved.guard.ts
+      config/                  runtime config loader + InjectionTokens
+      telemetry/               ErrorHandler, logger, correlation id
+    shared/                    stateless and reusable
+      ui/                      button, table, empty-state, badge, dialog
+      directives/              clickOutside, autofocus, hasPermission
+      pipes/                   weight, money, timeAgo
+      forms/                   validators, ControlValueAccessor controls
+    layout/                    shell: header, sidenav, breadcrumbs, outlet
+    features/
+      dashboard/               routes.ts · state/ · data/ · ui/
+      shipments/               routes.ts · state/ · data/ · ui/
+      billing/                 routes.ts · state/ · data/ · ui/
+      reports/                 routes.ts · state/ · data/ · ui/
+      admin/                   routes.ts · state/ · data/ · ui/
+    app.routes.ts              root routes — one lazy entry per capability
+    app.config.ts              providers: http, router, interceptors, initializers
+  assets/config.json           runtime configuration, not build-time
+  environments/                build defaults only, never secrets</code></pre>
+      <p>Inside a feature the four folders are the same everywhere, so a developer who knows one feature knows all five: <code>routes.ts</code> (entry and guards), <code>data/</code> (HTTP calls and DTO mapping), <code>state/</code> (signals or store), <code>ui/</code> (smart containers and dumb components). Consistency across features is worth more than a perfect internal layout in one of them.</p>
+
+      <h4>7 · Quality gates that exist before the first feature</h4>
+      <ul>
+        <li><strong>TypeScript strict</strong> — <code>strict: true</code>, <code>noImplicitAny</code>, <code>strictTemplates</code> in <code>tsconfig</code>. Retrofitting strictness into a five-module app costs weeks; adopting it at <code>ng new</code> costs nothing.</li>
+        <li><strong>Lint with boundaries</strong> — ESLint + Prettier, plus the import rule from the table above, plus <code>no-floating-promises</code> (an unawaited HTTP call is a silent defect).</li>
+        <li><strong>Bundle budgets</strong> in <code>angular.json</code>: a warning at 500 kB initial and an error at 1 MB. Budgets turn "the app feels slow" into a red build on the pull request that caused it.</li>
+        <li><strong>Tests in three layers</strong> — unit for pipes, validators and pure functions; component tests with a host component for the shared UI; Playwright for the two or three flows that move money.</li>
+        <li><strong>CI order</strong> — install → lint → typecheck → unit → build → e2e → publish artefact. The build is the artefact that gets promoted; nothing is rebuilt per environment.</li>
+      </ul>
+
+      <h4>8 · Rendering and configuration choices made at setup</h4>
+      <p>SPA by default; SSR plus hydration when first paint or SEO matters, and then the rule that no component touches <code>window</code>, <code>document</code> or <code>localStorage</code> directly — <code>isPlatformBrowser</code>, <code>Renderer2</code> and injected abstractions instead, or the build starts failing in prerender. Configuration lives in <code>assets/config.json</code> loaded at runtime; secrets never enter the SPA at all, because everything shipped to the browser is public.</p>
+
+      <h4>9 · When the application outgrows one project</h4>
+      <p>One application is the right answer until roughly five to eight features, or until two teams need independent release cadence. At that point the same boundaries become an Nx workspace with libraries (<code>ui</code>, <code>data-access</code>, one lib per feature) and enforced module tags — not because monorepos are fashionable, but because the dependency rule I wrote on day one is already the shape of the libraries, and moving is mechanical instead of a rewrite.</p>
+
+      <h4>10 · What actually breaks at five modules</h4>
+      <div class="table-scroll">
+        <table class="rubric">
+          <thead><tr><th>Symptom</th><th>Usual cause</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td>Main bundle grows every sprint</td><td>A heavy component imported eagerly through a barrel file</td><td>Budgets in CI, no barrel re-export of heavy modules, lazy route for the heavy screen</td></tr>
+            <tr><td>Two sessions, two token refreshes</td><td>Auth provided in a shared module imported by two lazy features</td><td>Singletons only in <code>core/</code> or <code>providedIn: 'root'</code></td></tr>
+            <tr><td>Circular imports, build order surprises</td><td>Features importing each other's services</td><td>Move the contract to <code>core/</code>, expose a facade, emit events</td></tr>
+            <tr><td>Navigation runs twice</td><td>A guard returning an observable that emits more than once</td><td><code>first()</code>/<code>take(1)</code>, and test the guard in isolation</td></tr>
+            <tr><td>Slow first paint after a deploy</td><td>Everything preloaded, or a stale service worker caching old chunks</td><td>Role-aware preloading, versioned cache, hard refresh strategy</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>11 · The first two weeks, in order</h4>
+      <ol>
+        <li><strong>Days 1–2</strong> — repository, strict TypeScript, ESLint with boundaries, Prettier, CI pipeline, bundle budgets.</li>
+        <li><strong>Days 3–4</strong> — shell, layout, router skeleton with five lazy stubs, 404 page, route titles.</li>
+        <li><strong>Days 5–6</strong> — authentication (OIDC + PKCE), guards, interceptor chain, error normalisation, session facade.</li>
+        <li><strong>Days 7–8</strong> — design tokens and the first shared components: button, table, empty state, form field.</li>
+        <li><strong>Days 9–10</strong> — one vertical slice end to end (shipments): route, data layer, state, screens, tests, e2e.</li>
+      </ol>
+      <p>That order matters because each step makes the next one cheaper: the shell gives every feature a place to live, authentication removes the excuse to hardcode a user, and one finished vertical slice becomes the template the other four copy.</p>
 
       <div class="lookfor">
         <b>Strong signal:</b> the candidate states a rule that a reviewer could enforce in code review (“features never import features”) and connects each folder to a runtime consequence (chunk size, singleton lifetime, guard timing) rather than only to tidiness.
       </div>
 
       <div class="followups">
-        <b>Likely follow-ups:</b> When would you skip feature modules and use standalone components? · How do you prevent a shared module from becoming a dumping ground? · What breaks if a guard returns an Observable that emits twice? · How do you share state between two lazily loaded features?
+        <b>Likely follow-ups:</b> When would you skip feature modules and use standalone components? · How do you prevent a shared module from becoming a dumping ground? · What breaks if a guard returns an Observable that emits twice? · How do you share state between two lazily loaded features? · How do you stop a lazy chunk from being downloaded by a role that cannot use it? · What would you put in <code>core/</code> and what would you refuse to put there? · How do you test that the dependency rule still holds?
       </div>
         </div>
       </details>
