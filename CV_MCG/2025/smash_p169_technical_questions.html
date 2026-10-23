@@ -110,9 +110,9 @@
         <span>P-169 · Interview preparation</span>
       </div>
       <h1>Technical Evaluation Questions — .NET 8 / Angular 13+</h1>
-      <p>Ten interview questions derived from the P-169 must-haves: Angular architecture from scratch, RxJS fundamentals and reactive patterns, state management, reactive forms, multi-layer .NET 8 APIs, OIDC/OAuth 2.0 security, relational and NoSQL data design, testing and CI/CD, and container-based production support. Each question includes what the interviewer is actually probing, a structured answer, and the follow-ups to expect.</p>
+      <p>Eleven interview questions derived from the P-169 must-haves: Angular architecture from scratch, RxJS fundamentals and reactive patterns, state management, reactive forms, multi-layer .NET 8 APIs, OIDC/OAuth 2.0 security implemented in ASP.NET Core, relational and NoSQL data design, testing and CI/CD, and container-based production support. Each question includes what the interviewer is actually probing, a structured answer, and the follow-ups to expect.</p>
       <div class="chips">
-        <span>10 questions</span>
+        <span>11 questions</span>
         <span>English</span>
         <span>Angular 13+</span>
         <span>RxJS</span>
@@ -140,6 +140,7 @@
         <li><a href="#q8">Reactive forms: custom validators, cross-field rules, reusable controls</a></li>
         <li><a href="#q9">Relational modelling, indexing and query tuning; when NoSQL instead</a></li>
         <li><a href="#q10">Testing strategy and CI/CD gates with Git and Azure DevOps</a></li>
+        <li><a href="#q11">OAuth 2.0 and OpenID Connect in ASP.NET Core: validation, policies, ownership</a></li>
       </ol>
       <p class="note" style="margin-bottom:0"><strong>How to read this page.</strong> Answers are <strong>collapsed by default</strong>: read the question, think your own answer, then expand to compare. The wording in the <em>Question</em> block is the phrasing an interviewer would typically use; each answer is written in the candidate's own voice, first person, and is meant to be spoken in 60–120 seconds with the code sketch used only as a whiteboard aid.</p>
     </section>
@@ -147,10 +148,10 @@
     <div class="qa-toolbar">
       <button type="button" id="qa-expand">Expand all answers</button>
       <button type="button" id="qa-collapse">Collapse all</button>
-      <span class="qa-count" id="qa-count">0 of 10 answers expanded</span>
+      <span class="qa-count" id="qa-count">0 of 11 answers expanded</span>
     </div>
 
-    <h2 class="section-title" id="questions">The ten questions<small>Technical depth mapped to the job description</small></h2>
+    <h2 class="section-title" id="questions">The eleven questions<small>Technical depth mapped to the job description</small></h2>
 
     <article class="qa" id="q1">
       <div class="q-head">
@@ -962,6 +963,144 @@ stages:
       </details>
     </article>
 
+    <article class="qa" id="q11">
+      <div class="q-head">
+        <span class="q-num">Q11</span>
+        <span class="q-tag">Security</span>
+        <span class="q-tag">OAuth 2.0 · OIDC · ASP.NET Core</span>
+      </div>
+      <h3>How do you implement authentication and authorization with OAuth 2.0 and OpenID Connect in a .NET API?</h3>
+
+      <div class="ask">
+        <b>Question:</b> “The must-haves ask for OAuth 2.0 or OpenID Connect. Suppose the identity provider already exists and our API has to accept its tokens. How do you wire that in ASP.NET Core, and how do you decide what a caller is allowed to do?”
+      </div>
+
+      <div class="probe">
+        <b>What is being probed:</b> whether you know that the API never authenticates anybody — it <em>validates</em> tokens issued elsewhere — and whether authorisation is modelled as scopes, policies and resource checks rather than as one role string. The follow-ups are usually about 401 versus 403, token lifetime, and what happens when the signing keys rotate.
+      </div>
+
+      <details class="answer">
+        <summary>Show answer <span class="summary-hint">· flows, JwtBearer setup, policies, ownership, refresh, testing, failure modes</span></summary>
+        <div class="answer-body">
+      <p>“Authentication is delegated: my API never sees a password. It validates a signed access token, builds a <code>ClaimsPrincipal</code>, and then decides per operation and per resource. OpenID Connect adds the identity layer on top of OAuth 2.0 — the ID token tells the client who the user is, the access token tells my API what that user may do.”</p>
+
+      <h4>1. Which flow, chosen by client type</h4>
+      <div class="table-scroll">
+        <table class="rubric">
+          <thead><tr><th>Client</th><th>Flow</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Angular SPA</td><td>Authorization Code + PKCE, no client secret</td><td>The browser cannot keep a secret; PKCE protects the code exchange. Implicit is dead.</td></tr>
+            <tr><td>Service to service</td><td>Client credentials</td><td>No user involved; the token represents the application, not a person.</td></tr>
+            <tr><td>SPA with strict cookie policy</td><td>BFF: cookie session at the edge, tokens server-side</td><td>Nothing sensitive in the browser; also solves CSRF/XSS token theft. Costs a server component.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>In the SPA the tokens live in memory (an <code>angular-auth-oidc-client</code> or similar library), never in <code>localStorage</code>, and renewal happens with a rotating refresh token or a silent iframe depending on the provider. The API stays stateless: no session store, no matter which flow produced the token.</p>
+
+      <h4>2. Wiring the API: validate, do not reimplement</h4>
+      <pre><code>// Program.cs — the API validates tokens; the identity provider issues them
+builder.Services
+  .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+  .AddJwtBearer(options =&gt;
+  {
+      options.Authority = builder.Configuration["Auth:Authority"];   // https://id.example.com
+      options.Audience  = builder.Configuration["Auth:Audience"];    // "rts-api"
+      options.RequireHttpsMetadata = true;
+      options.MapInboundClaims = false;          // keep sub / scp / roles exactly as issued
+      options.TokenValidationParameters = new TokenValidationParameters
+      {
+          ValidateIssuer           = true,
+          ValidateAudience         = true,
+          ValidateLifetime         = true,
+          ValidateIssuerSigningKey = true,
+          ClockSkew                = TimeSpan.FromSeconds(30),
+          NameClaimType            = "name",
+          RoleClaimType            = "roles",
+          ValidTypes               = new[] { "at+jwt" }   // access token, not the ID token
+      };
+  });</code></pre>
+      <p>Three lines carry most of the risk. <code>Authority</code> plus <code>JwtBearer</code> means the signing keys are fetched from the provider's JWKS endpoint and re-fetched when <code>kid</code> changes, so rotation is not an incident. <code>MapInboundClaims = false</code> stops the handler renaming <code>sub</code> to a legacy URI, which is the classic reason a claim “disappears”. And <code>ValidTypes</code> rejects an ID token being replayed as an access token — two token types, two audiences, two purposes.</p>
+
+      <h4>3. Authorisation: scopes first, then resource</h4>
+      <pre><code>builder.Services.AddAuthorization(options =&gt;
+{
+    options.AddPolicy("cargo.write", policy =&gt; policy
+        .RequireAuthenticatedUser()
+        .RequireClaim("scope", "cargo.write"));
+});
+
+app.MapPost("/v1/shipments", async (
+    CreateShipmentRequest request,
+    ClaimsPrincipal user,
+    IShipmentService service,
+    CancellationToken ct) =&gt;
+{
+    var tenant = user.FindFirstValue("tenant_id")
+        ?? throw new InvalidOperationException("token without tenant");
+
+    var created = await service.CreateAsync(tenant, request, ct);
+    return Results.Created($"/v1/shipments/{created.Awb}", created);
+})
+.RequireAuthorization("cargo.write");</code></pre>
+      <p>A scope answers “may this client call this operation at all”. It never answers “may this user touch this record”: that is a resource check, and it belongs in the handler or in an <code>IAuthorizationHandler</code>:</p>
+      <pre><code>public sealed class SameTenantHandler
+    : AuthorizationHandler&lt;SameTenantRequirement, Shipment&gt;
+{
+    protected override Task HandleRequirementAsync(
+        AuthorizationHandlerContext context,
+        SameTenantRequirement requirement,
+        Shipment shipment)
+    {
+        if (context.User.FindFirstValue("tenant_id") == shipment.TenantId)
+        {
+            context.Succeed(requirement);
+        }
+        return Task.CompletedTask;
+    }
+}</code></pre>
+      <p>The rule I keep: <strong>authorise the operation with a policy, authorise the record with an ownership check.</strong> A role check alone is how two customers end up reading each other's shipments with a valid token. And no business rule is decided from a claim that the client could have influenced: the token says who and which tenant, the database says what is theirs.</p>
+
+      <h4>4. The permission model, in three layers</h4>
+      <ul>
+        <li><strong>Scopes</strong> — coarse, per client and per API surface: <code>cargo.read</code>, <code>cargo.write</code>, <code>billing.admin</code>. Stable, few, documented in the OpenAPI.</li>
+        <li><strong>Roles or groups</strong> — mapped from the provider (or from a groups claim), used for screen-level access and for the UI's menu, mirrored by a policy on the API.</li>
+        <li><strong>Resource attributes</strong> — tenant, owner, lane, cost centre. Checked in the handler against data, never carried as a token claim the caller can mint.</li>
+      </ul>
+      <p>A permission list that changes weekly does not belong in a token that lives 30 minutes; it belongs in a table the API reads, with the token carrying identity, tenant and coarse scope only.</p>
+
+      <h4>5. 401 or 403, and other things that get misdiagnosed</h4>
+      <div class="table-scroll">
+        <table class="rubric">
+          <thead><tr><th>Symptom</th><th>Real cause</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td>Valid token rejected with 401</td><td>Audience or issuer mismatch, or the ID token sent instead of the access token</td><td>Log the WWW-Authenticate error, align <code>Audience</code>, check <code>ValidTypes</code></td></tr>
+            <tr><td>Claim exists in the token but not in <code>User</code></td><td><code>MapInboundClaims</code> renaming it, or the claim is an array and read as a string</td><td><code>MapInboundClaims = false</code>, <code>FindAll</code> instead of <code>FindFirst</code></td></tr>
+            <tr><td>403 when the user “is an admin”</td><td>Role claim type differs from <code>RoleClaimType</code>, or the policy requires a scope the client never requested</td><td>Align <code>RoleClaimType</code>; request the scope in the SPA configuration</td></tr>
+            <tr><td>Works locally, fails after a deploy</td><td>Clock skew, or the provider rotated keys and a hardcoded certificate is in config</td><td>30 s skew, JWKS via <code>Authority</code>, no certificate in the repo</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Also worth saying out loud: the API logs <code>sub</code>, <code>client_id</code>, scope and correlation id on a denied request, and never the token itself. “Who was refused and for what” is the first question in any audit.</p>
+
+      <h4>6. Testing it without a real identity provider</h4>
+      <ul>
+        <li><strong>Policy tests</strong> — build a <code>ClaimsPrincipal</code> by hand and assert the handler succeeds or fails; no HTTP involved.</li>
+        <li><strong>Integration tests</strong> — <code>WebApplicationFactory</code> with a test authentication handler that emits a principal per scenario (right scope, wrong tenant, expired), so the endpoint contract is tested without a network round trip to the provider.</li>
+        <li><strong>One end-to-end test</strong> against a real token from a containerised provider, because the thing most likely to break is the configuration, not the code.</li>
+      </ul>
+      <p>Authorisation is a business rule with a security consequence, so it deserves the same tests as a pricing rule — and the tests read like the policy: <em>an analyst with cargo.write from tenant A cannot book into tenant B</em>.</p>
+
+      <div class="lookfor">
+        <b>Strong signal:</b> the candidate separates the three concerns unprompted — token validation is configuration, authorisation is policy, ownership is data — and mentions key rotation, <code>MapInboundClaims</code> or the 401/403 distinction as things they have actually debugged.
+      </div>
+
+      <div class="followups">
+        <b>Likely follow-ups:</b> Where do you store tokens in a SPA? · How do you revoke access before the token expires? · What changes if the client is a desktop app or a partner integration? · How do you support multiple tenants with one API? · What would you do if the identity provider is unavailable at startup?
+      </div>
+        </div>
+      </details>
+    </article>
+
     <h2 class="section-title">Evaluation rubric<small>What a strong answer contains, per question</small></h2>
     <section class="card">
       <div class="table-scroll">
@@ -1019,6 +1158,11 @@ stages:
               <td>Q10 · Testing &amp; CI</td>
               <td>Test pyramid with real infrastructure behind integration tests; deterministic async tests; gates enforced by branch policy; review focused on risk, not formatting.</td>
               <td>Coverage percentage as the goal, or manual QA as the only gate.</td>
+            </tr>
+            <tr>
+              <td>Q11 · OAuth 2.0 / OIDC</td>
+              <td>Token validation as configuration (authority, audience, valid types, JWKS rotation); scopes for operations and policies for access; ownership checks in the handler; 401 versus 403 explained; tests for the denied paths.</td>
+              <td>“I would use JWT and put the role in the token”, with no mention of audience, scopes or resource checks.</td>
             </tr>
           </tbody>
         </table>
